@@ -3,10 +3,11 @@
 	things and draws what it's sent (Client/Inventory).
 
 	Each player has:
-	  Inventory  Config.Inventory.Slots slots, up to MaxWeight kg
-	  Backpack   BackpackSlots slots, up to BackpackMaxWeight kg
+	  Inventory  Config.Inventory Cols x Rows grid, up to MaxWeight kg
+	  Backpack   BackpackCols x BackpackRows grid, up to BackpackMaxWeight kg
 	  Armor      the worn vest (equipment slot; doesn't count toward weight)
-	An item is { uid, id, count, data? }. id is a Shared/Items id; data holds what travels with
+	Items cover several cells (Shared/Items Cells: vest 2 x 2, carbine 4 x 1) and can be turned
+	(rot). An item is { uid, id, count, rot?, data? } stored at its top-left slot. id is a Shared/Items id; data holds what travels with
 	that one item (a gun's mag/reserve, a vest's armor points left).
 
 	Weapons follow the items: carrying a gun item gives the weapon (Server/Weapons/
@@ -27,9 +28,10 @@
 	Remotes (ReplicatedStorage.InventoryRemotes):
 		State   (server -> owner)  snapshot (see snapshot())
 		Request (client -> server) send me my snapshot
-		Move    (client -> server) from, fromKey, to, toKey
-		        from/to: "Inventory" | "Backpack" | "Ground"; keys are slot numbers, or the
-		        dropped item's Uid for "Ground" as from (toKey is ignored for "Ground")
+		Move    (client -> server) from, fromKey, to, toKey, rot
+		        from/to: "Inventory" | "Backpack" | "Ground"; keys are top-left slot numbers
+		        (Shared/Items/Grid), or the dropped item's Uid for "Ground" as from (toKey is
+		        ignored for "Ground"); rot = the item turned 90 degrees (R while dragging)
 ]]
 
 local HttpService = game:GetService("HttpService")
@@ -40,13 +42,14 @@ local RunService = game:GetService("RunService")
 local Shared = ReplicatedStorage:WaitForChild("Shared")
 local Config = require(Shared:WaitForChild("Config"))
 local Items = require(Shared:WaitForChild("Items"))
+local Grid = require(Shared:WaitForChild("Items"):WaitForChild("Grid"))
 local Armor = require(Shared:WaitForChild("Armor"))
 local WeaponService = require(script.Parent.Parent:WaitForChild("Weapons"):WaitForChild("WeaponService"))
 local ItemModels = require(script.Parent:WaitForChild("ItemModels"))
 
 local CFG = Config.Inventory
 
-export type Item = { uid: string, id: string, count: number, data: { [string]: any }? }
+export type Item = { uid: string, id: string, count: number, rot: boolean?, data: { [string]: any }? }
 type Inv = {
 	Inventory: { [number]: Item },
 	Backpack: { [number]: Item },
@@ -54,8 +57,13 @@ type Inv = {
 }
 
 local CONTAINERS = {
-	Inventory = { slots = CFG.Slots, max = CFG.MaxWeight },
-	Backpack = { slots = CFG.BackpackSlots, max = CFG.BackpackMaxWeight },
+	Inventory = { cols = CFG.Cols, rows = CFG.Rows, slots = CFG.Cols * CFG.Rows, max = CFG.MaxWeight },
+	Backpack = {
+		cols = CFG.BackpackCols,
+		rows = CFG.BackpackRows,
+		slots = CFG.BackpackCols * CFG.BackpackRows,
+		max = CFG.BackpackMaxWeight,
+	},
 }
 local ORDER = { "Inventory", "Backpack" } -- where new items go first
 
@@ -106,13 +114,24 @@ local function roomByWeight(list: { [number]: Item }, max: number, weight: numbe
 	return math.max(0, math.floor((max - weightOf(list)) / weight + 1e-6))
 end
 
-local function firstFree(list: { [number]: Item }, slots: number): number?
-	for i = 1, slots do
-		if not list[i] then
-			return i
+-- First spot for an item in a container (as it is, else turned). Returns slot, rot.
+local function spotFor(name: string, list: { [number]: Item }, id: string, rot: boolean?): (number?, boolean)
+	local c = CONTAINERS[name]
+	local w, h = Grid.baseSize(id)
+	if rot then
+		w, h = h, w
+	end
+	local slot = Grid.findSpot(list, c.cols, c.rows, w, h)
+	if slot then
+		return slot, rot == true
+	end
+	if w ~= h then
+		slot = Grid.findSpot(list, c.cols, c.rows, h, w)
+		if slot then
+			return slot, not rot
 		end
 	end
-	return nil
+	return nil, false
 end
 
 local function snapshot(inv: Inv)
@@ -120,7 +139,10 @@ local function snapshot(inv: Inv)
 	for name in CONTAINERS do
 		local list = {}
 		for slot, item in (inv :: any)[name] do
-			table.insert(list, { slot = slot, uid = item.uid, id = item.id, count = item.count, data = item.data })
+			table.insert(
+				list,
+				{ slot = slot, uid = item.uid, id = item.id, count = item.count, rot = item.rot, data = item.data }
+			)
 		end
 		out.containers[name] = list
 	end
@@ -130,10 +152,10 @@ end
 local function allCarried(inv: Inv): { Item }
 	local out = {}
 	for _, name in ORDER do
+		local list = (inv :: any)[name]
 		for i = 1, CONTAINERS[name].slots do
-			local item = (inv :: any)[name][i]
-			if item then
-				table.insert(out, item)
+			if list[i] then
+				table.insert(out, list[i])
 			end
 		end
 	end
@@ -208,7 +230,7 @@ local function addInto(inv: Inv, id: string, count: number, data: { [string]: an
 			end
 		end
 		while left > 0 do
-			local slot = firstFree(list, c.slots)
+			local slot, rot = spotFor(name, list, id)
 			if not slot then
 				break
 			end
@@ -216,7 +238,7 @@ local function addInto(inv: Inv, id: string, count: number, data: { [string]: an
 			if n <= 0 then
 				break
 			end
-			list[slot] = { uid = newUid(), id = id, count = n, data = data }
+			list[slot] = { uid = newUid(), id = id, count = n, rot = if rot then true else nil, data = data }
 			left -= n
 		end
 		if left == 0 then
@@ -232,8 +254,9 @@ local function placeWhole(inv: Inv, item: Item): boolean
 	for _, name in ORDER do
 		local c = CONTAINERS[name]
 		local list = (inv :: any)[name]
-		local slot = firstFree(list, c.slots)
+		local slot, rot = spotFor(name, list, item.id, item.rot)
 		if slot and weightOf(list) + w <= c.max + 1e-6 then
+			item.rot = if rot then true else nil
 			list[slot] = item
 			return true
 		end
@@ -388,7 +411,7 @@ local function dropItem(player: Player, item: Item): boolean
 	return true
 end
 
-function pickup(player: Player, uid: string, to: string?, toSlot: number?)
+function pickup(player: Player, uid: string, to: string?, toSlot: number?, rot: boolean?)
 	local d = dropped[uid]
 	local inv = invs[player]
 	local character = player.Character
@@ -407,8 +430,18 @@ function pickup(player: Player, uid: string, to: string?, toSlot: number?)
 	end
 	local placed = false
 	local c = to and CONTAINERS[to]
-	if c and toSlot and (inv :: any)[to][toSlot] == nil and weightOf((inv :: any)[to]) + itemWeight(item) <= c.max + 1e-6 then
-		(inv :: any)[to][toSlot] = item
+	local w, h = Grid.baseSize(item.id)
+	if rot then
+		w, h = h, w
+	end
+	if
+		c
+		and toSlot
+		and Grid.fits((inv :: any)[to], c.cols, c.rows, toSlot, w, h)
+		and weightOf((inv :: any)[to]) + itemWeight(item) <= c.max + 1e-6
+	then
+		item.rot = if rot then true else nil
+		;(inv :: any)[to][toSlot] = item
 		placed = true
 	elseif item.data or def.Stack <= 1 then
 		placed = placeWhole(inv, item)
@@ -429,25 +462,24 @@ end
 
 ---------------------------------------------------------------- moving
 
-local function move(inv: Inv, from: string, fromSlot: number, to: string, toSlot: number)
-	if from == to and fromSlot == toSlot then
-		return
-	end
+-- Move an item so its top-left lands on toSlot (rot: turned 90 degrees), or onto a stack of
+-- the same item covering toSlot. Refused if it would overlap something or go over the weight.
+local function move(inv: Inv, from: string, fromSlot: number, to: string, toSlot: number, rot: boolean)
 	local fromList, toList = (inv :: any)[from], (inv :: any)[to]
 	local src: Item? = fromList[fromSlot]
-	if not src then
+	local def = src and Items.get(src.id)
+	if not src or not def then
 		return
 	end
-	local dst: Item? = toList[toSlot]
-	local def = Items.get(src.id)
-	if not def then
-		return
-	end
-	-- same item: stack onto it
-	if dst and dst.id == src.id and def.Stack > 1 and not src.data and not dst.data then
+	local c = CONTAINERS[to]
+	-- same item under the target cell: stack onto it
+	local occ = Grid.occupancy(toList, c.cols)
+	local underAnchor = occ[toSlot]
+	local dst: Item? = if underAnchor then toList[underAnchor] else nil
+	if dst and dst ~= src and dst.id == src.id and def.Stack > 1 and not src.data and not dst.data then
 		local room = def.Stack - dst.count
 		if from ~= to then
-			room = math.min(room, roomByWeight(toList, CONTAINERS[to].max, def.Weight))
+			room = math.min(room, roomByWeight(toList, c.max, def.Weight))
 		end
 		local n = math.clamp(room, 0, src.count)
 		dst.count += n
@@ -457,26 +489,28 @@ local function move(inv: Inv, from: string, fromSlot: number, to: string, toSlot
 		end
 		return
 	end
-	-- move or swap, if both sides stay under their weight limit
-	if from ~= to then
-		local ws, wd = itemWeight(src), if dst then itemWeight(dst) else 0
-		if weightOf(toList) - wd + ws > CONTAINERS[to].max + 1e-6 then
-			return
-		end
-		if weightOf(fromList) - ws + wd > CONTAINERS[from].max + 1e-6 then
-			return
-		end
+	local w, h = Grid.baseSize(src.id)
+	if rot then
+		w, h = h, w
 	end
-	fromList[fromSlot] = dst
+	if not Grid.fits(toList, c.cols, c.rows, toSlot, w, h, if from == to then fromSlot else nil, occ) then
+		return
+	end
+	if from ~= to and weightOf(toList) + itemWeight(src) > c.max + 1e-6 then
+		return
+	end
+	fromList[fromSlot] = nil
+	src.rot = if rot then true else nil
 	toList[toSlot] = src
 end
 
 local lastMove: { [Player]: number } = {}
-MoveRemote.OnServerEvent:Connect(function(player, from, fromKey, to, toKey)
+MoveRemote.OnServerEvent:Connect(function(player, from, fromKey, to, toKey, rot)
 	local inv = invs[player]
 	if not inv or typeof(from) ~= "string" or typeof(to) ~= "string" then
 		return
 	end
+	rot = rot == true
 	local now = os.clock()
 	if now - (lastMove[player] or 0) < 0.05 then
 		return
@@ -488,7 +522,8 @@ MoveRemote.OnServerEvent:Connect(function(player, from, fromKey, to, toKey)
 	end
 	if from == "Ground" then
 		if typeof(fromKey) == "string" and to ~= "Ground" then
-			pickup(player, fromKey, if validSlot(to, toKey) then to else nil, if validSlot(to, toKey) then toKey else nil)
+			local ok = validSlot(to, toKey)
+			pickup(player, fromKey, if ok then to else nil, if ok then toKey else nil, rot)
 		end
 		return
 	end
@@ -505,7 +540,7 @@ MoveRemote.OnServerEvent:Connect(function(player, from, fromKey, to, toKey)
 			end
 		end
 	elseif validSlot(to, toKey) then
-		move(inv, from, fromKey, to, toKey)
+		move(inv, from, fromKey, to, toKey, rot)
 	end
 	sync(player)
 end)
@@ -542,19 +577,35 @@ function InventoryService.putOnArmor(player: Player, uid: string?): Item?
 	return nil
 end
 
--- Armor slot -> the bag, keeping the armor points left; on the ground if there's no room.
-function InventoryService.takeOffArmor(player: Player, armorLeft: number?)
+-- Armor slot -> the bag, keeping the armor points left: at to/slot (rot = turned) if it was
+-- dragged there and fits, else the first spot, else on the ground.
+function InventoryService.takeOffArmor(player: Player, armorLeft: number?, to: any?, slot: any?, rot: any?)
 	local inv = InventoryService.get(player)
 	local item = inv.Armor
 	if not item then
 		return
 	end
 	inv.Armor = nil
-	item.data = item.data or {}
+	local data: { [string]: any } = item.data or {}
 	if typeof(armorLeft) == "number" then
-		(item.data :: any).armor = armorLeft
+		data.armor = armorLeft
 	end
-	if not placeWhole(inv, item) then
+	item.data = data
+	local placed = false
+	local c = typeof(to) == "string" and CONTAINERS[to] or nil
+	if c and typeof(slot) == "number" then
+		local list = (inv :: any)[to]
+		local w, h = Grid.baseSize(item.id)
+		if rot == true then
+			w, h = h, w
+		end
+		if Grid.fits(list, c.cols, c.rows, slot, w, h) and weightOf(list) + itemWeight(item) <= c.max + 1e-6 then
+			item.rot = if rot == true then true else nil
+			list[slot] = item
+			placed = true
+		end
+	end
+	if not placed and not placeWhole(inv, item) then
 		local at = dropSpot(player)
 		if at then
 			spawnDropped(item, at)

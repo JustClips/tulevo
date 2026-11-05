@@ -81,9 +81,12 @@ local Config = {
 	-- Inventory (N opens it; Client/Inventory, Server/Inventory). Weights are kg; every item's
 	-- own weight is in its config (Shared/Items: weapons in Weapons/Defs, the vest in Armor).
 	Inventory = {
-		Slots = 70, -- main inventory grid
+		-- grids (cells); items cover Cells = wide x tall of them (Shared/Items)
+		Cols = 5, -- main inventory: 5 x 14
+		Rows = 14,
 		MaxWeight = 30,
-		BackpackSlots = 16,
+		BackpackCols = 4, -- backpack: 4 x 4
+		BackpackRows = 4,
 		BackpackMaxWeight = 10,
 		-- everyone starts with these (after Config.Weapons.DefaultLoadout's weapons)
 		StartingItems = {

@@ -21,6 +21,7 @@ export type WeaponDef = {
 	ClassName: string,
 	Class: ClassDef?, -- filled in by the registry
 	Weight: number, -- kg in the inventory (Shared/Items, Config.Inventory carry limits)
+	Cells: Vector2?, -- inventory cells it covers, wide x tall (can be turned 90 degrees with R)
 
 	-- guns
 	Damage: number?, -- per pellet/bullet at close range

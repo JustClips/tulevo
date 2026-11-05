@@ -156,7 +156,7 @@ end
 
 -- Take the vest off / put it back on, in time with the client's clip.
 local busy: { [Humanoid]: boolean } = {}
-VestRemote.OnServerEvent:Connect(function(player, uid)
+VestRemote.OnServerEvent:Connect(function(player, uid, to, slot, rot)
 	local character = player.Character
 	local humanoid = character and character:FindFirstChildOfClass("Humanoid")
 	local torso = character and character:FindFirstChild("UpperTorso") :: BasePart?
@@ -187,7 +187,7 @@ VestRemote.OnServerEvent:Connect(function(player, uid)
 			end
 			local left = humanoid:GetAttribute("Armor") or 0
 			Damage.setArmor(humanoid, nil)
-			InventoryService.takeOffArmor(player, left) -- Armor slot -> inventory
+			InventoryService.takeOffArmor(player, left, to, slot, rot) -- Armor slot -> inventory (where it was dragged)
 		end)
 		at(OFF.stow, function()
 			local vest = character:FindFirstChild("ArmorVest")

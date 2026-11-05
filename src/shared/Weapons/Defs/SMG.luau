@@ -3,6 +3,7 @@ return {
 	Name = "SMG",
 	ClassName = "SMG",
 	Weight = 2.7, -- kg in the inventory
+	Cells = Vector2.new(3, 1), -- inventory cells, wide x tall (R turns it while dragging)
 	Damage = 14,
 	HeadshotMultiplier = 1.6,
 	FireRate = 13,

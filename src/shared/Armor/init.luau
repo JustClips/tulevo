@@ -13,6 +13,7 @@ export type ArmorDef = {
 	Name: string,
 	MaxArmor: number, -- armor points when freshly worn
 	Weight: number, -- kg in the inventory (Shared/Items)
+	Cells: Vector2?, -- inventory cells it covers, wide x tall
 	Model: string?, -- key in Shared.ModelIds for the worn model
 	Absorb: number?, -- share of each hit the armor takes, the rest goes to health (default 1)
 	Unprotected: { [string]: boolean }?, -- body parts the armor does not cover
@@ -23,6 +24,7 @@ local Defs: { [string]: ArmorDef } = {
 		Name = "ArmorVest",
 		MaxArmor = 50,
 		Weight = 5, -- kg in the inventory
+		Cells = Vector2.new(2, 2), -- inventory cells, wide x tall
 		Model = "ArmorVest",
 		Absorb = 0.7, -- 70% of each hit drains armor, 30% still hurts health
 	},

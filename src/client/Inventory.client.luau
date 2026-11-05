@@ -3,8 +3,10 @@
 	button). Roblox's own backpack bar is turned off.
 
 	The server owns the items (Server/Inventory/InventoryService) and sends them here; this
-	draws them and asks the server to move them. Drag an item:
-	  - to another slot in Inventory / Backpack: moves it there (swaps, or stacks the same item)
+	draws them and asks the server to move them. Items cover several cells (Shared/Items Cells:
+	vest 2 x 2, carbine 4 x 1). While dragging, a green box shows where it lands (red: it doesn't
+	fit or is too heavy) and R turns it 90 degrees. Drag an item:
+	  - into Inventory / Backpack: puts it there (or onto a stack of the same item)
 	  - onto Ground: drops it in front of you (a gun in your hands is put away first)
 	  - from Ground into a slot: picks it up (also: walk up to it and hold E)
 	  - a vest onto the Armor slot: puts it on (the vest animation, like V); the worn vest
@@ -27,6 +29,7 @@ local UserInputService = game:GetService("UserInputService")
 local Shared = ReplicatedStorage:WaitForChild("Shared")
 local Config = require(Shared:WaitForChild("Config"))
 local Items = require(Shared:WaitForChild("Items"))
+local Grid = require(Shared:WaitForChild("Items"):WaitForChild("Grid"))
 local Armor = require(Shared:WaitForChild("Armor"))
 local IconIds = require(Shared:WaitForChild("IconIds"))
 local Weapons = require(script.Parent:WaitForChild("Weapons"))
@@ -185,7 +188,14 @@ type Target = { frame: GuiObject, container: string, slot: number?, clip: GuiObj
 local targets: { Target } = {}
 local cells: { [string]: { Frame } } = { Inventory = {}, Backpack = {}, Ground = {} }
 local cellMeta: { [Frame]: { container: string, slot: number? } } = {}
-local cellItem: { [Frame]: any } = {}
+local cellItem: { [Frame]: any } = {} -- the item covering this cell
+local cellAnchor: { [Frame]: number? } = {} -- top-left slot of that item (grids)
+
+-- the two item grids (cell size in design px); items cover Cells of them (Shared/Items/Grid)
+local GRIDS = {
+	Inventory = { cols = CFG.Cols, rows = CFG.Rows, cell = 44, gap = 4 },
+	Backpack = { cols = CFG.BackpackCols, rows = CFG.BackpackRows, cell = 56, gap = 6 },
+}
 
 -- A scrolling grid of square slots; each one is a drop target.
 local function grid(
@@ -259,7 +269,7 @@ takeOff.TextSize = 13
 takeOff.TextColor3 = COLORS.Dim
 takeOff.FontFace = REGULAR
 takeOff.Parent = left
-grid(left, "Backpack", 0, 422, SIDE_W, BOTTOM - 422, 4, 56, 6, CFG.BackpackSlots)
+grid(left, "Backpack", 0, 422, SIDE_W, BOTTOM - 422, GRIDS.Backpack.cols, 56, 6, GRIDS.Backpack.cols * GRIDS.Backpack.rows)
 
 ---------------------------------------------------------------- middle: character + equipment
 local mid = box(window, "Middle", MID_X, 0, MID_W, H)
@@ -325,7 +335,7 @@ close.TextSize = 22
 close.TextColor3 = COLORS.Dim
 close.FontFace = REGULAR
 close.Parent = right
-grid(right, "Inventory", 0, TOP, SIDE_W, BOTTOM - TOP, 5, 44, 4, CFG.Slots)
+grid(right, "Inventory", 0, TOP, SIDE_W, BOTTOM - TOP, GRIDS.Inventory.cols, 44, 4, GRIDS.Inventory.cols * GRIDS.Inventory.rows)
 
 -- hover info and the item being dragged sit above the window, outside its UIScale
 local tooltip = Instance.new("TextLabel")
@@ -354,8 +364,9 @@ tooltip.Parent = gui
 
 local modelsFolder = ReplicatedStorage:WaitForChild("ItemModels", 10)
 
--- The item's 3D model in a ViewportFrame (transparent), or its name until the model loads.
-local function makeIcon(id: string): GuiObject
+-- The item's 3D model in a transparent ViewportFrame, framed to fill a tile of this aspect
+-- (width / height); turned items are drawn turned. Its name until the model has loaded.
+local function makeIcon(id: string, aspect: number, rot: boolean?): GuiObject
 	local def = Items.get(id)
 	local template = modelsFolder and modelsFolder:FindFirstChild(id)
 	if not template or not template:IsA("Model") then
@@ -365,7 +376,6 @@ local function makeIcon(id: string): GuiObject
 		t.BackgroundTransparency = 1
 		t.Text = if def then def.Name else id
 		t.TextWrapped = true
-		t.TextScaled = false
 		t.TextSize = 11
 		t.TextColor3 = COLORS.Text
 		t.FontFace = REGULAR
@@ -383,11 +393,26 @@ local function makeIcon(id: string): GuiObject
 	m.Parent = vf
 	local cf, size = m:GetBoundingBox()
 	local cam = Instance.new("Camera")
-	cam.FieldOfView = 30
+	cam.FieldOfView = 20
 	local dir = ((def and def.IconView) or Vector3.new(0, 0.2, -1)).Unit
-	local dist = (size.Magnitude / 2) / math.sin(math.rad(cam.FieldOfView / 2)) * 0.8
-	cam.CFrame = CFrame.lookAt(cf.Position + dir * dist, cf.Position)
-		* CFrame.Angles(0, 0, math.rad((def and def.IconRoll) or 0))
+	local roll = ((def and def.IconRoll) or 0) + (if rot then 90 else 0)
+	local turn = CFrame.lookAt(Vector3.zero, -dir) * CFrame.Angles(0, 0, math.rad(roll))
+	-- fit the bounding box corners into the view
+	local maxX, maxY, maxZ = 0, 0, 0
+	for _, sx in { -1, 1 } do
+		for _, sy in { -1, 1 } do
+			for _, sz in { -1, 1 } do
+				local corner = cf:VectorToWorldSpace(Vector3.new(sx * size.X, sy * size.Y, sz * size.Z) / 2)
+				local v = turn:VectorToObjectSpace(corner)
+				maxX = math.max(maxX, math.abs(v.X))
+				maxY = math.max(maxY, math.abs(v.Y))
+				maxZ = math.max(maxZ, v.Z)
+			end
+		end
+	end
+	local tanV = math.tan(math.rad(cam.FieldOfView / 2))
+	local dist = math.max(maxX / (tanV * aspect), maxY / tanV) * 1.15 + maxZ
+	cam.CFrame = CFrame.new(cf.Position) * turn * CFrame.new(0, 0, dist)
 	cam.Parent = vf
 	vf.CurrentCamera = cam
 	return vf
@@ -406,56 +431,86 @@ local function armorShare(item: any, worn: boolean): number?
 	return if typeof(a) == "number" then a / def.MaxArmor else 1
 end
 
--- Show an item (or nothing) in a slot frame.
-local function setCell(cell: Frame, item: any?, worn: boolean?)
-	cellItem[cell] = item
-	local shown = cell:GetAttribute("ShownId")
-	local old = cell:FindFirstChild("Icon")
+-- design px of a w x h footprint in a grid
+local function footprint(g: any, w: number, h: number): Vector2
+	return Vector2.new(w * g.cell + (w - 1) * g.gap, h * g.cell + (h - 1) * g.gap)
+end
+
+-- Show an item (or nothing) on a cell. For grid cells the tile spans the item's whole
+-- footprint (g = the grid, w x h cells); Ground / Armor tiles fill their one cell.
+local function setTile(cell: Frame, item: any?, g: any?, w: number?, h: number?, worn: boolean?)
+	local tile = cell:FindFirstChild("Tile") :: Frame?
 	if not item then
+		if tile then
+			tile:Destroy()
+		end
+		return
+	end
+	if not tile then
+		local t = Instance.new("Frame")
+		t.Name = "Tile"
+		t.BorderSizePixel = 0
+		t.BackgroundColor3 = COLORS.Slot
+		t.Parent = cell
+		tile = t
+	end
+	assert(tile)
+	local aspect = cell.Size.X.Offset / math.max(1, cell.Size.Y.Offset)
+	if g and w and h then
+		local px = footprint(g, w, h)
+		tile.Size = UDim2.fromOffset(px.X, px.Y)
+		tile.BackgroundTransparency = SLOT_TRANSPARENCY -- one tile background over the covered cells
+		aspect = px.X / px.Y
+	else
+		tile.Size = UDim2.fromScale(1, 1)
+		tile.BackgroundTransparency = 1
+		if cell.Size.X.Scale == 0 and cell.Size.X.Offset > 0 then
+			aspect = cell.Size.X.Offset / cell.Size.Y.Offset
+		else
+			aspect = 1
+		end
+	end
+	local key = `{item.id}|{if item.rot then 1 else 0}|{math.floor(aspect * 100)}`
+	local old = tile:FindFirstChild("Icon")
+	local stale = old and old:GetAttribute("Fallback") and modelsFolder and modelsFolder:FindFirstChild(item.id)
+	if tile:GetAttribute("Key") ~= key or not old or stale then
 		if old then
 			old:Destroy()
 		end
-		cell:SetAttribute("ShownId", nil)
-	elseif shown ~= item.id or not old or (old:GetAttribute("Fallback") and modelsFolder and modelsFolder:FindFirstChild(item.id)) then
-		if old then
-			old:Destroy()
-		end
-		local ic = makeIcon(item.id)
-		ic.Parent = cell
-		cell:SetAttribute("ShownId", item.id)
+		makeIcon(item.id, aspect, item.rot).Parent = tile
+		tile:SetAttribute("Key", key)
 	end
 	-- stack count, bottom right
-	local count = cell:FindFirstChild("Count") :: TextLabel?
-	local n = if item then item.count or 1 else 0
+	local count = tile:FindFirstChild("Count") :: TextLabel?
+	local n = item.count or 1
 	if n > 1 then
 		if not count then
-			count = label(cell, "Count", "", 0, 0, 0, 0, 12, COLORS.Text, BOLD, Enum.TextXAlignment.Right)
-			assert(count)
-			count.AnchorPoint = Vector2.new(1, 1)
-			count.Position = UDim2.new(1, -3, 1, -1)
-			count.Size = UDim2.fromOffset(40, 14)
-			count.TextStrokeTransparency = 0.5
-			count.ZIndex = 3
+			local c = label(tile, "Count", "", 0, 0, 40, 14, 12, COLORS.Text, BOLD, Enum.TextXAlignment.Right)
+			c.AnchorPoint = Vector2.new(1, 1)
+			c.Position = UDim2.new(1, -3, 1, -1)
+			c.TextStrokeTransparency = 0.5
+			c.ZIndex = 3
+			count = c
 		end
-		count.Text = tostring(n)
+		assert(count).Text = tostring(n)
 	elseif count then
 		count:Destroy()
 	end
 	-- armor left on a vest, bottom left (like the reference's 50%)
-	local info = cell:FindFirstChild("Info") :: TextLabel?
-	local share = item and armorShare(item, worn == true)
+	local info = tile:FindFirstChild("Info") :: TextLabel?
+	local share = armorShare(item, worn == true)
 	if share then
 		if not info then
-			info = label(cell, "Info", "", 0, 0, 0, 0, 11, COLORS.Good, BOLD, Enum.TextXAlignment.Left)
-			assert(info)
-			info.AnchorPoint = Vector2.new(0, 1)
-			info.Position = UDim2.new(0, 3, 1, -1)
-			info.Size = UDim2.fromOffset(40, 14)
-			info.TextStrokeTransparency = 0.6
-			info.ZIndex = 3
+			local c = label(tile, "Info", "", 0, 0, 40, 14, 11, COLORS.Good, BOLD, Enum.TextXAlignment.Left)
+			c.AnchorPoint = Vector2.new(0, 1)
+			c.Position = UDim2.new(0, 3, 1, -1)
+			c.TextStrokeTransparency = 0.6
+			c.ZIndex = 3
+			info = c
 		end
-		info.Text = `{math.floor(share * 100 + 0.5)}%`
-		info.TextColor3 = if share >= 0.66 then COLORS.Good elseif share >= 0.33 then COLORS.Mid else COLORS.Bad
+		local i = assert(info)
+		i.Text = `{math.floor(share * 100 + 0.5)}%`
+		i.TextColor3 = if share >= 0.66 then COLORS.Good elseif share >= 0.33 then COLORS.Mid else COLORS.Bad
 	elseif info then
 		info:Destroy()
 	end
@@ -464,9 +519,10 @@ end
 ---------------------------------------------------------------- state from the server
 
 local state: any = { containers = { Inventory = {}, Backpack = {} }, armor = false }
+local lists: { [string]: { [number]: any } } = { Inventory = {}, Backpack = {} } -- top-left slot -> item
 local ground: { any } = {}
 
-local function weightOf(list: { any }): number
+local function weightOf(list: { [any]: any }): number
 	local w = 0
 	for _, e in list do
 		local def = Items.get(e.id)
@@ -475,25 +531,44 @@ local function weightOf(list: { any }): number
 	return w
 end
 
+local function renderGround()
+	for i, cell in cells.Ground do
+		cellItem[cell] = ground[i]
+		setTile(cell, ground[i])
+	end
+end
+
 local function render()
-	for _, name in { "Inventory", "Backpack" } do
+	for name, g in GRIDS do
 		local bySlot = {}
 		for _, e in state.containers[name] or {} do
 			bySlot[e.slot] = e
 		end
+		lists[name] = bySlot
+		local occ = Grid.occupancy(bySlot, g.cols)
 		for i, cell in cells[name] do
-			setCell(cell, bySlot[i])
+			local anchor = occ[i]
+			cellAnchor[cell] = anchor
+			cellItem[cell] = if anchor then bySlot[anchor] else nil
+			if anchor == i then
+				local w, h = Grid.size(bySlot[i])
+				setTile(cell, bySlot[i], g, w, h)
+				cell.ZIndex = 2 -- the tile spills over the next cells: draw it above them
+			else
+				setTile(cell, nil)
+				cell.ZIndex = 1
+			end
+			cell.BackgroundTransparency = if anchor then 1 else SLOT_TRANSPARENCY
 		end
 	end
-	invWeight.Text = string.format("%.2f / %d kg", weightOf(state.containers.Inventory or {}), CFG.MaxWeight)
-	backpackWeight.Text = string.format("%.2f / %d kg", weightOf(state.containers.Backpack or {}), CFG.BackpackMaxWeight)
+	invWeight.Text = string.format("%.2f / %d kg", weightOf(lists.Inventory), CFG.MaxWeight)
+	backpackWeight.Text = string.format("%.2f / %d kg", weightOf(lists.Backpack), CFG.BackpackMaxWeight)
 	local armor = if state.armor then state.armor else nil
-	setCell(armorSlot, armor, true)
+	cellItem[armorSlot] = armor
+	setTile(armorSlot, armor, nil, nil, nil, true)
 	armorEmptyIcon.Visible = armor == nil
 	armorEmptyLabel.Visible = armor == nil
-	for i, cell in cells.Ground do
-		setCell(cell, ground[i])
-	end
+	renderGround()
 end
 
 Remotes:WaitForChild("State").OnClientEvent:Connect(function(snapshot)
@@ -542,8 +617,7 @@ local function point(input: InputObject): Vector2
 end
 
 local function rectOf(obj: GuiObject): (Vector2, Vector2)
-	local origin = gui.AbsolutePosition
-	local p = obj.AbsolutePosition - origin
+	local p = obj.AbsolutePosition - gui.AbsolutePosition
 	return p, p + obj.AbsoluteSize
 end
 
@@ -561,8 +635,9 @@ local function showTip(p: Vector2)
 		return
 	end
 	local n = item.count or 1
+	local w, h = Grid.size(item)
 	local lines = { `<b>{def.Name}</b>{if n > 1 then `  x{n}` else ""}` }
-	table.insert(lines, string.format("%.2f kg", def.Weight * n))
+	table.insert(lines, string.format("%.2f kg  ·  %d x %d", def.Weight * n, w, h))
 	local share = armorShare(item, hovered == armorSlot)
 	if share then
 		table.insert(lines, `Armor {math.floor(share * 100 + 0.5)}%`)
@@ -570,19 +645,6 @@ local function showTip(p: Vector2)
 	tooltip.Text = table.concat(lines, "\n")
 	tooltip.Position = UDim2.fromOffset(p.X + 16, p.Y + 12)
 	tooltip.Visible = true
-end
-
-for cell in cellMeta do
-	cell.MouseEnter:Connect(function()
-		hovered = cell
-		showTip(UserInputService:GetMouseLocation())
-	end)
-	cell.MouseLeave:Connect(function()
-		if hovered == cell then
-			hovered = nil
-			tooltip.Visible = false
-		end
-	end)
 end
 
 ---------------------------------------------------------------- drag and drop
@@ -596,78 +658,282 @@ task.spawn(function()
 	end
 end)
 
-type Drag = { from: string, key: any, item: any, cell: Frame, start: Vector2, ghost: GuiObject? }
+-- where the dragged item would land: green if it fits, red if not
+local preview = Instance.new("Frame")
+preview.Name = "DropPreview"
+preview.BorderSizePixel = 0
+preview.BackgroundColor3 = COLORS.Good
+preview.BackgroundTransparency = 0.6
+preview.ZIndex = 30
+preview.Visible = false
+local previewStroke = Instance.new("UIStroke")
+previewStroke.Thickness = 2
+previewStroke.Color = COLORS.Good
+previewStroke.Parent = preview
+preview.Parent = gui
+
+type Drag = {
+	from: string,
+	key: any,
+	item: any,
+	cell: Frame,
+	start: Vector2,
+	rot: boolean,
+	grabX: number, -- which cell of the item (from its top-left) is under the pointer
+	grabY: number,
+	ghost: Frame?,
+	ghostKey: string?,
+	plan: any?, -- what letting go here would do (see plan())
+}
 local drag: Drag? = nil
 
 local function cancelDrag()
 	if drag and drag.ghost then
 		drag.ghost:Destroy()
 	end
+	if drag then
+		local tile = drag.cell:FindFirstChild("Tile") :: GuiObject?
+		if tile then
+			tile.Visible = true
+		end
+	end
 	drag = nil
+	preview.Visible = false
+	ContextActionService:UnbindAction("Inventory_Rotate")
 end
 
 local function hitTest(p: Vector2): Target?
 	for _, t in targets do
-		if inside(t.frame, p) and (not t.clip or inside(t.clip, p)) and t.frame.Visible then
+		if t.frame.Visible and inside(t.frame, p) and (not t.clip or inside(t.clip, p)) then
 			return t
 		end
 	end
 	return nil
 end
 
-local function dropOn(d: Drag, t: Target)
+local function dragSize(d: Drag): (number, number)
+	local w, h = Grid.baseSize(d.item.id)
+	if d.rot then
+		return h, w
+	end
+	return w, h
+end
+
+local function showPreview(a: Vector2, size: Vector2, ok: boolean)
+	preview.Position = UDim2.fromOffset(a.X, a.Y)
+	preview.Size = UDim2.fromOffset(size.X, size.Y)
+	local color = if ok then COLORS.Good else COLORS.Bad
+	preview.BackgroundColor3 = color
+	previewStroke.Color = color
+	preview.Visible = true
+end
+
+-- Work out what dropping at p would do, and show it.
+local function plan(d: Drag, p: Vector2): any?
+	local t = hitTest(p)
+	local def = Items.get(d.item.id)
+	if not t or not def then
+		preview.Visible = false
+		return nil
+	end
+	local s = scale.Scale
+	if t.container == "Ground" then
+		local ok = d.from ~= "Ground" and d.from ~= "Armor"
+		local a, b = rectOf(groundGrid)
+		showPreview(a, b - a, ok)
+		return if ok then { action = "drop" } else nil
+	end
+	if t.container == "Armor" then
+		local ok = def.Kind == "Armor" and d.from ~= "Ground" and d.from ~= "Armor" and not state.armor
+		local a, b = rectOf(armorSlot)
+		showPreview(a, b - a, ok)
+		return if ok then { action = "wear" } else nil
+	end
+	local g = GRIDS[t.container]
+	local list = lists[t.container]
+	local slotNo = t.slot :: number
+	local w, h = dragSize(d)
+	local step = (g.cell + g.gap) * s
+	local occ = Grid.occupancy(list, g.cols)
+	local fromHere = d.from == t.container
+	local extra = if fromHere then 0 else def.Weight * (d.item.count or 1)
+	local max = if t.container == "Inventory" then CFG.MaxWeight else CFG.BackpackMaxWeight
+	-- the same item under the pointer: stack onto it
+	local under = occ[slotNo]
+	local dst = under and list[under]
+	if dst and dst.uid ~= d.item.uid and dst.id == d.item.id and def.Stack > 1 and not dst.data and not d.item.data then
+		local roomStack = def.Stack - (dst.count or 1)
+		local roomWeight = if fromHere then math.huge else math.floor((max - weightOf(list)) / math.max(def.Weight, 1e-6))
+		local ok = math.min(roomStack, roomWeight) > 0
+		local uc, ur = Grid.pos(under, g.cols)
+		local hc, hr = Grid.pos(slotNo, g.cols)
+		local a = rectOf(t.frame) - Vector2.new(hc - uc, hr - ur) * step
+		local dw, dh = Grid.size(dst)
+		showPreview(a, footprint(g, dw, dh) * s, ok)
+		return if ok then { action = "move", to = t.container, slot = slotNo } else nil
+	end
+	-- place it with the grabbed cell under the pointer
+	local hc, hr = Grid.pos(slotNo, g.cols)
+	local ac, ar = hc - d.grabX, hr - d.grabY
+	local a = rectOf(t.frame) - Vector2.new(d.grabX, d.grabY) * step
+	local inBounds = ac >= 0 and ar >= 0 and ac + w <= g.cols and ar + h <= g.rows
+	local anchor = if inBounds then Grid.slot(ac, ar, g.cols) else nil
+	local ignore = if fromHere then d.key else nil
+	local ok = anchor ~= nil
+		and Grid.fits(list, g.cols, g.rows, anchor, w, h, ignore, occ)
+		and (fromHere or weightOf(list) + extra <= max + 1e-6)
+	showPreview(a, footprint(g, w, h) * s, ok)
+	if not ok then
+		return nil
+	end
+	return { action = if d.from == "Armor" then "takeoff" else "move", to = t.container, slot = anchor }
+end
+
+local function updateGhost(d: Drag, p: Vector2)
+	local w, h = dragSize(d)
+	local t = hitTest(p)
+	local g = if t and GRIDS[t.container] then GRIDS[t.container] else GRIDS.Inventory
+	local size = footprint(g, w, h) * scale.Scale
+	local key = `{w}x{h}|{size.X}`
+	if not d.ghost or d.ghostKey ~= key then
+		if d.ghost then
+			d.ghost:Destroy()
+		end
+		local ghost = Instance.new("Frame")
+		ghost.Name = "DragGhost"
+		ghost.BackgroundColor3 = COLORS.Slot
+		ghost.BackgroundTransparency = 0.5
+		ghost.BorderSizePixel = 0
+		ghost.ZIndex = 40
+		local ic = makeIcon(d.item.id, size.X / math.max(1, size.Y), d.rot)
+		ic.ZIndex = 41
+		ic.Parent = ghost
+		ghost.Parent = gui
+		d.ghost = ghost
+		d.ghostKey = key
+	end
+	local ghost = d.ghost :: Frame
+	local step = (g.cell + g.gap) * scale.Scale
+	local cellPx = g.cell * scale.Scale
+	ghost.Size = UDim2.fromOffset(size.X, size.Y)
+	ghost.Position = UDim2.fromOffset(p.X - (d.grabX * step + cellPx / 2), p.Y - (d.grabY * step + cellPx / 2))
+	d.plan = plan(d, p)
+end
+
+local lastPoint = Vector2.zero
+local function rotateDrag()
+	local d = drag
+	if not d or not d.ghost then
+		return
+	end
+	d.rot = not d.rot
+	local w, h = dragSize(d)
+	d.grabX, d.grabY = math.min(d.grabY, w - 1), math.min(d.grabX, h - 1)
+	updateGhost(d, lastPoint)
+end
+
+local function startGhost(d: Drag)
+	tooltip.Visible = false
+	local tile = d.cell:FindFirstChild("Tile") :: GuiObject?
+	if tile and d.from ~= "Ground" then
+		tile.Visible = false -- it's in your hand now
+	end
+	-- R turns it (above Reload while dragging)
+	ContextActionService:BindActionAtPriority("Inventory_Rotate", function(_, inputState)
+		if inputState == Enum.UserInputState.Begin then
+			rotateDrag()
+		end
+		return Enum.ContextActionResult.Sink
+	end, false, Enum.ContextActionPriority.High.Value, Enum.KeyCode.R)
+end
+
+local function finish(d: Drag)
+	local pl = d.plan
+	if not pl then
+		return
+	end
 	local item = d.item
 	local def = Items.get(item.id)
-	local from, to = d.from, t.container
-	if from == to and t.slot == d.key then
-		return
-	end
-	if from == "Armor" then
-		-- the worn vest into a slot: take it off (it goes to the first free slot)
-		if (to == "Inventory" or to == "Backpack") and vestToggle then
-			vestToggle:Fire()
-		end
-		return
-	end
-	if to == "Armor" then
-		if def and def.Kind == "Armor" and from ~= "Ground" and not state.armor and vestToggle then
-			vestToggle:Fire(item.uid)
-		end
-		return
-	end
-	if to == "Ground" then
-		if from == "Ground" then
-			return
-		end
+	if pl.action == "drop" then
 		if def and def.Kind == "Weapon" and WeaponState.Equipped == item.id then
 			Weapons.equip(nil) -- put it away before it leaves your hands
 		end
-		MoveRemote:FireServer(from, d.key, "Ground", nil)
-		return
+		MoveRemote:FireServer(d.from, d.key, "Ground", nil, false)
+	elseif pl.action == "wear" then
+		if vestToggle then
+			vestToggle:Fire(item.uid)
+		end
+	elseif pl.action == "takeoff" then
+		if vestToggle then
+			vestToggle:Fire(nil, pl.to, pl.slot, d.rot)
+		end
+	elseif pl.action == "move" then
+		if d.from == pl.to and d.key == pl.slot and (item.rot == true) == d.rot then
+			return -- dropped back where it was
+		end
+		MoveRemote:FireServer(d.from, d.key, pl.to, pl.slot, d.rot)
 	end
-	MoveRemote:FireServer(from, d.key, to, t.slot)
 end
 
-for cell, meta in cellMeta do
-	cell.InputBegan:Connect(function(input)
-		if input.UserInputType ~= Enum.UserInputType.MouseButton1 and input.UserInputType ~= Enum.UserInputType.Touch then
-			return
-		end
-		local item = cellItem[cell]
-		if not item or drag then
-			return
-		end
-		local key = if meta.container == "Ground" then item.uid elseif meta.container == "Armor" then "Armor" else meta.slot
-		drag = { from = meta.container, key = key, item = item, cell = cell, start = point(input) }
-	end)
+-- The cell under a screen point (tiles of big items spill over other cells, so this goes by
+-- position, not by which frame got the click).
+local function cellAt(p: Vector2): Frame?
+	local t = hitTest(p)
+	if t and cellMeta[t.frame :: Frame] then
+		return t.frame :: Frame
+	end
+	return nil
 end
+
+UserInputService.InputBegan:Connect(function(input)
+	if input.UserInputType ~= Enum.UserInputType.MouseButton1 and input.UserInputType ~= Enum.UserInputType.Touch then
+		return
+	end
+	if not gui.Enabled or drag then
+		return
+	end
+	local p = point(input)
+	local cell = cellAt(p)
+	local item = cell and cellItem[cell]
+	if not cell or not item then
+		return
+	end
+	local meta = cellMeta[cell]
+	local w, h = Grid.size(item)
+	local key, from, gx, gy = nil, meta.container, (w - 1) // 2, (h - 1) // 2
+	local source = cell
+	if GRIDS[from] then
+		local anchor = cellAnchor[cell] :: number
+		local g = GRIDS[from]
+		local cc, cr = Grid.pos(meta.slot :: number, g.cols)
+		local ac, ar = Grid.pos(anchor, g.cols)
+		key, gx, gy = anchor, cc - ac, cr - ar
+		source = cells[from][anchor]
+	elseif from == "Ground" then
+		key = item.uid
+	else
+		key = "Armor"
+	end
+	drag = {
+		from = from,
+		key = key,
+		item = item,
+		cell = source,
+		start = p,
+		rot = item.rot == true,
+		grabX = gx,
+		grabY = gy,
+	}
+end)
 
 UserInputService.InputChanged:Connect(function(input)
 	if input.UserInputType ~= Enum.UserInputType.MouseMovement and input.UserInputType ~= Enum.UserInputType.Touch then
 		return
 	end
 	local p = point(input)
-	if hovered and not drag then
+	lastPoint = p
+	if gui.Enabled and not drag then
+		hovered = cellAt(p)
 		showTip(p)
 	end
 	local d = drag
@@ -675,21 +941,10 @@ UserInputService.InputChanged:Connect(function(input)
 		return
 	end
 	if not d.ghost and (p - d.start).Magnitude > 5 then
-		local src = d.cell:FindFirstChild("Icon")
-		local ghost = if src then src:Clone() :: GuiObject else nil
-		if ghost then
-			ghost.AnchorPoint = Vector2.new(0.5, 0.5)
-			ghost.Size = UDim2.fromOffset(d.cell.AbsoluteSize.X, d.cell.AbsoluteSize.Y)
-			ghost.ZIndex = 40
-			ghost.Parent = gui
-			d.ghost = ghost
-			local srcIcon = src :: GuiObject
-			srcIcon.Visible = false
-		end
-		tooltip.Visible = false
-	end
-	if d.ghost then
-		d.ghost.Position = UDim2.fromOffset(p.X, p.Y)
+		startGhost(d)
+		updateGhost(d, p)
+	elseif d.ghost then
+		updateGhost(d, p)
 	end
 end)
 
@@ -702,14 +957,8 @@ UserInputService.InputEnded:Connect(function(input)
 		return
 	end
 	if d.ghost then
-		local srcIcon = d.cell:FindFirstChild("Icon") :: GuiObject?
-		if srcIcon then
-			srcIcon.Visible = true
-		end
-		local t = hitTest(point(input))
-		if t then
-			dropOn(d, t)
-		end
+		updateGhost(d, point(input))
+		finish(d)
 	end
 	cancelDrag()
 end)
@@ -756,7 +1005,7 @@ local function onCharacter(character: Model)
 		setBar(healthFill, healthValue, humanoid.Health, humanoid.MaxHealth)
 		setBar(armorFill, armorValue, humanoid:GetAttribute("Armor") or 0, humanoid:GetAttribute("MaxArmor") or 0)
 		if state.armor then
-			setCell(armorSlot, state.armor, true) -- the worn vest's armor %
+			setTile(armorSlot, state.armor, nil, nil, nil, true) -- the worn vest's armor %
 		end
 	end
 	table.insert(charConns, humanoid.HealthChanged:Connect(update))
@@ -792,8 +1041,8 @@ task.spawn(function()
 		task.wait(0.3)
 		if gui.Enabled then
 			scanGround()
-			for i, cell in cells.Ground do
-				setCell(cell, ground[i])
+			if not drag then
+				renderGround()
 			end
 		end
 	end

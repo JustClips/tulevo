@@ -12,6 +12,10 @@
 	  armor    Shared/Armor/init.luau      (Weight = ...)
 	  the rest Defs below
 
+	Every item also has Cells = Vector2.new(wide, tall): how many inventory cells it covers
+	(vest 2 x 2, carbine 4 x 1; R turns an item while you drag it). Missing = 1 x 1.
+	Items/Grid.luau does the placing maths.
+
 	Adding an item: add a row to Defs (Model = its key in Shared.ModelIds, ModelScale = how big
 	it's shown in the world: props exported in meters use 3.6).
 ]]
@@ -26,6 +30,7 @@ export type ItemDef = {
 	Name: string,
 	Kind: "Weapon" | "Armor" | "Consumable" | "Misc",
 	Weight: number, -- kg per item
+	Cells: Vector2?, -- inventory cells it covers, wide x tall (default 1 x 1; R turns it while dragging)
 	Stack: number, -- how many fit in one slot
 	Model: string?, -- key in Shared.ModelIds
 	ModelScale: number?, -- world size (dropped on the ground)
@@ -41,6 +46,7 @@ local Defs: { [string]: ItemDef } = {
 		Name = "Mead",
 		Kind = "Consumable",
 		Weight = 0.6,
+		Cells = Vector2.new(1, 1),
 		Stack = 5,
 		Model = "Mead",
 		ModelScale = 3.6,
@@ -51,6 +57,7 @@ local Defs: { [string]: ItemDef } = {
 		Name = "Chaser",
 		Kind = "Consumable",
 		Weight = 0.35,
+		Cells = Vector2.new(1, 1),
 		Stack = 5,
 		Model = "Chaser",
 		ModelScale = 3.6,
@@ -61,6 +68,7 @@ local Defs: { [string]: ItemDef } = {
 		Name = "First-aid kit",
 		Kind = "Consumable",
 		Weight = 0.8,
+		Cells = Vector2.new(1, 1),
 		Stack = 3,
 		Model = "FirstAidKit",
 		ModelScale = 3.6,
@@ -76,10 +84,10 @@ for _, w in Weapons.all() do
 		Kind = "Weapon",
 		Weight = w.Weight or 1,
 		Stack = 1,
+		Cells = w.Cells,
 		Model = w.Model,
 		ModelScale = Config.Weapons.GunScale or 1, -- exported in studs, shown like in the hand
-		IconView = Vector3.new(1, 0.15, 0), -- side profile, muzzle to the right
-		IconRoll = 30,
+		IconView = Vector3.new(1, 0.1, 0), -- side profile, muzzle to the right
 	}
 end
 
@@ -90,6 +98,7 @@ for id, a in Armor.Defs do
 		Name = "Armor vest",
 		Kind = "Armor",
 		Weight = a.Weight or 5,
+		Cells = a.Cells,
 		Stack = 1,
 		Model = a.Model,
 		ModelScale = 1, -- exported in studs

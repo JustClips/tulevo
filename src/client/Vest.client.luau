@@ -56,7 +56,7 @@ end
 
 local token = 0 -- bumps on every toggle and respawn, so a stale one never unlocks a newer one
 
-local function dress(c: Model, h: Humanoid, animator: Animator, wearing: boolean, uid: string?)
+local function dress(c: Model, h: Humanoid, animator: Animator, wearing: boolean, uid: string?, where: { any }?)
 	-- both hands are needed: the gun goes on the back first
 	if WeaponState.Equipped then
 		Weapons.equip(nil)
@@ -71,15 +71,17 @@ local function dress(c: Model, h: Humanoid, animator: Animator, wearing: boolean
 	end
 	local name = if wearing then "Tulevo_VestOff" else "Tulevo_VestOn"
 	local t = clip(animator, name)
-	Remotes.Vest:FireServer(uid)
+	local w = where or {}
+	Remotes.Vest:FireServer(uid, w[1], w[2], w[3])
 	if t then
 		t:Play(0.1, 1, 1)
 	end
 	task.wait(LENGTH[name])
 end
 
--- uid: put on this vest from the inventory (dragged onto the Armor slot); nil = V
-local function toggle(uid: string?)
+-- uid: put on this vest from the inventory (dragged onto the Armor slot); nil = V.
+-- to, slot, rot: where the vest taken off goes (dragged out of the Armor slot).
+local function toggle(uid: string?, to: string?, slot: number?, rot: boolean?)
 	local c = player.Character
 	local h = c and c:FindFirstChildOfClass("Humanoid")
 	local animator = h and h:FindFirstChildOfClass("Animator")
@@ -99,7 +101,7 @@ local function toggle(uid: string?)
 	local mine = token
 	local had = WeaponState.Equipped
 	task.spawn(function()
-		local ok, err = pcall(dress, c, h, animator, wearing, uid)
+		local ok, err = pcall(dress, c, h, animator, wearing, uid, { to, slot, rot })
 		if not ok then
 			warn(`[Vest] {err}`)
 		end
