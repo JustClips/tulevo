@@ -12,6 +12,10 @@
 		Reload (client -> server)
 		Ammo   (server -> owner)  weaponId, mag, reserve
 		Shot   (server -> others) shooter, weaponId, origin, hitPositions   -- effects only
+		Pose   (client -> server) twist, pitch (radians) -> character attributes GunTwist /
+		       GunPitch, so every client can turn that player's waist the same way (Client.Weapons.GunPose)
+
+	The gun model sits in the right hand while equipped and on the back otherwise (GunModel).
 
 	The equipped weapon is also the player attribute "Weapon", so every client can read it.
 ]]
@@ -21,6 +25,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Weapons = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Weapons"))
 local Hitscan = require(script.Parent:WaitForChild("Hitscan"))
+local GunModel = require(script.Parent:WaitForChild("GunModel"))
 
 local WeaponService = {}
 
@@ -37,6 +42,7 @@ local FireRemote = remote("Fire")
 local ReloadRemote = remote("Reload")
 local AmmoRemote = remote("Ammo")
 local ShotRemote = remote("Shot")
+local PoseRemote = remote("Pose")
 remotes.Parent = ReplicatedStorage
 
 type Held = { mag: number, reserve: number, lastFire: number, reloadingUntil: number }
@@ -73,6 +79,7 @@ function WeaponService.give(player: Player, id: string)
 	s.held[id] = s.held[id] or { mag = def.MagSize or 0, reserve = def.ReserveAmmo or 0, lastFire = 0, reloadingUntil = 0 }
 	player:SetAttribute("Weapons", table.concat(WeaponService.list(player), ","))
 	sendAmmo(player, id)
+	WeaponService.refreshModel(player)
 end
 
 function WeaponService.take(player: Player, id: string)
@@ -110,7 +117,41 @@ EquipRemote.OnServerEvent:Connect(function(player, id)
 	end
 	s.equipped = id
 	player:SetAttribute("Weapon", id)
-	-- TODO(art): weld the weapon model (def.Model) to the right hand here once models exist.
+	WeaponService.refreshModel(player)
+end)
+
+-- Gun in hand when equipped, otherwise the first carried gun with a model goes on the back.
+function WeaponService.refreshModel(player: Player)
+	local character = player.Character
+	if not character then
+		return
+	end
+	local s = stateOf(player)
+	local def = s.equipped and Weapons.get(s.equipped)
+	if def and def.Model then
+		GunModel.hold(character, def)
+		return
+	end
+	for _, id in WeaponService.list(player) do
+		local d = Weapons.get(id)
+		if d and d.Model then
+			GunModel.sling(character, d)
+			return
+		end
+	end
+	GunModel.remove(character)
+end
+
+PoseRemote.OnServerEvent:Connect(function(player, twist, pitch)
+	local character = player.Character
+	if not character or typeof(twist) ~= "number" or typeof(pitch) ~= "number" then
+		return
+	end
+	if twist ~= twist or pitch ~= pitch then
+		return -- NaN
+	end
+	character:SetAttribute("GunTwist", math.clamp(twist, -1.6, 1.6))
+	character:SetAttribute("GunPitch", math.clamp(pitch, -1.4, 1.4))
 end)
 
 FireRemote.OnServerEvent:Connect(function(player, origin, direction, aiming)
@@ -171,5 +212,19 @@ end)
 Players.PlayerRemoving:Connect(function(player)
 	states[player] = nil
 end)
+
+-- new character: nothing in hand until the client equips again; the gun goes on the back
+local function onPlayer(player: Player)
+	player.CharacterAdded:Connect(function(character)
+		stateOf(player).equipped = nil
+		player:SetAttribute("Weapon", nil)
+		character:WaitForChild("UpperTorso", 10)
+		WeaponService.refreshModel(player)
+	end)
+end
+Players.PlayerAdded:Connect(onPlayer)
+for _, p in Players:GetPlayers() do
+	onPlayer(p)
+end
 
 return WeaponService

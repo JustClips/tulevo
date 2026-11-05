@@ -13,4 +13,5 @@ return {
 	MagSize = 30,
 	ReserveAmmo = 180,
 	ReloadTime = 2.2,
+	Model = "CarbineRifle", -- Shared.ModelIds; held with the Rifle class animations (art/anim/gun.py)
 }

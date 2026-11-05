@@ -1,4 +1,4 @@
--- Aiming a weapon: slows you to the class's AimWalkSpeed and beats Sprint. Legs keep the
+-- Aiming a weapon (or the gun is up after a hip-fire shot): slows you to the class's AimWalkSpeed and beats Sprint. Legs keep the
 -- normal walk layer; the weapon's Aim animation (Weapons/AnimSet) drives the upper body.
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -10,7 +10,7 @@ return {
 	Name = "Aim",
 	Priority = 12,
 	CanStart = function()
-		return State.Aiming and State.Equipped ~= nil
+		return State.Raised and State.Equipped ~= nil
 	end,
 	Speed = function(ctx)
 		local class = State.Equipped and Weapons.classOf(State.Equipped)

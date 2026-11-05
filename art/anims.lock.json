@@ -62,5 +62,41 @@
  "Tulevo_Walk": {
   "id": 89781740812605,
   "sha": "fd575a445b9e3c3e2b0ea7fee25c869b0ba0519ee6c951ac08b88307adf96ee0"
+ },
+ "Weapon_Rifle_Aim": {
+  "id": 80166641936047,
+  "sha": "a974ed08347ddf5699a1247ff5120b35aa2a37540afcbb642d5ff5f286efa68d"
+ },
+ "Weapon_Rifle_Air": {
+  "id": 99745490165276,
+  "sha": "328515990a3ac29bc7931fe7d8cd2f07d0f0985c804b653eb020c22ef4961a5a"
+ },
+ "Weapon_Rifle_Equip": {
+  "id": 80536178132142,
+  "sha": "43aeecb1e2467c7e28d79a49f3d7cf523168c1a2d4435397f847c815ac244858"
+ },
+ "Weapon_Rifle_Fire": {
+  "id": 128048539083980,
+  "sha": "995fd4dd7e40ad27fdf6580d20da2c24de80df0ff196d27e2a849f4150ef44f6"
+ },
+ "Weapon_Rifle_Hold": {
+  "id": 138033449441429,
+  "sha": "70ed8769b7c330bc3a03cded1877c7bf881894adca87f04cee1c961203def209"
+ },
+ "Weapon_Rifle_Lowered": {
+  "id": 84498657532434,
+  "sha": "1078c2702773d00b1b646f5637616b653763d5d9fedb776663da1281525e31a3"
+ },
+ "Weapon_Rifle_Reload": {
+  "id": 140158951964144,
+  "sha": "116a22e4451cfd96da73dc6be8409680c3e7d0bc93421eca437fe6f23e89a5a8"
+ },
+ "Weapon_Rifle_Sprint": {
+  "id": 103185497964568,
+  "sha": "63544f32f61e9afc1ead4bd2bf46ce712e8c3f1a3371c78bba85f269aee6d2d7"
+ },
+ "Weapon_Rifle_Tuck": {
+  "id": 82691982632734,
+  "sha": "ba9606d9e8387866c70ff1acf2599ed78b2d3a160b5d811322151f912e8ccca3"
  }
 }

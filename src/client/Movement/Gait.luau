@@ -6,7 +6,10 @@
 ]]
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
 local Gaits = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Gaits"))
+-- aiming while walking backwards plays the clips in reverse (set by Client.Weapons)
+local WeaponState = require(Players.LocalPlayer:WaitForChild("PlayerScripts"):WaitForChild("Client"):WaitForChild("Weapons"):WaitForChild("State"))
 
 local MAX_RATE = 2.3 -- faster than this looks frantic; a little foot slide reads better
 local DEFAULT_GROUND = 3.19 -- default R15: HipHeight 2.19 + half the root part
@@ -67,7 +70,8 @@ function Gait:update(dt: number, enabled: boolean)
 		if before < 0.02 and l.w >= 0.02 and l ~= lead and lead.track.Length > 0 and l.track.Length > 0 then
 			l.track.TimePosition = (lead.track.TimePosition / lead.track.Length) * l.track.Length
 		end
-		l.track:AdjustSpeed(math.clamp(math.max(ctx.Speed, 1) / (l.natural * size), 0.5, MAX_RATE))
+		local rate = math.clamp(math.max(ctx.Speed, 1) / (l.natural * size), 0.5, MAX_RATE)
+		l.track:AdjustSpeed(if WeaponState.GaitReverse then -rate else rate)
 		local w = math.max(0.001, self.weight * l.w)
 		if math.abs(w - l.sent) > 0.01 then
 			l.track:AdjustWeight(w, 0)

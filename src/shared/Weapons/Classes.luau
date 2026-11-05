@@ -43,7 +43,9 @@ return {
 		Name = "Rifle",
 		Slot = "Rifle",
 		Kind = "Gun",
-		Anims = GUN_ANIMS,
+		-- extra poses: Sprint (carry across the chest), Tuck (rolls), Air (jumps/falls),
+		-- Lowered (muzzle down near walls)
+		Anims = { "Hold", "Aim", "Fire", "Reload", "Equip", "Sprint", "Tuck", "Air", "Lowered" },
 		AimWalkSpeed = 6,
 		CanSprintWhileHeld = true,
 		TwoHanded = true,

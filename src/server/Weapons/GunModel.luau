@@ -1,0 +1,131 @@
+--[[
+	Puts a weapon's 3D model on the character (server side, so everyone sees it).
+
+		GunModel.hold(character, def)    -- welded in the right hand (the animations aim it)
+		GunModel.sling(character, def)   -- on the back (holstered)
+		GunModel.remove(character)
+
+	The model is loaded by id from Shared.ModelIds[def.Model] and scaled by
+	Config.Weapons.GunScale. Its origin is the pistol-grip hold point, muzzle toward -Z.
+	HAND_TO_GUN must match art/anim/gun.py (it prints the numbers): the animations are solved
+	for exactly this hand offset, so the left hand lands on the handguard.
+	A "Muzzle" attachment is added at the flash hider for tracers and effects.
+]]
+
+local InsertService = game:GetService("InsertService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local Shared = ReplicatedStorage:WaitForChild("Shared")
+local Config = require(Shared:WaitForChild("Config"))
+local ModelIds = require(Shared:WaitForChild("ModelIds"))
+
+local GunModel = {}
+
+-- RightHand -> gun origin (from art/anim/gun.py)
+local HAND_TO_GUN = CFrame.new(0, -0.158, 0, 1, 0, 0, 0, 0.3746, 0.9272, 0, -0.9272, 0.3746)
+-- Muzzle at scale 1 (studs, gun space), from the imported model
+local MUZZLE = Vector3.new(0, 0.269, -1.634)
+-- On the back: flat against the back plate, muzzle up over the left shoulder.
+local BACK = CFrame.fromMatrix(Vector3.new(0.21, -0.28, 0.78), Vector3.new(0, 0, 1), Vector3.new(-0.8, -0.6, 0), Vector3.new(0.6, -0.8, 0))
+
+local templates: { [string]: Model | false } = {}
+
+local function template(name: string): Model?
+	if templates[name] ~= nil then
+		return templates[name] or nil
+	end
+	local id = ModelIds[name]
+	if not id then
+		templates[name] = false
+		return nil
+	end
+	local ok, container = pcall(InsertService.LoadAsset, InsertService, id)
+	if not ok then
+		warn(`[GunModel] could not load {name} ({id}): {container}`)
+		templates[name] = false
+		return nil
+	end
+	local model = Instance.new("Model")
+	model.Name = "Gun"
+	local pivot = CFrame.new()
+	for _, child in container:GetChildren() do
+		if child:IsA("Model") then
+			pivot = child:GetPivot()
+		end
+		child.Parent = model
+	end
+	container:Destroy()
+	model.WorldPivot = pivot
+	for _, d in model:GetDescendants() do
+		if d:IsA("BasePart") then
+			d.Anchored = false
+			d.CanCollide = false
+			d.CanQuery = false
+			d.CanTouch = false
+			d.Massless = true
+			d.CastShadow = true
+		elseif d:IsA("Script") or d:IsA("LocalScript") or d:IsA("JointInstance") or d:IsA("WeldConstraint") then
+			d:Destroy()
+		end
+	end
+	local scale = Config.Weapons.GunScale or 1
+	if scale ~= 1 then
+		model:ScaleTo(scale)
+	end
+	-- muzzle attachment on the biggest part (the body)
+	local body: BasePart? = nil
+	for _, d in model:GetDescendants() do
+		if d:IsA("BasePart") and (not body or d.Size.Magnitude > body.Size.Magnitude) then
+			body = d
+		end
+	end
+	if body then
+		local a = Instance.new("Attachment")
+		a.Name = "Muzzle"
+		a.CFrame = body.CFrame:ToObjectSpace(model:GetPivot() * CFrame.new(MUZZLE * scale))
+		a.Parent = body
+	end
+	templates[name] = model
+	return model
+end
+
+function GunModel.remove(character: Model)
+	local old = character:FindFirstChild("Gun")
+	if old then
+		old:Destroy()
+	end
+end
+
+local function attach(character: Model, def, partName: string, offset: CFrame)
+	GunModel.remove(character)
+	local t = def and def.Model and template(def.Model)
+	local part = character:FindFirstChild(partName) :: BasePart?
+	if not t or not part then
+		return
+	end
+	local gun = t:Clone()
+	local pivot = gun:GetPivot()
+	for _, d in gun:GetDescendants() do
+		if d:IsA("BasePart") then
+			local w = Instance.new("Weld")
+			w.Name = "GunWeld"
+			w.Part0 = part
+			w.Part1 = d
+			w.C0 = offset
+			w.C1 = pivot:ToObjectSpace(d.CFrame):Inverse()
+			w.Parent = d
+		end
+	end
+	gun:SetAttribute("WeaponId", def.Id)
+	gun.Parent = character
+end
+
+function GunModel.hold(character: Model, def)
+	attach(character, def, "RightHand", HAND_TO_GUN)
+end
+
+function GunModel.sling(character: Model, def)
+	attach(character, def, "UpperTorso", BACK)
+end
+
+return GunModel

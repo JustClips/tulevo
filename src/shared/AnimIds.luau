@@ -16,4 +16,13 @@ return {
 	Tulevo_Run = "rbxassetid://85091923292376",
 	Tulevo_Sprint = "rbxassetid://107785750810609",
 	Tulevo_Walk = "rbxassetid://89781740812605",
+	Weapon_Rifle_Aim = "rbxassetid://80166641936047",
+	Weapon_Rifle_Air = "rbxassetid://99745490165276",
+	Weapon_Rifle_Equip = "rbxassetid://80536178132142",
+	Weapon_Rifle_Fire = "rbxassetid://128048539083980",
+	Weapon_Rifle_Hold = "rbxassetid://138033449441429",
+	Weapon_Rifle_Lowered = "rbxassetid://84498657532434",
+	Weapon_Rifle_Reload = "rbxassetid://140158951964144",
+	Weapon_Rifle_Sprint = "rbxassetid://103185497964568",
+	Weapon_Rifle_Tuck = "rbxassetid://82691982632734",
 }

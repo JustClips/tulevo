@@ -37,6 +37,8 @@ function Controller.current(): Model?
 	return driving and driving.model
 end
 
+local heldBeforeDriving: string? = nil
+
 local function stopDriving()
 	local d = driving
 	if not d then
@@ -51,6 +53,12 @@ local function stopDriving()
 	Cockpit.setDriver(nil)
 	WeaponState.InVehicle = false
 	ProximityPromptService.Enabled = true
+	-- take the gun back out after getting out
+	if heldBeforeDriving then
+		local id = heldBeforeDriving
+		heldBeforeDriving = nil
+		require(script.Parent:WaitForChild("Weapons")).equip(id)
+	end
 end
 
 local function startDriving(model: Model)
@@ -61,6 +69,7 @@ local function startDriving(model: Model)
 	end
 	-- put the gun away (the weapon controller refuses to equip while InVehicle)
 	WeaponState.InVehicle = true
+	heldBeforeDriving = WeaponState.Equipped
 	if WeaponState.Equipped then
 		require(script.Parent:WaitForChild("Weapons")).equip(nil)
 	end
