@@ -28,7 +28,7 @@ local Config = {
 		-- guns are shown at this scale (the carbine is exported at 3.6 studs per meter, which
 		-- reads small next to chunky R15 bodies). The rifle animations (art/anim/gun.py
 		-- GUN_SCALE) are solved for it, so change both together.
-		GunScale = 1.2,
+		GunScale = 1.5,
 		AimFieldOfView = 55, -- camera zooms in a little while aiming (normal is 70)
 		LowerNearWalls = 2.4, -- studs: closer than this to a wall, the gun points down
 		-- number keys pick a wheel slot (GTA-style wheel UI comes later)

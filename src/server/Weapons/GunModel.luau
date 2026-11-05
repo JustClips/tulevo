@@ -26,11 +26,11 @@ local HAND_TO_GUN = CFrame.new(0, -0.158, 0, 1, 0, 0, 0, 0.3746, 0.9272, 0, -0.9
 -- Muzzle at scale 1 (studs, gun space), from the imported model
 local MUZZLE = Vector3.new(0, 0.269, -1.634)
 -- On the back: flat against the back plate, muzzle up over the left shoulder.
-local BACK = CFrame.fromMatrix(Vector3.new(0.21, -0.28, 0.78), Vector3.new(0, 0, 1), Vector3.new(-0.8, -0.6, 0), Vector3.new(0.6, -0.8, 0))
+local BACK = CFrame.fromMatrix(Vector3.new(0.3, -0.4, 0.78), Vector3.new(0, 0, 1), Vector3.new(-0.8, -0.6, 0), Vector3.new(0.6, -0.8, 0))
 
 -- Reload: the magazine part goes into the left hand on the beats of Weapon_Rifle_Reload
 -- (art/anim/gun.py RELOAD / MAG_IN_HAND; seconds at playback speed 1).
-local MAG_IN_HAND = CFrame.new(0.3712, -0.0027, 0.0795, 0.4226, 0.9063, 0, -0.8517, 0.3971, -0.342, -0.31, 0.1445, 0.9397)
+local MAG_IN_HAND = CFrame.new(0.4414, 0.0262, 0.0958, 0.4226, 0.9063, 0, -0.8517, 0.3971, -0.342, -0.31, 0.1445, 0.9397)
 local RELOAD_BEATS = { grab = 0.45, drop = 0.8, new = 1.12, seated = 1.62, length = 2.3 }
 GunModel.ReloadLength = RELOAD_BEATS.length
 

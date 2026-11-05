@@ -28,11 +28,11 @@ rx, ry, rz = L.rx, L.ry, L.rz
 
 # In-game the model is scaled by this (Config.Weapons.GunScale). The carbine is exported at
 # x3.6 studs per meter; blocky R15 bodies are wide and chunky, so at 1.0 it reads small in hand.
-GUN_SCALE = 1.2
+GUN_SCALE = 1.5
 _P = {  # gun points at scale 1 (from the imported model + art/models/CarbineRifle/meta.json)
     "Muzzle": (0, 0.269, -1.634),
     "Grip2": (0, 0.192, -1.062),     # support hand under the handguard (front)
-    "Support": (0, 0.200, -0.74),    # where our left hand actually holds (handguard, back half)
+    "Support": (0, 0.200, -0.64),    # where our left hand actually holds (handguard, back half)
     "MagWell": (0, 0.211, -0.475),
     "MagBottom": (0, -0.30, -0.52),
     "MagCenter": (0, -0.042, -0.502),  # Magazine part centre (the mag is its own part)
@@ -206,7 +206,7 @@ def base_pose(torso=None, head=None):
 
 # Low ready (GTA rifle idle/walk): grip by the right hip, muzzle forward and down, angled a
 # little across the body.
-HOLD = dict(pos=(0.36, -0.17, -0.95), pitch=-22, yaw=48, roll=-15)
+HOLD = dict(pos=(0.28, -0.02, -1.0), pitch=-18, yaw=48, roll=-15)
 # Shouldered: chest bladed (right shoulder back), head turned back to the sights and leaning
 # onto the stock.
 AIM_TORSO = ry(D(-48)) @ rx(D(-4))
@@ -220,11 +220,11 @@ def _grip_from_butt(butt, pitch, yaw, roll=0.0):
 
 AIM = dict(pos=_grip_from_butt((0.55, 0.85, -0.55), 3, 48), pitch=3, yaw=48, roll=0)
 # Sprint "port arms": rifle across the chest, muzzle up and to the left.
-SPRINT = dict(pos=(0.36, -0.40, -0.95), pitch=38, yaw=48, roll=-40)
+SPRINT = dict(pos=(0.32, -0.40, -1.05), pitch=38, yaw=48, roll=-40)
 # Roll / falling tuck: rifle pulled in tight, muzzle up.
-TUCK = dict(pos=(0.34, -0.30, -0.95), pitch=58, yaw=34, roll=-20)
+TUCK = dict(pos=(0.30, -0.30, -1.05), pitch=58, yaw=34, roll=-20)
 # Near a wall: muzzle down steeply, close to the body.
-LOWERED = dict(pos=(0.36, 0.1, -0.72), pitch=-58, yaw=36, roll=-10)
+LOWERED = dict(pos=(0.30, 0.25, -0.8), pitch=-58, yaw=36, roll=-10)
 
 
 def placed(d, **over):
@@ -308,7 +308,7 @@ def reload_clip():
     the well and tosses it, takes a fresh one from the vest, lines it up under the well and
     pushes it up in, slaps the bottom, racks the charging handle, back on the handguard."""
     r = RELOAD
-    tilt = dict(HOLD, pos=(0.34, -0.05, -0.95), pitch=2, yaw=40, roll=-35)
+    tilt = dict(HOLD, pos=(0.26, 0.05, -0.95), pitch=2, yaw=40, roll=-35)
     keys = [(0.0, HOLD), (0.3, tilt), (1.85, tilt), (2.1, HOLD), (r["length"], HOLD)]
     vest = np.array([-0.35, -0.3, -0.62, 1])  # spare mag pouch on the chest, left of centre
     grip = mag_grip_in_gun()
