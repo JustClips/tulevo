@@ -6,7 +6,7 @@
 	  Inventory  Config.Inventory Cols x Rows grid, up to MaxWeight kg
 	  Backpack   BackpackCols x BackpackRows grid, up to BackpackMaxWeight kg
 	  Armor      the worn vest (equipment slot; doesn't count toward weight)
-	Items cover several cells (Shared/Items Cells: vest 2 x 2, carbine 4 x 1) and can be turned
+	Items cover several cells (Shared/Items Cells: vest 2 x 2, carbine 4 x 2) and can be turned
 	(rot). An item is { uid, id, count, rot?, data? } stored at its top-left slot. id is a Shared/Items id; data holds what travels with
 	that one item (a gun's mag/reserve, a vest's armor points left).
 

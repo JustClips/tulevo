@@ -4,7 +4,7 @@
 
 	The server owns the items (Server/Inventory/InventoryService) and sends them here; this
 	draws them and asks the server to move them. Items cover several cells (Shared/Items Cells:
-	vest 2 x 2, carbine 4 x 1). While dragging, a green box shows where it lands (red: it doesn't
+	vest 2 x 2, carbine 4 x 2). While dragging, a green box shows where it lands (red: it doesn't
 	fit or is too heavy) and R turns it 90 degrees. Drag an item:
 	  - into Inventory / Backpack: puts it there (or onto a stack of the same item)
 	  - onto Ground: drops it in front of you (a gun in your hands is put away first)
