@@ -275,33 +275,126 @@ function MapData.drawRoads(parent: Instance, color: Color3?, outline: Color3?, o
 			minW[e.a] = math.min(minW[e.a] or math.huge, w)
 			minW[e.b] = math.min(minW[e.b] or math.huge, w)
 		end
+		-- Join edges into chains that run between junctions/dead ends, splitting
+		-- at sharp turns (> 50 deg) and width changes. Gentle bends inside a
+		-- chain are smoothed, so a curve made of a few pieces draws as a clean
+		-- arc instead of a stepped one.
+		local width: { [any]: number } = {}
+		local nbrs: { [number]: { number } } = {}
 		for _, e in drawn do
+			nbrs[e.a] = nbrs[e.a] or {}
+			nbrs[e.b] = nbrs[e.b] or {}
+			table.insert(nbrs[e.a], e.b)
+			table.insert(nbrs[e.b], e.a)
 			local w = e.width * layer.Thin + extra * 2
-			local p, q = nodes[e.a], nodes[e.b]
-			local a, b = Vector3.new(p.X, y, p.Z), Vector3.new(q.X, y, q.Z)
-			local len = (b - a).Magnitude
-			if len > 0.05 then
-				local dir = (b - a) / len
-				-- Only a road wider than the narrowest one at a join runs past it.
-				-- Same-width pieces (bends) just meet at the round cap, so the
-				-- outer edge of a curve stays smooth.
-				if (degree[e.a] or 0) >= 2 and w > minW[e.a] + 0.01 then
-					a -= dir * minW[e.a] / 2
+			width[e.a * 100003 + e.b] = w
+			width[e.b * 100003 + e.a] = w
+		end
+		local function w(i: number, j: number): number
+			return width[i * 100003 + j]
+		end
+		local function isBreak(id: number, from: number?, to: number?): boolean
+			if (degree[id] or 0) ~= 2 or not from or not to then
+				return true
+			end
+			if math.abs(w(from, id) - w(id, to)) > 0.01 then
+				return true
+			end
+			local d1 = (nodes[id] - nodes[from]).Unit
+			local d2 = (nodes[to] - nodes[id]).Unit
+			return d1:Dot(d2) < math.cos(math.rad(50))
+		end
+		local used: { [any]: boolean } = {}
+		local chains = {}
+		local function walk(start: number, nextId: number)
+			if used[start * 100003 + nextId] then
+				return
+			end
+			local ids = { start }
+			local prev, cur = start, nextId
+			while true do
+				used[prev * 100003 + cur] = true
+				used[cur * 100003 + prev] = true
+				table.insert(ids, cur)
+				local list = nbrs[cur]
+				local nxt = if list and #list == 2 then (if list[1] == prev then list[2] else list[1]) else nil
+				if isBreak(cur, prev, nxt) or used[cur * 100003 + (nxt :: number)] then
+					break
 				end
-				if (degree[e.b] or 0) >= 2 and w > minW[e.b] + 0.01 then
-					b += dir * minW[e.b] / 2
+				prev, cur = cur, nxt :: number
+			end
+			table.insert(chains, ids)
+		end
+		for id, list in nbrs do
+			for _, n in list do
+				if isBreak(id, list[1] ~= n and list[1] or list[2], n) or #list ~= 2 then
+					walk(id, n)
 				end
-				len = (b - a).Magnitude
-				flatPart(parent, c, Vector3.new(w, 0.1, len), CFrame.lookAt((a + b) / 2, b))
 			end
 		end
-		for id, w in minW do
+		for id, list in nbrs do -- closed loops with no break point
+			for _, n in list do
+				walk(id, n)
+			end
+		end
+
+		for _, ids in chains do
+			local cw = w(ids[1], ids[2])
+			local pts = {}
+			for _, id in ids do
+				local n = nodes[id]
+				table.insert(pts, Vector3.new(n.X, y, n.Z))
+			end
+			-- Wide road meeting a thinner one: run past the join so they end flush.
+			local first, last = ids[1], ids[#ids]
+			if (degree[first] or 0) >= 2 and cw > minW[first] + 0.01 then
+				pts[1] -= (pts[2] - pts[1]).Unit * minW[first] / 2
+			end
+			if (degree[last] or 0) >= 2 and cw > minW[last] + 0.01 then
+				pts[#pts] += (pts[#pts] - pts[#pts - 1]).Unit * minW[last] / 2
+			end
+			-- Chaikin smoothing (keeps both ends) for chains that bend.
+			local bends = false
+			for k = 2, #pts - 1 do
+				if (pts[k] - pts[k - 1]).Unit:Dot((pts[k + 1] - pts[k]).Unit) < 0.999 then
+					bends = true
+					break
+				end
+			end
+			if bends then
+				for _ = 1, 4 do
+					local out = { pts[1] }
+					for k = 1, #pts - 1 do
+						local p0, p1 = pts[k], pts[k + 1]
+						if k > 1 then
+							table.insert(out, p0:Lerp(p1, 0.25))
+						end
+						if k < #pts - 1 then
+							table.insert(out, p0:Lerp(p1, 0.75))
+						end
+					end
+					table.insert(out, pts[#pts])
+					pts = out
+				end
+			end
+			for k = 2, #pts do
+				local a0, b0 = pts[k - 1], pts[k]
+				local len = (b0 - a0).Magnitude
+				if len > 0.05 then
+					flatPart(parent, c, Vector3.new(cw, 0.1, len + (if bends then 0.3 else 0)), CFrame.lookAt((a0 + b0) / 2, b0))
+				end
+				if bends and k < #pts then
+					flatPart(parent, c, Vector3.new(cw, 0.1, cw), CFrame.new(b0), true)
+				end
+			end
+		end
+		for id, mw in minW do
 			-- Round joins only where roads meet; dead ends stay square.
 			if (degree[id] or 0) < 2 then
 				continue
 			end
 			local p = nodes[id]
-			flatPart(parent, c, Vector3.new(w, 0.1, w), CFrame.new(p.X, y, p.Z), true)
+			flatPart(parent, c, Vector3.new(mw, 0.1, mw), CFrame.new(p.X, y, p.Z), true)
 		end
 	end
 	if outline then
