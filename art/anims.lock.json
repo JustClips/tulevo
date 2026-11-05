@@ -72,39 +72,51 @@
   "sha": "fd575a445b9e3c3e2b0ea7fee25c869b0ba0519ee6c951ac08b88307adf96ee0"
  },
  "Weapon_Rifle_Aim": {
-  "id": 120779463058438,
-  "sha": "4eddcd4d0e0a58d5d09d2f66b7bdb0555b2abf1fed5f1e19a66e9168f2b43d0e"
+  "id": 76169068879369,
+  "sha": "cbf9518b4717740a304b64f692dc4eda07b50ef7df793681dd43a764c33bb338"
  },
  "Weapon_Rifle_Air": {
-  "id": 107715289287946,
-  "sha": "7787d67ce9ee6639b6b52c79ae3e7f4245c46216ab2785d8df3df684e2c6af8d"
+  "id": 128106995657804,
+  "sha": "e13da489bd1036030ec0a8458f2afc4ec93db43f73dcba27cc38bcb9a52809b4"
  },
  "Weapon_Rifle_Equip": {
-  "id": 83178615185147,
-  "sha": "ca3878f6c7f645ebafeca2b340ed4d07f8e531553868382f7cb9a629596e8e9c"
+  "id": 78119451908394,
+  "sha": "580feae1858266a4dbc8a9f9e3eb3e42ac58ba436ad21ff5b06463d587385845"
  },
  "Weapon_Rifle_Fire": {
-  "id": 114153883727099,
-  "sha": "082d261e91d30152feb6c52a913e1155b747c76bec523811aa038df7b219c4c0"
+  "id": 111231665045667,
+  "sha": "32cf349f5bd88ca81ac60d64235fbd61444f2f480bf56469166d96cfba950c16"
  },
  "Weapon_Rifle_Hold": {
-  "id": 127330109627715,
-  "sha": "b8257d70dffd725623f056ca011a46be7756e5c6926e93d61f8bcd41300ea845"
+  "id": 93691211401877,
+  "sha": "406d1c91a15b9681bffa83e752a9927d5bdb8b6271df3cec2a8376936bd0c17a"
+ },
+ "Weapon_Rifle_JumpPrep": {
+  "id": 73854071950368,
+  "sha": "d73fecfabeac4b66738dd2a1624d455c379e3cb38d0df94c3ddb3375a803aa28"
+ },
+ "Weapon_Rifle_JumpUp": {
+  "id": 126833703245246,
+  "sha": "0bd40fb6f719a802d5865ac708c7de14c9892549f3ffe66a9ab072ea825eba50"
+ },
+ "Weapon_Rifle_Land": {
+  "id": 104146435432242,
+  "sha": "eb41dfd1189e1a8e5206e0b347913a35467097ab2398515ee84c42eff4c4c1af"
  },
  "Weapon_Rifle_Lowered": {
-  "id": 111631648003693,
-  "sha": "e23ea49bab67e76db19a9cd9c987c4525428530a10c223ad0fd70dd943e04de0"
+  "id": 103675367670437,
+  "sha": "d99d9628eeddb7367ca0c0bedd172cd17b0b08dccf708c2b696589bfe71efd62"
  },
  "Weapon_Rifle_Reload": {
-  "id": 72187242090172,
-  "sha": "5a8b09168bbb4bdc7d649b669e927c0c74ad79655359ed52c07bfa02bf03efcd"
+  "id": 123032385912413,
+  "sha": "a58ef8a2842ebb75271e61d39142de5af917848791b5bb7170e559ca6869e980"
  },
  "Weapon_Rifle_Sprint": {
-  "id": 92979081667286,
-  "sha": "c49f23d0e977e9417c08d6a36734c54c6490b8d012fb950ea80369c29f150c33"
+  "id": 76254731487206,
+  "sha": "72f408df75a2068363c95ad3cb9e8e8164661014da73a61b4313119bd6df9704"
  },
  "Weapon_Rifle_Tuck": {
-  "id": 94951156634963,
-  "sha": "c823a81129b8f0011ff25e23f9f0f7033103c6faac8e73b5d2f81477dda06d30"
+  "id": 120216076485023,
+  "sha": "ca01a0bfd8ddb2431de008fb6231885cefbea2ee7aa391ea0b2296cec5d495d5"
  }
 }

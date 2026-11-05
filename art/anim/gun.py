@@ -374,13 +374,65 @@ def air_bob(d, u):
                 pitch=d["pitch"] + 6 * math.sin(w), roll=d["roll"] + 5 * math.sin(w + 2))
 
 
+# --- jumping with the rifle -------------------------------------------------------------
+# One-shots synced to the both-feet jump (Movement): the gun dips with the knee bend, lags
+# behind on take-off then springs up past the air pose and settles, and on landing the
+# impact pushes it down and it bounces back. The springy part is the follow-through: arms
+# and hands keep moving a little after the body stops.
+AIR_POSE = dict(HOLD, pos=(HOLD["pos"][0], HOLD["pos"][1] + 0.06, HOLD["pos"][2]), pitch=-10)
+DIP = dict(HOLD, pos=(HOLD["pos"][0] - 0.03, HOLD["pos"][1] - 0.08, HOLD["pos"][2] + 0.12), pitch=HOLD["pitch"] - 8, roll=HOLD["roll"] - 4)
+
+
+def func_clip(fn, duration, fps=30):
+    n = max(2, round(duration * fps))
+    frames, warm, worst = [], None, 0
+    for i in range(n + 1):
+        t = duration * i / n
+        poses, err, warm = gun_pose(base_pose(), placed(fn(t)), warm=warm)
+        worst = max(worst, *err)
+        frames.append((t, poses))
+    return frames, worst
+
+
+def spring(t, amp, k, w, phase=0.0):
+    return amp * math.exp(-k * t) * math.sin(w * t + phase)
+
+
+def jump_prep_clip():
+    def fn(t):
+        return lerp_d(HOLD, DIP, L.smooth(min(1, t / 0.12)))
+    return func_clip(fn, 0.12)
+
+
+def jump_up_clip():
+    def fn(t):
+        d = lerp_d(DIP, AIR_POSE, L.smooth(min(1, t / 0.22)))
+        dy = -spring(t, 0.13, 5.5, 13, 1.2)       # lags low as the body shoots up, then overshoots
+        dx = spring(t, 0.04, 5, 9)
+        return dict(d, pos=(d["pos"][0] + dx, d["pos"][1] + dy, d["pos"][2]),
+                    pitch=d["pitch"] + spring(t, 9, 5.5, 13, 0.6), roll=d["roll"] + spring(t, 5, 5, 10, 2.0))
+    return func_clip(fn, 0.6)
+
+
+def land_clip():
+    def fn(t):
+        d = lerp_d(AIR_POSE, HOLD, L.smooth(min(1, t / 0.3)))
+        dy = -spring(t, 0.16, 6, 13)             # impact pushes it down, bounces back up, settles
+        return dict(d, pos=(d["pos"][0] + spring(t, 0.03, 6, 11, 1), d["pos"][1] + dy, d["pos"][2] - spring(t, 0.05, 6, 13)),
+                    pitch=d["pitch"] - spring(t, 8, 6, 13, 0.4), roll=d["roll"] + spring(t, 4, 6, 9, 1.5))
+    return func_clip(fn, 0.5)
+
+
 def build():
     clips = {
         "Weapon_Rifle_Hold": (*loop_clip(HOLD, 3.0, 30), True, ARMS),
         "Weapon_Rifle_Aim": (*loop_clip(AIM, 2.4, 24, AIM_TORSO, AIM_HEAD, amp_pos=0.006, amp_rot=0.35), True, AIM_KEYS),
         "Weapon_Rifle_Sprint": (*loop_clip(SPRINT, 0.8, 16, amp_pos=0, amp_rot=0, bob=sprint_bob), True, ARMS),
         "Weapon_Rifle_Tuck": (*loop_clip(TUCK, 1.0, 10, amp_pos=0.01, amp_rot=0.5), True, ARMS),
-        "Weapon_Rifle_Air": (*loop_clip(dict(HOLD, pos=(0.40, -0.12, -0.9), pitch=-10), 0.9, 18, amp_pos=0, amp_rot=0, bob=air_bob), True, ARMS),
+        "Weapon_Rifle_Air": (*loop_clip(AIR_POSE, 0.9, 18, amp_pos=0, amp_rot=0, bob=air_bob), True, ARMS),
+        "Weapon_Rifle_JumpPrep": (*jump_prep_clip(), False, ARMS),
+        "Weapon_Rifle_JumpUp": (*jump_up_clip(), False, ARMS),
+        "Weapon_Rifle_Land": (*land_clip(), False, ARMS),
         "Weapon_Rifle_Lowered": (*loop_clip(LOWERED, 3.0, 15), True, ARMS),
         "Weapon_Rifle_Fire": (*fire_clip(), False, ARMS),
         "Weapon_Rifle_Reload": (*reload_clip(), False, ARMS),
@@ -414,14 +466,30 @@ def _has_key(name, sub, keyed):
     return name in keyed or any(_has_key(k, s, keyed) for k, s in sub.items())
 
 
+def _start(tree, keyed):
+    """Smallest subtree holding every keyed part, like Roblox's own clips (an arms-only clip
+    starts at an unkeyed UpperTorso). If that node is keyed itself, start at its parent."""
+    name, sub = next(iter(tree.items()))
+    parent = None
+    while True:
+        if name in keyed:
+            return parent or (name, sub)
+        kids = [(k, v) for k, v in sub.items() if _has_key(k, v, keyed)]
+        if len(kids) != 1:
+            return name, sub
+        parent = (name, sub)
+        name, sub = kids[0]
+
+
 def sequence(name, frames, keyed, loop, priority=2):
     """priority 2 = Action (looping holds) / the game re-sets it per track anyway."""
     Ref.n = 0
     kfs = []
+    keyed = set(keyed)
     for t, poses in frames:
-        root, sub = next(iter(L.TREE.items()))
+        root, sub = _start(L.TREE, keyed)
         kfs.append(f'<Item class="Keyframe" referent="{_ref()}"><Properties><string name="Name">Keyframe</string>'
-                   f'<float name="Time">{t:.4f}</float></Properties>{pose_xml(root, sub, poses, set(keyed))}</Item>')
+                   f'<float name="Time">{t:.4f}</float></Properties>{pose_xml(root, sub, poses, keyed)}</Item>')
     return ('<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" version="4">'
             f'<Item class="KeyframeSequence" referent="RBX0"><Properties><string name="Name">{name}</string>'
             f'<bool name="Loop">{"true" if loop else "false"}</bool><token name="Priority">{priority}</token></Properties>'

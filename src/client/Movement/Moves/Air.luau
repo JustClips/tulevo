@@ -68,6 +68,9 @@ return {
 			-- running landings are a quick, lighter dip so you keep moving
 			local moving = ctx.Wants and ctx.Speed > 2
 			c.land:Play(0.05, if moving then 0.5 else 1, if moving then 1.5 else 1)
+			if ctx.Emit then
+				ctx.Emit("Land", moving)
+			end
 		end
 	end,
 }

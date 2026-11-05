@@ -48,7 +48,8 @@ shows the rewound hitboxes in Studio.
 | Aim | right click, and for 0.6 s after a hip-fire shot; chest + head keyed, waist bent to the camera pitch |
 | Fire | recoil kick on top of Aim |
 | Tuck | during rolls (Space while aiming, like GTA 5) |
-| Air | jumps and falls |
+| Air | in the air (loop) |
+| JumpPrep / JumpUp / Land | jump wind-up (gun dips with the knees), take-off spring, landing bounce; played on the Movement Prep/TakeOff/Land events |
 | Lowered | a wall within `Config.Weapons.LowerNearWalls` studs in front |
 | Reload | R: mag out, fresh mag from the vest, slap it in, charging handle |
 | Equip | taking the gun out |
@@ -57,6 +58,12 @@ While the gun is up your whole body faces the camera (GTA). A/D blend in side-st
 (`art/anim/strafe.py`, Tulevo_StrafeLeft/Right), S plays the walk in reverse, and
 `Client/Weapons/GunPose` locks the chest to the aim yaw + pitch every frame after the
 animations (so walking never wobbles the rifle), for every player via GunUp/GunPitch.
+Gun loops play at Action2 and one-shots at Action3, so the full-body jump wind-up (Action)
+never pulls the hands off the gun.
+
+First person: arms and gun stay visible, the body faces the view and carries the rifle at the
+shoulder (Aim pose); right click moves the camera behind the gun's `Sight` attachment (ADS).
+
 Rebuild the clips with `python3 art/anim/gun.py --preview && python3 tools/upload_anims.py`
 (`GUN_SCALE` there must match `Config.Weapons.GunScale`, and `HAND_TO_GUN` must match GunModel).
 
@@ -71,9 +78,8 @@ just doesn't play. Hold and Aim loop and drive the upper body over the walk/run 
 | Pistol | Hold, Aim, Fire, Reload, Equip |
 | SMG | Hold, Aim, Fire, Reload, Equip |
 | Shotgun | Hold, Aim, Fire, Reload, Equip |
-| Rifle | Hold, Aim, Fire, Reload, Equip |
+| Rifle | Hold, Aim, Fire, Reload, Equip, Sprint, Tuck, Air, Lowered, JumpPrep, JumpUp, Land |
 
 ## Still to do
 
-Models and animations for the other classes, GTA weapon wheel UI, over-the-shoulder
-aim camera + crosshair, sounds and muzzle flash, pickups/shop, friendly fire and wanted level.
+Models and animations for the other classes, GTA weapon wheel UI, sounds and muzzle flash, pickups/shop, friendly fire and wanted level.

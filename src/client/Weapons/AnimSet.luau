@@ -3,10 +3,10 @@
 	Ids come from Shared.AnimIds as "Weapon_<Class>_<Slot>" (e.g. Weapon_Rifle_Reload).
 	Slots without an id yet are skipped silently, so the system works before the art exists.
 
-	Pose loops (Hold, Aim, Sprint, Tuck, Air, Lowered) all play at once at Action priority
+	Pose loops (Hold, Aim, Sprint, Tuck, Air, Lowered) all play at once at Action2 priority
 	and AnimSet:blend() cross-fades their weights, so switching pose never pops. They key the
 	arms (Aim also the chest and head), so the legs keep the walk/run/roll/jump from Movement.
-	One-shots (Fire, Reload, Equip, Attack1..3) play at Action2 on top.
+	One-shots (Fire, Reload, Equip, JumpPrep, JumpUp, Land, Attack1..3) play at Action3 on top.
 ]]
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -27,7 +27,9 @@ function AnimSet.new(animator: Animator, class)
 			anim.AnimationId = id
 			local track = animator:LoadAnimation(anim)
 			track.Looped = LOOPS[slot] == true
-			track.Priority = if LOOPS[slot] then Enum.AnimationPriority.Action else Enum.AnimationPriority.Action2
+			-- arms-only gun poses sit above the full-body jump wind-up (Action) so the hands stay
+			-- on the gun; one-shots go on top of the poses
+			track.Priority = if LOOPS[slot] then Enum.AnimationPriority.Action2 else Enum.AnimationPriority.Action3
 			self.tracks[slot] = track
 			if LOOPS[slot] then
 				self.weights[slot] = 0

@@ -9,7 +9,8 @@
 	Config.Weapons.GunScale. Its origin is the pistol-grip hold point, muzzle toward -Z.
 	HAND_TO_GUN must match art/anim/gun.py (it prints the numbers): the animations are solved
 	for exactly this hand offset, so the left hand lands on the handguard.
-	A "Muzzle" attachment is added at the flash hider for tracers and effects.
+	"Muzzle" (flash hider, tracers/effects) and "Sight" (rear sight, first-person aiming)
+	attachments are added.
 ]]
 
 local InsertService = game:GetService("InsertService")
@@ -25,6 +26,8 @@ local GunModel = {}
 local HAND_TO_GUN = CFrame.new(0, -0.158, 0, 1, 0, 0, 0, 0.3746, 0.9272, 0, -0.9272, 0.3746)
 -- Muzzle at scale 1 (studs, gun space), from the imported model
 local MUZZLE = Vector3.new(0, 0.269, -1.634)
+-- rear sight aperture (first-person aiming puts the camera behind it)
+local SIGHT = Vector3.new(0, 0.494, -0.030)
 -- On the back: flat against the back plate, muzzle up over the left shoulder.
 local BACK = CFrame.fromMatrix(Vector3.new(0.3, -0.4, 0.78), Vector3.new(0, 0, 1), Vector3.new(-0.8, -0.6, 0), Vector3.new(0.6, -0.8, 0))
 
@@ -90,6 +93,10 @@ local function template(name: string): Model?
 		a.Name = "Muzzle"
 		a.CFrame = body.CFrame:ToObjectSpace(model:GetPivot() * CFrame.new(MUZZLE * scale))
 		a.Parent = body
+		local sight = Instance.new("Attachment")
+		sight.Name = "Sight"
+		sight.CFrame = body.CFrame:ToObjectSpace(model:GetPivot() * CFrame.new(SIGHT * scale))
+		sight.Parent = body
 	end
 	templates[name] = model
 	return model

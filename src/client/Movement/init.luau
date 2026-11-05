@@ -59,6 +59,19 @@ local jumpConnection: RBXScriptConnection? = nil
 local current = nil -- the active move
 local ctx = nil
 
+-- Jump events for other systems (the gun arms follow the jump):
+--   Movement.on(function(event, ...) end)
+--   "Prep" (kind, seconds until take-off), "TakeOff" (kind), "Land" (moving)
+local listeners: { (string, ...any) -> () } = {}
+function Movement.on(fn: (string, ...any) -> ())
+	table.insert(listeners, fn)
+end
+local function emit(event: string, ...)
+	for _, fn in listeners do
+		task.spawn(fn, event, ...)
+	end
+end
+
 function Movement.active(): string?
 	return current and current.Name
 end
@@ -119,6 +132,7 @@ local function bind(character: Model)
 
 	ctx.JumpedAt = 0 -- os.clock() of the last jump, for Moves/Air
 	ctx.JumpKind = "Move" -- "Stand" | "Move" | "Sprint", picked from speed at take-off
+	ctx.Emit = emit
 	humanoid.StateChanged:Connect(function(_, new)
 		if new == Enum.HumanoidStateType.Jumping then
 			ctx.JumpedAt = os.clock()
@@ -169,10 +183,12 @@ local function bind(character: Model)
 		local rate = if ctx.JumpKind == "Sprint" then 1.3 else 1
 		prep:Play(0.04, 1, rate)
 		local windUp = (if prep.Length > 0 then prep.Length else 0.12) / rate
+		emit("Prep", ctx.JumpKind, windUp)
 		task.delay(windUp, function()
 			if humanoid.Health > 0 and humanoid.FloorMaterial ~= Enum.Material.Air then
 				humanoid:SetStateEnabled(Enum.HumanoidStateType.Jumping, true)
 				humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+				emit("TakeOff", ctx.JumpKind)
 			end
 			prep:Stop(0.08)
 			task.delay(0.3, function()

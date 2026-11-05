@@ -344,6 +344,25 @@ function Controller.start()
 
 	GunPose.start()
 
+	-- arms follow the jump: dip with the knees, spring on take-off, bounce on landing
+	Movement.on(function(event: string, a: any, b: any)
+		if not anims or State.Raised then
+			return
+		end
+		if event == "Prep" then
+			local t = anims.tracks.JumpPrep
+			if t and t.Length > 0 then
+				anims:play("JumpPrep", 0.04, t.Length / math.max(0.05, b or 0.12))
+			end
+		elseif event == "TakeOff" then
+			anims:stop("JumpPrep", 0.06)
+			anims:play("JumpUp", 0.05)
+		elseif event == "Land" then
+			anims:stop("JumpUp", 0.08)
+			anims:play("Land", 0.05, if a then 1.3 else 1)
+		end
+	end)
+
 	local wallParams = RaycastParams.new()
 	wallParams.FilterType = Enum.RaycastFilterType.Exclude
 	wallParams.IgnoreWater = true
@@ -391,6 +410,8 @@ function Controller.start()
 
 	local mouseLocked = false
 	local shoulder = 0
+	local adsBase: Vector3? = nil -- CameraOffset before aiming down sights
+	local adsOffset = Vector3.zero
 	local function menuOpen(): boolean
 		local pg = player:FindFirstChild("PlayerGui")
 		local map = pg and pg:FindFirstChild("FullMap")
@@ -411,8 +432,36 @@ function Controller.start()
 		dot.Size = if raised then UDim2.fromOffset(4, 4) else UDim2.fromOffset(6, 6)
 		-- over the right shoulder while the gun is up (CameraOffset is in the character's
 		-- space, and the character faces the camera then)
-		local want = if raised and gunOut and State.Aiming and not isFirstPerson(player.Character) then 1.6 else 0
+		local fp = isFirstPerson(player.Character)
+		local want = if raised and gunOut and State.Aiming and not fp then 1.6 else 0
 		shoulder += (want - shoulder) * math.min(1, dt * 10)
+		-- first person + aiming: the eye goes right behind the rear sight (aim down sights)
+		local ads = fp and gunOut and State.Aiming and raised and not State.Reloading
+		local c = player.Character
+		local gun = c and c:FindFirstChild("Gun")
+		local sight = gun and gun:FindFirstChild("Sight", true)
+		local root = c and c:FindFirstChild("HumanoidRootPart") :: BasePart?
+		local cam = workspace.CurrentCamera
+		if h and ads and sight and sight:IsA("Attachment") and root and cam then
+			if not adsBase then
+				adsBase = h.CameraOffset
+				adsOffset = h.CameraOffset
+			end
+			local base = cam.Focus.Position - root.CFrame:VectorToWorldSpace(h.CameraOffset)
+			local eye = sight.WorldPosition - cam.CFrame.LookVector * 0.55 + cam.CFrame.UpVector * 0.04
+			local want3 = root.CFrame:VectorToObjectSpace(eye - base)
+			adsOffset = adsOffset:Lerp(want3, math.min(1, dt * 14))
+			h.CameraOffset = adsOffset
+			return
+		elseif h and adsBase then
+			adsOffset = adsOffset:Lerp(adsBase, math.min(1, dt * 14))
+			h.CameraOffset = adsOffset
+			if (adsOffset - adsBase).Magnitude < 0.02 then
+				h.CameraOffset = adsBase
+				adsBase = nil
+			end
+			return
+		end
 		if h then
 			local off = h.CameraOffset
 			if math.abs(off.X - shoulder) > 0.005 then
@@ -488,6 +537,11 @@ function Controller.start()
 		local airborne = active == "Air"
 		State.Raised = (State.Aiming or now < hipUntil) and def.Class.Kind == "Gun"
 		local up = State.Raised and not State.Reloading -- gun at the shoulder
+		-- first person: the gun is carried at the shoulder (visible, lower right) and the body
+		-- follows the view, like a shooter's viewmodel; sprinting still carries it across
+		local fpReady = isFirstPerson(c) and def.Class.Kind == "Gun" and not rolling and not airborne
+			and active ~= "Sprint" and not State.Reloading
+		local ready = up or fpReady
 
 		-- face where you aim (GTA): the whole body locks to the camera direction; moving
 		-- sideways plays side-steps and moving back plays the walk in reverse (Movement/Gait)
@@ -495,7 +549,7 @@ function Controller.start()
 		local look = cam.CFrame.LookVector
 		local flat = Vector3.new(look.X, 0, look.Z)
 		local side, reverse = 0, false
-		if State.Raised and flat.Magnitude > 0.01 then
+		if (State.Raised or fpReady) and flat.Magnitude > 0.01 then
 			local aimYaw = math.atan2(-flat.X, -flat.Z)
 			h.AutoRotate = false
 			root.CFrame = CFrame.new(root.Position) * CFrame.Angles(0, aimYaw, 0)
@@ -510,11 +564,11 @@ function Controller.start()
 		elseif wasRaised and not rolling then
 			h.AutoRotate = true
 		end
-		wasRaised = State.Raised
+		wasRaised = State.Raised or fpReady
 		State.GaitReverse = reverse
 		State.StrafeSide = side
 		State.Twist = 0
-		State.Pitch = if up and not rolling then math.clamp(math.asin(math.clamp(look.Y, -1, 1)), -1.2, 1.2) else 0
+		State.Pitch = if ready and not rolling then math.clamp(math.asin(math.clamp(look.Y, -1, 1)), -1.2, 1.2) else 0
 		sendPose(State.Twist, State.Pitch)
 		setZoom(State.Aiming and up)
 		updateCamera(dt, def.Class.Kind == "Gun", State.Raised, h)
@@ -526,7 +580,7 @@ function Controller.start()
 		-- which pose loop the arms use
 		local pose = if rolling
 			then "Tuck"
-			elseif up then "Aim"
+			elseif ready then "Aim"
 			elseif airborne then "Air"
 			elseif active == "Sprint" then "Sprint"
 			else "Hold"
