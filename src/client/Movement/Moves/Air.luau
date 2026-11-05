@@ -1,4 +1,5 @@
--- In the air: GTA-style take-off (Tulevo_Jump), then the falling loop (Tulevo_Fall), and a
+-- In the air: GTA-style take-off picked by speed (Tulevo_JumpStand standing still,
+-- Tulevo_Jump walking/jogging, Tulevo_JumpSprint sprinting), then the falling loop (Tulevo_Fall), and a
 -- landing dip (Tulevo_Land) when you touch down after a real jump or drop. Keeps the speed
 -- you jumped with (a sprint jump stays fast). Short drops off a kerb skip the fall pose.
 local FALL_DELAY = 0.2 -- seconds of falling (without jumping) before the fall pose shows
@@ -7,7 +8,9 @@ local LAND_AFTER = 0.3 -- seconds in the air before a landing dip plays
 local function clips(ctx)
 	if not ctx.Air then
 		local c = {
-			jump = ctx.LoadClip("Tulevo_Jump"),
+			jumpStand = ctx.LoadClip("Tulevo_JumpStand"),
+			jumpMove = ctx.LoadClip("Tulevo_Jump"),
+			jumpSprint = ctx.LoadClip("Tulevo_JumpSprint"),
 			fall = ctx.LoadClip("Tulevo_Fall"),
 			land = ctx.LoadClip("Tulevo_Land"),
 		}
@@ -16,6 +19,7 @@ local function clips(ctx)
 			t.Looped = name == "fall"
 		end
 		c.time, c.jumped, c.speed = 0, false, 16
+		c.jump = c.jumpMove
 		ctx.Air = c
 	end
 	return ctx.Air
@@ -38,6 +42,11 @@ return {
 		c.land:Stop(0.05)
 		c.jumped = os.clock() - ctx.JumpedAt < 0.3
 		if c.jumped then
+			local m = ctx.Config.Movement
+			c.jump = if ctx.Speed < 1.5
+				then c.jumpStand
+				elseif ctx.Speed >= m.JogSpeed + 2 then c.jumpSprint
+				else c.jumpMove
 			c.jump:Play(0.08, 1, 1)
 		end
 	end,

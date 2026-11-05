@@ -4,6 +4,8 @@ return {
 	Tulevo_CrouchWalk = "rbxassetid://120145779343446",
 	Tulevo_Fall = "rbxassetid://101494980364928",
 	Tulevo_Jump = "rbxassetid://115697023897143",
+	Tulevo_JumpSprint = "rbxassetid://80593277915637",
+	Tulevo_JumpStand = "rbxassetid://108151460945147",
 	Tulevo_Land = "rbxassetid://137269199076386",
 	Tulevo_Run = "rbxassetid://85091923292376",
 	Tulevo_Sprint = "rbxassetid://107785750810609",

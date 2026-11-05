@@ -78,6 +78,25 @@ AIR = key(torso=-4, head=1, r_leg=(32, -40, 6), l_leg=(-2, -32, -12),
 
 JUMP = [(0.0, PUSH), (0.18, LIFT), (0.42, AIR)]
 
+# Standing jump: straight up off both feet, knees come up together, arms swing up and out.
+STAND_PUSH = key(torso=-6, head=2, r_leg=(8, -12, -20), l_leg=(8, -12, -20),
+                 r_arm=(25, 20, 25), l_arm=(25, 20, 25))
+STAND_TUCK = key(torso=-4, head=0, r_leg=(45, -70, 5), l_leg=(40, -65, 5),
+                 r_arm=(15, 55, 25), l_arm=(15, 55, 25))
+STAND_AIR = key(torso=-3, head=0, r_leg=(30, -50, 4), l_leg=(26, -46, 4),
+                r_arm=(10, 60, 20), l_arm=(10, 60, 20))
+JUMP_STAND = [(0.0, STAND_PUSH), (0.2, STAND_TUCK), (0.45, STAND_AIR)]
+
+# Sprint jump: a long leap, lead leg reaching out in front, back leg trailing long behind,
+# chest forward, arms out wide (one forward, one back).
+SPRINT_PUSH = key(torso=-16, head=6, r_leg=(45, -35, 8), l_leg=(-30, -10, -40),
+                  r_arm=(-30, 30, 20), l_arm=(40, 30, 30), twist=6)
+SPRINT_LEAP = key(torso=-12, head=5, r_leg=(55, -25, 10), l_leg=(-28, -40, -30),
+                  r_arm=(-20, 55, 18), l_arm=(35, 55, 22), twist=4)
+SPRINT_AIR = key(torso=-8, head=3, r_leg=(42, -40, 8), l_leg=(-12, -45, -20),
+                 r_arm=(-5, 62, 18), l_arm=(20, 62, 20), twist=2)
+JUMP_SPRINT = [(0.0, SPRINT_PUSH), (0.2, SPRINT_LEAP), (0.5, SPRINT_AIR)]
+
 
 def fall_frames(duration=1.0, steps=20):
     frames = []
@@ -123,6 +142,8 @@ def main():
     os.makedirs(L.OUT, exist_ok=True)
     clips = {
         "Tulevo_Jump": (track(JUMP), False),
+        "Tulevo_JumpStand": (track(JUMP_STAND), False),
+        "Tulevo_JumpSprint": (track(JUMP_SPRINT), False),
         "Tulevo_Fall": (fall_frames(), True),
         "Tulevo_Land": (land_frames(), False),
     }
