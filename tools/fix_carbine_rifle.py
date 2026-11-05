@@ -19,7 +19,7 @@ g = s.geometry["Body"]
 # Shorter stock like Dev's reference: shorten the buffer tube and pull the stock parts forward.
 _m = g.copy()
 _m.merge_vertices(merge_tex=True, merge_norm=True)
-TUBE_END_OLD, TUBE_END_NEW = -0.223, -0.150
+TUBE_END_OLD, TUBE_END_NEW = -0.223, -0.175
 for comp in trimesh.graph.connected_components(_m.face_adjacency, nodes=np.arange(len(_m.faces))):
     vi = np.unique(g.faces[comp])
     lo, hi = g.vertices[vi].min(0), g.vertices[vi].max(0)
@@ -29,9 +29,9 @@ for comp in trimesh.graph.connected_components(_m.face_adjacency, nodes=np.arang
     if abs(lo[2] - TUBE_END_OLD) < 0.002 and abs(hi[2] + 0.046) < 0.002:  # buffer tube: squash toward the receiver
         v[vi, 2] = -0.046 + (v[vi, 2] + 0.046) * (TUBE_END_NEW + 0.046) / (TUBE_END_OLD + 0.046)
     elif lo[2] < -0.21:  # buttplate, end collar, strut: same offset as the tube end
-        v[vi, 2] += 0.089
+        v[vi, 2] += 0.064
     else:  # stock body and its screws sit right in front of the buttplate
-        v[vi, 2] += 0.042
+        v[vi, 2] += 0.017
 g.vertices = v
 c = g.triangles_center
 
