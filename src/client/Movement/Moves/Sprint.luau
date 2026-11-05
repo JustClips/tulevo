@@ -12,6 +12,9 @@ return {
 	Speed = function(ctx)
 		return ctx.Config.Movement.SprintSpeed
 	end,
+	Start = function(ctx)
+		ctx.Input.release("Crouch") -- sprinting stands you up, like GTA
+	end,
 	Stop = function(ctx)
 		-- a toggled sprint ends when you stop moving, like GTA
 		if not ctx.Wants then

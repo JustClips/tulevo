@@ -79,6 +79,22 @@ SPRINT = dict(
     arm_swing=58, arm_fwd=10, arm_out=7, elbow=88, elbow_swing=10,
     shoulder_roll=5, kick=0.85, peak=0.42,
 )
+# Stealth crouch (GTA-style sneak): hips sit low, chest bent over, hands held in close.
+CROUCH_WALK = dict(
+    duration=1.15, stance=0.64,
+    front=-0.62, back=0.72,
+    lift=0.26, width=0.5, toe_out=12,
+    heel_pitch=8, toe_pitch=-30, swing_pitch=-6,
+    bob=0.04, sway=0.07, hip_yaw=6, hip_roll=4,
+    lean=-26, chest_yaw=-7, chest_roll=-2, head_follow=0.9,
+    arm_swing=9, arm_fwd=30, arm_out=10, elbow=78, elbow_swing=8,
+    shoulder_roll=2, kick=0.0, peak=0.3, sit=0.75, thigh_lean=0,
+)
+CROUCH_IDLE = dict(
+    CROUCH_WALK, duration=3.0, stance=0.999, front=0.0, back=0.0, lift=0.0, width=0.55,
+    heel_pitch=0, toe_pitch=0, bob=0.025, sway=0.015, hip_yaw=1.5, hip_roll=1,
+    chest_yaw=-1.5, arm_swing=2, elbow_swing=3, peak=0.25,
+)
 GAITS = (("Walk", "Tulevo_Walk", WALK, 24), ("Jog", "Tulevo_Run", RUN, 18), ("Sprint", "Tulevo_Sprint", SPRINT, 16))
 GAITS_LUA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "src", "shared", "Gaits.luau")
 
@@ -124,7 +140,7 @@ def foot_world(p, s, side):
 def pelvis(p, s, drop):
     """LowerTorso joint pose: small up/down, side sway over the planted foot, hip turn and drop."""
     w = 2 * math.pi * p
-    y = -drop + s["bob"] * math.cos(2 * (w - 2 * math.pi * s["peak"]))  # highest at s["peak"]
+    y = -drop - s.get("sit", 0) + s["bob"] * math.cos(2 * (w - 2 * math.pi * s["peak"]))  # highest at s["peak"]
     x = s["sway"] * math.sin(w - 0.6)       # over the right foot during its stance
     yaw = D(s["hip_yaw"]) * math.cos(w)     # right hip forward at right heel strike
     roll = D(s["hip_roll"]) * math.sin(w - 0.5)
@@ -370,6 +386,15 @@ def main():
             fine, _ = build(s, 40)
             preview(name, [(t * 1.0, p) for t, p in fine], os.path.join(OUT, f"{name}.gif"))
     lua.append("}")
+    for name, s_, steps in (("Tulevo_CrouchWalk", CROUCH_WALK, 24), ("Tulevo_CrouchIdle", CROUCH_IDLE, 12)):
+        frames, drop = build(s_, steps)
+        with open(os.path.join(OUT, f"{name}.rbxmx"), "w") as fh:
+            fh.write(sequence(name, frames))
+        print(f"{name}: natural speed {natural_speed(s_):.2f} studs/s, hips sit {drop + s_['sit']:.3f} lower")
+        check(name, s_, frames)
+        if "--preview" in sys.argv:
+            fine, _ = build(s_, 40)
+            preview(name, fine, os.path.join(OUT, f"{name}.gif"))
     with open(GAITS_LUA, "w") as fh:
         fh.write("\n".join(lua) + "\n")
 

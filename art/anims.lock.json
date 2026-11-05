@@ -1,4 +1,12 @@
 {
+ "Tulevo_CrouchIdle": {
+  "id": 106911361115207,
+  "sha": "4ad320fe5657ca8b64643352813dc32d193a848f4229d34c9ade23a54e9a28f1"
+ },
+ "Tulevo_CrouchWalk": {
+  "id": 120145779343446,
+  "sha": "5ffa344ad8a9047a76b4b614868ed9dead607fc164dddb113d4d0e864485bb82"
+ },
  "Tulevo_Run": {
   "id": 85091923292376,
   "sha": "4714ba3298e57c727ae2bfb6fe014b9d793f46d57db3a065806ae8dd25fe0995"

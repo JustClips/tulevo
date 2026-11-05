@@ -6,10 +6,13 @@ local Config = {
 	-- On foot (GTA style), used by StarterPlayerScripts.Client.Movement.
 	-- Keyboard: walk, hold Shift to sprint. Gamepad: stick pushed a little = walk, all the
 	-- way = jog, click the left stick to sprint. Phones: same stick, plus a Sprint button.
+	-- Crouch (toggle): Ctrl or C, gamepad B, phone Crouch button.
 	Movement = {
 		WalkSpeed = 6,
 		JogSpeed = 14,
 		SprintSpeed = 20,
+		CrouchSpeed = 4,
+		CrouchCameraDrop = 1.3, -- camera sits this much lower while crouched
 		Acceleration = 40, -- studs/s per second when speeding up (slowing down is 2x)
 	},
 

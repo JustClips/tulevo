@@ -4,6 +4,7 @@
 		Input.analog()          -> true on gamepad / touch (sticks choose their own pace)
 
 	Sprint: hold Shift, click the left stick (toggle), or the Sprint button on phones (toggle).
+	Crouch: Ctrl or C, gamepad B, or the Crouch button on phones (all toggle).
 	New moves add their action to ACTIONS.
 ]]
 
@@ -17,6 +18,12 @@ local ACTIONS = {
 		hold = { Enum.KeyCode.LeftShift, Enum.KeyCode.RightShift },
 		toggle = { Enum.KeyCode.ButtonL3 },
 		touchButton = "Sprint", -- shown on phones, works as a toggle
+		touchPosition = UDim2.new(1, -170, 1, -90),
+	},
+	Crouch = {
+		toggle = { Enum.KeyCode.LeftControl, Enum.KeyCode.C, Enum.KeyCode.ButtonB },
+		touchButton = "Crouch",
+		touchPosition = UDim2.new(1, -170, 1, -150),
 	},
 }
 
@@ -51,7 +58,7 @@ for name, a in ACTIONS do
 	end, a.touchButton ~= nil, table.unpack(keys))
 	if a.touchButton then
 		ContextActionService:SetTitle(`Move_{name}`, a.touchButton)
-		ContextActionService:SetPosition(`Move_{name}`, UDim2.new(1, -170, 1, -90))
+		ContextActionService:SetPosition(`Move_{name}`, a.touchPosition)
 	end
 end
 
