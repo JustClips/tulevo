@@ -28,4 +28,7 @@ first-aid kit in the inventory, and the armor vest worn (Armor slot).
   refills the worn vest.
 - Dropped items sit in `Workspace.DroppedItems` (attributes Uid / ItemId / Count), show under
   Ground within 8 studs, and can be picked up by dragging or by holding E. They vanish after 10 min.
+- The middle box shows your own character from the front: a copy standing straight (joints at
+  rest), with the worn vest and a gun on the back (a gun in the hand is left out). Rebuilt when
+  the window opens and when something is put on or taken off while it's open.
 - Not saved between sessions yet. Equipment slots, the Bag slot and quick slots 1-3 are layout only.

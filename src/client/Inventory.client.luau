@@ -283,7 +283,16 @@ for i = 0, 3 do
 	slot(mid, `EquipLeft{i + 1}`, 0, TOP + i * 54, EQUIP, EQUIP)
 	slot(mid, `EquipRight{i + 1}`, MID_W - EQUIP, TOP + i * 54, EQUIP, EQUIP)
 end
-box(mid, "Character", EQUIP + 8, TOP, MID_W - (EQUIP + 8) * 2, 206, COLORS.Panel, 0.5)
+local characterBox = box(mid, "Character", EQUIP + 8, TOP, MID_W - (EQUIP + 8) * 2, 206, COLORS.Panel, 0.5)
+-- your own character, seen from the front (filled in by refreshPortrait below)
+local portrait = Instance.new("ViewportFrame")
+portrait.Name = "Portrait"
+portrait.Size = UDim2.fromScale(1, 1)
+portrait.BackgroundTransparency = 1
+portrait.Ambient = Color3.fromRGB(150, 150, 156)
+portrait.LightColor = Color3.fromRGB(255, 255, 255)
+portrait.LightDirection = Vector3.new(-0.4, -0.6, 1) -- from the front, top left
+portrait.Parent = characterBox
 for i = 0, 4 do
 	slot(mid, `EquipBottom{i + 1}`, i * 55, 264, 48, EQUIP)
 end
@@ -1035,12 +1044,145 @@ local function setBar(fill: Frame, value: TextLabel, now: number, max: number)
 	value.Text = tostring(math.ceil(math.max(now, 0)))
 end
 
+-- The middle picture: a copy of your character standing straight (every joint at rest, so
+-- running / aiming poses don't show), facing the camera. Rebuilt when the window opens and
+-- when something is put on or taken off while it's open.
+local PORTRAIT_FOV = 16
+local function standStraight(model: Model, root: BasePart)
+	-- every joint as (part0, part1, offset of part1 from part0 at rest)
+	local links: { [BasePart]: { { other: BasePart, offset: CFrame } } } = {}
+	local function link(a: BasePart, b: BasePart, offset: CFrame)
+		links[a] = links[a] or {}
+		links[b] = links[b] or {}
+		table.insert(links[a], { other = b, offset = offset })
+		table.insert(links[b], { other = a, offset = offset:Inverse() })
+	end
+	for _, j in model:GetDescendants() do
+		if j:IsA("JointInstance") and j.Part0 and j.Part1 then
+			link(j.Part0, j.Part1, j.C0 * j.C1:Inverse())
+		elseif j:IsA("WeldConstraint") and j.Part0 and j.Part1 then
+			link(j.Part0, j.Part1, j.Part0.CFrame:ToObjectSpace(j.Part1.CFrame))
+		elseif j:IsA("RigidConstraint") and j.Attachment0 and j.Attachment1 then
+			local a0, a1 = j.Attachment0 :: Attachment, j.Attachment1 :: Attachment
+			local p0, p1 = a0.Parent, a1.Parent
+			if p0 and p1 and p0:IsA("BasePart") and p1:IsA("BasePart") then
+				link(p0, p1, a0.CFrame * a1.CFrame:Inverse())
+			end
+		end
+	end
+	local seen = { [root] = true }
+	local queue = { root }
+	local i = 1
+	while queue[i] do
+		local part = queue[i]
+		i += 1
+		for _, l in links[part] or {} do
+			if not seen[l.other] then
+				seen[l.other] = true
+				l.other.CFrame = part.CFrame * l.offset
+				table.insert(queue, l.other)
+			end
+		end
+	end
+end
+
+local function refreshPortrait()
+	portrait:ClearAllChildren()
+	local character = player.Character
+	local root = character and character:FindFirstChild("HumanoidRootPart")
+	if not character or not root or not root:IsA("BasePart") then
+		return
+	end
+	local wasArchivable = character.Archivable
+	character.Archivable = true
+	local copy = character:Clone()
+	character.Archivable = wasArchivable
+	if not copy then
+		return
+	end
+	for _, d in copy:GetDescendants() do
+		if
+			d:IsA("BaseScript")
+			or d:IsA("ModuleScript")
+			or d:IsA("Sound")
+			or d:IsA("BillboardGui")
+			or d:IsA("ProximityPrompt")
+			or d:IsA("ForceField")
+		then
+			d:Destroy()
+		end
+	end
+	-- a gun in the hand would stick out of the straight arm; one on the back stays
+	for _, d in copy:GetChildren() do
+		if d:IsA("Tool") or (d.Name == "Gun" and d:GetAttribute("On") ~= "UpperTorso") then
+			d:Destroy()
+		end
+	end
+	local copyRoot = copy:FindFirstChild("HumanoidRootPart")
+	if not copyRoot or not copyRoot:IsA("BasePart") then
+		copy:Destroy()
+		return
+	end
+	standStraight(copy, copyRoot)
+	for _, d in copy:GetDescendants() do
+		if d:IsA("BasePart") then
+			d.Anchored = true
+			d.CanCollide = false
+			d.LocalTransparencyModifier = 0 -- first person hides your own body
+		end
+	end
+	copyRoot.Transparency = 1
+	local humanoid = copy:FindFirstChildOfClass("Humanoid")
+	if humanoid then
+		humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
+		humanoid.HealthDisplayType = Enum.HumanoidHealthDisplayType.AlwaysOff
+	end
+	copy.PrimaryPart = copyRoot
+	copy:PivotTo(CFrame.new()) -- facing -Z
+	copy.Parent = portrait
+
+	-- frame the whole body: camera in front (on -Z) looking back at it
+	local bounds, size = copy:GetBoundingBox()
+	local cam = Instance.new("Camera")
+	cam.FieldOfView = PORTRAIT_FOV
+	local aspect = characterBox.Size.X.Offset / characterBox.Size.Y.Offset
+	local tanV = math.tan(math.rad(PORTRAIT_FOV / 2))
+	local dist = math.max(size.Y / 2 / tanV, size.X / 2 / (tanV * aspect)) * 1.08 + size.Z / 2
+	local centre = bounds.Position
+	cam.CFrame = CFrame.lookAt(centre + Vector3.new(0, 0, -dist), centre)
+	cam.Parent = portrait
+	portrait.CurrentCamera = cam
+end
+
+local portraitQueued = false
+local function queuePortrait()
+	if portraitQueued or not gui.Enabled then
+		return
+	end
+	portraitQueued = true
+	task.delay(0.25, function()
+		portraitQueued = false
+		if gui.Enabled then
+			refreshPortrait()
+		end
+	end)
+end
+
 local charConns: { RBXScriptConnection } = {}
 local function onCharacter(character: Model)
 	for _, c in charConns do
 		c:Disconnect()
 	end
 	table.clear(charConns)
+	-- vest / gun / clothes put on or taken off
+	local function looks(d: Instance)
+		if d:IsA("BasePart") or d:IsA("Accessory") or d:IsA("Clothing") or d:IsA("Model") then
+			queuePortrait()
+		end
+	end
+	table.insert(charConns, character.DescendantAdded:Connect(looks))
+	table.insert(charConns, character.DescendantRemoving:Connect(looks))
+	queuePortrait()
 	local humanoid = character:WaitForChild("Humanoid", 10) :: Humanoid?
 	if not humanoid then
 		return
@@ -1068,6 +1210,7 @@ local function setOpen(open: boolean)
 		fit()
 		scanGround()
 		render()
+		refreshPortrait()
 	else
 		cancelDrag()
 		hovered = nil
