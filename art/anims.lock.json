@@ -7,6 +7,18 @@
   "id": 120145779343446,
   "sha": "5ffa344ad8a9047a76b4b614868ed9dead607fc164dddb113d4d0e864485bb82"
  },
+ "Tulevo_Fall": {
+  "id": 72586065736065,
+  "sha": "17c2df2563391cd386bab6a81392aa995b0e5b3bb1b67d6713927f3a131d25d0"
+ },
+ "Tulevo_Jump": {
+  "id": 94789300907835,
+  "sha": "e917dfe66b1e6045b7953344825d16fe8911e332e203ae494fedf5103284df75"
+ },
+ "Tulevo_Land": {
+  "id": 138290654470590,
+  "sha": "9a9443e7e72e6dfbe7dffe2334344139e64e91e5d1eb2954b6171caafa596492"
+ },
  "Tulevo_Run": {
   "id": 85091923292376,
   "sha": "4714ba3298e57c727ae2bfb6fe014b9d793f46d57db3a065806ae8dd25fe0995"

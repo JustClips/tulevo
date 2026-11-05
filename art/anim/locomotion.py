@@ -289,7 +289,7 @@ def pose_xml(name, tree, poses):
             f'<token name="EasingStyle">0</token><float name="Weight">1</float></Properties>{kids}</Item>')
 
 
-def sequence(name, frames, priority=1):
+def sequence(name, frames, priority=1, loop=True):
     """Priority 1 = Movement: above the default Animate script (Core), below Action."""
     Ref.n = 0
     kfs = []
@@ -299,7 +299,7 @@ def sequence(name, frames, priority=1):
                    f'<float name="Time">{t:.4f}</float></Properties>{pose_xml(root, sub, poses)}</Item>')
     return ('<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" version="4">'
             f'<Item class="KeyframeSequence" referent="RBX0"><Properties><string name="Name">{name}</string>'
-            f'<bool name="Loop">true</bool><token name="Priority">{priority}</token></Properties>'
+            f'<bool name="Loop">{"true" if loop else "false"}</bool><token name="Priority">{priority}</token></Properties>'
             f'{"".join(kfs)}</Item></roblox>')
 
 
