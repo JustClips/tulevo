@@ -13,7 +13,7 @@
 	  the rest Defs below
 
 	Every item also has Cells = Vector2.new(wide, tall): how many inventory cells it covers
-	(vest 2 x 2, carbine 4 x 1; R turns an item while you drag it). Missing = 1 x 1.
+	(vest 2 x 2, carbine 4 x 2; R turns an item while you drag it). Missing = 1 x 1.
 	Items/Grid.luau does the placing maths.
 
 	Adding an item: add a row to Defs (Model = its key in Shared.ModelIds, ModelScale = how big

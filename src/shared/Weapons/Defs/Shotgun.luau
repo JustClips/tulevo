@@ -3,7 +3,7 @@ return {
 	Name = "Pump Shotgun",
 	ClassName = "Shotgun",
 	Weight = 3.6, -- kg in the inventory
-	Cells = Vector2.new(4, 1), -- inventory cells, wide x tall (R turns it while dragging)
+	Cells = Vector2.new(4, 2), -- inventory cells, wide x tall (R turns it while dragging)
 	Damage = 11,
 	HeadshotMultiplier = 1.3,
 	FireRate = 1.2,

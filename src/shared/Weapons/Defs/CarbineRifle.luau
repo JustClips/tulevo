@@ -11,7 +11,7 @@ return {
 	Name = "Carbine Rifle",
 	ClassName = "Rifle", -- held with the Rifle animations (art/anim/gun.py)
 	Weight = 3.4, -- kg in the inventory
-	Cells = Vector2.new(4, 1), -- inventory cells, wide x tall (R turns it while dragging)
+	Cells = Vector2.new(4, 2), -- inventory cells, wide x tall (R turns it while dragging)
 	Model = "CarbineRifle", -- Shared.ModelIds
 
 	-- damage

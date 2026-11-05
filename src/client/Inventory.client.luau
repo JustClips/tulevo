@@ -86,6 +86,7 @@ local gui = Instance.new("ScreenGui")
 gui.Name = "Inventory"
 gui.ResetOnSpawn = false
 gui.IgnoreGuiInset = true
+gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling -- a big item's tile draws over the cells it covers
 gui.DisplayOrder = 10
 gui.Enabled = false
 
@@ -397,21 +398,20 @@ local function makeIcon(id: string, aspect: number, rot: boolean?): GuiObject
 	local dir = ((def and def.IconView) or Vector3.new(0, 0.2, -1)).Unit
 	local roll = ((def and def.IconRoll) or 0) + (if rot then 90 else 0)
 	local turn = CFrame.lookAt(Vector3.zero, -dir) * CFrame.Angles(0, 0, math.rad(roll))
-	-- fit the bounding box corners into the view
-	local maxX, maxY, maxZ = 0, 0, 0
+	-- the closest camera distance that keeps every bounding box corner inside the view (a
+	-- little padding), so the item fills its tile
+	local tanV = math.tan(math.rad(cam.FieldOfView / 2)) * 0.95
+	local tanH = tanV * aspect
+	local dist = 0
 	for _, sx in { -1, 1 } do
 		for _, sy in { -1, 1 } do
 			for _, sz in { -1, 1 } do
 				local corner = cf:VectorToWorldSpace(Vector3.new(sx * size.X, sy * size.Y, sz * size.Z) / 2)
 				local v = turn:VectorToObjectSpace(corner)
-				maxX = math.max(maxX, math.abs(v.X))
-				maxY = math.max(maxY, math.abs(v.Y))
-				maxZ = math.max(maxZ, v.Z)
+				dist = math.max(dist, v.Z + math.abs(v.X) / tanH, v.Z + math.abs(v.Y) / tanV)
 			end
 		end
 	end
-	local tanV = math.tan(math.rad(cam.FieldOfView / 2))
-	local dist = math.max(maxX / (tanV * aspect), maxY / tanV) * 1.15 + maxZ
 	cam.CFrame = CFrame.new(cf.Position) * turn * CFrame.new(0, 0, dist)
 	cam.Parent = vf
 	vf.CurrentCamera = cam
