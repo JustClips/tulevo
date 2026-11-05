@@ -28,6 +28,12 @@ local MUZZLE = Vector3.new(0, 0.269, -1.634)
 -- On the back: flat against the back plate, muzzle up over the left shoulder.
 local BACK = CFrame.fromMatrix(Vector3.new(0.21, -0.28, 0.78), Vector3.new(0, 0, 1), Vector3.new(-0.8, -0.6, 0), Vector3.new(0.6, -0.8, 0))
 
+-- Reload: the magazine part goes into the left hand on the beats of Weapon_Rifle_Reload
+-- (art/anim/gun.py RELOAD / MAG_IN_HAND; seconds at playback speed 1).
+local MAG_IN_HAND = CFrame.new(0.3712, -0.0027, 0.0795, 0.4226, 0.9063, 0, -0.8517, 0.3971, -0.342, -0.31, 0.1445, 0.9397)
+local RELOAD_BEATS = { grab = 0.45, drop = 0.8, new = 1.12, seated = 1.62, length = 2.3 }
+GunModel.ReloadLength = RELOAD_BEATS.length
+
 local templates: { [string]: Model | false } = {}
 
 local function template(name: string): Model?
@@ -118,6 +124,63 @@ local function attach(character: Model, def, partName: string, offset: CFrame)
 	end
 	gun:SetAttribute("WeaponId", def.Id)
 	gun.Parent = character
+end
+
+-- Plays the magazine swap on the real Magazine part, in time with the reload clip played at
+-- `speed` (clip length / reload time). Old mag is dropped to the floor; the fresh one comes
+-- from the vest and goes back into the gun.
+function GunModel.reloadMag(character: Model, speed: number)
+	local gun = character:FindFirstChild("Gun")
+	local mag = gun and gun:FindFirstChild("Magazine", true)
+	local weld = mag and mag:FindFirstChild("GunWeld")
+	local hand = character:FindFirstChild("LeftHand")
+	if not (mag and mag:IsA("BasePart") and weld and weld:IsA("Weld") and hand) then
+		return
+	end
+	local gunPart0, gunC0, gunC1 = weld.Part0, weld.C0, weld.C1
+	if gunPart0 == hand then
+		return -- already mid-reload
+	end
+	local token = (mag:GetAttribute("Reload") or 0) + 1
+	mag:SetAttribute("Reload", token)
+	local function at(t: number, fn: () -> ())
+		task.delay(t / speed, function()
+			if weld.Parent and mag.Parent and gun.Parent == character and mag:GetAttribute("Reload") == token then
+				fn()
+			end
+		end)
+	end
+	at(RELOAD_BEATS.grab, function()
+		weld.Part0, weld.C0, weld.C1 = hand, MAG_IN_HAND, CFrame.new()
+	end)
+	at(RELOAD_BEATS.drop, function()
+		-- the empty mag falls away
+		local old = mag:Clone()
+		for _, d in old:GetChildren() do
+			if d:IsA("JointInstance") then
+				d:Destroy()
+			end
+		end
+		old.CFrame = mag.CFrame
+		old.Anchored = false
+		old.CanCollide = true
+		old.Massless = false
+		old.Parent = workspace
+		old.AssemblyLinearVelocity = mag.AssemblyLinearVelocity + Vector3.new(0, -4, 0)
+		game:GetService("Debris"):AddItem(old, 10)
+		mag.Transparency = 1
+	end)
+	at(RELOAD_BEATS.new, function()
+		mag.Transparency = 0 -- fresh mag out of the vest pouch
+	end)
+	at(RELOAD_BEATS.seated, function()
+		weld.Part0, weld.C0, weld.C1 = gunPart0, gunC0, gunC1
+	end)
+	-- whatever happens, the mag ends up back in the gun
+	at(RELOAD_BEATS.length, function()
+		weld.Part0, weld.C0, weld.C1 = gunPart0, gunC0, gunC1
+		mag.Transparency = 0
+	end)
 end
 
 function GunModel.hold(character: Model, def)

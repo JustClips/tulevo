@@ -198,6 +198,9 @@ ReloadRemote.OnServerEvent:Connect(function(player)
 		return
 	end
 	h.reloadingUntil = os.clock() + (def.ReloadTime or 1)
+	if player.Character and def.Model then
+		GunModel.reloadMag(player.Character, GunModel.ReloadLength / (def.ReloadTime or GunModel.ReloadLength))
+	end
 	task.delay(def.ReloadTime or 1, function()
 		if s.held[id] ~= h then
 			return

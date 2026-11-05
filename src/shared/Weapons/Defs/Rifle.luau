@@ -12,6 +12,6 @@ return {
 	FalloffStart = 100,
 	MagSize = 30,
 	ReserveAmmo = 180,
-	ReloadTime = 2.2,
+	ReloadTime = 2.3, -- = Weapon_Rifle_Reload length, so the mag swap lines up
 	Model = "CarbineRifle", -- Shared.ModelIds; held with the Rifle class animations (art/anim/gun.py)
 }

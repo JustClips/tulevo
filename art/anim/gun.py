@@ -26,15 +26,16 @@ import r15  # noqa: E402
 D = math.radians
 rx, ry, rz = L.rx, L.ry, L.rz
 
-# In-game the model is scaled by this (Config.Weapons.GunScale): the carbine is exported at
-# x3.6 studs per meter, our characters are ~5 studs tall (~2.9 studs per meter).
-GUN_SCALE = 0.85
+# In-game the model is scaled by this (Config.Weapons.GunScale). The carbine is exported at
+# x3.6 studs per meter; blocky R15 bodies are wide and chunky, so at 1.0 it reads small in hand.
+GUN_SCALE = 1.2
 _P = {  # gun points at scale 1 (from the imported model + art/models/CarbineRifle/meta.json)
     "Muzzle": (0, 0.269, -1.634),
     "Grip2": (0, 0.192, -1.062),     # support hand under the handguard (front)
-    "Support": (0, 0.200, -0.82),    # where our left hand actually holds (handguard, back half)
+    "Support": (0, 0.200, -0.74),    # where our left hand actually holds (handguard, back half)
     "MagWell": (0, 0.211, -0.475),
-    "MagBottom": (0, -0.45, -0.52),
+    "MagBottom": (0, -0.30, -0.52),
+    "MagCenter": (0, -0.042, -0.502),  # Magazine part centre (the mag is its own part)
     "Sight": (0, 0.494, -0.030),
     "Butt": (0, 0.22, 0.683),
     "Charge": (0, 0.42, 0.25),       # charging handle
@@ -205,20 +206,25 @@ def base_pose(torso=None, head=None):
 
 # Low ready (GTA rifle idle/walk): grip by the right hip, muzzle forward and down, angled a
 # little across the body.
-HOLD = dict(pos=(0.38, -0.25, -0.85), pitch=-22, yaw=48, roll=-15)
+HOLD = dict(pos=(0.36, -0.17, -0.95), pitch=-22, yaw=48, roll=-15)
 # Shouldered: chest bladed (right shoulder back), head turned back to the sights and leaning
 # onto the stock.
 AIM_TORSO = ry(D(-48)) @ rx(D(-4))
 AIM_HEAD = ry(D(40)) @ rz(D(-10)) @ rx(D(-8))
 # in UpperTorso space: butt in the right shoulder pocket, yaw undoes the chest turn so the
 # rifle points straight ahead of the character
-AIM = dict(pos=(0.11, 0.70, -0.95), pitch=3, yaw=48, roll=0)
+def _grip_from_butt(butt, pitch, yaw, roll=0.0):
+    rot = ry(D(yaw)) @ rx(D(pitch)) @ rz(D(roll))
+    return tuple(np.array(butt) - rot @ P["Butt"])
+
+
+AIM = dict(pos=_grip_from_butt((0.55, 0.85, -0.55), 3, 48), pitch=3, yaw=48, roll=0)
 # Sprint "port arms": rifle across the chest, muzzle up and to the left.
-SPRINT = dict(pos=(0.40, -0.40, -0.85), pitch=38, yaw=48, roll=-40)
+SPRINT = dict(pos=(0.36, -0.40, -0.95), pitch=38, yaw=48, roll=-40)
 # Roll / falling tuck: rifle pulled in tight, muzzle up.
-TUCK = dict(pos=(0.38, -0.30, -0.80), pitch=58, yaw=34, roll=-20)
+TUCK = dict(pos=(0.34, -0.30, -0.95), pitch=58, yaw=34, roll=-20)
 # Near a wall: muzzle down steeply, close to the body.
-LOWERED = dict(pos=(0.36, 0.03, -0.7), pitch=-58, yaw=36, roll=-10)
+LOWERED = dict(pos=(0.36, 0.1, -0.72), pitch=-58, yaw=36, roll=-10)
 
 
 def placed(d, **over):
@@ -278,26 +284,58 @@ def keyed_clip(keys, fps=30, torso=None, head=None, left=None):
     return frames, worst
 
 
+# Reload timeline (seconds at playback speed 1). The server moves the real Magazine part on
+# the same beats (src/server/Weapons/GunModel.luau, RELOAD_BEATS), so keep them in sync.
+RELOAD = dict(grab=0.45, out=0.68, drop=0.8, new=1.12, seated=1.62, length=2.3)
+
+
+def mag_grip_in_gun():
+    """Left hand palming the magazine from below (grip-point frame, gun space)."""
+    rot = np.column_stack([[0, 1, 0], [-1, 0, 0], [0, 0, 1]]).astype(float) @ rz(D(-25)) @ rx(D(-20))
+    m = np.eye(4)
+    m[:3, :3] = rot
+    m[:3, 3] = P["MagBottom"] + np.array([0, -0.1, 0])
+    return m
+
+
+def mag_in_hand():
+    """Magazine part frame relative to the LeftHand while it's held (for the Weld C0)."""
+    return r15.T(*GRIP_OFFSET) @ np.linalg.inv(mag_grip_in_gun()) @ r15.T(*P["MagCenter"])
+
+
 def reload_clip():
-    """2.2 s: tilt the rifle (magwell toward you), left hand drops the mag, takes a fresh one
-    from the vest, slams it in, slaps the charging handle... then back on the handguard."""
-    tilt = dict(HOLD, pos=(0.38, -0.15, -0.9), pitch=-8, yaw=48, roll=-38)
-    keys = [(0.0, HOLD), (0.25, tilt), (1.75, tilt), (2.0, HOLD), (2.2, HOLD)]
-    vest = np.array([-0.35, -0.35, -0.62, 1])  # spare mag pouch on the chest, left of centre
+    """Rifle tilts so the mag faces you; left hand grabs the mag, pulls it straight down out of
+    the well and tosses it, takes a fresh one from the vest, lines it up under the well and
+    pushes it up in, slaps the bottom, racks the charging handle, back on the handguard."""
+    r = RELOAD
+    tilt = dict(HOLD, pos=(0.34, -0.05, -0.95), pitch=2, yaw=40, roll=-35)
+    keys = [(0.0, HOLD), (0.3, tilt), (1.85, tilt), (2.1, HOLD), (r["length"], HOLD)]
+    vest = np.array([-0.35, -0.3, -0.62, 1])  # spare mag pouch on the chest, left of centre
+    grip = mag_grip_in_gun()
+
+    def at(gun, down=0.0, back=0.0, side=0.0):
+        m = gun @ grip
+        m[:3, 3] += gun[:3, :3] @ np.array([side, -down, back])
+        return m
 
     def left(t, gun, ut):
         hand = support_target(gun)
-        well = support_target(gun, "MagWell")
-        well[:3, 3] = (gun @ np.array([*(P["MagWell"] + np.array([0, -0.32, 0])), 1]))[:3]
-        down = well.copy()
-        down[:3, 3] = (gun @ np.array([*(P["MagBottom"] + np.array([0, -0.55, 0.1])), 1]))[:3]
-        pouch = well.copy()
-        pouch[:3, 3] = (ut @ vest)[:3]
+        seated = at(gun)
+        out = at(gun, down=0.75 * GUN_SCALE)
+        toss = at(gun, down=1.0 * GUN_SCALE, side=-0.5)
+        pouch = np.eye(4)
         pouch[:3, :3] = ut[:3, :3] @ rx(D(80)) @ rz(D(-20))
+        pouch[:3, 3] = (ut @ vest)[:3]
+        below = at(gun, down=0.55 * GUN_SCALE)
+        slap = at(gun, down=-0.03)
         charge = support_target(gun)
-        charge[:3, 3] = (gun @ np.array([*(P["Charge"] + np.array([-0.12, 0.08, 0])), 1]))[:3]
-        path = [(0.0, hand), (0.3, hand), (0.48, well), (0.62, down), (0.95, pouch), (1.15, pouch),
-                (1.4, down), (1.55, well), (1.68, well), (1.82, charge), (1.9, charge), (2.08, hand), (2.2, hand)]
+        charge[:3, 3] = (gun @ np.array([*(P["Charge"] + np.array([-0.15, 0.1, 0])), 1]))[:3]
+        charge_back = charge.copy()
+        charge_back[:3, 3] += gun[:3, 2] * 0.35
+        path = [(0.0, hand), (0.3, hand), (r["grab"], seated), (r["out"], out), (r["drop"], toss),
+                (r["new"] - 0.1, pouch), (r["new"], pouch), (1.42, below), (r["seated"], seated),
+                (1.68, slap), (1.74, seated), (1.86, charge), (1.95, charge_back), (2.02, charge),
+                (2.2, hand), (r["length"], hand)]
         for (t0, a), (t1, b) in zip(path, path[1:]):
             if t0 <= t <= t1:
                 u = L.smooth((t - t0) / max(1e-6, t1 - t0))
@@ -454,6 +492,9 @@ def main():
             render(frames[:: max(1, len(frames) // 24)], os.path.join(L.OUT, f"{name}.gif"), name)
             render(frames[:1], os.path.join(L.OUT, f"{name}.png"), name)
     print("HAND_TO_GUN C0:", ", ".join(f"{v:.4f}" for v in hand_to_gun_cframe()))
+    m = mag_in_hand()
+    print("MAG_IN_HAND C0:", ", ".join(f"{v:.4f}" for v in [*m[:3, 3], *m[:3, :3].flatten()]))
+    print("RELOAD beats:", RELOAD)
 
 
 if __name__ == "__main__":

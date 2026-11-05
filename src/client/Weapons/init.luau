@@ -25,6 +25,7 @@ local ContextActionService = game:GetService("ContextActionService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 
 local Shared = ReplicatedStorage:WaitForChild("Shared")
@@ -169,6 +170,19 @@ function Controller.fire()
 		return
 	end
 	lastFire = now
+
+	-- GTA: shooting from the hip first turns you to where the camera looks, then fires
+	if def.Class.Kind == "Gun" and not State.Raised then
+		local root = c:FindFirstChild("HumanoidRootPart") :: BasePart?
+		local look = workspace.CurrentCamera.CFrame.LookVector
+		local flat = Vector3.new(look.X, 0, look.Z)
+		if root and flat.Magnitude > 0.01 then
+			h.AutoRotate = false
+			root.CFrame = CFrame.lookAt(root.Position, root.Position + flat)
+		end
+		State.Raised = true
+		hipUntil = now + HIP_RAISE
+	end
 
 	local head = c:FindFirstChild("Head") :: BasePart
 	local hand = c:FindFirstChild("RightHand") :: BasePart
@@ -341,6 +355,59 @@ function Controller.start()
 		TweenService:Create(cam, TweenInfo.new(0.2, Enum.EasingStyle.Quad), { FieldOfView = fov }):Play()
 	end
 
+	-- GTA camera on PC: while a gun is out the mouse is locked to the screen centre and turns
+	-- the camera (no right-drag needed); a dot shows where shots go. Aiming moves the camera
+	-- over the right shoulder.
+	local crossGui = Instance.new("ScreenGui")
+	crossGui.Name = "Crosshair"
+	crossGui.IgnoreGuiInset = true
+	crossGui.ResetOnSpawn = false
+	crossGui.Enabled = false
+	local dot = Instance.new("Frame")
+	dot.AnchorPoint = Vector2.new(0.5, 0.5)
+	dot.Position = UDim2.fromScale(0.5, 0.5)
+	dot.Size = UDim2.fromOffset(4, 4)
+	dot.BackgroundColor3 = Color3.new(1, 1, 1)
+	dot.BorderSizePixel = 0
+	local stroke = Instance.new("UIStroke")
+	stroke.Color = Color3.new(0, 0, 0)
+	stroke.Transparency = 0.4
+	stroke.Parent = dot
+	dot.Parent = crossGui
+	crossGui.Parent = player:WaitForChild("PlayerGui")
+
+	local mouseLocked = false
+	local shoulder = 0
+	local function menuOpen(): boolean
+		local pg = player:FindFirstChild("PlayerGui")
+		local map = pg and pg:FindFirstChild("FullMap")
+		return (map and map:IsA("ScreenGui") and map.Enabled) or UserInputService:GetFocusedTextBox() ~= nil
+	end
+	local function updateCamera(dt: number, gunOut: boolean, raised: boolean, h: Humanoid?)
+		local lock = gunOut and UserInputService.MouseEnabled and not menuOpen()
+		if lock then
+			UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
+		elseif mouseLocked then
+			UserInputService.MouseBehavior = Enum.MouseBehavior.Default
+		end
+		if lock ~= mouseLocked then
+			UserInputService.MouseIconEnabled = not lock
+		end
+		mouseLocked = lock
+		crossGui.Enabled = gunOut and (lock or raised)
+		dot.Size = if raised then UDim2.fromOffset(4, 4) else UDim2.fromOffset(6, 6)
+		-- over the right shoulder while the gun is up (CameraOffset is in the character's
+		-- space, and the character faces the camera then)
+		local want = if raised and gunOut and State.Aiming then 1.6 else 0
+		shoulder += (want - shoulder) * math.min(1, dt * 10)
+		if h then
+			local off = h.CameraOffset
+			if math.abs(off.X - shoulder) > 0.005 then
+				h.CameraOffset = Vector3.new(shoulder, off.Y, off.Z)
+			end
+		end
+	end
+
 	local function sendPose(twist: number, pitch: number)
 		local now = os.clock()
 		local changed = math.abs(twist - sentTwist) > 0.03 or math.abs(pitch - sentPitch) > 0.03
@@ -360,6 +427,7 @@ function Controller.start()
 		if not def or not c or not h or not root then
 			State.Raised, State.Twist, State.Pitch, State.GaitReverse = false, 0, 0, false
 			setZoom(false)
+			updateCamera(dt, false, false, h)
 			if wasRaised and h then
 				h.AutoRotate = true
 			end
@@ -411,6 +479,7 @@ function Controller.start()
 		State.Pitch = if up and not rolling then math.clamp(math.asin(math.clamp(look.Y, -1, 1)), -1.2, 1.2) else 0
 		sendPose(State.Twist, State.Pitch)
 		setZoom(State.Aiming and up)
+		updateCamera(dt, def.Class.Kind == "Gun", State.Raised, h)
 
 		if not anims then
 			return

@@ -25,7 +25,7 @@ end
 
 local function camera(ctx, drop)
 	TweenService:Create(ctx.Humanoid, TweenInfo.new(0.25, Enum.EasingStyle.Quad), {
-		CameraOffset = Vector3.new(0, -drop, 0),
+		CameraOffset = Vector3.new(ctx.Humanoid.CameraOffset.X, -drop, 0), -- X = gun shoulder camera
 	}):Play()
 end
 
