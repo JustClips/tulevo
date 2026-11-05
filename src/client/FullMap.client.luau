@@ -1,9 +1,12 @@
--- Full-screen map with GPS waypoint.
+-- Full-screen map with GPS waypoint. No buttons: a controls strip in the
+-- bottom-right and a scale bar in the bottom-left.
 --
--- Open/close: M, gamepad Select (Back), or tap the radar. Esc or the X closes.
--- On the map: drag to move, mouse wheel / pinch / +- buttons to zoom,
--- click or tap to set a waypoint (purple route along the roads).
--- Click the waypoint again, or right-click / the CLEAR button, to remove it.
+-- Open/close: M, gamepad Select (Back), or tap the radar. Esc / B also close;
+-- on touch, tap the controls strip to close.
+-- Mouse: drag to move, scroll to zoom, click to set a waypoint, click the
+-- waypoint to remove it. Touch: drag, pinch, tap. Gamepad: left stick moves,
+-- LT/RT zoom, A sets/removes the waypoint at the centre cursor.
+-- Setting a new waypoint replaces the old one. It also clears on arrival.
 -- While the map is open the character doesn't move.
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
@@ -55,61 +58,60 @@ local routeFolder = Instance.new("Folder")
 routeFolder.Name = "Route"
 routeFolder.Parent = world
 
--- Top bar
-local top = Instance.new("Frame")
-top.Name = "Top"
-top.Size = UDim2.new(1, 0, 0, 48)
-top.BackgroundColor3 = Color3.fromRGB(14, 14, 14)
-top.BackgroundTransparency = 0.15
-top.BorderSizePixel = 0
-top.ZIndex = 5
-top.Parent = gui
+-- Map colors: lighter than the radar, white roads on grey ground.
+local MAP_GROUND = Color3.fromRGB(96, 98, 98)
+local MAP_COLORS = {
+	Road = Color3.fromRGB(226, 226, 226),
+	Building = Color3.fromRGB(76, 78, 78),
+	Park = Color3.fromRGB(84, 98, 82),
+	Water = Color3.fromRGB(78, 98, 128),
+}
+vp.BackgroundColor3 = MAP_GROUND
 
-local title = Instance.new("TextLabel")
-title.Position = UDim2.fromOffset(20, 0)
-title.Size = UDim2.new(0, 200, 1, 0)
-title.BackgroundTransparency = 1
-title.FontFace = FONT
-title.Text = "MAP"
-title.TextSize = 24
-title.TextColor3 = WHITE
-title.TextXAlignment = Enum.TextXAlignment.Left
-title.ZIndex = 6
-title.Parent = top
-
-local function button(name: string, text: string, x: number, w: number)
-	local b = Instance.new("TextButton")
-	b.Name = name
-	b.AnchorPoint = Vector2.new(1, 0.5)
-	b.Position = UDim2.new(1, x, 0.5, 0)
-	b.Size = UDim2.fromOffset(w, 34)
-	b.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-	b.BorderSizePixel = 0
-	b.AutoButtonColor = true
-	b.FontFace = FONT
-	b.Text = text
-	b.TextSize = 18
-	b.TextColor3 = WHITE
-	b.ZIndex = 6
-	b.Parent = top
-	return b
+-- Controls strip, bottom-right (text only, no buttons).
+local strip = Instance.new("TextLabel")
+strip.Name = "Controls"
+strip.AnchorPoint = Vector2.new(1, 1)
+strip.Position = UDim2.new(1, -12, 1, -10)
+strip.Size = UDim2.fromOffset(10, 22)
+strip.AutomaticSize = Enum.AutomaticSize.X
+strip.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
+strip.BackgroundTransparency = 0.35
+strip.BorderSizePixel = 0
+strip.FontFace = FONT
+strip.TextSize = 13
+strip.TextColor3 = WHITE
+strip.ZIndex = 5
+strip.Parent = gui
+do
+	local pad = Instance.new("UIPadding")
+	pad.PaddingLeft = UDim.new(0, 10)
+	pad.PaddingRight = UDim.new(0, 10)
+	pad.Parent = strip
 end
-local closeBtn = button("Close", "X", -12, 34)
-local clearBtn = button("Clear", "CLEAR WAYPOINT", -56, 150)
-local zoomIn = button("ZoomIn", "+", -216, 34)
-local zoomOut = button("ZoomOut", "-", -256, 34)
 
-local hint = Instance.new("TextLabel")
-hint.AnchorPoint = Vector2.new(0.5, 1)
-hint.Position = UDim2.new(0.5, 0, 1, -14)
-hint.Size = UDim2.fromOffset(600, 22)
-hint.BackgroundTransparency = 1
-hint.FontFace = FONT
-hint.TextSize = 16
-hint.TextColor3 = WHITE
-hint.TextStrokeTransparency = 0.4
-hint.ZIndex = 5
-hint.Parent = gui
+-- Scale bar, bottom-left.
+local scale = Instance.new("Frame")
+scale.Name = "Scale"
+scale.AnchorPoint = Vector2.new(0, 1)
+scale.Position = UDim2.new(0, 16, 1, -14)
+scale.Size = UDim2.fromOffset(80, 2)
+scale.BackgroundColor3 = WHITE
+scale.BorderSizePixel = 0
+scale.ZIndex = 5
+scale.Parent = gui
+local scaleText = Instance.new("TextLabel")
+scaleText.AnchorPoint = Vector2.new(0, 1)
+scaleText.Position = UDim2.new(0, 0, 0, -3)
+scaleText.Size = UDim2.fromOffset(120, 16)
+scaleText.BackgroundTransparency = 1
+scaleText.FontFace = FONT
+scaleText.TextSize = 13
+scaleText.TextColor3 = WHITE
+scaleText.TextStrokeTransparency = 0.5
+scaleText.TextXAlignment = Enum.TextXAlignment.Left
+scaleText.ZIndex = 5
+scaleText.Parent = scale
 
 -- Blips
 local me = Instance.new("ImageLabel")
@@ -201,29 +203,35 @@ local function redrawRoute()
 		routeFolder:ClearAllChildren()
 	end
 	wpBlip.Visible = Nav.waypoint ~= nil
-	clearBtn.Visible = Nav.waypoint ~= nil
 end
 
 MapData.Changed:Connect(function()
-	MapData.drawShapes(shapes)
+	MapData.drawShapes(shapes, MAP_COLORS)
 end)
-MapData.drawShapes(shapes)
+MapData.drawShapes(shapes, MAP_COLORS)
 Nav.Changed:Connect(function()
 	if gui.Enabled then
 		redrawRoute()
 	end
 end)
 
+local function isTouch(): boolean
+	return UserInputService.TouchEnabled and not UserInputService.MouseEnabled
+end
+
 local function updateHint()
-	local touch = UserInputService.TouchEnabled and not UserInputService.MouseEnabled
-	if Nav.waypoint then
-		hint.Text = if touch then "Tap the waypoint to remove it" else "Click the waypoint or right-click to remove it"
+	local wp = if Nav.waypoint then "Remove Waypoint" else "Set Waypoint"
+	if UserInputService.GamepadEnabled and not UserInputService.MouseEnabled then
+		strip.Text = `Zoom  LT / RT     Move  L-Stick     {wp}  A     Close  B`
+	elseif isTouch() then
+		strip.Text = `Zoom  Pinch     Move  Drag     {wp}  Tap     Close  Tap here`
 	else
-		hint.Text = if touch then "Drag to move  ·  Pinch to zoom  ·  Tap to set a waypoint"
-			else "Drag to move  ·  Scroll to zoom  ·  Click to set a waypoint"
+		strip.Text = `Zoom  Scroll     Move  Drag     {wp}  Click     Close  M`
 	end
 end
 Nav.Changed:Connect(updateHint)
+
+local onTapCenter: () -> ()
 
 -- Open / close ----------------------------------------------------------------
 local BLOCK = "FullMapBlockControls"
@@ -270,19 +278,12 @@ local function setOpen(on: boolean)
 	end
 end
 
-closeBtn.Activated:Connect(function()
-	setOpen(false)
-end)
-clearBtn.Activated:Connect(function()
-	Nav.clear()
-end)
-zoomIn.Activated:Connect(function()
-	zoom /= 1.4
-	applyCamera()
-end)
-zoomOut.Activated:Connect(function()
-	zoom *= 1.4
-	applyCamera()
+-- Touch has no keys: tapping the controls strip closes the map.
+strip.Active = true
+strip.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.Touch then
+		setOpen(false)
+	end
 end)
 
 local radarGui = player.PlayerGui:WaitForChild("Minimap", 10)
@@ -299,6 +300,9 @@ UserInputService.InputBegan:Connect(function(input)
 		setOpen(not gui.Enabled)
 	elseif gui.Enabled and (input.KeyCode == Enum.KeyCode.Escape or input.KeyCode == Enum.KeyCode.ButtonB) then
 		setOpen(false)
+	elseif gui.Enabled and (input.KeyCode == Enum.KeyCode.ButtonA or input.KeyCode == Enum.KeyCode.Return) then
+		-- Gamepad/keyboard: waypoint at the centre cursor.
+		onTapCenter()
 	end
 end)
 
@@ -317,6 +321,10 @@ local function onTap(px: Vector2)
 	end
 end
 
+onTapCenter = function()
+	onTap(vp.AbsoluteSize / 2)
+end
+
 vp.InputBegan:Connect(function(input)
 	local t = input.UserInputType
 	if t == Enum.UserInputType.MouseButton1 or t == Enum.UserInputType.Touch then
@@ -327,8 +335,6 @@ vp.InputBegan:Connect(function(input)
 		pressStart = localPos(input)
 		pressCenter = center
 		moved = false
-	elseif t == Enum.UserInputType.MouseButton2 then
-		Nav.clear()
 	end
 end)
 
@@ -403,12 +409,53 @@ UserInputService.TouchPinch:Connect(function(_, scale, _, state)
 end)
 
 -- Per-frame blips ----------------------------------------------------------
-RunService.RenderStepped:Connect(function()
+local NICE = { 10, 20, 50, 100, 200, 500, 1000, 2000 }
+local function updateScale()
+	local studsPerPx = zoom * 2 / math.max(vp.AbsoluteSize.Y, 1)
+	local pick = NICE[1]
+	for _, n in NICE do
+		if n / studsPerPx <= 110 then
+			pick = n
+		end
+	end
+	scale.Size = UDim2.fromOffset(math.floor(pick / studsPerPx), 2)
+	scaleText.Text = `{pick} studs`
+end
+
+local function gamepadInput(dt: number)
+	local stick, lt, rt = Vector3.zero, 0, 0
+	for _, s in UserInputService:GetGamepadState(Enum.UserInputType.Gamepad1) do
+		if s.KeyCode == Enum.KeyCode.Thumbstick1 then
+			stick = s.Position
+		elseif s.KeyCode == Enum.KeyCode.ButtonL2 then
+			lt = s.Position.Z
+		elseif s.KeyCode == Enum.KeyCode.ButtonR2 then
+			rt = s.Position.Z
+		end
+	end
+	if stick.Magnitude > 0.15 then
+		center += Vector3.new(stick.X, 0, -stick.Y) * zoom * 1.2 * dt
+	end
+	if lt > 0.1 or rt > 0.1 then
+		zoom *= (1 + 1.5 * dt) ^ (lt - rt)
+	end
+	applyCamera()
+end
+
+RunService.RenderStepped:Connect(function(dt)
 	if not gui.Enabled then
 		return
 	end
-	crossH.Visible = UserInputService.MouseEnabled
-	crossV.Visible = UserInputService.MouseEnabled
+	local gamepad = UserInputService.GamepadEnabled and not UserInputService.MouseEnabled
+	if gamepad then
+		gamepadInput(dt)
+		local c = vp.AbsoluteSize / 2
+		crossH.Position = UDim2.fromOffset(0, c.Y)
+		crossV.Position = UDim2.fromOffset(c.X, 0)
+	end
+	crossH.Visible = UserInputService.MouseEnabled or gamepad
+	crossV.Visible = crossH.Visible
+	updateScale()
 	local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart") :: BasePart?
 	me.Visible = root ~= nil
 	if root then

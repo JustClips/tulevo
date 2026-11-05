@@ -18,10 +18,10 @@ local MapData = {}
 -- Colors follow the radar look: dark ground, low-contrast building blocks,
 -- light roads. Thin shrinks a road's width when drawn.
 MapData.LAYERS = {
-	Park = { Color = Color3.fromRGB(58, 68, 56), Y = 0.1 },
-	Water = { Color = Color3.fromRGB(52, 70, 86), Y = 0.2 },
-	Building = { Color = Color3.fromRGB(78, 80, 80), Y = 0.3, Inset = 2 },
-	Road = { Color = Color3.fromRGB(176, 178, 178), Y = 0.4, Thin = 0.45 },
+	Park = { Name = "Park", Color = Color3.fromRGB(58, 68, 56), Y = 0.1 },
+	Water = { Name = "Water", Color = Color3.fromRGB(52, 70, 86), Y = 0.2 },
+	Building = { Name = "Building", Color = Color3.fromRGB(78, 80, 80), Y = 0.3, Inset = 2 },
+	Road = { Name = "Road", Color = Color3.fromRGB(176, 178, 178), Y = 0.4, Thin = 0.45 },
 }
 MapData.GROUND = Color3.fromRGB(44, 46, 46)
 MapData.ROUTE = Color3.fromRGB(160, 92, 230)
@@ -225,7 +225,8 @@ local function flatPart(parent: Instance, color: Color3, size: Vector3, cf: CFra
 end
 
 -- Draws all map shapes into `parent` (a Folder inside a WorldModel).
-function MapData.drawShapes(parent: Instance)
+-- `colors` optionally replaces layer colors by name, e.g. { Road = ... }.
+function MapData.drawShapes(parent: Instance, colors: { [string]: Color3 }?)
 	parent:ClearAllChildren()
 	for _, s in shapes do
 		local layer = s.layer
@@ -244,7 +245,7 @@ function MapData.drawShapes(parent: Instance)
 		local center = Vector3.new(s.pos.X, layer.Y + 0.05, s.pos.Z)
 		flatPart(
 			parent,
-			layer.Color,
+			(colors and colors[layer.Name]) or layer.Color,
 			Vector3.new(math.max(sx, 0.2), 0.1, math.max(sz, 0.2)),
 			CFrame.lookAt(center, center + s.look)
 		)
