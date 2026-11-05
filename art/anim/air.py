@@ -67,80 +67,93 @@ def track(keys, fps=30):
     return frames
 
 
-# GTA-style jump: push off, then both legs bend moderately (one a bit ahead of the other,
-# nothing tucked up to the seat) and the arms lift out to the sides for balance.
-PUSH = key(torso=-8, head=3, r_leg=(30, -30, 6), l_leg=(-14, -18, -28),
-           r_arm=(-10, 25, 20), l_arm=(20, 25, 25), twist=3)
-LIFT = key(torso=-5, head=2, r_leg=(38, -42, 8), l_leg=(-6, -34, -16),
-           r_arm=(8, 55, 22), l_arm=(14, 55, 22), twist=2)
-AIR = key(torso=-4, head=1, r_leg=(32, -40, 6), l_leg=(-2, -32, -12),
-          r_arm=(10, 62, 18), l_arm=(14, 62, 18), twist=1)
+# Full GTA-style jumps. Every clip moves the whole time: legs push off, drive, fold and reach
+# for the ground; arms swing with the push and then open out and keep moving for balance.
 
-JUMP = [(0.0, PUSH), (0.18, LIFT), (0.42, AIR)]
+# Standing: starts from the crouch of Tulevo_JumpPrep, explodes up with the arms thrown up,
+# knees come up, arms open out, legs reach down again.
+JUMP_STAND = [
+    (0.0, key(torso=-22, head=10, r_leg=(55, -95, 38), l_leg=(55, -95, 38), r_arm=(-45, 8, 25), l_arm=(-45, 8, 25))),
+    (0.1, key(torso=-4, head=2, r_leg=(4, -6, -35), l_leg=(4, -6, -35), r_arm=(105, 22, 15), l_arm=(105, 22, 15))),
+    (0.28, key(torso=-6, head=0, r_leg=(62, -100, 8), l_leg=(56, -95, 8), r_arm=(45, 55, 30), l_arm=(45, 55, 30))),
+    (0.5, key(torso=-3, head=0, r_leg=(22, -32, 2), l_leg=(18, -28, 2), r_arm=(20, 62, 25), l_arm=(20, 62, 25))),
+]
 
-# Standing jump: straight up off both feet, knees come up together, arms swing up and out.
-STAND_PUSH = key(torso=-6, head=2, r_leg=(8, -12, -20), l_leg=(8, -12, -20),
-                 r_arm=(25, 20, 25), l_arm=(25, 20, 25))
-STAND_TUCK = key(torso=-4, head=0, r_leg=(45, -70, 5), l_leg=(40, -65, 5),
-                 r_arm=(15, 55, 25), l_arm=(15, 55, 25))
-STAND_AIR = key(torso=-3, head=0, r_leg=(30, -50, 4), l_leg=(26, -46, 4),
-                r_arm=(10, 60, 20), l_arm=(10, 60, 20))
-JUMP_STAND = [(0.0, STAND_PUSH), (0.2, STAND_TUCK), (0.45, STAND_AIR)]
+# Walking / jogging: one-leg take-off. Right knee drives up, left leg pushes off the toes,
+# left arm punches forward, then the legs scissor and the arms open out.
+JUMP = [
+    (0.0, key(torso=-12, head=5, r_leg=(70, -95, 10), l_leg=(-35, -6, -40), r_arm=(-50, 10, 20), l_arm=(80, 12, 60), twist=8)),
+    (0.2, key(torso=-8, head=3, r_leg=(60, -40, 8), l_leg=(-25, -90, -25), r_arm=(-20, 50, 25), l_arm=(45, 45, 40), twist=5)),
+    (0.4, key(torso=-5, head=1, r_leg=(40, -60, 4), l_leg=(10, -72, -10), r_arm=(5, 62, 25), l_arm=(25, 60, 30), twist=2)),
+    (0.55, key(torso=-4, head=0, r_leg=(30, -40, 2), l_leg=(15, -36, -4), r_arm=(12, 52, 22), l_arm=(18, 52, 25))),
+]
 
-# Sprint jump: a long leap, lead leg reaching out in front, back leg trailing long behind,
-# chest forward, arms out wide (one forward, one back).
-SPRINT_PUSH = key(torso=-16, head=6, r_leg=(45, -35, 8), l_leg=(-30, -10, -40),
-                  r_arm=(-30, 30, 20), l_arm=(40, 30, 30), twist=6)
-SPRINT_LEAP = key(torso=-12, head=5, r_leg=(55, -25, 10), l_leg=(-28, -40, -30),
-                  r_arm=(-20, 55, 18), l_arm=(35, 55, 22), twist=4)
-SPRINT_AIR = key(torso=-8, head=3, r_leg=(42, -40, 8), l_leg=(-12, -45, -20),
-                 r_arm=(-5, 62, 18), l_arm=(20, 62, 20), twist=2)
-JUMP_SPRINT = [(0.0, SPRINT_PUSH), (0.2, SPRINT_LEAP), (0.5, SPRINT_AIR)]
+# Sprint: long split leap. Bigger knee drive, leg reaching far forward, back leg trailing.
+JUMP_SPRINT = [
+    (0.0, key(torso=-18, head=8, r_leg=(80, -92, 12), l_leg=(-40, -5, -45), r_arm=(-60, 12, 20), l_arm=(90, 14, 65), twist=10)),
+    (0.22, key(torso=-14, head=6, r_leg=(75, -15, 12), l_leg=(-45, -60, -30), r_arm=(-30, 55, 20), l_arm=(40, 55, 35), twist=6)),
+    (0.45, key(torso=-9, head=3, r_leg=(55, -40, 6), l_leg=(-10, -85, -20), r_arm=(0, 62, 22), l_arm=(25, 60, 30), twist=3)),
+    (0.62, key(torso=-6, head=1, r_leg=(35, -40, 2), l_leg=(20, -45, -6), r_arm=(12, 52, 22), l_arm=(18, 52, 25))),
+]
 
 
-def fall_frames(duration=1.0, steps=20):
+def squat_frames(duration, curve, upper, fps=30, feet=((1, -0.1), (-1, 0.12))):
+    """Feet planted on the ground (IK) while the hips drop by curve(u) studs; upper(u) gives
+    the torso/arms key."""
+    n = max(2, round(duration * fps))
+    frames = []
+    for i in range(n + 1):
+        u = i / n
+        drop = curve(u)
+        poses = to_poses(upper(u))
+        pos, rot = (0, -drop, 0), np.eye(3)
+        poses["LowerTorso"] = (pos, rot)
+        lt = L.lt_frame_of(pos, rot)
+        for side, z in feet:
+            pre = "Right" if side > 0 else "Left"
+            ankle = np.array([side * 0.45, r15.GROUND + L.SOLE, z])
+            R_ul, R_ll, R_f, _ = L.leg_ik(lt, ankle, L.ry(-D(8) * side), side)
+            poses[pre + "UpperLeg"] = ((0, 0, 0), R_ul)
+            poses[pre + "LowerLeg"] = ((0, 0, 0), R_ll)
+            poses[pre + "Foot"] = ((0, 0, 0), R_f)
+        frames.append((duration * u, poses))
+    return frames
+
+
+def prep_frames():
+    """Standing jump wind-up: quick crouch, chest forward, arms swing back."""
+    return squat_frames(
+        0.16, lambda u: 0.55 * L.smooth(u),
+        lambda u: key(torso=-22 * L.smooth(u), head=10 * L.smooth(u),
+                      r_arm=(-45 * L.smooth(u), 8, 25 * L.smooth(u)), l_arm=(-45 * L.smooth(u), 8, 25 * L.smooth(u))),
+        feet=((1, 0.0), (-1, 0.05)))
+
+def fall_frames(duration=0.9, steps=18):
     frames = []
     for i in range(steps + 1):
         w = 2 * math.pi * i / steps
         s, c = math.sin(w), math.cos(w)
-        k = key(torso=-4 + 2 * s, head=0,
-                r_leg=(28 + 8 * s, -38 - 6 * c, 4), l_leg=(2 - 8 * s, -32 + 6 * c, -10),
-                r_arm=(10 + 8 * c, 62 + 8 * s, 18), l_arm=(14 - 8 * c, 62 - 8 * s, 20), twist=2 * s)
+        # legs pedal, arms keep circling out to the sides for balance
+        k = key(torso=-5 + 3 * s, head=0,
+                r_leg=(35 + 20 * s, -60 - 25 * c, 4), l_leg=(35 - 20 * s, -60 + 25 * c, -6),
+                r_arm=(15 + 22 * c, 58 + 12 * s, 25 + 10 * s), l_arm=(15 - 22 * c, 58 - 12 * s, 25 - 10 * s),
+                twist=4 * s)
         frames.append((duration * i / steps, to_poses(k)))
     return frames
 
 
-def land_frames(duration=0.3, fps=30):
-    """Feet planted; hips drop fast then spring back up. Arms/torso from key poses."""
-    n = round(duration * fps)
-    frames = []
-    for i in range(n + 1):
-        t = duration * i / n
-        u = t / duration
-        # hips: down to 0.6 by u=0.22, back up by the end
-        DEPTH = 0.22
-        drop = DEPTH * (L.smooth(u / 0.25) if u < 0.25 else 1 - L.smooth((u - 0.25) / 0.75))
-        f = drop / DEPTH
-        k = key(torso=-3 - 7 * f, head=1 + 4 * f,
-                r_arm=(8, 45 - 25 * u, 18), l_arm=(10, 45 - 25 * u, 18))
-        poses = to_poses(k)
-        pos, rot = (0, -drop, 0), np.eye(3)
-        poses["LowerTorso"] = (pos, rot)
-        lt = L.lt_frame_of(pos, rot)
-        for side, pre, z in ((1, "Right", -0.1), (-1, "Left", 0.12)):
-            ankle = np.array([side * 0.45, r15.GROUND + L.SOLE, z])
-            frot = L.ry(-D(8) * side)
-            R_ul, R_ll, R_f, _ = L.leg_ik(lt, ankle, frot, side)
-            poses[pre + "UpperLeg"] = ((0, 0, 0), R_ul)
-            poses[pre + "LowerLeg"] = ((0, 0, 0), R_ll)
-            poses[pre + "Foot"] = ((0, 0, 0), R_f)
-        frames.append((t, poses))
-    return frames
-
+def land_frames():
+    """Touch-down: hips dip and spring back, arms come down from the sides."""
+    depth = 0.25
+    curve = lambda u: depth * (L.smooth(u / 0.25) if u < 0.25 else 1 - L.smooth((u - 0.25) / 0.75))  # noqa: E731
+    return squat_frames(0.32, curve, lambda u: key(
+        torso=-3 - 8 * curve(u) / depth, head=1 + 4 * curve(u) / depth,
+        r_arm=(10, 50 - 40 * u, 20), l_arm=(12, 50 - 40 * u, 20)))
 
 def main():
     os.makedirs(L.OUT, exist_ok=True)
     clips = {
+        "Tulevo_JumpPrep": (prep_frames(), False),
         "Tulevo_Jump": (track(JUMP), False),
         "Tulevo_JumpStand": (track(JUMP_STAND), False),
         "Tulevo_JumpSprint": (track(JUMP_SPRINT), False),

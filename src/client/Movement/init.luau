@@ -28,6 +28,7 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
 
 local Shared = ReplicatedStorage:WaitForChild("Shared")
 local Config = require(Shared:WaitForChild("Config"))
@@ -54,6 +55,7 @@ local GROUND_STATES = {
 }
 
 local connection: RBXScriptConnection? = nil
+local jumpConnection: RBXScriptConnection? = nil
 local current = nil -- the active move
 local ctx = nil
 
@@ -79,6 +81,10 @@ local function bind(character: Model)
 	if connection then
 		connection:Disconnect()
 		connection = nil
+	end
+	if jumpConnection then
+		jumpConnection:Disconnect()
+		jumpConnection = nil
 	end
 	if current and ctx and current.Stop then
 		current.Stop(ctx)
@@ -112,10 +118,62 @@ local function bind(character: Model)
 	end
 
 	ctx.JumpedAt = 0 -- os.clock() of the last jump, for Moves/Air
+	ctx.JumpKind = "Move" -- "Stand" | "Move" | "Sprint", picked from speed at take-off
 	humanoid.StateChanged:Connect(function(_, new)
 		if new == Enum.HumanoidStateType.Jumping then
 			ctx.JumpedAt = os.clock()
 		end
+	end)
+
+	-- Jumps go through here so a standing jump can wind up first (a quick crouch, like GTA).
+	-- Moving jumps leave the ground right away; their clips start with the push-off.
+	local prep = ctx.LoadClip("Tulevo_JumpPrep")
+	prep.Priority = Enum.AnimationPriority.Action
+	local preparing = false
+	humanoid:SetStateEnabled(Enum.HumanoidStateType.Jumping, false)
+	jumpConnection = UserInputService.JumpRequest:Connect(function()
+		if preparing or humanoid.Health <= 0 then
+			return
+		end
+		local st = humanoid:GetState()
+		if humanoid.Sit or st == Enum.HumanoidStateType.Seated or st == Enum.HumanoidStateType.Climbing
+			or st == Enum.HumanoidStateType.Swimming
+		then
+			-- getting out of seats/cars, off ladders and out of water: plain Roblox jump
+			preparing = true
+			humanoid:SetStateEnabled(Enum.HumanoidStateType.Jumping, true)
+			humanoid.Jump = true
+			task.delay(0.3, function()
+				humanoid:SetStateEnabled(Enum.HumanoidStateType.Jumping, false)
+				preparing = false
+			end)
+			return
+		end
+		if not ctx.Grounded then
+			return
+		end
+		preparing = true
+		local m = Config.Movement
+		ctx.JumpKind = if ctx.Speed < 1.5 and not ctx.Wants
+			then "Stand"
+			elseif ctx.Speed >= m.JogSpeed + 2 then "Sprint"
+			else "Move"
+		local windUp = 0
+		if ctx.JumpKind == "Stand" then
+			prep:Play(0.05, 1, 1)
+			windUp = if prep.Length > 0 then prep.Length else 0.16
+		end
+		task.delay(windUp, function()
+			if humanoid.Health > 0 and humanoid.FloorMaterial ~= Enum.Material.Air then
+				humanoid:SetStateEnabled(Enum.HumanoidStateType.Jumping, true)
+				humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+			end
+			prep:Stop(0.08)
+			task.delay(0.3, function()
+				humanoid:SetStateEnabled(Enum.HumanoidStateType.Jumping, false)
+				preparing = false
+			end)
+		end)
 	end)
 
 	local gait = Gait.new(ctx)

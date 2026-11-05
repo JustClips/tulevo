@@ -42,12 +42,11 @@ return {
 		c.land:Stop(0.05)
 		c.jumped = os.clock() - ctx.JumpedAt < 0.3
 		if c.jumped then
-			local m = ctx.Config.Movement
-			c.jump = if ctx.Speed < 1.5
+			c.jump = if ctx.JumpKind == "Stand"
 				then c.jumpStand
-				elseif ctx.Speed >= m.JogSpeed + 2 then c.jumpSprint
+				elseif ctx.JumpKind == "Sprint" then c.jumpSprint
 				else c.jumpMove
-			c.jump:Play(0.08, 1, 1)
+			c.jump:Play(if ctx.JumpKind == "Stand" then 0.04 else 0.08, 1, 1)
 		end
 	end,
 	Update = function(ctx, dt)
