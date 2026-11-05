@@ -13,7 +13,7 @@
 	on your back, Q (or 5) takes it out again: Q brings back the weapon you last had out.
 
 	Gun poses (Weapons/AnimSet, clips from art/anim/gun.py) follow what you're doing:
-	Hold (low ready) walking/standing, Sprint (rifle across the chest), Aim (shouldered; also
+	Hold (low ready) walking/standing, Sprint (low ready, muzzle down), Aim (shouldered; also
 	for ~0.3 s after firing from the hip), Tuck in rolls, Air in jumps and falls, Lowered when
 	a wall is right in front. While the gun is up your whole body faces the camera: A/D play
 	side-steps and S plays the walk in reverse. Weapons/GunPose locks the chest to the aim
