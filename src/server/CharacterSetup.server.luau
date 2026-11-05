@@ -1,7 +1,9 @@
 --[[
 	Spawns every player as an R15 character built from their own avatar, so the GTA-style
 	walk/run (Locomotion.client.luau) works for everyone:
-	- R6 avatars are rebuilt as R15 (the walk/run clips are R15-only).
+	- R6 avatars are rebuilt as R15 (the walk/run clips are R15-only). If their avatar can't be
+	  built, they get a plain R15 body; Roblox's own spawn (Game Settings avatar type, keep it
+	  on R15) is only the last resort.
 	- Avatar animation packs are removed, so idle/jump/fall always match our walk.
 	- Body sizes and proportions are kept inside a normal human range (Config.Character).
 	Clothes, skin colour, face, hair and accessories stay the player's own.
@@ -27,10 +29,10 @@ local ANIM_FIELDS = {
 	"MoodAnimation",
 }
 
-local function describe(player: Player): HumanoidDescription
+local function describe(player: Player, plain: boolean?): HumanoidDescription
 	-- Studio test players have UserId <= 0 and get a plain body.
 	local ok, desc = false, nil
-	if player.UserId > 0 then
+	if player.UserId > 0 and not plain then
 		ok, desc = pcall(function()
 			return Players:GetHumanoidDescriptionFromUserId(player.UserId)
 		end)
@@ -79,11 +81,11 @@ end
 
 local spawnPlayer
 
-local function build(player: Player)
+local function build(player: Player, plain: boolean?)
 	if not player.Parent then
 		return
 	end
-	local character = Players:CreateHumanoidModelFromDescription(describe(player), Enum.HumanoidRigType.R15)
+	local character = Players:CreateHumanoidModelFromDescription(describe(player, plain), Enum.HumanoidRigType.R15)
 	character.Name = player.Name
 	local humanoid = character:FindFirstChildOfClass("Humanoid") :: Humanoid
 	humanoid.DisplayName = player.DisplayName
@@ -124,7 +126,12 @@ end
 function spawnPlayer(player: Player)
 	local ok, err = pcall(build, player)
 	if not ok then
-		warn(`[CharacterSetup] custom spawn failed for {player.Name}: {err}; using the default`)
+		-- still R15: a plain body instead of their avatar
+		warn(`[CharacterSetup] custom spawn failed for {player.Name}: {err}; trying a plain R15 body`)
+		ok, err = pcall(build, player, true)
+	end
+	if not ok then
+		warn(`[CharacterSetup] plain R15 spawn failed for {player.Name}: {err}; using Roblox's default`)
 		player:LoadCharacter()
 	end
 end
