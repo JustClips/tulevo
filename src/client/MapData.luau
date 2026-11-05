@@ -248,6 +248,11 @@ function MapData.drawRoads(parent: Instance, color: Color3?, outline: Color3?, o
 	local layer = MapData.LAYERS.Road
 	local function pass(c: Color3, extra: number, y: number)
 		local capW: { [number]: number } = {}
+		local degree: { [number]: number } = {}
+		for _, e in edges do
+			degree[e.a] = (degree[e.a] or 0) + 1
+			degree[e.b] = (degree[e.b] or 0) + 1
+		end
 		for _, e in edges do
 			local w = e.width * layer.Thin + extra * 2
 			local p, q = nodes[e.a], nodes[e.b]
@@ -260,6 +265,10 @@ function MapData.drawRoads(parent: Instance, color: Color3?, outline: Color3?, o
 			capW[e.b] = math.max(capW[e.b] or 0, w)
 		end
 		for id, w in capW do
+			-- Round joins only where roads meet; dead ends stay square.
+			if (degree[id] or 0) < 2 then
+				continue
+			end
 			local p = nodes[id]
 			flatPart(parent, c, Vector3.new(w, 0.1, w), CFrame.new(p.X, y, p.Z), true)
 		end

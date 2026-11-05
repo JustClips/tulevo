@@ -134,9 +134,10 @@ wpBlip.ZIndex = 4
 wpBlip.Visible = false
 wpBlip.Parent = vp
 
--- Cursor: thin lines out to the screen edges with a gap around the cursor,
--- fading out toward the edges, plus a small reticle in the middle.
+-- Cursor: four short lines around the cursor with a gap in the middle,
+-- fading out at their tips, plus a small reticle in the middle.
 local CURSOR_GAP = 14 -- pixels of empty space around the cursor
+local CURSOR_ARM = 70 -- length of each line, fading out
 local CURSOR_IMAGE = "rbxassetid://85469307079142" -- reticle (ForgeGUI, art/MapCursor.png)
 
 local cursor = Instance.new("Frame")
@@ -176,16 +177,15 @@ reticle.ZIndex = 3
 reticle.Parent = cursor
 
 local function setCursor(px: Vector2)
-	local size = vp.AbsoluteSize
-	local g = CURSOR_GAP
+	local g, l = CURSOR_GAP, CURSOR_ARM
 	armRight.Position = UDim2.fromOffset(px.X + g, px.Y)
-	armRight.Size = UDim2.fromOffset(math.max(size.X - px.X - g, 0), 1)
-	armLeft.Position = UDim2.fromOffset(0, px.Y)
-	armLeft.Size = UDim2.fromOffset(math.max(px.X - g, 0), 1)
+	armRight.Size = UDim2.fromOffset(l, 1)
+	armLeft.Position = UDim2.fromOffset(px.X - g - l, px.Y)
+	armLeft.Size = UDim2.fromOffset(l, 1)
 	armDown.Position = UDim2.fromOffset(px.X, px.Y + g)
-	armDown.Size = UDim2.fromOffset(1, math.max(size.Y - px.Y - g, 0))
-	armUp.Position = UDim2.fromOffset(px.X, 0)
-	armUp.Size = UDim2.fromOffset(1, math.max(px.Y - g, 0))
+	armDown.Size = UDim2.fromOffset(1, l)
+	armUp.Position = UDim2.fromOffset(px.X, px.Y - g - l)
+	armUp.Size = UDim2.fromOffset(1, l)
 	reticle.Position = UDim2.fromOffset(px.X, px.Y)
 end
 
