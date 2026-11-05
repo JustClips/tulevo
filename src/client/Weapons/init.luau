@@ -563,7 +563,10 @@ function Controller.start()
 	local function menuOpen(): boolean
 		local pg = player:FindFirstChild("PlayerGui")
 		local map = pg and pg:FindFirstChild("FullMap")
-		return (map and map:IsA("ScreenGui") and map.Enabled) or UserInputService:GetFocusedTextBox() ~= nil
+		local inv = pg and pg:FindFirstChild("Inventory") -- Client/Inventory window
+		return (map and map:IsA("ScreenGui") and map.Enabled)
+			or (inv and inv:IsA("ScreenGui") and inv.Enabled)
+			or UserInputService:GetFocusedTextBox() ~= nil
 	end
 	local function updateCamera(dt: number, gunOut: boolean, raised: boolean, h: Humanoid?)
 		local lock = gunOut and UserInputService.MouseEnabled and not menuOpen()
