@@ -67,16 +67,16 @@ def track(keys, fps=30):
     return frames
 
 
-# Arms stay close to the body (small "out" angles) and swing forward/back like a sprint
-# stride, the way GTA does it. No wide balance arms.
-PUSH = key(torso=-12, head=4, r_leg=(38, -45, 8), l_leg=(-22, -12, -38),
-           r_arm=(-30, 4, 35), l_arm=(40, 4, 70), twist=5)
-TUCK = key(torso=-8, head=3, r_leg=(68, -85, 14), l_leg=(-14, -72, -30),
-           r_arm=(-22, 5, 45), l_arm=(42, 5, 80), twist=4)
-AIR = key(torso=-5, head=2, r_leg=(45, -60, 6), l_leg=(-4, -55, -18),
-          r_arm=(-10, 6, 50), l_arm=(28, 6, 70), twist=2)
+# GTA-style jump: push off, then both legs bend moderately (one a bit ahead of the other,
+# nothing tucked up to the seat) and the arms lift out to the sides for balance.
+PUSH = key(torso=-8, head=3, r_leg=(30, -30, 6), l_leg=(-14, -18, -28),
+           r_arm=(-10, 25, 20), l_arm=(20, 25, 25), twist=3)
+LIFT = key(torso=-5, head=2, r_leg=(38, -42, 8), l_leg=(-6, -34, -16),
+           r_arm=(8, 55, 22), l_arm=(14, 55, 22), twist=2)
+AIR = key(torso=-4, head=1, r_leg=(32, -40, 6), l_leg=(-2, -32, -12),
+          r_arm=(10, 62, 18), l_arm=(14, 62, 18), twist=1)
 
-JUMP = [(0.0, PUSH), (0.16, TUCK), (0.42, AIR)]
+JUMP = [(0.0, PUSH), (0.18, LIFT), (0.42, AIR)]
 
 
 def fall_frames(duration=1.0, steps=20):
@@ -85,8 +85,8 @@ def fall_frames(duration=1.0, steps=20):
         w = 2 * math.pi * i / steps
         s, c = math.sin(w), math.cos(w)
         k = key(torso=-4 + 2 * s, head=0,
-                r_leg=(32 + 6 * s, -50 - 6 * c, 4), l_leg=(8 - 6 * s, -55 + 6 * c, -10),
-                r_arm=(8 + 6 * c, 9 + 3 * s, 50), l_arm=(14 - 6 * c, 9 - 3 * s, 55), twist=2 * s)
+                r_leg=(28 + 8 * s, -38 - 6 * c, 4), l_leg=(2 - 8 * s, -32 + 6 * c, -10),
+                r_arm=(10 + 8 * c, 62 + 8 * s, 18), l_arm=(14 - 8 * c, 62 - 8 * s, 20), twist=2 * s)
         frames.append((duration * i / steps, to_poses(k)))
     return frames
 
@@ -103,7 +103,7 @@ def land_frames(duration=0.3, fps=30):
         drop = DEPTH * (L.smooth(u / 0.25) if u < 0.25 else 1 - L.smooth((u - 0.25) / 0.75))
         f = drop / DEPTH
         k = key(torso=-3 - 7 * f, head=1 + 4 * f,
-                r_arm=(6 + 8 * f, 5, 20 + 15 * f), l_arm=(4 + 8 * f, 5, 18 + 15 * f))
+                r_arm=(8, 45 - 25 * u, 18), l_arm=(10, 45 - 25 * u, 18))
         poses = to_poses(k)
         pos, rot = (0, -drop, 0), np.eye(3)
         poses["LowerTorso"] = (pos, rot)
