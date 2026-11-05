@@ -5,7 +5,8 @@
 
 	Sprint: hold Shift, click the left stick (toggle), or the Sprint button on phones (toggle).
 	Crouch: Ctrl or C, gamepad B, or the Crouch button on phones (all toggle).
-	Roll: Ctrl + Space, gamepad B + A, or the Roll button on phones (Input.rollPending/takeRoll).
+	Roll (GTA 5): jump while aiming a gun: right mouse + Space, gamepad L2 + A, or the Roll
+	button on phones (Input.rollPending/takeRoll). Rolls toward the way you're moving.
 	New moves add their action to ACTIONS.
 ]]
 
@@ -86,19 +87,19 @@ end
 UserInputService.LastInputTypeChanged:Connect(refresh)
 refresh()
 
--- Roll is a key combo (Ctrl + Space), so it's handled here instead of in ACTIONS.
+-- Roll is a combo (aim + jump, like GTA 5), so it's handled here instead of in ACTIONS.
+local Players = game:GetService("Players")
+local WeaponState = require(Players.LocalPlayer:WaitForChild("PlayerScripts"):WaitForChild("Client"):WaitForChild("Weapons"):WaitForChild("State"))
 local rollAt = -1
 local ROLL_WINDOW = 0.25 -- a roll pressed in the air or mid-move still fires this soon after
 
+-- true while aiming a gun: then Space / A rolls instead of jumping
 function Input.rollModifier(): boolean
-	return UserInputService:IsKeyDown(Enum.KeyCode.LeftControl)
-		or UserInputService:IsKeyDown(Enum.KeyCode.RightControl)
-		or UserInputService:IsGamepadButtonDown(Enum.UserInputType.Gamepad1, Enum.KeyCode.ButtonB)
+	return WeaponState.Aiming and WeaponState.Equipped ~= nil
 end
 
 local function queueRoll()
 	rollAt = os.clock()
-	cancel("Crouch") -- the Ctrl/B press that started the combo also toggled crouch: undo it
 	cancel("Sprint")
 end
 

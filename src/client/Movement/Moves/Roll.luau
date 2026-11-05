@@ -1,4 +1,4 @@
--- Combat roll: Ctrl + Space (gamepad B + A, phone Roll button). Rolls toward the way you're
+-- Combat roll (GTA 5): Space while aiming a gun (gamepad L2 + A, phone Roll button). Rolls toward the way you're
 -- pushing, relative to where the character faces: forward, back, left or right (standing
 -- still = forward). Keeps facing the same way during the roll, then hands back control.
 local CLIPS = {

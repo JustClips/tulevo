@@ -7,14 +7,14 @@ local Config = {
 	-- Keyboard: walk, hold Shift to sprint. Gamepad: stick pushed a little = walk, all the
 	-- way = jog, click the left stick to sprint. Phones: same stick, plus a Sprint button.
 	-- Crouch (toggle): Ctrl or C, gamepad B, phone Crouch button.
-	-- Roll: Ctrl + Space (gamepad B + A, phone Roll button), toward the way you're moving.
+	-- Roll (GTA 5): Space while aiming a gun (gamepad L2 + A, phone Roll button), toward the way you're moving.
 	Movement = {
 		WalkSpeed = 6,
 		JogSpeed = 14,
 		SprintSpeed = 20,
 		CrouchSpeed = 4,
 		CrouchCameraDrop = 1.3, -- camera sits this much lower while crouched
-		RollSpeed = 17, -- studs/s during a roll (Ctrl + Space)
+		RollSpeed = 17, -- studs/s during a roll (aim + Space)
 		RollCooldown = 0.5, -- seconds after a roll before the next one
 		Acceleration = 40, -- studs/s per second when speeding up (slowing down is 2x)
 	},
@@ -47,6 +47,16 @@ local Config = {
 			RightLowerLeg = 0.6,
 			LeftFoot = 0.5,
 			RightFoot = 0.5,
+		},
+		-- Lag compensation (server, Server/Weapons/LagComp): hits on players are checked where
+		-- the shooter saw them. Rewind = shooter's ping + Interpolation, never more than
+		-- MaxRewind (so lag-switching can't reach further back). Walls are never rewound.
+		LagComp = {
+			Rate = 20, -- hitbox snapshots per second
+			History = 0.6, -- seconds kept
+			Interpolation = 0.05, -- seconds Roblox smooths other players on your screen
+			MaxRewind = 0.25,
+			Debug = false, -- Studio: show the rewound hitboxes for each shot
 		},
 		AimFieldOfView = 55, -- camera zooms in a little while aiming (normal is 70)
 		LowerNearWalls = 2.4, -- studs: closer than this to a wall, the gun points down

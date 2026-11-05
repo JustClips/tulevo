@@ -136,7 +136,7 @@ local function bind(character: Model)
 	humanoid:SetStateEnabled(Enum.HumanoidStateType.Jumping, false)
 	jumpConnection = UserInputService.JumpRequest:Connect(function()
 		if preparing or humanoid.Health <= 0 or Input.rollModifier() or Input.rollPending() then
-			return -- Ctrl + Space is a roll, not a jump
+			return -- Space while aiming is a roll, not a jump
 		end
 		local st = humanoid:GetState()
 		local seat = humanoid.SeatPart

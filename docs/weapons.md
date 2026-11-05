@@ -30,6 +30,15 @@ Phones get Fire / Aim / Reload buttons while something is in hand.
 Everyone gets the Carbine Rifle (`Defs/CarbineRifle.luau`: damage, per-body-part multipliers, falloff, fire rate, mag size, spare ammo, reload time) and spawns holding it (`Config.Weapons.DefaultLoadout`,
 `EquipOnSpawn`). Studio play tests also get Bat, Pistol, SMG and Shotgun (no models yet).
 
+## Hits, cheats and lag
+
+The client only sends a shot direction. The server shoots from its own copy of the head, checks
+the direction matches where the body visibly aims (else the shot is dropped and `AimFlags` goes
+up), adds spread, and raycasts. Players are hit where the shooter saw them
+(`Server/Weapons/LagComp`: 20 Hz hitbox history, rewind = ping + 0.05 s, max 0.25 s, ray-vs-box
+maths only); the map is never rewound, so cover always blocks. `Config.Weapons.LagComp.Debug`
+shows the rewound hitboxes in Studio.
+
 ## Rifle poses
 
 | Clip | When |
@@ -38,7 +47,7 @@ Everyone gets the Carbine Rifle (`Defs/CarbineRifle.luau`: damage, per-body-part
 | Sprint | rifle across the chest while sprinting |
 | Aim | right click, and for 0.6 s after a hip-fire shot; chest + head keyed, waist bent to the camera pitch |
 | Fire | recoil kick on top of Aim |
-| Tuck | during rolls (Ctrl + Space) |
+| Tuck | during rolls (Space while aiming, like GTA 5) |
 | Air | jumps and falls |
 | Lowered | a wall within `Config.Weapons.LowerNearWalls` studs in front |
 | Reload | R: mag out, fresh mag from the vest, slap it in, charging handle |

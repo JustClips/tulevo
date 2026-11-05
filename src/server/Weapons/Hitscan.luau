@@ -8,6 +8,7 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Config = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Config"))
+local LagComp = require(script.Parent:WaitForChild("LagComp"))
 
 local Hitscan = {}
 
@@ -86,24 +87,33 @@ function Hitscan.fire(player: Player, def, origin: Vector3, direction: Vector3, 
 		return {}
 	end
 
+	-- Guns: the map is checked as it is now (cover always blocks); players are checked where
+	-- the shooter saw them (LagComp). Other humanoids (NPCs) are hit by the normal raycast.
 	local hits = {}
 	local range = def.Range or 300
 	local spread = if aiming then def.AimSpread or 0 else def.Spread or 0
+	local worldParams = RaycastParams.new()
+	worldParams.FilterType = Enum.RaycastFilterType.Exclude
+	worldParams.FilterDescendantsInstances = LagComp.characters()
 	for _ = 1, def.Pellets or 1 do
 		local dir = spreadDir(direction, spread)
-		local result = workspace:Raycast(origin, dir * range, params)
-		if result then
+		local result = workspace:Raycast(origin, dir * range, worldParams)
+		local worldDist = if result then (result.Position - origin).Magnitude else range
+		local victim, partName, dist = LagComp.cast(player, origin, dir, worldDist)
+		if victim and partName and dist then
+			local model = victim.Character
+			local target = model and model:FindFirstChildOfClass("Humanoid")
+			table.insert(hits, origin + dir * dist)
+			if target and target.Health > 0 then
+				-- TODO(teams/police): friendly-fire and wanted-level rules go here.
+				target:TakeDamage(damageAt(def, dist) * bodyMultiplier(def, partName))
+			end
+		elseif result then
 			table.insert(hits, result.Position)
 			local model = result.Instance:FindFirstAncestorOfClass("Model")
 			local target = model and model:FindFirstChildOfClass("Humanoid")
-			if target and target.Health > 0 then
-				local dmg = damageAt(def, (result.Position - origin).Magnitude)
-				dmg *= bodyMultiplier(def, bodyPartOf(result.Instance, model))
-				-- TODO(teams/police): friendly-fire and wanted-level rules go here.
-				local victim = Players:GetPlayerFromCharacter(model)
-				if victim ~= player then
-					target:TakeDamage(dmg)
-				end
+			if target and target.Health > 0 and model ~= character then
+				target:TakeDamage(damageAt(def, worldDist) * bodyMultiplier(def, bodyPartOf(result.Instance, model)))
 			end
 		else
 			table.insert(hits, origin + dir * range)
