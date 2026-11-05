@@ -21,7 +21,7 @@
 		Update: ((ctx, dt) -> ())?
 
 	ctx (shared by all moves): Player, Character, Humanoid, Root, Animator, Input, Config,
-	Speed (horizontal studs/s), Grounded, Wants (stick/WASD pushed), Active (move name),
+	Speed (horizontal studs/s), Grounded, Wants (stick/WASD pushed), Active (move name), JumpedAt,
 	LoadClip(name) -> AnimationTrack (ids from Shared.AnimIds).
 ]]
 
@@ -110,6 +110,13 @@ local function bind(character: Model)
 		anim.AnimationId = assert(AnimIds[name], `no animation id for {name}`)
 		return animator:LoadAnimation(anim)
 	end
+
+	ctx.JumpedAt = 0 -- os.clock() of the last jump, for Moves/Air
+	humanoid.StateChanged:Connect(function(_, new)
+		if new == Enum.HumanoidStateType.Jumping then
+			ctx.JumpedAt = os.clock()
+		end
+	end)
 
 	local gait = Gait.new(ctx)
 	local walkSpeed = humanoid.WalkSpeed

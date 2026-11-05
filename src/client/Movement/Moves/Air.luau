@@ -36,7 +36,7 @@ return {
 		c.time = 0
 		c.speed = ctx.Humanoid.WalkSpeed
 		c.land:Stop(0.05)
-		c.jumped = ctx.Humanoid:GetState() == Enum.HumanoidStateType.Jumping
+		c.jumped = os.clock() - ctx.JumpedAt < 0.3
 		if c.jumped then
 			c.jump:Play(0.08, 1, 1)
 		end
