@@ -1044,10 +1044,15 @@ local function setBar(fill: Frame, value: TextLabel, now: number, max: number)
 	value.Text = tostring(math.ceil(math.max(now, 0)))
 end
 
--- The middle picture: a copy of your character standing straight (every joint at rest, so
--- running / aiming poses don't show), facing the camera. Rebuilt when the window opens and
--- when something is put on or taken off while it's open.
+-- The middle picture: a still copy of your character in the idle pose, facing the camera.
+-- The copy is posed by playing the idle animation (frozen on its first frame) on it out of
+-- sight in the workspace for a moment, then moved, anchored, into the ViewportFrame, so it
+-- never moves. Rebuilt when the window opens and when the vest / a gun / clothes change.
 local PORTRAIT_FOV = 16
+local IDLE_FALLBACK = "rbxassetid://507766388" -- Roblox's default R15 idle
+local POSE_SPOT = CFrame.new(0, 3000, 0) -- where the copy is posed, far out of sight
+
+-- every joint put at rest (no animation), as a starting pose
 local function standStraight(model: Model, root: BasePart)
 	-- every joint as (part0, part1, offset of part1 from part0 at rest)
 	local links: { [BasePart]: { { other: BasePart, offset: CFrame } } } = {}
@@ -1062,7 +1067,7 @@ local function standStraight(model: Model, root: BasePart)
 			link(j.Part0, j.Part1, j.C0 * j.C1:Inverse())
 		elseif j:IsA("WeldConstraint") and j.Part0 and j.Part1 then
 			link(j.Part0, j.Part1, j.Part0.CFrame:ToObjectSpace(j.Part1.CFrame))
-		elseif j:IsA("RigidConstraint") and j.Attachment0 and j.Attachment1 then
+		elseif (j:IsA("RigidConstraint") or j:IsA("AnimationConstraint")) and j.Attachment0 and j.Attachment1 then
 			local a0, a1 = j.Attachment0 :: Attachment, j.Attachment1 :: Attachment
 			local p0, p1 = a0.Parent, a1.Parent
 			if p0 and p1 and p0:IsA("BasePart") and p1:IsA("BasePart") then
@@ -1086,13 +1091,27 @@ local function standStraight(model: Model, root: BasePart)
 	end
 end
 
+local function idleAnimationId(character: Model): string
+	local animate = character:FindFirstChild("Animate")
+	local idle = animate and animate:FindFirstChild("idle")
+	local anim = idle and (idle:FindFirstChild("Animation1") or idle:FindFirstChildWhichIsA("Animation"))
+	if anim and anim:IsA("Animation") and anim.AnimationId ~= "" then
+		return anim.AnimationId
+	end
+	return IDLE_FALLBACK
+end
+
+local portraitSeq = 0
 local function refreshPortrait()
-	portrait:ClearAllChildren()
+	portraitSeq += 1
+	local seq = portraitSeq
 	local character = player.Character
 	local root = character and character:FindFirstChild("HumanoidRootPart")
 	if not character or not root or not root:IsA("BasePart") then
+		portrait:ClearAllChildren()
 		return
 	end
+	local idleId = idleAnimationId(character)
 	local wasArchivable = character.Archivable
 	character.Archivable = true
 	local copy = character:Clone()
@@ -1112,7 +1131,7 @@ local function refreshPortrait()
 			d:Destroy()
 		end
 	end
-	-- a gun in the hand would stick out of the straight arm; one on the back stays
+	-- a gun in the hand would stick out of the idle arm; one on the back stays
 	for _, d in copy:GetChildren() do
 		if d:IsA("Tool") or (d.Name == "Gun" and d:GetAttribute("On") ~= "UpperTorso") then
 			d:Destroy()
@@ -1123,12 +1142,19 @@ local function refreshPortrait()
 		copy:Destroy()
 		return
 	end
+	copy.PrimaryPart = copyRoot
 	standStraight(copy, copyRoot)
+	copy:PivotTo(POSE_SPOT)
+	local parts: { BasePart } = {}
 	for _, d in copy:GetDescendants() do
 		if d:IsA("BasePart") then
-			d.Anchored = true
+			table.insert(parts, d)
+			d.Anchored = d == copyRoot
 			d.CanCollide = false
-			d.LocalTransparencyModifier = 0 -- first person hides your own body
+			d.CanQuery = false
+			d.CanTouch = false
+			d.Massless = true
+			d.LocalTransparencyModifier = 1 -- hidden while it's being posed
 		end
 	end
 	copyRoot.Transparency = 1
@@ -1136,12 +1162,59 @@ local function refreshPortrait()
 	if humanoid then
 		humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
 		humanoid.HealthDisplayType = Enum.HumanoidHealthDisplayType.AlwaysOff
+		humanoid.EvaluateStateMachine = false
 	end
-	copy.PrimaryPart = copyRoot
-	copy:PivotTo(CFrame.new()) -- facing -Z
+
+	-- pose: the idle animation, frozen on its first frame
+	copy.Parent = workspace
+	local track: AnimationTrack? = nil
+	if humanoid then
+		local animator = humanoid:FindFirstChildOfClass("Animator")
+		if not animator then
+			animator = Instance.new("Animator")
+			assert(animator).Parent = humanoid
+		end
+		local anim = Instance.new("Animation")
+		anim.AnimationId = idleId
+		local ok, t = pcall(function()
+			return (animator :: Animator):LoadAnimation(anim)
+		end)
+		if ok and t then
+			track = t
+			t:Play(0, 1, 0)
+			local waited = 0
+			while t.Length <= 0 and waited < 3 do -- still loading
+				waited += task.wait()
+			end
+		end
+	end
+	for _ = 1, 3 do -- let the pose land on the parts
+		task.wait()
+	end
+	if seq ~= portraitSeq or not copy.Parent then
+		copy:Destroy()
+		return
+	end
+
+	-- freeze it: every part anchored where the pose put it, next to the root at the origin
+	local rootCf = copyRoot.CFrame
+	local pose: { [BasePart]: CFrame } = {}
+	for _, part in parts do
+		pose[part] = rootCf:ToObjectSpace(part.CFrame)
+	end
+	if track then
+		track:Stop(0)
+	end
+	copy.Parent = nil
+	for _, part in parts do
+		part.Anchored = true
+		part.CFrame = pose[part]
+		part.LocalTransparencyModifier = 0
+	end
+	portrait:ClearAllChildren()
 	copy.Parent = portrait
 
-	-- frame the whole body: camera in front (on -Z) looking back at it
+	-- frame the whole body: camera in front (on -Z, the way it faces) looking back at it
 	local bounds, size = copy:GetBoundingBox()
 	local cam = Instance.new("Camera")
 	cam.FieldOfView = PORTRAIT_FOV
@@ -1176,7 +1249,7 @@ local function onCharacter(character: Model)
 	table.clear(charConns)
 	-- vest / gun / clothes put on or taken off
 	local function looks(d: Instance)
-		if d:IsA("BasePart") or d:IsA("Accessory") or d:IsA("Clothing") or d:IsA("Model") then
+		if d:IsA("Accessory") or d:IsA("Clothing") or d:IsA("Model") then
 			queuePortrait()
 		end
 	end
@@ -1210,7 +1283,7 @@ local function setOpen(open: boolean)
 		fit()
 		scanGround()
 		render()
-		refreshPortrait()
+		task.spawn(refreshPortrait)
 	else
 		cancelDrag()
 		hovered = nil
