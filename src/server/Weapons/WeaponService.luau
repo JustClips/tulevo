@@ -197,6 +197,23 @@ local function aimMatches(character: Model, dir: Vector3): boolean
 	return math.abs(pitch - (character:GetAttribute("GunPitch") or 0)) <= MAX_PITCH_OFF
 end
 
+-- No shooting in the air (jumps, falls); the client already stops it and also blocks rolls.
+-- This catches anyone clearly mid-air. The slack covers the shooter's ping right after
+-- take-off and just before landing.
+local AIR_SLACK = 2.5 -- studs
+local groundParams = RaycastParams.new()
+groundParams.FilterType = Enum.RaycastFilterType.Exclude
+local function airborne(character: Model): boolean
+	local root = character:FindFirstChild("HumanoidRootPart") :: BasePart?
+	local humanoid = character:FindFirstChildOfClass("Humanoid")
+	if not root or not humanoid or humanoid.SeatPart then
+		return false
+	end
+	groundParams.FilterDescendantsInstances = { character }
+	local reach = humanoid.HipHeight + root.Size.Y / 2 + AIR_SLACK
+	return workspace:Raycast(root.Position, Vector3.new(0, -reach, 0), groundParams) == nil
+end
+
 local function flag(player: Player, reason: string)
 	local n = (player:GetAttribute("AimFlags") or 0) + 1
 	player:SetAttribute("AimFlags", n)
@@ -235,7 +252,7 @@ FireRemote.OnServerEvent:Connect(function(player, direction)
 	local def = id and Weapons.get(id)
 	local h = id and s.held[id]
 	local character = player.Character
-	if not def or not h or not character then
+	if not def or not h or not character or airborne(character) then
 		return
 	end
 	local now = os.clock()

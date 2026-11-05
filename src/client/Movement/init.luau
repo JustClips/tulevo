@@ -59,6 +59,7 @@ local connection: RBXScriptConnection? = nil
 local jumpConnection: RBXScriptConnection? = nil
 local current = nil -- the active move
 local ctx = nil
+local preparing = false -- jump wind-up until just after take-off
 
 -- Jump events for other systems (the gun arms follow the jump):
 --   Movement.on(function(event, ...) end)
@@ -75,6 +76,19 @@ end
 
 function Movement.active(): string?
 	return current and current.Name
+end
+
+-- Rolling, winding up a jump, or in the air (no shooting then, like GTA).
+function Movement.busy(): boolean
+	if preparing then
+		return true
+	end
+	local name = current and current.Name
+	if name == "Roll" or name == "Air" then
+		return true
+	end
+	local st = ctx and ctx.Humanoid and ctx.Humanoid:GetState()
+	return st == Enum.HumanoidStateType.Jumping or st == Enum.HumanoidStateType.Freefall
 end
 
 local function setMove(move)
@@ -147,7 +161,7 @@ local function bind(character: Model)
 	prepStand.Priority = Enum.AnimationPriority.Action
 	prepMove.Priority = Enum.AnimationPriority.Action
 	local prep = prepStand
-	local preparing = false
+	preparing = false
 	humanoid:SetStateEnabled(Enum.HumanoidStateType.Jumping, false)
 	jumpConnection = UserInputService.JumpRequest:Connect(function()
 		if preparing or humanoid.Health <= 0 or Input.rollModifier() or Input.rollPending() then

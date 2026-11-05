@@ -159,6 +159,9 @@ function Controller.fire()
 	if not def or not c or not h or State.Reloading then
 		return
 	end
+	if Movement.busy() then
+		return -- no shooting while rolling, jumping or falling (GTA)
+	end
 	local now = os.clock()
 	if now - lastFire < 1 / (def.FireRate or (1 / (def.SwingTime or 0.6))) then
 		return

@@ -36,7 +36,9 @@ The client only sends a shot direction. The server shoots from its own copy of t
 the direction matches where the body visibly aims (else the shot is dropped and `AimFlags` goes
 up), adds spread, and raycasts. Players are hit where the shooter saw them
 (`Server/Weapons/LagComp`: 20 Hz hitbox history, rewind = ping + 0.05 s, max 0.25 s, ray-vs-box
-maths only); the map is never rewound, so cover always blocks. `Config.Weapons.LagComp.Debug`
+maths only); the map is never rewound, so cover always blocks. No shooting while rolling, winding up
+a jump or in the air (`Movement.busy()` on the client; the server also drops shots from anyone
+more than 2.5 studs off the ground). `Config.Weapons.LagComp.Debug`
 shows the rewound hitboxes in Studio.
 
 ## Rifle poses
