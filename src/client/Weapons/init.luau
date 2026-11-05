@@ -143,13 +143,13 @@ end
 
 -- where the camera is looking (screen centre), as a world point
 local function aimPoint(): Vector3
-	local cam = workspace.CurrentCamera
-	local ray = cam:ViewportPointToRay(cam.ViewportSize.X / 2, cam.ViewportSize.Y / 2)
+	-- the view without the first-person roll tumble
+	local view = Movement.view()
 	local params = RaycastParams.new()
 	params.FilterType = Enum.RaycastFilterType.Exclude
 	params.FilterDescendantsInstances = { player.Character :: Instance }
-	local hit = workspace:Raycast(ray.Origin, ray.Direction * 1000, params)
-	return if hit then hit.Position else ray.Origin + ray.Direction * 1000
+	local hit = workspace:Raycast(view.Position, view.LookVector * 1000, params)
+	return if hit then hit.Position else view.Position + view.LookVector * 1000
 end
 
 function Controller.fire()
@@ -174,7 +174,7 @@ function Controller.fire()
 	-- GTA: shooting from the hip first turns you to where the camera looks, then fires
 	if def.Class.Kind == "Gun" and not State.Raised then
 		local root = c:FindFirstChild("HumanoidRootPart") :: BasePart?
-		local look = workspace.CurrentCamera.CFrame.LookVector
+		local look = Movement.view().LookVector
 		local flat = Vector3.new(look.X, 0, look.Z)
 		if root and flat.Magnitude > 0.01 then
 			h.AutoRotate = false
@@ -192,7 +192,7 @@ function Controller.fire()
 	local target = aimPoint()
 	-- the server only gets a direction (from the head, like its own origin) and checks it
 	-- against where our body aims, so send the latest aim first
-	local camLook = workspace.CurrentCamera.CFrame.LookVector
+	local camLook = Movement.view().LookVector
 	Remotes.Pose:FireServer(State.Twist, math.clamp(math.asin(math.clamp(camLook.Y, -1, 1)), -1.2, 1.2), State.Aiming, true)
 	Remotes.Fire:FireServer(target - (head or hand).Position)
 
@@ -436,7 +436,7 @@ function Controller.start()
 		local want = if raised and gunOut and State.Aiming and not fp then 1.6 else 0
 		shoulder += (want - shoulder) * math.min(1, dt * 10)
 		-- first person + aiming: the eye goes right behind the rear sight (aim down sights)
-		local ads = fp and gunOut and State.Aiming and raised and not State.Reloading
+		local ads = fp and gunOut and State.Aiming and raised and not State.Reloading and Movement.active() ~= "Roll"
 		local c = player.Character
 		local gun = c and c:FindFirstChild("Gun")
 		local sight = gun and gun:FindFirstChild("Sight", true)
@@ -447,8 +447,9 @@ function Controller.start()
 				adsBase = h.CameraOffset
 				adsOffset = h.CameraOffset
 			end
-			local base = cam.Focus.Position - root.CFrame:VectorToWorldSpace(h.CameraOffset)
-			local eye = sight.WorldPosition - cam.CFrame.LookVector * 0.55 + cam.CFrame.UpVector * 0.04
+			local base = Movement.viewFocus().Position - root.CFrame:VectorToWorldSpace(h.CameraOffset)
+			local view = Movement.view()
+			local eye = sight.WorldPosition - view.LookVector * 0.55 + view.UpVector * 0.04
 			local want3 = root.CFrame:VectorToObjectSpace(eye - base)
 			adsOffset = adsOffset:Lerp(want3, math.min(1, dt * 14))
 			h.CameraOffset = adsOffset
@@ -545,8 +546,7 @@ function Controller.start()
 
 		-- face where you aim (GTA): the whole body locks to the camera direction; moving
 		-- sideways plays side-steps and moving back plays the walk in reverse (Movement/Gait)
-		local cam = workspace.CurrentCamera
-		local look = cam.CFrame.LookVector
+		local look = Movement.view().LookVector
 		local flat = Vector3.new(look.X, 0, look.Z)
 		local side, reverse = 0, false
 		if (State.Raised or fpReady) and flat.Magnitude > 0.01 then

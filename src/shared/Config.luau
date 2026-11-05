@@ -16,6 +16,7 @@ local Config = {
 		CrouchCameraDrop = 1.3, -- camera sits this much lower while crouched
 		RollSpeed = 17, -- studs/s during a roll (aim + Space)
 		RollCooldown = 0.5, -- seconds after a roll before the next one
+		FirstPersonRollCamera = true, -- in first person the view tumbles with the body through a roll
 		Acceleration = 40, -- studs/s per second when speeding up (slowing down is 2x)
 	},
 

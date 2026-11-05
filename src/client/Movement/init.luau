@@ -35,6 +35,7 @@ local Config = require(Shared:WaitForChild("Config"))
 local AnimIds = require(Shared:WaitForChild("AnimIds"))
 local Input = require(script:WaitForChild("Input"))
 local Gait = require(script:WaitForChild("Gait"))
+local RollCamera = require(script:WaitForChild("RollCamera"))
 
 local Movement = {}
 
@@ -254,8 +255,15 @@ local function bind(character: Model)
 	end)
 end
 
+-- The camera without the first-person roll tumble (Movement/RollCamera): use it for aiming.
+Movement.view = RollCamera.view
+Movement.viewFocus = RollCamera.focus
+
 function Movement.start()
 	local player = Players.LocalPlayer
+	RollCamera.start(function()
+		return current ~= nil and current.Name == "Roll"
+	end)
 	player.CharacterAdded:Connect(bind)
 	if player.Character then
 		task.spawn(bind, player.Character)

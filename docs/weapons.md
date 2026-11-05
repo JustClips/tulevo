@@ -63,6 +63,10 @@ never pulls the hands off the gun.
 
 First person: arms and gun stay visible, the body faces the view and carries the rifle at the
 shoulder (Aim pose); right click moves the camera behind the gun's `Sight` attachment (ADS).
+Rolls in first person tumble the view with the body (`Client/Movement/RollCamera`, turns with
+the hips, rides with the head, `Config.Movement.FirstPersonRollCamera`). The tumble is undone
+before the camera script each frame, so anything aiming reads `Movement.view()` (the camera
+without the tumble) instead of `CurrentCamera.CFrame`.
 
 Rebuild the clips with `python3 art/anim/gun.py --preview && python3 tools/upload_anims.py`
 (`GUN_SCALE` there must match `Config.Weapons.GunScale`, and `HAND_TO_GUN` must match GunModel).
