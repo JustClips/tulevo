@@ -34,6 +34,19 @@ for comp in trimesh.graph.connected_components(_m.face_adjacency, nodes=np.arang
     else:  # stock body and its screws sit right in front of the buttplate
         v[vi, 2] += 0.017
 g.vertices = v
+
+# drop the loose sling loop hanging under the front of the handguard
+_drop = []
+for comp in trimesh.graph.connected_components(_m.face_adjacency, nodes=np.arange(len(_m.faces))):
+    vi = np.unique(g.faces[comp])
+    lo, hi = g.vertices[vi].min(0), g.vertices[vi].max(0)
+    if lo[2] > 0.35 and hi[1] < 0.056:
+        _drop.extend(comp)
+if _drop:
+    keep = np.ones(len(g.faces), bool)
+    keep[_drop] = False
+    g.update_faces(keep)
+    g.remove_unreferenced_vertices()
 c = g.triangles_center
 
 
@@ -65,14 +78,16 @@ def textured(meshes, uv):
 
 
 collar = (c[:, 2] > 0.381) & (c[:, 2] < 0.413) & (abs(c[:, 0]) < 0.012) & (c[:, 1] < 0.09)
-cv = g.vertices[g.faces[collar]].reshape(-1, 3)
-axis_y = (cv[:, 1].min() + cv[:, 1].max()) / 2
+axis_y = 0.0745  # barrel / handguard / flash hider centre line (measured from the tube and flash hider)
 metal = uv_of(collar)
 receiver = uv_of((c[:, 2] > 0.05) & (c[:, 2] < 0.15) & (c[:, 1] > 0.07) & (c[:, 1] < 0.09) & (c[:, 0] > 0.011))
 
 adds = [
     textured([cyl(0.0085, 0.17, 0.395, axis_y), cyl(0.0035, 0.17, 0.385, axis_y + 0.012, 12),
-              cyl(0.0192, 0.385, 0.3895, axis_y, 32)], metal),
+              # front cap closes the handguard tube flush with its front edge
+              cyl(0.0200, 0.3850, 0.3905, axis_y, 40),
+              # plug inside the flash hider so you can't see through the gun
+              cyl(0.0085, 0.4440, 0.4480, axis_y, 24)], metal),
     # charging handle: T-bar behind the upper, stem into the receiver, latch on the left
     textured([box(-0.026, 0.026, 0.086, 0.102, -0.030, -0.012), box(-0.008, 0.008, 0.088, 0.098, -0.014, 0.004),
               box(-0.036, -0.024, 0.088, 0.102, -0.028, -0.014)], receiver),
