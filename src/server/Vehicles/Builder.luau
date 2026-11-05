@@ -274,9 +274,13 @@ local function realBody(def, chassis: BasePart, model: Model): boolean
 	bodyFolder.Name = "Body"
 	bodyFolder.Parent = model
 
+	-- tinted glass (windscreen) and clear glass (headlamp covers)
 	local glass = {}
 	for _, n in rig.Glass or {} do
-		glass[n] = true
+		glass[n] = { Transparency = 0.55, Color = Color3.fromRGB(30, 38, 44) }
+	end
+	for _, n in rig.ClearGlass or {} do
+		glass[n] = { Transparency = 0.8, Color = Color3.fromRGB(225, 232, 240) }
 	end
 	local moving = {}
 	if rig.SteeringWheel then
@@ -300,9 +304,9 @@ local function realBody(def, chassis: BasePart, model: Model): boolean
 		p.CastShadow = not glass[name]
 		p.CFrame = chassis.CFrame * rest
 		if glass[name] then
-			p.Transparency = 0.55
+			p.Transparency = glass[name].Transparency
 			p.Material = Enum.Material.Glass
-			p.Color = Color3.fromRGB(30, 38, 44)
+			p.Color = glass[name].Color
 			for _, d in p:GetChildren() do
 				if d:IsA("SurfaceAppearance") then
 					d:Destroy()

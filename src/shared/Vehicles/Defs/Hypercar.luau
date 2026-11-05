@@ -69,6 +69,7 @@ return {
 		HubHeight = 0.36,
 		Wheelbase = 2.73,
 		Glass = { "Glass" },
+		ClearGlass = { "LampGlass" },
 		SteeringWheel = {
 			Part = "SteeringWheel",
 			Center = Vector3.new(0.38, -0.36, 0.66),
