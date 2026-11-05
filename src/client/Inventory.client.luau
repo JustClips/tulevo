@@ -16,6 +16,7 @@
 
 local ContextActionService = game:GetService("ContextActionService")
 local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
 
 local player = Players.LocalPlayer
 
@@ -327,11 +328,33 @@ end)
 
 gui.Parent = player:WaitForChild("PlayerGui")
 
-ContextActionService:BindAction("Inventory_Toggle", function(_, state)
-	if state == Enum.UserInputState.Begin then
-		setOpen(not gui.Enabled)
+-- I toggles the window. Roblox's own camera script also binds I (keyboard zoom) and swallows
+-- it, so this binds above it (High priority) and sinks the key (no zoom-in when opening). The
+-- InputBegan fallback catches I even if something else ever takes it first; the debounce keeps
+-- the two from toggling twice on one press.
+local lastToggle = 0
+local function toggle()
+	local now = os.clock()
+	if now - lastToggle < 0.2 then
+		return
 	end
-	return Enum.ContextActionResult.Pass
-end, true, Enum.KeyCode.I)
+	lastToggle = now
+	setOpen(not gui.Enabled)
+end
+
+ContextActionService:BindActionAtPriority("Inventory_Toggle", function(_, state)
+	if state == Enum.UserInputState.Begin then
+		toggle()
+	end
+	return Enum.ContextActionResult.Sink
+end, true, Enum.ContextActionPriority.High.Value, Enum.KeyCode.I)
 ContextActionService:SetTitle("Inventory_Toggle", "Bag")
 ContextActionService:SetPosition("Inventory_Toggle", UDim2.new(1, -245, 1, -210))
+
+UserInputService.InputBegan:Connect(function(input)
+	if input.KeyCode == Enum.KeyCode.I and UserInputService:GetFocusedTextBox() == nil then
+		toggle()
+	end
+end)
+
+print("[Inventory] ready: press I to open")
