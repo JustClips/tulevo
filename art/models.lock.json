@@ -10,5 +10,21 @@
  "CarbineRifle": {
   "id": 138902078525241,
   "sha": "bda3e693cc2dfa8cc4256457a725b0feed7cb53fb1338cc01f36e0ab0db9c385"
+ },
+ "Chaser": {
+  "id": 107155976516351,
+  "sha": "bf16725332e7a849a62de96baa04f0f1f8a90b3ba693fdf58b108c55d4ec4ac2"
+ },
+ "FirstAidKit": {
+  "id": 114148189163015,
+  "sha": "c1c7a6228badc9d6047f7fdbe3cf7cc27d82e01ca091e90a2188cae528ea8596"
+ },
+ "Hypercar": {
+  "id": 112091228592504,
+  "sha": "81598616881b5b73e5d31ec6fdb8ae78dcdf8c4bb444da75b10b5ddcc1ce5ad4"
+ },
+ "Mead": {
+  "id": 115926346396105,
+  "sha": "1e0a7f19fcebe3a7ea722357a7ffdc1b637f761eb2f614ebe1d6a4bae19654e0"
  }
 }
