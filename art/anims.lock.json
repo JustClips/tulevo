@@ -35,6 +35,10 @@
   "id": 128461769007218,
   "sha": "60a42252d5d67a7b2f1d4cdc23333cd04d58ea7304bff7bf9e43fb540295daca"
  },
+ "Tulevo_Pivot": {
+  "id": 112442235427041,
+  "sha": "e95377da20d475820f083259c791d5ccc0a2ae1637c1f25959727625fa1bd89f"
+ },
  "Tulevo_RollBack": {
   "id": 99638802672029,
   "sha": "6d4f36e6ae58e4596896f4b6532e2431e3b862458c68fe17b4ef760bd9236a9f"
@@ -59,6 +63,10 @@
   "id": 107785750810609,
   "sha": "9e1eaf49a4cb3f35c0e09b611c9e4190e58fabf49b7835f839e19da65da8bc7f"
  },
+ "Tulevo_SprintStop": {
+  "id": 128469028057883,
+  "sha": "77db5b82ba7e42d017102c4977b1e483615458dadb9d3623ebb30caa06adb64f"
+ },
  "Tulevo_StrafeLeft": {
   "id": 94699464760252,
   "sha": "695aff86f653a97ab072dcb27fc9ae704bfac3e0c3ca8954ed4a8b7d83213a09"
@@ -66,6 +74,14 @@
  "Tulevo_StrafeRight": {
   "id": 86691988839384,
   "sha": "c2de270c4e9bb213d8ffd65bb7b35ffa45efb860eb0ec4d542451a1f3cea61af"
+ },
+ "Tulevo_TurnStepLeft": {
+  "id": 94179801753472,
+  "sha": "068d286a5f5fad7c7523076d8a9906a2652736ef41a9c80db9ec1717434bbf67"
+ },
+ "Tulevo_TurnStepRight": {
+  "id": 137810912390113,
+  "sha": "9fa6ba19ec373d66ef549da7e20070a0efcb5bcc64aff0fb45f01fc30ccf0b59"
  },
  "Tulevo_Walk": {
   "id": 89781740812605,
@@ -79,6 +95,14 @@
   "id": 128106995657804,
   "sha": "e13da489bd1036030ec0a8458f2afc4ec93db43f73dcba27cc38bcb9a52809b4"
  },
+ "Weapon_Rifle_CrouchHold": {
+  "id": 125560391303815,
+  "sha": "2f3fd6547072b92ee9851cb071963835a506aa70c07ca3836f8562985460f633"
+ },
+ "Weapon_Rifle_Draw": {
+  "id": 93366418633555,
+  "sha": "a241a351fb1c5b69964c1c318968297d224d8825313a9d472b4f77a0d837c4b9"
+ },
  "Weapon_Rifle_Equip": {
   "id": 78119451908394,
   "sha": "580feae1858266a4dbc8a9f9e3eb3e42ac58ba436ad21ff5b06463d587385845"
@@ -90,6 +114,10 @@
  "Weapon_Rifle_Hold": {
   "id": 93691211401877,
   "sha": "406d1c91a15b9681bffa83e752a9927d5bdb8b6271df3cec2a8376936bd0c17a"
+ },
+ "Weapon_Rifle_Holster": {
+  "id": 75317071877843,
+  "sha": "d54be0dfc9e2a4d761af014f6b58743bbf6a9d71eb56c533135586edfe013759"
  },
  "Weapon_Rifle_JumpPrep": {
   "id": 73854071950368,

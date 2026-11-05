@@ -43,6 +43,8 @@ local player = Players.LocalPlayer
 local Controller = {}
 
 local anims = nil
+local holstering = nil -- the previous AnimSet while the holster clip finishes
+local drawUntil = 0 -- os.clock() until the gun drawn off the back is in hand
 local lastFire = 0
 local triggerDown = false
 local combo = 0
@@ -87,14 +89,46 @@ local function setTouchButtons(on: boolean)
 	end
 end
 
+-- Which part the gun model is welded to right now ("RightHand", "UpperTorso" = on the back).
+local function gunHeldBy(c: Model?): string?
+	local gun = c and c:FindFirstChild("Gun")
+	local weld = gun and gun:FindFirstChild("GunWeld", true)
+	local part0 = weld and weld:IsA("Weld") and weld.Part0
+	return if part0 then part0.Name else nil
+end
+
 function Controller.equip(id: string?)
 	if id == State.Equipped or (id and State.InVehicle) then
 		return
 	end
-	if anims then
-		anims:destroy()
-		anims = nil
+	local c0 = player.Character
+	if holstering then
+		holstering:destroy()
+		holstering = nil
 	end
+	if anims then
+		local old = anims
+		anims = nil
+		local clip = old.tracks.Holster
+		if id == nil and clip and gunHeldBy(c0) == "RightHand" then
+			-- Q: the rifle goes up over the right shoulder onto the back (the server moves the
+			-- weld when the hand gets there, Server/Weapons/GunModel HolsterSwap)
+			for slot in old.weights do
+				old:stop(slot, 0.2)
+			end
+			old:play("Holster", 0.1)
+			holstering = old
+			task.delay(if clip.Length > 0 then clip.Length else 0.95, function()
+				if holstering == old then
+					holstering = nil
+					old:destroy()
+				end
+			end)
+		else
+			old:destroy()
+		end
+	end
+	drawUntil = 0
 	State.Equipped = id
 	State.Aiming = false
 	State.Raised = false
@@ -111,7 +145,14 @@ function Controller.equip(id: string?)
 		if def and animator then
 			anims = AnimSet.new(animator, def.Class)
 			anims:play("Hold", 0.2)
-			anims:play("Equip", 0.1)
+			local gun = c:FindFirstChild("Gun")
+			if anims:has("Draw") and gun and gun:GetAttribute("WeaponId") == id and gunHeldBy(c) == "UpperTorso" then
+				-- off the back: reach over the right shoulder, pull it round to the low ready
+				local t = anims:play("Draw", 0.1)
+				drawUntil = os.clock() + (if t and t.Length > 0 then t.Length else 0.76)
+			else
+				anims:play("Equip", 0.1)
+			end
 		end
 		local a = ammo[id]
 		State.Mag, State.Reserve = a and a.mag or 0, a and a.reserve or 0
@@ -122,7 +163,7 @@ end
 function Controller.reload()
 	local id = State.Equipped
 	local def = id and Weapons.get(id)
-	if not def or def.Class.Kind ~= "Gun" or State.Reloading then
+	if not def or def.Class.Kind ~= "Gun" or State.Reloading or os.clock() < drawUntil then
 		return
 	end
 	if State.Mag >= (def.MagSize or 0) or State.Reserve <= 0 then
@@ -159,8 +200,8 @@ function Controller.fire()
 	if not def or not c or not h or State.Reloading then
 		return
 	end
-	if Movement.busy() then
-		return -- no shooting while rolling, jumping or falling (GTA)
+	if Movement.busy() or os.clock() < drawUntil then
+		return -- no shooting while rolling, jumping, falling (GTA) or still drawing
 	end
 	local now = os.clock()
 	if now - lastFire < 1 / (def.FireRate or (1 / (def.SwingTime or 0.6))) then
@@ -501,15 +542,18 @@ function Controller.start()
 	end)
 
 	local sentUp = false
+	local sentPlant = false
 	local function sendPose(twist: number, pitch: number)
 		local now = os.clock()
 		local up = State.AimBlend > 0.5
+		local plant = State.FeetPlant
 		local changed = math.abs(twist - sentTwist) > 0.03 or math.abs(pitch - sentPitch) > 0.03 or up ~= sentUp
+			or plant ~= sentPlant
 		local settled = (twist == 0 and pitch == 0) and (sentTwist ~= 0 or sentPitch ~= 0)
 		if (changed and now - lastPoseSent > 0.1) or (settled and now - lastPoseSent > 0.1) then
 			lastPoseSent = now
-			sentTwist, sentPitch, sentUp = twist, pitch, up
-			Remotes.Pose:FireServer(twist, pitch, State.Aiming, up)
+			sentTwist, sentPitch, sentUp, sentPlant = twist, pitch, up, plant
+			Remotes.Pose:FireServer(twist, pitch, State.Aiming, up, plant)
 		end
 	end
 
@@ -539,13 +583,15 @@ function Controller.start()
 		local active = Movement.active()
 		local rolling = active == "Roll"
 		local airborne = active == "Air"
-		State.Raised = (State.Aiming or now < hipUntil) and def.Class.Kind == "Gun"
+		State.Raised = (State.Aiming or now < hipUntil) and def.Class.Kind == "Gun" and now >= drawUntil
 		local up = State.Raised and not State.Reloading -- gun at the shoulder
 		-- first person: the gun is carried at the shoulder (visible, lower right) and the body
 		-- follows the view, like a shooter's viewmodel; sprinting still carries it across
 		local fpReady = isFirstPerson(c) and def.Class.Kind == "Gun" and not rolling and not airborne
 			and active ~= "Sprint" and not State.Reloading
 		local ready = up or fpReady
+		-- aiming while standing: feet stay planted and step to turn (Weapons/GunPose)
+		State.FeetPlant = ready and not rolling and not airborne and active ~= "Crouch"
 
 		-- face where you aim (GTA): the whole body locks to the camera direction (bladed into
 		-- the rifle stance by Weapons/GunPose); moving sideways plays side-steps and moving
@@ -587,7 +633,8 @@ function Controller.start()
 			then "Tuck"
 			elseif ready then "Aim"
 			elseif airborne then "Air"
-			elseif active == "Sprint" then "Sprint"
+			elseif active == "Sprint" or active == "Pivot" then "Sprint"
+			elseif active == "Crouch" then "CrouchHold"
 			else "Hold"
 		if pose ~= "Tuck" and pose ~= "Air" and anims:has("Lowered") then
 			-- muzzle down when a wall is right in front (the gun would go through it)

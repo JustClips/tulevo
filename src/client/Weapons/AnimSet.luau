@@ -3,16 +3,17 @@
 	Ids come from Shared.AnimIds as "Weapon_<Class>_<Slot>" (e.g. Weapon_Rifle_Reload).
 	Slots without an id yet are skipped silently, so the system works before the art exists.
 
-	Pose loops (Hold, Aim, Sprint, Tuck, Air, Lowered) all play at once at Action2 priority
+	Pose loops (Hold, Aim, Sprint, Tuck, Air, Lowered, CrouchHold) all play at once at Action2 priority
 	and AnimSet:blend() cross-fades their weights, so switching pose never pops. They key the
 	arms (Aim also the chest and head), so the legs keep the walk/run/roll/jump from Movement.
-	One-shots (Fire, Reload, Equip, JumpPrep, JumpUp, Land, Attack1..3) play at Action3 on top.
+	One-shots (Fire, Reload, Equip, Draw, Holster, JumpPrep, JumpUp, Land, Attack1..3) play at
+	Action3 on top.
 ]]
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local AnimIds = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("AnimIds"))
 
-local LOOPS = { Hold = true, Aim = true, Sprint = true, Tuck = true, Air = true, Lowered = true }
+local LOOPS = { Hold = true, Aim = true, Sprint = true, Tuck = true, Air = true, Lowered = true, CrouchHold = true }
 local MIN_WEIGHT = 0.001 -- loops keep running at ~0 weight so they can fade back in
 
 local AnimSet = {}

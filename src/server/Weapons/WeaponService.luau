@@ -14,8 +14,8 @@
 		Reload (client -> server)
 		Ammo   (server -> owner)  weaponId, mag, reserve
 		Shot   (server -> others) shooter, weaponId, origin, hitPositions   -- effects only
-		Pose   (client -> server) twist, pitch (radians), aiming, up -> character attributes
-		       GunTwist / GunPitch / GunAiming / GunUp, so every client can turn that player's waist the same way (Client.Weapons.GunPose)
+		Pose   (client -> server) twist, pitch (radians), aiming, up, plant -> character attributes
+		       GunTwist / GunPitch / GunAiming / GunUp / GunPlant, so every client can turn that player's waist the same way (Client.Weapons.GunPose)
 
 	The gun model sits in the right hand while equipped and on the back otherwise (GunModel).
 
@@ -48,14 +48,20 @@ local PoseRemote = remote("Pose")
 remotes.Parent = ReplicatedStorage
 
 type Held = { mag: number, reserve: number, lastFire: number, reloadingUntil: number }
-type State = { bySlot: { [string]: string }, held: { [string]: Held }, equipped: string? }
+type State = {
+	bySlot: { [string]: string },
+	held: { [string]: Held },
+	equipped: string?,
+	modelToken: number, -- bumps on every equip so a late holster/draw weld swap is skipped
+	readyAt: number, -- os.clock() when the drawn gun is in hand and may fire
+}
 
 local states: { [Player]: State } = {}
 
 local function stateOf(player: Player): State
 	local s = states[player]
 	if not s then
-		s = { bySlot = {}, held = {}, equipped = nil }
+		s = { bySlot = {}, held = {}, equipped = nil, modelToken = 0, readyAt = 0 }
 		states[player] = s
 	end
 	return s
@@ -128,9 +134,30 @@ EquipRemote.OnServerEvent:Connect(function(player, id)
 	if id ~= nil and (typeof(id) ~= "string" or not s.held[id]) then
 		return
 	end
+	local old = s.equipped
 	s.equipped = id
 	player:SetAttribute("Weapon", id)
-	WeaponService.refreshModel(player)
+	s.modelToken += 1
+	local token = s.modelToken
+	local character = player.Character
+	-- holster (Q) / draw from the back: the weld moves when the hand gets there (the clips play
+	-- on the client at the same time)
+	local swapAt = nil
+	if character and id == nil and old and GunModel.inHand(character) then
+		swapAt = GunModel.HolsterSwap
+	elseif character and id and GunModel.onBack(character, id) then
+		swapAt = GunModel.DrawSwap
+		s.readyAt = os.clock() + GunModel.DrawLength
+	end
+	if swapAt then
+		task.delay(swapAt, function()
+			if s.modelToken == token and player.Character == character then
+				WeaponService.refreshModel(player)
+			end
+		end)
+	else
+		WeaponService.refreshModel(player)
+	end
 end)
 
 -- Gun in hand when equipped, otherwise the first carried gun with a model goes on the back.
@@ -155,7 +182,7 @@ function WeaponService.refreshModel(player: Player)
 	GunModel.remove(character)
 end
 
-PoseRemote.OnServerEvent:Connect(function(player, twist, pitch, aiming, up)
+PoseRemote.OnServerEvent:Connect(function(player, twist, pitch, aiming, up, plant)
 	local character = player.Character
 	if not character or typeof(twist) ~= "number" or typeof(pitch) ~= "number" then
 		return
@@ -167,6 +194,7 @@ PoseRemote.OnServerEvent:Connect(function(player, twist, pitch, aiming, up)
 	character:SetAttribute("GunPitch", math.clamp(pitch, -1.4, 1.4))
 	character:SetAttribute("GunAiming", aiming == true)
 	character:SetAttribute("GunUp", up == true) -- shouldered: other clients lock the chest to the aim
+	character:SetAttribute("GunPlant", plant == true) -- standing aim: feet planted, turn steps
 end)
 
 -- Anti-cheat for shots. The client only says "I fired, toward this direction". The server
@@ -257,8 +285,8 @@ FireRemote.OnServerEvent:Connect(function(player, direction)
 	end
 	local now = os.clock()
 	local interval = 1 / (def.FireRate or 1)
-	if now - h.lastFire < interval * 0.8 or now < h.reloadingUntil then
-		return -- too fast (some slack for network jitter) or reloading
+	if now - h.lastFire < interval * 0.8 or now < h.reloadingUntil or now < s.readyAt - 0.1 then
+		return -- too fast (some slack for network jitter), reloading or still drawing
 	end
 	h.lastFire = now
 	if def.Class.Kind ~= "Gun" or aimMatches(character, direction) then
@@ -308,7 +336,10 @@ end)
 -- new character: nothing in hand until the client equips again; the gun goes on the back
 local function onPlayer(player: Player)
 	player.CharacterAdded:Connect(function(character)
-		stateOf(player).equipped = nil
+		local s = stateOf(player)
+		s.equipped = nil
+		s.modelToken += 1
+		s.readyAt = 0
 		player:SetAttribute("Weapon", nil)
 		character:WaitForChild("UpperTorso", 10)
 		WeaponService.refreshModel(player)

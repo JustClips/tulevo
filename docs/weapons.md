@@ -54,12 +54,17 @@ shows the rewound hitboxes in Studio.
 | JumpPrep / JumpUp / Land | jump wind-up (gun dips with the knees), take-off spring, landing bounce; played on the Movement Prep/TakeOff/Land events |
 | Lowered | a wall within `Config.Weapons.LowerNearWalls` studs in front |
 | Reload | R: mag out, fresh mag from the vest, slap it in, charging handle |
-| Equip | taking the gun out |
+| Equip | taking the gun out (spawn, or a gun that wasn't on the back) |
+| Holster / Draw | Q swings the rifle over the right shoulder onto the back; the slot key reaches back and pulls it round. The server moves the weld when the hand is on the back (`GunModel.HolsterSwap` / `DrawSwap`, from gun.py `HOLSTER`); no firing until the draw ends |
+| CrouchHold | crouched, not aiming: high ready |
 
 While the gun is up your whole body faces the camera (GTA). A/D blend in side-step clips
 (`art/anim/strafe.py`, Tulevo_StrafeLeft/Right), S plays the walk in reverse, and
 `Client/Weapons/GunPose` locks the chest to the aim yaw + pitch every frame after the
 animations (so walking never wobbles the rifle), for every player via GunUp/GunPitch.
+Aiming while standing still, the feet stay planted as the body turns and a turn step
+(`art/anim/steps.py` Tulevo_TurnStepLeft/Right) plays once the body is `Config.Weapons.AimStep`
+degrees off them (GunPlant attribute + the replicated step clip keep it in sync for others).
 GunPose also turns the hips and legs into a bladed rifle stance
 (`Config.Weapons.AimStance`: 38 degrees right of the aim standing, 20 moving) so the whole body
 turns, not just the chest; the side-step blend is worked out relative to those turned hips.
@@ -87,7 +92,7 @@ just doesn't play. Hold and Aim loop and drive the upper body over the walk/run 
 | Pistol | Hold, Aim, Fire, Reload, Equip |
 | SMG | Hold, Aim, Fire, Reload, Equip |
 | Shotgun | Hold, Aim, Fire, Reload, Equip |
-| Rifle | Hold, Aim, Fire, Reload, Equip, Sprint, Tuck, Air, Lowered, JumpPrep, JumpUp, Land |
+| Rifle | Hold, Aim, Fire, Reload, Equip, Sprint, Tuck, Air, Lowered, JumpPrep, JumpUp, Land, Holster, Draw, CrouchHold |
 
 ## Still to do
 

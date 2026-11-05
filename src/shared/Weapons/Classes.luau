@@ -46,7 +46,12 @@ return {
 		-- extra poses: Sprint (carry across the chest), Tuck (rolls), Air (jumps/falls),
 		-- Lowered (muzzle down near walls)
 		-- JumpPrep / JumpUp / Land: the arms follow the both-feet jump (with a little bounce)
-		Anims = { "Hold", "Aim", "Fire", "Reload", "Equip", "Sprint", "Tuck", "Air", "Lowered", "JumpPrep", "JumpUp", "Land" },
+		-- Holster / Draw: over the right shoulder onto the back and off it again (Q / slot key)
+		-- CrouchHold: high ready while crouched
+		Anims = {
+			"Hold", "Aim", "Fire", "Reload", "Equip", "Sprint", "Tuck", "Air", "Lowered",
+			"JumpPrep", "JumpUp", "Land", "Holster", "Draw", "CrouchHold",
+		},
 		AimWalkSpeed = 6,
 		CanSprintWhileHeld = true,
 		TwoHanded = true,

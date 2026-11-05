@@ -224,6 +224,9 @@ SPRINT = dict(pos=(0.32, -0.40, -1.05), pitch=38, yaw=48, roll=-40)
 # Roll / falling tuck: rifle pulled in tight, muzzle up.
 TUCK = dict(pos=(0.30, -0.30, -1.05), pitch=58, yaw=34, roll=-20)
 # Near a wall: muzzle down steeply, close to the body.
+# Crouched, not aiming: rifle carried up at a high ready (the crouch leans the chest forward,
+# so in the world the muzzle ends up pointing a little down the way you're going)
+CROUCH_READY = dict(pos=(0.35, 0.3, -0.95), pitch=0, yaw=46, roll=-8)
 LOWERED = dict(pos=(0.28, 0.32, -0.82), pitch=-58, yaw=36, roll=-10)
 
 
@@ -423,6 +426,111 @@ def land_clip():
     return func_clip(fn, 0.5)
 
 
+# ---------------------------------------------------------------- holster / draw
+# Gun on the back, in UpperTorso space: must equal BACK in src/server/Weapons/GunModel.luau
+# (flat on the back plate, grip low right, muzzle up over the left shoulder).
+SLUNG = np.eye(4)
+SLUNG[:3, 0], SLUNG[:3, 1], SLUNG[:3, 2] = [0, 0, 1], [-0.8, -0.6, 0], [0.6, -0.8, 0]
+SLUNG[:3, 3] = [0.3, -0.4, 0.78]
+
+# Holster timeline (seconds). The right hand swings the rifle up, over the right shoulder and
+# down onto the back, waits there while the server welds it to the back (swap), then the arm
+# comes back down. Draw is the same motion backwards and a bit quicker. GunModel.luau has the
+# same beats (HOLSTER / DRAW) for the weld swaps.
+HOLSTER = dict(release=0.12, slung=0.5, swap=0.52, letgo=0.72, length=0.95)
+DRAW_TIME = 0.8  # draw plays the holster frames reversed, squeezed to this share of the time
+
+
+def _slerp(a, b, u):
+    return a @ rotvec(log_rot(a.T @ b) * u)
+
+
+def _catmull(p0, p1, p2, p3, u):
+    return 0.5 * ((2 * p1) + (-p0 + p2) * u + (2 * p0 - 5 * p1 + 4 * p2 - p3) * u * u + (-p0 + 3 * p1 - 3 * p2 + p3) * u ** 3)
+
+
+def holster_path():
+    """Gun frames (UpperTorso space) from the low ready to the back, by progress 0..1."""
+    hold = placed(HOLD)
+    raise_ = gun_frame((0.85, 0.0, -0.85), 80, 25, 0)
+    over_rot = _slerp(raise_[:3, :3], SLUNG[:3, :3], 0.55)
+    over = np.eye(4)
+    over[:3, :3] = over_rot
+    over[:3, 3] = [1.15, 0.35, 0.35]
+    keys = [hold, raise_, over, SLUNG]
+    us = [0.0, 0.38, 0.72, 1.0]
+
+    def at(u):
+        for i in range(len(keys) - 1):
+            if us[i] <= u <= us[i + 1]:
+                v = (u - us[i]) / (us[i + 1] - us[i])
+                p = [k[:3, 3] for k in keys]
+                p0 = p[max(0, i - 1)]
+                p3 = p[min(len(p) - 1, i + 2)]
+                m = np.eye(4)
+                m[:3, 3] = _catmull(p0, p[i], p[i + 1], p3, v)
+                m[:3, :3] = _slerp(keys[i][:3, :3], keys[i + 1][:3, :3], v)
+                return m
+        return SLUNG.copy()
+    return at
+
+
+def holster_frames(fps=30):
+    h = HOLSTER
+    path = holster_path()
+    n = round(h["length"] * fps)
+    base = base_pose()
+    ut = ut_frame(base)
+    frames, worst = [], 0
+    xr = [D(60), 0, 0, D(60), 0, 0, 0]
+    xl = [D(60), 0, 0, D(60), 0, 0, 0]
+    xl_release = None
+    xr_letgo = None
+    rpole = (ut @ np.array([1.6, -1.2, 0.3, 1]))[:3]
+    lpole = (ut @ np.array([-1.5, -1.3, 0.0, 1]))[:3]
+    for i in range(n + 1):
+        t = h["length"] * i / n
+        u = L.smooth(min(1.0, t / h["slung"]))
+        gun = ut @ path(u)
+        if t <= h["letgo"]:
+            rt = gun @ np.linalg.inv(r15.R(G_IN_HAND))
+            xr, er = solve_arm(base, 1, rt, xr, 20.0, rpole if u < 0.5 else None)
+            worst = max(worst, er)
+            xr_letgo = np.array(xr)
+            xr_now = xr
+        else:
+            v = L.smooth((t - h["letgo"]) / (h["length"] - h["letgo"]))
+            xr_now = xr_letgo * (1 - v)
+        if t <= h["release"]:
+            xl, el = solve_arm(base, -1, support_target(gun), xl, 0.35, lpole)
+            worst = max(worst, el)
+            xl_release = np.array(xl)
+            xl_now = xl
+        else:
+            v = L.smooth(min(1.0, (t - h["release"]) / 0.3))
+            xl_now = xl_release * (1 - v)
+        _, poses = arm_frames(base, 1, xr_now)
+        _, poses = arm_frames(poses, -1, xl_now)
+        frames.append((t, poses))
+    return frames, worst
+
+
+def holster_clip():
+    return holster_frames()
+
+
+def draw_clip():
+    frames, worst = holster_frames()
+    end = HOLSTER["length"]
+    return [((end - t) * DRAW_TIME, p) for t, p in reversed(frames)], worst
+
+
+def draw_beats():
+    """Draw beats (seconds): when the hand has the grip on the back (weld to hand) and the end."""
+    h = HOLSTER
+    return dict(swap=round((h["length"] - h["letgo"]) * DRAW_TIME + 0.04, 3), length=round(h["length"] * DRAW_TIME, 3))
+
+
 def build():
     clips = {
         "Weapon_Rifle_Hold": (*loop_clip(HOLD, 3.0, 30), True, ARMS),
@@ -434,9 +542,12 @@ def build():
         "Weapon_Rifle_JumpUp": (*jump_up_clip(), False, ARMS),
         "Weapon_Rifle_Land": (*land_clip(), False, ARMS),
         "Weapon_Rifle_Lowered": (*loop_clip(LOWERED, 3.0, 15), True, ARMS),
+        "Weapon_Rifle_CrouchHold": (*loop_clip(CROUCH_READY, 3.0, 15, amp_pos=0.01, amp_rot=0.5), True, ARMS),
         "Weapon_Rifle_Fire": (*fire_clip(), False, ARMS),
         "Weapon_Rifle_Reload": (*reload_clip(), False, ARMS),
         "Weapon_Rifle_Equip": (*equip_clip(), False, ARMS),
+        "Weapon_Rifle_Holster": (*holster_clip(), False, ARMS),
+        "Weapon_Rifle_Draw": (*draw_clip(), False, ARMS),
     }
     return clips
 
@@ -563,6 +674,7 @@ def main():
     m = mag_in_hand()
     print("MAG_IN_HAND C0:", ", ".join(f"{v:.4f}" for v in [*m[:3, 3], *m[:3, :3].flatten()]))
     print("RELOAD beats:", RELOAD)
+    print("HOLSTER beats:", dict(swap=HOLSTER["swap"], length=HOLSTER["length"]), "DRAW beats:", draw_beats())
 
 
 if __name__ == "__main__":

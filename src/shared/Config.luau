@@ -64,6 +64,9 @@ local Config = {
 		-- GTA rifle stance: while aiming, the hips and legs turn this many degrees right of the
 		-- aim (the chest turns 48), so the whole body is bladed instead of only the chest twisting
 		AimStance = { Still = 38, Moving = 20 },
+		-- aiming standing still, the feet stay planted as you turn and take a turn step once the
+		-- body is Turn degrees off them (or Settle degrees once the aim stops moving)
+		AimStep = { Turn = 40, Settle = 14 },
 		-- number keys pick a wheel slot (GTA-style wheel UI comes later)
 		SlotKeys = { "Melee", "Pistol", "SMG", "Shotgun", "Rifle" },
 	},

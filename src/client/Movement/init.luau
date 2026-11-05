@@ -6,6 +6,10 @@
 	target WalkSpeed and can run its own code. Walking, jogging and sprinting share one foot
 	animation layer (Movement/Gait) that blends the clips by real speed so feet stay planted.
 
+	Moves: Walk 0, Crouch 5, Sprint 10, SprintStop 11 (let go mid-sprint: skid), Pivot 11
+	(reverse while running: plant and turn), Aim 12, Air 20, Roll 30. Footwork clips come from
+	art/anim/steps.py.
+
 	Adding a move (crouch, dive, roll, ...): copy Moves/Sprint.luau, give it a Priority, and
 	add an input in Movement/Input.luau if it needs one. A move that plays its own animation
 	sets UsesGait = false so the foot layer fades out while it runs.

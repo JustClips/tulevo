@@ -4,6 +4,7 @@
 		GunModel.hold(character, def)    -- welded in the right hand (the animations aim it)
 		GunModel.sling(character, def)   -- on the back (holstered)
 		GunModel.remove(character)
+		GunModel.inHand(character) / GunModel.onBack(character, id)
 
 	The model is loaded by id from Shared.ModelIds[def.Model] and scaled by
 	Config.Weapons.GunScale. Its origin is the pistol-grip hold point, muzzle toward -Z.
@@ -36,6 +37,13 @@ local BACK = CFrame.fromMatrix(Vector3.new(0.3, -0.4, 0.78), Vector3.new(0, 0, 1
 local MAG_IN_HAND = CFrame.new(0.4881, 0.0454, 0.1066, 0.4226, 0.9063, 0, -0.8517, 0.3971, -0.342, -0.31, 0.1445, 0.9397)
 local RELOAD_BEATS = { grab = 0.45, drop = 0.8, new = 1.12, seated = 1.62, length = 2.3 }
 GunModel.ReloadLength = RELOAD_BEATS.length
+
+-- Holster / draw (Weapon_Rifle_Holster / Draw, art/anim/gun.py HOLSTER and draw_beats(),
+-- seconds): when the hand has the rifle on the back, the weld moves to the back (holster) or
+-- to the hand (draw). The hand waits there ~0.2 s, so a little network lag doesn't show.
+GunModel.HolsterSwap = 0.52
+GunModel.DrawSwap = 0.224
+GunModel.DrawLength = 0.76
 
 local templates: { [string]: Model | false } = {}
 
@@ -100,6 +108,24 @@ local function template(name: string): Model?
 	end
 	templates[name] = model
 	return model
+end
+
+local function weldPart0(character: Model): Instance?
+	local gun = character:FindFirstChild("Gun")
+	local weld = gun and gun:FindFirstChild("GunWeld", true)
+	return weld and weld:IsA("Weld") and weld.Part0 or nil
+end
+
+function GunModel.inHand(character: Model): boolean
+	local p = weldPart0(character)
+	return p ~= nil and p.Name == "RightHand"
+end
+
+-- Is this weapon's model slung on the back right now?
+function GunModel.onBack(character: Model, id: string): boolean
+	local gun = character:FindFirstChild("Gun")
+	local p = weldPart0(character)
+	return gun ~= nil and gun:GetAttribute("WeaponId") == id and p ~= nil and p.Name == "UpperTorso"
 end
 
 function GunModel.remove(character: Model)
