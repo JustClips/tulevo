@@ -7,12 +7,15 @@ local Config = {
 	-- Keyboard: walk, hold Shift to sprint. Gamepad: stick pushed a little = walk, all the
 	-- way = jog, click the left stick to sprint. Phones: same stick, plus a Sprint button.
 	-- Crouch (toggle): Ctrl or C, gamepad B, phone Crouch button.
+	-- Roll: Ctrl + Space (gamepad B + A, phone Roll button), toward the way you're moving.
 	Movement = {
 		WalkSpeed = 6,
 		JogSpeed = 14,
 		SprintSpeed = 20,
 		CrouchSpeed = 4,
 		CrouchCameraDrop = 1.3, -- camera sits this much lower while crouched
+		RollSpeed = 17, -- studs/s during a roll (Ctrl + Space)
+		RollCooldown = 0.5, -- seconds after a roll before the next one
 		Acceleration = 40, -- studs/s per second when speeding up (slowing down is 2x)
 	},
 

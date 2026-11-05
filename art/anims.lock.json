@@ -35,6 +35,22 @@
   "id": 87541954438909,
   "sha": "e41b87c6631db95b8af83ee0e9a3a5770acc8a4065d0b6fcdab614e95cf4923b"
  },
+ "Tulevo_RollBack": {
+  "id": 100678019243086,
+  "sha": "e48361b6a13f0a85939fe9c3d8734f472393612a86841b0f328a486fc50005f4"
+ },
+ "Tulevo_RollForward": {
+  "id": 70892878435730,
+  "sha": "42ad76ab462e27a734903aafcbea675c41f263b9c6c06c25c3a3b844ce04a854"
+ },
+ "Tulevo_RollLeft": {
+  "id": 114021717743761,
+  "sha": "969166d4b96fae0bfe73fb602c25396a224250ba86d5269cbe09302779e1d6a9"
+ },
+ "Tulevo_RollRight": {
+  "id": 113285234034631,
+  "sha": "8edd87d862a5a16072a0dd8bdeb247555c4a2bd4297cc551f88532d6c65d47bf"
+ },
  "Tulevo_Run": {
   "id": 85091923292376,
   "sha": "4714ba3298e57c727ae2bfb6fe014b9d793f46d57db3a065806ae8dd25fe0995"

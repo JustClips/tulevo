@@ -135,8 +135,8 @@ local function bind(character: Model)
 	local preparing = false
 	humanoid:SetStateEnabled(Enum.HumanoidStateType.Jumping, false)
 	jumpConnection = UserInputService.JumpRequest:Connect(function()
-		if preparing or humanoid.Health <= 0 then
-			return
+		if preparing or humanoid.Health <= 0 or Input.rollModifier() or Input.rollPending() then
+			return -- Ctrl + Space is a roll, not a jump
 		end
 		local st = humanoid:GetState()
 		if humanoid.Sit or st == Enum.HumanoidStateType.Seated or st == Enum.HumanoidStateType.Climbing

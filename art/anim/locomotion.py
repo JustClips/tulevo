@@ -351,7 +351,7 @@ def preview(name, frames, path):
 
             def jpt(name):
                 # joint point (where the part hangs from its parent); hands/head use part centres
-                if name in ("Head", "RightHand", "LeftHand", "RightFoot", "LeftFoot", "UpperTorso"):
+                if name in ("Head", "RightHand", "LeftHand", "RightFoot", "LeftFoot", "UpperTorso", "LowerTorso"):
                     return f[name][:3, 3]
                 parent, c0, c1 = r15.JOINTS[name]
                 if name.endswith("UpperArm"):  # arm hangs beside the torso, not from its edge

@@ -5,6 +5,7 @@
 
 	Sprint: hold Shift, click the left stick (toggle), or the Sprint button on phones (toggle).
 	Crouch: Ctrl or C, gamepad B, or the Crouch button on phones (all toggle).
+	Roll: Ctrl + Space, gamepad B + A, or the Roll button on phones (Input.rollPending/takeRoll).
 	New moves add their action to ACTIONS.
 ]]
 
@@ -84,6 +85,49 @@ local function refresh()
 end
 UserInputService.LastInputTypeChanged:Connect(refresh)
 refresh()
+
+-- Roll is a key combo (Ctrl + Space), so it's handled here instead of in ACTIONS.
+local rollAt = -1
+local ROLL_WINDOW = 0.25 -- a roll pressed in the air or mid-move still fires this soon after
+
+function Input.rollModifier(): boolean
+	return UserInputService:IsKeyDown(Enum.KeyCode.LeftControl)
+		or UserInputService:IsKeyDown(Enum.KeyCode.RightControl)
+		or UserInputService:IsGamepadButtonDown(Enum.UserInputType.Gamepad1, Enum.KeyCode.ButtonB)
+end
+
+local function queueRoll()
+	rollAt = os.clock()
+	cancel("Crouch") -- the Ctrl/B press that started the combo also toggled crouch: undo it
+	cancel("Sprint")
+end
+
+UserInputService.InputBegan:Connect(function(input)
+	if UserInputService:GetFocusedTextBox() then
+		return
+	end
+	local jumpKey = input.KeyCode == Enum.KeyCode.Space or input.KeyCode == Enum.KeyCode.ButtonA
+	if jumpKey and Input.rollModifier() then
+		queueRoll()
+	end
+end)
+
+ContextActionService:BindAction("Move_Roll", function(_, state, obj)
+	if state == Enum.UserInputState.Begin and obj.UserInputType == Enum.UserInputType.Touch then
+		queueRoll()
+	end
+	return Enum.ContextActionResult.Pass
+end, true)
+ContextActionService:SetTitle("Move_Roll", "Roll")
+ContextActionService:SetPosition("Move_Roll", UDim2.new(1, -95, 1, -150))
+
+function Input.rollPending(): boolean
+	return os.clock() - rollAt < ROLL_WINDOW
+end
+
+function Input.takeRoll()
+	rollAt = -1
+end
 
 function Input.isDown(name: string): boolean
 	return not suppressed[name] and (held[name] == true or toggled[name] == true)
