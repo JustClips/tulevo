@@ -77,7 +77,7 @@
     "CFrame": {
      "position": [
       0,
-      0.16,
+      0.152,
       0
      ],
      "orientation": [
@@ -99,7 +99,7 @@
     "Size": [
      20,
      0.2,
-     180
+     244
     ],
     "Color": "#3A3B3D",
     "Material": "Asphalt",
@@ -108,8 +108,101 @@
     "CFrame": {
      "position": [
       150,
-      0.15,
-      -170
+      0.154,
+      -138
+     ],
+     "orientation": [
+      0,
+      0,
+      0
+     ]
+    }
+   },
+   "tags": [
+    "Road"
+   ]
+  },
+  {
+   "name": "NorthStreet",
+   "className": "Part",
+   "properties": {
+    "Anchored": true,
+    "Size": [
+     170,
+     0.2,
+     20
+    ],
+    "Color": "#3A3B3D",
+    "Material": "Asphalt",
+    "TopSurface": "Smooth",
+    "BottomSurface": "Smooth",
+    "CFrame": {
+     "position": [
+      75,
+      0.156,
+      -260
+     ],
+     "orientation": [
+      0,
+      0,
+      0
+     ]
+    }
+   },
+   "tags": [
+    "Road"
+   ]
+  },
+  {
+   "name": "EastStreet",
+   "className": "Part",
+   "properties": {
+    "Anchored": true,
+    "Size": [
+     20,
+     0.2,
+     268
+    ],
+    "Color": "#3A3B3D",
+    "Material": "Asphalt",
+    "TopSurface": "Smooth",
+    "BottomSurface": "Smooth",
+    "CFrame": {
+     "position": [
+      200,
+      0.158,
+      150
+     ],
+     "orientation": [
+      0,
+      0,
+      0
+     ]
+    }
+   },
+   "tags": [
+    "Road"
+   ]
+  },
+  {
+   "name": "SouthStreet",
+   "className": "Part",
+   "properties": {
+    "Anchored": true,
+    "Size": [
+     200,
+     0.2,
+     20
+    ],
+    "Color": "#3A3B3D",
+    "Material": "Asphalt",
+    "TopSurface": "Smooth",
+    "BottomSurface": "Smooth",
+    "CFrame": {
+     "position": [
+      100,
+      0.16,
+      284
      ],
      "orientation": [
       0,
@@ -1726,17 +1819,17 @@
     "Anchored": true,
     "Size": [
      30,
-     80,
+     20,
      40
     ],
-    "Color": "#B5A48A",
+    "Color": "#8C8F94",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      171.0,
-      40.0,
+      280.0,
+      10.0,
       50.0
      ],
      "orientation": [
@@ -1756,19 +1849,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     30,
+     40,
      20,
      40
     ],
-    "Color": "#9DA7B0",
+    "Color": "#B5A48A",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      213.0,
+      50.0,
       10.0,
-      50.0
+      104.0
      ],
      "orientation": [
       0,
@@ -1787,19 +1880,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     40,
-     20,
+     30,
+     80,
      40
     ],
-    "Color": "#B5A48A",
+    "Color": "#9DA7B0",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      260.0,
-      10.0,
-      50.0
+      97.0,
+      40.0,
+      104.0
      ],
      "orientation": [
       0,
@@ -1818,9 +1911,9 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     55,
-     60,
-     30
+     30,
+     80,
+     40
     ],
     "Color": "#8C8F94",
     "Material": "Concrete",
@@ -1828,9 +1921,9 @@
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      57.5,
-      30.0,
-      99.0
+      139.0,
+      40.0,
+      104.0
      ],
      "orientation": [
       0,
@@ -1850,18 +1943,18 @@
     "Anchored": true,
     "Size": [
      55,
-     20,
-     30
+     80,
+     40
     ],
-    "Color": "#B5A48A",
+    "Color": "#8C8F94",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      124.5,
-      10.0,
-      99.0
+      302.5,
+      40.0,
+      104.0
      ],
      "orientation": [
       0,
@@ -1881,8 +1974,8 @@
     "Anchored": true,
     "Size": [
      55,
-     80,
-     30
+     60,
+     50
     ],
     "Color": "#8C8F94",
     "Material": "Concrete",
@@ -1890,9 +1983,9 @@
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      191.5,
-      40.0,
-      99.0
+      57.5,
+      30.0,
+      163.0
      ],
      "orientation": [
       0,
@@ -1911,19 +2004,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     55,
-     80,
-     30
+     30,
+     20,
+     50
     ],
-    "Color": "#9DA7B0",
+    "Color": "#C9C2B4",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      258.5,
-      40.0,
-      99.0
+      112.0,
+      10.0,
+      163.0
      ],
      "orientation": [
       0,
@@ -1943,18 +2036,18 @@
     "Anchored": true,
     "Size": [
      30,
-     20,
-     30
+     45,
+     50
     ],
-    "Color": "#C9C2B4",
+    "Color": "#9DA7B0",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      45.0,
-      10.0,
-      143.0
+      154.0,
+      22.5,
+      163.0
      ],
      "orientation": [
       0,
@@ -1973,19 +2066,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     30,
-     45,
-     30
+     55,
+     20,
+     50
     ],
-    "Color": "#9DA7B0",
+    "Color": "#C9C2B4",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      87.0,
-      22.5,
-      143.0
+      250.5,
+      10.0,
+      163.0
      ],
      "orientation": [
       0,
@@ -2004,9 +2097,9 @@
    "properties": {
     "Anchored": true,
     "Size": [
+     55,
      30,
-     80,
-     30
+     40
     ],
     "Color": "#8C8F94",
     "Material": "Concrete",
@@ -2014,9 +2107,9 @@
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      129.0,
-      40.0,
-      143.0
+      57.5,
+      15.0,
+      222.0
      ],
      "orientation": [
       0,
@@ -2036,18 +2129,18 @@
     "Anchored": true,
     "Size": [
      55,
-     45,
-     30
+     80,
+     40
     ],
-    "Color": "#C9C2B4",
+    "Color": "#6F7680",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      183.5,
-      22.5,
-      143.0
+      124.5,
+      40.0,
+      222.0
      ],
      "orientation": [
       0,
@@ -2066,19 +2159,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     55,
      30,
-     30
+     80,
+     40
     ],
-    "Color": "#8C8F94",
+    "Color": "#6F7680",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      250.5,
-      15.0,
-      143.0
+      273.0,
+      40.0,
+      222.0
      ],
      "orientation": [
       0,
@@ -2097,19 +2190,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     55,
-     30,
-     50
+     40,
+     80,
+     30
     ],
-    "Color": "#7A6E66",
+    "Color": "#9DA7B0",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      57.5,
-      15.0,
-      197.0
+      268.0,
+      40.0,
+      271.0
      ],
      "orientation": [
       0,
@@ -2128,19 +2221,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     30,
+     40,
      80,
-     50
+     40
     ],
-    "Color": "#6F7680",
+    "Color": "#9DA7B0",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      112.0,
+      -50.0,
       40.0,
-      197.0
+      -50.0
      ],
      "orientation": [
       0,
@@ -2159,19 +2252,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     30,
-     80,
-     50
+     40,
+     45,
+     40
     ],
-    "Color": "#8C8F94",
+    "Color": "#B5A48A",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      154.0,
-      40.0,
-      197.0
+      -102.0,
+      22.5,
+      -50.0
      ],
      "orientation": [
       0,
@@ -2190,19 +2283,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     55,
      30,
-     50
+     30,
+     40
     ],
-    "Color": "#9DA7B0",
+    "Color": "#8C8F94",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      208.5,
+      -149.0,
       15.0,
-      197.0
+      -50.0
      ],
      "orientation": [
       0,
@@ -2222,18 +2315,18 @@
     "Anchored": true,
     "Size": [
      55,
-     80,
-     50
+     45,
+     40
     ],
-    "Color": "#9DA7B0",
+    "Color": "#C9C2B4",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      275.5,
-      40.0,
-      197.0
+      -203.5,
+      22.5,
+      -50.0
      ],
      "orientation": [
       0,
@@ -2253,18 +2346,18 @@
     "Anchored": true,
     "Size": [
      40,
-     80,
+     45,
      40
     ],
-    "Color": "#9DA7B0",
+    "Color": "#6F7680",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      50.0,
-      40.0,
-      256.0
+      -263.0,
+      22.5,
+      -50.0
      ],
      "orientation": [
       0,
@@ -2284,18 +2377,18 @@
     "Anchored": true,
     "Size": [
      40,
-     45,
+     80,
      40
     ],
-    "Color": "#B5A48A",
+    "Color": "#8C8F94",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      102.0,
-      22.5,
-      256.0
+      -50.0,
+      40.0,
+      -104.0
      ],
      "orientation": [
       0,
@@ -2315,18 +2408,18 @@
     "Anchored": true,
     "Size": [
      30,
-     30,
+     80,
      40
     ],
-    "Color": "#8C8F94",
+    "Color": "#9DA7B0",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      149.0,
-      15.0,
-      256.0
+      -97.0,
+      40.0,
+      -104.0
      ],
      "orientation": [
       0,
@@ -2345,19 +2438,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     55,
+     30,
      45,
      40
     ],
-    "Color": "#C9C2B4",
+    "Color": "#B5A48A",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      203.5,
+      -139.0,
       22.5,
-      256.0
+      -104.0
      ],
      "orientation": [
       0,
@@ -2377,18 +2470,18 @@
     "Anchored": true,
     "Size": [
      40,
-     45,
+     60,
      40
     ],
-    "Color": "#6F7680",
+    "Color": "#8C8F94",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      263.0,
-      22.5,
-      256.0
+      -186.0,
+      30.0,
+      -104.0
      ],
      "orientation": [
       0,
@@ -2407,19 +2500,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     40,
-     80,
+     55,
+     20,
      40
     ],
-    "Color": "#8C8F94",
+    "Color": "#C9C2B4",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      -50.0,
-      40.0,
-      -50.0
+      -245.5,
+      10.0,
+      -104.0
      ],
      "orientation": [
       0,
@@ -2438,19 +2531,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     30,
-     80,
-     40
+     40,
+     45,
+     50
     ],
-    "Color": "#9DA7B0",
+    "Color": "#6F7680",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      -97.0,
-      40.0,
-      -50.0
+      -50.0,
+      22.5,
+      -163.0
      ],
      "orientation": [
       0,
@@ -2469,19 +2562,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     30,
-     45,
-     40
+     40,
+     80,
+     50
     ],
-    "Color": "#B5A48A",
+    "Color": "#9DA7B0",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      -139.0,
-      22.5,
-      -50.0
+      -102.0,
+      40.0,
+      -163.0
      ],
      "orientation": [
       0,
@@ -2500,9 +2593,9 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     40,
+     55,
      60,
-     40
+     50
     ],
     "Color": "#8C8F94",
     "Material": "Concrete",
@@ -2510,9 +2603,9 @@
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      -186.0,
+      -161.5,
       30.0,
-      -50.0
+      -163.0
      ],
      "orientation": [
       0,
@@ -2531,19 +2624,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     55,
-     20,
-     40
+     30,
+     45,
+     50
     ],
-    "Color": "#C9C2B4",
+    "Color": "#9DA7B0",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      -245.5,
-      10.0,
-      -50.0
+      -216.0,
+      22.5,
+      -163.0
      ],
      "orientation": [
       0,
@@ -2562,19 +2655,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     40,
-     45,
+     55,
+     20,
      50
     ],
-    "Color": "#6F7680",
+    "Color": "#8C8F94",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      -50.0,
-      22.5,
-      -109.0
+      -270.5,
+      10.0,
+      -163.0
      ],
      "orientation": [
       0,
@@ -2593,19 +2686,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     40,
-     80,
+     55,
+     45,
      50
     ],
-    "Color": "#9DA7B0",
+    "Color": "#6F7680",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      -102.0,
-      40.0,
-      -109.0
+      -57.5,
+      22.5,
+      -227.0
      ],
      "orientation": [
       0,
@@ -2628,15 +2721,15 @@
      60,
      50
     ],
-    "Color": "#8C8F94",
+    "Color": "#7A6E66",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      -161.5,
+      -124.5,
       30.0,
-      -109.0
+      -227.0
      ],
      "orientation": [
       0,
@@ -2655,19 +2748,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     30,
-     45,
+     55,
+     60,
      50
     ],
-    "Color": "#9DA7B0",
+    "Color": "#6F7680",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      -216.0,
-      22.5,
-      -109.0
+      -191.5,
+      30.0,
+      -227.0
      ],
      "orientation": [
       0,
@@ -2686,19 +2779,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     55,
+     40,
      20,
      50
     ],
-    "Color": "#8C8F94",
+    "Color": "#9DA7B0",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      -270.5,
+      -251.0,
       10.0,
-      -109.0
+      -227.0
      ],
      "orientation": [
       0,
@@ -2717,19 +2810,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     55,
-     45,
-     50
+     30,
+     80,
+     40
     ],
-    "Color": "#6F7680",
+    "Color": "#8C8F94",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      -57.5,
-      22.5,
-      -173.0
+      -45.0,
+      40.0,
+      -286.0
      ],
      "orientation": [
       0,
@@ -2748,19 +2841,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     55,
-     60,
-     50
+     40,
+     20,
+     40
     ],
-    "Color": "#7A6E66",
+    "Color": "#B5A48A",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      -124.5,
-      30.0,
-      -173.0
+      -92.0,
+      10.0,
+      -286.0
      ],
      "orientation": [
       0,
@@ -2779,9 +2872,9 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     55,
-     60,
-     50
+     40,
+     30,
+     40
     ],
     "Color": "#6F7680",
     "Material": "Concrete",
@@ -2789,9 +2882,9 @@
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      -191.5,
-      30.0,
-      -173.0
+      -144.0,
+      15.0,
+      -286.0
      ],
      "orientation": [
       0,
@@ -2810,9 +2903,9 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     40,
-     20,
-     50
+     30,
+     60,
+     40
     ],
     "Color": "#9DA7B0",
     "Material": "Concrete",
@@ -2820,9 +2913,9 @@
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      -251.0,
-      10.0,
-      -173.0
+      -191.0,
+      30.0,
+      -286.0
      ],
      "orientation": [
       0,
@@ -2841,19 +2934,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     30,
-     80,
+     40,
+     20,
      40
     ],
-    "Color": "#8C8F94",
+    "Color": "#B5A48A",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      -45.0,
-      40.0,
-      -232.0
+      -238.0,
+      10.0,
+      -286.0
      ],
      "orientation": [
       0,
@@ -2873,18 +2966,18 @@
     "Anchored": true,
     "Size": [
      40,
-     20,
+     60,
      40
     ],
-    "Color": "#B5A48A",
+    "Color": "#C9C2B4",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      -92.0,
-      10.0,
-      -232.0
+      -290.0,
+      30.0,
+      -286.0
      ],
      "orientation": [
       0,
@@ -2903,19 +2996,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     40,
      30,
+     60,
      40
     ],
-    "Color": "#6F7680",
+    "Color": "#C9C2B4",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      -144.0,
-      15.0,
-      -232.0
+      45.0,
+      30.0,
+      -50.0
      ],
      "orientation": [
       0,
@@ -2934,19 +3027,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     30,
+     40,
      60,
      40
     ],
-    "Color": "#9DA7B0",
+    "Color": "#7A6E66",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      -191.0,
+      92.0,
       30.0,
-      -232.0
+      -50.0
      ],
      "orientation": [
       0,
@@ -2966,7 +3059,7 @@
     "Anchored": true,
     "Size": [
      40,
-     20,
+     30,
      40
     ],
     "Color": "#B5A48A",
@@ -2975,9 +3068,9 @@
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      -238.0,
-      10.0,
-      -232.0
+      211.0,
+      15.0,
+      -50.0
      ],
      "orientation": [
       0,
@@ -2996,19 +3089,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     40,
-     80,
+     30,
+     30,
      40
     ],
-    "Color": "#7A6E66",
+    "Color": "#B5A48A",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      -50.0,
-      40.0,
-      -286.0
+      258.0,
+      15.0,
+      -50.0
      ],
      "orientation": [
       0,
@@ -3027,19 +3120,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
+     55,
      30,
-     60,
-     40
+     30
     ],
-    "Color": "#C9C2B4",
+    "Color": "#8C8F94",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      -97.0,
-      30.0,
-      -286.0
+      57.5,
+      15.0,
+      -99.0
      ],
      "orientation": [
       0,
@@ -3058,9 +3151,9 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     40,
-     60,
-     40
+     30,
+     45,
+     30
     ],
     "Color": "#7A6E66",
     "Material": "Concrete",
@@ -3068,9 +3161,9 @@
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      -144.0,
-      30.0,
-      -286.0
+      231.0,
+      22.5,
+      -99.0
      ],
      "orientation": [
       0,
@@ -3089,19 +3182,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     55,
-     60,
-     40
+     30,
+     30,
+     30
     ],
-    "Color": "#B5A48A",
+    "Color": "#9DA7B0",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      -203.5,
-      30.0,
-      -286.0
+      273.0,
+      15.0,
+      -99.0
      ],
      "orientation": [
       0,
@@ -3120,19 +3213,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     30,
-     20,
-     40
+     40,
+     80,
+     50
     ],
-    "Color": "#B5A48A",
+    "Color": "#C9C2B4",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      -258.0,
-      10.0,
-      -286.0
+      50.0,
+      40.0,
+      -153.0
      ],
      "orientation": [
       0,
@@ -3151,19 +3244,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
+     40,
      30,
-     30,
-     30
+     50
     ],
-    "Color": "#8C8F94",
+    "Color": "#6F7680",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      45.0,
+      102.0,
       15.0,
-      -45.0
+      -153.0
      ],
      "orientation": [
       0,
@@ -3182,19 +3275,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     40,
-     80,
-     30
+     55,
+     20,
+     50
     ],
-    "Color": "#B5A48A",
+    "Color": "#9DA7B0",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      92.0,
-      40.0,
-      -45.0
+      228.5,
+      10.0,
+      -153.0
      ],
      "orientation": [
       0,
@@ -3213,19 +3306,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     40,
-     20,
-     30
+     55,
+     80,
+     50
     ],
-    "Color": "#B5A48A",
+    "Color": "#9DA7B0",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      196.0,
-      10.0,
-      -45.0
+      295.5,
+      40.0,
+      -153.0
      ],
      "orientation": [
       0,
@@ -3245,18 +3338,18 @@
     "Anchored": true,
     "Size": [
      40,
-     80,
-     30
+     60,
+     40
     ],
-    "Color": "#7A6E66",
+    "Color": "#8C8F94",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      248.0,
-      40.0,
-      -45.0
+      50.0,
+      30.0,
+      -212.0
      ],
      "orientation": [
       0,
@@ -3275,19 +3368,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     55,
-     45,
-     50
+     40,
+     60,
+     40
     ],
-    "Color": "#B5A48A",
+    "Color": "#8C8F94",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      57.5,
-      22.5,
-      -99.0
+      102.0,
+      30.0,
+      -212.0
      ],
      "orientation": [
       0,
@@ -3306,19 +3399,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     55,
-     80,
-     50
+     30,
+     30,
+     40
     ],
-    "Color": "#6F7680",
+    "Color": "#9DA7B0",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      191.5,
-      40.0,
-      -99.0
+      191.0,
+      15.0,
+      -212.0
      ],
      "orientation": [
       0,
@@ -3337,19 +3430,19 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     55,
+     30,
      20,
-     50
+     40
     ],
-    "Color": "#9DA7B0",
+    "Color": "#7A6E66",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      258.5,
+      233.0,
       10.0,
-      -99.0
+      -212.0
      ],
      "orientation": [
       0,
@@ -3369,18 +3462,18 @@
     "Anchored": true,
     "Size": [
      55,
-     60,
-     50
+     20,
+     40
     ],
-    "Color": "#9DA7B0",
+    "Color": "#8C8F94",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      57.5,
-      30.0,
-      -163.0
+      287.5,
+      10.0,
+      -212.0
      ],
      "orientation": [
       0,
@@ -3400,18 +3493,18 @@
     "Anchored": true,
     "Size": [
      30,
-     60,
-     50
+     45,
+     30
     ],
-    "Color": "#6F7680",
+    "Color": "#C9C2B4",
     "Material": "Concrete",
     "TopSurface": "Smooth",
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      216.0,
-      30.0,
-      -163.0
+      221.0,
+      22.5,
+      -261.0
      ],
      "orientation": [
       0,
@@ -3430,9 +3523,9 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     40,
+     30,
      20,
-     50
+     30
     ],
     "Color": "#B5A48A",
     "Material": "Concrete",
@@ -3442,255 +3535,7 @@
      "position": [
       263.0,
       10.0,
-      -163.0
-     ],
-     "orientation": [
-      0,
-      0,
-      0
-     ]
-    }
-   },
-   "tags": [
-    "Building"
-   ]
-  },
-  {
-   "name": "Building60",
-   "className": "Part",
-   "properties": {
-    "Anchored": true,
-    "Size": [
-     30,
-     60,
-     30
-    ],
-    "Color": "#B5A48A",
-    "Material": "Concrete",
-    "TopSurface": "Smooth",
-    "BottomSurface": "Smooth",
-    "CFrame": {
-     "position": [
-      45.0,
-      30.0,
-      -217.0
-     ],
-     "orientation": [
-      0,
-      0,
-      0
-     ]
-    }
-   },
-   "tags": [
-    "Building"
-   ]
-  },
-  {
-   "name": "Building61",
-   "className": "Part",
-   "properties": {
-    "Anchored": true,
-    "Size": [
-     30,
-     45,
-     30
-    ],
-    "Color": "#C9C2B4",
-    "Material": "Concrete",
-    "TopSurface": "Smooth",
-    "BottomSurface": "Smooth",
-    "CFrame": {
-     "position": [
-      87.0,
-      22.5,
-      -217.0
-     ],
-     "orientation": [
-      0,
-      0,
-      0
-     ]
-    }
-   },
-   "tags": [
-    "Building"
-   ]
-  },
-  {
-   "name": "Building62",
-   "className": "Part",
-   "properties": {
-    "Anchored": true,
-    "Size": [
-     30,
-     80,
-     30
-    ],
-    "Color": "#B5A48A",
-    "Material": "Concrete",
-    "TopSurface": "Smooth",
-    "BottomSurface": "Smooth",
-    "CFrame": {
-     "position": [
-      213.0,
-      40.0,
-      -217.0
-     ],
-     "orientation": [
-      0,
-      0,
-      0
-     ]
-    }
-   },
-   "tags": [
-    "Building"
-   ]
-  },
-  {
-   "name": "Building63",
-   "className": "Part",
-   "properties": {
-    "Anchored": true,
-    "Size": [
-     55,
-     20,
-     30
-    ],
-    "Color": "#7A6E66",
-    "Material": "Concrete",
-    "TopSurface": "Smooth",
-    "BottomSurface": "Smooth",
-    "CFrame": {
-     "position": [
-      267.5,
-      10.0,
-      -217.0
-     ],
-     "orientation": [
-      0,
-      0,
-      0
-     ]
-    }
-   },
-   "tags": [
-    "Building"
-   ]
-  },
-  {
-   "name": "Building64",
-   "className": "Part",
-   "properties": {
-    "Anchored": true,
-    "Size": [
-     30,
-     20,
-     50
-    ],
-    "Color": "#B5A48A",
-    "Material": "Concrete",
-    "TopSurface": "Smooth",
-    "BottomSurface": "Smooth",
-    "CFrame": {
-     "position": [
-      45.0,
-      10.0,
-      -271.0
-     ],
-     "orientation": [
-      0,
-      0,
-      0
-     ]
-    }
-   },
-   "tags": [
-    "Building"
-   ]
-  },
-  {
-   "name": "Building65",
-   "className": "Part",
-   "properties": {
-    "Anchored": true,
-    "Size": [
-     55,
-     60,
-     50
-    ],
-    "Color": "#B5A48A",
-    "Material": "Concrete",
-    "TopSurface": "Smooth",
-    "BottomSurface": "Smooth",
-    "CFrame": {
-     "position": [
-      99.5,
-      30.0,
-      -271.0
-     ],
-     "orientation": [
-      0,
-      0,
-      0
-     ]
-    }
-   },
-   "tags": [
-    "Building"
-   ]
-  },
-  {
-   "name": "Building66",
-   "className": "Part",
-   "properties": {
-    "Anchored": true,
-    "Size": [
-     40,
-     45,
-     50
-    ],
-    "Color": "#C9C2B4",
-    "Material": "Concrete",
-    "TopSurface": "Smooth",
-    "BottomSurface": "Smooth",
-    "CFrame": {
-     "position": [
-      226.0,
-      22.5,
-      -271.0
-     ],
-     "orientation": [
-      0,
-      0,
-      0
-     ]
-    }
-   },
-   "tags": [
-    "Building"
-   ]
-  },
-  {
-   "name": "Building67",
-   "className": "Part",
-   "properties": {
-    "Anchored": true,
-    "Size": [
-     40,
-     60,
-     50
-    ],
-    "Color": "#8C8F94",
-    "Material": "Concrete",
-    "TopSurface": "Smooth",
-    "BottomSurface": "Smooth",
-    "CFrame": {
-     "position": [
-      278.0,
-      30.0,
-      -271.0
+      -261.0
      ],
      "orientation": [
       0,
