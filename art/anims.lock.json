@@ -4,8 +4,8 @@
   "sha": "4ad320fe5657ca8b64643352813dc32d193a848f4229d34c9ade23a54e9a28f1"
  },
  "Tulevo_CrouchWalk": {
-  "id": 120145779343446,
-  "sha": "5ffa344ad8a9047a76b4b614868ed9dead607fc164dddb113d4d0e864485bb82"
+  "id": 121862260644701,
+  "sha": "06b35a0a3774ce91299005c284e289c3d906f4b648f7ea2263132ac3729fb696"
  },
  "Tulevo_Fall": {
   "id": 71772951335743,
@@ -56,24 +56,32 @@
   "sha": "92b24b6c31c75c888f7c2293731f7573c1302959680059a4e28bc2918fa5cbc5"
  },
  "Tulevo_Run": {
-  "id": 85091923292376,
-  "sha": "4714ba3298e57c727ae2bfb6fe014b9d793f46d57db3a065806ae8dd25fe0995"
+  "id": 129294723319432,
+  "sha": "4b6866a3179a0d5fb5d622d256c5a04d719f49c4c084208abf4b551867d3e579"
  },
  "Tulevo_Sprint": {
-  "id": 107785750810609,
-  "sha": "9e1eaf49a4cb3f35c0e09b611c9e4190e58fabf49b7835f839e19da65da8bc7f"
+  "id": 123960574100619,
+  "sha": "9afb8c2856b4e98d4ec5f4a3462d8500102a325b549c14864324780142c217fa"
  },
  "Tulevo_SprintStop": {
   "id": 128469028057883,
   "sha": "77db5b82ba7e42d017102c4977b1e483615458dadb9d3623ebb30caa06adb64f"
  },
  "Tulevo_StrafeLeft": {
-  "id": 94699464760252,
-  "sha": "695aff86f653a97ab072dcb27fc9ae704bfac3e0c3ca8954ed4a8b7d83213a09"
+  "id": 80523870878071,
+  "sha": "657209c4b01fa0e814e8842c521dc0697b5d641dba0bdb31d803ddb75f98e6c9"
  },
  "Tulevo_StrafeRight": {
-  "id": 86691988839384,
-  "sha": "c2de270c4e9bb213d8ffd65bb7b35ffa45efb860eb0ec4d542451a1f3cea61af"
+  "id": 139319346878731,
+  "sha": "81ad0f936f0b240565ce25603dadce9eaab89eb6a4373a80daf3babf6fb38f59"
+ },
+ "Tulevo_StrafeRunLeft": {
+  "id": 79399545281130,
+  "sha": "76baee8334b10c7177d2a34d6cdfd77717005b9cee94dda930aa4199ecb0f668"
+ },
+ "Tulevo_StrafeRunRight": {
+  "id": 139426375448636,
+  "sha": "c5686de13523cb893722f5b59b16bb4383e2f793ac054f97c8a81744f1ccb14a"
  },
  "Tulevo_TurnStepLeft": {
   "id": 94179801753472,
@@ -92,8 +100,8 @@
   "sha": "0adb50bf7a6fe9683f168ae8034bdc4f28d14e5e2ad0e87e8c21595d5df686a0"
  },
  "Tulevo_Walk": {
-  "id": 89781740812605,
-  "sha": "fd575a445b9e3c3e2b0ea7fee25c869b0ba0519ee6c951ac08b88307adf96ee0"
+  "id": 100596451234263,
+  "sha": "18826754c895a3e342cda6bed97fedaca1553ac398d7c09da9ed364c564efa06"
  },
  "Weapon_Rifle_Aim": {
   "id": 76169068879369,
@@ -148,8 +156,8 @@
   "sha": "a58ef8a2842ebb75271e61d39142de5af917848791b5bb7170e559ca6869e980"
  },
  "Weapon_Rifle_Sprint": {
-  "id": 76254731487206,
-  "sha": "72f408df75a2068363c95ad3cb9e8e8164661014da73a61b4313119bd6df9704"
+  "id": 71046777720708,
+  "sha": "bf285e9c131bc0037b7cea50a231cfc611d952e9f01ffc4069dc8e476059a72d"
  },
  "Weapon_Rifle_Tuck": {
   "id": 120216076485023,

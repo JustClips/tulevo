@@ -4,7 +4,8 @@
 local TweenService = game:GetService("TweenService")
 
 local IDLE_RATE = 1
-local NATURAL = 1.82 -- Tulevo_CrouchWalk studs/s at speed 1 (art/anim/locomotion.py)
+local NATURAL = 2.46 -- Tulevo_CrouchWalk studs/s at speed 1 (art/anim/locomotion.py)
+local MAX_RATE = 1.61 -- calm top cadence (locomotion.py CROUCH_CADENCE); faster speeds slide a little
 local AIR = {
 	[Enum.HumanoidStateType.Jumping] = true,
 	[Enum.HumanoidStateType.Freefall] = true,
@@ -55,7 +56,7 @@ return {
 		c.mix += ((if moving then 1 else 0) - c.mix) * math.min(1, dt * 10)
 		c.idle:AdjustWeight(math.max(0.001, 1 - c.mix), 0)
 		c.walk:AdjustWeight(math.max(0.001, c.mix), 0)
-		c.walk:AdjustSpeed(math.clamp(math.max(ctx.Speed, 1) / NATURAL, 0.5, 2.3))
+		c.walk:AdjustSpeed(math.clamp(math.max(ctx.Speed, 1) / NATURAL, 0.5, MAX_RATE))
 	end,
 	Stop = function(ctx)
 		local c = tracks(ctx)

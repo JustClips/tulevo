@@ -2,7 +2,9 @@
 	The foot animation layer: Walk, Jog and Sprint clips (art/anim/locomotion.py) played at
 	Movement priority above the default Animate script. Weights blend by real speed between
 	each gait's reference speed (Config.Movement), and every clip plays at
-	speed / Natural so the planted foot moves with the ground.
+	speed / Natural so the planted foot moves with the ground, up to the gait's MaxRate (a calm
+	top cadence: game speeds are fast for these legs, and a little foot slide reads far better
+	than legs spinning).
 ]]
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -11,10 +13,15 @@ local Gaits = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Gai
 -- aiming while walking backwards plays the clips in reverse (set by Client.Weapons)
 local WeaponState = require(Players.LocalPlayer:WaitForChild("PlayerScripts"):WaitForChild("Client"):WaitForChild("Weapons"):WaitForChild("State"))
 
--- Aiming side-steps (art/anim/strafe.py): studs/s the clip covers at playback speed 1
-local STRAFE_NATURAL = 3.125
-local STRAFE_CLIPS = { Right = "Tulevo_StrafeRight", Left = "Tulevo_StrafeLeft" }
-local MAX_RATE = 2.3 -- faster than this looks frantic; a little foot slide reads better
+-- Aiming side-steps and the aim + sprint side run (art/anim/strafe.py prints these):
+-- Natural = studs/s the clip covers at playback speed 1, MaxRate = calm top cadence
+local STRAFE = {
+	{ Kind = "Walk", Dir = "Right", Clip = "Tulevo_StrafeRight", Natural = 3.977, MaxRate = 1.6 },
+	{ Kind = "Walk", Dir = "Left", Clip = "Tulevo_StrafeLeft", Natural = 3.977, MaxRate = 1.6 },
+	{ Kind = "Run", Dir = "Right", Clip = "Tulevo_StrafeRunRight", Natural = 8.611, MaxRate = 1.44 },
+	{ Kind = "Run", Dir = "Left", Clip = "Tulevo_StrafeRunLeft", Natural = 8.611, MaxRate = 1.44 },
+}
+local MAX_RATE = 2.3 -- fallback top rate for a gait without MaxRate
 local DEFAULT_GROUND = 3.19 -- default R15: HipHeight 2.19 + half the root part
 
 local Gait = {}
@@ -29,17 +36,27 @@ function Gait.new(ctx)
 		track.Priority = Enum.AnimationPriority.Movement
 		track.Looped = true
 		track:Play(0, 0.001, 1)
-		table.insert(self.layers, { track = track, natural = g.Natural, ref = refs[g.Name] or m.WalkSpeed, w = 0, sent = -1 })
+		table.insert(self.layers, {
+			track = track,
+			natural = g.Natural,
+			maxRate = g.MaxRate or MAX_RATE,
+			ref = refs[g.Name] or m.WalkSpeed,
+			w = 0,
+			sent = -1,
+		})
 	end
 	-- while aiming, moving sideways blends in side-step clips (the body keeps facing the aim)
+	-- (walk side-steps up to the aim walk speed, the side run toward Config.Movement.AimSprintSpeed)
 	self.strafe = {}
-	for dir, clip in STRAFE_CLIPS do
-		local ok, track = pcall(ctx.LoadClip, clip)
-		if ok then
+	self.hasRun = false
+	for _, def in STRAFE do
+		local ok, track = pcall(ctx.LoadClip, def.Clip)
+		if ok and track then
 			track.Priority = Enum.AnimationPriority.Movement
 			track.Looped = true
 			track:Play(0, 0.001, 1)
-			self.strafe[dir] = { track = track, w = 0, sent = -1 }
+			table.insert(self.strafe, { def = def, track = track, w = 0, sent = -1 })
+			self.hasRun = self.hasRun or def.Kind == "Run"
 		end
 	end
 	return self
@@ -73,10 +90,25 @@ function Gait:update(dt: number, enabled: boolean)
 	-- share of the movement that is sideways while aiming (signed: + right), set by Client.Weapons
 	local side = math.clamp(WeaponState.StrafeSide or 0, -1, 1)
 	local forward = 1 - math.abs(side)
-	for dir, l in self.strafe do
-		local want = if dir == "Right" then math.max(0, side) else math.max(0, -side)
+	local m = ctx.Config.Movement
+	local sprintSide = m.AimSprintSpeed or m.SprintSpeed
+	local run = if self.hasRun then math.clamp((ctx.Speed - m.WalkSpeed) / math.max(0.5, sprintSide - m.WalkSpeed), 0, 1) else 0
+	for _, l in self.strafe do
+		local def = l.def
+		local dirShare = if def.Dir == "Right" then math.max(0, side) else math.max(0, -side)
+		local want = dirShare * (if def.Kind == "Run" then run else 1 - run)
+		local before = l.w
 		l.w += (want - l.w) * math.min(1, dt * 10)
-		l.track:AdjustSpeed(math.clamp(math.max(ctx.Speed, 1) / (STRAFE_NATURAL * size), 0.5, MAX_RATE))
+		-- the side run fading in starts on the same step as the side walk (and back)
+		if before < 0.02 and l.w >= 0.02 and l.track.Length > 0 then
+			for _, o in self.strafe do
+				if o ~= l and o.def.Dir == def.Dir and o.w >= 0.02 and o.track.Length > 0 then
+					l.track.TimePosition = (o.track.TimePosition / o.track.Length) * l.track.Length
+					break
+				end
+			end
+		end
+		l.track:AdjustSpeed(math.clamp(math.max(ctx.Speed, 1) / (def.Natural * size), 0.5, def.MaxRate))
 		local w = math.max(0.001, self.weight * l.w)
 		if math.abs(w - l.sent) > 0.01 then
 			l.track:AdjustWeight(w, 0)
@@ -97,7 +129,7 @@ function Gait:update(dt: number, enabled: boolean)
 		if before < 0.02 and l.w >= 0.02 and l ~= lead and lead.track.Length > 0 and l.track.Length > 0 then
 			l.track.TimePosition = (lead.track.TimePosition / lead.track.Length) * l.track.Length
 		end
-		local rate = math.clamp(math.max(ctx.Speed, 1) / (l.natural * size), 0.5, MAX_RATE)
+		local rate = math.clamp(math.max(ctx.Speed, 1) / (l.natural * size), 0.5, l.maxRate)
 		l.track:AdjustSpeed(if WeaponState.GaitReverse then -rate else rate)
 		local w = math.max(0.001, self.weight * l.w * forward)
 		if math.abs(w - l.sent) > 0.01 then

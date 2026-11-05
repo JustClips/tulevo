@@ -3,12 +3,13 @@ facing the aim (GTA style). The hips stay square (no hip turn) so the shouldered
 swing; feet travel sideways in two lanes (left foot a little forward like a rifle stance, right
 foot back), so when they pass each other they cross without clipping.
 
-  python3 art/anim/strafe.py [--preview]  -> art/out/anims/Tulevo_StrafeLeft/Right.rbxmx
+  python3 art/anim/strafe.py [--preview]  -> art/out/anims/Tulevo_StrafeLeft/Right.rbxmx (walk)
+                                          and Tulevo_StrafeRunLeft/Right.rbxmx (aim + sprint)
 
 Only the LowerTorso and legs are keyed (parents with Weight 0), so the upper body comes from
 the Aim pose. The game blends these with the forward/back walk by how sideways you move
-(src/client/Movement/Gait.luau) and plays them at speed / Natural (src/shared/Gaits.luau
-StrafeNatural).
+(src/client/Movement/Gait.luau) and plays them at speed / Natural, capped at a calm top
+cadence (the printed constants go into Gait.luau).
 """
 import math
 import os
@@ -24,12 +25,20 @@ import r15  # noqa: E402
 D = math.radians
 
 STRAFE = dict(
-    L.WALK, duration=0.8, stance=0.6,
-    front=-0.72, back=0.78,      # travel along the movement direction while planted
-    lift=0.26, toe_out=4,
+    L.WALK, duration=0.8, stance=0.55,
+    front=-0.85, back=0.9,       # travel along the movement direction while planted
+    lift=0.3, toe_out=4,
     heel_pitch=8, toe_pitch=-18, swing_pitch=-4,
     bob=0.035, sway=0.0, hip_yaw=0, hip_roll=2,
 )
+# Aim + sprint sideways: a quick side run with a short flight between steps.
+STRAFE_RUN = dict(
+    STRAFE, duration=0.6, stance=0.3,
+    front=-0.75, back=0.8,
+    lift=0.45, heel_pitch=4, toe_pitch=-26, bob=0.07,
+)
+# top cadence (foot cycles per second) before the feet start to slide instead
+CADENCE = {"Walk": 2.0, "Run": 2.4}
 LANE = {1: (0.45, 0.32), -1: (-0.45, -0.32)}  # side -> (base x, z): left foot forward, right back
 
 
@@ -45,8 +54,7 @@ def foot_world_strafe(dirn):
     return fw
 
 
-def build(dirn, steps=24):
-    s = STRAFE
+def build(dirn, s=STRAFE, steps=24):
     orig = L.foot_world
     L.foot_world = foot_world_strafe(dirn)
     try:
@@ -74,16 +82,17 @@ KEYED = ["LowerTorso", "RightUpperLeg", "RightLowerLeg", "RightFoot", "LeftUpper
 
 def main():
     os.makedirs(L.OUT, exist_ok=True)
-    nat = L.natural_speed(STRAFE)
-    for name, dirn in (("Tulevo_StrafeRight", 1), ("Tulevo_StrafeLeft", -1)):
-        frames, drop = build(dirn)
-        with open(os.path.join(L.OUT, f"{name}.rbxmx"), "w") as fh:
-            fh.write(G.sequence(name, frames, KEYED, True, priority=1))
-        print(f"{name}: natural speed {nat:.3f} studs/s, hips sit {drop:.3f} lower")
-        if "--preview" in sys.argv:
-            fine, _ = build(dirn, 40)
-            L.preview(name, fine, os.path.join(L.OUT, f"{name}.gif"))
-    print(f"StrafeNatural = {nat:.3f}")
+    for kind, s, base in (("Walk", STRAFE, "Tulevo_Strafe"), ("Run", STRAFE_RUN, "Tulevo_StrafeRun")):
+        nat = L.natural_speed(s)
+        for name, dirn in ((base + "Right", 1), (base + "Left", -1)):
+            frames, drop = build(dirn, s)
+            with open(os.path.join(L.OUT, f"{name}.rbxmx"), "w") as fh:
+                fh.write(G.sequence(name, frames, KEYED, True, priority=1))
+            print(f"{name}: natural speed {nat:.3f} studs/s, hips sit {drop:.3f} lower")
+            if "--preview" in sys.argv:
+                fine, _ = build(dirn, s, 40)
+                L.preview(name, fine, os.path.join(L.OUT, f"{name}.gif"))
+        print(f"Gait.luau STRAFE.{kind}: Natural = {nat:.3f}, MaxRate = {CADENCE[kind] * s['duration']:.3f}")
 
 
 if __name__ == "__main__":

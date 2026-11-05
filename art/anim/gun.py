@@ -219,8 +219,11 @@ def _grip_from_butt(butt, pitch, yaw, roll=0.0):
 
 
 AIM = dict(pos=_grip_from_butt((0.55, 0.8, -0.45), 3, 48), pitch=3, yaw=48, roll=0)
-# Sprint "port arms": rifle across the chest, muzzle up and to the left.
-SPRINT = dict(pos=(0.32, -0.40, -1.05), pitch=38, yaw=48, roll=-40)
+# Sprint: low ready like the walk carry but pulled in and tipped further down (the sprint lean
+# points it down the way you run). Not "port arms" (muzzle up-left) - Dev found that odd.
+# A more forward muzzle isn't possible: below ~46 deg yaw either the stock runs into the chest
+# or the left hand can't reach the handguard.
+SPRINT = dict(pos=(0.25, 0.05, -0.95), pitch=-32, yaw=48, roll=0)
 # Roll / falling tuck: rifle pulled in tight, muzzle up.
 TUCK = dict(pos=(0.30, -0.30, -1.05), pitch=58, yaw=34, roll=-20)
 # Near a wall: muzzle down steeply, close to the body.
@@ -367,8 +370,8 @@ def equip_clip():
 
 def sprint_bob(d, u):
     w = 2 * math.pi * u * 2  # two bounces per sprint cycle (one per step)
-    return dict(d, pos=(d["pos"][0] + 0.05 * math.sin(w / 2), d["pos"][1] + 0.06 * math.sin(w), d["pos"][2]),
-                yaw=d["yaw"] + 6 * math.sin(w / 2), pitch=d["pitch"] + 3 * math.cos(w))
+    return dict(d, pos=(d["pos"][0] + 0.03 * math.sin(w / 2), d["pos"][1] + 0.06 * math.sin(w), d["pos"][2]),
+                yaw=d["yaw"] + 3 * math.sin(w / 2), pitch=d["pitch"] + 2 * math.cos(w))
 
 
 def air_bob(d, u):

@@ -18,7 +18,7 @@ which animations they need, and the server decides every hit.
 | `src/server/Weapons/GunModel.luau` | Gun model welded in the right hand (equipped) or on the back (holstered) |
 | `art/anim/gun.py` | Builds the rifle clips: places the gun, solves both arms with IK onto grip + handguard |
 | `src/client/Weapons/Effects.luau` | Tracers now; flash, sounds, impacts later |
-| `src/client/Movement/Moves/Aim.luau` | Aiming slows you and beats Sprint (part of the Movement system) |
+| `src/client/Movement/Moves/Aim.luau` | Aiming slows you to the class's aim walk and beats Sprint; sprint key while aiming = side run up to `Config.Movement.AimSprintSpeed` (12), sideways only (part of the Movement system) |
 | `Config.Weapons` | Studio test loadout, slot key order |
 
 Add a weapon: copy a file in `Defs/`. Damage per hit = `Damage` x body-part multiplier (`BodyDamage` in the weapon, else `Config.Weapons.BodyDamage`) x distance falloff. The ammo counter (top right, `src/client/AmmoHud.client.luau`) shows mag and spare bullets. Add a family: add a class in `Classes.luau` and its animations.
@@ -58,7 +58,7 @@ shows the rewound hitboxes in Studio.
 | Clip | When |
 |---|---|
 | Hold | low ready, standing / walking / crouching |
-| Sprint | rifle across the chest while sprinting |
+| Sprint | low ready while sprinting: pulled in, muzzle down across the body (no longer muzzle-up port arms) |
 | Aim | right click, and for 0.6 s after a hip-fire shot; chest + head keyed, waist bent to the camera pitch |
 | Fire | recoil kick on top of Aim |
 | Tuck | during rolls (Space while aiming, like GTA 5) |
@@ -71,7 +71,9 @@ shows the rewound hitboxes in Studio.
 | CrouchHold | crouched, not aiming: high ready |
 
 While the gun is up your whole body faces the camera (GTA). A/D blend in side-step clips
-(`art/anim/strafe.py`, Tulevo_StrafeLeft/Right), S plays the walk in reverse, and
+(`art/anim/strafe.py`, Tulevo_StrafeLeft/Right; with Shift the side run Tulevo_StrafeRunLeft/Right
+blends in as you speed up toward `AimSprintSpeed`; there's no forward sprint while aiming),
+S plays the walk in reverse, and
 `Client/Weapons/GunPose` locks the chest to the aim yaw + pitch every frame after the
 animations (so walking never wobbles the rifle), for every player via GunUp/GunPitch.
 Aiming while standing still, the feet stay planted as the body turns and a turn step

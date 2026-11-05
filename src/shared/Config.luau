@@ -9,9 +9,10 @@ local Config = {
 	-- Crouch (toggle): Ctrl or C, gamepad B, phone Crouch button.
 	-- Roll (GTA 5): Space while aiming a gun (gamepad L2 + A, phone Roll button), toward the way you're moving.
 	Movement = {
-		WalkSpeed = 6,
+		WalkSpeed = 8,
 		JogSpeed = 14,
 		SprintSpeed = 20,
+		AimSprintSpeed = 12, -- aiming + sprint key: side run only (forward/back stay at the aim walk)
 		CrouchSpeed = 4,
 		CrouchCameraDrop = 1.3, -- camera sits this much lower while crouched
 		RollSpeed = 17, -- studs/s during a roll (aim + Space)
