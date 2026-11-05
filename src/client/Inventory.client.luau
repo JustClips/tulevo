@@ -1,5 +1,5 @@
 --[[
-	Inventory window, layout pass (copied from Dev's reference screenshot). I opens / closes it
+	Inventory window, layout pass (copied from Dev's reference screenshot). N opens / closes it
 	(phone: Bag button). Nothing is functional yet: every slot is empty and nothing can be
 	picked up, moved or used. The two bars show your real health and armor.
 
@@ -334,9 +334,8 @@ end)
 
 gui.Parent = player:WaitForChild("PlayerGui")
 
--- I toggles the window. Roblox's own camera script also binds I (keyboard zoom) and swallows
--- it, so this binds above it (High priority) and sinks the key (no zoom-in when opening). The
--- InputBegan fallback catches I even if something else ever takes it first; the debounce keeps
+-- N toggles the window (Dev's pick; I is Roblox's camera zoom key). Bound at High priority and
+-- sinks the key. The InputBegan fallback catches N even if something else ever takes it first; the debounce keeps
 -- the two from toggling twice on one press.
 local lastToggle = 0
 local function toggle()
@@ -353,17 +352,14 @@ ContextActionService:BindActionAtPriority("Inventory_Toggle", function(_, state)
 		toggle()
 	end
 	return Enum.ContextActionResult.Sink
-end, true, Enum.ContextActionPriority.High.Value, Enum.KeyCode.I)
+end, true, Enum.ContextActionPriority.High.Value, Enum.KeyCode.N)
 ContextActionService:SetTitle("Inventory_Toggle", "Bag")
 ContextActionService:SetPosition("Inventory_Toggle", UDim2.new(1, -245, 1, -210))
 
-UserInputService.InputBegan:Connect(function(input, processed)
-	if input.UserInputType == Enum.UserInputType.Keyboard then
-		print(`[Inventory] key {input.KeyCode.Name} (taken by game: {processed})`) -- temporary
-	end
-	if input.KeyCode == Enum.KeyCode.I and UserInputService:GetFocusedTextBox() == nil then
+UserInputService.InputBegan:Connect(function(input)
+	if input.KeyCode == Enum.KeyCode.N and UserInputService:GetFocusedTextBox() == nil then
 		toggle()
 	end
 end)
 
-print("[Inventory] ready v3: press I to open")
+print("[Inventory] ready: press N to open")
