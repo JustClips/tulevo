@@ -282,11 +282,14 @@ function MapData.drawRoads(parent: Instance, color: Color3?, outline: Color3?, o
 			local len = (b - a).Magnitude
 			if len > 0.05 then
 				local dir = (b - a) / len
-				if (degree[e.a] or 0) >= 2 then
-					a -= dir * math.min(minW[e.a], w) / 2
+				-- Only a road wider than the narrowest one at a join runs past it.
+				-- Same-width pieces (bends) just meet at the round cap, so the
+				-- outer edge of a curve stays smooth.
+				if (degree[e.a] or 0) >= 2 and w > minW[e.a] + 0.01 then
+					a -= dir * minW[e.a] / 2
 				end
-				if (degree[e.b] or 0) >= 2 then
-					b += dir * math.min(minW[e.b], w) / 2
+				if (degree[e.b] or 0) >= 2 and w > minW[e.b] + 0.01 then
+					b += dir * minW[e.b] / 2
 				end
 				len = (b - a).Magnitude
 				flatPart(parent, c, Vector3.new(w, 0.1, len), CFrame.lookAt((a + b) / 2, b))
