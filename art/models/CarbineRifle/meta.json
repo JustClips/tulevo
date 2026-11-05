@@ -104,5 +104,6 @@
       "Metalness": "Magazine_Metalness.png"
     }
   },
-  "model": "AR-15 pattern short-barrel carbine, 10.5in barrel, free-float handguard, flip-up sights, minimalist stock (original mesh, no markings except SAFE/SEMI/FULL)"
+  "model": "AR-15 pattern short-barrel carbine, 10.5in barrel, free-float handguard, flip-up sights, minimalist stock (original mesh, no markings except SAFE/SEMI/FULL)",
+  "export_note": "2026-11-05: GLB re-exported at stud scale (x3.6, empties too) with a barrel, gas tube and front cap added inside the handguard; meta locations below are still the original meters."
 }

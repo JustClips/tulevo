@@ -12,7 +12,7 @@ local SCALE = 3.6
 -- What to show and where, relative to the spawn (spawn center, Y = floor).
 local SHOWCASE = {
 	{ Name = "Carbine", Offset = Vector3.new(5, 3.2, -3) },
-	{ Name = "CarbineRifle", Offset = Vector3.new(-5, 3.2, -3) },
+	{ Name = "CarbineRifle", Offset = Vector3.new(-5, 3.2, -3), Scale = 1 }, -- exported in studs
 	{ Name = "ArmorVest", Offset = Vector3.new(0, 3.5, -7), Scale = 1 },
 	{ Name = "Mead", Offset = Vector3.new(-3, 2.6, -7) },
 	{ Name = "Chaser", Offset = Vector3.new(-4.5, 2.6, -7) },
