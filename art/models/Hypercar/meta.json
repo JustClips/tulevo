@@ -1,0 +1,437 @@
+{
+  "units": "meters (x3.6 = studs)",
+  "axes": "Blender: -Y = front, +Z = up, +X = car's LEFT (driver side). Roblox car space = (-x, z, y).",
+  "origin": "ground, centred between the axles",
+  "parts": {
+    "Body_Front": {
+      "tris": 12690,
+      "bbox_min": [
+        -0.9498,
+        -2.3588,
+        0.11
+      ],
+      "bbox_max": [
+        0.9498,
+        -0.86,
+        0.7916
+      ]
+    },
+    "Body_Mid": {
+      "tris": 7552,
+      "bbox_min": [
+        -0.9384,
+        -0.86,
+        0.11
+      ],
+      "bbox_max": [
+        0.9384,
+        0.62,
+        1.1527
+      ]
+    },
+    "Body_Rear": {
+      "tris": 17572,
+      "bbox_min": [
+        -0.9634,
+        0.62,
+        0.1117
+      ],
+      "bbox_max": [
+        0.9634,
+        2.2797,
+        1.0566
+      ]
+    },
+    "Trim": {
+      "tris": 15160,
+      "bbox_min": [
+        -0.9627,
+        -2.32,
+        0.12
+      ],
+      "bbox_max": [
+        0.9625,
+        2.2895,
+        1.0113
+      ]
+    },
+    "Interior": {
+      "tris": 11524,
+      "bbox_min": [
+        -0.73,
+        -0.8961,
+        0.195
+      ],
+      "bbox_max": [
+        0.73,
+        0.6161,
+        1.1031
+      ]
+    },
+    "Door_L": {
+      "tris": 6110,
+      "bbox_min": [
+        0.657,
+        -0.86,
+        0.26
+      ],
+      "bbox_max": [
+        1.1564,
+        0.3413,
+        0.939
+      ]
+    },
+    "Door_R": {
+      "tris": 6122,
+      "bbox_min": [
+        -1.1564,
+        -0.86,
+        0.26
+      ],
+      "bbox_max": [
+        -0.657,
+        0.3413,
+        0.939
+      ]
+    },
+    "SteeringWheel": {
+      "tris": 3988,
+      "bbox_min": [
+        0.1716,
+        -0.4377,
+        0.4765
+      ],
+      "bbox_max": [
+        0.5884,
+        -0.2738,
+        0.8149
+      ]
+    },
+    "Pedal_Gas": {
+      "tris": 196,
+      "bbox_min": [
+        0.2525,
+        -0.942,
+        0.268
+      ],
+      "bbox_max": [
+        0.3075,
+        -0.8214,
+        0.512
+      ]
+    },
+    "Pedal_Brake": {
+      "tris": 196,
+      "bbox_min": [
+        0.385,
+        -0.942,
+        0.294
+      ],
+      "bbox_max": [
+        0.475,
+        -0.8364,
+        0.512
+      ]
+    },
+    "Wheel_FL": {
+      "tris": 9852,
+      "bbox_min": [
+        0.6945,
+        -1.726,
+        -0.001
+      ],
+      "bbox_max": [
+        0.9755,
+        -1.004,
+        0.721
+      ]
+    },
+    "Caliper_FL": {
+      "tris": 456,
+      "bbox_min": [
+        0.7595,
+        -1.3714,
+        0.4071
+      ],
+      "bbox_max": [
+        0.895,
+        -1.1341,
+        0.612
+      ]
+    },
+    "Wheel_FR": {
+      "tris": 9852,
+      "bbox_min": [
+        -0.9755,
+        -1.726,
+        -0.001
+      ],
+      "bbox_max": [
+        -0.6945,
+        -1.004,
+        0.721
+      ]
+    },
+    "Caliper_FR": {
+      "tris": 456,
+      "bbox_min": [
+        -0.895,
+        -1.3714,
+        0.4071
+      ],
+      "bbox_max": [
+        -0.7595,
+        -1.1341,
+        0.612
+      ]
+    },
+    "Wheel_RL": {
+      "tris": 9852,
+      "bbox_min": [
+        0.6395,
+        1.004,
+        -0.001
+      ],
+      "bbox_max": [
+        0.9805,
+        1.726,
+        0.721
+      ]
+    },
+    "Caliper_RL": {
+      "tris": 456,
+      "bbox_min": [
+        0.7345,
+        1.3586,
+        0.4071
+      ],
+      "bbox_max": [
+        0.87,
+        1.5959,
+        0.612
+      ]
+    },
+    "Wheel_RR": {
+      "tris": 9852,
+      "bbox_min": [
+        -0.9805,
+        1.004,
+        -0.001
+      ],
+      "bbox_max": [
+        -0.6395,
+        1.726,
+        0.721
+      ]
+    },
+    "Caliper_RR": {
+      "tris": 456,
+      "bbox_min": [
+        -0.87,
+        1.3586,
+        0.4071
+      ],
+      "bbox_max": [
+        -0.7345,
+        1.5959,
+        0.612
+      ]
+    },
+    "Glass": {
+      "tris": 620,
+      "bbox_min": [
+        -0.7,
+        -0.82,
+        0.7288
+      ],
+      "bbox_max": [
+        0.7,
+        0.86,
+        1.12
+      ]
+    }
+  },
+  "pivots": {
+    "SteeringWheel": {
+      "center": [
+        0.3799999952316284,
+        -0.36000001430511475,
+        0.6600000262260437
+      ],
+      "axis_toward_driver": [
+        0.0,
+        0.9272,
+        0.3746
+      ]
+    },
+    "Pedal_Gas": {
+      "pivot": [
+        0.28,
+        -0.93,
+        0.5
+      ],
+      "axis": [
+        1,
+        0,
+        0
+      ]
+    },
+    "Pedal_Brake": {
+      "pivot": [
+        0.43,
+        -0.93,
+        0.5
+      ],
+      "axis": [
+        1,
+        0,
+        0
+      ]
+    },
+    "Door_L": {
+      "hinge": [
+        0.8999999761581421,
+        -0.8600000143051147,
+        0.5
+      ],
+      "axis": [
+        0,
+        0,
+        1
+      ]
+    },
+    "Door_R": {
+      "hinge": [
+        -0.8999999761581421,
+        -0.8600000143051147,
+        0.5
+      ],
+      "axis": [
+        0,
+        0,
+        1
+      ]
+    },
+    "Seat": [
+      0.3799999952316284,
+      0.10000000149011612,
+      0.30000001192092896
+    ]
+  },
+  "wheels": {
+    "FL": [
+      0.835,
+      -1.365,
+      0.36
+    ],
+    "FR": [
+      -0.835,
+      -1.365,
+      0.36
+    ],
+    "RL": [
+      0.81,
+      1.365,
+      0.36
+    ],
+    "RR": [
+      -0.81,
+      1.365,
+      0.36
+    ]
+  },
+  "wheel_radius": 0.36,
+  "textures": {
+    "Body_Front": {
+      "Color": "Body_Front_Color.png",
+      "Roughness": "Body_Front_Roughness.png",
+      "Metalness": "Body_Front_Metalness.png"
+    },
+    "Body_Mid": {
+      "Color": "Body_Mid_Color.png",
+      "Roughness": "Body_Mid_Roughness.png",
+      "Metalness": "Body_Mid_Metalness.png"
+    },
+    "Body_Rear": {
+      "Color": "Body_Rear_Color.png",
+      "Roughness": "Body_Rear_Roughness.png",
+      "Metalness": "Body_Rear_Metalness.png"
+    },
+    "Trim": {
+      "Color": "Trim_Color.png",
+      "Roughness": "Trim_Roughness.png",
+      "Metalness": "Trim_Metalness.png"
+    },
+    "Interior": {
+      "Color": "Interior_Color.png",
+      "Roughness": "Interior_Roughness.png",
+      "Metalness": "Interior_Metalness.png"
+    },
+    "Door_L": {
+      "Color": "Door_L_Color.png",
+      "Roughness": "Door_L_Roughness.png",
+      "Metalness": "Door_L_Metalness.png"
+    },
+    "Door_R": {
+      "Color": "Door_R_Color.png",
+      "Roughness": "Door_R_Roughness.png",
+      "Metalness": "Door_R_Metalness.png"
+    },
+    "SteeringWheel": {
+      "Color": "SteeringWheel_Color.png",
+      "Roughness": "SteeringWheel_Roughness.png",
+      "Metalness": "SteeringWheel_Metalness.png"
+    },
+    "Pedal_Gas": {
+      "Color": "Pedal_Gas_Color.png",
+      "Roughness": "Pedal_Gas_Roughness.png",
+      "Metalness": "Pedal_Gas_Metalness.png"
+    },
+    "Pedal_Brake": {
+      "Color": "Pedal_Brake_Color.png",
+      "Roughness": "Pedal_Brake_Roughness.png",
+      "Metalness": "Pedal_Brake_Metalness.png"
+    },
+    "Wheel_FL": {
+      "Color": "Wheel_FL_Color.png",
+      "Roughness": "Wheel_FL_Roughness.png",
+      "Metalness": "Wheel_FL_Metalness.png"
+    },
+    "Caliper_FL": {
+      "Color": "Caliper_FL_Color.png",
+      "Roughness": "Caliper_FL_Roughness.png",
+      "Metalness": "Caliper_FL_Metalness.png"
+    },
+    "Wheel_FR": {
+      "Color": "Wheel_FR_Color.png",
+      "Roughness": "Wheel_FR_Roughness.png",
+      "Metalness": "Wheel_FR_Metalness.png"
+    },
+    "Caliper_FR": {
+      "Color": "Caliper_FR_Color.png",
+      "Roughness": "Caliper_FR_Roughness.png",
+      "Metalness": "Caliper_FR_Metalness.png"
+    },
+    "Wheel_RL": {
+      "Color": "Wheel_RL_Color.png",
+      "Roughness": "Wheel_RL_Roughness.png",
+      "Metalness": "Wheel_RL_Metalness.png"
+    },
+    "Caliper_RL": {
+      "Color": "Caliper_RL_Color.png",
+      "Roughness": "Caliper_RL_Roughness.png",
+      "Metalness": "Caliper_RL_Metalness.png"
+    },
+    "Wheel_RR": {
+      "Color": "Wheel_RR_Color.png",
+      "Roughness": "Wheel_RR_Roughness.png",
+      "Metalness": "Wheel_RR_Metalness.png"
+    },
+    "Caliper_RR": {
+      "Color": "Caliper_RR_Color.png",
+      "Roughness": "Caliper_RR_Roughness.png",
+      "Metalness": "Caliper_RR_Metalness.png"
+    }
+  },
+  "total_tris": 122962
+}

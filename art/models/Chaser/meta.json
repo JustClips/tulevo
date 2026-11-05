@@ -1,0 +1,25 @@
+{
+  "model": "Chaser soda can (0.33 l): aluminium can, orange sleeve with lime stripes and title, pull tab.",
+  "pivot": "bottom center",
+  "units": "meters (real size). Showcase scales x3.6 like the carbine.",
+  "axes": "Blender -Y = front (label), +Z = up. GLB +Y up: glTF = (x, z, -y), front faces glTF +Z.",
+  "mesh": "single mesh 'Chaser', single material 'Chaser_Mat' (Color/Roughness/Metalness 1024px)",
+  "triangles": 5504,
+  "size_m": {
+    "x": 0.0666,
+    "y": 0.0667,
+    "z": 0.1162
+  },
+  "bbox_m": {
+    "min": [
+      -0.0333,
+      -0.0334,
+      0.0
+    ],
+    "max": [
+      0.0333,
+      0.0333,
+      0.1162
+    ]
+  }
+}

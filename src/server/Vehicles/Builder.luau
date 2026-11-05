@@ -13,14 +13,22 @@
 		  Wheel_<FL|...>   wheel visuals, welded to Chassis by a Weld named "Mount" (the client
 		                   moves them up/down, steers and spins them)
 		  Body             visual parts (massless, no collision)
+
+	Cars with a real model (Def.Model + Def.Rig) instead get, from the uploaded mesh:
+		  Wheels/Wheel_<FL|...>, Wheels/Caliper_<FL|...>   "Mount" welds as above
+		  BodyRoot         invisible part on a Weld "Lean" to Chassis (the client tilts it)
+		    every other mesh welded to BodyRoot; SteeringWheel / Pedal_Gas / Pedal_Brake
+		    on Welds named "Rig" whose C0 sits on the hinge (the client turns them)
 ]]
 
 local CollectionService = game:GetService("CollectionService")
+local InsertService = game:GetService("InsertService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Shared = ReplicatedStorage:WaitForChild("Shared")
 local Config = require(Shared:WaitForChild("Config"))
 local Vehicles = require(Shared:WaitForChild("Vehicles"))
+local ModelIds = require(Shared:WaitForChild("ModelIds"))
 
 local Builder = {}
 
@@ -163,6 +171,166 @@ local function wheel(def, chassis: BasePart, name: string, folder: Model)
 	tire.Parent = folder
 end
 
+-- ------------------------------------------------------------------ real models
+
+local templates: { [string]: Model | false } = {}
+
+-- The uploaded model for a Def (loaded once, then cloned), or nil.
+local function template(def): Model?
+	local name = def.Model
+	if templates[name] == nil then
+		templates[name] = false
+		local id = ModelIds[name]
+		if not id then
+			warn(`[Vehicles] no model id for {name} yet (tools/upload_models.py); using the placeholder`)
+		else
+			local ok, container = pcall(InsertService.LoadAsset, InsertService, id)
+			if ok then
+				local m = Instance.new("Model")
+				m.Name = name
+				for _, child in container:GetChildren() do
+					child.Parent = m
+				end
+				container:Destroy()
+				templates[name] = m
+			else
+				warn(`[Vehicles] could not load model {name} ({id}): {container}`)
+			end
+		end
+	end
+	return templates[name] or nil
+end
+
+-- Blender meters (X = car's left, Y = back, Z = up) -> chassis space studs.
+local function toCar(rig, v: Vector3): Vector3
+	return Vector3.new(-v.X, v.Z, v.Y) * rig.Scale + Vector3.new(0, rig.Ground, 0)
+end
+
+local function hingeWeld(name: string, part0: BasePart, part1: BasePart, hinge: Vector3, rest: CFrame)
+	-- part1 = part0 * C0 * C1^-1; C0 on the hinge, so turning C0 turns the part around it
+	local w = Instance.new("Weld")
+	w.Name = name
+	w.Part0 = part0
+	w.Part1 = part1
+	w.C0 = CFrame.new(hinge)
+	w.C1 = rest:Inverse() * CFrame.new(hinge)
+	w.Parent = part1
+	return w
+end
+
+-- Puts the uploaded meshes on the car. Returns false (nothing changed) if the model is unusable.
+local function realBody(def, chassis: BasePart, model: Model): boolean
+	local rig = def.Rig
+	local src = template(def)
+	if not rig or not src then
+		return false
+	end
+	src = src:Clone()
+	local parts: { [string]: BasePart } = {}
+	for _, d in src:GetDescendants() do
+		if d:IsA("BasePart") then
+			parts[d.Name] = d
+		end
+	end
+	local w = {}
+	for _, name in Vehicles.WHEELS do
+		w[name] = parts[`Wheel_{name}`]
+		if not w[name] then
+			warn(`[Vehicles] {def.Model} has no Wheel_{name}; using the placeholder`)
+			src:Destroy()
+			return false
+		end
+	end
+
+	-- Where the importer put the car: measure it from the wheel centres (works whatever axes
+	-- or units the import used). The wheels' middle is Blender (0, 0, HubHeight).
+	local front = (w.FL.Position + w.FR.Position) / 2
+	local rear = (w.RL.Position + w.RR.Position) / 2
+	local fwd = (front - rear).Unit
+	local right = w.FR.Position - w.FL.Position
+	right = (right - fwd * right:Dot(fwd)).Unit
+	local up = (-fwd):Cross(right)
+	local frame = CFrame.fromMatrix((front + rear) / 2, right, up, -fwd)
+	local k = rig.Wheelbase * rig.Scale / (front - rear).Magnitude -- import units -> studs
+	local middle = toCar(rig, Vector3.new(0, 0, rig.HubHeight))
+
+	local bodyRoot = part({
+		Name = "BodyRoot",
+		Size = Vector3.new(1, 1, 1),
+		CFrame = chassis.CFrame,
+		Transparency = 1,
+	})
+	bodyRoot.Parent = model
+	local lean = Instance.new("Weld")
+	lean.Name = "Lean"
+	lean.Part0 = chassis
+	lean.Part1 = bodyRoot
+	lean.Parent = bodyRoot
+
+	local wheels = Instance.new("Model")
+	wheels.Name = "Wheels"
+	wheels.Parent = model
+	local bodyFolder = Instance.new("Folder")
+	bodyFolder.Name = "Body"
+	bodyFolder.Parent = model
+
+	local glass = {}
+	for _, n in rig.Glass or {} do
+		glass[n] = true
+	end
+	local moving = {}
+	if rig.SteeringWheel then
+		moving[rig.SteeringWheel.Part] = rig.SteeringWheel.Center
+	end
+	for _, p in (rig.Pedals or {}) :: any do
+		if type(p) == "table" then
+			moving[p.Part] = p.Pivot
+		end
+	end
+
+	for name, p in parts do
+		local rel = frame:ToObjectSpace(p.CFrame)
+		local rest = CFrame.new(middle + rel.Position * k) * rel.Rotation -- chassis space
+		p.Size *= k
+		p.Anchored = false
+		p.CanCollide = false
+		p.CanTouch = false
+		p.CanQuery = false
+		p.Massless = true
+		p.CastShadow = not glass[name]
+		p.CFrame = chassis.CFrame * rest
+		if glass[name] then
+			p.Transparency = 0.55
+			p.Material = Enum.Material.Glass
+			p.Color = Color3.fromRGB(30, 38, 44)
+			for _, d in p:GetChildren() do
+				if d:IsA("SurfaceAppearance") then
+					d:Destroy()
+				end
+			end
+		end
+
+		local wheel = name:match("^Wheel_(%u%u)$") or name:match("^Caliper_(%u%u)$")
+		if wheel then
+			-- hinge on the model's hub, straight under the suspension top; Vehicles/Wheels
+			-- then moves C0 with the suspension, steering and (wheels only) spin
+			local mount = def.Wheels[wheel]
+			local hub = Vector3.new(mount.X, rig.Ground + rig.HubHeight * rig.Scale, mount.Z)
+			hingeWeld("Mount", chassis, p, hub, rest)
+			p.Parent = wheels
+		elseif moving[name] then
+			hingeWeld("Rig", bodyRoot, p, toCar(rig, moving[name]), rest)
+			p.Parent = bodyFolder
+		else
+			hingeWeld("Weld", bodyRoot, p, rest.Position, rest)
+			p.Parent = bodyFolder
+		end
+	end
+	src:Destroy()
+	model:SetAttribute("RealModel", true)
+	return true
+end
+
 function Builder.build(def): Model
 	local model = Instance.new("Model")
 	model.Name = def.Name
@@ -249,20 +417,19 @@ function Builder.build(def): Model
 	prompt.RequiresLineOfSight = false
 	prompt.Parent = door
 
-	local wheels = Instance.new("Model")
-	wheels.Name = "Wheels"
-	wheels.Parent = model
-	for _, name in Vehicles.WHEELS do
-		wheel(def, chassis, name, wheels)
-	end
+	if not (def.Model and realBody(def, chassis, model)) then
+		local wheels = Instance.new("Model")
+		wheels.Name = "Wheels"
+		wheels.Parent = model
+		for _, name in Vehicles.WHEELS do
+			wheel(def, chassis, name, wheels)
+		end
 
-	local bodyFolder = Instance.new("Folder")
-	bodyFolder.Name = "Body"
-	bodyFolder.Parent = model
-	if def.Model then
-		warn(`[Vehicles] real models aren't wired up yet ({def.Id}); using the placeholder`)
+		local bodyFolder = Instance.new("Folder")
+		bodyFolder.Name = "Body"
+		bodyFolder.Parent = model
+		placeholderBody(def, chassis, bodyFolder)
 	end
-	placeholderBody(def, chassis, bodyFolder)
 
 	CollectionService:AddTag(model, Vehicles.TAG)
 	return model

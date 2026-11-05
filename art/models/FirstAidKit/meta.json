@@ -1,0 +1,25 @@
+{
+  "model": "First-aid kit: red hard plastic case with a white cross on both sides, grey handle, latches and hinges.",
+  "pivot": "bottom center",
+  "units": "meters (real size). Showcase scales x3.6 like the carbine.",
+  "axes": "Blender -Y = front (label), +Z = up. GLB +Y up: glTF = (x, z, -y), front faces glTF +Z.",
+  "mesh": "single mesh 'FirstAidKit', single material 'FirstAidKit_Mat' (Color/Roughness/Metalness 1024px)",
+  "triangles": 4152,
+  "size_m": {
+    "x": 0.306,
+    "y": 0.107,
+    "z": 0.248
+  },
+  "bbox_m": {
+    "min": [
+      -0.15,
+      -0.0535,
+      0.0
+    ],
+    "max": [
+      0.156,
+      0.0535,
+      0.248
+    ]
+  }
+}

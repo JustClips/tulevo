@@ -20,6 +20,7 @@ local Vehicles = require(Shared:WaitForChild("Vehicles"))
 local Physics = require(Shared:WaitForChild("Vehicles"):WaitForChild("Physics"))
 local Input = require(script:WaitForChild("Input"))
 local Wheels = require(script:WaitForChild("Wheels"))
+local Cockpit = require(script:WaitForChild("Cockpit"))
 local WeaponState = require(script.Parent:WaitForChild("Weapons"):WaitForChild("State"))
 
 local Remotes = ReplicatedStorage:WaitForChild("VehicleRemotes")
@@ -47,6 +48,7 @@ local function stopDriving()
 	d.rig:step(1 / 60, PARKED)
 	Input.unbind()
 	Wheels.setRig(d.model, nil)
+	Cockpit.setDriver(nil)
 	WeaponState.InVehicle = false
 	ProximityPromptService.Enabled = true
 end
@@ -76,7 +78,13 @@ local function startDriving(model: Model)
 		rig = rig,
 		conn = RunService.PreSimulation:Connect(function(dt)
 			if model.Parent then
-				rig:step(dt, Input.read())
+				last = Input.read()
+				rig:step(dt, last)
+				-- other players see the steering wheel and pedals move from these
+				if seat then
+					seat.ThrottleFloat = last.Throttle
+					seat.SteerFloat = last.Steer
+				end
 			end
 		end),
 	}
@@ -103,6 +111,7 @@ end
 
 function Controller.start()
 	Wheels.start()
+	Cockpit.start()
 	player.CharacterAdded:Connect(bind)
 	if player.Character then
 		task.spawn(bind, player.Character)

@@ -33,6 +33,7 @@ local Config = {
 		-- parked next to the spawn on start; Offset from the spawn, Yaw 0 = facing north (-Z)
 		TestCars = {
 			{ Id = "Sedan", Offset = Vector3.new(9, 0, -14), Yaw = 0 },
+			{ Id = "Hypercar", Offset = Vector3.new(-9, 0, -14), Yaw = 0 },
 		},
 	},
 

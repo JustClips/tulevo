@@ -75,6 +75,12 @@ local function update(model: Model, dt: number, camPos: Vector3)
 		end
 		local weld = mount :: Weld
 		weld.C0 = pose * CFrame.Angles(angle, 0, 0)
+		-- brake calipers (real models) follow the wheel but don't spin
+		local caliper = folder:FindFirstChild(`Caliper_{name}`)
+		local cmount = caliper and caliper:FindFirstChild("Mount")
+		if cmount then
+			(cmount :: Weld).C0 = pose
+		end
 	end
 end
 

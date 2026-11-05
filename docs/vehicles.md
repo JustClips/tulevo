@@ -18,6 +18,7 @@ car is just a data file.
 | `src/client/Vehicles/init.luau` | Runs the physics for the car you drive, puts weapons away |
 | `src/client/Vehicles/Input.luau` | Driving controls |
 | `src/client/Vehicles/Wheels.luau` | Wheel visuals on every car (suspension travel, steering, spin) |
+| `src/client/Vehicles/Cockpit.luau` | Real models: steering wheel, pedals, body lean, driver's legs |
 | `src/client/Movement/Moves/Seated.luau` | Sitting beats every on-foot move |
 
 Who simulates: the driver's client owns the car while driving (no input lag), the server
@@ -39,13 +40,27 @@ Get in: walk to the driver's door, F (gamepad Y, tap the prompt on phones). Get 
 Copy `Defs/Sedan.luau`, change `Id`, `Name`, size, wheel positions and tuning, and add it to
 `Config.Vehicles.TestCars` to try it.
 
-## Real models (next step)
+## Real models
 
-A real car model needs the same layout the placeholder has (see the top of `Builder.luau`):
-`Chassis` (collision box, PrimaryPart) with `Wheel<FL|FR|RL|RR>` attachments at the
-suspension tops, `DriverSeat` (VehicleSeat), and wheel meshes named `Wheel_<FL|...>` welded to
-`Chassis` with a Weld called `Mount`. Set `Model` in the Def to its name in `Shared.ModelIds`;
-Builder then loads the mesh as the body instead of the blocks (that hookup is still to do).
+A car gets a real mesh by setting `Model` (its name in `Shared.ModelIds`) and a `Rig` table in
+its Def (see `Defs/Hypercar.luau`). The mesh is a GLB in `art/models/<Name>/` uploaded by
+`tools/upload_models.py`; until it has an id the car keeps the block placeholder.
+
+The GLB needs separate objects named `Body`, `Wheel_FL/FR/RL/RR` (and optionally
+`Caliper_<FL|...>`, `Glass`, `Interior`, `Door_L/R`, `SteeringWheel`, `Pedal_Gas`,
+`Pedal_Brake`). Builder measures where the importer put the car from the four wheels, scales it
+to studs and welds every part on: wheels and calipers on `Mount` welds (`Vehicles/Wheels`
+moves them; calipers don't spin), everything else on `BodyRoot`, which hangs off `Chassis` by a
+Weld called `Lean`. `client/Vehicles/Cockpit.luau` then turns the steering wheel with the
+steering, presses the pedals with throttle/brake, leans the body out of turns and dips it under
+braking, and straightens the driver's knees in low cars (`Rig.KneeLift`). Other players' cars
+use the seat's `ThrottleFloat`/`SteerFloat`, which the driver's client sets.
+
+`Rig` points are Blender meters (X = car's left, Y = back, Z = up, origin on the ground between
+the axles); `Rig.Scale` studs per meter, `Rig.Ground` = chassis-space height of the ground.
+
+Hypercar ("Veloce H9", `art/blender/hypercar`): open-top mid-engine two-seater, about 43k
+triangles over 17 parts (Body 17k, the biggest).
 
 ## Ideas for later
 
