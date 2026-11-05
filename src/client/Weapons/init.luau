@@ -382,6 +382,13 @@ function Controller.start()
 	dot.Parent = crossGui
 	crossGui.Parent = player:WaitForChild("PlayerGui")
 
+	local function isFirstPerson(c: Model?): boolean
+		local head = c and c:FindFirstChild("Head") :: BasePart?
+		local cam = workspace.CurrentCamera
+		-- zoomed all the way in: the camera sits on its focus point
+		return head ~= nil and cam ~= nil and (cam.CFrame.Position - cam.Focus.Position).Magnitude < 1
+	end
+
 	local mouseLocked = false
 	local shoulder = 0
 	local function menuOpen(): boolean
@@ -420,12 +427,6 @@ function Controller.start()
 		RightUpperArm = true, RightLowerArm = true, RightHand = true,
 		LeftUpperArm = true, LeftLowerArm = true, LeftHand = true,
 	}
-	local function isFirstPerson(c: Model?): boolean
-		local head = c and c:FindFirstChild("Head") :: BasePart?
-		local cam = workspace.CurrentCamera
-		-- zoomed all the way in: the camera sits on its focus point
-		return head ~= nil and cam ~= nil and (cam.CFrame.Position - cam.Focus.Position).Magnitude < 1
-	end
 	RunService:BindToRenderStep("GunFirstPerson", Enum.RenderPriority.Camera.Value + 1, function()
 		local c = player.Character
 		if not c or not State.Equipped or not isFirstPerson(c) then
