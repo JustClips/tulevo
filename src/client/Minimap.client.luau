@@ -1,14 +1,21 @@
--- GTA-style minimap (radar) in the bottom-left, right above the health bar.
--- A ViewportFrame shows a top-down copy of the map that turns with the camera
--- (camera forward = up on the radar). The player is a fixed arrow in the
--- middle, and an "N" marker on the edge points north (world -Z).
+-- GTA-style radar in the bottom-left, right above the health bar.
 --
--- The map copy is made from Workspace once and rebuilt when top-level
--- children are added or removed. Players' characters and Terrain are skipped
--- (ViewportFrames can't show Terrain). Give anything the attribute
--- NoMinimap = true to leave it off the radar.
+-- The radar is a simple drawing of the map, not a camera view of it. Tag map
+-- parts in Studio (Tag Editor / Properties > Tags) and each one shows up as a
+-- flat colored shape:
+--   Road     light grey
+--   Building dark grey
+--   Water    blue
+--   Park     green
+-- A tag works on a Part (its footprint), a Model (its bounding box) or a
+-- Folder (every part inside). Untagged things don't show. The radar rebuilds
+-- itself when tags are added or removed.
+--
+-- The radar turns with the camera (forward = up) and is tilted like GTA's.
+-- The player is a 2D arrow; an "N" marker on the edge points north (-Z).
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
+local CollectionService = game:GetService("CollectionService")
 
 local player = Players.LocalPlayer
 local camera = workspace.CurrentCamera
@@ -18,15 +25,27 @@ local W, H = 280, 170
 local LEFT, BOTTOM = 20, 8 + 22 + 3
 local BORDER = 3
 
--- View: camera height and field of view decide how many studs fit on the radar
-local HEIGHT = 600
-local FOV = 20
+-- View
+local DIST = 520 -- studs from the radar camera to the point it looks at
+local FOV = 24 -- smaller = more zoomed in
+local TILT = math.rad(38) -- 0 = straight down
+local AHEAD = 30 -- studs the view looks ahead of the player (player sits low, like GTA)
+
+-- Image id for the arrow. Empty = drawn with text until the image is ready.
+local ARROW_IMAGE = ""
+
+local LAYERS = {
+	Park = { Color = Color3.fromRGB(86, 112, 78), Y = 0.1 },
+	Water = { Color = Color3.fromRGB(78, 116, 150), Y = 0.2 },
+	Road = { Color = Color3.fromRGB(196, 196, 196), Y = 0.3 },
+	Building = { Color = Color3.fromRGB(52, 54, 56), Y = 0.4, Height = 3 },
+}
 
 local COLORS = {
 	Frame = Color3.fromRGB(62, 70, 58),
-	Ground = Color3.fromRGB(70, 78, 66),
-	Arrow = Color3.fromRGB(235, 235, 235),
-	North = Color3.fromRGB(40, 40, 40),
+	Ground = Color3.fromRGB(104, 106, 104),
+	Arrow = Color3.fromRGB(240, 240, 240),
+	North = Color3.fromRGB(30, 30, 30),
 }
 
 local gui = Instance.new("ScreenGui")
@@ -50,9 +69,9 @@ vp.Position = UDim2.fromOffset(BORDER, BORDER)
 vp.Size = UDim2.new(1, -BORDER * 2, 1, -BORDER * 2)
 vp.BackgroundColor3 = COLORS.Ground
 vp.BorderSizePixel = 0
-vp.Ambient = Color3.fromRGB(170, 170, 170)
-vp.LightColor = Color3.fromRGB(255, 255, 255)
-vp.LightDirection = Vector3.new(-0.3, -1, -0.2)
+vp.Ambient = Color3.fromRGB(255, 255, 255)
+vp.LightColor = Color3.fromRGB(60, 60, 60)
+vp.LightDirection = Vector3.new(0, -1, 0)
 vp.ClipsDescendants = true
 vp.Parent = frame
 
@@ -64,17 +83,26 @@ vp.CurrentCamera = vpCam
 local world = Instance.new("WorldModel")
 world.Parent = vp
 
--- Player arrow (fixed in the middle)
-local arrow = Instance.new("TextLabel")
+-- Player arrow
+local arrow: GuiObject
+if ARROW_IMAGE ~= "" then
+	local img = Instance.new("ImageLabel")
+	img.Image = ARROW_IMAGE
+	img.BackgroundTransparency = 1
+	img.Size = UDim2.fromOffset(20, 20)
+	arrow = img
+else
+	local txt = Instance.new("TextLabel")
+	txt.Text = "▲"
+	txt.TextSize = 16
+	txt.TextColor3 = COLORS.Arrow
+	txt.TextStrokeTransparency = 0.2
+	txt.BackgroundTransparency = 1
+	txt.Size = UDim2.fromOffset(18, 18)
+	arrow = txt
+end
 arrow.Name = "Arrow"
 arrow.AnchorPoint = Vector2.new(0.5, 0.5)
-arrow.Position = UDim2.fromScale(0.5, 0.5)
-arrow.Size = UDim2.fromOffset(18, 18)
-arrow.BackgroundTransparency = 1
-arrow.Text = "▲"
-arrow.TextSize = 16
-arrow.TextColor3 = COLORS.Arrow
-arrow.TextStrokeTransparency = 0.3
 arrow.ZIndex = 3
 arrow.Parent = vp
 
@@ -84,7 +112,6 @@ north.Name = "North"
 north.AnchorPoint = Vector2.new(0.5, 0.5)
 north.Size = UDim2.fromOffset(18, 18)
 north.BackgroundColor3 = COLORS.North
-north.BackgroundTransparency = 0.2
 north.BorderSizePixel = 0
 north.ZIndex = 3
 north.Parent = vp
@@ -101,50 +128,55 @@ nText.TextColor3 = COLORS.Arrow
 nText.ZIndex = 4
 nText.Parent = north
 
--- Map copy ----------------------------------------------------------------
-local function skip(inst: Instance): boolean
-	if inst:IsA("Terrain") or inst:IsA("Camera") then
-		return true
-	end
-	if inst:GetAttribute("NoMinimap") then
-		return true
-	end
-	if inst:IsA("Model") and Players:GetPlayerFromCharacter(inst) then
-		return true
-	end
-	return not (inst:IsA("BasePart") or inst:IsA("Model") or inst:IsA("Folder"))
+-- Radar shapes -----------------------------------------------------------------
+local function flat(v: Vector3): Vector3
+	local f = Vector3.new(v.X, 0, v.Z)
+	return if f.Magnitude > 1e-3 then f.Unit else Vector3.new(0, 0, -1)
 end
 
-local function strip(copy: Instance)
-	for _, d in copy:GetDescendants() do
-		if
-			d:IsA("LuaSourceContainer")
-			or d:IsA("Sound")
-			or d:IsA("ParticleEmitter")
-			or d:IsA("Light")
-			or d:IsA("GuiBase")
-		then
-			d:Destroy()
-		elseif d:IsA("Model") and Players:GetPlayerFromCharacter(d) then
-			d:Destroy()
+local function slab(cf: CFrame, size: Vector3, layer)
+	local look = flat(cf.LookVector)
+	local right = flat(cf.RightVector)
+	-- Footprint of a part that may be pitched/rolled: project its size onto the ground axes.
+	local sx = math.abs(cf.RightVector:Dot(right)) * size.X
+		+ math.abs(cf.UpVector:Dot(right)) * size.Y
+		+ math.abs(cf.LookVector:Dot(right)) * size.Z
+	local sz = math.abs(cf.RightVector:Dot(look)) * size.X
+		+ math.abs(cf.UpVector:Dot(look)) * size.Y
+		+ math.abs(cf.LookVector:Dot(look)) * size.Z
+	local h = layer.Height or 0.1
+	local p = Instance.new("Part")
+	p.Anchored = true
+	p.CanCollide = false
+	p.CastShadow = false
+	p.Material = Enum.Material.SmoothPlastic
+	p.Color = layer.Color
+	p.Size = Vector3.new(math.max(sx, 0.2), h, math.max(sz, 0.2))
+	p.CFrame = CFrame.lookAt(Vector3.new(cf.X, layer.Y + h / 2, cf.Z), Vector3.new(cf.X, layer.Y + h / 2, cf.Z) + look)
+	p.Parent = world
+end
+
+local function addTagged(inst: Instance, layer)
+	if inst:IsA("BasePart") then
+		slab(inst.CFrame, inst.Size, layer)
+	elseif inst:IsA("Model") then
+		local cf, size = inst:GetBoundingBox()
+		slab(cf, size, layer)
+	else
+		for _, d in inst:GetDescendants() do
+			if d:IsA("BasePart") then
+				slab(d.CFrame, d.Size, layer)
+			end
 		end
 	end
 end
 
 local function rebuild()
 	world:ClearAllChildren()
-	for _, child in workspace:GetChildren() do
-		if not skip(child) then
-			local ok, copy = pcall(function()
-				local old = child.Archivable
-				child.Archivable = true
-				local c = child:Clone()
-				child.Archivable = old
-				return c
-			end)
-			if ok and copy then
-				strip(copy)
-				copy.Parent = world
+	for tag, layer in LAYERS do
+		for _, inst in CollectionService:GetTagged(tag) do
+			if inst:IsDescendantOf(workspace) then
+				addTagged(inst, layer)
 			end
 		end
 	end
@@ -156,46 +188,57 @@ local function scheduleRebuild()
 		return
 	end
 	pending = true
-	task.delay(1, function()
+	task.delay(0.5, function()
 		pending = false
 		rebuild()
 	end)
 end
 
-workspace.ChildAdded:Connect(scheduleRebuild)
-workspace.ChildRemoved:Connect(scheduleRebuild)
+for tag in LAYERS do
+	CollectionService:GetInstanceAddedSignal(tag):Connect(scheduleRebuild)
+	CollectionService:GetInstanceRemovedSignal(tag):Connect(scheduleRebuild)
+end
 rebuild()
 
 -- Per-frame update ----------------------------------------------------------
-local function flat(v: Vector3): Vector3
-	local f = Vector3.new(v.X, 0, v.Z)
-	return if f.Magnitude > 1e-3 then f.Unit else Vector3.new(0, 0, -1)
-end
-
 local function yaw(v: Vector3): number
 	return math.atan2(-v.X, -v.Z)
 end
 
+local tanHalf = math.tan(math.rad(FOV) / 2)
+
 RunService.RenderStepped:Connect(function()
 	local character = player.Character
 	local root = character and character:FindFirstChild("HumanoidRootPart") :: BasePart?
-	local camLook = flat(camera.CFrame.LookVector)
+	local forward = flat(camera.CFrame.LookVector)
 	local pos = if root then root.Position else camera.Focus.Position
+	pos = Vector3.new(pos.X, 0, pos.Z)
 
-	vpCam.CFrame = CFrame.lookAt(pos + Vector3.new(0, HEIGHT, 0), pos, camLook)
+	local target = pos + forward * AHEAD
+	local viewDir = forward * math.sin(TILT) - Vector3.yAxis * math.cos(TILT)
+	vpCam.CFrame = CFrame.lookAt(target - viewDir * DIST, target, forward)
 
-	local camYaw = yaw(camLook)
+	-- Place the arrow where the player is on the radar.
+	local size = vp.AbsoluteSize
+	local aspect = if size.Y > 0 then size.X / size.Y else 1
+	local rel = vpCam.CFrame:PointToObjectSpace(pos)
+	local depth = math.max(-rel.Z, 1)
+	local nx = rel.X / depth / (tanHalf * aspect)
+	local ny = rel.Y / depth / tanHalf
+	arrow.Position = UDim2.fromScale(0.5 + nx / 2, 0.5 - ny / 2)
+
+	local camYaw = yaw(forward)
+	arrow.Visible = root ~= nil
 	if root then
-		arrow.Visible = true
 		arrow.Rotation = -math.deg(yaw(flat(root.CFrame.LookVector)) - camYaw)
-	else
-		arrow.Visible = false
 	end
 
-	-- North on the edge: screen angle clockwise from up
-	local a = camYaw
-	local dx, dy = math.sin(a), -math.cos(a)
-	local hw, hh = vp.AbsoluteSize.X / 2 - 11, vp.AbsoluteSize.Y / 2 - 11
-	local t = math.min(hw / math.max(math.abs(dx), 1e-3), hh / math.max(math.abs(dy), 1e-3))
-	north.Position = UDim2.new(0.5, dx * t, 0.5, dy * t)
+	-- North on the edge, pointing from the player: screen angle clockwise from up
+	local dx, dy = math.sin(camYaw), -math.cos(camYaw)
+	local cx, cy = (0.5 + nx / 2) * size.X, (0.5 - ny / 2) * size.Y
+	local m = 11
+	local tx = if dx > 0 then (size.X - m - cx) / dx elseif dx < 0 then (m - cx) / dx else math.huge
+	local ty = if dy > 0 then (size.Y - m - cy) / dy elseif dy < 0 then (m - cy) / dy else math.huge
+	local t = math.max(math.min(tx, ty), 0)
+	north.Position = UDim2.fromOffset(cx + dx * t, cy + dy * t)
 end)
