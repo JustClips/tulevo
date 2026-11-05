@@ -98,7 +98,7 @@ local function gunHeldBy(c: Model?): string?
 end
 
 function Controller.equip(id: string?)
-	if id == State.Equipped or (id and State.InVehicle) then
+	if id == State.Equipped or (id and (State.InVehicle or State.Dressing)) then
 		return
 	end
 	local c0 = player.Character

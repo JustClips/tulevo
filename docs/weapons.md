@@ -26,7 +26,11 @@ Add a weapon: copy a file in `Defs/`. Damage per hit = `Damage` x body-part mult
 ## Controls
 
 1-5 pick a slot (same key or Q holsters) · left click fire (R2) · right click aim (L2) · R reload (X).
-Phones get Fire / Aim / Reload buttons while something is in hand.
+Phones get Fire / Aim / Reload buttons while something is in hand. V (gamepad D-pad up, phone Vest
+button) takes the armor vest off / puts it back on (`Client/Vest.client.luau`,
+`Server/Armor.server.luau`, clips from `art/anim/vest.py`): the gun goes on the back first, the
+server moves the real vest with the hands on the clip's beats, and the armor left is kept while
+it's off (Humanoid StoredArmorItem / StoredArmor).
 Everyone gets the Carbine Rifle (`Defs/CarbineRifle.luau`: damage, per-body-part multipliers, falloff, fire rate, mag size, spare ammo, reload time) and spawns holding it (`Config.Weapons.DefaultLoadout`,
 `EquipOnSpawn`). Studio play tests also get Bat, Pistol, SMG and Shotgun (no models yet).
 

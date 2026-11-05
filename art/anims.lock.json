@@ -83,6 +83,14 @@
   "id": 137810912390113,
   "sha": "9fa6ba19ec373d66ef549da7e20070a0efcb5bcc64aff0fb45f01fc30ccf0b59"
  },
+ "Tulevo_VestOff": {
+  "id": 119711449649294,
+  "sha": "47937b8272692f3b929c231bd72a7a7e194345de64657f2285fa362f2bb6396a"
+ },
+ "Tulevo_VestOn": {
+  "id": 112323273259370,
+  "sha": "0adb50bf7a6fe9683f168ae8034bdc4f28d14e5e2ad0e87e8c21595d5df686a0"
+ },
  "Tulevo_Walk": {
   "id": 89781740812605,
   "sha": "fd575a445b9e3c3e2b0ea7fee25c869b0ba0519ee6c951ac08b88307adf96ee0"

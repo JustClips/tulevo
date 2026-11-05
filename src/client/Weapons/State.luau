@@ -15,5 +15,6 @@ return {
 	StrafeSide = 0, -- aiming: sideways share of the movement (+ right, - left) for the side-step clips
 	AimBlend = 0, -- 0..1 how much the Aim pose is in: Weapons/GunPose locks the chest to the aim by this much
 	HipTurn = 0, -- radians the hips are turned right of the aim (rifle stance, set by Weapons/GunPose)
+	Dressing = false, -- putting the armor vest on / off (Client/Vest): no weapons meanwhile
 	FeetPlant = false, -- aiming standing up: feet stay planted and step to turn (Weapons/GunPose)
 }
