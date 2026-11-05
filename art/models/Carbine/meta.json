@@ -1,0 +1,106 @@
+{
+  "units": "meters",
+  "axes": "Blender coords: -Y = muzzle/forward, +Z = up, +X = right side. GLB is exported +Y up, so glTF = (x, z, -y).",
+  "origin": "pistol grip hold point (right hand)",
+  "empties": {
+    "Grip": {
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_euler_deg_XYZ": [
+        18.0,
+        0.0,
+        0.0
+      ],
+      "note": "rotated +18 deg about X so local +Z runs up the grip axis"
+    },
+    "Grip2": {
+      "location": [
+        0.0,
+        -0.365,
+        0.0379
+      ],
+      "rotation_euler_deg_XYZ": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "Muzzle": {
+      "location": [
+        0.0,
+        -0.595,
+        0.0699
+      ],
+      "rotation_euler_deg_XYZ": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "note": "tip of flash hider; fire direction is -Y"
+    },
+    "Sight": {
+      "location": [
+        0.0,
+        -0.077,
+        0.1934
+      ],
+      "rotation_euler_deg_XYZ": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "note": "rear center of the reflex sight window; aim along -Y"
+    },
+    "MagWell": {
+      "location": [
+        0.0,
+        -0.198,
+        0.0339
+      ],
+      "rotation_euler_deg_XYZ": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "note": "top center of the magazine where it seats; Magazine mesh is placed here"
+    }
+  },
+  "triangles": {
+    "Body": 13328,
+    "Magazine": 1508
+  },
+  "size_m": {
+    "x_width": 0.0625,
+    "y_length": 0.831,
+    "z_height": 0.3872
+  },
+  "bbox_m": {
+    "min": [
+      -0.0305,
+      -0.595,
+      -0.1763
+    ],
+    "max": [
+      0.032,
+      0.236,
+      0.2109
+    ]
+  },
+  "textures": {
+    "Body": {
+      "Color": "Carbine_Color.png",
+      "Normal": "Carbine_Normal.png",
+      "Roughness": "Carbine_Roughness.png",
+      "Metalness": "Carbine_Metalness.png"
+    },
+    "Magazine": {
+      "Color": "Magazine_Color.png",
+      "Normal": "Magazine_Normal.png",
+      "Roughness": "Magazine_Roughness.png",
+      "Metalness": "Magazine_Metalness.png"
+    }
+  }
+}
