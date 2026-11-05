@@ -98,6 +98,8 @@ end
 function AnimSet:destroy()
 	for _, t in self.tracks do
 		t:Stop(0.2)
+		-- free it after the fade: an Animator stops playing new clips once too many are loaded
+		task.delay(0.3, t.Destroy, t)
 	end
 	table.clear(self.tracks)
 	table.clear(self.weights)

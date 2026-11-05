@@ -24,6 +24,9 @@ local Config = {
 		-- everyone gets these on join (no shop/pickups yet), and spawns holding EquipOnSpawn
 		DefaultLoadout = { "CarbineRifle" },
 		EquipOnSpawn = "CarbineRifle",
+		-- TEMP (2026-11-05): on-screen weapon state (Client/WeaponDebug) + "[Weapons]" lines in
+		-- Output, while the "rifle stays on the back" bug is chased. Set false to hide.
+		Debug = true,
 		-- extra weapons in Studio play tests only (they have no models or animations yet)
 		StudioLoadout = { "Bat", "Pistol", "SMG", "Shotgun" },
 		-- guns are shown at this scale (the carbine is exported at 3.6 studs per meter, which

@@ -48,6 +48,15 @@ local holstering = nil -- the previous AnimSet while the holster clip finishes
 local lastHeld: string? = nil -- the weapon you last had out (Q takes it out again)
 local drawUntil = 0 -- os.clock() until the gun drawn off the back is in hand
 local reloadToken = 0 -- bumps on every reload and weapon change, so an old reload's timer is ignored
+local equippedAt = 0
+local lastResync = 0
+local resyncs = 0
+local lastClip = "" -- debug: which equip clip played
+local function log(...)
+	if Config.Weapons.Debug then
+		print("[Weapons]", ...)
+	end
+end
 local lastFire = 0
 local triggerDown = false
 local combo = 0
@@ -140,6 +149,9 @@ function Controller.equip(id: string?)
 	if id then
 		lastHeld = id
 	end
+	equippedAt = os.clock()
+	resyncs = 0
+	log("equip", id, "gun on", gunHeldBy(c0), "server has", player:GetAttribute("Weapon"))
 	State.Equipped = id
 	State.Aiming = false
 	State.Raised = false
@@ -161,8 +173,10 @@ function Controller.equip(id: string?)
 				-- off the back: reach over the right shoulder, pull it round to the low ready
 				local t = anims:play("Draw", 0.1)
 				drawUntil = os.clock() + (if t and t.Length > 0 then t.Length else 0.76)
+				lastClip = "Draw"
 			else
 				anims:play("Equip", 0.1)
+				lastClip = "Equip"
 			end
 		end
 		local a = ammo[id]
@@ -367,6 +381,42 @@ local function bind()
 		ContextActionService:SetPosition(name, pos)
 	end
 	setTouchButtons(false)
+end
+
+-- What the debug readout (Client/WeaponDebug) shows.
+function Controller.debug(): { [string]: any }
+	local c = player.Character
+	local h = c and c:FindFirstChildOfClass("Humanoid")
+	local animator = h and h:FindFirstChildOfClass("Animator")
+	local guns = 0
+	if c then
+		for _, child in c:GetChildren() do
+			if child.Name == "Gun" then
+				guns += 1
+			end
+		end
+	end
+	local tracks = 0
+	if anims then
+		for _ in anims.tracks do
+			tracks += 1
+		end
+	end
+	return {
+		equipped = State.Equipped,
+		serverHas = player:GetAttribute("Weapon"),
+		gunOn = gunHeldBy(c),
+		guns = guns,
+		anims = if anims then `{tracks} clips` else "none",
+		playing = if animator then #animator:GetPlayingAnimationTracks() else -1,
+		clip = lastClip,
+		drawing = math.max(0, drawUntil - os.clock()),
+		holstering = holstering ~= nil,
+		dressing = State.Dressing,
+		inVehicle = State.InVehicle,
+		reloading = State.Reloading,
+		lastHeld = lastHeld,
+	}
 end
 
 function Controller.start()
@@ -587,6 +637,23 @@ function Controller.start()
 		local def = id and Weapons.get(id)
 		local c, h = character()
 		local root = c and c:FindFirstChild("HumanoidRootPart") :: BasePart?
+		if def and c and h and root then
+			-- self-repair: equipped but no gun animations (they were never made), or the gun
+			-- never reached the hand (the server missed it): make them / ask the server again
+			local now = os.clock()
+			local animator = h:FindFirstChildOfClass("Animator")
+			if not anims and animator and now - equippedAt > 0.5 then
+				warn(`[Weapons] {id} equipped without its animations; loading them again`)
+				anims = AnimSet.new(animator, def.Class)
+				anims:play("Hold", 0.2)
+			end
+			if def.Model and now - equippedAt > 1.5 and now > drawUntil + 1 and gunHeldBy(c) ~= "RightHand" and now - lastResync > 2 and resyncs < 3 then
+				lastResync = now
+				resyncs += 1
+				warn(`[Weapons] {id} still not in hand (gun on {gunHeldBy(c)}, server has {player:GetAttribute("Weapon")}); asking the server again`)
+				Remotes.Equip:FireServer(id)
+			end
+		end
 		if not def or not c or not h or not root then
 			State.Raised, State.Twist, State.Pitch, State.GaitReverse = false, 0, 0, false
 			State.StrafeSide, State.AimBlend = 0, 0

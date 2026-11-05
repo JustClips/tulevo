@@ -26,6 +26,7 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Weapons = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Weapons"))
+local Config = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Config"))
 local Hitscan = require(script.Parent:WaitForChild("Hitscan"))
 local GunModel = require(script.Parent:WaitForChild("GunModel"))
 
@@ -159,10 +160,16 @@ EquipRemote.OnServerEvent:Connect(function(player, id)
 		swapAt = GunModel.DrawSwap
 		s.readyAt = os.clock() + GunModel.DrawLength
 	end
+	if Config.Weapons.Debug then
+		local gun = character and character:FindFirstChild("Gun")
+		print(`[Weapons] {player.Name} equip {id} (was {old}); gun on {gun and gun:GetAttribute("On")}; swap in {swapAt or 0}s`)
+	end
 	if swapAt then
 		task.delay(swapAt, function()
 			if s.modelToken == token and player.Character == character then
 				WeaponService.refreshModel(player)
+			elseif Config.Weapons.Debug then
+				print(`[Weapons] {player.Name} swap for {id} skipped (newer equip or new character)`)
 			end
 		end)
 	else

@@ -169,6 +169,9 @@ local function attach(character: Model, def, partName: string, offset: CFrame)
 	if attachSeq[character] ~= seq then
 		return -- a newer attach / remove happened while the model loaded
 	end
+	if not t and Config.Weapons.Debug then
+		warn(`[GunModel] no model for {def and def.Id} (load failed?)`)
+	end
 	GunModel.remove(character)
 	local part = character:FindFirstChild(partName) :: BasePart?
 	if not t or not part then
@@ -190,6 +193,9 @@ local function attach(character: Model, def, partName: string, offset: CFrame)
 	gun:SetAttribute("WeaponId", def.Id)
 	gun:SetAttribute("On", partName)
 	gun.Parent = character
+	if Config.Weapons.Debug then
+		print(`[GunModel] {character.Name}: {def.Id} -> {partName}`)
+	end
 end
 
 -- Plays the magazine swap on the real Magazine part, in time with the reload clip played at
