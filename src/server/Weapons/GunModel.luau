@@ -53,19 +53,19 @@ GunModel.DrawLength = 0.76
 local templates: { [string]: Model | false } = {}
 local restoreMag: { [BasePart]: () -> () } = {} -- magazine -> put it back in the gun (mid-reload)
 
-local function template(name: string): Model?
-	if templates[name] ~= nil then
-		return templates[name] or nil
-	end
+local loading: { [string]: boolean } = {}
+-- per character: bumps on every attach / remove, so an attach still waiting for its model to
+-- load never puts a second gun on a character that has moved on
+local attachSeq: { [Model]: number } = setmetatable({}, { __mode = "k" }) :: any
+
+local function load(name: string): Model?
 	local id = ModelIds[name]
 	if not id then
-		templates[name] = false
 		return nil
 	end
 	local ok, container = pcall(InsertService.LoadAsset, InsertService, id)
 	if not ok then
 		warn(`[GunModel] could not load {name} ({id}): {container}`)
-		templates[name] = false
 		return nil
 	end
 	local model = Instance.new("Model")
@@ -112,8 +112,30 @@ local function template(name: string): Model?
 		sight.CFrame = body.CFrame:ToObjectSpace(model:GetPivot() * CFrame.new(SIGHT * scale))
 		sight.Parent = body
 	end
-	templates[name] = model
 	return model
+end
+
+-- The model, loaded once. LoadAsset yields, so a second caller meanwhile waits for the first
+-- one's load (two loads at spawn used to leave two rifles on the character).
+local function template(name: string): Model?
+	while loading[name] do
+		task.wait()
+	end
+	if templates[name] == nil then
+		loading[name] = true
+		local ok, model = pcall(load, name)
+		if not ok then
+			warn(`[GunModel] {name}: {model}`)
+		end
+		templates[name] = if ok and model then model else false
+		loading[name] = nil
+	end
+	return templates[name] or nil
+end
+
+-- Load a model ahead of time (server start), so the first equip doesn't wait for it.
+function GunModel.preload(name: string)
+	template(name)
 end
 
 local function heldOn(character: Model): string?
@@ -132,15 +154,22 @@ function GunModel.onBack(character: Model, id: string): boolean
 end
 
 function GunModel.remove(character: Model)
-	local old = character:FindFirstChild("Gun")
-	if old then
-		old:Destroy()
+	attachSeq[character] = (attachSeq[character] or 0) + 1
+	for _, child in character:GetChildren() do
+		if child.Name == "Gun" then
+			child:Destroy()
+		end
 	end
 end
 
 local function attach(character: Model, def, partName: string, offset: CFrame)
+	local seq = (attachSeq[character] or 0) + 1
+	attachSeq[character] = seq
+	local t = def and def.Model and template(def.Model) -- yields the first time
+	if attachSeq[character] ~= seq then
+		return -- a newer attach / remove happened while the model loaded
+	end
 	GunModel.remove(character)
-	local t = def and def.Model and template(def.Model)
 	local part = character:FindFirstChild(partName) :: BasePart?
 	if not t or not part then
 		return

@@ -36,7 +36,9 @@ comes back out after, the server moves the real vest with the hands on the clip'
 armor left is kept while it's off (Humanoid StoredArmorItem / StoredArmor). No weapon can be taken
 out while dressing (`State.Dressing`); that lock always lifts at the end, on an error or a respawn.
 Where the gun model sits is the gun's `On` attribute ("RightHand" / "UpperTorso"), set by
-`Server/Weapons/GunModel`; client checks read that, not the welds.
+`Server/Weapons/GunModel`; client checks read that, not the welds. A character only ever has one
+`Gun`: the model loads once (preloaded at server start, a second caller waits for the first load)
+and an attach still waiting for the load is dropped if a newer attach / remove came in.
 Everyone gets the Carbine Rifle (`Defs/CarbineRifle.luau`: damage, per-body-part multipliers, falloff, fire rate, mag size, spare ammo, reload time) and spawns holding it (`Config.Weapons.DefaultLoadout`,
 `EquipOnSpawn`). Studio play tests also get Bat, Pistol, SMG and Shotgun (no models yet).
 

@@ -340,6 +340,13 @@ ReloadRemote.OnServerEvent:Connect(function(player)
 	end)
 end)
 
+-- load the gun models now, so the first equip / sling doesn't wait for them
+for _, def in Weapons.all() do
+	if def.Model then
+		task.spawn(GunModel.preload, def.Model)
+	end
+end
+
 Players.PlayerRemoving:Connect(function(player)
 	states[player] = nil
 end)
