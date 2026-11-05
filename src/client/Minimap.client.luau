@@ -91,7 +91,7 @@ if ARROW_IMAGE ~= "" then
 	local img = Instance.new("ImageLabel")
 	img.Image = ARROW_IMAGE
 	img.BackgroundTransparency = 1
-	img.Size = UDim2.fromOffset(22, 22)
+	img.Size = UDim2.fromOffset(13, 13)
 	arrow = img
 else
 	local txt = Instance.new("TextLabel")
