@@ -23,7 +23,7 @@ gui.DisplayOrder = 50
 local label = Instance.new("TextLabel")
 label.AnchorPoint = Vector2.new(0, 0)
 label.Position = UDim2.fromOffset(8, 8)
-label.Size = UDim2.fromOffset(300, 196)
+label.Size = UDim2.fromOffset(330, 150)
 label.BackgroundColor3 = Color3.new(0, 0, 0)
 label.BackgroundTransparency = 0.35
 label.BorderSizePixel = 0
@@ -56,7 +56,7 @@ RunService.Heartbeat:Connect(function()
 		`client equipped: {d.equipped}`,
 		`server equipped: {d.serverHas}`,
 		`gun on: {d.gunOn}   guns: {d.guns}`,
-		`anims: {d.anims}   playing: {d.playing}`,
+		`anims: {d.anims}   playing: {d.playing}   hold len: {string.format("%.2f", d.holdLength)}`,
 		`last clip: {d.clip}   drawing: {string.format("%.2f", d.drawing)}`,
 		`holstering: {d.holstering}   reloading: {d.reloading}`,
 		`dressing: {d.dressing}   in car: {d.inVehicle}`,

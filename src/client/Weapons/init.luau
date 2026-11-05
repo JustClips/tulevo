@@ -408,6 +408,8 @@ function Controller.debug(): { [string]: any }
 		gunOn = gunHeldBy(c),
 		guns = guns,
 		anims = if anims then `{tracks} clips` else "none",
+		-- 0 = the Hold clip hasn't loaded (bad id / no permission)
+		holdLength = if anims and anims.tracks.Hold then anims.tracks.Hold.Length else -1,
 		playing = if animator then #animator:GetPlayingAnimationTracks() else -1,
 		clip = lastClip,
 		drawing = math.max(0, drawUntil - os.clock()),
