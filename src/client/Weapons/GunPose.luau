@@ -1,5 +1,12 @@
 --[[
-	Locks the chest of everyone aiming a gun to their aim, on top of the animations.
+	Puts everyone aiming a gun into the rifle stance and locks their chest to the aim, on top
+	of the animations.
+
+	Stance (GTA): the whole body is bladed, not just the chest. The hips, and the legs with
+	them, turn Config.Weapons.AimStance degrees right of the aim (less while moving), so the
+	waist only twists the last few degrees. The root part still faces the aim, so the server's
+	aim checks and the movement code don't change; Weapons/init picks the side-step blend
+	relative to the turned hips (State.HipTurn).
 
 	The Aim clip (art/anim/gun.py) shoulders the rifle with the chest bladed (AIM_UT below),
 	but the chest hangs off the hips, and the walk/strafe clips bob, sway and turn the hips,
@@ -14,7 +21,10 @@
 ]]
 
 local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
+
+local Config = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Config"))
 
 local State = require(script.Parent:WaitForChild("State"))
 
@@ -29,6 +39,7 @@ type Rig = {
 	waist: Motor6D,
 	blend: number,
 	pitch: number,
+	turn: number, -- smoothed hip turn (radians right of the aim)
 }
 local rigs: { [Model]: Rig } = {}
 
@@ -45,7 +56,7 @@ local function rigOf(character: Model): Rig?
 	if not (root and root:IsA("BasePart") and lowerRoot and lowerRoot:IsA("Motor6D") and waist and waist:IsA("Motor6D")) then
 		return nil
 	end
-	r = { root = root, lowerRoot = lowerRoot, waist = waist, blend = 0, pitch = 0 }
+	r = { root = root, lowerRoot = lowerRoot, waist = waist, blend = 0, pitch = 0, turn = 0 }
 	rigs[character] = r
 	character.Destroying:Connect(function()
 		rigs[character] = nil
@@ -53,13 +64,28 @@ local function rigOf(character: Model): Rig?
 	return r
 end
 
-local function lock(r: Rig, blend: number, pitch: number)
+-- How far the hips turn for this character now: full stance standing, less while moving.
+local function stanceTurn(r: Rig, dt: number): number
+	local s = Config.Weapons.AimStance or { Still = 0, Moving = 0 }
+	local v = r.root.AssemblyLinearVelocity
+	local moving = math.clamp(Vector3.new(v.X, 0, v.Z).Magnitude / 6, 0, 1)
+	local want = math.rad(s.Still + (s.Moving - s.Still) * moving)
+	r.turn += (want - r.turn) * math.min(1, dt * 8)
+	return r.turn
+end
+
+local function lock(r: Rig, blend: number, pitch: number, turn: number)
 	if blend < 0.01 then
 		return
 	end
 	local _, yaw = r.root.CFrame:ToOrientation()
 	local target = CFrame.Angles(0, yaw, 0) * CFrame.Angles(pitch, 0, 0) * AIM_UT
 	local lr = r.lowerRoot
+	-- hips and legs into the stance: turn about the root part's up axis at the hip joint
+	if turn * blend > 0.001 then
+		local c0 = lr.C0.Rotation
+		lr.Transform = c0:Inverse() * CFrame.Angles(0, -turn * blend, 0) * c0 * lr.Transform
+	end
 	local lowerTorso = r.root.CFrame * lr.C0 * lr.Transform * lr.C1:Inverse()
 	local base = (lowerTorso * r.waist.C0).Rotation
 	local anim = r.waist.Transform
@@ -76,11 +102,13 @@ function GunPose.start()
 				continue
 			end
 			if p == me then
-				if State.AimBlend > 0.01 then
-					local r = rigOf(c)
-					if r then
-						lock(r, State.AimBlend, State.Pitch)
-					end
+				local r = if State.AimBlend > 0.01 then rigOf(c) else nil
+				if r then
+					local turn = stanceTurn(r, dt)
+					State.HipTurn = turn * State.AimBlend
+					lock(r, State.AimBlend, State.Pitch, turn)
+				else
+					State.HipTurn = 0
 				end
 			else
 				local up = c:GetAttribute("GunUp") == true
@@ -89,7 +117,7 @@ function GunPose.start()
 					local k = math.min(1, dt * 12)
 					r.blend += ((if up then 1 else 0) - r.blend) * k
 					r.pitch += ((c:GetAttribute("GunPitch") or 0) - r.pitch) * k
-					lock(r, r.blend, r.pitch)
+					lock(r, r.blend, r.pitch, stanceTurn(r, dt))
 				end
 			end
 		end

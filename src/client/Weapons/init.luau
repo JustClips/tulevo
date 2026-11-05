@@ -544,8 +544,9 @@ function Controller.start()
 			and active ~= "Sprint" and not State.Reloading
 		local ready = up or fpReady
 
-		-- face where you aim (GTA): the whole body locks to the camera direction; moving
-		-- sideways plays side-steps and moving back plays the walk in reverse (Movement/Gait)
+		-- face where you aim (GTA): the whole body locks to the camera direction (bladed into
+		-- the rifle stance by Weapons/GunPose); moving sideways plays side-steps and moving
+		-- back plays the walk in reverse (Movement/Gait)
 		local look = Movement.view().LookVector
 		local flat = Vector3.new(look.X, 0, look.Z)
 		local side, reverse = 0, false
@@ -556,7 +557,8 @@ function Controller.start()
 			root.AssemblyAngularVelocity = Vector3.zero
 			local move = h.MoveDirection
 			if move.Magnitude > 0.1 and not airborne and not rolling then
-				local rel = CFrame.Angles(0, aimYaw, 0):VectorToObjectSpace(move)
+				-- relative to the hips, which GunPose turns into the rifle stance
+				local rel = CFrame.Angles(0, aimYaw - State.HipTurn, 0):VectorToObjectSpace(move)
 				local total = math.abs(rel.X) + math.abs(rel.Z)
 				side = if total > 0 then rel.X / total else 0
 				reverse = rel.Z > 0.1

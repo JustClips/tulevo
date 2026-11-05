@@ -61,6 +61,9 @@ local Config = {
 		},
 		AimFieldOfView = 55, -- camera zooms in a little while aiming (normal is 70)
 		LowerNearWalls = 2.4, -- studs: closer than this to a wall, the gun points down
+		-- GTA rifle stance: while aiming, the hips and legs turn this many degrees right of the
+		-- aim (the chest turns 48), so the whole body is bladed instead of only the chest twisting
+		AimStance = { Still = 38, Moving = 20 },
 		-- number keys pick a wheel slot (GTA-style wheel UI comes later)
 		SlotKeys = { "Melee", "Pistol", "SMG", "Shotgun", "Rifle" },
 	},

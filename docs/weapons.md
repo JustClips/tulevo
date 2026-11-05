@@ -58,6 +58,9 @@ While the gun is up your whole body faces the camera (GTA). A/D blend in side-st
 (`art/anim/strafe.py`, Tulevo_StrafeLeft/Right), S plays the walk in reverse, and
 `Client/Weapons/GunPose` locks the chest to the aim yaw + pitch every frame after the
 animations (so walking never wobbles the rifle), for every player via GunUp/GunPitch.
+GunPose also turns the hips and legs into a bladed rifle stance
+(`Config.Weapons.AimStance`: 38 degrees right of the aim standing, 20 moving) so the whole body
+turns, not just the chest; the side-step blend is worked out relative to those turned hips.
 Gun loops play at Action2 and one-shots at Action3, so the full-body jump wind-up (Action)
 never pulls the hands off the gun.
 
