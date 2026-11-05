@@ -20,12 +20,101 @@ bpy.ops.wm.open_mainfile(filepath=os.path.join(OUT, "hypercar_model.blend"))
 scene = bpy.context.scene
 C.enable_gpu(scene)
 
-RES = {"Body_Front": 2048, "Body_Mid": 2048, "Body_Rear": 2048, "Trim": 2048, "Interior": 1024, "Door_L": 1024, "Door_R": 1024, "SteeringWheel": 512,
+RES = {"Body_Front": 2048, "Body_Mid": 2048, "Body_Rear": 2048, "Trim": 2048, "Interior": 1024, "Door_L": 1024, "Door_R": 1024, "SteeringWheel": 1024,
        "Pedal_Gas": 128, "Pedal_Brake": 128}
 for w in ("FL", "FR", "RL", "RR"):
     RES[f"Wheel_{w}"] = 1024
     RES[f"Caliper_{w}"] = 128
 PARTS = list(RES) + ["Glass", "LampGlass"]
+
+# ---------------------------------------------------------------- tiling material pieces
+# Surfaces in these materials are split off each part into "<Part>__<Tile>" pieces with box-
+# projected UVs and a small seamless texture (make_tiles.py) that repeats every `size` metres,
+# so carbon weave, leather grain, perforation and brushing stay sharp in Roblox (one baked
+# 1024 px texture per part can't hold detail that fine). Builder welds each piece to its part.
+TILED = {
+    "Carbon": ("Carbon", 0.045),
+    "Leather": ("Leather", 0.07),
+    "Grip": ("Perforated", 0.03),
+    "Alcantara": ("Alcantara", 0.08),
+    "Alu": ("BrushedAlu", 0.10),
+    "Mesh": ("Honeycomb", 0.06),
+}
+TILES = os.path.join(OUT, "tiles")
+_tile_mats = {}
+
+
+def tile_material(tile):
+    if tile in _tile_mats:
+        return _tile_mats[tile]
+    m = bpy.data.materials.new(f"Tile_{tile}")
+    m.use_nodes = True
+    N, L = m.node_tree.nodes, m.node_tree.links
+    b = N['Principled BSDF']
+
+    def img(ch, noncolor):
+        n = N.new('ShaderNodeTexImage')
+        n.image = bpy.data.images.load(os.path.join(TILES, f"{tile}_{ch}.png"), check_existing=True)
+        n.image.colorspace_settings.name = 'Non-Color' if noncolor else 'sRGB'
+        n.extension = 'REPEAT'
+        return n
+    L.new(img('Color', False).outputs['Color'], b.inputs['Base Color'])
+    L.new(img('Roughness', True).outputs['Color'], b.inputs['Roughness'])
+    L.new(img('Metalness', True).outputs['Color'], b.inputs['Metallic'])
+    nm = N.new('ShaderNodeNormalMap')
+    L.new(img('Normal', True).outputs['Color'], nm.inputs['Color'])
+    L.new(nm.outputs['Normal'], b.inputs['Normal'])
+    _tile_mats[tile] = m
+    return m
+
+
+def box_uv(ob, size):
+    me = ob.data
+    while me.uv_layers:
+        me.uv_layers.remove(me.uv_layers[0])
+    uv = me.uv_layers.new(name='UVMap')
+    for poly in me.polygons:
+        n = poly.normal
+        ax = max(range(3), key=lambda i: abs(n[i]))
+        for li in poly.loop_indices:
+            co = me.vertices[me.loops[li].vertex_index].co
+            u, v = ((co.y, co.z), (co.x, co.z), (co.x, co.y))[ax]
+            uv.data[li].uv = (u / size, v / size)
+
+
+def split_tiled(ob):
+    """Split the TILED-material faces of ob into their own pieces; ob keeps at least one face."""
+    pieces = []
+    for mname, (tile, size) in TILED.items():
+        idx = ob.data.materials.find(mname)
+        if idx < 0:
+            continue
+        mine = sum(1 for p in ob.data.polygons if p.material_index == idx)
+        if mine == 0 or mine == len(ob.data.polygons):
+            continue
+        piece = ob.copy()
+        piece.data = ob.data.copy()
+        piece.name = piece.data.name = f"{ob.name}__{tile}"
+        scene.collection.objects.link(piece)
+        for target, keep in ((piece, True), (ob, False)):
+            bm = bmesh.new()
+            bm.from_mesh(target.data)
+            bmesh.ops.delete(bm, geom=[f for f in bm.faces if (f.material_index == idx) != keep], context='FACES')
+            bm.to_mesh(target.data)
+            bm.free()
+        box_uv(piece, size)
+        piece.data.materials.clear()
+        piece.data.materials.append(tile_material(tile))
+        pieces.append(piece.name)
+    return pieces
+
+
+import bmesh  # noqa: E402
+PIECES = []
+for name in list(RES):
+    PIECES += split_tiled(bpy.data.objects[name])
+print("tiled pieces:", PIECES)
+PARTS += PIECES
 
 bw = bpy.data.worlds.new("BakeWorld")
 scene.world = bw
@@ -185,7 +274,8 @@ def bbox(ob):
 
 
 meta = {
-    "units": "meters (x3.6 = studs)",
+    "units": "meters (x Rig.Scale = studs)",
+    "tiles": {n: {"texture": t, "repeat_m": s} for n, (t, s) in TILED.items()},
     "axes": "Blender: -Y = front, +Z = up, +X = car's LEFT (driver side). Roblox car space = (-x, z, y).",
     "origin": "ground, centred between the axles",
     "parts": {},

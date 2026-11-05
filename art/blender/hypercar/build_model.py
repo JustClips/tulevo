@@ -51,6 +51,7 @@ mat("LED", (1.0, 0.98, 0.93), 0.0, 0.2, emit=6.0)
 mat("Tail", (0.85, 0.02, 0.015), 0.0, 0.25, emit=3.0)
 mat("Leather", (0.035, 0.033, 0.032), 0.0, 0.55)
 mat("Alcantara", (0.07, 0.07, 0.072), 0.0, 0.9)
+mat("Grip", (0.03, 0.03, 0.03), 0.0, 0.6)
 mat("Accent", (0.42, 0.85, 0.06), 0.0, 0.4)
 mat("Screen", (0.01, 0.015, 0.02), 0.0, 0.1)
 mat("Dial", (0.85, 0.85, 0.85), 0.0, 0.4)
@@ -350,23 +351,26 @@ def frame_matrix(origin, normal, forward):
 # station: y, zc (centre top), zf (fender crest), xf (crest x), w (half width),
 #          zw (height of the widest point), zb (bottom), wb (bottom half width)
 KEYS = [
-    (-2.36, 0.33, 0.37, 0.48, 0.56, 0.27, 0.17, 0.46),
-    (-2.33, 0.41, 0.47, 0.54, 0.71, 0.29, 0.14, 0.60),
-    (-2.22, 0.48, 0.61, 0.62, 0.85, 0.34, 0.12, 0.72),
-    (-2.00, 0.55, 0.71, 0.69, 0.93, 0.42, 0.11, 0.80),
-    (-1.70, 0.61, 0.79, 0.74, 0.952, 0.52, 0.11, 0.80),
-    (-1.365, 0.665, 0.815, 0.77, 0.958, 0.58, 0.11, 0.80),
-    (-1.05, 0.71, 0.80, 0.77, 0.955, 0.56, 0.11, 0.82),
-    (-0.80, 0.745, 0.785, 0.76, 0.945, 0.52, 0.11, 0.84),
-    (-0.40, 0.77, 0.765, 0.77, 0.915, 0.47, 0.11, 0.84),
-    (0.10, 0.80, 0.785, 0.79, 0.915, 0.46, 0.11, 0.84),
-    (0.50, 0.89, 0.86, 0.80, 0.94, 0.50, 0.11, 0.84),
-    (0.90, 0.93, 0.925, 0.80, 0.962, 0.55, 0.12, 0.82),
-    (1.365, 0.935, 0.955, 0.80, 0.972, 0.60, 0.13, 0.80),
-    (1.80, 0.925, 0.945, 0.78, 0.965, 0.60, 0.16, 0.78),
-    (2.10, 0.92, 0.93, 0.74, 0.94, 0.58, 0.22, 0.76),
-    (2.24, 0.905, 0.905, 0.70, 0.90, 0.57, 0.28, 0.74),
-    (2.28, 0.86, 0.86, 0.66, 0.86, 0.56, 0.31, 0.72),
+    (-2.36, 0.33, 0.37, 0.48, 0.58, 0.27, 0.17, 0.46),
+    (-2.33, 0.41, 0.47, 0.54, 0.74, 0.29, 0.14, 0.60),
+    (-2.22, 0.48, 0.61, 0.63, 0.88, 0.33, 0.12, 0.72),
+    (-2.00, 0.55, 0.71, 0.71, 0.965, 0.40, 0.11, 0.80),
+    (-1.70, 0.61, 0.79, 0.76, 0.99, 0.46, 0.11, 0.80),
+    (-1.365, 0.665, 0.815, 0.79, 1.00, 0.48, 0.11, 0.80),
+    (-1.05, 0.71, 0.80, 0.78, 0.985, 0.48, 0.11, 0.82),
+    (-0.80, 0.745, 0.785, 0.77, 0.965, 0.48, 0.11, 0.84),
+    (-0.40, 0.77, 0.765, 0.78, 0.935, 0.45, 0.11, 0.84),
+    (0.10, 0.80, 0.785, 0.80, 0.935, 0.45, 0.11, 0.84),
+    (0.50, 0.89, 0.86, 0.82, 0.965, 0.47, 0.11, 0.84),
+    (0.90, 0.93, 0.925, 0.82, 0.995, 0.49, 0.12, 0.82),
+    (1.365, 0.935, 0.955, 0.82, 1.01, 0.50, 0.13, 0.80),
+    (1.80, 0.925, 0.945, 0.80, 1.00, 0.52, 0.16, 0.78),
+    (2.05, 0.92, 0.93, 0.76, 0.965, 0.54, 0.21, 0.75),
+    # the tail tapers and tucks under (diffuser) instead of ending in a flat wall
+    (2.18, 0.905, 0.91, 0.71, 0.92, 0.55, 0.27, 0.71),
+    (2.26, 0.875, 0.88, 0.65, 0.85, 0.55, 0.33, 0.64),
+    (2.31, 0.83, 0.83, 0.57, 0.74, 0.54, 0.40, 0.54),
+    (2.335, 0.77, 0.77, 0.48, 0.60, 0.53, 0.47, 0.42),
 ]
 
 
@@ -413,7 +417,7 @@ def build_loft():
     ys = [y0, y0 + 0.012]
     n = 64
     ys += [y0 + (y1 - y0) * i / n for i in range(1, n)]
-    ys += [y1 - 0.012, y1]
+    ys += [y1]  # no support loop at the tail: subdivision rounds it off
     verts, faces = [], []
     for y in ys:
         for x, z in section(y):
@@ -583,7 +587,7 @@ cutters = []
 for name, hub in C.WHEELS.items():
     r = 0.392 if name[0] == "F" else 0.40
     s = 1 if hub.x > 0 else -1
-    x_in = 0.675 if name[0] == "F" else 0.62  # just inside the tyre, so the hood isn't cut
+    x_in = 0.655 if name[0] == "F" else 0.60  # just inside the tyre, so the hood isn't cut
     c = cyl(f"Arch_{name}", r, 1.4 - x_in, "Well", loc=(s * (x_in + 1.4) / 2, hub.y, hub.z), rot=(0, math.radians(90), 0), segs=48)
     cutters.append(c)
 
@@ -840,7 +844,7 @@ for s in (1, -1):
     # mesh intakes in the lower corners: bars across them
     # diffuser strakes under the carbon diffuser panel
     for fx in (0.10, 0.26, 0.42):
-        trim.append(swept("Strake", [(s * fx, 1.70, 0.13), (s * fx, 2.05, 0.18), (s * fx, 2.24, 0.27)], [0.008] * 3, [0.05, 0.07, 0.08], "Carbon", (1, 0, 0)))
+        trim.append(swept("Strake", [(s * fx, 1.65, 0.11), (s * fx, 2.0, 0.14), (s * fx, 2.22, 0.24), (s * fx, 2.30, 0.33)], [0.008] * 4, [0.04, 0.09, 0.12, 0.10], "Carbon", (1, 0, 0)))
 
 # ---- engine bay between the buttresses (the deck cut leaves a dark mesh floor)
 rw = [Vector((-0.22, 0.70, 0.975)), Vector((0.22, 0.70, 0.975)), Vector((0.22, 0.92, 0.875)), Vector((-0.22, 0.92, 0.875))]
@@ -863,7 +867,7 @@ for y in (0.80, 1.35, 1.65):
 trim.append(cube("EngineBar", (0.52, 0.02, 0.02), "Alu", loc=(0, 1.50, 0.83)))
 
 # carbon diffuser panel sweeping up under the tail
-trim.append(swept("Diffuser", [(0, 1.60, 0.115), (0, 2.0, 0.15), (0, 2.25, 0.25)], [1.10, 1.14, 1.16], [0.012] * 3, "Carbon", (1, 0, 0)))
+trim.append(swept("Diffuser", [(0, 1.55, 0.112), (0, 1.95, 0.15), (0, 2.18, 0.24), (0, 2.31, 0.36)], [1.10, 1.14, 1.10, 0.95], [0.012] * 4, "Carbon", (1, 0, 0)))
 # raised rear wing (918 Weissach style): carbon airfoil across the tail with upturned tips,
 # swept-back ends, LED brake light in the trailing edge, on two wide angled struts
 foil = [(0.0, 0.0), (0.012, 0.012), (0.05, 0.024), (0.12, 0.030), (0.20, 0.024), (0.27, 0.010), (0.30, 0.004),
@@ -897,10 +901,12 @@ for s in (1, -1):
 # dark deck-lid gap under the lip, between the lamps
 l, nn = surf_back(0, 0.865)
 trim.append(cube("DeckGap", (0.92, 0.024, 0.008), "Black", matrix=on_surface(l, nn, (0, 0, 1)) @ Matrix.Translation((0, 0, 0.001))))# dark band across the rear under the lights, plate, reverse light
-trim.append(cube("Plate", (0.52, 0.11, 0.006), "Plate", loc=(0, 2.255, 0.47), rot=(math.radians(90), 0, 0), bev=0.008))
-trim.append(cube("PlateFrame", (0.54, 0.13, 0.004), "Black", loc=(0, 2.25, 0.47), rot=(math.radians(90), 0, 0), bev=0.01))
-trim.append(cube("ReverseLight", (0.14, 0.012, 0.02), "LED", loc=(0, 2.25, 0.33), bev=0.004))
-trim.append(cube("FogLight", (0.06, 0.012, 0.02), "Tail", loc=(0.20, 2.25, 0.33), bev=0.004))
+pl = bvh.ray_cast(Vector((0, 5, 0.47)), Vector((0, -1, 0)))[0]
+trim.append(cube("Plate", (0.52, 0.11, 0.006), "Plate", loc=(0, pl.y - 0.045, 0.47), rot=(math.radians(90), 0, 0), bev=0.008))
+trim.append(cube("PlateFrame", (0.54, 0.13, 0.004), "Black", loc=(0, pl.y - 0.05, 0.47), rot=(math.radians(90), 0, 0), bev=0.01))
+rl = bvh.ray_cast(Vector((0, 5, 0.40)), Vector((0, -1, 0)))[0]
+trim.append(cube("ReverseLight", (0.14, 0.012, 0.02), "LED", loc=(0, rl.y + 0.002, 0.40), bev=0.004))
+trim.append(cube("FogLight", (0.06, 0.012, 0.02), "Tail", loc=(0.20, rl.y - 0.004, 0.40), bev=0.004))
 
 # front: splitter and centre intake slat
 
@@ -1174,8 +1180,9 @@ for i, dx in enumerate((-0.088, 0.0, 0.088)):
         inner.append(cube("DigitalReadout", (0.04, 0.016, 0.001), "Screen2", matrix=dm @ Matrix.Translation((0, -0.028, 0.009))))
 
 # ---- centre console: rising touch panel with buttons, screen, selector, start knob
-a = Vector((0, -0.52, 0.60))
-bpt = Vector((0, 0.14, 0.36))
+# centre line 5 cm under the console wedge's top face (the wedge is built below from the same line)
+a = Vector((0, -0.56, 0.615))
+bpt = Vector((0, 0.17, 0.36))
 mid = (a + bpt) / 2
 ang = math.atan2(a.z - bpt.z, bpt.y - a.y)
 cm = Matrix.Translation(mid) @ Matrix.Rotation(ang, 4, 'X')
@@ -1192,7 +1199,7 @@ for row in range(4):
         inner.append(cube("Button", (0.038, 0.03, 0.006), "Alu" if row % 2 else "Black", matrix=bm, bev=0.003))
         inner.append(cube("ButtonIcon", (0.012, 0.004, 0.001), "LED", matrix=bm @ Matrix.Translation((0, 0, 0.0035))))
 for s in (1, -1):
-    inner.append(cube("ConsoleRail", (0.012, L, 0.022), "Alu", matrix=cm @ Matrix.Translation((s * 0.128, 0, 0.03))))
+    inner.append(cube("ConsoleRail", (0.012, L * 0.96, 0.014), "Alu", matrix=cm @ Matrix.Translation((s * 0.118, 0, 0.052)), bev=0.003))
 inner.append(cube("SelectorBase", (0.10, 0.12, 0.02), "Carbon", loc=(0, 0.04, 0.455), rot=(ang, 0, 0), bev=0.008))
 inner.append(cube("Selector", (0.04, 0.07, 0.045), "Alu", loc=(0, 0.04, 0.485), rot=(math.radians(-15), 0, 0), bev=0.012))
 inner.append(cyl("StartKnob", 0.022, 0.02, "Accent", loc=(-0.10, -0.50, 0.57), rot=(math.radians(68), 0, 0), segs=20))
@@ -1228,7 +1235,7 @@ rim = [Vector((R_RIM * math.cos(2 * math.pi * i / 72), R_RIM * math.sin(2 * math
 sw.append(tube("Rim", rim, 0.0185, "Leather", segs=14))
 for side in (-1, 1):  # grip sections at 9 and 3 o'clock
     g = [Vector((side * R_RIM * math.cos(math.radians(t)), R_RIM * math.sin(math.radians(t)), 0)) for t in range(-34, 35, 4)]
-    sw.append(tube("Grip", g, 0.0205, "Alcantara", segs=14))
+    sw.append(tube("Grip", g, 0.0205, "Grip", segs=14))
     for t in (-36, 36):  # stitched seams at the grip ends
         p = Vector((side * R_RIM * math.cos(math.radians(t)), R_RIM * math.sin(math.radians(t)), 0))
         ring = torus("GripSeam", 0.0207, 0.0018, "Stitch", segs=14, rsegs=4)
@@ -1244,12 +1251,17 @@ sw.append(tube("TopMark", top, 0.0195, "Accent", segs=14))
 for side in (-1, 1):
     pts = [Vector((side * 0.055, 0.0, -0.032)), Vector((side * 0.11, 0.0, -0.016)), Vector((side * 0.168, 0.0, -0.002))]
     sw.append(swept("SideSpoke", pts, [0.062, 0.05, 0.036], [0.02, 0.018, 0.016], "Leather", (0, 1, 0)))
-    sw.append(swept("SpokeTrim", [p + Vector((0, 0.026, 0.006)) for p in pts], [0.004] * 3, [0.004] * 3, "Alu", (0, 0, 1)))
-for ang in (72, 108):
-    a = math.radians(ang)
-    d = Vector((math.cos(a), math.sin(a), 0))
-    sw.append(swept("LowerSpoke", [d * 0.05 + Vector((0, 0, -0.03)), d * 0.12 + Vector((0, 0, -0.014)), d * 0.17],
-                    [0.026, 0.022, 0.02], [0.016, 0.014, 0.014], "Alu", (0, 0, 1)))
+    # carbon inlay along the lower edge of the spoke face, under the button pod
+    sw.append(swept("SpokeInlay", [p + Vector((0, 0.021, 0.0095)) for p in pts], [0.012, 0.010, 0.008], [0.002] * 3, "Carbon", (0, 1, 0)))
+# one leather-wrapped lower spoke with a carbon inlay
+low = [Vector((0, 0.05, -0.03)), Vector((0, 0.115, -0.014)), Vector((0, 0.17, -0.001))]
+sw.append(swept("LowerSpoke", low, [0.05, 0.04, 0.034], [0.018, 0.016, 0.015], "Leather", (1, 0, 0)))
+sw.append(swept("LowerInlay", [p + Vector((0, 0, 0.0085)) for p in low[:2]] + [low[2] + Vector((0, -0.012, 0.0075))], [0.024, 0.018, 0.014], [0.002] * 3, "Carbon", (1, 0, 0)))
+# stitching: a row of short stitches round the inside of the rim, facing the driver
+for i in range(96):
+    a = 2 * math.pi * (i + 0.5) / 96
+    p = Vector(((R_RIM - 0.0125) * math.cos(a), (R_RIM - 0.0125) * math.sin(a), 0.0115))
+    sw.append(cube("Stitch", (0.0016, 0.0055, 0.0014), "Stitch", loc=p, rot=(0, 0, a)))
 
 # airbag pad: rounded rectangle with a thin brushed bar (no badge)
 sw.append(cube("Airbag", (0.125, 0.10, 0.04), "Leather", loc=(0, 0.004, -0.02), bev=0.022, segs=4))
@@ -1259,17 +1271,22 @@ sw.append(cube("AirbagBar", (0.034, 0.008, 0.003), "Alu", loc=(0, -0.012, 0.001)
 # button clusters on both side spokes: gloss panel, 2x2 buttons with white icons, thumb roller
 for side in (-1, 1):
     px = side * 0.104
-    sw.append(cube("ButtonPanel", (0.058, 0.046, 0.006), "Screen", loc=(px, 0.0, -0.012), bev=0.004))
+    sw.append(cube("ButtonPanel", (0.058, 0.040, 0.006), "Screen", loc=(px, -0.004, -0.006), bev=0.004))
+    def sq(x):  # rounded-rectangle (superellipse) profile
+        return math.copysign(abs(x) ** 0.6, x)
+    bez = [Vector((px + 0.031 * sq(math.cos(t)), -0.004 + 0.022 * sq(math.sin(t)), -0.003))
+           for t in [2 * math.pi * k / 32 for k in range(33)]]
+    sw.append(tube("PodBezel", bez, 0.0016, "Chrome", segs=6))
     for bx in (-1, 1):
         for by in (-1, 1):
-            loc = Vector((px + bx * 0.014, by * 0.0115, -0.007))
-            sw.append(cube("Button", (0.022, 0.017, 0.006), "Black", loc=loc, bev=0.003))
+            loc = Vector((px + bx * 0.014, -0.004 + by * 0.0095, -0.001))
+            sw.append(cube("Button", (0.022, 0.015, 0.006), "Black", loc=loc, bev=0.003))
             sw.append(cube("ButtonIcon", (0.008, 0.002 if by > 0 else 0.006, 0.001), "Dial", loc=loc + Vector((0, 0, 0.0035))))
     roller_x = side * 0.068
-    sw.append(cyl("Roller", 0.0095, 0.014, "Alu", loc=(roller_x, 0.0, -0.008), rot=(0, math.radians(90), 0), segs=16))
+    sw.append(cyl("Roller", 0.0095, 0.014, "Alu", loc=(roller_x, -0.004, -0.003), rot=(0, math.radians(90), 0), segs=16))
     for k in range(8):
         a = 2 * math.pi * k / 8
-        sw.append(cube("RollerRib", (0.014, 0.002, 0.002), "Black", loc=(roller_x, 0.0098 * math.cos(a), -0.008 + 0.0098 * math.sin(a)), rot=(a, 0, 0)))
+        sw.append(cube("RollerRib", (0.014, 0.002, 0.002), "Black", loc=(roller_x, -0.004 + 0.0098 * math.cos(a), -0.003 + 0.0098 * math.sin(a)), rot=(a, 0, 0)))
 
 # drive-mode dial (lower right, i.e. local -X, +Y): knurled ring, five position marks, centre button
 dial_c = Vector((-0.112, 0.082, -0.006))
@@ -1289,10 +1306,10 @@ sw.append(cyl("SportRing", 0.015, 0.008, "Chrome", loc=(0.112, 0.082, -0.009), s
 
 # column hub and alloy shift paddles behind the wheel
 sw.append(cyl("Hub", 0.05, 0.05, "Black", loc=(0, 0, -0.05), segs=32))
-sw.append(cyl("HubRing", 0.056, 0.01, "Chrome", loc=(0, 0, -0.045), segs=32))
+sw.append(cyl("HubRing", 0.056, 0.01, "Black", loc=(0, 0, -0.045), segs=32))
 for side in (-1, 1):
     pm = Matrix.Translation((side * 0.15, -0.035, -0.062)) @ Matrix.Rotation(math.radians(side * -25), 4, 'Z')
-    sw.append(cube("Paddle", (0.12, 0.05, 0.006), "Alu", matrix=pm, bev=0.004))
+    sw.append(cube("Paddle", (0.10, 0.042, 0.006), "Carbon", matrix=pm, bev=0.004))
     sw.append(cube("PaddleMark", (0.008, 0.02, 0.002), "Dial", matrix=pm @ Matrix.Translation((side * 0.04, 0, 0.0035))))
 steer = join("SteeringWheel", sw)
 steer.data.transform(Matrix.Translation(C.STEER_CENTER) @ Matrix.Rotation(math.radians(-(90 - C.STEER_TILT)), 4, 'X'))

@@ -27,10 +27,10 @@ return {
 		Radius = 0.36 * S,
 		Width = 0.3 * S,
 		-- suspension tops, straight above each hub of the model
-		FL = Vector3.new(-0.835 * S, HUB_Y + REST, -1.365 * S),
-		FR = Vector3.new(0.835 * S, HUB_Y + REST, -1.365 * S),
-		RL = Vector3.new(-0.81 * S, HUB_Y + REST, 1.365 * S),
-		RR = Vector3.new(0.81 * S, HUB_Y + REST, 1.365 * S),
+		FL = Vector3.new(-0.80 * S, HUB_Y + REST, -1.365 * S),
+		FR = Vector3.new(0.80 * S, HUB_Y + REST, -1.365 * S),
+		RL = Vector3.new(-0.785 * S, HUB_Y + REST, 1.365 * S),
+		RR = Vector3.new(0.785 * S, HUB_Y + REST, 1.365 * S),
 	},
 
 	Suspension = {

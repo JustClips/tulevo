@@ -292,6 +292,8 @@ local function realBody(def, chassis: BasePart, model: Model): boolean
 		end
 	end
 
+	local restOf: { [BasePart]: CFrame } = {}
+	local pieces = {}
 	for name, p in parts do
 		local rel = frame:ToObjectSpace(p.CFrame)
 		local rest = CFrame.new(middle + rel.Position * k) * rel.Rotation -- chassis space
@@ -314,8 +316,13 @@ local function realBody(def, chassis: BasePart, model: Model): boolean
 			end
 		end
 
+		-- "<Part>__<Texture>" pieces (tiling carbon, leather, alu... textures) ride on their part
+		local base = name:match("^(.-)__")
 		local wheel = name:match("^Wheel_(%u%u)$") or name:match("^Caliper_(%u%u)$")
-		if wheel then
+		if base and parts[base] then
+			restOf[p] = rest
+			table.insert(pieces, { Part = p, Base = parts[base] })
+		elseif wheel then
 			-- hinge on the model's hub, straight under the suspension top; Vehicles/Wheels
 			-- then moves C0 with the suspension, steering and (wheels only) spin
 			local mount = def.Wheels[wheel]
@@ -329,6 +336,16 @@ local function realBody(def, chassis: BasePart, model: Model): boolean
 			hingeWeld("Weld", bodyRoot, p, rest.Position, rest)
 			p.Parent = bodyFolder
 		end
+		restOf[p] = rest
+	end
+	for _, piece in pieces do
+		local w = Instance.new("Weld")
+		w.Name = "Piece"
+		w.Part0 = piece.Base
+		w.Part1 = piece.Part
+		w.C0 = restOf[piece.Base]:Inverse() * restOf[piece.Part]
+		w.Parent = piece.Part
+		piece.Part.Parent = piece.Base.Parent
 	end
 	src:Destroy()
 	model:SetAttribute("RealModel", true)
