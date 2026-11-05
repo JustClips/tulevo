@@ -687,15 +687,23 @@ type Drag = {
 }
 local drag: Drag? = nil
 
+-- The item you picked up stays in its spot, faded, until you let go.
+local function fade(cell: Frame, on: boolean)
+	local tile = cell:FindFirstChild("Tile")
+	local ic = tile and tile:FindFirstChild("Icon")
+	if ic and ic:IsA("ViewportFrame") then
+		ic.ImageTransparency = if on then 0.65 else 0
+	elseif ic and ic:IsA("TextLabel") then
+		ic.TextTransparency = if on then 0.65 else 0
+	end
+end
+
 local function cancelDrag()
 	if drag and drag.ghost then
 		drag.ghost:Destroy()
 	end
 	if drag then
-		local tile = drag.cell:FindFirstChild("Tile") :: GuiObject?
-		if tile then
-			tile.Visible = true
-		end
+		fade(drag.cell, false)
 	end
 	drag = nil
 	preview.Visible = false
@@ -770,7 +778,7 @@ local function plan(d: Drag, p: Vector2): any?
 		local a = rectOf(t.frame) - Vector2.new(hc - uc, hr - ur) * step
 		local dw, dh = Grid.size(dst)
 		showPreview(a, footprint(g, dw, dh) * s, ok)
-		return if ok then { action = "move", to = t.container, slot = slotNo } else nil
+		return if ok then { action = "move", to = t.container, slot = slotNo, merge = true } else nil
 	end
 	-- place it with the grabbed cell under the pointer
 	local hc, hr = Grid.pos(slotNo, g.cols)
@@ -802,7 +810,7 @@ local function updateGhost(d: Drag, p: Vector2)
 		local ghost = Instance.new("Frame")
 		ghost.Name = "DragGhost"
 		ghost.BackgroundColor3 = COLORS.Slot
-		ghost.BackgroundTransparency = 0.5
+		ghost.BackgroundTransparency = 1 -- just the item; the green / red box shows the space
 		ghost.BorderSizePixel = 0
 		ghost.ZIndex = 40
 		local ic = makeIcon(d.item.id, size.X / math.max(1, size.Y), d.rot)
@@ -834,10 +842,7 @@ end
 
 local function startGhost(d: Drag)
 	tooltip.Visible = false
-	local tile = d.cell:FindFirstChild("Tile") :: GuiObject?
-	if tile and d.from ~= "Ground" then
-		tile.Visible = false -- it's in your hand now
-	end
+	fade(d.cell, true)
 	-- R turns it (above Reload while dragging)
 	ContextActionService:BindActionAtPriority("Inventory_Rotate", function(_, inputState)
 		if inputState == Enum.UserInputState.Begin then
@@ -872,6 +877,21 @@ local function finish(d: Drag)
 			return -- dropped back where it was
 		end
 		MoveRemote:FireServer(d.from, d.key, pl.to, pl.slot, d.rot)
+		-- show it there straight away (the server's answer follows and wins if it disagrees)
+		if not pl.merge and GRIDS[d.from] then
+			local src = state.containers[d.from] or {}
+			for i, e in src do
+				if e.slot == d.key then
+					table.remove(src, i)
+					e.slot = pl.slot
+					e.rot = if d.rot then true else nil
+					state.containers[pl.to] = state.containers[pl.to] or {}
+					table.insert(state.containers[pl.to], e)
+					break
+				end
+			end
+			render()
+		end
 	end
 end
 
