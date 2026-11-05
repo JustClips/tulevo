@@ -192,7 +192,11 @@ function Controller.fire()
 	local muzzle = gun and gun:FindFirstChild("Muzzle", true)
 	local origin = if muzzle and muzzle:IsA("Attachment") then muzzle.WorldPosition else (hand or head).Position
 	local target = aimPoint()
-	Remotes.Fire:FireServer(origin, target - origin, State.Aiming)
+	-- the server only gets a direction (from the head, like its own origin) and checks it
+	-- against where our body aims, so send the latest aim first
+	local camLook = workspace.CurrentCamera.CFrame.LookVector
+	Remotes.Pose:FireServer(State.Twist, math.clamp(math.asin(math.clamp(camLook.Y, -1, 1)), -1.2, 1.2), State.Aiming)
+	Remotes.Fire:FireServer(target - (head or hand).Position)
 
 	if def.Class.Kind == "Melee" then
 		combo = combo % 3 + 1
@@ -287,6 +291,12 @@ function Controller.start()
 		local def = Weapons.get(id)
 		if shooter == player or not def or def.Class.Kind ~= "Gun" then
 			return
+		end
+		local gun = shooter.Character and shooter.Character:FindFirstChild("Gun")
+		local muzzle = gun and gun:FindFirstChild("Muzzle", true)
+		if muzzle and muzzle:IsA("Attachment") then
+			origin = muzzle.WorldPosition
+			Effects.flash(muzzle)
 		end
 		for _, pos in hits do
 			Effects.tracer(origin, pos)
@@ -449,7 +459,7 @@ function Controller.start()
 		if (changed and now - lastPoseSent > 0.1) or (settled and now - lastPoseSent > 0.1) then
 			lastPoseSent = now
 			sentTwist, sentPitch = twist, pitch
-			Remotes.Pose:FireServer(twist, pitch)
+			Remotes.Pose:FireServer(twist, pitch, State.Aiming)
 		end
 	end
 

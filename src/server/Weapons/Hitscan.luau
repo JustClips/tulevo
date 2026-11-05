@@ -63,6 +63,7 @@ function Hitscan.fire(player: Player, def, origin: Vector3, direction: Vector3, 
 	if not head or not humanoid or humanoid.Health <= 0 then
 		return {}
 	end
+	-- origin comes from the server (WeaponService passes the server's head position)
 	if (origin - head.Position).Magnitude > MAX_ORIGIN_OFFSET or direction.Magnitude < 0.01 then
 		return {}
 	end

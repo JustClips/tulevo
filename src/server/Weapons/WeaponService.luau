@@ -9,12 +9,13 @@
 
 	Remotes (ReplicatedStorage.WeaponRemotes, made here):
 		Equip  (client -> server) weaponId | nil
-		Fire   (client -> server) origin, direction, aiming
+		Fire   (client -> server) direction only; the server picks the origin and checks the
+		       direction against the shooter's visible aim (see aimMatches)
 		Reload (client -> server)
 		Ammo   (server -> owner)  weaponId, mag, reserve
 		Shot   (server -> others) shooter, weaponId, origin, hitPositions   -- effects only
-		Pose   (client -> server) twist, pitch (radians) -> character attributes GunTwist /
-		       GunPitch, so every client can turn that player's waist the same way (Client.Weapons.GunPose)
+		Pose   (client -> server) twist, pitch (radians), aiming -> character attributes
+		       GunTwist / GunPitch / GunAiming, so every client can turn that player's waist the same way (Client.Weapons.GunPose)
 
 	The gun model sits in the right hand while equipped and on the back otherwise (GunModel).
 
@@ -154,7 +155,7 @@ function WeaponService.refreshModel(player: Player)
 	GunModel.remove(character)
 end
 
-PoseRemote.OnServerEvent:Connect(function(player, twist, pitch)
+PoseRemote.OnServerEvent:Connect(function(player, twist, pitch, aiming)
 	local character = player.Character
 	if not character or typeof(twist) ~= "number" or typeof(pitch) ~= "number" then
 		return
@@ -164,23 +165,50 @@ PoseRemote.OnServerEvent:Connect(function(player, twist, pitch)
 	end
 	character:SetAttribute("GunTwist", math.clamp(twist, -1.6, 1.6))
 	character:SetAttribute("GunPitch", math.clamp(pitch, -1.4, 1.4))
+	character:SetAttribute("GunAiming", aiming == true)
 end)
 
-FireRemote.OnServerEvent:Connect(function(player, origin, direction, aiming)
-	if typeof(origin) ~= "Vector3" or typeof(direction) ~= "Vector3" then
-		return
+-- Anti-cheat for shots. The client only says "I fired, toward this direction". The server
+-- picks the origin (its own copy of the shooter's head), the spread, the hit and the damage,
+-- and the direction must match where the shooter's body visibly aims: chest facing
+-- (root + GunTwist) and waist pitch (GunPitch), both replicated to everyone. Silent aim
+-- (shooting at someone you're not facing) fails this check and the shot is dropped.
+local MAX_YAW_OFF = math.rad(40)
+local MAX_PITCH_OFF = math.rad(30)
+local RECHECK_AFTER = 0.15 -- facing replicates separately from remotes, so one late recheck
+
+local function aimMatches(character: Model, dir: Vector3): boolean
+	local root = character:FindFirstChild("HumanoidRootPart") :: BasePart?
+	if not root then
+		return false
 	end
-	local s = stateOf(player)
-	local id = s.equipped
-	local def = id and Weapons.get(id)
-	local h = id and s.held[id]
-	if not def or not h then
-		return
+	local look = root.CFrame.LookVector
+	local bodyYaw = math.atan2(-look.X, -look.Z) + (character:GetAttribute("GunTwist") or 0)
+	local flat = Vector3.new(dir.X, 0, dir.Z)
+	if flat.Magnitude > 0.05 then
+		local shotYaw = math.atan2(-flat.X, -flat.Z)
+		local d = (shotYaw - bodyYaw + math.pi) % (2 * math.pi) - math.pi
+		if math.abs(d) > MAX_YAW_OFF then
+			return false
+		end
 	end
-	local now = os.clock()
-	local interval = 1 / (def.FireRate or 1)
-	if now - h.lastFire < interval * 0.8 or now < h.reloadingUntil then
-		return -- too fast (some slack for network jitter) or reloading
+	local pitch = math.asin(math.clamp(dir.Y, -1, 1))
+	return math.abs(pitch - (character:GetAttribute("GunPitch") or 0)) <= MAX_PITCH_OFF
+end
+
+local function flag(player: Player, reason: string)
+	local n = (player:GetAttribute("AimFlags") or 0) + 1
+	player:SetAttribute("AimFlags", n)
+	if n % 10 == 1 then
+		warn(`[Weapons] {player.Name} ({player.UserId}) shot rejected: {reason} (x{n})`)
+	end
+end
+
+local function shoot(player: Player, id: string, def, h: Held, direction: Vector3)
+	local character = player.Character
+	local head = character and character:FindFirstChild("Head") :: BasePart?
+	if not head or stateOf(player).equipped ~= id then
+		return
 	end
 	if def.Class.Kind == "Gun" then
 		if h.mag <= 0 then
@@ -188,13 +216,44 @@ FireRemote.OnServerEvent:Connect(function(player, origin, direction, aiming)
 		end
 		h.mag -= 1
 	end
-	h.lastFire = now
-
-	local hits = Hitscan.fire(player, def, origin, direction, aiming == true)
-	ShotRemote:FireAllClients(player, id, origin, hits)
+	local aiming = character:GetAttribute("GunAiming") == true
+	local hits = Hitscan.fire(player, def, head.Position, direction, aiming)
+	ShotRemote:FireAllClients(player, id, head.Position, hits)
 	if def.Class.Kind == "Gun" then
 		sendAmmo(player, id)
 	end
+end
+
+FireRemote.OnServerEvent:Connect(function(player, direction)
+	if typeof(direction) ~= "Vector3" or direction.Magnitude < 0.01 or direction.Magnitude ~= direction.Magnitude then
+		return
+	end
+	direction = direction.Unit
+	local s = stateOf(player)
+	local id = s.equipped
+	local def = id and Weapons.get(id)
+	local h = id and s.held[id]
+	local character = player.Character
+	if not def or not h or not character then
+		return
+	end
+	local now = os.clock()
+	local interval = 1 / (def.FireRate or 1)
+	if now - h.lastFire < interval * 0.8 or now < h.reloadingUntil then
+		return -- too fast (some slack for network jitter) or reloading
+	end
+	h.lastFire = now
+	if def.Class.Kind ~= "Gun" or aimMatches(character, direction) then
+		shoot(player, id, def, h, direction)
+		return
+	end
+	task.delay(RECHECK_AFTER, function()
+		if player.Character == character and aimMatches(character, direction) then
+			shoot(player, id, def, h, direction)
+		else
+			flag(player, "direction doesn't match where the character aims")
+		end
+	end)
 end)
 
 ReloadRemote.OnServerEvent:Connect(function(player)
