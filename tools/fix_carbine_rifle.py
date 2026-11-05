@@ -29,6 +29,10 @@ def cyl(r, z0, z1, y, sec=24):
     return m
 
 
+def cyl_z(r, z0, z1, y):
+    return cyl(r, z0, z1, y, 32)
+
+
 def box(x0, x1, y0, y1, z0, z1):
     m = trimesh.creation.box(extents=[x1 - x0, y1 - y0, z1 - z0])
     m.apply_translation([(x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2])
@@ -51,8 +55,10 @@ adds = [
     textured([cyl(0.0085, 0.17, 0.395, axis_y), cyl(0.0035, 0.17, 0.385, axis_y + 0.012, 12),
               cyl(0.0192, 0.385, 0.3895, axis_y, 32)], metal),
     # charging handle: T-bar behind the upper, stem into the receiver, latch on the left
-    textured([box(-0.023, 0.023, 0.087, 0.099, -0.024, -0.010), box(-0.007, 0.007, 0.089, 0.097, -0.012, 0.004),
-              box(-0.031, -0.021, 0.089, 0.099, -0.022, -0.012)], receiver),
+    textured([box(-0.026, 0.026, 0.086, 0.102, -0.030, -0.012), box(-0.008, 0.008, 0.088, 0.098, -0.014, 0.004),
+              box(-0.036, -0.024, 0.088, 0.102, -0.028, -0.014)], receiver),
+    # lower receiver rear (buffer tower): solid block from the grip up to the buffer tube
+    textured([box(-0.0125, 0.0125, 0.040, 0.068, -0.036, 0.002), cyl_z(0.0175, -0.050, -0.030, 0.075)], receiver),
 ]
 s.geometry["Body"] = trimesh.util.concatenate([g] + adds)
 
