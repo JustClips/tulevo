@@ -3,6 +3,7 @@
 	hit; clients only ask ("equip this", "I fired from here toward there").
 
 		WeaponService.give(player, "Pistol")   -- adds it (replaces the weapon in that wheel slot)
+		WeaponService.addAmmo(player, "CarbineRifle", 30)  -- spare bullets, up to MaxReserve
 		WeaponService.take(player, "Pistol")
 		WeaponService.inventory(player)        -> { [Slot]: weaponId }
 
@@ -80,6 +81,17 @@ function WeaponService.give(player: Player, id: string)
 	player:SetAttribute("Weapons", table.concat(WeaponService.list(player), ","))
 	sendAmmo(player, id)
 	WeaponService.refreshModel(player)
+end
+
+-- Spare bullets for a carried weapon (pickups, shops), capped at the weapon's MaxReserve.
+function WeaponService.addAmmo(player: Player, id: string, amount: number)
+	local def = Weapons.get(id)
+	local h = stateOf(player).held[id]
+	if not def or not h then
+		return
+	end
+	h.reserve = math.clamp(h.reserve + amount, 0, def.MaxReserve or math.huge)
+	sendAmmo(player, id)
 end
 
 function WeaponService.take(player: Player, id: string)

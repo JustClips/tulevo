@@ -5,6 +5,9 @@
 ]]
 
 local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local Config = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Config"))
 
 local Hitscan = {}
 
@@ -20,13 +23,37 @@ local function spreadDir(dir: Vector3, degrees: number): Vector3
 	return (cf * CFrame.Angles(math.cos(a) * r, math.sin(a) * r, 0)).LookVector
 end
 
+-- The body part a hit belongs to: hats/hair count as the part they're worn on.
+local function bodyPartOf(hit: Instance, model: Model): string
+	local acc = hit:FindFirstAncestorOfClass("Accessory")
+	if acc then
+		local handle = acc:FindFirstChild("Handle")
+		local weld = handle and handle:FindFirstChildWhichIsA("Weld")
+		local part = weld and (if weld.Part0 == handle then weld.Part1 else weld.Part0)
+		return if part and part.Parent == model then part.Name else "Head"
+	end
+	return hit.Name
+end
+
+local function bodyMultiplier(def, part: string): number
+	local own = def.BodyDamage and def.BodyDamage[part]
+	if own then
+		return own
+	end
+	if part == "Head" and def.HeadshotMultiplier then
+		return def.HeadshotMultiplier
+	end
+	return Config.Weapons.BodyDamage[part] or 1
+end
+
 local function damageAt(def, dist: number): number
 	local base = def.Damage or 0
 	local start, range = def.FalloffStart or 0, def.Range or 300
 	if dist <= start then
 		return base
 	end
-	return base * (1 - 0.5 * math.clamp((dist - start) / math.max(1, range - start), 0, 1))
+	local min = def.FalloffMin or 0.5
+	return base * (1 - (1 - min) * math.clamp((dist - start) / math.max(1, range - start), 0, 1))
 end
 
 function Hitscan.fire(player: Player, def, origin: Vector3, direction: Vector3, aiming: boolean): { Vector3 }
@@ -70,9 +97,7 @@ function Hitscan.fire(player: Player, def, origin: Vector3, direction: Vector3, 
 			local target = model and model:FindFirstChildOfClass("Humanoid")
 			if target and target.Health > 0 then
 				local dmg = damageAt(def, (result.Position - origin).Magnitude)
-				if result.Instance.Name == "Head" then
-					dmg *= def.HeadshotMultiplier or 1
-				end
+				dmg *= bodyMultiplier(def, bodyPartOf(result.Instance, model))
 				-- TODO(teams/police): friendly-fire and wanted-level rules go here.
 				local victim = Players:GetPlayerFromCharacter(model)
 				if victim ~= player then

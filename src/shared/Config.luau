@@ -21,14 +21,33 @@ local Config = {
 
 	Weapons = {
 		-- everyone gets these on join (no shop/pickups yet), and spawns holding EquipOnSpawn
-		DefaultLoadout = { "Rifle" },
-		EquipOnSpawn = "Rifle",
+		DefaultLoadout = { "CarbineRifle" },
+		EquipOnSpawn = "CarbineRifle",
 		-- extra weapons in Studio play tests only (they have no models or animations yet)
 		StudioLoadout = { "Bat", "Pistol", "SMG", "Shotgun" },
 		-- guns are shown at this scale (the carbine is exported at 3.6 studs per meter, which
 		-- reads small next to chunky R15 bodies). The rifle animations (art/anim/gun.py
 		-- GUN_SCALE) are solved for it, so change both together.
 		GunScale = 1.5,
+		-- damage multiplier per body part hit, for weapons without their own BodyDamage table
+		-- (each weapon file in Shared/Weapons/Defs can override any part)
+		BodyDamage = {
+			Head = 2,
+			UpperTorso = 1,
+			LowerTorso = 0.9,
+			LeftUpperArm = 0.7,
+			RightUpperArm = 0.7,
+			LeftLowerArm = 0.6,
+			RightLowerArm = 0.6,
+			LeftHand = 0.5,
+			RightHand = 0.5,
+			LeftUpperLeg = 0.75,
+			RightUpperLeg = 0.75,
+			LeftLowerLeg = 0.6,
+			RightLowerLeg = 0.6,
+			LeftFoot = 0.5,
+			RightFoot = 0.5,
+		},
 		AimFieldOfView = 55, -- camera zooms in a little while aiming (normal is 70)
 		LowerNearWalls = 2.4, -- studs: closer than this to a wall, the gun points down
 		-- number keys pick a wheel slot (GTA-style wheel UI comes later)

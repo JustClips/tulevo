@@ -166,7 +166,9 @@ function Controller.fire()
 		return
 	end
 	if def.Class.Kind == "Gun" and State.Mag <= 0 then
-		Controller.reload()
+		if def.AutoReload ~= false then
+			Controller.reload()
+		end
 		return
 	end
 	lastFire = now

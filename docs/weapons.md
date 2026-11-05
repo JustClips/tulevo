@@ -21,13 +21,13 @@ which animations they need, and the server decides every hit.
 | `src/client/Movement/Moves/Aim.luau` | Aiming slows you and beats Sprint (part of the Movement system) |
 | `Config.Weapons` | Studio test loadout, slot key order |
 
-Add a weapon: copy a file in `Defs/`. Add a family: add a class in `Classes.luau` and its animations.
+Add a weapon: copy a file in `Defs/`. Damage per hit = `Damage` x body-part multiplier (`BodyDamage` in the weapon, else `Config.Weapons.BodyDamage`) x distance falloff. The ammo counter (top right, `src/client/AmmoHud.client.luau`) shows mag and spare bullets. Add a family: add a class in `Classes.luau` and its animations.
 
 ## Controls
 
 1-5 pick a slot (same key or Q holsters) · left click fire (R2) · right click aim (L2) · R reload (X).
 Phones get Fire / Aim / Reload buttons while something is in hand.
-Everyone gets the Rifle (carbine model) and spawns holding it (`Config.Weapons.DefaultLoadout`,
+Everyone gets the Carbine Rifle (`Defs/CarbineRifle.luau`: damage, per-body-part multipliers, falloff, fire rate, mag size, spare ammo, reload time) and spawns holding it (`Config.Weapons.DefaultLoadout`,
 `EquipOnSpawn`). Studio play tests also get Bat, Pistol, SMG and Shotgun (no models yet).
 
 ## Rifle poses

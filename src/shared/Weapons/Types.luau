@@ -30,7 +30,11 @@ export type WeaponDef = {
 	Spread: number?, -- degrees, hip fire
 	AimSpread: number?, -- degrees, aimed
 	Range: number?, -- studs, no damage past this
-	FalloffStart: number?, -- studs, damage drops linearly to 50% at Range
+	FalloffStart: number?, -- studs, damage drops linearly to FalloffMin at Range
+	FalloffMin: number?, -- damage share left at Range (default 0.5)
+	BodyDamage: { [string]: number }?, -- multiplier per body part hit (falls back to Config.Weapons.BodyDamage; HeadshotMultiplier still works for Head)
+	MaxReserve: number?, -- most spare bullets you can carry
+	AutoReload: boolean?, -- trigger on an empty mag reloads (default true)
 	MagSize: number?,
 	ReserveAmmo: number?, -- spare rounds you spawn with
 	ReloadTime: number?,
