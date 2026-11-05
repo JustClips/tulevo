@@ -5,6 +5,6 @@ return {
 	CarbineRifle = 74701704114774,
 	Chaser = 107155976516351,
 	FirstAidKit = 114148189163015,
-	Hypercar = 78132708751511,
+	Hypercar = 79908789625276,
 	Mead = 115926346396105,
 }
