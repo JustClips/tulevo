@@ -28,7 +28,7 @@ local Config = {
 		-- guns are shown at this scale (the carbine is exported at 3.6 studs per meter, which
 		-- reads small next to chunky R15 bodies). The rifle animations (art/anim/gun.py
 		-- GUN_SCALE) are solved for it, so change both together.
-		GunScale = 1.5,
+		GunScale = 1.7,
 		-- damage multiplier per body part hit, for weapons without their own BodyDamage table
 		-- (each weapon file in Shared/Weapons/Defs can override any part)
 		BodyDamage = {
