@@ -67,7 +67,7 @@ shows the rewound hitboxes in Studio.
 | Lowered | a wall within `Config.Weapons.LowerNearWalls` studs in front |
 | Reload | R: mag out, fresh mag from the vest, slap it in, charging handle |
 | Equip | taking the gun out (spawn, or a gun that wasn't on the back) |
-| Holster / Draw | Q swings the rifle over the right shoulder onto the back; Q or the slot key reaches back and pulls it round. The server moves the weld when the hand is on the back (`GunModel.HolsterSwap` / `DrawSwap`, from gun.py `HOLSTER`); no firing until the draw ends |
+| Holster / Draw | Q lifts the rifle muzzle-up, flips it back over the right shoulder and slides it down onto the back (muzzle down toward the left hip, stock up behind the right shoulder, grip on the right shoulder blade, so the hand reaches it over the shoulder with the elbow up); Q or the slot key does it backwards. The server moves the weld when the hand is on the back (`GunModel.HolsterSwap` / `DrawSwap`, from gun.py `HOLSTER`); no firing until the draw ends |
 | CrouchHold | crouched, not aiming: high ready |
 
 While the gun is up your whole body faces the camera (GTA). A/D blend in side-step clips

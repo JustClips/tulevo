@@ -60,7 +60,7 @@ local function dress(c: Model, h: Humanoid, animator: Animator, wearing: boolean
 	-- both hands are needed: the gun goes on the back first
 	if WeaponState.Equipped then
 		Weapons.equip(nil)
-		task.wait(0.9)
+		task.wait(1.0) -- the holster clip (art/anim/gun.py HOLSTER length 1.05)
 	end
 	local start = os.clock()
 	while gunInHand(c) and os.clock() - start < 2 do

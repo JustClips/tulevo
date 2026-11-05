@@ -34,8 +34,15 @@ local HAND_TO_GUN = CFrame.new(0, -0.158, 0, 1, 0, 0, 0, 0.3746, 0.9272, 0, -0.9
 local MUZZLE = Vector3.new(0, 0.269, -1.634)
 -- rear sight aperture (first-person aiming puts the camera behind it)
 local SIGHT = Vector3.new(0, 0.494, -0.030)
--- On the back: flat against the back plate, muzzle up over the left shoulder.
-local BACK = CFrame.fromMatrix(Vector3.new(0.3, -0.4, 0.78), Vector3.new(0, 0, 1), Vector3.new(-0.8, -0.6, 0), Vector3.new(0.6, -0.8, 0))
+-- On the back (art/anim/gun.py SLUNG): flat on the vest's back plate, muzzle down toward the
+-- left hip, stock up behind the right shoulder, pistol grip high on the right shoulder blade
+-- (the right hand reaches it over the shoulder).
+local BACK = CFrame.fromMatrix(
+	Vector3.new(0.45, 0.6, 0.95),
+	Vector3.new(0, 0, 1),
+	Vector3.new(0.9063, -0.4226, 0),
+	Vector3.new(0.4226, 0.9063, 0)
+)
 
 -- Reload: the magazine part goes into the left hand on the beats of Weapon_Rifle_Reload
 -- (art/anim/gun.py RELOAD / MAG_IN_HAND; seconds at playback speed 1).
@@ -46,9 +53,9 @@ GunModel.ReloadLength = RELOAD_BEATS.length
 -- Holster / draw (Weapon_Rifle_Holster / Draw, art/anim/gun.py HOLSTER and draw_beats(),
 -- seconds): when the hand has the rifle on the back, the weld moves to the back (holster) or
 -- to the hand (draw). The hand waits there ~0.2 s, so a little network lag doesn't show.
-GunModel.HolsterSwap = 0.52
-GunModel.DrawSwap = 0.224
-GunModel.DrawLength = 0.76
+GunModel.HolsterSwap = 0.58
+GunModel.DrawSwap = 0.256
+GunModel.DrawLength = 0.84
 
 local templates: { [string]: Model | false } = {}
 local restoreMag: { [BasePart]: () -> () } = {} -- magazine -> put it back in the gun (mid-reload)

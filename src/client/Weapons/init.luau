@@ -133,7 +133,7 @@ function Controller.equip(id: string?)
 			end
 			old:play("Holster", 0.1)
 			holstering = old
-			task.delay(if clip.Length > 0 then clip.Length else 0.95, function()
+			task.delay(if clip.Length > 0 then clip.Length else 1.05, function()
 				if holstering == old then
 					holstering = nil
 					old:destroy()
@@ -172,7 +172,7 @@ function Controller.equip(id: string?)
 			if anims:has("Draw") and gun and gun:GetAttribute("WeaponId") == id and gunHeldBy(c) == "UpperTorso" then
 				-- off the back: reach over the right shoulder, pull it round to the low ready
 				local t = anims:play("Draw", 0.1)
-				drawUntil = os.clock() + (if t and t.Length > 0 then t.Length else 0.76)
+				drawUntil = os.clock() + (if t and t.Length > 0 then t.Length else 0.84)
 				lastClip = "Draw"
 			else
 				anims:play("Equip", 0.1)
