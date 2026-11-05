@@ -11,6 +11,7 @@ import numpy as np
 import trimesh
 
 STUDS = 3.6
+MAG_SCALE = 0.7  # magazine height kept
 OUT = "art/models/CarbineRifle/CarbineRifle.glb"
 
 s = trimesh.load(sys.argv[1])
@@ -79,6 +80,13 @@ adds = [
     textured([box(-0.0125, 0.0125, 0.040, 0.068, -0.036, 0.002), cyl_z(0.0175, -0.050, -0.030, 0.075)], receiver),
 ]
 s.geometry["Body"] = trimesh.util.concatenate([g] + adds)
+
+# Shorter magazine (Dev: too long): squash it toward the top where it seats in the mag well.
+mag = s.geometry["Magazine"]
+mv = mag.vertices.copy()
+top = mv[:, 1].max()
+mv[:, 1] = top + (mv[:, 1] - top) * MAG_SCALE
+mag.vertices = mv
 
 for geom in s.geometry.values():
     geom.apply_scale(STUDS)

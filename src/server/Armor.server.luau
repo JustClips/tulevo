@@ -8,8 +8,8 @@ local ModelIds = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("
 
 local TORSO_WIDTH = 2 -- UpperTorso width the vest was built for
 -- Vest box center relative to the torso center (from art/models/ArmorVest/meta.json):
--- 0.11 up, 0.0275 forward (forward = -Z).
-local BOX_OFFSET = CFrame.new(0, 0.11, -0.0275)
+-- 0.1025 down (long cut reaching the belt), 0.0275 forward (forward = -Z).
+local BOX_OFFSET = CFrame.new(0, -0.1025, -0.0275)
 -- Set to true if the vest shows up backwards on the character.
 local FLIP = false
 
