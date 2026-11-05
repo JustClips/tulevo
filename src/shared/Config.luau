@@ -16,6 +16,13 @@ local Config = {
 		Acceleration = 40, -- studs/s per second when speeding up (slowing down is 2x)
 	},
 
+	Weapons = {
+		-- given to everyone in Studio play tests only (no shop/pickups yet)
+		StudioLoadout = { "Bat", "Pistol", "SMG", "Shotgun", "Rifle" },
+		-- number keys pick a wheel slot (GTA-style wheel UI comes later)
+		SlotKeys = { "Melee", "Pistol", "SMG", "Shotgun", "Rifle" },
+	},
+
 	-- Every avatar spawns as R15 (CharacterSetup.server.luau). Sizes are clamped to this
 	-- range so tiny, giant or stretched avatars still look human next to cars and doors.
 	Character = {

@@ -1,0 +1,16 @@
+return {
+	Id = "Pistol",
+	Name = "Pistol",
+	ClassName = "Pistol",
+	Damage = 22,
+	HeadshotMultiplier = 2,
+	FireRate = 5,
+	Automatic = false,
+	Spread = 2.5,
+	AimSpread = 0.6,
+	Range = 250,
+	FalloffStart = 60,
+	MagSize = 12,
+	ReserveAmmo = 72,
+	ReloadTime = 1.4,
+}
