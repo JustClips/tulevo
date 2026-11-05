@@ -1,7 +1,7 @@
 --[[
-	Armor items. Each def says how much armor it gives and which body parts it does not cover.
-	GTA style: while a player has armor, hits on covered parts take armor first and only the
-	leftover goes to health. Hits on uncovered parts (the head, for a vest) skip the armor.
+	Armor items. GTA 5 style: while a player has armor, every weapon hit (any body part,
+	headshots too) takes armor first and only the leftover goes to health.
+	Unprotected can list body parts an item does not cover; the vest covers everything.
 
 	Armor lives on the Humanoid as attributes so the client HUD can read it:
 	  Armor (current), MaxArmor, ArmorItem (def name).
@@ -22,7 +22,6 @@ local Defs: { [string]: ArmorDef } = {
 		MaxArmor = 50,
 		Model = "ArmorVest",
 		Absorb = 1,
-		Unprotected = { Head = true },
 	},
 }
 
