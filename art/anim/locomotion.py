@@ -330,7 +330,7 @@ def check(name, s, frames):
 
 def preview(name, frames, path):
     from PIL import Image, ImageDraw
-    bones = [("LowerTorso", "UpperTorso"), ("UpperTorso", "Head"), ("RightUpperArm", "LeftUpperArm"),
+    bones = [("LowerTorso", "UpperTorso"), ("UpperTorso", "Head"), ("RightUpperArm", "UpperTorso"), ("LeftUpperArm", "UpperTorso"),
              ("RightUpperLeg", "LeftUpperLeg"), ("RightUpperArm", "RightLowerArm"), ("RightLowerArm", "RightHand"),
              ("LeftUpperArm", "LeftLowerArm"), ("LeftLowerArm", "LeftHand"),
              ("RightUpperLeg", "RightLowerLeg"), ("RightLowerLeg", "RightFoot"),
@@ -353,7 +353,9 @@ def preview(name, frames, path):
                 # joint point (where the part hangs from its parent); hands/head use part centres
                 if name in ("Head", "RightHand", "LeftHand", "RightFoot", "LeftFoot", "UpperTorso"):
                     return f[name][:3, 3]
-                parent, c0, _ = r15.JOINTS[name]
+                parent, c0, c1 = r15.JOINTS[name]
+                if name.endswith("UpperArm"):  # arm hangs beside the torso, not from its edge
+                    return (f[name] @ np.array([0, c1[1], 0, 1]))[:3]
                 return (f[parent] @ np.array([*c0, 1]))[:3]
             for a, b in bones:
                 left = "Left" in b

@@ -2,9 +2,9 @@
 return {
 	Tulevo_CrouchIdle = "rbxassetid://106911361115207",
 	Tulevo_CrouchWalk = "rbxassetid://120145779343446",
-	Tulevo_Fall = "rbxassetid://72586065736065",
-	Tulevo_Jump = "rbxassetid://94789300907835",
-	Tulevo_Land = "rbxassetid://138290654470590",
+	Tulevo_Fall = "rbxassetid://95014158430392",
+	Tulevo_Jump = "rbxassetid://121465131959911",
+	Tulevo_Land = "rbxassetid://87767062137419",
 	Tulevo_Run = "rbxassetid://85091923292376",
 	Tulevo_Sprint = "rbxassetid://107785750810609",
 	Tulevo_Walk = "rbxassetid://89781740812605",

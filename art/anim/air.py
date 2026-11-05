@@ -67,12 +67,14 @@ def track(keys, fps=30):
     return frames
 
 
-PUSH = key(torso=-14, head=4, r_leg=(38, -45, 8), l_leg=(-22, -12, -38),
-           r_arm=(-38, 8, 22), l_arm=(48, 8, 50), twist=6)
-TUCK = key(torso=-9, head=4, r_leg=(72, -88, 14), l_leg=(-16, -78, -30),
-           r_arm=(-22, 22, 32), l_arm=(55, 16, 62), twist=4)
-AIR = key(torso=-6, head=2, r_leg=(50, -62, 6), l_leg=(-6, -58, -18),
-          r_arm=(-8, 32, 30), l_arm=(36, 24, 45), twist=2)
+# Arms stay close to the body (small "out" angles) and swing forward/back like a sprint
+# stride, the way GTA does it. No wide balance arms.
+PUSH = key(torso=-12, head=4, r_leg=(38, -45, 8), l_leg=(-22, -12, -38),
+           r_arm=(-30, 4, 35), l_arm=(40, 4, 70), twist=5)
+TUCK = key(torso=-8, head=3, r_leg=(68, -85, 14), l_leg=(-14, -72, -30),
+           r_arm=(-22, 5, 45), l_arm=(42, 5, 80), twist=4)
+AIR = key(torso=-5, head=2, r_leg=(45, -60, 6), l_leg=(-4, -55, -18),
+          r_arm=(-10, 6, 50), l_arm=(28, 6, 70), twist=2)
 
 JUMP = [(0.0, PUSH), (0.16, TUCK), (0.42, AIR)]
 
@@ -83,13 +85,13 @@ def fall_frames(duration=1.0, steps=20):
         w = 2 * math.pi * i / steps
         s, c = math.sin(w), math.cos(w)
         k = key(torso=-4 + 2 * s, head=0,
-                r_leg=(38 + 12 * s, -55 - 10 * c, 4), l_leg=(10 - 12 * s, -60 + 10 * c, -10),
-                r_arm=(5 + 10 * c, 40 + 8 * s, 35), l_arm=(15 - 10 * c, 38 - 8 * s, 40), twist=3 * s)
+                r_leg=(32 + 6 * s, -50 - 6 * c, 4), l_leg=(8 - 6 * s, -55 + 6 * c, -10),
+                r_arm=(8 + 6 * c, 9 + 3 * s, 50), l_arm=(14 - 6 * c, 9 - 3 * s, 55), twist=2 * s)
         frames.append((duration * i / steps, to_poses(k)))
     return frames
 
 
-def land_frames(duration=0.45, fps=30):
+def land_frames(duration=0.3, fps=30):
     """Feet planted; hips drop fast then spring back up. Arms/torso from key poses."""
     n = round(duration * fps)
     frames = []
@@ -97,17 +99,17 @@ def land_frames(duration=0.45, fps=30):
         t = duration * i / n
         u = t / duration
         # hips: down to 0.6 by u=0.22, back up by the end
-        drop = 0.6 * (L.smooth(u / 0.22) if u < 0.22 else 1 - L.smooth((u - 0.22) / 0.78))
-        lean = -6 - 18 * (drop / 0.6)
-        k = key(torso=lean, head=2 + 8 * (drop / 0.6),
-                r_arm=(18 + 12 * drop, 14 + 10 * drop, 25 + 30 * drop),
-                l_arm=(10 + 12 * drop, 14 + 10 * drop, 22 + 30 * drop))
+        DEPTH = 0.22
+        drop = DEPTH * (L.smooth(u / 0.25) if u < 0.25 else 1 - L.smooth((u - 0.25) / 0.75))
+        f = drop / DEPTH
+        k = key(torso=-3 - 7 * f, head=1 + 4 * f,
+                r_arm=(6 + 8 * f, 5, 20 + 15 * f), l_arm=(4 + 8 * f, 5, 18 + 15 * f))
         poses = to_poses(k)
         pos, rot = (0, -drop, 0), np.eye(3)
         poses["LowerTorso"] = (pos, rot)
         lt = L.lt_frame_of(pos, rot)
-        for side, pre, z in ((1, "Right", -0.18), (-1, "Left", 0.22)):
-            ankle = np.array([side * 0.48, r15.GROUND + L.SOLE, z])
+        for side, pre, z in ((1, "Right", -0.1), (-1, "Left", 0.12)):
+            ankle = np.array([side * 0.45, r15.GROUND + L.SOLE, z])
             frot = L.ry(-D(8) * side)
             R_ul, R_ll, R_f, _ = L.leg_ik(lt, ankle, frot, side)
             poses[pre + "UpperLeg"] = ((0, 0, 0), R_ul)
