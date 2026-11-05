@@ -128,7 +128,7 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     170,
+     150,
      0.2,
      20
     ],
@@ -139,7 +139,7 @@
     "CFrame": {
      "position": [
       75,
-      0.156,
+      0.152,
       -260
      ],
      "orientation": [

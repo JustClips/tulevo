@@ -253,7 +253,21 @@ function MapData.drawRoads(parent: Instance, color: Color3?, outline: Color3?, o
 			degree[e.a] = (degree[e.a] or 0) + 1
 			degree[e.b] = (degree[e.b] or 0) + 1
 		end
+		-- Skip short stubs that only stick out past a junction (a road part
+		-- that's a bit longer than needed), so corners and T-joins look clean.
+		local drawn = {}
 		for _, e in edges do
+			local len = (nodes[e.a] - nodes[e.b]).Magnitude
+			local da, db = degree[e.a] or 0, degree[e.b] or 0
+			local stub = len <= 24 and ((da == 1 and db >= 3) or (db == 1 and da >= 3))
+			if stub then
+				degree[e.a] -= 1
+				degree[e.b] -= 1
+			else
+				table.insert(drawn, e)
+			end
+		end
+		for _, e in drawn do
 			local w = e.width * layer.Thin + extra * 2
 			local p, q = nodes[e.a], nodes[e.b]
 			local a, b = Vector3.new(p.X, y, p.Z), Vector3.new(q.X, y, q.Z)
