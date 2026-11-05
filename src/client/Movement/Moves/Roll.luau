@@ -17,7 +17,7 @@ local function state(ctx)
 			t.Looped = false
 			tracks[dir] = t
 		end
-		ctx.Roll = { tracks = tracks, track = nil, dir = Vector3.zero, t = 0, length = 0.75, readyAt = 0 }
+		ctx.Roll = { tracks = tracks, track = nil, dir = Vector3.zero, t = 0, length = 0.95, readyAt = 0 }
 	end
 	return ctx.Roll
 end
@@ -58,15 +58,16 @@ return {
 		s.dir, s.t = dir, 0
 		s.track = s.tracks[name]
 		s.track:Play(0.06, 1, 1)
-		s.length = if s.track.Length > 0 then s.track.Length else 0.75
+		s.length = if s.track.Length > 0 then s.track.Length else 0.95
 		ctx.Humanoid.AutoRotate = false
 	end,
 	Update = function(ctx, dt)
 		local s = state(ctx)
 		s.t += dt
-		-- full speed through the roll, easing off as you stand up
+		-- slower while crouching into it, full speed through the roll, easing off as you stand
 		local u = s.t / s.length
-		local speed = ctx.Config.Movement.RollSpeed * (if u < 0.65 then 1 else 1 - 0.6 * (u - 0.65) / 0.35)
+		local f = if u < 0.13 then 0.6 + 0.4 * u / 0.13 elseif u < 0.68 then 1 else 1 - 0.7 * (u - 0.68) / 0.32
+		local speed = ctx.Config.Movement.RollSpeed * f
 		local v = ctx.Root.AssemblyLinearVelocity
 		ctx.Root.AssemblyLinearVelocity = Vector3.new(s.dir.X * speed, v.Y, s.dir.Z * speed)
 	end,
