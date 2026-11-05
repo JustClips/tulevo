@@ -246,6 +246,15 @@ def rounded_rect(x0, x1, y0, y1, r, seg=5):
     return pts
 
 
+def thick(ob, t):
+    """Give an open shell real thickness so it shows from both sides."""
+    md = ob.modifiers.new("Solid", 'SOLIDIFY')
+    md.thickness = t
+    md.offset = -1
+    md.use_even_offset = True
+    return ob
+
+
 def fix_normals(ob):
     bm = bmesh.new()
     bm.from_mesh(ob.data)
@@ -971,6 +980,8 @@ def build_wheel(name, width):
     prof += [(h - 0.04, R), (h - 0.022, R - 0.004), (h - 0.006, R - 0.018), (h + 0.002, R - 0.045),
              (h + 0.006, rr + 0.045), (h + 0.008, rr + 0.03), (h + 0.002, rr + 0.012), (h - 0.012, rr - 0.004)]
     parts = [revolve_x("Tire", prof, "Tire", segs=64)]
+    fix_normals(parts[0])
+    thick(parts[0], 0.006)
     # lateral tread sipes across the shoulders
     for i in range(48):
         a = 2 * math.pi * i / 48
@@ -981,7 +992,9 @@ def build_wheel(name, width):
 
     # rim: inner barrel, stepped outer lip, polished edge
     parts.append(revolve_x("Barrel", [(h - 0.02, rr), (h - 0.035, rr - 0.012), (-h + 0.02, rr - 0.012), (-h + 0.012, rr - 0.002)], "Rim", segs=64))
+    thick(parts[-1], 0.006)
     parts.append(revolve_x("Lip", [(h - 0.035, rr - 0.012), (h - 0.03, rr - 0.03), (h - 0.012, rr - 0.03), (h - 0.006, rr - 0.012), (h - 0.008, rr + 0.004)], "Alu", segs=64))
+    thick(parts[-1], 0.004)
     face_x = h - 0.034
     hub_x = h - 0.095  # deep dish: the centre sits well inside the lip
     for i in range(5):
@@ -1083,7 +1096,8 @@ for ob in list(scene.objects):
     if ob.type == 'MESH':
         apply_mods(ob)
         apply_transform(ob)
-        fix = ob.name not in ("Glass",)
+        if not ob.name.startswith("Body_"):
+            fix_normals(ob)  # every face outward; Roblox hides back faces
         smooth(ob, 40 if ob.name != "Body" else 50)
         ob.data.name = ob.name
 

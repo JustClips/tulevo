@@ -17,7 +17,6 @@ local SHOWCASE = {
 	{ Name = "Mead", Offset = Vector3.new(-3, 2.6, -7) },
 	{ Name = "Chaser", Offset = Vector3.new(-4.5, 2.6, -7) },
 	{ Name = "FirstAidKit", Offset = Vector3.new(3.2, 2.6, -7) },
-	{ Name = "Hypercar", Offset = Vector3.new(16, 2.4, -10) },
 }
 
 local function findSpawn(): BasePart?

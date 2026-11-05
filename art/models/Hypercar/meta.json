@@ -134,7 +134,7 @@
       ]
     },
     "Wheel_FL": {
-      "tris": 9852,
+      "tris": 15484,
       "bbox_min": [
         0.6945,
         -1.726,
@@ -160,7 +160,7 @@
       ]
     },
     "Wheel_FR": {
-      "tris": 9852,
+      "tris": 15484,
       "bbox_min": [
         -0.9755,
         -1.726,
@@ -186,7 +186,7 @@
       ]
     },
     "Wheel_RL": {
-      "tris": 9852,
+      "tris": 15484,
       "bbox_min": [
         0.6395,
         1.004,
@@ -212,7 +212,7 @@
       ]
     },
     "Wheel_RR": {
-      "tris": 9852,
+      "tris": 15484,
       "bbox_min": [
         -0.9805,
         1.004,
@@ -433,5 +433,5 @@
       "Metalness": "Caliper_RR_Metalness.png"
     }
   },
-  "total_tris": 122962
+  "total_tris": 145490
 }
