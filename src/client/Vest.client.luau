@@ -4,8 +4,8 @@
 	Plays Tulevo_VestOff / Tulevo_VestOn (art/anim/vest.py) and tells the server, which moves
 	the real vest model with the hands on the same beats and takes the armor off / puts it
 	back (Server/Armor.server.luau). A gun in hand goes on the back first (both hands are
-	needed) and comes back out when you're done. The armor you had is kept while the vest is
-	off. Weapons can't be taken out meanwhile (Weapons/State.Dressing), and that lock always
+	needed) and comes back out when you're done. Taken off, the vest goes into the inventory
+	with the armor it had left; V puts one from the inventory back on. Weapons can't be taken out meanwhile (Weapons/State.Dressing), and that lock always
 	lifts at the end, even on an error or a respawn.
 ]]
 
@@ -56,7 +56,7 @@ end
 
 local token = 0 -- bumps on every toggle and respawn, so a stale one never unlocks a newer one
 
-local function dress(c: Model, h: Humanoid, animator: Animator, wearing: boolean)
+local function dress(c: Model, h: Humanoid, animator: Animator, wearing: boolean, uid: string?)
 	-- both hands are needed: the gun goes on the back first
 	if WeaponState.Equipped then
 		Weapons.equip(nil)
@@ -71,14 +71,15 @@ local function dress(c: Model, h: Humanoid, animator: Animator, wearing: boolean
 	end
 	local name = if wearing then "Tulevo_VestOff" else "Tulevo_VestOn"
 	local t = clip(animator, name)
-	Remotes.Vest:FireServer()
+	Remotes.Vest:FireServer(uid)
 	if t then
 		t:Play(0.1, 1, 1)
 	end
 	task.wait(LENGTH[name])
 end
 
-local function toggle()
+-- uid: put on this vest from the inventory (dragged onto the Armor slot); nil = V
+local function toggle(uid: string?)
 	local c = player.Character
 	local h = c and c:FindFirstChildOfClass("Humanoid")
 	local animator = h and h:FindFirstChildOfClass("Animator")
@@ -86,8 +87,11 @@ local function toggle()
 		return
 	end
 	local wearing = h:GetAttribute("ArmorItem") ~= nil
-	if not wearing and h:GetAttribute("StoredArmorItem") == nil then
-		return -- no vest
+	if uid and wearing then
+		return -- already wearing one
+	end
+	if not wearing and player:GetAttribute("SpareArmor") == nil then
+		return -- no vest in the inventory (Server/Inventory sets SpareArmor)
 	end
 	busy = true
 	WeaponState.Dressing = true
@@ -95,7 +99,7 @@ local function toggle()
 	local mine = token
 	local had = WeaponState.Equipped
 	task.spawn(function()
-		local ok, err = pcall(dress, c, h, animator, wearing)
+		local ok, err = pcall(dress, c, h, animator, wearing, uid)
 		if not ok then
 			warn(`[Vest] {err}`)
 		end
@@ -117,6 +121,12 @@ player.CharacterAdded:Connect(function()
 	busy = false
 	WeaponState.Dressing = false
 end)
+
+-- the inventory window (Client/Inventory) takes the vest off / puts one on through this
+local toggleEvent = Instance.new("BindableEvent")
+toggleEvent.Name = "VestToggle"
+toggleEvent.Event:Connect(toggle)
+toggleEvent.Parent = script
 
 ContextActionService:BindAction("ArmorVest", function(_, state)
 	if state == Enum.UserInputState.Begin then

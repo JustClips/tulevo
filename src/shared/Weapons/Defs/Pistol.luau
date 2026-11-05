@@ -2,6 +2,7 @@ return {
 	Id = "Pistol",
 	Name = "Pistol",
 	ClassName = "Pistol",
+	Weight = 1.1, -- kg in the inventory
 	Damage = 22,
 	HeadshotMultiplier = 2,
 	FireRate = 5,

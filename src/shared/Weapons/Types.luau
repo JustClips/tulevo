@@ -20,6 +20,7 @@ export type WeaponDef = {
 	Name: string,
 	ClassName: string,
 	Class: ClassDef?, -- filled in by the registry
+	Weight: number, -- kg in the inventory (Shared/Items, Config.Inventory carry limits)
 
 	-- guns
 	Damage: number?, -- per pellet/bullet at close range

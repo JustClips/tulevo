@@ -22,7 +22,8 @@ local Config = {
 	},
 
 	Weapons = {
-		-- everyone gets these on join (no shop/pickups yet), and spawns holding EquipOnSpawn
+		-- everyone gets these on join (put in their inventory, Server/Inventory), and spawns
+		-- holding EquipOnSpawn
 		DefaultLoadout = { "CarbineRifle" },
 		EquipOnSpawn = "CarbineRifle",
 		-- true: on-screen weapon state (Client/WeaponDebug) + "[Weapons]" / "[GunModel]" lines
@@ -75,6 +76,25 @@ local Config = {
 		AimStep = { Turn = 40, Settle = 14 },
 		-- number keys pick a wheel slot (GTA-style wheel UI comes later)
 		SlotKeys = { "Melee", "Pistol", "SMG", "Shotgun", "Rifle" },
+	},
+
+	-- Inventory (N opens it; Client/Inventory, Server/Inventory). Weights are kg; every item's
+	-- own weight is in its config (Shared/Items: weapons in Weapons/Defs, the vest in Armor).
+	Inventory = {
+		Slots = 70, -- main inventory grid
+		MaxWeight = 30,
+		BackpackSlots = 16,
+		BackpackMaxWeight = 10,
+		-- everyone starts with these (after Config.Weapons.DefaultLoadout's weapons)
+		StartingItems = {
+			{ Id = "Mead", Count = 1 },
+			{ Id = "Chaser", Count = 1 },
+			{ Id = "FirstAidKit", Count = 1 },
+		},
+		StartingArmor = "ArmorVest", -- worn from the start (the Armor slot)
+		GroundRange = 8, -- studs: dropped items this close show under Ground
+		PickupRange = 12, -- studs: the server refuses pickups further than this
+		DroppedLifetime = 600, -- seconds before a dropped item disappears
 	},
 
 	-- Cars (docs/vehicles.md). Get in with F (gamepad Y, tap the prompt on phones), out with F again.

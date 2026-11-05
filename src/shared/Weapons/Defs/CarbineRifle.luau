@@ -10,6 +10,7 @@ return {
 	Id = "CarbineRifle",
 	Name = "Carbine Rifle",
 	ClassName = "Rifle", -- held with the Rifle animations (art/anim/gun.py)
+	Weight = 3.4, -- kg in the inventory
 	Model = "CarbineRifle", -- Shared.ModelIds
 
 	-- damage

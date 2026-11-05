@@ -1,17 +1,20 @@
 --[[
 	Armor vest on the character (server).
 
-	Every player wears the armor vest (Shared.ModelIds.ArmorVest) on spawn, welded to the
-	UpperTorso, with the vest's armor points (Shared.Armor defs, ArmorVest = 50); damage goes
-	through Server.Damage, which takes covered hits off the armor before health.
+	The vest in the player's Armor slot (Server/Inventory; everyone starts with one,
+	Config.Inventory.StartingArmor) is worn on spawn, welded to the UpperTorso, with full armor
+	points (Shared.Armor defs, ArmorVest = 50); damage goes through Server.Damage, which takes
+	covered hits off the armor before health.
 
 	Taking it off / putting it back on (client: V, gamepad D-pad up, phone Vest button; the
 	"Vest" remote in ReplicatedStorage.ArmorRemotes). The client plays Tulevo_VestOff / VestOn
 	(art/anim/vest.py) and this moves the real vest model on the same beats:
-	  Off: lift  -> vest welded to the right hand, armor off (kept as StoredArmorItem /
-	                StoredArmor on the Humanoid), stow -> vest gone.
-	  On:  appear -> vest in the right hand, worn -> welded to the UpperTorso, the stored armor
-	                back on.
+	  Off: lift  -> vest welded to the right hand, armor off; the vest item goes from the Armor
+	                slot into the inventory with the armor points it had left (on the ground if
+	                the inventory is full), stow -> vest model gone.
+	  On:  (a vest from the inventory, the one dragged onto the Armor slot or the first one)
+	       straight into the Armor slot; appear -> vest in the right hand, worn -> welded to
+	       the UpperTorso with that vest's armor points.
 	Hands must be free (no gun in the right hand: the client holsters it first).
 
 	The vest is modeled in studs around a default R15 UpperTorso (about 2 x 1.6 x 1); its
@@ -26,6 +29,7 @@ local Shared = ReplicatedStorage:WaitForChild("Shared")
 local ModelIds = require(Shared:WaitForChild("ModelIds"))
 local Armor = require(Shared:WaitForChild("Armor"))
 local Damage = require(script.Parent:WaitForChild("Damage"))
+local InventoryService = require(script.Parent:WaitForChild("Inventory"):WaitForChild("InventoryService"))
 
 local TORSO_WIDTH = 2 -- UpperTorso width the vest was built for
 -- Vest box center relative to the torso center (from art/models/ArmorVest/meta.json):
@@ -128,10 +132,20 @@ local function makeVest(character: Model, part0: BasePart, c0: CFrame, scale: nu
 end
 
 local function wear(character: Model)
+	local player = Players:GetPlayerFromCharacter(character)
 	local humanoid = character:WaitForChild("Humanoid", 10) :: Humanoid?
-	if humanoid then
-		Damage.setArmor(humanoid, Armor.Default)
+	if not player or not humanoid then
+		return
 	end
+	local item = InventoryService.wornArmor(player)
+	local def = item and Armor.get(item.id)
+	Damage.setArmor(humanoid, if def then def.Name else nil) -- respawning refills the vest
+	if not item or not def then
+		return
+	end
+	local data: { [string]: any } = item.data or {}
+	data.armor = def.MaxArmor
+	item.data = data
 	local torso = character:WaitForChild("UpperTorso", 10) :: BasePart?
 	if not torso then
 		return
@@ -142,7 +156,7 @@ end
 
 -- Take the vest off / put it back on, in time with the client's clip.
 local busy: { [Humanoid]: boolean } = {}
-VestRemote.OnServerEvent:Connect(function(player)
+VestRemote.OnServerEvent:Connect(function(player, uid)
 	local character = player.Character
 	local humanoid = character and character:FindFirstChildOfClass("Humanoid")
 	local torso = character and character:FindFirstChild("UpperTorso") :: BasePart?
@@ -171,9 +185,9 @@ VestRemote.OnServerEvent:Connect(function(player)
 			if vest then
 				setWelds(vest, hand, inHand)
 			end
-			humanoid:SetAttribute("StoredArmorItem", wornItem)
-			humanoid:SetAttribute("StoredArmor", humanoid:GetAttribute("Armor") or 0)
+			local left = humanoid:GetAttribute("Armor") or 0
 			Damage.setArmor(humanoid, nil)
+			InventoryService.takeOffArmor(player, left) -- Armor slot -> inventory
 		end)
 		at(OFF.stow, function()
 			local vest = character:FindFirstChild("ArmorVest")
@@ -182,8 +196,10 @@ VestRemote.OnServerEvent:Connect(function(player)
 			end
 		end)
 	else
-		local item = humanoid:GetAttribute("StoredArmorItem")
-		if not item then
+		-- inventory -> Armor slot (the dragged vest, or the first one carried)
+		local item = InventoryService.putOnArmor(player, if typeof(uid) == "string" then uid else nil)
+		local def = item and Armor.get(item.id)
+		if not item or not def then
 			return -- no vest to put on
 		end
 		busy[humanoid] = true
@@ -195,13 +211,12 @@ VestRemote.OnServerEvent:Connect(function(player)
 			if vest and vest.Parent then
 				setWelds(vest, torso, worn)
 			end
-			local stored = humanoid:GetAttribute("StoredArmor")
-			Damage.setArmor(humanoid, item)
+			local stored = item.data and (item.data :: any).armor
+			Damage.setArmor(humanoid, def.Name)
 			if typeof(stored) == "number" then
 				humanoid:SetAttribute("Armor", math.clamp(stored, 0, humanoid:GetAttribute("MaxArmor") or 0))
 			end
-			humanoid:SetAttribute("StoredArmorItem", nil)
-			humanoid:SetAttribute("StoredArmor", nil)
+			InventoryService.changed(player)
 		end)
 	end
 	task.delay(if wornItem then OFF.length else ON.length, function()

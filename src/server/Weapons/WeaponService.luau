@@ -1,10 +1,12 @@
 --[[
-	Server side of the weapon system. The server owns inventories and ammo and decides every
+	Server side of the weapon system. Which weapons a player carries follows their inventory
+	(Server/Inventory gives / takes them as gun items come and go). The server owns ammo and decides every
 	hit; clients only ask ("equip this", "I fired from here toward there").
 
 		WeaponService.give(player, "Pistol")   -- adds it (replaces the weapon in that wheel slot)
 		WeaponService.addAmmo(player, "CarbineRifle", 30)  -- spare bullets, up to MaxReserve
 		WeaponService.take(player, "Pistol")
+		WeaponService.getAmmo / setAmmo(player, id, mag, reserve)
 		WeaponService.inventory(player)        -> { [Slot]: weaponId }
 
 	Remotes (ReplicatedStorage.WeaponRemotes, made here):
@@ -102,6 +104,27 @@ function WeaponService.addAmmo(player: Player, id: string, amount: number)
 	sendAmmo(player, id)
 end
 
+-- Magazine + spare bullets of a carried weapon (the inventory keeps them on a dropped gun, so
+-- dropping and picking it up again doesn't refill it).
+function WeaponService.getAmmo(player: Player, id: string): (number?, number?)
+	local h = stateOf(player).held[id]
+	if h then
+		return h.mag, h.reserve
+	end
+	return nil, nil
+end
+
+function WeaponService.setAmmo(player: Player, id: string, mag: number, reserve: number)
+	local def = Weapons.get(id)
+	local h = stateOf(player).held[id]
+	if not def or not h then
+		return
+	end
+	h.mag = math.clamp(math.floor(mag), 0, def.MagSize or 0)
+	h.reserve = math.clamp(math.floor(reserve), 0, def.MaxReserve or math.huge)
+	sendAmmo(player, id)
+end
+
 function WeaponService.take(player: Player, id: string)
 	local s = stateOf(player)
 	for slot, held in s.bySlot do
@@ -115,6 +138,7 @@ function WeaponService.take(player: Player, id: string)
 		player:SetAttribute("Weapon", nil)
 	end
 	player:SetAttribute("Weapons", table.concat(WeaponService.list(player), ","))
+	WeaponService.refreshModel(player) -- off the back / out of the hand
 end
 
 function WeaponService.list(player: Player): { string }
