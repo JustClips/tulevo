@@ -9,6 +9,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Config = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Config"))
 local LagComp = require(script.Parent:WaitForChild("LagComp"))
+local Damage = require(script.Parent.Parent:WaitForChild("Damage"))
 
 local Hitscan = {}
 
@@ -80,7 +81,7 @@ function Hitscan.fire(player: Player, def, origin: Vector3, direction: Vector3, 
 			local model = result.Instance:FindFirstAncestorOfClass("Model")
 			local target = model and model:FindFirstChildOfClass("Humanoid")
 			if target and target.Health > 0 then
-				target:TakeDamage(def.Damage or 0)
+				Damage.apply(target, def.Damage or 0, bodyPartOf(result.Instance, model :: Model))
 			end
 			return { result.Position }
 		end
@@ -106,14 +107,15 @@ function Hitscan.fire(player: Player, def, origin: Vector3, direction: Vector3, 
 			table.insert(hits, origin + dir * dist)
 			if target and target.Health > 0 then
 				-- TODO(teams/police): friendly-fire and wanted-level rules go here.
-				target:TakeDamage(damageAt(def, dist) * bodyMultiplier(def, partName))
+				Damage.apply(target, damageAt(def, dist) * bodyMultiplier(def, partName), partName)
 			end
 		elseif result then
 			table.insert(hits, result.Position)
 			local model = result.Instance:FindFirstAncestorOfClass("Model")
 			local target = model and model:FindFirstChildOfClass("Humanoid")
 			if target and target.Health > 0 and model ~= character then
-				target:TakeDamage(damageAt(def, worldDist) * bodyMultiplier(def, bodyPartOf(result.Instance, model)))
+				local part = bodyPartOf(result.Instance, model)
+				Damage.apply(target, damageAt(def, worldDist) * bodyMultiplier(def, part), part)
 			end
 		else
 			table.insert(hits, origin + dir * range)

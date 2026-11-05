@@ -87,3 +87,9 @@ just doesn't play. Hold and Aim loop and drive the upper body over the walk/run 
 ## Still to do
 
 Models and animations for the other classes, GTA weapon wheel UI, sounds and muzzle flash, pickups/shop, friendly fire and wanted level.
+
+## Armor
+
+- Defs in `Shared.Armor` (`ArmorVest` = 50 armor, head not covered). Players wear `Armor.Default` on spawn (`Server/Armor.server.luau`).
+- All weapon damage goes through `Server.Damage.apply(humanoid, amount, partName)`. While armor is left, hits on covered parts take armor first and the rest goes to health (GTA style). Headshots skip the vest.
+- Armor is stored on the Humanoid as attributes `Armor`, `MaxArmor`, `ArmorItem`; the HUD's blue half reads them. Use `Damage.setArmor` / `Damage.addArmor` for pickups.

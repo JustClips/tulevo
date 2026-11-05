@@ -1,6 +1,6 @@
 -- Bottom-left health bar (copy of the reference): one dark frame split in
--- two, green health on the left, the number inside each half. The blue right
--- half is a static placeholder showing 0, kept so the look matches 1:1.
+-- two, green health on the left, blue armor on the right, the number inside each half.
+-- Armor comes from the Humanoid's Armor / MaxArmor attributes (set by the server).
 local Players = game:GetService("Players")
 local StarterGui = game:GetService("StarterGui")
 local TweenService = game:GetService("TweenService")
@@ -95,7 +95,7 @@ local function setFill(fill: Frame, label: TextLabel, value: number, max: number
 	label.Text = tostring(math.ceil(math.max(value, 0)))
 end
 
-armorFill.Size = UDim2.fromScale(1, 1)
+armorFill.Size = UDim2.fromScale(0, 1)
 armorText.Text = "0"
 -- Empty until a character with a Humanoid exists.
 healthFill.Size = UDim2.fromScale(0, 1)
@@ -109,6 +109,14 @@ local function onCharacter(character: Model)
 	humanoid.HealthChanged:Connect(update)
 	humanoid:GetPropertyChangedSignal("MaxHealth"):Connect(update)
 	update()
+
+	local function updateArmor()
+		local max = humanoid:GetAttribute("MaxArmor") or 0
+		setFill(armorFill, armorText, humanoid:GetAttribute("Armor") or 0, max)
+	end
+	humanoid:GetAttributeChangedSignal("Armor"):Connect(updateArmor)
+	humanoid:GetAttributeChangedSignal("MaxArmor"):Connect(updateArmor)
+	updateArmor()
 end
 player.CharacterAdded:Connect(onCharacter)
 if player.Character then

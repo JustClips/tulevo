@@ -1,10 +1,15 @@
 -- Every player wears the armor vest (Shared.ModelIds.ArmorVest) on spawn, welded to the UpperTorso.
+-- It also gives the vest's armor points (Shared.Armor defs, ArmorVest = 50); damage goes
+-- through Server.Damage, which takes covered hits off the armor before health.
 -- The vest is modeled in studs around a default R15 UpperTorso (about 2 x 1.6 x 1), centered on it.
 local InsertService = game:GetService("InsertService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local ModelIds = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("ModelIds"))
+local Shared = ReplicatedStorage:WaitForChild("Shared")
+local ModelIds = require(Shared:WaitForChild("ModelIds"))
+local Armor = require(Shared:WaitForChild("Armor"))
+local Damage = require(script.Parent:WaitForChild("Damage"))
 
 local TORSO_WIDTH = 2 -- UpperTorso width the vest was built for
 -- Vest box center relative to the torso center (from art/models/ArmorVest/meta.json):
@@ -16,7 +21,8 @@ local FLIP = false
 local template: Model? = nil
 
 local function loadTemplate(): Model?
-	local id = ModelIds.ArmorVest
+	local def = Armor.get(Armor.Default)
+	local id = def and def.Model and ModelIds[def.Model]
 	if not id then
 		return nil
 	end
@@ -47,6 +53,10 @@ local function loadTemplate(): Model?
 end
 
 local function wear(character: Model)
+	local humanoid = character:WaitForChild("Humanoid", 10) :: Humanoid?
+	if humanoid then
+		Damage.setArmor(humanoid, Armor.Default)
+	end
 	local torso = character:WaitForChild("UpperTorso", 10) :: BasePart?
 	if not torso or not template then
 		return
