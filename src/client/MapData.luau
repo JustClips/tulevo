@@ -10,7 +10,9 @@
 --
 -- Road network for the GPS: every Road piece is a straight line along its
 -- long side. Roads that cross, or whose end touches another road, are joined.
--- Curves = several straight pieces that touch or overlap at their ends.
+-- Bends/curves = several straight pieces that touch or overlap at their ends
+-- (a Model or Folder tagged Road uses each of its parts). Joins are drawn
+-- round, so short pieces make a smooth curve.
 local CollectionService = game:GetService("CollectionService")
 
 local MapData = {}
@@ -47,10 +49,12 @@ local function footprint(cf: CFrame, size: Vector3)
 	return Vector3.new(cf.X, 0, cf.Z), look, right, along(right), along(look)
 end
 
-local function eachBox(inst: Instance, fn: (CFrame, Vector3) -> ())
+-- Roads use every part on its own (a Model of road pieces can bend);
+-- other tags use a Model's bounding box.
+local function eachBox(inst: Instance, perPart: boolean, fn: (CFrame, Vector3) -> ())
 	if inst:IsA("BasePart") then
 		fn(inst.CFrame, inst.Size)
-	elseif inst:IsA("Model") then
+	elseif inst:IsA("Model") and not perPart then
 		local cf, size = inst:GetBoundingBox()
 		fn(cf, size)
 	else
@@ -83,9 +87,15 @@ local function addNode(p: Vector3): number
 	return #nodes
 end
 
-local function link(i: number, j: number)
+-- Drawn road pieces: one per graph edge, with its road width.
+local edges: { { a: number, b: number, width: number } } = {}
+
+local function link(i: number, j: number, width: number)
 	if i ~= j then
 		local d = (nodes[i] - nodes[j]).Magnitude
+		if not adj[i][j] then
+			table.insert(edges, { a = i, b = j, width = width })
+		end
 		adj[i][j] = d
 		adj[j][i] = d
 	end
@@ -103,6 +113,7 @@ end
 local function buildGraph()
 	table.clear(nodes)
 	table.clear(adj)
+	table.clear(edges)
 	-- Each segment's own entries: both ends.
 	for _, s in segs do
 		s.entries = {
@@ -127,7 +138,7 @@ local function buildGraph()
 					local id2 = addNode(s2.a + s2.dir * uc)
 					table.insert(s1.entries, { t = tc, id = id1 })
 					table.insert(s2.entries, { t = uc, id = id2 })
-					link(id1, id2)
+					link(id1, id2, math.min(s1.width, s2.width))
 				end
 			end
 			-- An end of one road touching the other (chains and overlaps).
@@ -138,7 +149,7 @@ local function buildGraph()
 					if (q - e).Magnitude <= math.max(to.width, from.width) / 2 + 1 then
 						local idq = addNode(q)
 						table.insert(to.entries, { t = t, id = idq })
-						link(addNode(e), idq)
+						link(addNode(e), idq, from.width)
 					end
 				end
 			end
@@ -149,7 +160,7 @@ local function buildGraph()
 			return x.t < y.t
 		end)
 		for k = 2, #s.entries do
-			link(s.entries[k - 1].id, s.entries[k].id)
+			link(s.entries[k - 1].id, s.entries[k].id, s.width)
 		end
 	end
 end
@@ -160,7 +171,7 @@ local function read()
 	for tag, layer in MapData.LAYERS do
 		for _, inst in CollectionService:GetTagged(tag) do
 			if inst:IsDescendantOf(workspace) then
-				eachBox(inst, function(cf, size)
+				eachBox(inst, tag == "Road", function(cf, size)
 					local pos, look, right, sx, sz = footprint(cf, size)
 					table.insert(shapes, { pos = pos, look = look, sx = sx, sz = sz, layer = layer })
 					if tag == "Road" then
@@ -224,12 +235,39 @@ local function flatPart(parent: Instance, color: Color3, size: Vector3, cf: CFra
 	return p
 end
 
+-- Roads: every graph edge as a strip with round caps, so crossings, T-joins
+-- and corners are connected and rounded.
+function MapData.drawRoads(parent: Instance, color: Color3?)
+	local layer = MapData.LAYERS.Road
+	color = color or layer.Color
+	local y = layer.Y + 0.05
+	local capW: { [number]: number } = {}
+	for _, e in edges do
+		local w = e.width * layer.Thin
+		local p, q = nodes[e.a], nodes[e.b]
+		local a, b = Vector3.new(p.X, y, p.Z), Vector3.new(q.X, y, q.Z)
+		local len = (b - a).Magnitude
+		if len > 0.05 then
+			flatPart(parent, color :: Color3, Vector3.new(w, 0.1, len), CFrame.lookAt((a + b) / 2, b))
+		end
+		capW[e.a] = math.max(capW[e.a] or 0, w)
+		capW[e.b] = math.max(capW[e.b] or 0, w)
+	end
+	for id, w in capW do
+		local p = nodes[id]
+		flatPart(parent, color :: Color3, Vector3.new(w, 0.1, w), CFrame.new(p.X, y, p.Z), true)
+	end
+end
+
 -- Draws all map shapes into `parent` (a Folder inside a WorldModel).
 -- `colors` optionally replaces layer colors by name, e.g. { Road = ... }.
 function MapData.drawShapes(parent: Instance, colors: { [string]: Color3 }?)
 	parent:ClearAllChildren()
 	for _, s in shapes do
 		local layer = s.layer
+		if layer.Name == "Road" then
+			continue
+		end
 		local sx, sz = s.sx, s.sz
 		if layer.Thin then
 			if sx < sz then
@@ -250,6 +288,7 @@ function MapData.drawShapes(parent: Instance, colors: { [string]: Color3 }?)
 			CFrame.lookAt(center, center + s.look)
 		)
 	end
+	MapData.drawRoads(parent, colors and colors.Road)
 end
 
 -- Draws a route line (list of points) into `parent`.

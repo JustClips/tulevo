@@ -12,7 +12,6 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 local ContextActionService = game:GetService("ContextActionService")
-local GuiService = game:GetService("GuiService")
 
 local MapData = require(script.Parent:WaitForChild("MapData"))
 local Nav = require(script.Parent:WaitForChild("Nav"))
@@ -62,7 +61,7 @@ routeFolder.Parent = world
 local MAP_GROUND = Color3.fromRGB(96, 98, 98)
 local MAP_COLORS = {
 	Road = Color3.fromRGB(226, 226, 226),
-	Building = Color3.fromRGB(76, 78, 78),
+	Building = Color3.fromRGB(60, 62, 64),
 	Park = Color3.fromRGB(84, 98, 82),
 	Water = Color3.fromRGB(78, 98, 128),
 }
@@ -142,19 +141,60 @@ do
 	s.Parent = wpBlip
 end
 
--- Cursor crosshair (mouse only)
-local crossH = Instance.new("Frame")
-crossH.AnchorPoint = Vector2.new(0, 0.5)
-crossH.Size = UDim2.new(1, 0, 0, 1)
-crossH.BackgroundColor3 = WHITE
-crossH.BackgroundTransparency = 0.6
-crossH.BorderSizePixel = 0
-crossH.ZIndex = 2
-crossH.Parent = vp
-local crossV = crossH:Clone()
-crossV.AnchorPoint = Vector2.new(0.5, 0)
-crossV.Size = UDim2.new(0, 1, 1, 0)
-crossV.Parent = vp
+-- Cursor: thin lines out to the screen edges with a gap around the cursor,
+-- fading out toward the edges, plus a small reticle in the middle.
+local CURSOR_GAP = 14 -- pixels of empty space around the cursor
+local CURSOR_IMAGE = "" -- reticle image id (ForgeGUI); empty = lines only
+
+local cursor = Instance.new("Frame")
+cursor.Name = "Cursor"
+cursor.Size = UDim2.fromScale(1, 1)
+cursor.BackgroundTransparency = 1
+cursor.ZIndex = 2
+cursor.Parent = vp
+
+local function arm(rotation: number)
+	local f = Instance.new("Frame")
+	f.BackgroundColor3 = WHITE
+	f.BorderSizePixel = 0
+	f.ZIndex = 2
+	f.Parent = cursor
+	local g = Instance.new("UIGradient")
+	-- opaque next to the cursor, fading out toward the edge
+	g.Transparency = NumberSequence.new({
+		NumberSequenceKeypoint.new(0, 0.25),
+		NumberSequenceKeypoint.new(0.6, 0.7),
+		NumberSequenceKeypoint.new(1, 1),
+	})
+	g.Rotation = rotation
+	g.Parent = f
+	return f
+end
+local armRight, armLeft, armDown, armUp = arm(0), arm(180), arm(90), arm(270)
+
+local reticle = Instance.new("ImageLabel")
+reticle.Name = "Reticle"
+reticle.AnchorPoint = Vector2.new(0.5, 0.5)
+reticle.Size = UDim2.fromOffset(26, 26)
+reticle.BackgroundTransparency = 1
+reticle.Image = CURSOR_IMAGE
+reticle.Visible = CURSOR_IMAGE ~= ""
+reticle.ZIndex = 3
+reticle.Parent = cursor
+
+local function setCursor(px: Vector2)
+	local size = vp.AbsoluteSize
+	local g = CURSOR_GAP
+	armRight.Position = UDim2.fromOffset(px.X + g, px.Y)
+	armRight.Size = UDim2.fromOffset(math.max(size.X - px.X - g, 0), 1)
+	armLeft.Position = UDim2.fromOffset(0, px.Y)
+	armLeft.Size = UDim2.fromOffset(math.max(px.X - g, 0), 1)
+	armDown.Position = UDim2.fromOffset(px.X, px.Y + g)
+	armDown.Size = UDim2.fromOffset(1, math.max(size.Y - px.Y - g, 0))
+	armUp.Position = UDim2.fromOffset(px.X, 0)
+	armUp.Size = UDim2.fromOffset(1, math.max(px.Y - g, 0))
+	reticle.Position = UDim2.fromOffset(px.X, px.Y)
+end
 
 -- View state ---------------------------------------------------------------
 local center = Vector3.zero -- ground point at the screen centre
@@ -183,10 +223,10 @@ local function toScreen(p: Vector3): Vector2
 	return Vector2.new((nx + 1) / 2 * size.X, (ny + 1) / 2 * size.Y)
 end
 
--- Input position -> pixel inside the map (the map ignores the top-bar inset).
+-- Input position -> pixel inside the map. Input positions are already in
+-- full-screen pixels here, the same space as this IgnoreGuiInset map.
 local function localPos(input: InputObject): Vector2
-	local inset = GuiService:GetGuiInset()
-	return Vector2.new(input.Position.X, input.Position.Y) + inset - vp.AbsolutePosition
+	return Vector2.new(input.Position.X, input.Position.Y) - vp.AbsolutePosition
 end
 
 -- Drawing ----------------------------------------------------------------
@@ -366,8 +406,7 @@ UserInputService.InputChanged:Connect(function(input)
 	end
 	if input.UserInputType == Enum.UserInputType.MouseMovement then
 		local px = localPos(input)
-		crossH.Position = UDim2.fromOffset(0, px.Y)
-		crossV.Position = UDim2.fromOffset(px.X, 0)
+		setCursor(px)
 	end
 end)
 
@@ -450,11 +489,9 @@ RunService.RenderStepped:Connect(function(dt)
 	if gamepad then
 		gamepadInput(dt)
 		local c = vp.AbsoluteSize / 2
-		crossH.Position = UDim2.fromOffset(0, c.Y)
-		crossV.Position = UDim2.fromOffset(c.X, 0)
+		setCursor(c)
 	end
-	crossH.Visible = UserInputService.MouseEnabled or gamepad
-	crossV.Visible = crossH.Visible
+	cursor.Visible = UserInputService.MouseEnabled or gamepad
 	updateScale()
 	local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart") :: BasePart?
 	me.Visible = root ~= nil

@@ -161,7 +161,7 @@
     "Size": [
      20,
      0.2,
-     268
+     228
     ],
     "Color": "#3A3B3D",
     "Material": "Asphalt",
@@ -171,7 +171,7 @@
      "position": [
       200,
       0.158,
-      150
+      130
      ],
      "orientation": [
       0,
@@ -190,7 +190,7 @@
    "properties": {
     "Anchored": true,
     "Size": [
-     200,
+     160,
      0.2,
      20
     ],
@@ -200,7 +200,7 @@
     "BottomSurface": "Smooth",
     "CFrame": {
      "position": [
-      100,
+      80,
       0.16,
       284
      ],
@@ -3641,6 +3641,183 @@
     "CanCollide": false,
     "Duration": 0
    }
+  },
+  {
+   "name": "CurveSE",
+   "className": "Model",
+   "tags": [
+    "Road"
+   ],
+   "children": [
+    {
+     "name": "Curve1",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       20,
+       0.2,
+       12.44209537760412
+      ],
+      "Color": "#3A3B3D",
+      "Material": "Asphalt",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth",
+      "CFrame": {
+       "position": [
+        199.31851652578138,
+        0.155,
+        249.17638090205043
+       ],
+       "orientation": [
+        0,
+        172.49999999999994,
+        0
+       ]
+      }
+     }
+    },
+    {
+     "name": "Curve2",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       20,
+       0.2,
+       12.442095377604128
+      ],
+      "Color": "#3A3B3D",
+      "Material": "Asphalt",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth",
+      "CFrame": {
+       "position": [
+        196.63902460147014,
+        0.156,
+        259.1763809020504
+       ],
+       "orientation": [
+        0,
+        157.5000000000001,
+        0
+       ]
+      }
+     }
+    },
+    {
+     "name": "Curve3",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       20,
+       0.2,
+       12.442095377604133
+      ],
+      "Color": "#3A3B3D",
+      "Material": "Asphalt",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth",
+      "CFrame": {
+       "position": [
+        191.46264369941974,
+        0.157,
+        268.14213562373095
+       ],
+       "orientation": [
+        0,
+        142.49999999999997,
+        0
+       ]
+      }
+     }
+    },
+    {
+     "name": "Curve4",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       20,
+       0.2,
+       12.442095377604117
+      ],
+      "Color": "#3A3B3D",
+      "Material": "Asphalt",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth",
+      "CFrame": {
+       "position": [
+        184.14213562373095,
+        0.158,
+        275.4626436994197
+       ],
+       "orientation": [
+        0,
+        127.4999999999999,
+        0
+       ]
+      }
+     }
+    },
+    {
+     "name": "Curve5",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       20,
+       0.2,
+       12.442095377604149
+      ],
+      "Color": "#3A3B3D",
+      "Material": "Asphalt",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth",
+      "CFrame": {
+       "position": [
+        175.17638090205043,
+        0.159,
+        280.63902460147017
+       ],
+       "orientation": [
+        0,
+        112.50000000000018,
+        0
+       ]
+      }
+     }
+    },
+    {
+     "name": "Curve6",
+     "className": "Part",
+     "properties": {
+      "Anchored": true,
+      "Size": [
+       20,
+       0.2,
+       12.442095377604117
+      ],
+      "Color": "#3A3B3D",
+      "Material": "Asphalt",
+      "TopSurface": "Smooth",
+      "BottomSurface": "Smooth",
+      "CFrame": {
+       "position": [
+        165.17638090205043,
+        0.16,
+        283.3185165257814
+       ],
+       "orientation": [
+        0,
+        97.49999999999989,
+        0
+       ]
+      }
+     }
+    }
+   ]
   }
  ]
 }

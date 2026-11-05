@@ -70,15 +70,17 @@ local function segment(name: string, x: number, w: number, color: Color3)
 
 	local label = Instance.new("TextLabel")
 	label.Name = name .. "Text"
-	label.Size = UDim2.fromScale(1, 1)
-	label.ZIndex = 2
+	-- On the bar (not inside the clipped slot) and above the fill.
+	label.Position = UDim2.fromOffset(x, BORDER)
+	label.Size = UDim2.fromOffset(w, BAR_H - BORDER * 2)
+	label.ZIndex = 3
 	label.BackgroundTransparency = 1
 	label.FontFace = FONT
 	label.TextSize = 12
 	label.TextColor3 = COLORS.Text
-	label.TextStrokeTransparency = 0.6
+	label.TextStrokeTransparency = 0.5
 	label.Text = "0"
-	label.Parent = slot
+	label.Parent = bar
 
 	return fill, label
 end
