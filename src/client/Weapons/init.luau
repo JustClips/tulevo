@@ -14,7 +14,7 @@
 
 	Gun poses (Weapons/AnimSet, clips from art/anim/gun.py) follow what you're doing:
 	Hold (low ready) walking/standing, Sprint (rifle across the chest), Aim (shouldered; also
-	for ~0.6 s after firing from the hip), Tuck in rolls, Air in jumps and falls, Lowered when
+	for ~0.3 s after firing from the hip), Tuck in rolls, Air in jumps and falls, Lowered when
 	a wall is right in front. While the gun is up your whole body faces the camera: A/D play
 	side-steps and S plays the walk in reverse. Weapons/GunPose locks the chest to the aim
 	(yaw and pitch) every frame, for every player.
@@ -62,7 +62,7 @@ local triggerDown = false
 local combo = 0
 local ammo: { [string]: { mag: number, reserve: number } } = {}
 local hipUntil = 0 -- gun stays up this long after a hip-fire shot
-local HIP_RAISE = 0.6
+local HIP_RAISE = 0.3 -- long enough to stay up between automatic shots, short enough to drop right after
 local wasRaised = false
 local zoomed = false
 local baseFov: number? = nil
@@ -307,7 +307,11 @@ function Controller.fire()
 		end
 	else
 		State.Mag -= 1
-		hipUntil = now + HIP_RAISE -- GTA: shooting from the hip brings the gun up
+		-- GTA: shooting from the hip brings the gun up for a moment. Shots while aiming don't,
+		-- so letting go of aim drops the gun straight away.
+		if not State.Aiming then
+			hipUntil = now + HIP_RAISE
+		end
 		if anims and anims:weight("Aim") > 0.5 then
 			anims:play("Fire", 0.02)
 		end
@@ -366,6 +370,9 @@ local function bind()
 			on = state == Enum.UserInputState.Begin
 		end
 		State.Aiming = on -- the pose itself is blended in the frame loop
+		if not on then
+			hipUntil = 0 -- letting go of aim leaves it now, even right after shooting
+		end
 		return Enum.ContextActionResult.Pass
 	end, true, Enum.UserInputType.MouseButton2, Enum.KeyCode.ButtonL2)
 
@@ -744,7 +751,9 @@ function Controller.start()
 				pose = "Lowered"
 			end
 		end
-		anims:blend({ [pose] = 1 }, dt, if pose == "Aim" or pose == "Tuck" then 16 else 10)
+		-- into and out of Aim quickly (dropping the gun after aiming shouldn't lag)
+		local quick = pose == "Aim" or pose == "Tuck" or anims:weight("Aim") > 0.05
+		anims:blend({ [pose] = 1 }, dt, if quick then 18 else 10)
 		State.AimBlend = if rolling then 0 else anims:weight("Aim")
 	end)
 end

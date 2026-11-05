@@ -59,7 +59,7 @@ shows the rewound hitboxes in Studio.
 |---|---|
 | Hold | low ready, standing / walking / crouching |
 | Sprint | low ready while sprinting: pulled in, muzzle down across the body (no longer muzzle-up port arms) |
-| Aim | right click, and for 0.6 s after a hip-fire shot; chest + head keyed, waist bent to the camera pitch |
+| Aim | right click, and for 0.3 s after a hip-fire shot (not after shots while aiming, so letting go drops it at once); chest + head keyed, waist bent to the camera pitch |
 | Fire | recoil kick on top of Aim |
 | Tuck | during rolls (Space while aiming, like GTA 5) |
 | Air | in the air (loop) |
