@@ -14,6 +14,7 @@ end)
 local BAR_W, BAR_H = 280, 18
 local BORDER = 3
 local MARGIN = 20
+local BOTTOM = 8
 
 local COLORS = {
 	Frame = Color3.fromRGB(62, 70, 58),
@@ -33,7 +34,7 @@ gui.Parent = player:WaitForChild("PlayerGui")
 local root = Instance.new("Frame")
 root.Name = "Root"
 root.AnchorPoint = Vector2.new(0, 1)
-root.Position = UDim2.new(0, MARGIN, 1, -MARGIN)
+root.Position = UDim2.new(0, MARGIN, 1, -BOTTOM)
 root.Size = UDim2.fromOffset(BAR_W, BAR_H + 19)
 root.BackgroundTransparency = 1
 root.Parent = gui
