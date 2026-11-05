@@ -398,7 +398,7 @@ function Controller.start()
 		dot.Size = if raised then UDim2.fromOffset(4, 4) else UDim2.fromOffset(6, 6)
 		-- over the right shoulder while the gun is up (CameraOffset is in the character's
 		-- space, and the character faces the camera then)
-		local want = if raised and gunOut and State.Aiming then 1.6 else 0
+		local want = if raised and gunOut and State.Aiming and not isFirstPerson(player.Character) then 1.6 else 0
 		shoulder += (want - shoulder) * math.min(1, dt * 10)
 		if h then
 			local off = h.CameraOffset
@@ -407,6 +407,38 @@ function Controller.start()
 			end
 		end
 	end
+
+	-- First person: Roblox hides your whole character when the camera is in your head. Keep
+	-- the arms and the gun visible (runs right after the camera script each frame).
+	local SHOW_FIRST_PERSON = {
+		RightUpperArm = true, RightLowerArm = true, RightHand = true,
+		LeftUpperArm = true, LeftLowerArm = true, LeftHand = true,
+	}
+	local function isFirstPerson(c: Model?): boolean
+		local head = c and c:FindFirstChild("Head") :: BasePart?
+		local cam = workspace.CurrentCamera
+		-- zoomed all the way in: the camera sits on its focus point
+		return head ~= nil and cam ~= nil and (cam.CFrame.Position - cam.Focus.Position).Magnitude < 1
+	end
+	RunService:BindToRenderStep("GunFirstPerson", Enum.RenderPriority.Camera.Value + 1, function()
+		local c = player.Character
+		if not c or not State.Equipped or not isFirstPerson(c) then
+			return
+		end
+		for _, part in c:GetChildren() do
+			if part:IsA("BasePart") and SHOW_FIRST_PERSON[part.Name] then
+				part.LocalTransparencyModifier = 0
+			end
+		end
+		local gun = c:FindFirstChild("Gun")
+		if gun then
+			for _, d in gun:GetDescendants() do
+				if d:IsA("BasePart") then
+					d.LocalTransparencyModifier = 0
+				end
+			end
+		end
+	end)
 
 	local function sendPose(twist: number, pitch: number)
 		local now = os.clock()
