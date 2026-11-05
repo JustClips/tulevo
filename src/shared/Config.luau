@@ -24,11 +24,13 @@ local Config = {
 		-- everyone gets these on join (no shop/pickups yet), and spawns holding EquipOnSpawn
 		DefaultLoadout = { "CarbineRifle" },
 		EquipOnSpawn = "CarbineRifle",
-		-- TEMP (2026-11-05): on-screen weapon state (Client/WeaponDebug) + "[Weapons]" lines in
-		-- Output, while the "rifle stays on the back" bug is chased. Set false to hide.
-		Debug = true,
-		-- extra weapons in Studio play tests only (they have no models or animations yet)
-		StudioLoadout = { "Bat", "Pistol", "SMG", "Shotgun" },
+		-- true: on-screen weapon state (Client/WeaponDebug) + "[Weapons]" / "[GunModel]" lines
+		-- in Output, for chasing equip bugs
+		Debug = false,
+		-- extra weapons in Studio play tests only. Empty: Bat, Pistol, SMG and Shotgun have no
+		-- models or animations yet, so keys 1-4 equipped invisible weapons and left the rifle
+		-- on the back (looked like the rifle couldn't be equipped). Add them back once they have art.
+		StudioLoadout = {},
 		-- guns are shown at this scale (the carbine is exported at 3.6 studs per meter, which
 		-- reads small next to chunky R15 bodies). The rifle animations (art/anim/gun.py
 		-- GUN_SCALE) are solved for it, so change both together.

@@ -40,7 +40,7 @@ Where the gun model sits is the gun's `On` attribute ("RightHand" / "UpperTorso"
 `Gun`: the model loads once (preloaded at server start, a second caller waits for the first load)
 and an attach still waiting for the load is dropped if a newer attach / remove came in.
 Everyone gets the Carbine Rifle (`Defs/CarbineRifle.luau`: damage, per-body-part multipliers, falloff, fire rate, mag size, spare ammo, reload time) and spawns holding it (`Config.Weapons.DefaultLoadout`,
-`EquipOnSpawn`). Studio play tests also get Bat, Pistol, SMG and Shotgun (no models yet).
+`EquipOnSpawn`). Studio play tests can get extra weapons (`Config.Weapons.StudioLoadout`, empty for now: Bat, Pistol, SMG and Shotgun have no models or animations, and equipping them with 1-4 left the rifle on the back). `Config.Weapons.Debug` shows a weapon state readout (`Client/WeaponDebug`).
 
 ## Hits, cheats and lag
 
