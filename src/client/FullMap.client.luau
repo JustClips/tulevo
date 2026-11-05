@@ -57,13 +57,14 @@ local routeFolder = Instance.new("Folder")
 routeFolder.Name = "Route"
 routeFolder.Parent = world
 
--- Map colors: lighter than the radar, white roads on grey ground.
-local MAP_GROUND = Color3.fromRGB(96, 98, 98)
+-- Map colors: dark ground, subtle city blocks, light-grey roads with dark edges.
+local MAP_GROUND = Color3.fromRGB(38, 40, 40)
 local MAP_COLORS = {
-	Road = Color3.fromRGB(226, 226, 226),
-	Building = Color3.fromRGB(60, 62, 64),
-	Park = Color3.fromRGB(84, 98, 82),
-	Water = Color3.fromRGB(78, 98, 128),
+	Road = Color3.fromRGB(156, 158, 158),
+	RoadEdge = Color3.fromRGB(24, 25, 25),
+	Building = Color3.fromRGB(54, 56, 57),
+	Park = Color3.fromRGB(50, 60, 48),
+	Water = Color3.fromRGB(42, 58, 78),
 }
 vp.BackgroundColor3 = MAP_GROUND
 

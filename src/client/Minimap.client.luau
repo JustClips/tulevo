@@ -148,7 +148,7 @@ waypoint.Visible = false
 
 -- Map + route drawing -----------------------------------------------------
 local function redrawShapes()
-	MapData.drawShapes(shapes)
+	MapData.drawShapes(shapes, { RoadEdge = Color3.fromRGB(24, 25, 25) })
 end
 MapData.Changed:Connect(redrawShapes)
 redrawShapes()

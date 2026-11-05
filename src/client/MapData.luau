@@ -22,10 +22,10 @@ local MapData = {}
 MapData.LAYERS = {
 	Park = { Name = "Park", Color = Color3.fromRGB(58, 68, 56), Y = 0.1 },
 	Water = { Name = "Water", Color = Color3.fromRGB(52, 70, 86), Y = 0.2 },
-	Building = { Name = "Building", Color = Color3.fromRGB(78, 80, 80), Y = 0.3, Inset = 2 },
-	Road = { Name = "Road", Color = Color3.fromRGB(176, 178, 178), Y = 0.4, Thin = 0.45 },
+	Building = { Name = "Building", Color = Color3.fromRGB(56, 58, 59), Y = 0.3, Inset = 1 },
+	Road = { Name = "Road", Color = Color3.fromRGB(150, 152, 152), Y = 0.4, Thin = 0.5 },
 }
-MapData.GROUND = Color3.fromRGB(44, 46, 46)
+MapData.GROUND = Color3.fromRGB(40, 42, 42)
 MapData.ROUTE = Color3.fromRGB(160, 92, 230)
 
 -- Fires after the tagged map changed (shapes and roads were re-read).
@@ -175,11 +175,17 @@ local function read()
 					local pos, look, right, sx, sz = footprint(cf, size)
 					table.insert(shapes, { pos = pos, look = look, sx = sx, sz = sz, layer = layer })
 					if tag == "Road" then
+						-- A road runs along the part's Z (front) unless it's clearly
+						-- longer along X. Short curve pieces can be wider than long,
+						-- so "longest side" alone would turn them sideways.
+						-- Attribute RoadAxis = "X" or "Z" forces it.
+						local axis = inst:GetAttribute("RoadAxis")
+						local useX = if axis == "X" then true elseif axis == "Z" then false else sx > sz * 2
 						local dir, len, width
-						if sz >= sx then
-							dir, len, width = look, sz, sx
-						else
+						if useX then
 							dir, len, width = right, sx, sz
+						else
+							dir, len, width = look, sz, sx
 						end
 						table.insert(segs, {
 							a = pos - dir * len / 2,
@@ -237,30 +243,36 @@ end
 
 -- Roads: every graph edge as a strip with round caps, so crossings, T-joins
 -- and corners are connected and rounded.
-function MapData.drawRoads(parent: Instance, color: Color3?)
+-- `outline` (optional) draws a darker edge `outlineWidth` studs wide under the road.
+function MapData.drawRoads(parent: Instance, color: Color3?, outline: Color3?, outlineWidth: number?)
 	local layer = MapData.LAYERS.Road
-	color = color or layer.Color
-	local y = layer.Y + 0.05
-	local capW: { [number]: number } = {}
-	for _, e in edges do
-		local w = e.width * layer.Thin
-		local p, q = nodes[e.a], nodes[e.b]
-		local a, b = Vector3.new(p.X, y, p.Z), Vector3.new(q.X, y, q.Z)
-		local len = (b - a).Magnitude
-		if len > 0.05 then
-			flatPart(parent, color :: Color3, Vector3.new(w, 0.1, len), CFrame.lookAt((a + b) / 2, b))
+	local function pass(c: Color3, extra: number, y: number)
+		local capW: { [number]: number } = {}
+		for _, e in edges do
+			local w = e.width * layer.Thin + extra * 2
+			local p, q = nodes[e.a], nodes[e.b]
+			local a, b = Vector3.new(p.X, y, p.Z), Vector3.new(q.X, y, q.Z)
+			local len = (b - a).Magnitude
+			if len > 0.05 then
+				flatPart(parent, c, Vector3.new(w, 0.1, len), CFrame.lookAt((a + b) / 2, b))
+			end
+			capW[e.a] = math.max(capW[e.a] or 0, w)
+			capW[e.b] = math.max(capW[e.b] or 0, w)
 		end
-		capW[e.a] = math.max(capW[e.a] or 0, w)
-		capW[e.b] = math.max(capW[e.b] or 0, w)
+		for id, w in capW do
+			local p = nodes[id]
+			flatPart(parent, c, Vector3.new(w, 0.1, w), CFrame.new(p.X, y, p.Z), true)
+		end
 	end
-	for id, w in capW do
-		local p = nodes[id]
-		flatPart(parent, color :: Color3, Vector3.new(w, 0.1, w), CFrame.new(p.X, y, p.Z), true)
+	if outline then
+		pass(outline, outlineWidth or 1.5, layer.Y)
 	end
+	pass(color or layer.Color, 0, layer.Y + 0.05)
 end
 
 -- Draws all map shapes into `parent` (a Folder inside a WorldModel).
--- `colors` optionally replaces layer colors by name, e.g. { Road = ... }.
+-- `colors` optionally replaces layer colors by name, e.g. { Road = ... },
+-- plus RoadEdge for a darker road outline.
 function MapData.drawShapes(parent: Instance, colors: { [string]: Color3 }?)
 	parent:ClearAllChildren()
 	for _, s in shapes do
@@ -288,7 +300,7 @@ function MapData.drawShapes(parent: Instance, colors: { [string]: Color3 }?)
 			CFrame.lookAt(center, center + s.look)
 		)
 	end
-	MapData.drawRoads(parent, colors and colors.Road)
+	MapData.drawRoads(parent, colors and colors.Road, colors and colors.RoadEdge, 1.5)
 end
 
 -- Draws a route line (list of points) into `parent`.
