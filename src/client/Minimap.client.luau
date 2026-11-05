@@ -20,10 +20,10 @@ local CollectionService = game:GetService("CollectionService")
 local player = Players.LocalPlayer
 local camera = workspace.CurrentCamera
 
--- Layout (matches HealthHud: left 20, bar 22 px tall, 8 px from bottom)
-local W, H = 280, 170
-local LEFT, BOTTOM = 20, 8 + 22 + 3
-local BORDER = 3
+-- Layout (matches HealthHud: left 20, bar 18 px tall, 8 px from bottom)
+local W, H = 230, 150
+local LEFT, BOTTOM = 20, 8 + 18 + 3
+local BORDER = 2
 
 -- View
 local DIST = 700 -- studs from the radar camera to the point it looks at
@@ -44,7 +44,7 @@ local LAYERS = {
 }
 
 local COLORS = {
-	Frame = Color3.fromRGB(62, 70, 58),
+	Frame = Color3.fromRGB(18, 18, 18),
 	Ground = Color3.fromRGB(44, 46, 46),
 	Arrow = Color3.fromRGB(240, 240, 240),
 	North = Color3.fromRGB(30, 30, 30),

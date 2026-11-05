@@ -11,7 +11,7 @@ pcall(function()
 	StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Health, false)
 end)
 
-local BAR_W, BAR_H = 280, 22
+local BAR_W, BAR_H = 230, 18
 local BORDER = 3
 local MARGIN = 20
 local BOTTOM = 8
@@ -74,7 +74,7 @@ local function segment(name: string, x: number, w: number, color: Color3)
 	label.ZIndex = 2
 	label.BackgroundTransparency = 1
 	label.FontFace = FONT
-	label.TextSize = 14
+	label.TextSize = 12
 	label.TextColor3 = COLORS.Text
 	label.TextStrokeTransparency = 0.6
 	label.Text = "0"
