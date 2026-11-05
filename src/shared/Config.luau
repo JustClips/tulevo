@@ -3,10 +3,15 @@
 local Config = {
 	GameName = "Tulevo",
 
-	-- On foot (GTA style): walk by default, hold Shift (keyboard) or click the left stick
-	-- (gamepad) to run. Phones and gamepads get analog speed: push the stick a little to walk.
-	WalkSpeed = 6,
-	RunSpeed = 14,
+	-- On foot (GTA style), used by StarterPlayerScripts.Client.Movement.
+	-- Keyboard: walk, hold Shift to sprint. Gamepad: stick pushed a little = walk, all the
+	-- way = jog, click the left stick to sprint. Phones: same stick, plus a Sprint button.
+	Movement = {
+		WalkSpeed = 6,
+		JogSpeed = 14,
+		SprintSpeed = 20,
+		Acceleration = 40, -- studs/s per second when speeding up (slowing down is 2x)
+	},
 
 	-- Every avatar spawns as R15 (CharacterSetup.server.luau). Sizes are clamped to this
 	-- range so tiny, giant or stretched avatars still look human next to cars and doors.
