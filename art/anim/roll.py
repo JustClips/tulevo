@@ -102,7 +102,8 @@ def roll_frames(keys, axis, sign, fps=30):
     frames = []
     for i in range(n + 1):
         t = end * i / n
-        k, ang = sample(keys, t)
+        _, ang = sample(keys, t)
+        k = A.loosen(lambda tt: sample(keys, tt)[0], t, end)
         poses = A.to_poses(k)
         a = sign * D(ang)
         rot = L.rx(a) if axis == "x" else L.rz(a)

@@ -21,9 +21,11 @@ import r15  # noqa: E402
 D = math.radians
 
 
-def key(torso=0.0, head=0.0, r_leg=(0, 0, 0), l_leg=(0, 0, 0), r_arm=(0, 0, 0), l_arm=(0, 0, 0), twist=0.0):
-    """r_leg = (thigh, knee, foot); r_arm = (shoulder fwd, out, elbow)."""
-    return dict(torso=torso, head=head, r_leg=r_leg, l_leg=l_leg, r_arm=r_arm, l_arm=l_arm, twist=twist)
+def key(torso=0.0, head=0.0, r_leg=(0, 0, 0), l_leg=(0, 0, 0), r_arm=(0, 0, 0), l_arm=(0, 0, 0), twist=0.0,
+        r_hand=(0, 0), l_hand=(0, 0), head_turn=0.0):
+    """r_leg = (thigh, knee, foot); r_arm = (shoulder fwd, out, elbow); r_hand = (wrist bend, wrist side)."""
+    return dict(torso=torso, head=head, r_leg=r_leg, l_leg=l_leg, r_arm=r_arm, l_arm=l_arm, twist=twist,
+                r_hand=r_hand, l_hand=l_hand, head_turn=head_turn)
 
 
 def mix(a, b, u):
@@ -41,30 +43,67 @@ def to_poses(k):
     poses = {
         "LowerTorso": ((0, 0, 0), L.ry(D(k["twist"]) * 0.5)),
         "UpperTorso": ((0, 0, 0), L.rx(D(k["torso"])) @ L.ry(-D(k["twist"]))),
-        "Head": ((0, 0, 0), L.rx(D(k["head"] - k["torso"] * 0.6))),
+        "Head": ((0, 0, 0), L.rx(D(k["head"] - k["torso"] * 0.6)) @ L.ry(D(k.get("head_turn", 0)))),
     }
-    for side, pre, leg, arm in ((1, "Right", k["r_leg"], k["r_arm"]), (-1, "Left", k["l_leg"], k["l_arm"])):
+    for side, pre, leg, arm, hand in ((1, "Right", k["r_leg"], k["r_arm"], k.get("r_hand", (0, 0))),
+                                      (-1, "Left", k["l_leg"], k["l_arm"], k.get("l_hand", (0, 0)))):
         poses[pre + "UpperLeg"] = ((0, 0, 0), L.rx(D(leg[0])) @ L.rz(D(3) * side))
         poses[pre + "LowerLeg"] = ((0, 0, 0), L.rx(D(leg[1])))
         poses[pre + "Foot"] = ((0, 0, 0), L.rx(D(leg[2])))
         poses[pre + "UpperArm"] = ((0, 0, 0), L.rz(D(arm[1]) * side) @ L.rx(D(arm[0])) @ L.ry(-D(8) * side))
         poses[pre + "LowerArm"] = ((0, 0, 0), L.rx(D(arm[2])))
-        poses[pre + "Hand"] = ((0, 0, 0), I)
+        poses[pre + "Hand"] = ((0, 0, 0), L.rx(D(hand[0])) @ L.rz(D(hand[1]) * side) if hand != (0, 0) else I)
     return poses
 
 
+# --- Loose body: overlap and follow-through -------------------------------------------
+# Real bodies don't move as one rigid block: the big joints lead and the ends follow
+# (shoulder -> elbow -> wrist, hip -> knee -> ankle, chest -> head), the two sides are never
+# perfectly in sync, and nothing ever freezes. loosen() takes any pose-over-time function
+# and builds each frame from the joints sampled a little in the past, plus floppy wrists
+# and a slow, small drift so held poses still breathe.
+LAG = {"elbow": 0.035, "wrist": 0.07, "knee": 0.02, "ankle": 0.045, "head": 0.05}
+LEFT_LAG = 0.025  # the left side trails the right a touch
+
+
+def loosen(sampler, t, end, drift=1.0):
+    def at(dt):
+        return sampler(min(end, max(0.0, t - dt)))
+
+    now = at(0)
+    out = dict(now)
+    for side, leg_k, arm_k, hand_k, off in (("r", "r_leg", "r_arm", "r_hand", 0.0), ("l", "l_leg", "l_arm", "l_hand", LEFT_LAG)):
+        base = at(off)
+        leg = (base[leg_k][0], at(off + LAG["knee"])[leg_k][1], at(off + LAG["ankle"])[leg_k][2])
+        elbow_now = base[arm_k][2]
+        elbow_late = at(off + LAG["elbow"])[arm_k][2]
+        swing = base[arm_k][0] - at(off + LAG["wrist"])[arm_k][0]  # how fast the arm is swinging
+        ph = 1.7 if side == "r" else 2.3
+        w = 2 * math.pi * t
+        arm = (base[arm_k][0] + 2.5 * drift * math.sin(w * 0.9 + ph),
+               base[arm_k][1] + 3.0 * drift * math.sin(w * 1.3 + ph),
+               elbow_late + 4.0 * drift * math.sin(w * 1.1 + ph * 2))
+        # wrists relax (bent a little) and flop against the swing; they flick when the elbow snaps
+        wrist = (-12 - 0.45 * swing + 0.25 * (elbow_now - elbow_late), 6 + 3 * math.sin(w * 0.7 + ph))
+        out[leg_k], out[arm_k], out[hand_k] = leg, arm, wrist
+    out["head"] = at(LAG["head"])["head"] + 2.0 * drift * math.sin(2 * math.pi * t * 0.8)
+    out["head_turn"] = 3.0 * drift * math.sin(2 * math.pi * t * 0.6 + 0.4)
+    out["torso"] = now["torso"] + 1.5 * drift * math.sin(2 * math.pi * t * 1.2)
+    return out
+
+
 def track(keys, fps=30):
-    """keys: [(time, key)], eased between neighbours."""
+    """keys: [(time, key)], eased between neighbours, with loose overlap (see loosen)."""
     end = keys[-1][0]
     n = max(2, round(end * fps))
-    frames = []
-    for i in range(n + 1):
-        t = end * i / n
+
+    def sampler(t):
         for (t0, a), (t1, b) in zip(keys, keys[1:]):
             if t0 <= t <= t1:
-                frames.append((t, to_poses(mix(a, b, L.smooth((t - t0) / max(1e-6, t1 - t0))))))
-                break
-    return frames
+                return mix(a, b, L.smooth((t - t0) / max(1e-6, t1 - t0)))
+        return keys[-1][1]
+
+    return [(end * i / n, to_poses(loosen(sampler, end * i / n, end))) for i in range(n + 1)]
 
 
 # Full GTA-style jumps. Every clip moves the whole time: legs push off, drive, fold and reach
@@ -107,7 +146,7 @@ def squat_frames(duration, curve, upper, fps=30, feet=((1, -0.1), (-1, 0.12))):
     for i in range(n + 1):
         u = i / n
         drop = curve(u)
-        poses = to_poses(upper(u))
+        poses = to_poses(loosen(lambda tt: upper(tt / duration), duration * u, duration))
         pos, rot = (0, -drop, 0), np.eye(3)
         poses["LowerTorso"] = (pos, rot)
         lt = L.lt_frame_of(pos, rot)
@@ -140,17 +179,19 @@ def prep_frames():
         feet=((1, 0.0), (-1, 0.05)))
 
 def fall_frames(duration=0.9, steps=18):
-    frames = []
-    for i in range(steps + 1):
-        w = 2 * math.pi * i / steps
+    def at(tt):
+        w = 2 * math.pi * (tt % duration) / duration
         s, c = math.sin(w), math.cos(w)
         # legs pedal, arms keep circling out to the sides for balance
-        k = key(torso=-5 + 3 * s, head=0,
-                r_leg=(35 + 20 * s, -60 - 25 * c, 4), l_leg=(35 - 20 * s, -60 + 25 * c, -6),
-                r_arm=(15 + 22 * c, 58 + 12 * s, 25 + 10 * s), l_arm=(15 - 22 * c, 58 - 12 * s, 25 - 10 * s),
-                twist=4 * s)
-        frames.append((duration * i / steps, to_poses(k)))
-    return frames
+        return key(torso=-5 + 3 * s, head=0,
+                   r_leg=(35 + 20 * s, -60 - 25 * c, 4), l_leg=(35 - 20 * s, -60 + 25 * c, -6),
+                   r_arm=(15 + 22 * c, 58 + 12 * s, 25 + 10 * s), l_arm=(15 - 22 * c, 58 - 12 * s, 25 - 10 * s),
+                   twist=4 * s)
+
+    # sampled one cycle in, so the lag looks back into the previous cycle; no drift keeps the
+    # loop seamless
+    return [(duration * i / steps, to_poses(loosen(at, duration * (1 + i / steps), 10 * duration, drift=0)))
+            for i in range(steps + 1)]
 
 
 def land_frames():
