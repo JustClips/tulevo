@@ -143,8 +143,15 @@ local function marker(name: string, color: Color3, label: string?, size: number)
 end
 
 local north = marker("North", COLORS.North, "N", 16)
-local waypoint = marker("Waypoint", MapData.ROUTE, nil, 10)
+local waypoint = Instance.new("ImageLabel")
+waypoint.Name = "Waypoint"
+waypoint.AnchorPoint = Vector2.new(0.5, 0.9)
+waypoint.Size = UDim2.fromOffset(16, 16)
+waypoint.BackgroundTransparency = 1
+waypoint.Image = "rbxassetid://82585376348119" -- ForgeGUI pin, art/WaypointPin.png
+waypoint.ZIndex = 3
 waypoint.Visible = false
+waypoint.Parent = vp
 
 -- Map + route drawing -----------------------------------------------------
 local function redrawShapes()

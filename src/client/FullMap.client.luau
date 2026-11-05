@@ -123,29 +123,21 @@ me.Image = ARROW_IMAGE
 me.ZIndex = 4
 me.Parent = vp
 
-local wpBlip = Instance.new("Frame")
+-- Waypoint pin (ForgeGUI, art/WaypointPin.png); its tip marks the spot.
+local wpBlip = Instance.new("ImageLabel")
 wpBlip.Name = "Waypoint"
-wpBlip.AnchorPoint = Vector2.new(0.5, 0.5)
-wpBlip.Size = UDim2.fromOffset(16, 16)
-wpBlip.BackgroundColor3 = MapData.ROUTE
-wpBlip.BorderSizePixel = 0
+wpBlip.AnchorPoint = Vector2.new(0.5, 0.95)
+wpBlip.Size = UDim2.fromOffset(26, 26)
+wpBlip.BackgroundTransparency = 1
+wpBlip.Image = "rbxassetid://82585376348119"
 wpBlip.ZIndex = 4
 wpBlip.Visible = false
 wpBlip.Parent = vp
-do
-	local c = Instance.new("UICorner")
-	c.CornerRadius = UDim.new(1, 0)
-	c.Parent = wpBlip
-	local s = Instance.new("UIStroke")
-	s.Color = WHITE
-	s.Thickness = 2
-	s.Parent = wpBlip
-end
 
 -- Cursor: thin lines out to the screen edges with a gap around the cursor,
 -- fading out toward the edges, plus a small reticle in the middle.
 local CURSOR_GAP = 14 -- pixels of empty space around the cursor
-local CURSOR_IMAGE = "" -- reticle image id (ForgeGUI); empty = lines only
+local CURSOR_IMAGE = "rbxassetid://85469307079142" -- reticle (ForgeGUI, art/MapCursor.png)
 
 local cursor = Instance.new("Frame")
 cursor.Name = "Cursor"
@@ -285,6 +277,7 @@ local function setOpen(on: boolean)
 		return
 	end
 	gui.Enabled = on
+	UserInputService.MouseIconEnabled = not (on and CURSOR_IMAGE ~= "")
 	if on then
 		local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
 		if root then
