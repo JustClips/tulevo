@@ -247,7 +247,6 @@ end
 function MapData.drawRoads(parent: Instance, color: Color3?, outline: Color3?, outlineWidth: number?)
 	local layer = MapData.LAYERS.Road
 	local function pass(c: Color3, extra: number, y: number)
-		local capW: { [number]: number } = {}
 		local degree: { [number]: number } = {}
 		for _, e in edges do
 			degree[e.a] = (degree[e.a] or 0) + 1
@@ -267,18 +266,33 @@ function MapData.drawRoads(parent: Instance, color: Color3?, outline: Color3?, o
 				table.insert(drawn, e)
 			end
 		end
+		-- At a join, the round cap uses the narrowest road there, and each road
+		-- runs that half-width past the join point. So a wide road meeting a
+		-- thinner one at a corner ends flush with it instead of bulging out.
+		local minW: { [number]: number } = {}
+		for _, e in drawn do
+			local w = e.width * layer.Thin + extra * 2
+			minW[e.a] = math.min(minW[e.a] or math.huge, w)
+			minW[e.b] = math.min(minW[e.b] or math.huge, w)
+		end
 		for _, e in drawn do
 			local w = e.width * layer.Thin + extra * 2
 			local p, q = nodes[e.a], nodes[e.b]
 			local a, b = Vector3.new(p.X, y, p.Z), Vector3.new(q.X, y, q.Z)
 			local len = (b - a).Magnitude
 			if len > 0.05 then
+				local dir = (b - a) / len
+				if (degree[e.a] or 0) >= 2 then
+					a -= dir * math.min(minW[e.a], w) / 2
+				end
+				if (degree[e.b] or 0) >= 2 then
+					b += dir * math.min(minW[e.b], w) / 2
+				end
+				len = (b - a).Magnitude
 				flatPart(parent, c, Vector3.new(w, 0.1, len), CFrame.lookAt((a + b) / 2, b))
 			end
-			capW[e.a] = math.max(capW[e.a] or 0, w)
-			capW[e.b] = math.max(capW[e.b] or 0, w)
 		end
-		for id, w in capW do
+		for id, w in minW do
 			-- Round joins only where roads meet; dead ends stay square.
 			if (degree[id] or 0) < 2 then
 				continue
