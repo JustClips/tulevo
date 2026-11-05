@@ -46,7 +46,7 @@ return {
 				then c.jumpStand
 				elseif ctx.JumpKind == "Sprint" then c.jumpSprint
 				else c.jumpMove
-			c.jump:Play(if ctx.JumpKind == "Stand" then 0.04 else 0.08, 1, 1)
+			c.jump:Play(0.04, 1, 1)
 		end
 	end,
 	Update = function(ctx, dt)

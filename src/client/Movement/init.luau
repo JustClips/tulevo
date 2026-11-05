@@ -125,10 +125,13 @@ local function bind(character: Model)
 		end
 	end)
 
-	-- Jumps go through here so a standing jump can wind up first (a quick crouch, like GTA).
-	-- Moving jumps leave the ground right away; their clips start with the push-off.
-	local prep = ctx.LoadClip("Tulevo_JumpPrep")
-	prep.Priority = Enum.AnimationPriority.Action
+	-- Jumps go through here so every jump winds up first: both knees dip, then both feet push
+	-- off together (standing 0.16 s, moving 0.1 s, sprinting a bit faster).
+	local prepStand = ctx.LoadClip("Tulevo_JumpPrep")
+	local prepMove = ctx.LoadClip("Tulevo_JumpPrepMove")
+	prepStand.Priority = Enum.AnimationPriority.Action
+	prepMove.Priority = Enum.AnimationPriority.Action
+	local prep = prepStand
 	local preparing = false
 	humanoid:SetStateEnabled(Enum.HumanoidStateType.Jumping, false)
 	jumpConnection = UserInputService.JumpRequest:Connect(function()
@@ -158,11 +161,10 @@ local function bind(character: Model)
 			then "Stand"
 			elseif ctx.Speed >= m.JogSpeed + 2 then "Sprint"
 			else "Move"
-		local windUp = 0
-		if ctx.JumpKind == "Stand" then
-			prep:Play(0.05, 1, 1)
-			windUp = if prep.Length > 0 then prep.Length else 0.16
-		end
+		prep = if ctx.JumpKind == "Stand" then prepStand else prepMove
+		local rate = if ctx.JumpKind == "Sprint" then 1.3 else 1
+		prep:Play(0.04, 1, rate)
+		local windUp = (if prep.Length > 0 then prep.Length else 0.12) / rate
 		task.delay(windUp, function()
 			if humanoid.Health > 0 and humanoid.FloorMaterial ~= Enum.Material.Air then
 				humanoid:SetStateEnabled(Enum.HumanoidStateType.Jumping, true)

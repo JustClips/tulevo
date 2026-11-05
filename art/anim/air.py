@@ -79,23 +79,25 @@ JUMP_STAND = [
     (0.5, key(torso=-3, head=0, r_leg=(22, -32, 2), l_leg=(18, -28, 2), r_arm=(20, 62, 25), l_arm=(20, 62, 25))),
 ]
 
-# Walking / jogging: one-leg take-off. Right knee drives up, left leg pushes off the toes,
-# left arm punches forward, then the legs scissor and the arms open out.
+# Walking / jogging: two-footed like real life. Starts from the dip of Tulevo_JumpPrepMove
+# (both knees bent, one foot a little ahead), both legs push off through the toes while the
+# arms swing forward and up, then both knees come up (one slightly higher) and the arms open
+# out, then the legs reach down for the ground.
 JUMP = [
-    (0.0, key(torso=-12, head=5, r_leg=(70, -95, 10), l_leg=(-35, -6, -40), r_arm=(-50, 10, 20), l_arm=(80, 12, 60), twist=8)),
-    (0.2, key(torso=-8, head=3, r_leg=(60, -40, 8), l_leg=(-25, -90, -25), r_arm=(-20, 50, 25), l_arm=(45, 45, 40), twist=5)),
-    (0.4, key(torso=-5, head=1, r_leg=(40, -60, 4), l_leg=(10, -72, -10), r_arm=(5, 62, 25), l_arm=(25, 60, 30), twist=2)),
-    (0.55, key(torso=-4, head=0, r_leg=(30, -40, 2), l_leg=(15, -36, -4), r_arm=(12, 52, 22), l_arm=(18, 52, 25))),
+    (0.0, key(torso=-18, head=8, r_leg=(50, -80, 30), l_leg=(28, -70, 20), r_arm=(-35, 8, 25), l_arm=(-30, 8, 25))),
+    (0.11, key(torso=-8, head=3, r_leg=(12, -8, -35), l_leg=(-6, -6, -38), r_arm=(75, 20, 25), l_arm=(70, 20, 25))),
+    (0.3, key(torso=-6, head=1, r_leg=(58, -88, 8), l_leg=(42, -80, 4), r_arm=(30, 55, 30), l_arm=(25, 55, 30))),
+    (0.55, key(torso=-4, head=0, r_leg=(30, -38, 2), l_leg=(20, -34, -2), r_arm=(14, 55, 22), l_arm=(12, 55, 22))),
 ]
 
-# Sprint: long split leap. Bigger knee drive, leg reaching far forward, back leg trailing.
+# Sprint: same two-footed push but a long, stretched leap: body leans into it, legs trail
+# out behind after the push, then swing through to land.
 JUMP_SPRINT = [
-    (0.0, key(torso=-18, head=8, r_leg=(80, -92, 12), l_leg=(-40, -5, -45), r_arm=(-60, 12, 20), l_arm=(90, 14, 65), twist=10)),
-    (0.22, key(torso=-14, head=6, r_leg=(75, -15, 12), l_leg=(-45, -60, -30), r_arm=(-30, 55, 20), l_arm=(40, 55, 35), twist=6)),
-    (0.45, key(torso=-9, head=3, r_leg=(55, -40, 6), l_leg=(-10, -85, -20), r_arm=(0, 62, 22), l_arm=(25, 60, 30), twist=3)),
-    (0.62, key(torso=-6, head=1, r_leg=(35, -40, 2), l_leg=(20, -45, -6), r_arm=(12, 52, 22), l_arm=(18, 52, 25))),
+    (0.0, key(torso=-22, head=10, r_leg=(55, -80, 30), l_leg=(30, -72, 22), r_arm=(-45, 10, 25), l_arm=(-40, 10, 25))),
+    (0.12, key(torso=-14, head=6, r_leg=(-5, -10, -40), l_leg=(-18, -10, -42), r_arm=(85, 25, 25), l_arm=(80, 25, 25))),
+    (0.32, key(torso=-12, head=5, r_leg=(30, -70, -10), l_leg=(5, -85, -20), r_arm=(40, 60, 30), l_arm=(35, 60, 30))),
+    (0.62, key(torso=-6, head=1, r_leg=(38, -42, 4), l_leg=(26, -40, -2), r_arm=(14, 55, 22), l_arm=(12, 55, 22))),
 ]
-
 
 def squat_frames(duration, curve, upper, fps=30, feet=((1, -0.1), (-1, 0.12))):
     """Feet planted on the ground (IK) while the hips drop by curve(u) studs; upper(u) gives
@@ -118,6 +120,15 @@ def squat_frames(duration, curve, upper, fps=30, feet=((1, -0.1), (-1, 0.12))):
             poses[pre + "Foot"] = ((0, 0, 0), R_f)
         frames.append((duration * u, poses))
     return frames
+
+
+def prep_move_frames():
+    """Moving jump wind-up: a fast two-footed dip, one foot a little ahead."""
+    return squat_frames(
+        0.1, lambda u: 0.42 * L.smooth(u),
+        lambda u: key(torso=-18 * L.smooth(u), head=8 * L.smooth(u),
+                      r_arm=(-35 * L.smooth(u), 8, 25 * L.smooth(u)), l_arm=(-30 * L.smooth(u), 8, 25 * L.smooth(u))),
+        feet=((1, -0.3), (-1, 0.3)))
 
 
 def prep_frames():
@@ -154,6 +165,7 @@ def main():
     os.makedirs(L.OUT, exist_ok=True)
     clips = {
         "Tulevo_JumpPrep": (prep_frames(), False),
+        "Tulevo_JumpPrepMove": (prep_move_frames(), False),
         "Tulevo_Jump": (track(JUMP), False),
         "Tulevo_JumpStand": (track(JUMP_STAND), False),
         "Tulevo_JumpSprint": (track(JUMP_SPRINT), False),
