@@ -3,10 +3,10 @@
 -- The radar is a simple drawing of the map, not a camera view of it. Tag map
 -- parts in Studio (Tag Editor / Properties > Tags) and each one shows up as a
 -- flat colored shape:
---   Road     light grey
---   Building dark grey
---   Water    blue
---   Park     green
+--   Road     light grey, drawn thinner than the real road
+--   Building grey block on the dark ground
+--   Water    dark blue
+--   Park     dark green
 -- A tag works on a Part (its footprint), a Model (its bounding box) or a
 -- Folder (every part inside). Untagged things don't show. The radar rebuilds
 -- itself when tags are added or removed.
@@ -26,7 +26,7 @@ local LEFT, BOTTOM = 20, 8 + 22 + 3
 local BORDER = 3
 
 -- View
-local DIST = 520 -- studs from the radar camera to the point it looks at
+local DIST = 700 -- studs from the radar camera to the point it looks at
 local FOV = 24 -- smaller = more zoomed in
 local TILT = math.rad(38) -- 0 = straight down
 local AHEAD = 30 -- studs the view looks ahead of the player (player sits low, like GTA)
@@ -34,16 +34,18 @@ local AHEAD = 30 -- studs the view looks ahead of the player (player sits low, l
 -- Arrow image (ForgeGUI, art/RadarArrow.png). Empty = a text arrow instead.
 local ARROW_IMAGE = "rbxassetid://112768085815375"
 
+-- Colors follow the GTA radar look: dark ground, low-contrast building blocks,
+-- light thin roads. Road.Thin shrinks a road's width on the radar.
 local LAYERS = {
-	Park = { Color = Color3.fromRGB(86, 112, 78), Y = 0.1 },
-	Water = { Color = Color3.fromRGB(78, 116, 150), Y = 0.2 },
-	Road = { Color = Color3.fromRGB(196, 196, 196), Y = 0.3 },
-	Building = { Color = Color3.fromRGB(52, 54, 56), Y = 0.4, Height = 3 },
+	Park = { Color = Color3.fromRGB(58, 68, 56), Y = 0.1 },
+	Water = { Color = Color3.fromRGB(52, 70, 86), Y = 0.2 },
+	Building = { Color = Color3.fromRGB(78, 80, 80), Y = 0.3, Inset = 2 },
+	Road = { Color = Color3.fromRGB(176, 178, 178), Y = 0.4, Thin = 0.45 },
 }
 
 local COLORS = {
 	Frame = Color3.fromRGB(62, 70, 58),
-	Ground = Color3.fromRGB(104, 106, 104),
+	Ground = Color3.fromRGB(44, 46, 46),
 	Arrow = Color3.fromRGB(240, 240, 240),
 	North = Color3.fromRGB(30, 30, 30),
 }
@@ -144,7 +146,18 @@ local function slab(cf: CFrame, size: Vector3, layer)
 	local sz = math.abs(cf.RightVector:Dot(look)) * size.X
 		+ math.abs(cf.UpVector:Dot(look)) * size.Y
 		+ math.abs(cf.LookVector:Dot(look)) * size.Z
-	local h = layer.Height or 0.1
+	if layer.Thin then
+		if sx < sz then
+			sx *= layer.Thin
+		else
+			sz *= layer.Thin
+		end
+	end
+	if layer.Inset then
+		sx -= layer.Inset * 2
+		sz -= layer.Inset * 2
+	end
+	local h = 0.1
 	local p = Instance.new("Part")
 	p.Anchored = true
 	p.CanCollide = false
