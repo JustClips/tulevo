@@ -31,8 +31,8 @@ local FOV = 24 -- smaller = more zoomed in
 local TILT = math.rad(38) -- 0 = straight down
 local AHEAD = 30 -- studs the view looks ahead of the player (player sits low, like GTA)
 
--- Image id for the arrow. Empty = drawn with text until the image is ready.
-local ARROW_IMAGE = ""
+-- Arrow image (ForgeGUI, art/RadarArrow.png). Empty = a text arrow instead.
+local ARROW_IMAGE = "rbxassetid://112768085815375"
 
 local LAYERS = {
 	Park = { Color = Color3.fromRGB(86, 112, 78), Y = 0.1 },
@@ -89,7 +89,7 @@ if ARROW_IMAGE ~= "" then
 	local img = Instance.new("ImageLabel")
 	img.Image = ARROW_IMAGE
 	img.BackgroundTransparency = 1
-	img.Size = UDim2.fromOffset(20, 20)
+	img.Size = UDim2.fromOffset(22, 22)
 	arrow = img
 else
 	local txt = Instance.new("TextLabel")
