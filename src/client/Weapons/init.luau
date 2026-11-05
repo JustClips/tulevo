@@ -68,7 +68,7 @@ local function setTouchButtons(on: boolean)
 end
 
 function Controller.equip(id: string?)
-	if id == State.Equipped then
+	if id == State.Equipped or (id and State.InVehicle) then
 		return
 	end
 	if anims then

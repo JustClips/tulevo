@@ -6,4 +6,5 @@ return {
 	Reloading = false,
 	Mag = 0,
 	Reserve = 0,
+	InVehicle = false, -- set by Client.Vehicles; no weapons while driving
 }

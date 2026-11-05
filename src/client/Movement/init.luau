@@ -139,6 +139,10 @@ local function bind(character: Model)
 			return -- Ctrl + Space is a roll, not a jump
 		end
 		local st = humanoid:GetState()
+		local seat = humanoid.SeatPart
+		if seat and seat:IsA("VehicleSeat") then
+			return -- in a car Space is the handbrake; F gets out (Client.Vehicles)
+		end
 		if humanoid.Sit or st == Enum.HumanoidStateType.Seated or st == Enum.HumanoidStateType.Climbing
 			or st == Enum.HumanoidStateType.Swimming
 		then

@@ -26,6 +26,16 @@ local Config = {
 		SlotKeys = { "Melee", "Pistol", "SMG", "Shotgun", "Rifle" },
 	},
 
+	-- Cars (docs/vehicles.md). Get in with F (gamepad Y, tap the prompt on phones), out with F again.
+	-- W/S or triggers = gas/brake/reverse, A/D or stick = steer, Space / RB = handbrake.
+	Vehicles = {
+		EnterDistance = 8, -- studs from the driver's door
+		-- parked next to the spawn on start; Offset from the spawn, Yaw 0 = facing north (-Z)
+		TestCars = {
+			{ Id = "Sedan", Offset = Vector3.new(9, 0, -14), Yaw = 0 },
+		},
+	},
+
 	-- Every avatar spawns as R15 (CharacterSetup.server.luau). Sizes are clamped to this
 	-- range so tiny, giant or stretched avatars still look human next to cars and doors.
 	Character = {
