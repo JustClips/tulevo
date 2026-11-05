@@ -12,6 +12,8 @@ local SCALE = 3.6
 -- What to show and where, relative to the spawn (spawn center, Y = floor).
 local SHOWCASE = {
 	{ Name = "Carbine", Offset = Vector3.new(5, 3.2, -3) },
+	{ Name = "CarbineRifle", Offset = Vector3.new(-5, 3.2, -3) },
+	{ Name = "ArmorVest", Offset = Vector3.new(0, 3.5, -7), Scale = 1 },
 }
 
 local function findSpawn(): BasePart?
@@ -34,8 +36,7 @@ local base = spawnPart and (spawnPart.Position - Vector3.new(0, spawnPart.Size.Y
 for _, item in SHOWCASE do
 	local id = ModelIds[item.Name]
 	if not id then
-		warn(`[Showcase] no model id for {item.Name}`)
-		continue
+		continue -- not uploaded yet
 	end
 	local ok, container = pcall(InsertService.LoadAsset, InsertService, id)
 	if not ok then
@@ -57,7 +58,7 @@ for _, item in SHOWCASE do
 			d:Destroy()
 		end
 	end
-	model:ScaleTo(SCALE)
+	model:ScaleTo(item.Scale or SCALE)
 	model.Parent = folder
 	local center = base + item.Offset
 	model:PivotTo(CFrame.new(center))
