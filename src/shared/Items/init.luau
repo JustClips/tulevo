@@ -13,8 +13,12 @@
 	  the rest Defs below
 
 	Every item also has Cells = Vector2.new(wide, tall): how many inventory cells it covers
-	(vest 2 x 2, carbine 4 x 2; R turns an item while you drag it). Missing = 1 x 1.
-	Items/Grid.luau does the placing maths.
+	(vest 2 x 2, carbine 4 x 2, first-aid kit 2 x 2, mead and chaser 1 x 2; R turns an item
+	while you drag it). Missing = 1 x 1. Items/Grid.luau does the placing maths.
+
+	Inventory pictures: tools/item_icons/render.js renders each model to art/items/out/<Id>.png
+	at its Cells shape, tools/upload_icons.py --set items uploads them to Shared.ItemIconIds.
+	Items without one are shown as their live 3D model (IconView / IconRoll below).
 
 	Adding an item: add a row to Defs (Model = its key in Shared.ModelIds, ModelScale = how big
 	it's shown in the world: props exported in meters use 3.6).
@@ -46,7 +50,7 @@ local Defs: { [string]: ItemDef } = {
 		Name = "Mead",
 		Kind = "Consumable",
 		Weight = 0.6,
-		Cells = Vector2.new(1, 1),
+		Cells = Vector2.new(1, 2),
 		Stack = 5,
 		Model = "Mead",
 		ModelScale = 3.6,
@@ -57,7 +61,7 @@ local Defs: { [string]: ItemDef } = {
 		Name = "Chaser",
 		Kind = "Consumable",
 		Weight = 0.35,
-		Cells = Vector2.new(1, 1),
+		Cells = Vector2.new(1, 2),
 		Stack = 5,
 		Model = "Chaser",
 		ModelScale = 3.6,
@@ -68,7 +72,7 @@ local Defs: { [string]: ItemDef } = {
 		Name = "First-aid kit",
 		Kind = "Consumable",
 		Weight = 0.8,
-		Cells = Vector2.new(1, 1),
+		Cells = Vector2.new(2, 2),
 		Stack = 3,
 		Model = "FirstAidKit",
 		ModelScale = 3.6,

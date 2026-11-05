@@ -1,0 +1,22 @@
+{
+ "ArmorVest": {
+  "id": 119946069003754,
+  "sha": "76160b0330312e24a4f4b05a6a413a51276a42322a3a6b41b313668eb65d3e8b"
+ },
+ "CarbineRifle": {
+  "id": 101196762157418,
+  "sha": "2ca0d342b5142dcc3bbd1c6e365634088cd760cfe8a8b6362881f07323a943ff"
+ },
+ "Chaser": {
+  "id": 89929907963391,
+  "sha": "1bb8a6e7f35d7c4fd734740261fe01e0b3fc46f64cc22c1006d83a8adff47b9b"
+ },
+ "FirstAidKit": {
+  "id": 86414421299045,
+  "sha": "1d371be39af795716ad5cb7083b5aa54721a2b94126da54a87c8b5f60bdc3da5"
+ },
+ "Mead": {
+  "id": 126008330368583,
+  "sha": "65903f65a6079384a8f52fdefee1b0d617070e133c36cb6d916ce74597574927"
+ }
+}

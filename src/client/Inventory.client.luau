@@ -32,6 +32,7 @@ local Items = require(Shared:WaitForChild("Items"))
 local Grid = require(Shared:WaitForChild("Items"):WaitForChild("Grid"))
 local Armor = require(Shared:WaitForChild("Armor"))
 local IconIds = require(Shared:WaitForChild("IconIds"))
+local ItemIconIds = require(Shared:WaitForChild("ItemIconIds"))
 local Weapons = require(script.Parent:WaitForChild("Weapons"))
 local WeaponState = require(script.Parent:WaitForChild("Weapons"):WaitForChild("State"))
 
@@ -365,10 +366,30 @@ tooltip.Parent = gui
 
 local modelsFolder = ReplicatedStorage:WaitForChild("ItemModels", 10)
 
--- The item's 3D model in a transparent ViewportFrame, framed to fill a tile of this aspect
--- (width / height); turned items are drawn turned. Its name until the model has loaded.
+-- The item's picture, filling a tile of this aspect (width / height); turned items are drawn
+-- turned. Items with a rendered picture (Shared.ItemIconIds, sharp and smooth) use that;
+-- the rest show their 3D model in a transparent ViewportFrame, or their name until it loads.
 local function makeIcon(id: string, aspect: number, rot: boolean?): GuiObject
 	local def = Items.get(id)
+	local picture = (ItemIconIds :: any)[id]
+	if picture then
+		local holder = Instance.new("Frame")
+		holder.Name = "Icon"
+		holder.Size = UDim2.fromScale(1, 1)
+		holder.BackgroundTransparency = 1
+		local img = Instance.new("ImageLabel")
+		img.Name = "Image"
+		img.BackgroundTransparency = 1
+		img.Image = picture
+		img.ScaleType = Enum.ScaleType.Fit
+		img.AnchorPoint = Vector2.new(0.5, 0.5)
+		img.Position = UDim2.fromScale(0.5, 0.5)
+		-- a turned item: the picture keeps its own shape, turned a quarter to the left
+		img.Size = if rot then UDim2.fromScale(1 / aspect, aspect) else UDim2.fromScale(1, 1)
+		img.Rotation = if rot then -90 else 0
+		img.Parent = holder
+		return holder
+	end
 	local template = modelsFolder and modelsFolder:FindFirstChild(id)
 	if not template or not template:IsA("Model") then
 		local t = Instance.new("TextLabel")
@@ -691,10 +712,13 @@ local drag: Drag? = nil
 local function fade(cell: Frame, on: boolean)
 	local tile = cell:FindFirstChild("Tile")
 	local ic = tile and tile:FindFirstChild("Icon")
+	local img = ic and ic:FindFirstChild("Image")
 	if ic and ic:IsA("ViewportFrame") then
 		ic.ImageTransparency = if on then 0.65 else 0
 	elseif ic and ic:IsA("TextLabel") then
 		ic.TextTransparency = if on then 0.65 else 0
+	elseif img and img:IsA("ImageLabel") then
+		img.ImageTransparency = if on then 0.65 else 0
 	end
 end
 

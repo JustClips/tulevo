@@ -1,0 +1,8 @@
+{
+  "name": "tulevo-item-icons",
+  "private": true,
+  "description": "Renders inventory item icons from art/models/*/*.glb (see render.js)",
+  "dependencies": {
+    "three": "0.170.0"
+  }
+}

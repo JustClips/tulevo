@@ -11,8 +11,9 @@ N opens the window (phone: Bag button). Roblox's default backpack bar is off.
 | `Config.Inventory` | Grid sizes (Inventory 5 x 14, Backpack 4 x 4) and weight limits (30 kg, 10 kg), starting items, ground / pickup range, dropped item lifetime |
 | `src/server/Inventory/InventoryService.luau` | Server-owned inventories, move / stack / swap with weight checks, drop to the ground, pick up, the Armor slot |
 | `src/server/Inventory/ItemModels.luau` | Loads every item's model into `ReplicatedStorage.ItemModels` (inventory icons, dropped items) |
-| `src/client/Inventory.client.luau` | The window: layout, 3D item icons, drag and drop, hover info, Ground list |
+| `src/client/Inventory.client.luau` | The window: layout, item pictures, drag and drop, hover info, Ground list |
 | `art/icons/` | ForgeGUI UI icons (`gen.py` -> `raw/`, `proc.py` -> white `out/`), uploaded by `tools/upload_icons.py` into `Shared/IconIds` |
+| `art/items/out/` | Item pictures rendered from `art/models/*.glb` by `tools/item_icons/render.js` (three.js in the built-in Chromium, at each item's Cells shape, 160 px a cell), uploaded by `tools/upload_icons.py --set items` into `Shared/ItemIconIds`. Items without a picture show their live 3D model (pixelated: ViewportFrames have no anti-aliasing) |
 
 Everyone starts with the Carbine Rifle (`Config.Weapons.DefaultLoadout`), a mead, a chaser and a
 first-aid kit in the inventory, and the armor vest worn (Armor slot).
