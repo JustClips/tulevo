@@ -10,7 +10,7 @@ local RunService = game:GetService("RunService")
 
 local MapData = require(script.Parent:WaitForChild("MapData"))
 local Nav = require(script.Parent:WaitForChild("Nav"))
-local RollCamera = require(script.Parent:WaitForChild("Movement"):WaitForChild("RollCamera"))
+local FirstPersonCamera = require(script.Parent:WaitForChild("Movement"):WaitForChild("FirstPersonCamera"))
 
 local player = Players.LocalPlayer
 local camera = workspace.CurrentCamera
@@ -205,7 +205,7 @@ end
 RunService.RenderStepped:Connect(function()
 	local character = player.Character
 	local root = character and character:FindFirstChild("HumanoidRootPart") :: BasePart?
-	local forward = MapData.flat(RollCamera.view().LookVector) -- no first-person roll tumble
+	local forward = MapData.flat(FirstPersonCamera.view().LookVector) -- no first-person roll tumble
 	local pos = if root then root.Position else camera.Focus.Position
 	pos = Vector3.new(pos.X, 0, pos.Z)
 

@@ -71,12 +71,13 @@ turns, not just the chest; the side-step blend is worked out relative to those t
 Gun loops play at Action2 and one-shots at Action3, so the full-body jump wind-up (Action)
 never pulls the hands off the gun.
 
-First person: arms and gun stay visible, the body faces the view and carries the rifle at the
-shoulder (Aim pose); right click moves the camera behind the gun's `Sight` attachment (ADS).
-Rolls in first person tumble the view with the body (`Client/Movement/RollCamera`, turns with
-the hips, rides with the head, `Config.Movement.FirstPersonRollCamera`). The tumble is undone
-before the camera script each frame, so anything aiming reads `Movement.view()` (the camera
-without the tumble) instead of `CurrentCamera.CFrame`.
+First person: arms and gun stay visible and the body faces the view carrying the rifle at the
+shoulder (Aim pose).
+First-person camera (`Client/Movement/FirstPersonCamera`): the camera sits at the eyes on the
+animated head (crouching, aiming and walking all follow), behind the gun's `Sight` while aiming
+down sights, and tumbles with the hips through rolls (`Config.Movement.FirstPersonRollCamera`).
+It is undone before the camera script each frame, so anything aiming reads `Movement.view()`
+(eye position, look without the tumble) instead of `CurrentCamera.CFrame`.
 
 Rebuild the clips with `python3 art/anim/gun.py --preview && python3 tools/upload_anims.py`
 (`GUN_SCALE` there must match `Config.Weapons.GunScale`, and `HAND_TO_GUN` must match GunModel).

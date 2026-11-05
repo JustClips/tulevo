@@ -454,8 +454,6 @@ function Controller.start()
 
 	local mouseLocked = false
 	local shoulder = 0
-	local adsBase: Vector3? = nil -- CameraOffset before aiming down sights
-	local adsOffset = Vector3.zero
 	local function menuOpen(): boolean
 		local pg = player:FindFirstChild("PlayerGui")
 		local map = pg and pg:FindFirstChild("FullMap")
@@ -479,34 +477,7 @@ function Controller.start()
 		local fp = isFirstPerson(player.Character)
 		local want = if raised and gunOut and State.Aiming and not fp then 1.6 else 0
 		shoulder += (want - shoulder) * math.min(1, dt * 10)
-		-- first person + aiming: the eye goes right behind the rear sight (aim down sights)
-		local ads = fp and gunOut and State.Aiming and raised and not State.Reloading and Movement.active() ~= "Roll"
-		local c = player.Character
-		local gun = c and c:FindFirstChild("Gun")
-		local sight = gun and gun:FindFirstChild("Sight", true)
-		local root = c and c:FindFirstChild("HumanoidRootPart") :: BasePart?
-		local cam = workspace.CurrentCamera
-		if h and ads and sight and sight:IsA("Attachment") and root and cam then
-			if not adsBase then
-				adsBase = h.CameraOffset
-				adsOffset = h.CameraOffset
-			end
-			local base = Movement.viewFocus().Position - root.CFrame:VectorToWorldSpace(h.CameraOffset)
-			local view = Movement.view()
-			local eye = sight.WorldPosition - view.LookVector * 0.55 + view.UpVector * 0.04
-			local want3 = root.CFrame:VectorToObjectSpace(eye - base)
-			adsOffset = adsOffset:Lerp(want3, math.min(1, dt * 14))
-			h.CameraOffset = adsOffset
-			return
-		elseif h and adsBase then
-			adsOffset = adsOffset:Lerp(adsBase, math.min(1, dt * 14))
-			h.CameraOffset = adsOffset
-			if (adsOffset - adsBase).Magnitude < 0.02 then
-				h.CameraOffset = adsBase
-				adsBase = nil
-			end
-			return
-		end
+		-- first person (eye on the head, aim down the sights) is Movement/FirstPersonCamera
 		if h then
 			local off = h.CameraOffset
 			if math.abs(off.X - shoulder) > 0.005 then
