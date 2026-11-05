@@ -357,10 +357,13 @@ end, true, Enum.ContextActionPriority.High.Value, Enum.KeyCode.I)
 ContextActionService:SetTitle("Inventory_Toggle", "Bag")
 ContextActionService:SetPosition("Inventory_Toggle", UDim2.new(1, -245, 1, -210))
 
-UserInputService.InputBegan:Connect(function(input)
+UserInputService.InputBegan:Connect(function(input, processed)
+	if input.UserInputType == Enum.UserInputType.Keyboard then
+		print(`[Inventory] key {input.KeyCode.Name} (taken by game: {processed})`) -- temporary
+	end
 	if input.KeyCode == Enum.KeyCode.I and UserInputService:GetFocusedTextBox() == nil then
 		toggle()
 	end
 end)
 
-print("[Inventory] ready: press I to open")
+print("[Inventory] ready v3: press I to open")
