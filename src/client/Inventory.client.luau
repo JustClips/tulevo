@@ -321,6 +321,12 @@ local function setOpen(open: boolean)
 		fit()
 	end
 	gui.Enabled = open
+	-- temporary: shows in Output whether the key reached the window and how big it drew
+	task.defer(function()
+		print(
+			`[Inventory] {if open then "open" else "closed"}: in {gui.Parent and gui.Parent:GetFullName()}, enabled {gui.Enabled}, window {window.AbsoluteSize} at {window.AbsolutePosition}, scale {scale.Scale}`
+		)
+	end)
 end
 close.Activated:Connect(function()
 	setOpen(false)
