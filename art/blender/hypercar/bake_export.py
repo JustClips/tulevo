@@ -25,7 +25,7 @@ RES = {"Body_Front": 2048, "Body_Mid": 2048, "Body_Rear": 2048, "Trim": 2048, "I
 for w in ("FL", "FR", "RL", "RR"):
     RES[f"Wheel_{w}"] = 1024
     RES[f"Caliper_{w}"] = 128
-PARTS = list(RES) + ["Glass"]
+PARTS = list(RES) + ["Glass", "LampGlass"]
 
 bw = bpy.data.worlds.new("BakeWorld")
 scene.world = bw
