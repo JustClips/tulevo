@@ -43,11 +43,11 @@
       ]
     },
     "Trim": {
-      "tris": 18428,
+      "tris": 18444,
       "bbox_min": [
         -0.9842,
-        -2.4074,
-        0.1053
+        -2.3264,
+        0.101
       ],
       "bbox_max": [
         0.9842,
@@ -446,5 +446,5 @@
       "Metalness": "Caliper_RR_Metalness.png"
     }
   },
-  "total_tris": 161268
+  "total_tris": 161284
 }

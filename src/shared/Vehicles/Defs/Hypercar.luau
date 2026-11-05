@@ -1,18 +1,21 @@
 -- Open-top mid-engine hypercar (our own design, no real brand). Model: art/models/Hypercar
 -- (built by art/blender/hypercar). Positions are relative to the Chassis centre; -Z is the front.
--- Sizes come from the Blender model: 1 m = 3.6 studs, ground at Y = Rig.Ground.
-local S = 3.6
-local GROUND = -2.3 -- chassis-space height of the ground under the car at rest
+-- Sizes come from the Blender model (meters) times S studs per meter; ground at Y = Rig.Ground.
+-- S is bigger than the 3.6 the weapons use: blocky Roblox avatars make a true-to-scale
+-- hypercar look tiny, so the whole car is scaled up (change S to resize everything).
+local S = 4.4
+local GROUND = -0.64 * S -- chassis-space height of the ground under the car at rest
 local HUB_Y = GROUND + 0.36 * S -- wheel centre at rest
-local REST = 1.4 - 9.81 * 20 / (2 * math.pi * 2.6) ^ 2 -- Suspension.Length - static sag
+local SUS_LENGTH = 0.39 * S
+local REST = SUS_LENGTH - 9.81 * 20 / (2 * math.pi * 2.6) ^ 2 -- Suspension.Length - static sag
 
 return {
 	Id = "Hypercar",
 	Name = "Veloce H9",
 	Model = "Hypercar", -- name in Shared.ModelIds
 
-	Size = Vector3.new(6.6, 1.8, 16),
-	DriverSeat = Vector3.new(-0.38 * S, -1.42, 0.10 * S), -- left-hand drive, top of the cushion
+	Size = Vector3.new(1.83 * S, 0.5 * S, 4.44 * S),
+	DriverSeat = Vector3.new(-0.38 * S, GROUND + 0.30 * S - 0.2, 0.10 * S), -- left-hand drive, seat part's top on the cushion
 	ExitSide = -1,
 
 	Colors = { -- placeholder colours, only used until the model has loaded
@@ -31,7 +34,7 @@ return {
 	},
 
 	Suspension = {
-		Length = 1.4,
+		Length = SUS_LENGTH,
 		Frequency = 2.6, -- stiffer than the sedan
 		Damping = 0.65,
 		AntiRoll = 0.75,
@@ -39,8 +42,8 @@ return {
 
 	Engine = {
 		Drive = "All",
-		Accel = 52,
-		MaxSpeed = 150,
+		Accel = 56,
+		MaxSpeed = 165, -- studs/s; the car is drawn bigger than life (S above), so it runs a bit faster
 		ReverseSpeed = 28,
 		Brake = 130,
 		Coast = 5,

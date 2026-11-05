@@ -916,23 +916,39 @@ trim.append(cube("MidBar", (0.56, 0.05, 0.014), "Black", loc=(0, -2.235, 0.215),
 trim.append(cube("MidMesh", (0.58, 0.01, 0.10), "Mesh", loc=(0, -2.18, 0.215)))
 # carbon lip: a flat blade attached under the bumper, following its outline from in front of one
 # front wheel, round the nose, to the other wheel (rays from the middle of the nose outward)
-lip_c = Vector((0, -1.55, 0.16))
-lip_in, lip_out = [], []
-for i in range(41):
-    ang = math.radians(-78 + 156 * i / 40)
+lip_c = Vector((0, -1.55, 0.0))
+samples = []
+for i in range(61):
+    ang = math.radians(-80 + 160 * i / 60)
     d = Vector((math.sin(ang), -math.cos(ang), 0))
-    hit = bvh.ray_cast(lip_c + d * 3.0, -d)[0]
-    if hit is None:
+    prof = []
+    for k in range(30):
+        z = 0.105 + 0.01 * k
+        hit = bvh.ray_cast(Vector((0, -1.55, z)) + d * 3.0, -d)[0]
+        if hit is not None:
+            prof.append((z, (Vector((hit.x, hit.y, 0)) - Vector((0, -1.55, 0))).length, hit))
+    if not prof:
         continue
-    h = Vector((hit.x, hit.y, 0.0))
+    rmax = max(r for _, r, _ in prof)
+    # the lip hangs under the very bottom of the bumper and reaches out to (just past) its face
+    z_edge, r_low, hit = prof[0]
+    if hit.y > -1.80:  # stop in front of the wheel arch
+        continue
+    samples.append((ang, d, z_edge, r_low, min(rmax - r_low, 0.07)))# smooth the edge height along the outline
+zs = [s_[2] for s_ in samples]
+zs = [sum(zs[max(0, i - 2):i + 3]) / len(zs[max(0, i - 2):i + 3]) for i in range(len(zs))]
+lip_in, lip_out, lip_z = [], [], []
+for (ang, d, _, r_edge, over), z in zip(samples, zs):
     o = Vector((d.x, d.y, 0)).normalized()
-    reach = 0.055 if abs(ang) < math.radians(55) else 0.055 * max(0.0, (math.radians(78) - abs(ang)) / math.radians(23))
-    lip_in.append(Vector((h.x, h.y, 0.128)) - o * 0.04)
-    lip_out.append(Vector((h.x, h.y, 0.128)) + o * (reach + 0.004))
+    base = Vector((0, -1.55, 0)) + o * r_edge
+    end = min(1.0, (math.radians(80) - abs(ang)) / math.radians(20))
+    reach = over + 0.045 * max(0.15, end)
+    lip_in.append(base - o * 0.08 + Vector((0, 0, z - 0.002)))
+    lip_out.append(base + o * reach + Vector((0, 0, z - 0.002)))
 lv, lf = [], []
 n = len(lip_in)
 for p_in, p_out in zip(lip_in, lip_out):
-    lv += [p_in + Vector((0, 0, 0.007)), p_out + Vector((0, 0, 0.007)), p_out - Vector((0, 0, 0.007)), p_in - Vector((0, 0, 0.007))]
+    lv += [p_in + Vector((0, 0, 0.004)), p_out + Vector((0, 0, 0.004)), p_out - Vector((0, 0, 0.012)), p_in - Vector((0, 0, 0.012))]
 for i in range(n - 1):
     for k in range(4):
         l = (k + 1) % 4
