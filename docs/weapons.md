@@ -94,5 +94,5 @@ Models and animations for the other classes, GTA weapon wheel UI, sounds and muz
 ## Armor
 
 - Defs in `Shared.Armor` (`ArmorVest` = 50 armor, covers every hit). Players wear `Armor.Default` on spawn (`Server/Armor.server.luau`).
-- All weapon damage goes through `Server.Damage.apply(humanoid, amount, partName)`. While armor is left, every weapon hit, headshots included, takes armor first and the rest goes to health (GTA 5 style).
+- All weapon damage goes through `Server.Damage.apply(humanoid, amount, partName)`. While armor is left, every weapon hit, headshots included, is split: `Absorb` share (vest 0.7) drains armor and the rest still hurts health (GTA 5 style, not a second health bar).
 - Armor is stored on the Humanoid as attributes `Armor`, `MaxArmor`, `ArmorItem`; the HUD's blue half reads them. Use `Damage.setArmor` / `Damage.addArmor` for pickups.

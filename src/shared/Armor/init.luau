@@ -1,6 +1,7 @@
 --[[
-	Armor items. GTA 5 style: while a player has armor, every weapon hit (any body part,
-	headshots too) takes armor first and only the leftover goes to health.
+	Armor items. GTA 5 style: armor is not a second health bar. While a player has armor,
+	every weapon hit (any body part, headshots too) is split: Absorb share comes off the
+	armor, the rest still hits health. Once the armor is empty, hits go fully to health.
 	Unprotected can list body parts an item does not cover; the vest covers everything.
 
 	Armor lives on the Humanoid as attributes so the client HUD can read it:
@@ -12,7 +13,7 @@ export type ArmorDef = {
 	Name: string,
 	MaxArmor: number, -- armor points when freshly worn
 	Model: string?, -- key in Shared.ModelIds for the worn model
-	Absorb: number?, -- share of a covered hit the armor takes (1 = all of it), default 1
+	Absorb: number?, -- share of each hit the armor takes, the rest goes to health (default 1)
 	Unprotected: { [string]: boolean }?, -- body parts the armor does not cover
 }
 
@@ -21,7 +22,7 @@ local Defs: { [string]: ArmorDef } = {
 		Name = "ArmorVest",
 		MaxArmor = 50,
 		Model = "ArmorVest",
-		Absorb = 1,
+		Absorb = 0.7, -- 70% of each hit drains armor, 30% still hurts health
 	},
 }
 
