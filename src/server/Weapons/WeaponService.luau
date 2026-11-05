@@ -140,6 +140,16 @@ EquipRemote.OnServerEvent:Connect(function(player, id)
 	s.modelToken += 1
 	local token = s.modelToken
 	local character = player.Character
+	-- putting the gun away or switching cuts a reload short: no refill, the mag goes back in
+	local now = os.clock()
+	for _, h in s.held do
+		if h.reloadingUntil > now then
+			h.reloadingUntil = 0
+		end
+	end
+	if character then
+		GunModel.cancelReload(character)
+	end
 	-- holster (Q) / draw from the back: the weld moves when the hand gets there (the clips play
 	-- on the client at the same time)
 	local swapAt = nil
@@ -314,13 +324,14 @@ ReloadRemote.OnServerEvent:Connect(function(player)
 	if need <= 0 or h.reserve <= 0 or os.clock() < h.reloadingUntil then
 		return
 	end
-	h.reloadingUntil = os.clock() + (def.ReloadTime or 1)
+	local doneAt = os.clock() + (def.ReloadTime or 1)
+	h.reloadingUntil = doneAt
 	if player.Character and def.Model then
 		GunModel.reloadMag(player.Character, GunModel.ReloadLength / (def.ReloadTime or GunModel.ReloadLength))
 	end
 	task.delay(def.ReloadTime or 1, function()
-		if s.held[id] ~= h then
-			return
+		if s.held[id] ~= h or h.reloadingUntil ~= doneAt then
+			return -- dropped, or cut short by holstering / switching
 		end
 		local take = math.min(need, h.reserve)
 		h.mag += take

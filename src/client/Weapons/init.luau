@@ -4,12 +4,13 @@
 	predicts ammo and plays animations/effects so it feels instant.
 
 	Controls (keyboard / gamepad / phone):
-		1-5          pick a wheel slot (Config.Weapons.SlotKeys); same key again or Q holsters
+		1-5          pick a wheel slot (Config.Weapons.SlotKeys); same key again holsters
+		Q            gun on the back / take it out again (D-pad down, phone Gun button)
 		Left click   fire / attack       (R2, phone Fire button)
 		Right click  aim                 (L2, phone Aim button)
 		R            reload              (X, phone Reload button)
-	Everyone spawns holding Config.Weapons.EquipOnSpawn (the carbine rifle). Q puts it on
-	your back, 5 takes it out again.
+	Everyone spawns holding Config.Weapons.EquipOnSpawn (the carbine rifle). Q (or 5) puts it
+	on your back, Q (or 5) takes it out again: Q brings back the weapon you last had out.
 
 	Gun poses (Weapons/AnimSet, clips from art/anim/gun.py) follow what you're doing:
 	Hold (low ready) walking/standing, Sprint (rifle across the chest), Aim (shouldered; also
@@ -44,7 +45,9 @@ local Controller = {}
 
 local anims = nil
 local holstering = nil -- the previous AnimSet while the holster clip finishes
+local lastHeld: string? = nil -- the weapon you last had out (Q takes it out again)
 local drawUntil = 0 -- os.clock() until the gun drawn off the back is in hand
+local reloadToken = 0 -- bumps on every reload and weapon change, so an old reload's timer is ignored
 local lastFire = 0
 local triggerDown = false
 local combo = 0
@@ -89,12 +92,12 @@ local function setTouchButtons(on: boolean)
 	end
 end
 
--- Which part the gun model is welded to right now ("RightHand", "UpperTorso" = on the back).
+-- Which part the gun model is on right now ("RightHand", "UpperTorso" = on the back); the
+-- server sets it (Server/Weapons/GunModel).
 local function gunHeldBy(c: Model?): string?
 	local gun = c and c:FindFirstChild("Gun")
-	local weld = gun and gun:FindFirstChild("GunWeld", true)
-	local part0 = weld and weld:IsA("Weld") and weld.Part0
-	return if part0 then part0.Name else nil
+	local on = gun and gun:GetAttribute("On")
+	return if typeof(on) == "string" then on else nil
 end
 
 function Controller.equip(id: string?)
@@ -112,9 +115,12 @@ function Controller.equip(id: string?)
 		local clip = old.tracks.Holster
 		if id == nil and clip and gunHeldBy(c0) == "RightHand" then
 			-- Q: the rifle goes up over the right shoulder onto the back (the server moves the
-			-- weld when the hand gets there, Server/Weapons/GunModel HolsterSwap)
-			for slot in old.weights do
-				old:stop(slot, 0.2)
+			-- weld when the hand gets there, Server/Weapons/GunModel HolsterSwap). Everything
+			-- else stops (a reload in progress is cut short, the server puts the mag back).
+			for slot in old.tracks do
+				if slot ~= "Holster" then
+					old:stop(slot, 0.15)
+				end
 			end
 			old:play("Holster", 0.1)
 			holstering = old
@@ -129,6 +135,11 @@ function Controller.equip(id: string?)
 		end
 	end
 	drawUntil = 0
+	reloadToken += 1
+	triggerDown = false -- a trigger held through the swap doesn't keep firing the new gun
+	if id then
+		lastHeld = id
+	end
 	State.Equipped = id
 	State.Aiming = false
 	State.Raised = false
@@ -160,6 +171,39 @@ function Controller.equip(id: string?)
 	setTouchButtons(id ~= nil)
 end
 
+-- Q / D-pad down / phone Gun button: put the gun away, or take out the one you last had
+-- (the default gun if that one's gone).
+function Controller.toggle()
+	if State.Equipped then
+		Controller.equip(nil)
+		return
+	end
+	local have = owned()
+	local function isOwned(id: string?): boolean
+		if not id then
+			return false
+		end
+		for _, v in have do
+			if v == id then
+				return true
+			end
+		end
+		return false
+	end
+	local id = if isOwned(lastHeld) then lastHeld elseif isOwned(Config.Weapons.EquipOnSpawn) then Config.Weapons.EquipOnSpawn else nil
+	if not id then
+		for _, slot in Config.Weapons.SlotKeys do
+			if have[slot] then
+				id = have[slot]
+				break
+			end
+		end
+	end
+	if id then
+		Controller.equip(id)
+	end
+end
+
 function Controller.reload()
 	local id = State.Equipped
 	local def = id and Weapons.get(id)
@@ -170,13 +214,15 @@ function Controller.reload()
 		return
 	end
 	State.Reloading = true
+	reloadToken += 1
+	local mine = reloadToken
 	Remotes.Reload:FireServer()
 	if anims then
 		anims:play("Reload", 0.1, (anims.tracks.Reload and anims.tracks.Reload.Length > 0)
 			and anims.tracks.Reload.Length / (def.ReloadTime or 1) or 1)
 	end
 	task.delay(def.ReloadTime or 1, function()
-		if State.Equipped == id then
+		if reloadToken == mine then
 			State.Reloading = false
 		end
 	end)
@@ -266,16 +312,20 @@ local function bind()
 			end
 			local slot = Config.Weapons.SlotKeys[i]
 			local id = slot and owned()[slot]
-			Controller.equip(if id == State.Equipped then nil else id)
+			if id then -- an empty slot does nothing
+				Controller.equip(if id == State.Equipped then nil else id)
+			end
 			return Enum.ContextActionResult.Sink
 		end, false, key)
 	end
 	ContextActionService:BindAction("Weapon_Holster", function(_, state)
 		if state == Enum.UserInputState.Begin then
-			Controller.equip(nil)
+			Controller.toggle()
 		end
 		return Enum.ContextActionResult.Pass
-	end, false, Enum.KeyCode.Q, Enum.KeyCode.DPadDown)
+	end, true, Enum.KeyCode.Q, Enum.KeyCode.DPadDown)
+	ContextActionService:SetTitle("Weapon_Holster", "Gun")
+	ContextActionService:SetPosition("Weapon_Holster", UDim2.new(1, -170, 1, -270))
 
 	ContextActionService:BindAction("Weapon_Fire", function(_, state)
 		if not State.Equipped then
@@ -372,6 +422,10 @@ function Controller.start()
 
 	local function onCharacter(c: Model)
 		anims = nil
+		holstering = nil
+		drawUntil, hipUntil = 0, 0
+		reloadToken += 1
+		triggerDown = false
 		State.Equipped = nil
 		State.Aiming = false
 		State.Raised = false

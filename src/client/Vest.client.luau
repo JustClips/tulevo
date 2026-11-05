@@ -4,7 +4,9 @@
 	Plays Tulevo_VestOff / Tulevo_VestOn (art/anim/vest.py) and tells the server, which moves
 	the real vest model with the hands on the same beats and takes the armor off / puts it
 	back (Server/Armor.server.luau). A gun in hand goes on the back first (both hands are
-	needed). The armor you had is kept while the vest is off.
+	needed) and comes back out when you're done. The armor you had is kept while the vest is
+	off. Weapons can't be taken out meanwhile (Weapons/State.Dressing), and that lock always
+	lifts at the end, even on an error or a respawn.
 ]]
 
 local ContextActionService = game:GetService("ContextActionService")
@@ -49,8 +51,31 @@ end
 
 local function gunInHand(c: Model): boolean
 	local gun = c:FindFirstChild("Gun")
-	local weld = gun and gun:FindFirstChild("GunWeld", true)
-	return weld ~= nil and weld:IsA("Weld") and weld.Part0 ~= nil and weld.Part0.Name == "RightHand"
+	return gun ~= nil and gun:GetAttribute("On") == "RightHand" -- Server/Weapons/GunModel
+end
+
+local token = 0 -- bumps on every toggle and respawn, so a stale one never unlocks a newer one
+
+local function dress(c: Model, h: Humanoid, animator: Animator, wearing: boolean)
+	-- both hands are needed: the gun goes on the back first
+	if WeaponState.Equipped then
+		Weapons.equip(nil)
+		task.wait(0.9)
+	end
+	local start = os.clock()
+	while gunInHand(c) and os.clock() - start < 2 do
+		task.wait(0.05)
+	end
+	if h.Health <= 0 or h.Parent ~= c or gunInHand(c) then
+		return
+	end
+	local name = if wearing then "Tulevo_VestOff" else "Tulevo_VestOn"
+	local t = clip(animator, name)
+	Remotes.Vest:FireServer()
+	if t then
+		t:Play(0.1, 1, 1)
+	end
+	task.wait(LENGTH[name])
 end
 
 local function toggle()
@@ -66,29 +91,32 @@ local function toggle()
 	end
 	busy = true
 	WeaponState.Dressing = true
+	token += 1
+	local mine = token
+	local had = WeaponState.Equipped
 	task.spawn(function()
-		-- both hands are needed: the gun goes on the back first
-		if WeaponState.Equipped then
-			Weapons.equip(nil)
-			local start = os.clock()
-			task.wait(0.9)
-			while gunInHand(c) and os.clock() - start < 2 do
-				task.wait(0.05)
-			end
+		local ok, err = pcall(dress, c, h, animator, wearing)
+		if not ok then
+			warn(`[Vest] {err}`)
 		end
-		if h.Health > 0 and h.Parent == c then
-			local name = if wearing then "Tulevo_VestOff" else "Tulevo_VestOn"
-			local t = clip(animator, name)
-			Remotes.Vest:FireServer()
-			if t then
-				t:Play(0.1, 1, 1)
-			end
-			task.wait(LENGTH[name])
+		if token ~= mine then
+			return -- respawned meanwhile (already unlocked)
 		end
+		-- always unlock, even if something above failed
 		WeaponState.Dressing = false
 		busy = false
+		-- and the gun you had comes back out
+		if had and player.Character == c and h.Health > 0 and not h.SeatPart and not WeaponState.InVehicle and not WeaponState.Equipped then
+			Weapons.equip(had)
+		end
 	end)
 end
+
+player.CharacterAdded:Connect(function()
+	token += 1
+	busy = false
+	WeaponState.Dressing = false
+end)
 
 ContextActionService:BindAction("ArmorVest", function(_, state)
 	if state == Enum.UserInputState.Begin then

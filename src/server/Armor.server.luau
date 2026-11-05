@@ -150,10 +150,9 @@ VestRemote.OnServerEvent:Connect(function(player)
 	if not (character and humanoid and torso and hand) or humanoid.Health <= 0 or humanoid.SeatPart or busy[humanoid] then
 		return
 	end
-	-- hands must be free
+	-- hands must be free (Server/Weapons/GunModel: the gun's "On" attribute is the part it's on)
 	local gun = character:FindFirstChild("Gun")
-	local gunWeld = gun and gun:FindFirstChild("GunWeld", true)
-	if gunWeld and gunWeld:IsA("Weld") and gunWeld.Part0 == hand then
+	if gun and gun:GetAttribute("On") == "RightHand" then
 		return
 	end
 	local worn, inHand, scale = offsets(torso)

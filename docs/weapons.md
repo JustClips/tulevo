@@ -25,12 +25,18 @@ Add a weapon: copy a file in `Defs/`. Damage per hit = `Damage` x body-part mult
 
 ## Controls
 
-1-5 pick a slot (same key or Q holsters) · left click fire (R2) · right click aim (L2) · R reload (X).
+1-5 pick a slot (same key holsters, an empty slot does nothing) · Q puts the gun on the back and takes
+the last one you had out again (gamepad D-pad down, phone Gun button) · left click fire (R2) · right
+click aim (L2) · R reload (X). Holstering or switching mid-reload cuts the reload short (no refill;
+the server puts the magazine back, `GunModel.cancelReload`).
 Phones get Fire / Aim / Reload buttons while something is in hand. V (gamepad D-pad up, phone Vest
 button) takes the armor vest off / puts it back on (`Client/Vest.client.luau`,
-`Server/Armor.server.luau`, clips from `art/anim/vest.py`): the gun goes on the back first, the
-server moves the real vest with the hands on the clip's beats, and the armor left is kept while
-it's off (Humanoid StoredArmorItem / StoredArmor).
+`Server/Armor.server.luau`, clips from `art/anim/vest.py`): the gun goes on the back first and
+comes back out after, the server moves the real vest with the hands on the clip's beats, and the
+armor left is kept while it's off (Humanoid StoredArmorItem / StoredArmor). No weapon can be taken
+out while dressing (`State.Dressing`); that lock always lifts at the end, on an error or a respawn.
+Where the gun model sits is the gun's `On` attribute ("RightHand" / "UpperTorso"), set by
+`Server/Weapons/GunModel`; client checks read that, not the welds.
 Everyone gets the Carbine Rifle (`Defs/CarbineRifle.luau`: damage, per-body-part multipliers, falloff, fire rate, mag size, spare ammo, reload time) and spawns holding it (`Config.Weapons.DefaultLoadout`,
 `EquipOnSpawn`). Studio play tests also get Bat, Pistol, SMG and Shotgun (no models yet).
 
@@ -59,7 +65,7 @@ shows the rewound hitboxes in Studio.
 | Lowered | a wall within `Config.Weapons.LowerNearWalls` studs in front |
 | Reload | R: mag out, fresh mag from the vest, slap it in, charging handle |
 | Equip | taking the gun out (spawn, or a gun that wasn't on the back) |
-| Holster / Draw | Q swings the rifle over the right shoulder onto the back; the slot key reaches back and pulls it round. The server moves the weld when the hand is on the back (`GunModel.HolsterSwap` / `DrawSwap`, from gun.py `HOLSTER`); no firing until the draw ends |
+| Holster / Draw | Q swings the rifle over the right shoulder onto the back; Q or the slot key reaches back and pulls it round. The server moves the weld when the hand is on the back (`GunModel.HolsterSwap` / `DrawSwap`, from gun.py `HOLSTER`); no firing until the draw ends |
 | CrouchHold | crouched, not aiming: high ready |
 
 While the gun is up your whole body faces the camera (GTA). A/D blend in side-step clips

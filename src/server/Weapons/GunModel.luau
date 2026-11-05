@@ -5,6 +5,11 @@
 		GunModel.sling(character, def)   -- on the back (holstered)
 		GunModel.remove(character)
 		GunModel.inHand(character) / GunModel.onBack(character, id)
+		GunModel.cancelReload(character) -- the magazine goes straight back in
+
+	The gun model's "On" attribute names the part it's welded to ("RightHand", "UpperTorso" =
+	on the back), so the client and Server/Armor can check it without looking at the welds
+	(the magazine's own weld moves to the left hand during a reload).
 
 	The model is loaded by id from Shared.ModelIds[def.Model] and scaled by
 	Config.Weapons.GunScale. Its origin is the pistol-grip hold point, muzzle toward -Z.
@@ -46,6 +51,7 @@ GunModel.DrawSwap = 0.224
 GunModel.DrawLength = 0.76
 
 local templates: { [string]: Model | false } = {}
+local restoreMag: { [BasePart]: () -> () } = {} -- magazine -> put it back in the gun (mid-reload)
 
 local function template(name: string): Model?
 	if templates[name] ~= nil then
@@ -110,22 +116,19 @@ local function template(name: string): Model?
 	return model
 end
 
-local function weldPart0(character: Model): Instance?
+local function heldOn(character: Model): string?
 	local gun = character:FindFirstChild("Gun")
-	local weld = gun and gun:FindFirstChild("GunWeld", true)
-	return weld and weld:IsA("Weld") and weld.Part0 or nil
+	return gun and gun:GetAttribute("On") or nil
 end
 
 function GunModel.inHand(character: Model): boolean
-	local p = weldPart0(character)
-	return p ~= nil and p.Name == "RightHand"
+	return heldOn(character) == "RightHand"
 end
 
 -- Is this weapon's model slung on the back right now?
 function GunModel.onBack(character: Model, id: string): boolean
 	local gun = character:FindFirstChild("Gun")
-	local p = weldPart0(character)
-	return gun ~= nil and gun:GetAttribute("WeaponId") == id and p ~= nil and p.Name == "UpperTorso"
+	return gun ~= nil and gun:GetAttribute("WeaponId") == id and heldOn(character) == "UpperTorso"
 end
 
 function GunModel.remove(character: Model)
@@ -156,6 +159,7 @@ local function attach(character: Model, def, partName: string, offset: CFrame)
 		end
 	end
 	gun:SetAttribute("WeaponId", def.Id)
+	gun:SetAttribute("On", partName)
 	gun.Parent = character
 end
 
@@ -210,10 +214,31 @@ function GunModel.reloadMag(character: Model, speed: number)
 		weld.Part0, weld.C0, weld.C1 = gunPart0, gunC0, gunC1
 	end)
 	-- whatever happens, the mag ends up back in the gun
-	at(RELOAD_BEATS.length, function()
-		weld.Part0, weld.C0, weld.C1 = gunPart0, gunC0, gunC1
+	local function restore()
+		if weld.Parent then
+			weld.Part0, weld.C0, weld.C1 = gunPart0, gunC0, gunC1
+		end
 		mag.Transparency = 0
+	end
+	restoreMag[mag] = restore
+	at(RELOAD_BEATS.length, restore)
+	task.delay(RELOAD_BEATS.length / speed, function()
+		if restoreMag[mag] == restore then
+			restoreMag[mag] = nil
+		end
 	end)
+end
+
+-- Reload cut short (holstered, switched weapon): the magazine snaps back into the gun now.
+function GunModel.cancelReload(character: Model)
+	local gun = character:FindFirstChild("Gun")
+	local mag = gun and gun:FindFirstChild("Magazine", true)
+	local restore = mag and restoreMag[mag]
+	if mag and restore then
+		restoreMag[mag] = nil
+		mag:SetAttribute("Reload", (mag:GetAttribute("Reload") or 0) + 1) -- skips the beats left
+		restore()
+	end
 end
 
 function GunModel.hold(character: Model, def)
