@@ -17,16 +17,64 @@ local Input = {}
 local PRIORITY = Enum.ContextActionPriority.High.Value + 10 -- above the jump key, so Space doesn't jump out
 
 local handbrake = false
-local controls = nil
+local controls = nil -- Roblox's ControlModule, only used for the phone stick
 
-local function moveVector(): Vector3
-	if not controls then
-		local ok, module = pcall(function()
-			return require(Players.LocalPlayer:WaitForChild("PlayerScripts"):WaitForChild("PlayerModule"))
-		end)
-		controls = ok and module:GetControls() or false
+local function key(...): boolean
+	for _, k in { ... } do
+		if UserInputService:IsKeyDown(k) then
+			return true
+		end
 	end
-	return if controls then controls:GetMoveVector() else Vector3.zero
+	return false
+end
+
+local function deadzone(x: number): number
+	return if math.abs(x) < 0.15 then 0 else x
+end
+
+-- Keys and sticks are read directly, so driving never waits on Roblox's PlayerModule.
+local function moveVector(): Vector3
+	local x, z = 0, 0
+	if key(Enum.KeyCode.W, Enum.KeyCode.Up) then
+		z -= 1
+	end
+	if key(Enum.KeyCode.S, Enum.KeyCode.Down) then
+		z += 1
+	end
+	if key(Enum.KeyCode.D, Enum.KeyCode.Right) then
+		x += 1
+	end
+	if key(Enum.KeyCode.A, Enum.KeyCode.Left) then
+		x -= 1
+	end
+	if x ~= 0 or z ~= 0 then
+		return Vector3.new(x, 0, z)
+	end
+	if UserInputService.GamepadEnabled then
+		for _, state in UserInputService:GetGamepadState(Enum.UserInputType.Gamepad1) do
+			if state.KeyCode == Enum.KeyCode.Thumbstick1 then
+				local p = state.Position
+				if math.abs(p.X) > 0.15 or math.abs(p.Y) > 0.15 then
+					return Vector3.new(deadzone(p.X), 0, -deadzone(p.Y))
+				end
+			end
+		end
+	end
+	if UserInputService.TouchEnabled then
+		if controls == nil then
+			controls = false
+			local scripts = Players.LocalPlayer:FindFirstChild("PlayerScripts")
+			local module = scripts and scripts:FindFirstChild("PlayerModule")
+			if module then
+				local ok, pm = pcall(require, module)
+				controls = ok and pm:GetControls() or false
+			end
+		end
+		if controls then
+			return controls:GetMoveVector()
+		end
+	end
+	return Vector3.zero
 end
 
 local function gamepad(): boolean
