@@ -2,5 +2,13 @@
  "Carbine": {
   "id": 105521336217513,
   "sha": "cb31d2bf112d37037fb024e1178fee35e3e34e8640bc1bda5c34babb23303a60"
+ },
+ "ArmorVest": {
+  "id": 83135416194609,
+  "sha": "69068373a4a1f18ec47a811faa8d6f83fc22f6ec2eb1720aab399c1880e3cc58"
+ },
+ "CarbineRifle": {
+  "id": 138902078525241,
+  "sha": "bda3e693cc2dfa8cc4256457a725b0feed7cb53fb1338cc01f36e0ab0db9c385"
  }
 }

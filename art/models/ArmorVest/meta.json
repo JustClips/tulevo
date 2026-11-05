@@ -1,0 +1,35 @@
+{
+  "model": "Plate carrier armor vest (front/back plate bags, cummerbund, shoulder straps, 3 mag pouches, admin pouch, back utility pouch, drag handle, MOLLE webbing). Original mesh.",
+  "units": "meters (1 m = 1 stud)",
+  "fits": "R15 UpperTorso ~2 x 1.6 x 1 studs (X width, Z height, Y depth). Hollow inside: torso box +-1.0 x +-0.5 x +-0.8 is clear.",
+  "origin": "UpperTorso center - weld with identity offset",
+  "axes": "Blender coords: -Y = front (chest), +Z = up, +X = wearer's left. GLB exported +Y up, so glTF = (x, z, -y): front faces glTF +Z. If it imports facing backwards in Studio, rotate 180 deg about Y.",
+  "mesh": "single mesh 'Vest', single material 'Vest_Mat'",
+  "triangles": {
+    "Vest": 10888
+  },
+  "size_m": {
+    "x_width": 2.268,
+    "y_depth": 1.705,
+    "z_height": 1.7
+  },
+  "bbox_m": {
+    "min": [
+      -1.134,
+      -0.88,
+      -0.74
+    ],
+    "max": [
+      1.134,
+      0.825,
+      0.96
+    ]
+  },
+  "textures": {
+    "Color": "Vest_Color.png",
+    "Normal": "Vest_Normal.png",
+    "Roughness": "Vest_Roughness.png",
+    "Metalness": "Vest_Metalness.png"
+  },
+  "texture_size": 2048
+}
