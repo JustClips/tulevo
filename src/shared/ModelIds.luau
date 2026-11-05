@@ -2,7 +2,7 @@
 return {
 	ArmorVest = 83135416194609,
 	Carbine = 105521336217513,
-	CarbineRifle = 99377086609104,
+	CarbineRifle = 79806718924563,
 	Chaser = 107155976516351,
 	FirstAidKit = 114148189163015,
 	Hypercar = 78132708751511,
