@@ -88,8 +88,10 @@ never pulls the hands off the gun.
 First person: arms and gun stay visible and the body faces the view carrying the rifle at the
 shoulder (Aim pose).
 First-person camera (`Client/Movement/FirstPersonCamera`): the camera sits at the eyes on the
-animated head (crouching, aiming and walking all follow), behind the gun's `Sight` while aiming
-down sights, and tumbles with the hips through rolls (`Config.Movement.FirstPersonRollCamera`).
+animated head (crouching and walking follow). With the gun shouldered the eye is pinned to the gun
+(rifle low right, it never swims while you walk), and aiming down sights puts it on the gun's own
+sight line just behind the rear `Sight` (gun.py `AIM` keeps the barrel exactly along the aim, so
+rear aperture, front post and crosshair line up), and tumbles with the hips through rolls (`Config.Movement.FirstPersonRollCamera`).
 It is undone before the camera script each frame, so anything aiming reads `Movement.view()`
 (eye position, look without the tumble) instead of `CurrentCamera.CFrame`.
 

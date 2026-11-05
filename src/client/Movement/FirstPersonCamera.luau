@@ -4,8 +4,12 @@
 	leans or rolls differently from that guess. This puts it where the eyes really are, every
 	frame:
 
-	  * the eye point on the animated Head (crouching, aiming, walking bob all follow),
-	  * aiming down sights (gun up + right click): just behind the gun's "Sight" attachment,
+	  * the eye point on the animated Head (crouching, walking bob all follow),
+	  * gun up (shouldered pose): the eye is pinned to the gun, so walking, strafing and turning
+	    never move the rifle on screen (it sits low right),
+	  * aiming down sights (+ right click): on the sight line, just behind the rear sight
+	    ("Sight" attachment, along the gun's own axis) so the rear aperture, front post and
+	    crosshair line up,
 	  * rolls: the view also tumbles with the hips through the roll and settles back on the
 	    aim (Config.Movement.FirstPersonRollCamera = false turns the tumble off).
 
@@ -29,10 +33,12 @@ local FirstPersonCamera = {}
 
 local FADE = 0.1 -- seconds to blend the roll tumble in / out
 local EYE = Vector3.new(0, 0.15, -0.3) -- eye point in Head space (a little forward of the centre)
-local SIGHT_BACK, SIGHT_UP = 0.55, 0.04 -- ADS eye: behind / above the rear sight
+local SIGHT_BACK = 0.55 -- ADS eye: this far behind the rear sight aperture, on the sight line
+local HIP_EYE = Vector3.new(-0.5, 0.26, 0.7) -- gun up, not aiming: eye from the rear sight (view space)
+local ADS_TIME = 0.17 -- seconds for the eye to glide onto the sights and back
 
 local weight = 0
-local offset: Vector3? = nil -- smoothed camera shift (world) from where Roblox put it
+local ads = 0 -- 0..1 how far the eye has moved onto the sights
 local applied = false
 local baseCFrame = CFrame.identity -- the camera as the camera script left it
 local baseFocus = CFrame.identity
@@ -72,20 +78,29 @@ local function hipTurn(character: Model): CFrame?
 	return (hip * rootJoint.Transform * hip:Inverse()).Rotation
 end
 
--- Where the eye should be this frame (world), or nil to leave the camera alone.
-local function eyePoint(character: Model, base: CFrame, rolling: boolean): Vector3?
+-- Where the eye should be this frame (world), or nil to leave the camera alone. Every point
+-- is worked out fresh from this frame's parts (no smoothing on positions, which lagged behind
+-- the walking bob and made the gun swim); only the blend weights between them are smoothed.
+local function eyePoint(character: Model, base: CFrame, rolling: boolean, dt: number): Vector3?
 	local head = character:FindFirstChild("Head")
 	if not (head and head:IsA("BasePart")) then
 		return nil
 	end
-	if WeaponState.Equipped and WeaponState.Aiming and WeaponState.Raised and not WeaponState.Reloading and not rolling then
-		local gun = character:FindFirstChild("Gun")
-		local sight = gun and gun:FindFirstChild("Sight", true)
-		if sight and sight:IsA("Attachment") then
-			return sight.WorldPosition - base.LookVector * SIGHT_BACK + base.UpVector * SIGHT_UP
-		end
+	local eye = head.CFrame * EYE
+	local gun = character:FindFirstChild("Gun")
+	local sight = gun and gun:FindFirstChild("Sight", true)
+	local shouldered = if rolling then 0 else math.clamp(WeaponState.AimBlend or 0, 0, 1)
+	local wantAds = WeaponState.Equipped ~= nil and WeaponState.Aiming and WeaponState.Raised and not WeaponState.Reloading and not rolling
+	ads = math.clamp(ads + (if wantAds then dt else -dt) / ADS_TIME, 0, 1)
+	if not (sight and sight:IsA("Attachment")) or shouldered <= 0 then
+		return eye
 	end
-	return (head.CFrame * EYE)
+	-- shouldered: pinned to the gun, rifle low right
+	local hip = sight.WorldPosition + base.Rotation * HIP_EYE
+	-- aiming down sights: on the gun's own sight line
+	local onSights = (sight.WorldCFrame * CFrame.new(0, 0, SIGHT_BACK)).Position
+	local s = ads * ads * (3 - 2 * ads) -- ease in/out
+	return eye:Lerp(hip:Lerp(onSights, s), shouldered)
 end
 
 -- isRolling: is the local character mid-roll right now?
@@ -107,19 +122,15 @@ function FirstPersonCamera.start(isRolling: () -> boolean)
 		if not cam or not character or cam.CameraType ~= Enum.CameraType.Custom
 			or (base.Position - focus.Position).Magnitude >= 1 -- not first person
 		then
-			weight, offset = 0, nil
+			weight, ads = 0, 0
 			return
 		end
 		local rolling = isRolling()
-		local eye = eyePoint(character, base, rolling)
+		local eye = eyePoint(character, base, rolling, dt)
 		if not eye then
 			return
 		end
-		-- glide to the sight and back; follow the head closely otherwise
-		local want = eye - base.Position
-		local ads = WeaponState.Aiming and WeaponState.Raised
-		offset = if offset then offset:Lerp(want, math.min(1, dt * (if ads then 14 else 25))) else want
-		local pos = base.Position + (offset :: Vector3)
+		local pos = eye
 
 		-- roll tumble
 		local turn = CFrame.identity

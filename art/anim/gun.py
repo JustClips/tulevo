@@ -218,7 +218,10 @@ def _grip_from_butt(butt, pitch, yaw, roll=0.0):
     return tuple(np.array(butt) - rot @ P["Butt"])
 
 
-AIM = dict(pos=_grip_from_butt((0.55, 0.8, -0.45), 3, 48), pitch=3, yaw=48, roll=0)
+# yaw/pitch/roll are exactly AIM_TORSO undone (decomposed as ry @ rx @ rz), so once GunPose locks
+# the chest to the aim the barrel points dead along the camera with the sights level: first-person
+# aiming puts the eye on the sight line and the sights must sit on the crosshair.
+AIM = dict(pos=_grip_from_butt((0.55, 0.8, -0.45), 2.675, 48.069, 2.975), pitch=2.675, yaw=48.069, roll=2.975)
 # Sprint: low ready like the walk carry but pulled in and tipped further down (the sprint lean
 # points it down the way you run). Not "port arms" (muzzle up-left) - Dev found that odd.
 # A more forward muzzle isn't possible: below ~46 deg yaw either the stock runs into the chest
@@ -357,7 +360,7 @@ def reload_clip():
 def fire_clip():
     """One shot while aiming: the rifle kicks back into the shoulder and the muzzle climbs, then
     settles (0.13 s, arms only, on top of Aim)."""
-    kick = dict(AIM, pos=(AIM["pos"][0], AIM["pos"][1] + 0.02, AIM["pos"][2] + 0.13), pitch=5)
+    kick = dict(AIM, pos=(AIM["pos"][0], AIM["pos"][1] + 0.02, AIM["pos"][2] + 0.13), pitch=AIM["pitch"] + 2)
     return keyed_clip([(0.0, AIM), (0.03, kick), (0.13, AIM)], fps=60, torso=AIM_TORSO, head=AIM_HEAD)
 
 
@@ -575,7 +578,7 @@ def draw_beats():
 def build():
     clips = {
         "Weapon_Rifle_Hold": (*loop_clip(HOLD, 3.0, 30), True, ARMS),
-        "Weapon_Rifle_Aim": (*loop_clip(AIM, 2.4, 24, AIM_TORSO, AIM_HEAD, amp_pos=0.006, amp_rot=0.35), True, AIM_KEYS),
+        "Weapon_Rifle_Aim": (*loop_clip(AIM, 2.4, 24, AIM_TORSO, AIM_HEAD, amp_pos=0.003, amp_rot=0.12), True, AIM_KEYS),
         "Weapon_Rifle_Sprint": (*loop_clip(SPRINT, 0.8, 16, amp_pos=0, amp_rot=0, bob=sprint_bob), True, ARMS),
         "Weapon_Rifle_Tuck": (*loop_clip(TUCK, 1.0, 10, amp_pos=0.01, amp_rot=0.5), True, ARMS),
         "Weapon_Rifle_Air": (*loop_clip(AIR_POSE, 0.9, 18, amp_pos=0, amp_rot=0, bob=air_bob), True, ARMS),
