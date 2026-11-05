@@ -5,7 +5,8 @@
 	  built, they get a plain R15 body; Roblox's own spawn (Game Settings avatar type, keep it
 	  on R15) is only the last resort.
 	- Avatar animation packs are removed, so idle/jump/fall always match our walk.
-	- Body sizes and proportions are kept inside a normal human range (Config.Character).
+	- Everyone gets the plain blocky R15 body at the default size (Config.Character.Blocky);
+	  with that off, body sizes and proportions are kept inside a normal human range.
 	Clothes, skin colour, face, hair and accessories stay the player's own.
 ]]
 
@@ -17,6 +18,9 @@ local Config = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Co
 local Limits = Config.Character
 
 Players.CharacterAutoLoads = false
+
+-- body package parts (0 = the plain blocky R15 part)
+local BODY_FIELDS = { "Torso", "LeftArm", "RightArm", "LeftLeg", "RightLeg" }
 
 local ANIM_FIELDS = {
 	"IdleAnimation",
@@ -42,6 +46,15 @@ local function describe(player: Player, plain: boolean?): HumanoidDescription
 	end
 	for _, field in ANIM_FIELDS do
 		(desc :: any)[field] = 0
+	end
+	if Limits.Blocky then
+		-- the blocky look: plain R15 parts at the default size for everyone
+		for _, field in BODY_FIELDS do
+			(desc :: any)[field] = 0
+		end
+		desc.HeightScale, desc.WidthScale, desc.DepthScale, desc.HeadScale = 1, 1, 1, 1
+		desc.BodyTypeScale, desc.ProportionScale = 0, 0
+		return desc
 	end
 	desc.HeightScale = math.clamp(desc.HeightScale, Limits.HeightMin, Limits.HeightMax)
 	desc.WidthScale = math.clamp(desc.WidthScale, Limits.WidthMin, Limits.WidthMax)

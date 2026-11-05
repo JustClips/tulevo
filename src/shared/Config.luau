@@ -90,6 +90,12 @@ local Config = {
 	-- Every avatar spawns as R15 (CharacterSetup.server.luau). Sizes are clamped to this
 	-- range so tiny, giant or stretched avatars still look human next to cars and doors.
 	Character = {
+		-- true: everyone gets the plain blocky R15 body (Dev wants the blocky, Minecraft-like
+		-- look): avatar body packages are dropped and every body is the default size, which
+		-- is also the rig the gun / vest animations are solved for. Clothes, skin colour,
+		-- face, head, hair and accessories stay the player's own. false: their own body,
+		-- sizes clamped by the limits below.
+		Blocky = true,
 		HeightMin = 0.9,
 		HeightMax = 1.05,
 		WidthMin = 0.8,
