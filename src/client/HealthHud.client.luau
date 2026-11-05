@@ -11,9 +11,9 @@ pcall(function()
 	StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Health, false)
 end)
 
-local BAR_W, BAR_H = 340, 22
+local BAR_W, BAR_H = 280, 18
 local BORDER = 3
-local MARGIN = 24
+local MARGIN = 20
 
 local COLORS = {
 	Frame = Color3.fromRGB(62, 70, 58),
@@ -34,7 +34,7 @@ local root = Instance.new("Frame")
 root.Name = "Root"
 root.AnchorPoint = Vector2.new(0, 1)
 root.Position = UDim2.new(0, MARGIN, 1, -MARGIN)
-root.Size = UDim2.fromOffset(BAR_W, BAR_H + 22)
+root.Size = UDim2.fromOffset(BAR_W, BAR_H + 19)
 root.BackgroundTransparency = 1
 root.Parent = gui
 
@@ -71,10 +71,10 @@ local function segment(name: string, x: number, w: number, color: Color3)
 	label.Name = name .. "Text"
 	label.AnchorPoint = Vector2.new(0.5, 1)
 	label.Position = UDim2.new(0, x + w / 2, 1, -BAR_H - 1)
-	label.Size = UDim2.fromOffset(w, 20)
+	label.Size = UDim2.fromOffset(w, 17)
 	label.BackgroundTransparency = 1
 	label.FontFace = FONT
-	label.TextSize = 18
+	label.TextSize = 15
 	label.TextColor3 = COLORS.Text
 	label.TextStrokeTransparency = 0.6
 	label.Text = "0"
@@ -95,6 +95,9 @@ end
 
 armorFill.Size = UDim2.fromScale(1, 1)
 armorText.Text = "0"
+-- Empty until a character with a Humanoid exists.
+healthFill.Size = UDim2.fromScale(0, 1)
+healthText.Text = "0"
 
 local function onCharacter(character: Model)
 	local humanoid = character:WaitForChild("Humanoid") :: Humanoid
