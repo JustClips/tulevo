@@ -14,9 +14,9 @@
 	Gun poses (Weapons/AnimSet, clips from art/anim/gun.py) follow what you're doing:
 	Hold (low ready) walking/standing, Sprint (rifle across the chest), Aim (shouldered; also
 	for ~0.6 s after firing from the hip), Tuck in rolls, Air in jumps and falls, Lowered when
-	a wall is right in front. While the gun is up you face the camera; your hips follow the
-	stick (up to 60 deg) and the chest twists back to the target, and walking backwards plays
-	the walk in reverse. Weapons/GunPose bends the waist to aim up/down and is replicated.
+	a wall is right in front. While the gun is up your whole body faces the camera: A/D play
+	side-steps and S plays the walk in reverse. Weapons/GunPose locks the chest to the aim
+	(yaw and pitch) every frame, for every player.
 	TODO later: GTA weapon wheel UI (hold Tab / L1), over-the-shoulder aim camera, crosshair,
 	sounds.
 ]]
@@ -49,8 +49,6 @@ local combo = 0
 local ammo: { [string]: { mag: number, reserve: number } } = {}
 local hipUntil = 0 -- gun stays up this long after a hip-fire shot
 local HIP_RAISE = 0.6
-local MAX_HIP_TURN = math.rad(60) -- hips follow the stick this far from the aim while strafing
-local hipYaw = 0
 local wasRaised = false
 local zoomed = false
 local baseFov: number? = nil
@@ -195,7 +193,7 @@ function Controller.fire()
 	-- the server only gets a direction (from the head, like its own origin) and checks it
 	-- against where our body aims, so send the latest aim first
 	local camLook = workspace.CurrentCamera.CFrame.LookVector
-	Remotes.Pose:FireServer(State.Twist, math.clamp(math.asin(math.clamp(camLook.Y, -1, 1)), -1.2, 1.2), State.Aiming)
+	Remotes.Pose:FireServer(State.Twist, math.clamp(math.asin(math.clamp(camLook.Y, -1, 1)), -1.2, 1.2), State.Aiming, true)
 	Remotes.Fire:FireServer(target - (head or hand).Position)
 
 	if def.Class.Kind == "Melee" then
@@ -334,8 +332,8 @@ function Controller.start()
 		State.Aiming = false
 		State.Raised = false
 		State.Reloading = false
-		State.Twist, State.Pitch, State.GaitReverse = 0, 0, false
-		hipYaw, wasRaised = 0, false
+		State.Twist, State.Pitch, State.GaitReverse, State.StrafeSide, State.AimBlend = 0, 0, false, 0, 0
+		wasRaised = false
 		setTouchButtons(false)
 		task.spawn(equipOnSpawn, c)
 	end
@@ -345,10 +343,6 @@ function Controller.start()
 	end
 
 	GunPose.start()
-
-	local function wrap(a: number): number
-		return (a + math.pi) % (2 * math.pi) - math.pi
-	end
 
 	local wallParams = RaycastParams.new()
 	wallParams.FilterType = Enum.RaycastFilterType.Exclude
@@ -452,14 +446,16 @@ function Controller.start()
 		end
 	end)
 
+	local sentUp = false
 	local function sendPose(twist: number, pitch: number)
 		local now = os.clock()
-		local changed = math.abs(twist - sentTwist) > 0.03 or math.abs(pitch - sentPitch) > 0.03
+		local up = State.AimBlend > 0.5
+		local changed = math.abs(twist - sentTwist) > 0.03 or math.abs(pitch - sentPitch) > 0.03 or up ~= sentUp
 		local settled = (twist == 0 and pitch == 0) and (sentTwist ~= 0 or sentPitch ~= 0)
 		if (changed and now - lastPoseSent > 0.1) or (settled and now - lastPoseSent > 0.1) then
 			lastPoseSent = now
-			sentTwist, sentPitch = twist, pitch
-			Remotes.Pose:FireServer(twist, pitch, State.Aiming)
+			sentTwist, sentPitch, sentUp = twist, pitch, up
+			Remotes.Pose:FireServer(twist, pitch, State.Aiming, up)
 		end
 	end
 
@@ -470,6 +466,7 @@ function Controller.start()
 		local root = c and c:FindFirstChild("HumanoidRootPart") :: BasePart?
 		if not def or not c or not h or not root then
 			State.Raised, State.Twist, State.Pitch, State.GaitReverse = false, 0, 0, false
+			State.StrafeSide, State.AimBlend = 0, 0
 			setZoom(false)
 			updateCamera(dt, false, false, h)
 			if wasRaised and h then
@@ -491,41 +488,38 @@ function Controller.start()
 		State.Raised = (State.Aiming or now < hipUntil) and def.Class.Kind == "Gun"
 		local up = State.Raised and not State.Reloading -- gun at the shoulder
 
-		-- face where you aim (GTA strafing): hips follow the stick, chest twists back
+		-- face where you aim (GTA): the whole body locks to the camera direction; moving
+		-- sideways plays side-steps and moving back plays the walk in reverse (Movement/Gait)
 		local cam = workspace.CurrentCamera
 		local look = cam.CFrame.LookVector
 		local flat = Vector3.new(look.X, 0, look.Z)
-		local hipTarget, reverse = 0, false
+		local side, reverse = 0, false
 		if State.Raised and flat.Magnitude > 0.01 then
 			local aimYaw = math.atan2(-flat.X, -flat.Z)
+			h.AutoRotate = false
+			root.CFrame = CFrame.new(root.Position) * CFrame.Angles(0, aimYaw, 0)
+			root.AssemblyAngularVelocity = Vector3.zero
 			local move = h.MoveDirection
 			if move.Magnitude > 0.1 and not airborne and not rolling then
-				local delta = wrap(math.atan2(-move.X, -move.Z) - aimYaw)
-				if math.abs(delta) > math.rad(110) then
-					reverse = true
-					hipTarget = math.clamp(wrap(delta + math.pi), -MAX_HIP_TURN, MAX_HIP_TURN)
-				else
-					hipTarget = math.clamp(delta, -MAX_HIP_TURN, MAX_HIP_TURN)
-				end
+				local rel = CFrame.Angles(0, aimYaw, 0):VectorToObjectSpace(move)
+				local total = math.abs(rel.X) + math.abs(rel.Z)
+				side = if total > 0 then rel.X / total else 0
+				reverse = rel.Z > 0.1
 			end
-			hipYaw += (hipTarget - hipYaw) * math.min(1, dt * 10)
-			h.AutoRotate = false
-			root.CFrame = CFrame.new(root.Position) * CFrame.Angles(0, aimYaw + hipYaw, 0)
-		else
-			hipYaw += (0 - hipYaw) * math.min(1, dt * 10)
-			if wasRaised and not rolling then
-				h.AutoRotate = true
-			end
+		elseif wasRaised and not rolling then
+			h.AutoRotate = true
 		end
 		wasRaised = State.Raised
 		State.GaitReverse = reverse
-		State.Twist = if State.Raised and not rolling then -hipYaw else 0
+		State.StrafeSide = side
+		State.Twist = 0
 		State.Pitch = if up and not rolling then math.clamp(math.asin(math.clamp(look.Y, -1, 1)), -1.2, 1.2) else 0
 		sendPose(State.Twist, State.Pitch)
 		setZoom(State.Aiming and up)
 		updateCamera(dt, def.Class.Kind == "Gun", State.Raised, h)
 
 		if not anims then
+			State.AimBlend = 0
 			return
 		end
 		-- which pose loop the arms use
@@ -547,6 +541,7 @@ function Controller.start()
 			end
 		end
 		anims:blend({ [pose] = 1 }, dt, if pose == "Aim" or pose == "Tuck" then 16 else 10)
+		State.AimBlend = if rolling then 0 else anims:weight("Aim")
 	end)
 end
 

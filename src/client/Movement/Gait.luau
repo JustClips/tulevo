@@ -11,6 +11,9 @@ local Gaits = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Gai
 -- aiming while walking backwards plays the clips in reverse (set by Client.Weapons)
 local WeaponState = require(Players.LocalPlayer:WaitForChild("PlayerScripts"):WaitForChild("Client"):WaitForChild("Weapons"):WaitForChild("State"))
 
+-- Aiming side-steps (art/anim/strafe.py): studs/s the clip covers at playback speed 1
+local STRAFE_NATURAL = 3.125
+local STRAFE_CLIPS = { Right = "Tulevo_StrafeRight", Left = "Tulevo_StrafeLeft" }
 local MAX_RATE = 2.3 -- faster than this looks frantic; a little foot slide reads better
 local DEFAULT_GROUND = 3.19 -- default R15: HipHeight 2.19 + half the root part
 
@@ -27,6 +30,17 @@ function Gait.new(ctx)
 		track.Looped = true
 		track:Play(0, 0.001, 1)
 		table.insert(self.layers, { track = track, natural = g.Natural, ref = refs[g.Name] or m.WalkSpeed, w = 0, sent = -1 })
+	end
+	-- while aiming, moving sideways blends in side-step clips (the body keeps facing the aim)
+	self.strafe = {}
+	for dir, clip in STRAFE_CLIPS do
+		local ok, track = pcall(ctx.LoadClip, clip)
+		if ok then
+			track.Priority = Enum.AnimationPriority.Movement
+			track.Looped = true
+			track:Play(0, 0.001, 1)
+			self.strafe[dir] = { track = track, w = 0, sent = -1 }
+		end
 	end
 	return self
 end
@@ -56,6 +70,19 @@ function Gait:update(dt: number, enabled: boolean)
 	self.weight += ((if on then 1 else 0) - self.weight) * math.min(1, dt * 12)
 
 	local size = (ctx.Humanoid.HipHeight + ctx.Root.Size.Y / 2) / DEFAULT_GROUND
+	-- share of the movement that is sideways while aiming (signed: + right), set by Client.Weapons
+	local side = math.clamp(WeaponState.StrafeSide or 0, -1, 1)
+	local forward = 1 - math.abs(side)
+	for dir, l in self.strafe do
+		local want = if dir == "Right" then math.max(0, side) else math.max(0, -side)
+		l.w += (want - l.w) * math.min(1, dt * 10)
+		l.track:AdjustSpeed(math.clamp(math.max(ctx.Speed, 1) / (STRAFE_NATURAL * size), 0.5, MAX_RATE))
+		local w = math.max(0.001, self.weight * l.w)
+		if math.abs(w - l.sent) > 0.01 then
+			l.track:AdjustWeight(w, 0)
+			l.sent = w
+		end
+	end
 	local want = shares(self.layers, ctx.Speed)
 	local lead = self.layers[1]
 	for _, l in self.layers do
@@ -72,7 +99,7 @@ function Gait:update(dt: number, enabled: boolean)
 		end
 		local rate = math.clamp(math.max(ctx.Speed, 1) / (l.natural * size), 0.5, MAX_RATE)
 		l.track:AdjustSpeed(if WeaponState.GaitReverse then -rate else rate)
-		local w = math.max(0.001, self.weight * l.w)
+		local w = math.max(0.001, self.weight * l.w * forward)
 		if math.abs(w - l.sent) > 0.01 then
 			l.track:AdjustWeight(w, 0)
 			l.sent = w
@@ -82,6 +109,9 @@ end
 
 function Gait:stop()
 	for _, l in self.layers do
+		l.track:Stop(0.2)
+	end
+	for _, l in self.strafe do
 		l.track:Stop(0.2)
 	end
 end

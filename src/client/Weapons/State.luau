@@ -9,7 +9,9 @@ return {
 	Reserve = 0,
 	InVehicle = false, -- set by Client.Vehicles; no weapons while driving
 	-- set by the controller for Weapons/GunPose and Movement/Gait
-	Twist = 0, -- radians the chest turns back toward the camera while the hips follow the stick
+	Twist = 0, -- radians the chest turns from the hips (0: the whole body faces the aim)
 	Pitch = 0, -- radians the waist bends to aim up (+) / down (-)
 	GaitReverse = false, -- aiming while walking backwards: the walk/run clips play in reverse
+	StrafeSide = 0, -- aiming: sideways share of the movement (+ right, - left) for the side-step clips
+	AimBlend = 0, -- 0..1 how much the Aim pose is in: Weapons/GunPose locks the chest to the aim by this much
 }

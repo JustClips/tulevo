@@ -53,9 +53,11 @@ shows the rewound hitboxes in Studio.
 | Reload | R: mag out, fresh mag from the vest, slap it in, charging handle |
 | Equip | taking the gun out |
 
-While the gun is up you face the camera. Moving sideways turns the hips toward the stick (up to
-60 deg) and the waist twists the chest back to the target; moving backwards plays the walk/run
-in reverse. Rebuild the clips with `python3 art/anim/gun.py --preview && python3 tools/upload_anims.py`
+While the gun is up your whole body faces the camera (GTA). A/D blend in side-step clips
+(`art/anim/strafe.py`, Tulevo_StrafeLeft/Right), S plays the walk in reverse, and
+`Client/Weapons/GunPose` locks the chest to the aim yaw + pitch every frame after the
+animations (so walking never wobbles the rifle), for every player via GunUp/GunPitch.
+Rebuild the clips with `python3 art/anim/gun.py --preview && python3 tools/upload_anims.py`
 (`GUN_SCALE` there must match `Config.Weapons.GunScale`, and `HAND_TO_GUN` must match GunModel).
 
 ## Animations needed

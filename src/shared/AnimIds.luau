@@ -15,6 +15,8 @@ return {
 	Tulevo_RollRight = "rbxassetid://139909730902697",
 	Tulevo_Run = "rbxassetid://85091923292376",
 	Tulevo_Sprint = "rbxassetid://107785750810609",
+	Tulevo_StrafeLeft = "rbxassetid://94699464760252",
+	Tulevo_StrafeRight = "rbxassetid://86691988839384",
 	Tulevo_Walk = "rbxassetid://89781740812605",
 	Weapon_Rifle_Aim = "rbxassetid://120779463058438",
 	Weapon_Rifle_Air = "rbxassetid://107715289287946",

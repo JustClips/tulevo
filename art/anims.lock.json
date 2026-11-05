@@ -59,6 +59,14 @@
   "id": 107785750810609,
   "sha": "9e1eaf49a4cb3f35c0e09b611c9e4190e58fabf49b7835f839e19da65da8bc7f"
  },
+ "Tulevo_StrafeLeft": {
+  "id": 94699464760252,
+  "sha": "695aff86f653a97ab072dcb27fc9ae704bfac3e0c3ca8954ed4a8b7d83213a09"
+ },
+ "Tulevo_StrafeRight": {
+  "id": 86691988839384,
+  "sha": "c2de270c4e9bb213d8ffd65bb7b35ffa45efb860eb0ec4d542451a1f3cea61af"
+ },
  "Tulevo_Walk": {
   "id": 89781740812605,
   "sha": "fd575a445b9e3c3e2b0ea7fee25c869b0ba0519ee6c951ac08b88307adf96ee0"

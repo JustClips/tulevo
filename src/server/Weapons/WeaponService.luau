@@ -14,8 +14,8 @@
 		Reload (client -> server)
 		Ammo   (server -> owner)  weaponId, mag, reserve
 		Shot   (server -> others) shooter, weaponId, origin, hitPositions   -- effects only
-		Pose   (client -> server) twist, pitch (radians), aiming -> character attributes
-		       GunTwist / GunPitch / GunAiming, so every client can turn that player's waist the same way (Client.Weapons.GunPose)
+		Pose   (client -> server) twist, pitch (radians), aiming, up -> character attributes
+		       GunTwist / GunPitch / GunAiming / GunUp, so every client can turn that player's waist the same way (Client.Weapons.GunPose)
 
 	The gun model sits in the right hand while equipped and on the back otherwise (GunModel).
 
@@ -155,7 +155,7 @@ function WeaponService.refreshModel(player: Player)
 	GunModel.remove(character)
 end
 
-PoseRemote.OnServerEvent:Connect(function(player, twist, pitch, aiming)
+PoseRemote.OnServerEvent:Connect(function(player, twist, pitch, aiming, up)
 	local character = player.Character
 	if not character or typeof(twist) ~= "number" or typeof(pitch) ~= "number" then
 		return
@@ -166,6 +166,7 @@ PoseRemote.OnServerEvent:Connect(function(player, twist, pitch, aiming)
 	character:SetAttribute("GunTwist", math.clamp(twist, -1.6, 1.6))
 	character:SetAttribute("GunPitch", math.clamp(pitch, -1.4, 1.4))
 	character:SetAttribute("GunAiming", aiming == true)
+	character:SetAttribute("GunUp", up == true) -- shouldered: other clients lock the chest to the aim
 end)
 
 -- Anti-cheat for shots. The client only says "I fired, toward this direction". The server
