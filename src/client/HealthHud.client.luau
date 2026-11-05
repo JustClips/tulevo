@@ -1,5 +1,5 @@
 -- Bottom-left health bar (copy of the reference): one dark frame split in
--- two, green health on the left, the number above each half. The blue right
+-- two, green health on the left, the number inside each half. The blue right
 -- half is a static placeholder showing 0, kept so the look matches 1:1.
 local Players = game:GetService("Players")
 local StarterGui = game:GetService("StarterGui")
@@ -11,7 +11,7 @@ pcall(function()
 	StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Health, false)
 end)
 
-local BAR_W, BAR_H = 280, 18
+local BAR_W, BAR_H = 280, 22
 local BORDER = 3
 local MARGIN = 20
 local BOTTOM = 8
@@ -35,7 +35,7 @@ local root = Instance.new("Frame")
 root.Name = "Root"
 root.AnchorPoint = Vector2.new(0, 1)
 root.Position = UDim2.new(0, MARGIN, 1, -BOTTOM)
-root.Size = UDim2.fromOffset(BAR_W, BAR_H + 19)
+root.Size = UDim2.fromOffset(BAR_W, BAR_H)
 root.BackgroundTransparency = 1
 root.Parent = gui
 
@@ -70,16 +70,15 @@ local function segment(name: string, x: number, w: number, color: Color3)
 
 	local label = Instance.new("TextLabel")
 	label.Name = name .. "Text"
-	label.AnchorPoint = Vector2.new(0.5, 1)
-	label.Position = UDim2.new(0, x + w / 2, 1, -BAR_H - 1)
-	label.Size = UDim2.fromOffset(w, 17)
+	label.Size = UDim2.fromScale(1, 1)
+	label.ZIndex = 2
 	label.BackgroundTransparency = 1
 	label.FontFace = FONT
-	label.TextSize = 15
+	label.TextSize = 14
 	label.TextColor3 = COLORS.Text
 	label.TextStrokeTransparency = 0.6
 	label.Text = "0"
-	label.Parent = root
+	label.Parent = slot
 
 	return fill, label
 end

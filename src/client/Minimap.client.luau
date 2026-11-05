@@ -13,9 +13,9 @@ local RunService = game:GetService("RunService")
 local player = Players.LocalPlayer
 local camera = workspace.CurrentCamera
 
--- Layout (matches HealthHud: left 20, bar block 37 px tall, 8 px from bottom)
+-- Layout (matches HealthHud: left 20, bar 22 px tall, 8 px from bottom)
 local W, H = 280, 170
-local LEFT, BOTTOM = 20, 8 + 37 + 3
+local LEFT, BOTTOM = 20, 8 + 22 + 3
 local BORDER = 3
 
 -- View: camera height and field of view decide how many studs fit on the radar
