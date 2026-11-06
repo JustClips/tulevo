@@ -82,11 +82,60 @@ def rain_heavy(rng, n):
     return (roar + low) * swell + fine + near
 
 
+def lowpass(x, cutoff):
+    spec = np.fft.rfft(x)
+    f = np.fft.rfftfreq(len(x), 1 / SR)
+    spec /= 1 + (f / cutoff) ** 4
+    return np.fft.irfft(spec, len(x))
+
+
+def thunder_crack(rng, n):
+    """Close strike: a ripping crack (a few ms bursts, broadband), a hard boom, then a long
+    rolling rumble that wanders and fades. Not a loop."""
+    t = np.arange(n) / SR
+    out = np.zeros(n)
+    # rip: 25-40 tiny bursts over the first ~0.25 s
+    for _ in range(rng.integers(25, 40)):
+        st = rng.uniform(0, 0.25)
+        m = int(rng.uniform(0.002, 0.012) * SR)
+        i = int(st * SR)
+        burst = rng.standard_normal(m) * np.exp(-np.arange(m) / (m / 3)) * rng.uniform(0.4, 1.0)
+        out[i:i + m] += burst
+    # boom
+    boom = lowpass(rng.standard_normal(n), 180) * np.exp(-t / 0.5) * 4.5
+    # rumble: low noise with slow random swells
+    env = np.exp(-np.maximum(t - 0.3, 0) / 2.4) * (t > 0.15)
+    swell = lowpass(rng.standard_normal(n), 2.5)
+    swell = 0.6 + 0.8 * (swell - swell.min()) / (np.ptp(swell) + 1e-9)
+    rumble = lowpass(rng.standard_normal(n), 140) * env * swell * 6
+    mid = lowpass(rng.standard_normal(n), 900) * np.exp(-t / 0.9) * 0.5
+    return out * 0.9 + boom + rumble + mid
+
+
+def thunder_rumble(rng, n):
+    """Far strike: no crack, a soft onset and a long low roll."""
+    t = np.arange(n) / SR
+    att = np.clip(t / 0.6, 0, 1) ** 2
+    env = att * np.exp(-np.maximum(t - 0.6, 0) / 2.8)
+    swell = lowpass(rng.standard_normal(n), 1.8)
+    swell = 0.4 + 1.0 * (swell - swell.min()) / (np.ptp(swell) + 1e-9)
+    return lowpass(rng.standard_normal(n), 110) * env * swell
+
+
+def fade_tail(x):
+    k = int(0.4 * SR)
+    x[-k:] *= np.linspace(1, 0, k)[:, None]
+    return x
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     n = SR * 24
     write("RainLoop", stereo(lambda r: rain(r, n), 11, 12))
     write("RainHeavyLoop", stereo(lambda r: rain_heavy(r, n), 21, 22))
+    for i in (1, 2):
+        write(f"ThunderCrack{i}", fade_tail(stereo(lambda r: thunder_crack(r, SR * 8), 30 + i, 40 + i)))
+        write(f"ThunderRumble{i}", fade_tail(stereo(lambda r: thunder_rumble(r, SR * 9), 50 + i, 60 + i)))
 
 
 if __name__ == "__main__":

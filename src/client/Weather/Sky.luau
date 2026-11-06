@@ -204,6 +204,8 @@ local rays: SunRaysEffect
 local skyObj: Sky
 local tint = Color3.new(1, 1, 1)
 local nightness = 0
+local flash = 0 -- lightning: 0 none .. 1 full white-blue flash (decays fast)
+local FLASH_COLOR = Color3.fromRGB(205, 215, 255)
 
 local function find(className: string, name: string?)
 	for _, c in Lighting:GetChildren() do
@@ -241,12 +243,17 @@ function Sky.cloudTint(): Color3
 	return tint
 end
 
+-- lightning lights up the sky, the city and the clouds for a moment
+function Sky.addFlash(amount: number)
+	flash = math.min(1.5, flash + amount)
+end
+
 -- 0 by day, 1 at night (used by Rain for how bright streaks are)
 function Sky.night(): number
 	return nightness
 end
 
-function Sky.update(w, _dt: number)
+function Sky.update(w, dt: number)
 	local hour = Lighting.ClockTime
 	if Config.Time.DriveLighting then
 		local t = GameTime.now()
@@ -259,17 +266,22 @@ function Sky.update(w, _dt: number)
 	nightness = math.clamp(1 - (k.bright - 0.6) / 1.4, 0, 1)
 	local g = w.gloom
 	local dim = 1 - 0.35 * g
-	tint = grey(k.cloud, g * 0.85, 1 - 0.45 * g)
+	flash *= math.exp(-dt * 14)
+	if flash < 0.005 then
+		flash = 0
+	end
+	local f = math.min(flash, 1)
+	tint = grey(k.cloud, g * 0.85, 1 - 0.45 * g):Lerp(FLASH_COLOR, f * 0.85)
 	if not Config.Weather.DriveSky then
 		return
 	end
-	Lighting.Ambient = grey(k.amb, g, dim)
-	Lighting.OutdoorAmbient = grey(k.out, g * 0.9, dim)
-	Lighting.Brightness = k.bright * (1 - 0.55 * g)
-	Lighting.ExposureCompensation = k.exp - 0.15 * g
+	Lighting.Ambient = grey(k.amb, g, dim):Lerp(FLASH_COLOR, f * 0.5)
+	Lighting.OutdoorAmbient = grey(k.out, g * 0.9, dim):Lerp(FLASH_COLOR, f * 0.85)
+	Lighting.Brightness = k.bright * (1 - 0.55 * g) + 3 * f
+	Lighting.ExposureCompensation = k.exp - 0.15 * g + 0.9 * f
 	Lighting.EnvironmentDiffuseScale = 1
 	Lighting.EnvironmentSpecularScale = 0.6 + 0.4 * w.rain -- wet streets shine
-	atmosphere.Color = grey(k.atmo, g, 1 - 0.3 * g)
+	atmosphere.Color = grey(k.atmo, g, 1 - 0.3 * g):Lerp(FLASH_COLOR, f * 0.7)
 	atmosphere.Decay = grey(k.decay, g, 1 - 0.2 * g)
 	atmosphere.Haze = k.haze + (2.6 - k.haze) * g
 	atmosphere.Glare = k.glare * (1 - g)

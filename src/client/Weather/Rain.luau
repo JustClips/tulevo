@@ -3,8 +3,8 @@
 --             down from its emitter, and the drops live just long enough to reach what's
 --             under them, so rain stops at roofs, canopies and awnings. A cell with
 --             something above its emitter (you're inside a tall building) is switched off.
---   splashes  Blender mesh crowns + spreading ripples (RainCrown / RainRipple from
---             ReplicatedStorage.WeatherMeshes) and a few spray droplets where drops land
+--   splashes  rendered water (art/blender/weather/render_weather_fx.py): a 16-frame splash
+--             crown flipbook, a 16-frame ripple flipbook lying flat on the ground, and spray
 --   mist      big faint streaky sheets falling further out, so heavy rain looks thick
 --   sound     light + heavy rain loops (Shared/SoundIds), muffled when there's a roof over you
 local Players = game:GetService("Players")
@@ -25,7 +25,6 @@ local SPEED = 95 -- drop speed, studs/s
 local RATE = 95 -- drops per second per cell at full rain
 local SPLASH_RATE = 80 -- splashes per second at full rain
 local SPLASH_RADIUS = 46
-local POOL = 48
 
 local tex = TextureIds.Weather or {}
 local folder: Folder
@@ -52,18 +51,9 @@ local filterClock = 0
 local splashBudget = 0
 local lastRate = -1
 
-type Splash = {
-	crown: MeshPart,
-	ripple: MeshPart,
-	cf: CFrame,
-	t0: number,
-	crownSize: Vector3,
-	rippleSize: number,
-	busy: boolean,
-}
-local splashes: { Splash } = {}
-local crownBase = Vector3.new(1, 1, 1)
-local rippleBase = Vector3.new(1, 0.05, 1)
+local splashAt: Attachment
+local splashEmitter: ParticleEmitter?
+local rippleEmitter: ParticleEmitter?
 
 local function invisiblePart(name: string, size: Vector3): Part
 	local p = Instance.new("Part")
@@ -77,7 +67,7 @@ end
 
 local function streakEmitter(parent: Instance): ParticleEmitter
 	local e = Instance.new("ParticleEmitter")
-	e.Texture = if tex.RainStreak then `rbxassetid://{tex.RainStreak}` else ""
+	e.Texture = `rbxassetid://{tex.RainDrop or tex.RainStreak}`
 	e.Orientation = Enum.ParticleOrientation.FacingCameraWorldUp
 	e.EmissionDirection = Enum.NormalId.Bottom
 	e.Speed = NumberRange.new(SPEED * 0.92, SPEED * 1.08)
@@ -97,32 +87,46 @@ local function streakEmitter(parent: Instance): ParticleEmitter
 	return e
 end
 
-local function makeSplashes()
-	local meshes = ReplicatedStorage:WaitForChild("WeatherMeshes", 60)
-	local crown = meshes and meshes:FindFirstChild("RainCrown") :: MeshPart?
-	local ripple = meshes and meshes:FindFirstChild("RainRipple") :: MeshPart?
-	if not crown or not ripple then
-		warn("[Weather] rain splash meshes missing, splashes off")
-		return
+-- 16-frame flipbooks (4x4 grid) played once per splash
+local function flipbook(id: number?, parent: Instance): ParticleEmitter?
+	if not id then
+		return nil
 	end
-	crownBase = crown.Size
-	rippleBase = ripple.Size
-	local water = Color3.fromRGB(214, 224, 236)
-	for _ = 1, POOL do
-		local c = crown:Clone()
-		local r = ripple:Clone()
-		for _, p in { c, r } do
-			p.Anchored, p.CanCollide, p.CanQuery, p.CanTouch, p.CastShadow = true, false, false, false, false
-			p.Material = Enum.Material.SmoothPlastic
-			p.Reflectance = 0.15
-			p.Color = water
-			p.Transparency = 1
-			p.Parent = folder
-		end
-		table.insert(
-			splashes,
-			{ crown = c, ripple = r, cf = CFrame.identity, t0 = 0, crownSize = crownBase, rippleSize = 1, busy = false }
-		)
+	local e = Instance.new("ParticleEmitter")
+	e.Texture = `rbxassetid://{id}`
+	e.FlipbookLayout = Enum.ParticleFlipbookLayout.Grid4x4
+	e.FlipbookMode = Enum.ParticleFlipbookMode.OneShot
+	e.Rate = 0
+	e.Speed = NumberRange.new(0)
+	e.Color = ColorSequence.new(Color3.fromRGB(225, 232, 242))
+	e.LightInfluence = 0.7
+	e.LightEmission = 0.2
+	e.Parent = parent
+	return e
+end
+
+local function makeSplashes()
+	splashAt = Instance.new("Attachment")
+	splashAt.Name = "RainSplash"
+	splashAt.Parent = workspace.Terrain
+	splashEmitter = flipbook(tex.SplashFlip, splashAt)
+	if splashEmitter then
+		splashEmitter.Orientation = Enum.ParticleOrientation.FacingCameraWorldUp
+		splashEmitter.Lifetime = NumberRange.new(0.26, 0.32)
+		splashEmitter.Size = NumberSequence.new(1.25)
+		splashEmitter.Transparency = NumberSequence.new(0.05)
+	end
+	rippleEmitter = flipbook(tex.RippleFlip, splashAt)
+	if rippleEmitter then
+		-- lies flat: faces along its (tiny, upward) velocity
+		rippleEmitter.Orientation = Enum.ParticleOrientation.VelocityPerpendicular
+		rippleEmitter.EmissionDirection = Enum.NormalId.Top
+		rippleEmitter.Speed = NumberRange.new(0.001)
+		rippleEmitter.SpreadAngle = Vector2.new(0, 0)
+		rippleEmitter.Lifetime = NumberRange.new(0.6, 0.8)
+		rippleEmitter.Size = NumberSequence.new(2.6)
+		rippleEmitter.Transparency = NumberSequence.new(0.15)
+		rippleEmitter.LightInfluence = 0.5
 	end
 end
 
@@ -157,7 +161,7 @@ function Rain.start()
 	spray = Instance.new("Attachment")
 	spray.Parent = workspace.Terrain
 	sprayEmitter = Instance.new("ParticleEmitter")
-	sprayEmitter.Texture = if tex.RainSpray then `rbxassetid://{tex.RainSpray}` else ""
+	sprayEmitter.Texture = `rbxassetid://{tex.Spray or tex.RainSpray}`
 	sprayEmitter.EmissionDirection = Enum.NormalId.Top
 	sprayEmitter.SpreadAngle = Vector2.new(55, 55)
 	sprayEmitter.Speed = NumberRange.new(4, 9)
@@ -192,7 +196,7 @@ function Rain.start()
 	lightLoop.SoundGroup = group
 	heavyLoop.SoundGroup = group
 
-	task.spawn(makeSplashes)
+	makeSplashes()
 end
 
 local function refreshFilter()
@@ -224,59 +228,23 @@ local function cast(c: Cell)
 	c.emitter.Lifetime = NumberRange.new(c.life)
 end
 
-local function startSplash(pos: Vector3, normal: Vector3, now: number)
-	for _, s in splashes do
-		if not s.busy then
-			s.busy = true
-			s.t0 = now
-			local k = math.random() * 0.35 + 0.35
-			s.crownSize = crownBase * k
-			s.rippleSize = math.random() * 1.2 + 1.6
-			local spin = CFrame.Angles(0, math.random() * math.pi * 2, 0)
-			local cf
-			if normal.Y > 0.98 then
-				cf = CFrame.new(pos + Vector3.new(0, 0.02, 0)) * spin
-			else
-				local right = normal:Cross(Vector3.zAxis).Unit
-				cf = CFrame.fromMatrix(pos + normal * 0.02, right, normal) * spin
-			end
-			s.cf = cf
-			s.ripple.CFrame = cf
-			return
-		end
+local function startSplash(pos: Vector3, normal: Vector3, _now: number)
+	-- the crown frames have the ground ~30% up from the bottom of the frame
+	if splashEmitter then
+		local sz = 1.0 + math.random() * 0.6
+		splashEmitter.Size = NumberSequence.new(sz)
+		splashAt.WorldPosition = pos + normal * (sz * 0.2)
+		splashEmitter:Emit(1)
 	end
-end
-
-local function stepSplashes(now: number)
-	for _, s in splashes do
-		if s.busy then
-			local age = now - s.t0
-			-- crown: pops up and out in a quarter second
-			local a = math.clamp(age / 0.22, 0, 1)
-			if a < 1 then
-				local grow = 0.35 + 0.65 * math.sqrt(a)
-				local size = s.crownSize * Vector3.new(0.6 + 0.4 * grow, grow, 0.6 + 0.4 * grow)
-				s.crown.Size = size
-				s.crown.CFrame = s.cf * CFrame.new(0, size.Y / 2, 0) -- MeshParts sit on their middle
-				s.crown.Transparency = 0.3 + 0.7 * a * a
-			elseif s.crown.Transparency < 1 then
-				s.crown.Transparency = 1
-			end
-			-- ripple: spreads and fades over 0.7 s
-			local b = math.clamp(age / 0.7, 0, 1)
-			local r = s.rippleSize * (0.15 + 0.85 * math.sqrt(b))
-			s.ripple.Size = Vector3.new(r, rippleBase.Y, r)
-			s.ripple.Transparency = 0.45 + 0.55 * b
-			if b >= 1 then
-				s.busy = false
-			end
-		end
+	if rippleEmitter and math.random() < 0.7 then
+		splashAt.WorldPosition = pos + normal * 0.04
+		rippleEmitter:Emit(1)
 	end
 end
 
 -- a foot landing in the wet (Footprints): a ripple, plus spray while it's raining
 function Rain.footSplash(pos: Vector3, normal: Vector3, raining: boolean)
-	if not spray or #splashes == 0 then
+	if not spray then
 		return
 	end
 	startSplash(pos, normal, os.clock())
@@ -349,7 +317,7 @@ function Rain.update(w, dt: number)
 	end
 
 	-- splashes
-	if rain > 0.01 and #splashes > 0 then
+	if rain > 0.01 and splashEmitter then
 		splashBudget += SPLASH_RATE * rain * dt
 		local tries = 0
 		while splashBudget >= 1 and tries < 8 do
@@ -369,7 +337,6 @@ function Rain.update(w, dt: number)
 		end
 		splashBudget = math.min(splashBudget, 4)
 	end
-	stepSplashes(now)
 
 	-- sound: muffled under a roof
 	roofClock -= dt

@@ -3,50 +3,22 @@
 --   Weather       current weather name
 --   WeatherFrom   the one before it (clients fade from it)
 --   WeatherSince  workspace:GetServerTimeNow() when it changed
--- Also loads the weather meshes (clouds, rain splashes) into ReplicatedStorage.WeatherMeshes
--- for the clients, and handles the /weather chat command.
+-- Also handles the /weather chat command, and in storms picks lightning strikes and sends
+-- them to every client (ReplicatedStorage.WeatherRemotes.Strike: position, seed, kind).
 -- The debug panel (Server/DebugPanel) uses Weather.list() and Weather.set(name).
-local InsertService = game:GetService("InsertService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 
 local Shared = ReplicatedStorage:WaitForChild("Shared")
 local Config = require(Shared:WaitForChild("Config"))
-local ModelIds = require(Shared:WaitForChild("ModelIds"))
 local WeatherTypes = require(Shared:WaitForChild("WeatherTypes"))
 
 local W = Config.Weather
 local Weather = {}
 
 -- in the order the debug panel shows them
-local ORDER = { "Clear", "Cloudy", "Rain", "HeavyRain" }
-
--- meshes ---------------------------------------------------------------------
-local function loadMeshes()
-	local folder = Instance.new("Folder")
-	folder.Name = "WeatherMeshes"
-	local id = ModelIds.WeatherMeshes
-	for attempt = 1, 4 do
-		local ok, container = pcall(InsertService.LoadAsset, InsertService, id)
-		if ok then
-			for _, d in container:GetDescendants() do
-				if d:IsA("MeshPart") then
-					for _, c in d:GetChildren() do
-						c:Destroy() -- no SurfaceAppearance etc.; the client colours them
-					end
-					d.Anchored = true
-					d.Parent = folder
-				end
-			end
-			container:Destroy()
-			break
-		end
-		warn(`[Weather] could not load the weather meshes ({id}), try {attempt}: {container}`)
-		task.wait(3 * attempt)
-	end
-	folder.Parent = ReplicatedStorage
-end
+local ORDER = { "Clear", "Cloudy", "Rain", "HeavyRain", "Thunderstorm" }
 
 -- weather state --------------------------------------------------------------
 local auto = W.Cycle
@@ -87,6 +59,60 @@ local function schedule()
 	nextChange = os.clock() + math.random(W.MinMinutes * 60, W.MaxMinutes * 60)
 end
 
+-- lightning ------------------------------------------------------------------
+local strikeRemote: RemoteEvent
+
+local function stormy(): boolean
+	local cur = WeatherTypes[Shared:GetAttribute("Weather") or "Clear"]
+	local since = Shared:GetAttribute("WeatherSince") or 0
+	-- wait for the storm to roll in a bit before the first bolt
+	return cur ~= nil and (cur.storm or 0) > 0 and workspace:GetServerTimeNow() - since > W.FadeSeconds * 0.4
+end
+
+local strikeParams = RaycastParams.new()
+strikeParams.FilterType = Enum.RaycastFilterType.Exclude
+
+-- a bolt somewhere: kind "bolt" (hits the ground / a roof) or "sheet" (flash inside the clouds)
+function Weather.strike(at: Vector3?, kind: string?)
+	if not strikeRemote then
+		return
+	end
+	local L = W.Lightning
+	kind = kind or (if math.random() < L.SheetChance then "sheet" else "bolt")
+	local players = Players:GetPlayers()
+	local centre = Vector3.zero
+	local near = false
+	if #players > 0 then
+		local plr = players[math.random(1, #players)]
+		local root = plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") :: BasePart?
+		if root then
+			centre = root.Position
+			near = math.random() < L.NearChance
+		end
+	end
+	if not at then
+		local ang = math.random() * math.pi * 2
+		local d = if near
+			then L.NearMin + math.random() * (L.NearMax - L.NearMin)
+			else math.random() ^ 0.6 * L.FarRadius
+		at = centre + Vector3.new(math.cos(ang) * d, 0, math.sin(ang) * d)
+	end
+	local pos = at :: Vector3
+	if kind == "bolt" then
+		-- hits whatever is highest there (roofs, towers, ground)
+		local list = {}
+		for _, p in players do
+			if p.Character then
+				table.insert(list, p.Character)
+			end
+		end
+		strikeParams.FilterDescendantsInstances = list
+		local hit = workspace:Raycast(Vector3.new(pos.X, 2000, pos.Z), Vector3.new(0, -2600, 0), strikeParams)
+		pos = if hit then hit.Position else Vector3.new(pos.X, 0, pos.Z)
+	end
+	strikeRemote:FireAllClients(pos, math.random(1, 2 ^ 30), kind)
+end
+
 function Weather.list(): { string }
 	local list = table.clone(ORDER)
 	for name in WeatherTypes do
@@ -124,7 +150,10 @@ local function onChat(player: Player, msg: string)
 	if not arg or not isAdmin(player) then
 		return
 	end
-	if arg == "auto" then
+	if arg == "strike" then
+		local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart") :: BasePart?
+		Weather.strike(root and root.Position + root.CFrame.LookVector * 80, "bolt")
+	elseif arg == "auto" then
 		Weather.auto()
 		print(`[Weather] {player.Name}: back to the automatic cycle`)
 	elseif NAMES[arg] then
@@ -164,12 +193,26 @@ function Weather.start()
 		return
 	end
 	started = true
-	task.spawn(loadMeshes)
 	Shared:SetAttribute("Weather", W.Start)
 	Shared:SetAttribute("WeatherFrom", W.Start)
 	Shared:SetAttribute("WeatherSince", workspace:GetServerTimeNow() - W.FadeSeconds)
 	schedule()
 	hookChat()
+	local remotes = Instance.new("Folder")
+	remotes.Name = "WeatherRemotes"
+	strikeRemote = Instance.new("RemoteEvent")
+	strikeRemote.Name = "Strike"
+	strikeRemote.Parent = remotes
+	remotes.Parent = ReplicatedStorage
+	task.spawn(function()
+		while true do
+			local L = W.Lightning
+			task.wait(L.MinGap + math.random() * (L.MaxGap - L.MinGap))
+			if stormy() then
+				Weather.strike()
+			end
+		end
+	end)
 	task.spawn(function()
 		while true do
 			task.wait(5)

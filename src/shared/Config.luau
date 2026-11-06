@@ -222,7 +222,7 @@ local Config = {
 	-- Weather (Server/Weather + Client/Weather, docs/weather.md; also the F8 debug panel). The server picks the weather
 	-- and everyone blends to it over FadeSeconds; clouds drift on the server clock, so every
 	-- player sees the same sky. Admins (and anyone in a Studio play test) can type
-	-- /weather clear | cloudy | rain | heavyrain | auto  in chat.
+	-- /weather clear | cloudy | rain | heavyrain | thunderstorm | auto  in chat.
 	Weather = {
 		Enabled = true,
 		Start = "Clear", -- weather when a server starts
@@ -230,7 +230,7 @@ local Config = {
 		MinMinutes = 6, -- real minutes each weather lasts (random in between)
 		MaxMinutes = 14,
 		-- how often each weather is picked by the cycle
-		Chances = { Clear = 5, Cloudy = 3, Rain = 2, HeavyRain = 1 },
+		Chances = { Clear = 5, Cloudy = 3, Rain = 2, HeavyRain = 1, Thunderstorm = 1 },
 		FadeSeconds = 30, -- seconds to blend from one weather into the next
 		Admins = { 822623546, 347852675 }, -- user ids allowed to use /weather in live servers
 		DriveSky = true, -- false: leave Lighting/Atmosphere as set in Studio (clouds and rain still run)
@@ -238,6 +238,17 @@ local Config = {
 		WindDirection = Vector2.new(1, 0.35),
 		CloudSpeed = 9,
 		RainVolume = 0.55, -- rain loop volume at full rain
+		-- Thunderstorm lightning (Server/Weather picks strikes, Client/Weather/Lightning draws them)
+		Lightning = {
+			MinGap = 3, -- seconds between strikes (random in between)
+			MaxGap = 11,
+			SheetChance = 0.4, -- share of flashes that stay inside the clouds (no bolt)
+			NearChance = 0.3, -- share of bolts that land near a player (NearMin-NearMax studs away)
+			NearMin = 40,
+			NearMax = 260,
+			FarRadius = 1800, -- other bolts land anywhere this far round a player
+			ShakeRadius = 220, -- bolts closer than this shake the camera and flash the screen
+		},
 	},
 
 	-- City ambience (Client/Ambience.client, docs/ambience.md): distant traffic bed (day / night), crickets at

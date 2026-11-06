@@ -5,6 +5,7 @@
 --   Clouds  drifting mesh clouds + scrolling cirrus / overcast layers
 --   Rain    rain streaks that stop at roofs, splashes, ripples, mist and the rain sound
 --   Footprints  wet shoe prints behind everyone once the ground is soaked
+--   Lightning   thunderstorm bolts, flashes, thunder, close-strike shake (server picks strikes)
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 
@@ -16,6 +17,7 @@ local Sky = require(script:WaitForChild("Sky"))
 local Clouds = require(script:WaitForChild("Clouds"))
 local Rain = require(script:WaitForChild("Rain"))
 local Footprints = require(script:WaitForChild("Footprints"))
+local Lightning = require(script:WaitForChild("Lightning"))
 
 local Weather = {}
 
@@ -47,6 +49,7 @@ function Weather.start()
 	Clouds.start()
 	Rain.start()
 	Footprints.start()
+	task.spawn(Lightning.start)
 	RunService.RenderStepped:Connect(function(dt)
 		local mix = Weather.current()
 		Sky.update(mix, dt)

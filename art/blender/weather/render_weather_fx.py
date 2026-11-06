@@ -29,6 +29,7 @@ OUT = next((a for a in argv if not a.startswith("--")), os.path.abspath("weather
 QUICK = "--quick" in argv
 GPU = "--gpu" in argv
 ONLY = argv[argv.index("--only") + 1] if "--only" in argv else None
+SAMPLES = int(argv[argv.index("--samples") + 1]) if "--samples" in argv else None  # override (CPU fallback)
 
 
 # ------------------------------------------------------------------ scene
@@ -53,7 +54,7 @@ def setup_render(res_x, res_y, samples):
             except TypeError:
                 continue
         sc.cycles.device = "GPU"
-    sc.cycles.samples = samples
+    sc.cycles.samples = SAMPLES or samples
     sc.cycles.use_denoising = True
     sc.cycles.max_bounces = 32
     sc.cycles.volume_bounces = 24

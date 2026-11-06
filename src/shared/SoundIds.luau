@@ -16,7 +16,11 @@ return {
 	SirenWail = 124246006008645,
 	ThunderClose1 = 87332425565572,
 	ThunderClose2 = 114753844889226,
+	ThunderCrack1 = 140544676059970,
+	ThunderCrack2 = 111774566581836,
 	ThunderFar1 = 132863869511245,
 	ThunderFar2 = 74198952664511,
 	ThunderFar3 = 95841160431164,
+	ThunderRumble1 = 97988322930698,
+	ThunderRumble2 = 139277930129909,
 }
