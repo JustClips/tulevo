@@ -14,4 +14,5 @@ return {
 	OfficeDark = 115564599582572,
 	OfficeRound = 128044638007018,
 	OfficeStone = 72275137453878,
+	WeatherMeshes = 111007844108617,
 }

@@ -23,6 +23,8 @@
 		InventoryService.get(player)                -> the player's inventory (made with the starting kit)
 		InventoryService.add(player, id, count?, data?) -> how many didn't fit
 		InventoryService.count(player, id)          -> how many they carry
+		InventoryService.remove(player, id, count)  -> how many it took out of the bag
+		InventoryService.spawnPickup(id, count, cframe, data?) -> an item lying on the ground (debug, world loot)
 		InventoryService.wornArmor(player)          -> Item?
 		InventoryService.putOnArmor(player, uid?)   -> Item? (moved bag -> Armor slot)
 		InventoryService.takeOffArmor(player, armorLeft) (Armor slot -> bag, or the ground if full)
@@ -35,6 +37,16 @@
 		        numbers (Shared/Items/Grid), quick slot numbers (1-3), or the dropped item's Uid
 		        for "Ground" as from (toKey is ignored for "Ground"); rot = the item turned 90
 		        degrees (R while dragging)
+		Use     (client -> server) uid: use that carried item (Shared/Items Use; nil = stop using)
+		Notice  (server -> owner)  text: why something was refused ("Already at full health")
+
+	Using items: an item with Use = { Action = ..., Time = ... } (Shared/Items/Actions.luau).
+	Server actions run from Server/Inventory/ItemUse.luau after Time seconds; while it runs the
+	player has attributes UsingItem (item name), UseStart / UseEnd (workspace:GetServerTimeNow()),
+	which Client/Inventory draws as a bar. It stops if the player is knocked down, dies, or the
+	item leaves the bag; one item is taken when it finishes.
+
+	Ammo: guns with Ammo = "<item id>" reload from those items (WeaponService.setAmmoSource).
 ]]
 
 local HttpService = game:GetService("HttpService")
@@ -47,8 +59,11 @@ local Config = require(Shared:WaitForChild("Config"))
 local Items = require(Shared:WaitForChild("Items"))
 local Grid = require(Shared:WaitForChild("Items"):WaitForChild("Grid"))
 local Armor = require(Shared:WaitForChild("Armor"))
+local Weapons = require(Shared:WaitForChild("Weapons"))
 local WeaponService = require(script.Parent.Parent:WaitForChild("Weapons"):WaitForChild("WeaponService"))
 local ItemModels = require(script.Parent:WaitForChild("ItemModels"))
+local ItemUse = require(script.Parent:WaitForChild("ItemUse"))
+local Guard = require(script.Parent.Parent:WaitForChild("Guard"))
 
 local CFG = Config.Inventory
 
@@ -83,6 +98,8 @@ end
 local StateRemote = remote("State")
 local RequestRemote = remote("Request")
 local MoveRemote = remote("Move")
+local UseRemote = remote("Use")
+local NoticeRemote = remote("Notice")
 remotes.Parent = ReplicatedStorage
 
 local droppedFolder = Instance.new("Folder")
@@ -216,8 +233,10 @@ local function syncWeapons(player: Player, inv: Inv)
 		if not have[id] then
 			WeaponService.give(player, id)
 			local data = item.data
-			if data and typeof(data.mag) == "number" and typeof(data.reserve) == "number" then
-				WeaponService.setAmmo(player, id, data.mag, data.reserve)
+			if data and typeof(data.mag) == "number" then
+				local _, reserve = WeaponService.getAmmo(player, id)
+				local own = typeof(data.reserve) == "number" and not Items.ammoFor(id)
+				WeaponService.setAmmo(player, id, data.mag, if own then data.reserve else reserve or 0)
 			end
 		end
 	end
@@ -240,6 +259,7 @@ local function sync(player: Player)
 	end
 	player:SetAttribute("SpareArmor", spare)
 	StateRemote:FireClient(player, snapshot(inv))
+	WeaponService.ammoChanged(player) -- ammo items may have come or gone
 end
 
 -- Put count of an item into the containers (stacks first, then empty slots, within weight).
@@ -336,9 +356,13 @@ local function newInventory(player: Player): Inv
 			table.insert(weapons, id)
 		end
 	end
-	-- guns go in the quick slots first (keys 1-3)
+	-- guns go in the quick slots first (keys 1-3), each with its starting ammo in the bag
 	local q = 1
 	for _, id in weapons do
+		local wdef = Weapons.get(id) :: any
+		if wdef and wdef.Ammo and (wdef.ReserveAmmo or 0) > 0 then
+			addInto(inv, wdef.Ammo, wdef.ReserveAmmo)
+		end
 		if q <= QUICK and Items.get(id) then
 			inv.Quick[q] = { uid = newUid(), id = id, count = 1 }
 			q += 1
@@ -382,6 +406,74 @@ function InventoryService.count(player: Player, id: string): number
 	return n
 end
 
+-- Take up to count of an item out of the bag (smallest stacks first, the quick slots
+-- last). Doesn't sync. Returns how many it took.
+local function removeFrom(inv: Inv, id: string, count: number): number
+	local stacks = {}
+	for _, name in { "Backpack", "Inventory", "Quick" } do
+		local list = (inv :: any)[name]
+		for slot, item in list do
+			if item.id == id then
+				table.insert(stacks, { list = list, slot = slot, item = item, quick = name == "Quick" })
+			end
+		end
+	end
+	table.sort(stacks, function(a, b)
+		if a.quick ~= b.quick then
+			return not a.quick
+		end
+		return a.item.count < b.item.count
+	end)
+	local taken = 0
+	for _, st in stacks do
+		if taken >= count then
+			break
+		end
+		local n = math.min(st.item.count, count - taken)
+		st.item.count -= n
+		taken += n
+		if st.item.count <= 0 then
+			st.list[st.slot] = nil
+		end
+	end
+	return taken
+end
+
+function InventoryService.remove(player: Player, id: string, count: number): number
+	local inv = invs[player]
+	if not inv or count <= 0 then
+		return 0
+	end
+	local taken = removeFrom(inv, id, math.floor(count))
+	if taken > 0 then
+		sync(player)
+	end
+	return taken
+end
+
+-- guns with Ammo = "<item id>" reload from the bag
+WeaponService.setAmmoSource({
+	count = function(player: Player, id: string): number
+		return if invs[player] then InventoryService.count(player, id) else 0
+	end,
+	take = function(player: Player, id: string, amount: number): number
+		return InventoryService.remove(player, id, amount)
+	end,
+})
+
+-- The carried item with this uid: list, slot, item.
+local function findUid(inv: Inv, uid: string): ({ [number]: Item }?, number?, Item?)
+	for _, name in { "Quick", "Inventory", "Backpack" } do
+		local list = (inv :: any)[name]
+		for slot, item in list do
+			if item.uid == uid then
+				return list, slot, item
+			end
+		end
+	end
+	return nil, nil, nil
+end
+
 ---------------------------------------------------------------- the ground
 
 local function removeDropped(uid: string)
@@ -416,12 +508,8 @@ local function spawnDropped(item: Item, at: CFrame)
 	model:SetAttribute("ItemId", item.id)
 	model:SetAttribute("Count", item.count)
 	-- lying on the ground: guns on their side, vests on their back
-	local tilt = CFrame.new()
-	if def and def.Kind == "Weapon" then
-		tilt = CFrame.Angles(0, 0, math.rad(90))
-	elseif def and def.Kind == "Armor" then
-		tilt = CFrame.Angles(math.rad(90), 0, 0)
-	end
+	local t = def and def.DropTilt or Vector3.zero
+	local tilt = CFrame.Angles(math.rad(t.X), math.rad(t.Y), math.rad(t.Z))
 	model:PivotTo(at * tilt)
 	local cf, size = model:GetBoundingBox()
 	model:PivotTo(model:GetPivot() + Vector3.new(0, at.Position.Y - (cf.Position.Y - size.Y / 2), 0))
@@ -462,13 +550,30 @@ local function dropSpot(player: Player): CFrame?
 	return CFrame.new(ground) * CFrame.Angles(0, math.random() * math.pi * 2, 0)
 end
 
+-- A gun leaving the bag takes the bullets in its magazine with it (and its own spare
+-- bullets, for guns without an Ammo item). The live ammo belongs to the weapon, not to one
+-- copy: if another copy of the same gun is still carried, this one leaves with what it had
+-- stashed (or an empty magazine), so dropping one of two guns can't copy the ammo.
 local function stashAmmo(player: Player, item: Item)
 	local def = Items.get(item.id)
-	if def and def.Kind == "Weapon" then
-		local mag, reserve = WeaponService.getAmmo(player, item.id)
-		if mag and reserve then
-			item.data = { mag = mag, reserve = reserve }
+	if not def or def.Kind ~= "Weapon" then
+		return
+	end
+	local inv = invs[player]
+	for _, other in (if inv then allCarried(inv) else {}) do
+		if other.id == item.id and other ~= item then
+			local data = item.data or {}
+			data.mag = if typeof(data.mag) == "number" then data.mag else 0
+			if Items.ammoFor(item.id) then
+				data.reserve = nil
+			end
+			item.data = data
+			return
 		end
+	end
+	local mag, reserve = WeaponService.getAmmo(player, item.id)
+	if mag then
+		item.data = { mag = mag, reserve = if Items.ammoFor(item.id) then nil else reserve }
 	end
 end
 
@@ -488,10 +593,11 @@ function pickup(player: Player, uid: string, to: string?, toSlot: number?, rot: 
 	local character = player.Character
 	local root = character and character:FindFirstChild("HumanoidRootPart") :: BasePart?
 	local humanoid = character and character:FindFirstChildOfClass("Humanoid")
-	if not d or not inv or not root or not humanoid or humanoid.Health <= 0 then
+	if not d or not inv or not root or not humanoid or not Guard.alive(player) then
 		return
 	end
 	if (root.Position - d.model:GetPivot().Position).Magnitude > CFG.PickupRange then
+		Guard.flag(player, "picked up an item from too far away")
 		return
 	end
 	local item = d.item
@@ -622,18 +728,20 @@ local function move(inv: Inv, from: string, fromSlot: number, to: string, toSlot
 	toList[toSlot] = src
 end
 
-local lastMove: { [Player]: number } = {}
 MoveRemote.OnServerEvent:Connect(function(player, from, fromKey, to, toKey, rot)
 	local inv = invs[player]
 	if not inv or typeof(from) ~= "string" or typeof(to) ~= "string" then
 		return
 	end
 	rot = rot == true
-	local now = os.clock()
-	if now - (lastMove[player] or 0) < 0.05 then
+	-- knocked down: no moving, dropping or picking up (the client gets its real state back)
+	if not Guard.rate(player, "InvMove", 15, 8) then
 		return
 	end
-	lastMove[player] = now
+	if not Guard.alive(player) then
+		sync(player)
+		return
+	end
 	local function validSlot(name: string, key: any): boolean
 		local n = if name == "Quick" then QUICK elseif CONTAINERS[name] then CONTAINERS[name].slots else nil
 		return n ~= nil and typeof(key) == "number" and key >= 1 and key <= n and key % 1 == 0
@@ -664,9 +772,193 @@ MoveRemote.OnServerEvent:Connect(function(player, from, fromKey, to, toKey, rot)
 end)
 
 RequestRemote.OnServerEvent:Connect(function(player)
+	if not Guard.rate(player, "InvRequest", 2, 3) then
+		return
+	end
 	InventoryService.get(player)
 	sync(player)
 end)
+
+---------------------------------------------------------------- using items (Shared/Items Use)
+
+local using: { [Player]: number } = {} -- player -> token of the use in progress
+local useToken = 0
+
+local function notice(player: Player, text: string)
+	NoticeRemote:FireClient(player, text)
+end
+
+-- the item's model in the hand while it's used (Shared/Items Hold)
+local function removeHeld(player: Player)
+	local character = player.Character
+	local old = character and character:FindFirstChild("HeldItem")
+	if old then
+		old:Destroy()
+	end
+end
+
+local function attachHeld(player: Player, character: Model, def: Items.ItemDef, token: number)
+	removeHeld(player)
+	local hold = def.Hold
+	local hand = hold and character:FindFirstChild(hold.Part) :: BasePart?
+	local template = hand and ItemModels.get(def.Id) -- yields the first time
+	if not hold or not hand or not template or player.Character ~= character or using[player] ~= token then
+		return
+	end
+	local model = template:Clone()
+	model.Name = "HeldItem"
+	local pivot = model:GetPivot()
+	local main = model.PrimaryPart or model:FindFirstChildWhichIsA("BasePart", true)
+	if not main then
+		model:Destroy()
+		return
+	end
+	for _, d in model:GetDescendants() do
+		if d:IsA("BasePart") then
+			d.Anchored = false
+			d.CanCollide = false
+			d.CanQuery = false
+			d.CanTouch = false
+			d.Massless = true
+			if d ~= main then
+				local wc = Instance.new("WeldConstraint")
+				wc.Part0, wc.Part1 = main, d
+				wc.Parent = d
+			end
+		end
+	end
+	local weld = Instance.new("Weld")
+	weld.Name = "HeldWeld"
+	weld.Part0 = hand
+	weld.Part1 = main
+	weld.C0 = hold.C0
+	weld.C1 = main.CFrame:ToObjectSpace(pivot)
+	weld.Parent = main
+	model:PivotTo(hand.CFrame * hold.C0)
+	model.Parent = character
+end
+
+local function stopUsing(player: Player)
+	using[player] = nil
+	removeHeld(player)
+	player:SetAttribute("UsingItemId", nil)
+	player:SetAttribute("UsingItem", nil)
+	player:SetAttribute("UseStart", nil)
+	player:SetAttribute("UseEnd", nil)
+end
+
+-- who is using: the character and humanoid, if they're up and about
+local function usable(player: Player): (Model?, Humanoid?)
+	local character = player.Character
+	local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+	if not character or not humanoid or humanoid.Health <= 0 or character:GetAttribute("Knocked") == true then
+		return nil, nil
+	end
+	return character, humanoid
+end
+
+function InventoryService.use(player: Player, uid: string)
+	local inv = invs[player]
+	local character, humanoid = usable(player)
+	if not inv or not character or not humanoid or using[player] or humanoid.SeatPart then
+		return
+	end
+	local _, _, item = findUid(inv, uid)
+	local def = item and Items.get(item.id)
+	local action = Items.useAction(def)
+	if not item or not def or not def.Use or not action or action.Client then
+		return
+	end
+	local handler = ItemUse[def.Use.Action]
+	if not handler then
+		warn(`[Inventory] no ItemUse.{def.Use.Action} for {def.Id}`)
+		return
+	end
+	local function ctx()
+		return { player = player, character = character, humanoid = humanoid, def = def, use = def.Use }
+	end
+	if handler.can then
+		local ok, why = handler.can(ctx())
+		if not ok then
+			notice(player, why or `Can't use {def.Name} now`)
+			return
+		end
+	end
+	useToken += 1
+	local token = useToken
+	using[player] = token
+	local time = math.max(def.Use.Time or 0, 0)
+	local now = workspace:GetServerTimeNow()
+	player:SetAttribute("UsingItem", def.Name)
+	player:SetAttribute("UsingItemId", def.Id)
+	task.spawn(attachHeld, player, character, def, token)
+	player:SetAttribute("UseStart", now)
+	player:SetAttribute("UseEnd", now + time)
+	task.spawn(function()
+		local ends = os.clock() + time
+		while os.clock() < ends do
+			task.wait(0.1)
+			if using[player] ~= token then
+				return -- cancelled
+			end
+			local c = usable(player)
+			if
+				c ~= character
+				or not invs[player]
+				or not findUid(invs[player], uid)
+				or player:GetAttribute("Weapon") ~= nil -- took a gun out
+			then
+				stopUsing(player)
+				return
+			end
+		end
+		if using[player] ~= token then
+			return
+		end
+		stopUsing(player)
+		local list, slot, still = findUid(inv, uid)
+		if not list or not slot or not still or usable(player) ~= character then
+			return
+		end
+		if handler.can then
+			local ok, why = handler.can(ctx())
+			if not ok then
+				notice(player, why or `Can't use {def.Name} now`)
+				return
+			end
+		end
+		still.count -= 1
+		if still.count <= 0 then
+			list[slot] = nil
+		end
+		handler.apply(ctx())
+		sync(player)
+	end)
+end
+
+UseRemote.OnServerEvent:Connect(function(player, uid)
+	if not Guard.rate(player, "InvUse", 4, 4) then
+		return
+	end
+	if uid == nil then
+		if using[player] then
+			stopUsing(player)
+		end
+	elseif typeof(uid) == "string" and #uid <= 64 then
+		InventoryService.use(player, uid)
+	end
+end)
+
+-- An item lying on the ground that anyone can pick up (debug tools, world loot). Returns its uid.
+function InventoryService.spawnPickup(id: string, count: number?, at: CFrame, data: { [string]: any }?): string?
+	local def = Items.get(id)
+	if not def then
+		return nil
+	end
+	local item: Item = { uid = newUid(), id = id, count = math.clamp(math.floor(count or 1), 1, def.Stack), data = data }
+	spawnDropped(item, at)
+	return item.uid
+end
 
 ---------------------------------------------------------------- armor (Server/Armor)
 
@@ -739,7 +1031,7 @@ function InventoryService.start()
 	end
 	Players.PlayerRemoving:Connect(function(player)
 		invs[player] = nil
-		lastMove[player] = nil
+		using[player] = nil
 	end)
 	-- dropped items time out
 	task.spawn(function()

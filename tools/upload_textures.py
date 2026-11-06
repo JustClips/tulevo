@@ -1,4 +1,4 @@
-"""Upload a model's colour textures as Roblox Images and write src/shared/TextureIds.luau.
+"""Upload model colour textures (and art/weather/textures.json) as Roblox Images and write src/shared/TextureIds.luau.
 
   python3 tools/upload_textures.py
 
@@ -64,8 +64,9 @@ def main():
     lock = json.load(open(LOCK)) if os.path.exists(LOCK) else {}
     models = {}
     base = os.path.join(ROOT, "art", "models")
-    for model in sorted(os.listdir(base)):
-        mp = os.path.join(base, model, "textures.json")
+    sources = [(m, os.path.join(base, m, "textures.json")) for m in sorted(os.listdir(base))]
+    sources.append(("Weather", os.path.join(ROOT, "art", "weather", "textures.json")))  # rain + sky
+    for model, mp in sources:
         if not os.path.exists(mp):
             continue
         parts = json.load(open(mp))

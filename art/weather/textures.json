@@ -1,0 +1,9 @@
+{
+ "RainStreak": "art/weather/tex/RainStreak.png",
+ "RainSpray": "art/weather/tex/RainSpray.png",
+ "RainSheet": "art/weather/tex/RainSheet.png",
+ "Cirrus": "art/weather/tex/Cirrus.png",
+ "Overcast": "art/weather/tex/Overcast.png",
+ "FootprintL": "art/weather/tex/FootprintL.png",
+ "FootprintR": "art/weather/tex/FootprintR.png"
+}

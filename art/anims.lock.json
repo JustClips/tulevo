@@ -7,6 +7,14 @@
   "id": 121862260644701,
   "sha": "06b35a0a3774ce91299005c284e289c3d906f4b648f7ea2263132ac3729fb696"
  },
+ "Tulevo_DrinkBottle": {
+  "id": 130946416854336,
+  "sha": "a082f96c8270a09f499e5d2aa8c6ac0052b794af01b91c41bb1b93aea9edd7ba"
+ },
+ "Tulevo_DrinkCan": {
+  "id": 88371512817349,
+  "sha": "a875be7bf8fca3483cefedad41b07f884ff312b57d98304d56d19cb4c28c3262"
+ },
  "Tulevo_Fall": {
   "id": 71772951335743,
   "sha": "383d9b9506c03422ca848985c2784287446be1adfc2f82c4438270bf867bd87c"
@@ -34,6 +42,10 @@
  "Tulevo_Land": {
   "id": 128461769007218,
   "sha": "60a42252d5d67a7b2f1d4cdc23333cd04d58ea7304bff7bf9e43fb540295daca"
+ },
+ "Tulevo_Medkit": {
+  "id": 71222898189001,
+  "sha": "a2589bdc3dea0d2a5164969756e42a0808b7adf468d9b2d40dabe14e592b5aee"
  },
  "Tulevo_Pivot": {
   "id": 112442235427041,

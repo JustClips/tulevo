@@ -13,6 +13,8 @@ return {
 	Weight = 3.4, -- kg in the inventory
 	Cells = Vector2.new(4, 2), -- inventory cells, wide x tall (R turns it while dragging)
 	Model = "CarbineRifle", -- Shared.ModelIds
+	Description = "AR-15 style carbine. Reloads from Rifle ammo in your bag.",
+	Ammo = "RifleAmmo", -- inventory item it reloads from (Shared/Items/Defs.luau)
 
 	-- damage
 	Damage = 24, -- one bullet to the chest at close range
@@ -45,8 +47,7 @@ return {
 
 	-- magazine
 	MagSize = 30, -- bullets in a full magazine
-	ReserveAmmo = 150, -- spare bullets you spawn with (5 more mags)
-	MaxReserve = 300, -- most spare bullets you can carry (pickups later)
+	ReserveAmmo = 150, -- Rifle ammo you spawn with in the bag (5 more mags)
 	ReloadTime = 2.45, -- seconds; = Weapon_Rifle_Reload / ReloadPouch length so the mag swap lines up
 	AutoReload = true, -- pulling the trigger on an empty mag reloads
 }

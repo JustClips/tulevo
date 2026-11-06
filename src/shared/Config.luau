@@ -187,6 +187,29 @@ local Config = {
 		CameraMinZoom = 9, -- camera pulled out of first person while lying down
 	},
 
+	-- Debug panel (Server/DebugPanel + Client/DebugPanel): F8 opens it for these accounts
+	-- (and for anyone in Studio play tests). The server checks every action again, so
+	-- nobody else can use it even with an exploit.
+	Debug = {
+		Admins = { 347852675, 822623546 },
+		AllowInStudio = true,
+		Key = Enum.KeyCode.F8,
+	},
+
+	-- Server checks (Server/Guard + Server/MovementGuard, docs/server-checks.md). The server
+	-- decides damage, money and items; these limits catch clients that lie about movement.
+	AntiCheat = {
+		Debug = false, -- true: print every rejected request
+		-- on foot: horizontal studs/s over a CheckEvery window (sprint is 20, a roll 17)
+		MaxFootSpeed = 45,
+		TeleportStuds = 80, -- one window moving further than this = pulled back right away
+		CheckEvery = 0.5, -- seconds between movement checks
+		Strikes = 2, -- windows in a row over MaxFootSpeed before pulling back
+		SpawnGrace = 2, -- seconds after spawning / a server teleport with no checks
+		KnockedDrift = 12, -- studs a knocked body may slide from where it fell
+		CarSpeedFactor = 1.6, -- driven cars may go this many times their MaxSpeed (crashes, ramps)
+	},
+
 	-- In-game clock (Server/GameClock + Shared/GameTime): drives Lighting.ClockTime and the
 	-- time/date on the HUD. GTA style: one game day = 48 real minutes (1 game minute = 2 s).
 	Time = {
@@ -194,6 +217,27 @@ local Config = {
 		StartHour = 9, -- in-game hour when a server starts
 		-- the in-game date starts on the server's real (UTC) date and then counts game days
 		DriveLighting = true, -- false: HUD clock still runs, but the sky stays as set in Studio
+	},
+
+	-- Weather (Server/Weather + Client/Weather, docs/weather.md; also the F8 debug panel). The server picks the weather
+	-- and everyone blends to it over FadeSeconds; clouds drift on the server clock, so every
+	-- player sees the same sky. Admins (and anyone in a Studio play test) can type
+	-- /weather clear | cloudy | rain | heavyrain | auto  in chat.
+	Weather = {
+		Enabled = true,
+		Start = "Clear", -- weather when a server starts
+		Cycle = true, -- false: stays on Start until someone uses /weather
+		MinMinutes = 6, -- real minutes each weather lasts (random in between)
+		MaxMinutes = 14,
+		-- how often each weather is picked by the cycle
+		Chances = { Clear = 5, Cloudy = 3, Rain = 2, HeavyRain = 1 },
+		FadeSeconds = 30, -- seconds to blend from one weather into the next
+		Admins = { 822623546, 347852675 }, -- user ids allowed to use /weather in live servers
+		DriveSky = true, -- false: leave Lighting/Atmosphere as set in Studio (clouds and rain still run)
+		-- clouds: direction they drift (x, z) and studs per second
+		WindDirection = Vector2.new(1, 0.35),
+		CloudSpeed = 9,
+		RainVolume = 0.55, -- rain loop volume at full rain
 	},
 }
 

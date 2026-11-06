@@ -22,6 +22,8 @@ export type WeaponDef = {
 	Class: ClassDef?, -- filled in by the registry
 	Weight: number, -- kg in the inventory (Shared/Items, Config.Inventory carry limits)
 	Cells: Vector2?, -- inventory cells it covers, wide x tall (can be turned 90 degrees with R)
+	Description: string?, -- tooltip line in the inventory
+	Ammo: string?, -- guns: the inventory item they reload from (Shared/Items/Defs.luau); nil = own ReserveAmmo
 
 	-- guns
 	Damage: number?, -- per pellet/bullet at close range
@@ -35,7 +37,7 @@ export type WeaponDef = {
 	FalloffStart: number?, -- studs, damage drops linearly to FalloffMin at Range
 	FalloffMin: number?, -- damage share left at Range (default 0.5)
 	BodyDamage: { [string]: number }?, -- multiplier per body part hit (falls back to Config.Weapons.BodyDamage; HeadshotMultiplier still works for Head)
-	MaxReserve: number?, -- most spare bullets you can carry
+	MaxReserve: number?, -- most spare bullets you can carry (guns without Ammo)
 	AutoReload: boolean?, -- trigger on an empty mag reloads (default true)
 	MagSize: number?,
 	ReserveAmmo: number?, -- spare rounds you spawn with

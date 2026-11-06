@@ -4,10 +4,17 @@
 	hit; clients only ask ("equip this", "I fired from here toward there").
 
 		WeaponService.give(player, "Pistol")   -- adds it (replaces the weapon in that wheel slot)
-		WeaponService.addAmmo(player, "CarbineRifle", 30)  -- spare bullets, up to MaxReserve
+		WeaponService.addAmmo(player, "Pistol", 30)  -- spare bullets (guns without an Ammo item), up to MaxReserve
 		WeaponService.take(player, "Pistol")
 		WeaponService.getAmmo / setAmmo(player, id, mag, reserve)
 		WeaponService.inventory(player)        -> { [Slot]: weaponId }
+		WeaponService.setAmmoSource(source)    -- Server/Inventory: guns with Ammo = "<item id>"
+		                                       -- reload from those items in the bag
+		WeaponService.ammoChanged(player)      -- the bag changed: resend the spare-bullet counts
+
+	Spare bullets: a gun with Ammo set (the carbine: "RifleAmmo") has no spare bullets of its
+	own; its reserve is how many of that ammo item the player carries, and a reload takes them
+	out of the bag. Guns without Ammo keep their own reserve (ReserveAmmo / MaxReserve).
 
 	Remotes (ReplicatedStorage.WeaponRemotes, made here):
 		Equip  (client -> server) weaponId | nil
@@ -33,6 +40,7 @@ local Joints = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Jo
 local Pouches = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Armor"):WaitForChild("Pouches"))
 local Hitscan = require(script.Parent:WaitForChild("Hitscan"))
 local GunModel = require(script.Parent:WaitForChild("GunModel"))
+local Guard = require(script.Parent.Parent:WaitForChild("Guard"))
 
 local WeaponService = {}
 
@@ -72,10 +80,46 @@ local function stateOf(player: Player): State
 	return s
 end
 
+export type AmmoSource = {
+	count: (player: Player, itemId: string) -> number,
+	take: (player: Player, itemId: string, amount: number) -> number, -- returns how many it took
+}
+local ammoSource: AmmoSource? = nil
+
+function WeaponService.setAmmoSource(source: AmmoSource)
+	ammoSource = source
+end
+
+-- spare bullets: the ammo items carried, or the gun's own reserve
+local function reserveOf(player: Player, id: string, h: Held): number
+	local def = Weapons.get(id) :: any
+	if def and def.Ammo and ammoSource then
+		return ammoSource.count(player, def.Ammo)
+	end
+	return h.reserve
+end
+
+-- take up to amount spare bullets; returns how many it got
+local function takeReserve(player: Player, id: string, h: Held, amount: number): number
+	local def = Weapons.get(id) :: any
+	if def and def.Ammo and ammoSource then
+		return ammoSource.take(player, def.Ammo, amount)
+	end
+	local n = math.min(amount, h.reserve)
+	h.reserve -= n
+	return n
+end
+
 local function sendAmmo(player: Player, id: string)
 	local h = stateOf(player).held[id]
 	if h then
-		AmmoRemote:FireClient(player, id, h.mag, h.reserve)
+		AmmoRemote:FireClient(player, id, h.mag, reserveOf(player, id, h))
+	end
+end
+
+function WeaponService.ammoChanged(player: Player)
+	for id in stateOf(player).held do
+		sendAmmo(player, id)
 	end
 end
 
@@ -89,13 +133,20 @@ function WeaponService.give(player: Player, id: string)
 		WeaponService.take(player, old)
 	end
 	s.bySlot[slot] = id
-	s.held[id] = s.held[id] or { mag = def.MagSize or 0, reserve = def.ReserveAmmo or 0, lastFire = 0, reloadingUntil = 0 }
+	s.held[id] = s.held[id]
+		or {
+			mag = def.MagSize or 0,
+			reserve = if (def :: any).Ammo then 0 else def.ReserveAmmo or 0,
+			lastFire = 0,
+			reloadingUntil = 0,
+		}
 	player:SetAttribute("Weapons", table.concat(WeaponService.list(player), ","))
 	sendAmmo(player, id)
 	WeaponService.refreshModel(player)
 end
 
--- Spare bullets for a carried weapon (pickups, shops), capped at the weapon's MaxReserve.
+-- Spare bullets for a carried weapon without an Ammo item (pickups, shops), capped at the
+-- weapon's MaxReserve. Guns with an Ammo item get it as an item: InventoryService.add.
 function WeaponService.addAmmo(player: Player, id: string, amount: number)
 	local def = Weapons.get(id)
 	local h = stateOf(player).held[id]
@@ -111,7 +162,7 @@ end
 function WeaponService.getAmmo(player: Player, id: string): (number?, number?)
 	local h = stateOf(player).held[id]
 	if h then
-		return h.mag, h.reserve
+		return h.mag, reserveOf(player, id, h)
 	end
 	return nil, nil
 end
@@ -159,6 +210,10 @@ end
 EquipRemote.OnServerEvent:Connect(function(player, id)
 	local s = stateOf(player)
 	if id ~= nil and (typeof(id) ~= "string" or not s.held[id]) then
+		return
+	end
+	-- knocked down: hands are empty; a few swaps a second at most
+	if (id ~= nil and not Guard.alive(player)) or not Guard.rate(player, "Equip", 4, 4) then
 		return
 	end
 	local old = s.equipped
@@ -227,18 +282,19 @@ end
 
 PoseRemote.OnServerEvent:Connect(function(player, twist, pitch, aiming, up, plant, lean)
 	local character = player.Character
-	if not character or typeof(twist) ~= "number" or typeof(pitch) ~= "number" then
-		return
+	twist, pitch = Guard.number(twist), Guard.number(pitch)
+	if not character or not twist or not pitch then
+		return -- not numbers, NaN or infinite
 	end
-	if twist ~= twist or pitch ~= pitch then
-		return -- NaN
+	if not Guard.rate(player, "Pose", 40, 20) then
+		return -- the client sends ~20 a second
 	end
 	character:SetAttribute("GunTwist", math.clamp(twist, -1.6, 1.6))
 	character:SetAttribute("GunPitch", math.clamp(pitch, -1.4, 1.4))
 	character:SetAttribute("GunAiming", aiming == true)
 	character:SetAttribute("GunUp", up == true) -- shouldered: other clients lock the chest to the aim
 	character:SetAttribute("GunPlant", plant == true) -- standing aim: feet planted, turn steps
-	if typeof(lean) == "number" and lean == lean then
+	if Guard.number(lean) then
 		-- Q / E lean, -1..1 of Config.Weapons.LeanAngle (shots start from the leaned head)
 		character:SetAttribute("GunLean", math.clamp(lean, -1, 1))
 	end
@@ -352,14 +408,18 @@ FireRemote.OnServerEvent:Connect(function(player, direction)
 	local id = s.equipped
 	local def = id and Weapons.get(id)
 	local h = id and s.held[id]
-	local character = player.Character
+	local character = Guard.alive(player)
 	if not def or not h or not character or airborne(character) then
-		return
+		return -- knocked down / no character / mid-air
 	end
 	local now = os.clock()
-	local interval = 1 / (def.FireRate or 1)
-	if now - h.lastFire < interval * 0.8 or now < h.reloadingUntil or now < s.readyAt - 0.1 then
-		return -- too fast (some slack for network jitter), reloading or still drawing
+	if now < h.reloadingUntil or now < s.readyAt - 0.1 then
+		return -- reloading or still drawing
+	end
+	-- fire rate: a token bucket per gun, refilled at FireRate and holding 1.5 shots, so lag can
+	-- bunch two shots up to half an interval apart but the average never beats FireRate
+	if not Guard.rate(player, "Fire:" .. id, def.FireRate or 1, 1.5) then
+		return
 	end
 	h.lastFire = now
 	if def.Class.Kind ~= "Gun" or aimMatches(character, direction) then
@@ -376,6 +436,9 @@ FireRemote.OnServerEvent:Connect(function(player, direction)
 end)
 
 ReloadRemote.OnServerEvent:Connect(function(player)
+	if not Guard.alive(player) then
+		return
+	end
 	local s = stateOf(player)
 	local id = s.equipped
 	local def = id and Weapons.get(id)
@@ -384,7 +447,7 @@ ReloadRemote.OnServerEvent:Connect(function(player)
 		return
 	end
 	local need = (def.MagSize or 0) - h.mag
-	if need <= 0 or h.reserve <= 0 or os.clock() < h.reloadingUntil then
+	if need <= 0 or reserveOf(player, id, h) <= 0 or os.clock() < h.reloadingUntil then
 		return
 	end
 	local doneAt = os.clock() + (def.ReloadTime or 1)
@@ -400,9 +463,7 @@ ReloadRemote.OnServerEvent:Connect(function(player)
 		if s.held[id] ~= h or h.reloadingUntil ~= doneAt then
 			return -- dropped, or cut short by holstering / switching
 		end
-		local take = math.min(need, h.reserve)
-		h.mag += take
-		h.reserve -= take
+		h.mag += takeReserve(player, id, h, need)
 		sendAmmo(player, id)
 	end)
 end)

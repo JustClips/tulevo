@@ -2,6 +2,8 @@
 return {
 	Tulevo_CrouchIdle = "rbxassetid://106911361115207",
 	Tulevo_CrouchWalk = "rbxassetid://121862260644701",
+	Tulevo_DrinkBottle = "rbxassetid://130946416854336",
+	Tulevo_DrinkCan = "rbxassetid://88371512817349",
 	Tulevo_Fall = "rbxassetid://71772951335743",
 	Tulevo_Jump = "rbxassetid://72104340751995",
 	Tulevo_JumpPrep = "rbxassetid://84305328537660",
@@ -9,6 +11,7 @@ return {
 	Tulevo_JumpSprint = "rbxassetid://116907490953952",
 	Tulevo_JumpStand = "rbxassetid://87974758839303",
 	Tulevo_Land = "rbxassetid://128461769007218",
+	Tulevo_Medkit = "rbxassetid://71222898189001",
 	Tulevo_Pivot = "rbxassetid://112442235427041",
 	Tulevo_RollBack = "rbxassetid://99638802672029",
 	Tulevo_RollForward = "rbxassetid://139394301756916",
