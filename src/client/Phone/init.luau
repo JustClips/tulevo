@@ -29,6 +29,7 @@ local UserInputService = game:GetService("UserInputService")
 
 local Config = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Config"))
 local GameTime = require(ReplicatedStorage.Shared:WaitForChild("GameTime"))
+local SoundIds = require(ReplicatedStorage.Shared:WaitForChild("SoundIds"))
 local WeaponState = require(script.Parent:WaitForChild("Weapons"):WaitForChild("State"))
 
 local Theme = require(script.Theme)
@@ -229,6 +230,20 @@ local function canOpen(): boolean
 	return true
 end
 
+-- phone out of / into the pocket (Shared.SoundIds, tools/use_sounds.py; just for you)
+local function sound(name: string)
+	local id = (SoundIds :: any)[name]
+	if not id or (CFG.SoundVolume or 0) <= 0 then
+		return
+	end
+	local s = Instance.new("Sound")
+	s.SoundId = "rbxassetid://" .. id
+	s.Volume = CFG.SoundVolume
+	s.Parent = game:GetService("SoundService")
+	s:Play()
+	game:GetService("Debris"):AddItem(s, 3)
+end
+
 function Phone.isOpen(): boolean
 	return isOpen
 end
@@ -256,6 +271,7 @@ function Phone.open()
 		end
 	end)
 	moving:Play()
+	sound("PhoneOpen")
 	-- screen wakes as it arrives
 	task.delay(CFG.OpenTime * 0.55, function()
 		if isOpen then
@@ -289,6 +305,7 @@ function Phone.close()
 		end
 	end)
 	tw:Play()
+	sound("PhoneClose")
 	closedEvent:Fire()
 end
 

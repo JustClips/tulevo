@@ -37,6 +37,8 @@ return {
 	ImpactMetal3 = 105968073847509,
 	ImpactWood1 = 89746214428251,
 	ImpactWood2 = 133989179312047,
+	PhoneClose = 88653927996273,
+	PhoneOpen = 115440491071666,
 	RainHeavyLoop = 139405639469307,
 	RainLoop = 126169591749441,
 	Ricochet1 = 122645412110529,
@@ -52,4 +54,7 @@ return {
 	ThunderFar3 = 95841160431164,
 	ThunderRumble1 = 97988322930698,
 	ThunderRumble2 = 139277930129909,
+	UseDrinkBottle = 81933732959699,
+	UseDrinkCan = 114769956485485,
+	UseMedkit = 140552740282854,
 }

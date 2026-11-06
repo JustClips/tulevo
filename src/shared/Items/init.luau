@@ -42,6 +42,7 @@ export type UseDef = {
 	Time: number?, -- seconds it takes (server actions); 0 / nil = instant
 	Amount: number?, -- the action's number (HP healed...)
 	Anim: string?, -- clip in Shared.AnimIds played while using it (stretched to Time)
+	Sound: string?, -- sound in Shared.SoundIds played on the user while using it (Client/UseSounds)
 }
 export type HoldDef = { Part: string, C0: CFrame } -- the model in the hand while it's used
 export type ItemDef = {

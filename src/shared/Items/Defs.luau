@@ -15,9 +15,11 @@
 			Stack = 10,                 -- how many fit on one tile
 			Model = "Bandage",          -- key in Shared.ModelIds (optional: no model = a small box on the ground)
 			ModelScale = 3.6,           -- props exported in meters use 3.6
-			Use = { Action = "Heal", Amount = 15, Time = 2, Anim = "Tulevo_Medkit" }, -- optional, see Items/Actions.luau
+			Use = { Action = "Heal", Amount = 15, Time = 2, Anim = "Tulevo_Medkit", Sound = "UseMedkit" }, -- optional, see Items/Actions.luau
 		},
 
+	Use.Sound = a sound in Shared.SoundIds played on the user while it's used (tools/use_sounds.py,
+	Client/UseSounds; everyone nearby hears it).
 	Use.Anim = a clip in Shared.AnimIds played while it's used (stretched to Use.Time). While it
 	plays the item's model is held in the hand: where exactly comes from Items/Holds.luau
 	(made by art/anim/use_items.py, which also makes the clips).
@@ -38,7 +40,7 @@ return {
 		Model = "Mead",
 		ModelScale = 3.6,
 		IconView = Vector3.new(0.3, 0.25, -1),
-		Use = { Action = "Drink", Amount = 5, Time = 2, Anim = "Tulevo_DrinkBottle" },
+		Use = { Action = "Drink", Amount = 5, Time = 2, Anim = "Tulevo_DrinkBottle", Sound = "UseDrinkBottle" },
 	},
 	Chaser = {
 		Name = "Chaser",
@@ -50,7 +52,7 @@ return {
 		Model = "Chaser",
 		ModelScale = 3.6,
 		IconView = Vector3.new(0.3, 0.25, -1),
-		Use = { Action = "Drink", Amount = 3, Time = 1.5, Anim = "Tulevo_DrinkCan" },
+		Use = { Action = "Drink", Amount = 3, Time = 1.5, Anim = "Tulevo_DrinkCan", Sound = "UseDrinkCan" },
 	},
 	FirstAidKit = {
 		Name = "First-aid kit",
@@ -62,7 +64,7 @@ return {
 		Model = "FirstAidKit",
 		ModelScale = 3.6,
 		IconView = Vector3.new(0.45, 0.55, -1),
-		Use = { Action = "Heal", Amount = 40, Time = 4, Anim = "Tulevo_Medkit" },
+		Use = { Action = "Heal", Amount = 40, Time = 4, Anim = "Tulevo_Medkit", Sound = "UseMedkit" },
 	},
 	RifleAmmo = {
 		Name = "Rifle ammo",

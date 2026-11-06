@@ -302,6 +302,13 @@ local Config = {
 		Every = { Birds = 9, Dogs = 50, Sirens = 75, Horns = 40 },
 	},
 
+	-- Item use sounds (Client/UseSounds): drinking, the first-aid kit... played on whoever uses
+	-- the item, heard up to MaxDistance studs away.
+	UseSounds = {
+		Volume = 0.9,
+		MaxDistance = 45,
+	},
+
 	-- Phone (Client/Phone, docs/phone.md). Opens with a GTA-style slide up from the bottom right.
 	-- Apps are modules in Client/Phone/Apps.
 	Phone = {
@@ -311,6 +318,7 @@ local Config = {
 		TouchScreenHeight = 0.8, -- phones are small, so the phone is bigger there
 		OpenTime = 0.7, -- slow smooth slide up (Dev 2026-11-06: no shake)
 		CloseTime = 0.55,
+		SoundVolume = 0.6, -- open / close sound (0 = off)
 	},
 }
 

@@ -206,5 +206,25 @@
  "Ricochet2": {
   "id": 76677736902591,
   "sha": "d072b94aee2ce599efd61c44d8307f811495749a8aa8d722bb9aa363c2ea9c35"
+ },
+ "PhoneClose": {
+  "id": 88653927996273,
+  "sha": "1a7aadc45ac73673920ace92362e44dd85be9d20ba1360dc8b745b110b6ee111"
+ },
+ "PhoneOpen": {
+  "id": 115440491071666,
+  "sha": "3939dd54ee702ce41a894ca9b06033cff22e77cd604a5876be655b05aa9d2f4a"
+ },
+ "UseDrinkBottle": {
+  "id": 81933732959699,
+  "sha": "e4966926ef6535d8a6cbef8848d5b911b281fe5944d0c29ad4b9bc2bda3fcfdb"
+ },
+ "UseDrinkCan": {
+  "id": 114769956485485,
+  "sha": "d40e17e39da7df0768c36a5f2e71cfb4d926535354384bee27f861e8ca453f51"
+ },
+ "UseMedkit": {
+  "id": 140552740282854,
+  "sha": "0c3d82ad0cf97e6fabbc04226b9ce26342454f9e70b48fb399876729d786995c"
  }
 }
