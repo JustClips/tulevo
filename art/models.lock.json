@@ -1,11 +1,19 @@
 {
- "Carbine": {
-  "id": 105521336217513,
-  "sha": "cb31d2bf112d37037fb024e1178fee35e3e34e8640bc1bda5c34babb23303a60"
+ "Apartments": {
+  "id": 128997630973449,
+  "sha": "0e4c6049e3f67340078415a5c5685d2020fab796785ce439acc2f6b47cdcc938"
  },
  "ArmorVest": {
   "id": 106468371106307,
   "sha": "dfce20ef0d425a1116b25c5d35b2d6fae0c799a482c8d16069a3c24dc5a6e40c"
+ },
+ "BankTower": {
+  "id": 117938247077614,
+  "sha": "56c00b5e7b3d59afb2f7095ca9107152982aa12c7ace704f5232bf2fdd92e0af"
+ },
+ "Carbine": {
+  "id": 105521336217513,
+  "sha": "cb31d2bf112d37037fb024e1178fee35e3e34e8640bc1bda5c34babb23303a60"
  },
  "CarbineRifle": {
   "id": 74701704114774,
@@ -15,53 +23,17 @@
   "id": 107155976516351,
   "sha": "bf16725332e7a849a62de96baa04f0f1f8a90b3ba693fdf58b108c55d4ec4ac2"
  },
+ "Court": {
+  "id": 111995696724832,
+  "sha": "3f0bc5080019f0eb138cf685c87d7e4616c48b434a5aaca778b7992b9c566c13"
+ },
  "FirstAidKit": {
   "id": 114148189163015,
   "sha": "c1c7a6228badc9d6047f7fdbe3cf7cc27d82e01ca091e90a2188cae528ea8596"
  },
- "Hypercar": {
-  "id": 70811372447453,
-  "sha": "a5693c15636d86fb1dec897335aad825ddfb8f3fe286b55930797a2ff652440d"
- },
- "Mead": {
-  "id": 115926346396105,
-  "sha": "1e0a7f19fcebe3a7ea722357a7ffdc1b637f761eb2f614ebe1d6a4bae19654e0"
- },
- "BankTower": {
-  "id": 117938247077614,
-  "sha": "56c00b5e7b3d59afb2f7095ca9107152982aa12c7ace704f5232bf2fdd92e0af"
- },
  "GasStation": {
   "id": 103865451494215,
   "sha": "c650c98b2f62e4e8f46044653185a574ff00b95517bb5adbc2304b40fb472228"
- },
- "OfficeDark": {
-  "id": 115564599582572,
-  "sha": "d9dd164576331739d329c57885d24934831d9513c425c48104e9343b0519e16c"
- },
- "OfficeRound": {
-  "id": 128044638007018,
-  "sha": "74aae60493c4ee20a8dd772279391038042a2a59bcf6eca97e00bf2890d7579e"
- },
- "OfficeStone": {
-  "id": 72275137453878,
-  "sha": "52674df320e9e87512edc92cb23199265a3c2d8c8db3058790080f57a8aa43c9"
- },
- "WeatherMeshes": {
-  "id": 111007844108617,
-  "sha": "d3e6f2dda9f71da5e4f35ca3e6ed665acc4b1af13f111685b31c7f0e9ed2c8d6"
- },
- "Apartments": {
-  "id": 128997630973449,
-  "sha": "0e4c6049e3f67340078415a5c5685d2020fab796785ce439acc2f6b47cdcc938"
- },
- "Motel": {
-  "id": 128964494195792,
-  "sha": "f54c2bd85c8f4708f2ef1a6f4b1d8cf6f2aa14356e897e53f99a568212468fc9"
- },
- "Court": {
-  "id": 111995696724832,
-  "sha": "3f0bc5080019f0eb138cf685c87d7e4616c48b434a5aaca778b7992b9c566c13"
  },
  "HouseA": {
   "id": 129507923804160,
@@ -79,18 +51,6 @@
   "id": 113934679761065,
   "sha": "e2388e05910f5128c4bcf431b6e3875f7bd6776f38eef785dd2c6f4b5090a92d"
  },
- "SpawnPlaza_S": {
-  "id": 134145031754473,
-  "sha": "7485157f27892d1277558296ab64b5d1df2fb550bd331dcaf492ebae398477b7"
- },
- "Store": {
-  "id": 134213238109159,
-  "sha": "ff5c7b32cfc23b356125908fbe5cc58e1a6a261487c7c9f62fa3e26fcf4c61f0"
- },
- "Store_S": {
-  "id": 74077639415990,
-  "sha": "6e0098a3957a6197a91856ad03b5ccc263ab483bf34fc967ac3ab19cc1e9497f"
- },
  "HouseC": {
   "id": 80801229870236,
   "sha": "d2681834f41a8c57332380d42556d4c16c4e29b6541c7fec111e8ed104d7bd37"
@@ -107,6 +67,34 @@
   "id": 87201322029619,
   "sha": "721dc535451cade3b8ae1ba3bddea587e05ec964d44ee8d827e397cd4a13cb47"
  },
+ "Human": {
+  "id": 138350802367600,
+  "sha": "0fbfbf133a874e11603ee63e0838addba75e59e037661c550126884fb44883af"
+ },
+ "Hypercar": {
+  "id": 70811372447453,
+  "sha": "a5693c15636d86fb1dec897335aad825ddfb8f3fe286b55930797a2ff652440d"
+ },
+ "Mead": {
+  "id": 115926346396105,
+  "sha": "1e0a7f19fcebe3a7ea722357a7ffdc1b637f761eb2f614ebe1d6a4bae19654e0"
+ },
+ "Motel": {
+  "id": 128964494195792,
+  "sha": "f54c2bd85c8f4708f2ef1a6f4b1d8cf6f2aa14356e897e53f99a568212468fc9"
+ },
+ "OfficeDark": {
+  "id": 115564599582572,
+  "sha": "d9dd164576331739d329c57885d24934831d9513c425c48104e9343b0519e16c"
+ },
+ "OfficeRound": {
+  "id": 128044638007018,
+  "sha": "74aae60493c4ee20a8dd772279391038042a2a59bcf6eca97e00bf2890d7579e"
+ },
+ "OfficeStone": {
+  "id": 72275137453878,
+  "sha": "52674df320e9e87512edc92cb23199265a3c2d8c8db3058790080f57a8aa43c9"
+ },
  "SideYard": {
   "id": 71175389117901,
   "sha": "c46479d669629fac9e06387d14adfc8965c1a8399b0e57d5d448d7b1fb30ace2"
@@ -114,5 +102,21 @@
  "SideYard_S": {
   "id": 130761174527305,
   "sha": "f03d9b35a7c0088bd353e4379bc3e124bd88f99338ee7abec52a6cefbbe86919"
+ },
+ "SpawnPlaza_S": {
+  "id": 134145031754473,
+  "sha": "7485157f27892d1277558296ab64b5d1df2fb550bd331dcaf492ebae398477b7"
+ },
+ "Store": {
+  "id": 134213238109159,
+  "sha": "ff5c7b32cfc23b356125908fbe5cc58e1a6a261487c7c9f62fa3e26fcf4c61f0"
+ },
+ "Store_S": {
+  "id": 74077639415990,
+  "sha": "6e0098a3957a6197a91856ad03b5ccc263ab483bf34fc967ac3ab19cc1e9497f"
+ },
+ "WeatherMeshes": {
+  "id": 111007844108617,
+  "sha": "d3e6f2dda9f71da5e4f35ca3e6ed665acc4b1af13f111685b31c7f0e9ed2c8d6"
  }
 }

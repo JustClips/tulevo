@@ -1,0 +1,11 @@
+{
+ "MuzzleSide1": "art/weapons/fx/MuzzleSide1.png",
+ "MuzzleSide2": "art/weapons/fx/MuzzleSide2.png",
+ "MuzzleSide3": "art/weapons/fx/MuzzleSide3.png",
+ "MuzzleSide4": "art/weapons/fx/MuzzleSide4.png",
+ "MuzzleFront1": "art/weapons/fx/MuzzleFront1.png",
+ "MuzzleFront2": "art/weapons/fx/MuzzleFront2.png",
+ "Tracer": "art/weapons/fx/Tracer.png",
+ "MuzzleSmoke1": "art/weapons/fx/MuzzleSmoke1.png",
+ "MuzzleSmoke2": "art/weapons/fx/MuzzleSmoke2.png"
+}

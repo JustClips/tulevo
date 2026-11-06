@@ -17,6 +17,8 @@ local SHOWCASE = {
 	{ Name = "Mead", Offset = Vector3.new(-3, 2.6, -7) },
 	{ Name = "Chaser", Offset = Vector3.new(-4.5, 2.6, -7) },
 	{ Name = "FirstAidKit", Offset = Vector3.new(3.2, 2.6, -7) },
+	-- Realistic human test (static posed mesh, built in studs). Stands on the floor, faces the spawn.
+	{ Name = "Human", Offset = Vector3.new(9, 0, 6), Scale = 1, Stand = true, Yaw = 225 },
 }
 
 local function findSpawn(): BasePart?
@@ -64,6 +66,20 @@ for _, item in SHOWCASE do
 	model:ScaleTo(item.Scale or SCALE)
 	model.Parent = folder
 	local center = base + item.Offset
+	if item.Stand then
+		-- No spin: turn to Yaw and put the feet on the floor.
+		model:PivotTo(CFrame.new(center) * CFrame.Angles(0, math.rad(item.Yaw or 0), 0))
+		local boxCf, size = model:GetBoundingBox()
+		model:PivotTo(model:GetPivot() + Vector3.new(0, center.Y - (boxCf.Position.Y - size.Y / 2), 0))
+		for _, d in model:GetDescendants() do
+			if d:IsA("BasePart") then
+				d.CanCollide = true
+				d.CanQuery = true
+			end
+		end
+		print(`[Showcase] {item.Name} standing next to the spawn`)
+		continue
+	end
 	model:PivotTo(CFrame.new(center))
 	-- Rotate around the bounding box center, not the import pivot.
 	local boxCf = model:GetBoundingBox()
