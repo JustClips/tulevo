@@ -90,6 +90,14 @@ degrees off them (GunPlant attribute + the replicated step clip keep it in sync 
 GunPose also turns the hips and legs into a bladed rifle stance
 (`Config.Weapons.AimStance`: 38 degrees right of the aim standing, 20 moving) so the whole body
 turns, not just the chest; the side-step blend is worked out relative to those turned hips.
+Only on Motor6D rigs: this game's characters have AnimationConstraint joints (Avatar Joint
+Upgrade), and there GunPose leaves the Root and hip joints alone, so no stance and the lean is
+all chest. It finds joints with `Shared/Joints` and poses them by writing C0 (on an
+AnimationConstraint, its Attachment0 CFrame). Each frame starts again from the joint's own C0,
+which is only read while GunPose hasn't changed it (a read-back never matches exactly, and
+taking it as the new start made characters spin). A joint asked to turn more than 150 degrees
+switches posing off for that character with a `[GunPose]` warning; `Config.Weapons.BodyPose =
+false` turns all of it off.
 Gun loops play at Action2 and one-shots at Action3, so the full-body jump wind-up (Action)
 never pulls the hands off the gun.
 

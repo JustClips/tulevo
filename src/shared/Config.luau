@@ -29,6 +29,9 @@ local Config = {
 		-- hold Q / E to lean (gun or not): the upper body tilts this many degrees round the aim
 		-- (the server moves the shot origin with it, so you can shoot round a corner)
 		LeanAngle = 25,
+		-- false: no body posing at all (aim chest lock, stance, lean; Client/Weapons/GunPose).
+		-- A kill switch in case the joint posing ever misbehaves.
+		BodyPose = true,
 		-- everyone gets these on join (put in their inventory, Server/Inventory), and spawns
 		-- holding EquipOnSpawn
 		DefaultLoadout = { "CarbineRifle" },

@@ -26,6 +26,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 
 local Config = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Config"))
+local Joints = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Joints"))
 local WeaponState = require(
 	Players.LocalPlayer:WaitForChild("PlayerScripts"):WaitForChild("Client"):WaitForChild("Weapons"):WaitForChild("State")
 )
@@ -64,19 +65,14 @@ function FirstPersonCamera.focus(): CFrame
 	return if cam then cam.Focus else CFrame.identity
 end
 
-local function motor(part: Instance?, name: string): Motor6D?
-	local m = part and part:FindFirstChild(name)
-	return if m and m:IsA("Motor6D") then m else nil
-end
-
 -- How the animation has turned the hips (world rotation), compared with standing straight.
 local function hipTurn(character: Model): CFrame?
 	local root = character:FindFirstChild("HumanoidRootPart")
-	local rootJoint = motor(character:FindFirstChild("LowerTorso"), "Root")
+	local rootJoint = Joints.find(character, "LowerTorso", "Root") -- Motor6D or AnimationConstraint
 	if not (root and root:IsA("BasePart") and rootJoint) then
 		return nil
 	end
-	local hip = root.CFrame * rootJoint.C0
+	local hip = root.CFrame * Joints.c0(rootJoint)
 	return (hip * rootJoint.Transform * hip:Inverse()).Rotation
 end
 
