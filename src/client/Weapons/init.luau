@@ -580,8 +580,6 @@ function Controller.start()
 		-- the mouse lock / cursor and sensitivity are Movement/MouseLook (GTA mouse look); a
 		-- gun out always locks the mouse there
 		Movement.MouseLook.gunOut = gunOut
-		-- the dot only while aiming (right click / L2; Dev 2026-11-06), not while hip-firing or
-		-- just carrying the gun
 		-- GTA style: with the cursor hidden (mouse look) a small dot always marks the screen
 		-- centre, on foot too (Dev 2026-11-06: "why u removed crosshair"); the aiming dot as before
 		local aimDot = gunOut and State.Aiming
