@@ -39,6 +39,7 @@ local RunService = game:GetService("RunService")
 local Shared = ReplicatedStorage:WaitForChild("Shared")
 local Config = require(Shared:WaitForChild("Config"))
 local AnimIds = require(Shared:WaitForChild("AnimIds"))
+local Joints = require(Shared:WaitForChild("Joints"))
 
 local State = require(script.Parent:WaitForChild("State"))
 
@@ -54,14 +55,16 @@ local STEP_IDS = {
 	[(AnimIds :: any).Tulevo_TurnStepRight or "-"] = true,
 }
 
+-- joints are Motor6Ds or AnimationConstraints (Shared/Joints)
+type Joint = any
 type Rig = {
 	root: BasePart,
-	lowerRoot: Motor6D,
-	waist: Motor6D,
-	neck: Motor6D?,
-	hips: { Motor6D },
-	base: { [Motor6D]: CFrame }, -- each joint's own C0 (before this module's changes)
-	written: { [Motor6D]: CFrame }, -- C0 this module set this frame
+	lowerRoot: Joint,
+	waist: Joint,
+	neck: Joint?,
+	hips: { Joint },
+	base: { [Joint]: CFrame }, -- each joint's own C0 (before this module's changes)
+	written: { [Joint]: CFrame }, -- C0 this module set this frame
 	humanoid: Humanoid?,
 	blend: number,
 	pitch: number,
@@ -74,6 +77,7 @@ type Rig = {
 	lean: number, -- other players: smoothed GunLean (-1..1)
 }
 local rigs: { [Model]: Rig } = {}
+local warned: { [Model]: boolean } = setmetatable({}, { __mode = "k" }) :: any
 
 local function rigOf(character: Model): Rig?
 	local r = rigs[character]
@@ -81,28 +85,31 @@ local function rigOf(character: Model): Rig?
 		return r
 	end
 	local root = character:FindFirstChild("HumanoidRootPart")
-	local lt = character:FindFirstChild("LowerTorso")
-	local ut = character:FindFirstChild("UpperTorso")
-	local lowerRoot = lt and lt:FindFirstChild("Root")
-	local waist = ut and ut:FindFirstChild("Waist")
-	if not (root and root:IsA("BasePart") and lowerRoot and lowerRoot:IsA("Motor6D") and waist and waist:IsA("Motor6D")) then
+	local lowerRoot = Joints.find(character, "LowerTorso", "Root")
+	local waist = Joints.find(character, "UpperTorso", "Waist")
+	if not (root and root:IsA("BasePart") and lowerRoot and waist) then
+		if not warned[character] and character:FindFirstChild("UpperTorso") then
+			warned[character] = true
+			local found = {}
+			for _, d in character:GetDescendants() do
+				if d:IsA("JointInstance") or d:IsA("Constraint") then
+					table.insert(found, `{d.Name}:{d.ClassName}`)
+				end
+			end
+			warn(`[GunPose] {character.Name}: no Root / Waist joint, so no aim lock or lean. Joints: {table.concat(found, ", ")}`)
+		end
 		return nil
 	end
 	local humanoid = character:FindFirstChildOfClass("Humanoid")
-	local function motorIn(partName: string, name: string): Motor6D?
-		local part = character:FindFirstChild(partName)
-		local m = part and part:FindFirstChild(name)
-		return if m and m:IsA("Motor6D") then m else nil
-	end
 	local hips = {}
-	for _, h in { motorIn("RightUpperLeg", "RightHip"), motorIn("LeftUpperLeg", "LeftHip") } do
+	for _, h in { Joints.find(character, "RightUpperLeg", "RightHip"), Joints.find(character, "LeftUpperLeg", "LeftHip") } do
 		table.insert(hips, h)
 	end
 	local rig: Rig = {
 		root = root,
 		lowerRoot = lowerRoot,
 		waist = waist,
-		neck = motorIn("Head", "Neck"),
+		neck = Joints.find(character, "Head", "Neck"),
 		hips = hips,
 		base = {},
 		written = {},
@@ -201,18 +208,18 @@ end
 -- All of this writes the joints' C0 (the animator never touches C0, while Transform writes
 -- were being overwritten by it). Each frame starts from the joint's real C0 (restore), so
 -- nothing builds up; a C0 changed by anything else (Roblox body scaling) becomes the new base.
-local function setC0(r: Rig, m: Motor6D, cf: CFrame)
+local function setC0(r: Rig, m: Joint, cf: CFrame)
 	if r.written[m] == nil then
-		r.base[m] = m.C0
+		r.base[m] = Joints.c0(m)
 	end
-	m.C0 = cf
+	Joints.setC0(m, cf)
 	r.written[m] = cf
 end
 
 local function restore(r: Rig)
 	for m, w in r.written do
-		if m.C0 == w then
-			m.C0 = r.base[m]
+		if Joints.c0(m) == w then
+			Joints.setC0(m, r.base[m])
 		end
 		r.written[m] = nil
 	end
@@ -228,15 +235,15 @@ local function lock(r: Rig, blend: number, pitch: number, hipTurn: number)
 	local lr = r.lowerRoot
 	-- hips and legs into the stance: turn about the root part's up axis at the hip joint
 	if math.abs(hipTurn * blend) > 0.001 then
-		local c0 = lr.C0
+		local c0 = Joints.c0(lr)
 		setC0(r, lr, CFrame.new(c0.Position) * CFrame.Angles(0, -hipTurn * blend, 0) * c0.Rotation)
 	end
-	local lowerTorso = r.root.CFrame * lr.C0 * lr.Transform * lr.C1:Inverse()
+	local lowerTorso = r.root.CFrame * Joints.c0(lr) * lr.Transform * Joints.c1(lr):Inverse()
 	-- the waist C0 that gives the UpperTorso exactly the target rotation on top of this
 	-- frame's animated Transform
 	local w = r.waist
-	local c0 = w.C0
-	local want = lowerTorso.Rotation:Inverse() * target * w.C1.Rotation * w.Transform.Rotation:Inverse()
+	local c0 = Joints.c0(w)
+	local want = lowerTorso.Rotation:Inverse() * target * Joints.c1(w).Rotation * w.Transform.Rotation:Inverse()
 	local locked = CFrame.new(c0.Position) * want
 	setC0(r, w, if blend >= 0.999 then locked else c0:Lerp(locked, blend))
 end
@@ -247,13 +254,13 @@ local LEAN_MAX = math.rad(Config.Weapons.LeanAngle or 25)
 local HIP_SHARE = 0.3 -- of the lean taken by the hips (the chest does the rest)
 local HEAD_BACK = 0.4 -- of the lean the head tilts back toward level
 
-local function partOf(parent: CFrame, m: Motor6D): CFrame
-	return parent * m.C0 * m.Transform * m.C1:Inverse()
+local function partOf(parent: CFrame, m: Joint): CFrame
+	return parent * Joints.c0(m) * m.Transform * Joints.c1(m):Inverse()
 end
 
 -- turn the joint's child part by a world rotation about the joint
-local function turnJoint(r: Rig, m: Motor6D, parent: CFrame, rot: CFrame)
-	local joint = parent * m.C0
+local function turnJoint(r: Rig, m: Joint, parent: CFrame, rot: CFrame)
+	local joint = parent * Joints.c0(m)
 	setC0(r, m, parent:Inverse() * CFrame.new(joint.Position) * rot * joint.Rotation)
 end
 

@@ -30,7 +30,7 @@ out, the same key puts it on the back (gamepad D-pad left / up / right, the quic
 the screen on phones); dragging a gun onto / off Active items in the inventory does the same. Q and V
 were removed as holster/vest keys (Dev, 2026-11-06) · left click fire (R2) · right click aim (L2) · R reload (X)
 · hold Q / E lean left / right, gun out or not (keyboard only for now; E still opens item prompts).
-The lean is a body pose from `Client/Weapons/GunPose` (replicated as `GunLean`): hips tip a
+The lean is a body pose from `Client/Weapons/GunPose` (replicated as `GunLean`; joints via `Shared/Joints`, since with Roblox's Avatar Joint Upgrade the character's joints are AnimationConstraints, not Motor6Ds, and GunPose writes their C0 / Attachment0): hips tip a
 little with the legs kept upright, the chest makes up the rest of `Config.Weapons.LeanAngle`
 round the aim (barrel still on the crosshair), the head tilts back toward level. While aiming
 the third-person camera slides out with it and first person tilts; the server tilts the shot origin the same way (`WeaponService` `shotOrigin`,
