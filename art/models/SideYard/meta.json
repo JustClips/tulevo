@@ -1,0 +1,234 @@
+{
+ "name": "SideYard",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Lawn": {
+   "tris": 12,
+   "min": [
+    -10.8,
+    -46.8,
+    -0.3
+   ],
+   "max": [
+    10.8,
+    46.8,
+    0.0
+   ]
+  },
+  "Hedge": {
+   "tris": 200,
+   "min": [
+    -11.03,
+    -46.32,
+    -0.27
+   ],
+   "max": [
+    10.73,
+    19.02,
+    2.43
+   ]
+  },
+  "Bark": {
+   "tris": 88,
+   "min": [
+    -4.59,
+    -29.84,
+    0.0
+   ],
+   "max": [
+    7.42,
+    -19.02,
+    24.5
+   ]
+  },
+  "LeafB": {
+   "tris": 400,
+   "min": [
+    -5.98,
+    -30.93,
+    16.82
+   ],
+   "max": [
+    5.34,
+    -11.81,
+    30.03
+   ]
+  },
+  "Leaf": {
+   "tris": 720,
+   "min": [
+    -6.66,
+    -31.59,
+    18.81
+   ],
+   "max": [
+    9.06,
+    -16.91,
+    29.59
+   ]
+  },
+  "Stone": {
+   "tris": 60,
+   "min": [
+    -9.36,
+    -42.48,
+    0.0
+   ],
+   "max": [
+    9.36,
+    19.8,
+    0.54
+   ]
+  },
+  "Wood": {
+   "tris": 1108,
+   "min": [
+    -10.88,
+    3.42,
+    -0.09
+   ],
+   "max": [
+    10.7,
+    46.95,
+    10.06
+   ]
+  },
+  "Roof": {
+   "tris": 20,
+   "min": [
+    -9.36,
+    29.88,
+    6.79
+   ],
+   "max": [
+    5.76,
+    42.12,
+    10.08
+   ]
+  },
+  "Trim": {
+   "tris": 36,
+   "min": [
+    -9.36,
+    29.77,
+    6.32
+   ],
+   "max": [
+    5.76,
+    42.23,
+    10.37
+   ]
+  },
+  "SecurityDoor": {
+   "tris": 2,
+   "min": [
+    -3.42,
+    30.46,
+    0.0
+   ],
+   "max": [
+    -0.18,
+    30.46,
+    6.84
+   ]
+  },
+  "Dark": {
+   "tris": 12,
+   "min": [
+    5.58,
+    34.38,
+    0.0
+   ],
+   "max": [
+    8.82,
+    37.62,
+    3.6
+   ]
+  },
+  "Soil": {
+   "tris": 12,
+   "min": [
+    -9.36,
+    16.2,
+    0.0
+   ],
+   "max": [
+    9.36,
+    19.8,
+    0.22
+   ]
+  },
+  "Shrub": {
+   "tris": 140,
+   "min": [
+    -9.59,
+    -14.64,
+    -0.32
+   ],
+   "max": [
+    9.76,
+    18.61,
+    2.92
+   ]
+  },
+  "FlowerY": {
+   "tris": 80,
+   "min": [
+    -4.63,
+    17.11,
+    0.75
+   ],
+   "max": [
+    4.2,
+    18.78,
+    1.13
+   ]
+  },
+  "FlowerW": {
+   "tris": 60,
+   "min": [
+    -4.62,
+    17.42,
+    0.75
+   ],
+   "max": [
+    3.22,
+    18.79,
+    1.13
+   ]
+  },
+  "FlowerR": {
+   "tris": 60,
+   "min": [
+    -4.46,
+    17.13,
+    0.75
+   ],
+   "max": [
+    4.77,
+    18.69,
+    1.13
+   ]
+  }
+ },
+ "lamps": [],
+ "textures": {
+  "Lawn": "Lawn_Color.png",
+  "Hedge": "Hedge_Color.png",
+  "Bark": "Bark_Color.png",
+  "LeafB": "LeafB_Color.png",
+  "Leaf": "Leaf_Color.png",
+  "Stone": "Stone_Color.png",
+  "Wood": "Wood_Color.png",
+  "Roof": "Shingles_Color.png",
+  "Trim": "Trim_Color.png",
+  "SecurityDoor": "SecurityDoor_Color.png",
+  "Dark": "Dark_Color.png",
+  "Soil": "Soil_Color.png",
+  "Shrub": "Shrub_Color.png",
+  "FlowerY": "FlowerY_Color.png",
+  "FlowerW": "FlowerW_Color.png",
+  "FlowerR": "FlowerR_Color.png"
+ }
+}

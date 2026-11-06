@@ -1,0 +1,51 @@
+--!strict
+-- Building and road images that fail to load on this client (a just-uploaded image still
+-- "being generated", a Roblox hiccup) stay grey until the property changes. For the first
+-- few minutes, check every image under workspace.City and set failed ones again.
+
+local ContentProvider = game:GetService("ContentProvider")
+
+local city = workspace:WaitForChild("City", 30)
+if not city then
+	return
+end
+
+local function users(): { [string]: { Instance } }
+	local map: { [string]: { Instance } } = {}
+	for _, d in city:GetDescendants() do
+		local id = if d:IsA("MeshPart") then d.TextureID elseif d:IsA("Texture") or d:IsA("Decal") then d.Texture else ""
+		if id ~= "" then
+			map[id] = map[id] or {}
+			table.insert(map[id], d)
+		end
+	end
+	return map
+end
+
+for _ = 1, 20 do
+	task.wait(15)
+	local map = users()
+	local ids = {}
+	for id in map do
+		table.insert(ids, id)
+	end
+	local failed = {}
+	pcall(ContentProvider.PreloadAsync, ContentProvider, ids, function(id: string, status: Enum.AssetFetchStatus)
+		if status ~= Enum.AssetFetchStatus.Success then
+			table.insert(failed, id)
+		end
+	end)
+	for _, id in failed do
+		for _, inst in map[id] do
+			local prop = if inst:IsA("MeshPart") then "TextureID" else "Texture"
+			pcall(function()
+				(inst :: any)[prop] = ""
+			end)
+			task.defer(function()
+				pcall(function()
+					(inst :: any)[prop] = id
+				end)
+			end)
+		end
+	end
+end

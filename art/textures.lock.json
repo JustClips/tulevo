@@ -1448,5 +1448,190 @@
   "id": 138447206810131,
   "file": "art/models/Store/tex/StoreSign_Color.png",
   "state": "Approved"
+ },
+ "086e211cee86352df7b5bf333c940117a01d2bf1cbd3ac9d5d27f7cf9546e61b": {
+  "id": 80058513883003,
+  "file": "art/models/Court/tex/Asphalt_Color.png",
+  "state": "Approved"
+ },
+ "3303945c9569720980e822d5b5f1d4d880c6d70f9350e5c92641aea2efe9c16e": {
+  "id": 129354176669105,
+  "file": "art/models/Court/tex/Palm_Color.png",
+  "state": "Approved"
+ },
+ "9689ca467a1a87a5820be471db8d046e0915934c60ba8a7a52c773c53884981c": {
+  "id": 70729866445840,
+  "file": "art/models/HouseA/tex/Bark_Color.png",
+  "state": "Approved"
+ },
+ "46a580c9ab3e726c1181962944dbed2173e7570de8532df232caf9998b4e1505": {
+  "id": 99944571339838,
+  "file": "art/models/HouseA/tex/Concrete_Color.png",
+  "state": "Approved"
+ },
+ "7c4a78ab9daff9bb3817b13bb1ae25f679376416b8c564dac60556ac6a26fb1c": {
+  "id": 130714163814328,
+  "file": "art/models/HouseA/tex/FlowerR_Color.png",
+  "state": "Approved"
+ },
+ "45c2d41c6c07b7ff4cf42588554206f17b93e2973f361db3244529a84bbca420": {
+  "id": 107940994245167,
+  "file": "art/models/HouseA/tex/FlowerW_Color.png",
+  "state": "Approved"
+ },
+ "150438deed2828f5614c21ad60677172ec4eee2db5f21d700cdfe45a3e542bdf": {
+  "id": 107152183448175,
+  "file": "art/models/HouseA/tex/FlowerY_Color.png",
+  "state": "Approved"
+ },
+ "dfadb8010ca2c891924a2a6e1f0ce727d440d9c05a8029abdea51fe762be3a1d": {
+  "id": 87211565953171,
+  "file": "art/models/HouseA/tex/Hedge_Color.png",
+  "state": "Approved"
+ },
+ "d68ae5c904b9bd33f7afeb815d0e5c04b4aad284fe8841d6d995ae585f2f0df2": {
+  "id": 105828056818759,
+  "file": "art/models/HouseA/tex/Lawn_Color.png",
+  "state": "Approved"
+ },
+ "708dda28a6d8287719c223a22c4630d9cabc5a29fc37f1880fbf7a75bcaf2115": {
+  "id": 98376803863906,
+  "file": "art/models/HouseA/tex/Leaf_Color.png",
+  "state": "Approved"
+ },
+ "082caf3750164ba2bd9eae62be9991cd1ddc3e83411587ed114fdce34932d61b": {
+  "id": 104015583272730,
+  "file": "art/models/HouseA/tex/LeafB_Color.png",
+  "state": "Approved"
+ },
+ "28b70fd18a07c5a34e81a4a2de24f591ef318732756ef1377e45a352593e9eab": {
+  "id": 99327343506228,
+  "file": "art/models/HouseA/tex/Shingles_Color.png",
+  "state": "Approved"
+ },
+ "1efe78e8a77d23d2d3a4e31dd881260d25a4c82850b5ba365945637f762a83db": {
+  "id": 77551154639072,
+  "file": "art/models/HouseA/tex/Shutter_Color.png",
+  "state": "Approved"
+ },
+ "ecfc1fe2cbc4de071c150973280316fcb7187e2ae230e3b89028c0a67d0d82a1": {
+  "id": 135755761868438,
+  "file": "art/models/HouseC/tex/Picket_Color.png",
+  "state": "Approved"
+ },
+ "90c6d3a859863e3e11ce926fcf14115179d985a53babb2d67bef491fb3d138f0": {
+  "id": 136112437510740,
+  "file": "art/models/HouseD/tex/ClayTile_Color.png",
+  "state": "Approved"
+ },
+ "f2cb71a25fa4faaf6908ab1da67983136a461a21afb94361ee61df65cb317670": {
+  "id": 95484771575821,
+  "file": "art/models/HouseD/tex/Water_Color.png",
+  "state": "Approved"
+ },
+ "9a9c1404dab174b9de7259dd44124b74ea05548b89aec5a04d8c8e54a833f0e7": {
+  "id": 90049376842799,
+  "file": "art/models/SpawnPlaza_S/tex/PlazaPave_Color.png",
+  "state": "Approved"
+ },
+ "d6d190c9a6f1c56e590ed9fed032d7f07351109774d667326407476f9847f4f9": {
+  "id": 121266740267263,
+  "file": "art/models/Store/tex/AcGrille_Color.png",
+  "state": "Approved"
+ },
+ "0d4a3ea5b456fac48fdd237ed5ec2521b8c2c1870b596e61837d51527209b4f9": {
+  "id": 82933076885802,
+  "file": "art/models/Store/tex/AtmFace_Color.png",
+  "state": "Approved"
+ },
+ "5759900d6bbe050021db7c4be4a0f3513effe00567fbd0e7792871fef615f21f": {
+  "id": 77584644100269,
+  "file": "art/models/Store/tex/CandyRack_Color.png",
+  "state": "Approved"
+ },
+ "0f1528423186a685e80a865518d4de6303e0b1cbdf90c43e2b68b2c7fe5c8fea": {
+  "id": 139548968589819,
+  "file": "art/models/Store/tex/Ceiling_Color.png",
+  "state": "Approved"
+ },
+ "662b063512fc0838b4609802f415d5d7bb7fa516a63e18e55edb4bedc4803cd2": {
+  "id": 82424295592945,
+  "file": "art/models/Store/tex/Coffee_Color.png",
+  "state": "Approved"
+ },
+ "176615147328980bdf06e916ed10dfefda7260baa9543ffcb63f6288aa23251c": {
+  "id": 130769800878975,
+  "file": "art/models/Store/tex/DecoPaint_Color.png",
+  "state": "Approved"
+ },
+ "f3b8fb4ea2bab8ae17bab3898a3725617b239a61c6326203880b529dd080c90b": {
+  "id": 83675806606078,
+  "file": "art/models/Store/tex/DecoSkirt_Color.png",
+  "state": "Approved"
+ },
+ "4dec497b90b902d6d9cf5255d530c7d49540b4748fe096e2d18be0470fcae146": {
+  "id": 122549239139271,
+  "file": "art/models/Store/tex/FreezerTop_Color.png",
+  "state": "Approved"
+ },
+ "f1723687725e7d37061737bcc022f9e1af923465716cfb9019f161228e3c59ef": {
+  "id": 100599099210976,
+  "file": "art/models/Store/tex/FridgeDoors_Color.png",
+  "state": "Approved"
+ },
+ "208c434e21083658e02c550d9bab85573dc7daf9325131bac425a6cfc2e92cd0": {
+  "id": 71661040347183,
+  "file": "art/models/Store/tex/IceFront_Color.png",
+  "state": "Approved"
+ },
+ "baee90e5926ed41a9dd60e210a6fd453c864ba8c0016dd0c1f2e154280d32aea": {
+  "id": 126078658838801,
+  "file": "art/models/Store/tex/NeonRed_Color.png",
+  "state": "Approved"
+ },
+ "30408628b26193ecf442f17d84dfe75f12b555c4b68d5b7d9855da0c29471b7a": {
+  "id": 96125913490322,
+  "file": "art/models/Store/tex/NewsFace_Color.png",
+  "state": "Approved"
+ },
+ "eb25ee78bb42330bf180e53f6a432811bac4e9c717b645476f1ed720275b97f6": {
+  "id": 105381233769701,
+  "file": "art/models/Store/tex/PosterCoffee_Color.png",
+  "state": "Approved"
+ },
+ "4258f71b421b34d5913760cf47dd636602a1428f6edcd2ed32833c9b0727e297": {
+  "id": 82534306814730,
+  "file": "art/models/Store/tex/PosterOpen_Color.png",
+  "state": "Approved"
+ },
+ "878fce7d182884f16717c78136a4f10c31807172cfbace2f97342fd8fff662b2": {
+  "id": 88638549591253,
+  "file": "art/models/Store/tex/PosterSnack_Color.png",
+  "state": "Approved"
+ },
+ "711116e738acce48bbac89d9537a189b8eeedd463110b5e097f74bb8a30e916b": {
+  "id": 87218197258090,
+  "file": "art/models/Store/tex/PosterSoda_Color.png",
+  "state": "Approved"
+ },
+ "15e0eeacbdfdffcf2d1067788a8c384153c64de66c0acea402ada95d599cbb7a": {
+  "id": 82469317694148,
+  "file": "art/models/Store/tex/Register_Color.png",
+  "state": "Approved"
+ },
+ "f3e588419a0f63bbf8e246166add5caaef4ad3313b59ad62054cfc492a0eb01c": {
+  "id": 131849607855804,
+  "file": "art/models/Store/tex/ShelfGoodsA_Color.png",
+  "state": "Approved"
+ },
+ "103c47cc54614c07a5d1cce8b60557cfc2ec2ce812e1e69c75232130a955dbea": {
+  "id": 119967468949108,
+  "file": "art/models/Store/tex/ShelfGoodsB_Color.png",
+  "state": "Approved"
+ },
+ "a6ea9f61357d6adede4a422720a0bd92d160c38f181a1fbc7cf65cf424401224": {
+  "id": 101980337022139,
+  "file": "art/models/Store/tex/ShopFloor_Color.png",
+  "state": "Approved"
  }
 }

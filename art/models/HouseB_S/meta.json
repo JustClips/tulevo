@@ -69,9 +69,9 @@
    ]
   },
   "Trim": {
-   "tris": 104,
+   "tris": 116,
    "min": [
-    -23.94,
+    -26.18,
     -28.85,
     0.0
    ],
@@ -173,14 +173,14 @@
    ]
   },
   "WinIron": {
-   "tris": 984,
+   "tris": 996,
    "min": [
     -0.72,
     -29.41,
     4.14
    ],
    "max": [
-    24.01,
+    24.19,
     4.21,
     9.54
    ]
@@ -329,11 +329,11 @@
    ]
   },
   "Stone": {
-   "tris": 72,
+   "tris": 168,
    "min": [
     -5.94,
-    44.28,
-    2.88
+    4.68,
+    0.0
    ],
    "max": [
     28.88,
@@ -432,17 +432,160 @@
     32.15
    ]
   },
-  "Shrub": {
-   "tris": 120,
+  "Bark": {
+   "tris": 88,
    "min": [
-    -3.35,
-    5.04,
-    -0.49
+    12.39,
+    23.93,
+    0.0
    ],
    "max": [
-    26.65,
-    31.77,
-    4.37
+    22.38,
+    33.24,
+    21.8
+   ]
+  },
+  "LeafB": {
+   "tris": 400,
+   "min": [
+    8.04,
+    18.47,
+    16.44
+   ],
+   "max": [
+    24.65,
+    39.72,
+    27.51
+   ]
+  },
+  "Leaf": {
+   "tris": 720,
+   "min": [
+    8.63,
+    21.6,
+    14.91
+   ],
+   "max": [
+    25.46,
+    35.28,
+    27.3
+   ]
+  },
+  "Soil": {
+   "tris": 24,
+   "min": [
+    -4.68,
+    4.68,
+    0.0
+   ],
+   "max": [
+    22.68,
+    7.56,
+    0.22
+   ]
+  },
+  "Hedge": {
+   "tris": 60,
+   "min": [
+    -3.91,
+    5.01,
+    -0.03
+   ],
+   "max": [
+    21.85,
+    7.19,
+    1.7
+   ]
+  },
+  "Shrub": {
+   "tris": 80,
+   "min": [
+    -0.15,
+    5.37,
+    0.09
+   ],
+   "max": [
+    17.43,
+    6.62,
+    0.99
+   ]
+  },
+  "FlowerY": {
+   "tris": 80,
+   "min": [
+    0.88,
+    5.21,
+    0.75
+   ],
+   "max": [
+    17.65,
+    6.8,
+    1.13
+   ]
+  },
+  "FlowerW": {
+   "tris": 80,
+   "min": [
+    -0.32,
+    5.54,
+    0.75
+   ],
+   "max": [
+    16.41,
+    6.47,
+    1.13
+   ]
+  },
+  "FlowerR": {
+   "tris": 40,
+   "min": [
+    1.71,
+    5.43,
+    0.75
+   ],
+   "max": [
+    17.07,
+    6.81,
+    1.13
+   ]
+  },
+  "Shutter": {
+   "tris": 240,
+   "min": [
+    0.72,
+    3.67,
+    14.81
+   ],
+   "max": [
+    21.96,
+    3.89,
+    19.39
+   ]
+  },
+  "Meter": {
+   "tris": 12,
+   "min": [
+    23.4,
+    -2.61,
+    3.6
+   ],
+   "max": [
+    24.12,
+    -0.99,
+    5.76
+   ]
+  },
+  "Pipe": {
+   "tris": 140,
+   "min": [
+    22.73,
+    3.72,
+    0.0
+   ],
+   "max": [
+    23.21,
+    4.2,
+    22.32
    ]
   },
   "Backboard": {
@@ -507,7 +650,18 @@
   "BinGrey": "BinGrey_Color.png",
   "Trunk": "Trunk_Color.png",
   "Palm": "Palm_Color.png",
+  "Bark": "Bark_Color.png",
+  "LeafB": "LeafB_Color.png",
+  "Leaf": "Leaf_Color.png",
+  "Soil": "Soil_Color.png",
+  "Hedge": "Hedge_Color.png",
   "Shrub": "Shrub_Color.png",
+  "FlowerY": "FlowerY_Color.png",
+  "FlowerW": "FlowerW_Color.png",
+  "FlowerR": "FlowerR_Color.png",
+  "Shutter": "Shutter_Color.png",
+  "Meter": "Meter_Color.png",
+  "Pipe": "Pipe_Color.png",
   "Backboard": "Backboard_Color.png",
   "Rim": "Rim_Color.png"
  },

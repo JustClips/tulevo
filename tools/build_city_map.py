@@ -75,13 +75,27 @@ GANGS = {
     "RedCrowns": (SOUTH_Z, 172, 1, ("Rose", "Brick", "Blush", "Rose", "Sand", "Cream")),
     "GroveKings": (SOUTH_Z, -172, -1, ("Mint", "Sage", "Teal", "Mint", "Sky", "Cream")),
 }
-HOUSES = ("HouseA", "HouseB", "HouseA", "HouseA", "HouseB", "HouseA")
+# Each street side has 345.6 studs of house lots after the court / store. Mixed house types
+# (A bungalow, B two-floor, C ranch with carport, D Spanish courtyard) with tree-filled side
+# yards between some of them, so the row reads like a real street. Widths in studs.
+LOT_W = {"HouseA": 57.6, "HouseB": 57.6, "HouseC": 72.0, "HouseD": 57.6, "SideYard": 21.6}
+ROWS = {
+    "Vipers": (("HouseC", "SideYard", "HouseA", "HouseD", "SideYard", "HouseB", "HouseA"),
+               ("HouseD", "HouseA", "SideYard", "HouseC", "HouseB", "SideYard", "HouseA")),
+    "RedCrowns": (("HouseA", "HouseD", "SideYard", "HouseB", "HouseC", "SideYard", "HouseA"),
+                  ("HouseB", "SideYard", "HouseC", "HouseA", "SideYard", "HouseD", "HouseA")),
+    "GroveKings": (("HouseD", "SideYard", "HouseC", "HouseA", "HouseB", "SideYard", "HouseD"),
+                   ("HouseA", "HouseC", "SideYard", "HouseD", "HouseB", "SideYard", "HouseA")),
+}
 GANG_SPAWNS = []
 for gang, (sz, x0, d, paints) in GANGS.items():
     edge = RES_W / 2 + RES_SIDE + LOT_D / 2
-    for side, z, lots in ((1, sz + edge, [("Court", 115.2)] + [(h, 57.6) for h in HOUSES]),
-                          (-1, sz - edge, [("Store", 93.6)] + [(h, 57.6) for h in HOUSES[::-1]])):
+    north, south = ROWS[gang]
+    for side, z, lots in ((1, sz + edge, [("Court", 115.2)] + [(h, LOT_W[h]) for h in north]),
+                          (-1, sz - edge, [("Store", 93.6)] + [(h, LOT_W[h]) for h in south])):
+        assert sum(w for _, w in lots) <= EXTENT - abs(x0) + 0.01, (gang, side)
         x = x0
+        n = 0
         for i, (model, w) in enumerate(lots):
             cx = x + d * w / 2
             x += d * w
@@ -91,9 +105,12 @@ for gang, (sz, x0, d, paints) in GANGS.items():
                 GANG_SPAWNS.append((gang, (cx, 0.3, z)))
             elif model == "Store":
                 BUILDINGS.append((f"{gang}Store", key, (cx, 0.3, z), {"Walls": paints[3], "Tag": gang}))
+            elif model == "SideYard":
+                BUILDINGS.append((f"{gang}Yard{'N' if side > 0 else 'S'}{i}", key, (cx, 0.3, z)))
             else:
+                n += 1
                 BUILDINGS.append((f"{gang}House{'N' if side > 0 else 'S'}{i}", key, (cx, 0.3, z),
-                                  {"Walls": paints[(i + (side < 0) * 2) % len(paints)], "Tag": gang}))
+                                  {"Walls": paints[(n + (side < 0) * 2) % len(paints)], "Tag": gang}))
 
 # paved plazas under the towers, from the kerb to behind the building: name, x0, x1, z0, z1
 PLAZAS = [
@@ -231,7 +248,12 @@ def textures_attr(model, variants=None):
     for part, rel in tex.items():
         if "@" in part:
             continue
-        rel = tex.get(f"{part}@{(variants or {}).get(part)}", rel)
+        # exact part name first, then any chosen variant that this part has (the store's many
+        # wall pieces WallF1.. all take the "Walls" paint)
+        for v in [(variants or {}).get(part)] + list((variants or {}).values()):
+            if f"{part}@{v}" in tex:
+                rel = tex[f"{part}@{v}"]
+                break
         h = hashlib.sha256(open(os.path.join(ROOT, rel), "rb").read()).hexdigest()
         if h in tlock:
             ids[part] = tlock[h]["id"]

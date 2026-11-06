@@ -21,6 +21,19 @@ local NEON = {
 	NeonCyan = Color3.fromRGB(60, 235, 255),
 	NeonRed = Color3.fromRGB(255, 40, 30),
 }
+-- Textures with see-through pixels (chain-link fence, graffiti decals).
+local ALPHA = { ChainLink = true, Tag = true }
+-- Small decor parts that should not collide.
+local DECO = {
+	Frame = true,
+	Sill = true,
+	WinIron = true,
+	Pipe = true,
+	Meter = true,
+	CandyRack = true,
+	FridgeDoors = true,
+	Tag = true,
+}
 local lamps = {} -- { light = SurfaceLight, beam = Beam?, day = number, night = number }
 
 local function hasParts(model: Model): boolean
@@ -36,6 +49,14 @@ local function load(model: Model)
 	if not ok then
 		warn(`[City] could not load {model.Name} ({id}): {container}`)
 		return
+	end
+	-- Drop the GLB's embedded SurfaceAppearances before they reach the place: every part gets
+	-- its colour map from LiveSyncTextures, and in Studio these make PublishService try (and
+	-- fail, rate-limited) to upload texture packs.
+	for _, d in container:GetDescendants() do
+		if d:IsA("SurfaceAppearance") then
+			d:Destroy()
+		end
 	end
 	for _, child in container:GetChildren() do
 		child.Parent = model
@@ -139,7 +160,23 @@ local function style(model: Model)
 			d:Destroy()
 		elseif d:IsA("BasePart") then
 			d.Anchored = true
-			if d.Name:match("^Light") then
+			if DECO[d.Name] or d.Name:match("^Poster") or d.Name:match("^ShelfGoods") or d.Name:match("^Deco") then
+				-- Thin dressing: never blocks walking or bullets.
+				d.CanCollide = false
+				d.CanQuery = false
+			end
+			if ALPHA[d.Name] then
+				-- A texture's transparent pixels only cut through when the part itself is
+				-- a hair transparent.
+				d.Transparency = 0.02
+			elseif d.Name:match("^ClearGlass") then
+				d.Material = Enum.Material.Glass
+				d.Transparency = 0.6
+				d.CastShadow = false
+			elseif d.Name:match("^LightCeil") then
+				neon(d)
+				downLight(d, 18, 0.6, 1.5)
+			elseif d.Name:match("^Light") then
 				neon(d)
 			elseif d.Name:match("^Lamp%d") then
 				neon(d)

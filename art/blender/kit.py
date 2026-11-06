@@ -152,9 +152,9 @@ class Kit:
         self.lamps.append(name)
         return name
 
-    def shrub(self, x, y, z, s, rng, part="Shrub"):
+    def shrub(self, x, y, z, s, rng, part="Shrub", subdiv=1):
         bm = self.bm(part)
-        r = bmesh.ops.create_icosphere(bm, subdivisions=1, radius=s)
+        r = bmesh.ops.create_icosphere(bm, subdivisions=subdiv, radius=s)
         for v in r["verts"]:
             v.co = Vector((x + v.co.x * rng.uniform(0.85, 1.15), y + v.co.y * rng.uniform(0.85, 1.15), z + s * 0.6 + v.co.z * 0.75))
 

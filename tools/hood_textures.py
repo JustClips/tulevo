@@ -103,13 +103,37 @@ def shingles():
 
 
 def lawn():
-    W = 256
-    im = noise_tile(W, W, (110, 128, 60), 22, 8, 1.2)
+    """Darker, realistic mowed lawn: soft colour drift, thousands of tiny blades, a few clover
+    and dry tufts. Tileable (blades wrap at the edges); no big blotches."""
+    import numpy as np
+    from tex_kit import _wrap_noise
+    W = 512
+    big = np.asarray(_wrap_noise(W, W, 96, 31, 28), np.float32) / 255 - 0.5
+    mid = np.asarray(_wrap_noise(W, W, 16, 32, 4), np.float32) / 255 - 0.5
+    base = np.array((62, 84, 36), np.float32)
+    dry = np.array((96, 98, 52), np.float32)
+    t = np.clip(big * 1.1 + 0.25, 0, 1)[..., None] * 0.35
+    img = base * (1 - t) + dry * t + (mid * 14)[..., None]
+    im = Image.fromarray(np.clip(img, 0, 255).astype(np.uint8), "RGB")
     d = ImageDraw.Draw(im, "RGBA")
-    for _ in range(8):  # dry patches
-        x, y, s = r.randint(0, W), r.randint(0, W), r.randint(16, 50)
-        d.ellipse([x - s, y - s, x + s, y + s], fill=(170, 150, 90, 110))
-    save("Lawn", im.filter(ImageFilter.GaussianBlur(0.6)), 250)
+    rr = random.Random(505)
+    for _ in range(26000):
+        x, y = rr.uniform(0, W), rr.uniform(0, W)
+        ln, ang = rr.uniform(2, 6), rr.uniform(-0.9, 0.9) - math.pi / 2
+        dx, dy = math.cos(ang) * ln, math.sin(ang) * ln
+        g = rr.random()
+        col = ((40, 58, 22, 150) if g < 0.35 else (88, 112, 48, 140) if g < 0.8 else (118, 132, 66, 120))
+        for ox in (-W, 0, W):
+            for oy in (-W, 0, W):
+                if -8 < x + ox < W + 8 and -8 < y + oy < W + 8:
+                    d.line([(x + ox, y + oy), (x + ox + dx, y + oy + dy)], fill=col, width=1)
+    for _ in range(60):                      # clover / weeds
+        x, y = rr.uniform(8, W - 8), rr.uniform(8, W - 8)
+        for k in range(3):
+            a = k * 2.1 + rr.random()
+            d.ellipse([x + math.cos(a) * 2 - 2, y + math.sin(a) * 2 - 2, x + math.cos(a) * 2 + 2, y + math.sin(a) * 2 + 2],
+                      fill=(70, 100, 44, 200))
+    save("Lawn", im.filter(ImageFilter.GaussianBlur(0.35)), 245)
 
 
 def concrete():
@@ -124,12 +148,42 @@ def concrete():
 
 
 def asphalt():
-    im = noise_tile(512, 512, (54, 55, 57), 12, 11, 0.6)
+    """Worn asphalt: grain + soft tonal drift, a few small oil drips (no big dark blobs)."""
+    im = noise_tile(512, 512, (58, 59, 61), 12, 11, 0.6)
     d = ImageDraw.Draw(im, "RGBA")
-    for _ in range(6):
-        x, y, s = r.randint(0, 512), r.randint(0, 512), r.randint(20, 70)
-        d.ellipse([x - s, y - s // 2, x + s, y + s // 2], fill=(20, 20, 22, 70))
-    save("Asphalt", im, 235)
+    rr = random.Random(611)
+    for _ in range(5):
+        x, y = rr.randint(40, 472), rr.randint(40, 472)
+        for k in range(6):
+            s = rr.randint(3, 9)
+            ox, oy = rr.randint(-12, 12), rr.randint(-12, 12)
+            d.ellipse([x + ox - s, y + oy - s, x + ox + s, y + oy + s], fill=(30, 30, 32, 40))
+    for _ in range(2500):                         # loose aggregate specks
+        x, y = rr.randint(0, 511), rr.randint(0, 511)
+        c = rr.choice(((92, 92, 90, 140), (36, 36, 38, 140)))
+        d.point((x, y), fill=c)
+    save("Asphalt", im.filter(ImageFilter.GaussianBlur(0.4)), 235)
+
+
+def clay_tile():
+    """Spanish barrel roof tiles, rows of terracotta half-pipes (tile 2 m)."""
+    W = 256
+    im = Image.new("RGB", (W, W), (120, 52, 32))
+    d = ImageDraw.Draw(im)
+    rr = random.Random(712)
+    rows, cols = 8, 8
+    for j in range(rows):
+        y0 = j * W // rows
+        for i in range(cols):
+            x0 = i * W // cols
+            c = rr.randint(-18, 18)
+            base = (170 + c, 82 + c // 2, 48 + c // 3)
+            for k in range(W // cols):          # rounded shading across the tile
+                t = math.sin(math.pi * (k + 0.5) / (W // cols))
+                col = tuple(int(v * (0.55 + 0.5 * t)) for v in base)
+                d.line([(x0 + k, y0), (x0 + k, y0 + W // rows - 3)], fill=col)
+            d.line([(x0, y0 + W // rows - 3), (x0 + W // cols, y0 + W // rows - 3)], fill=(70, 30, 20), width=3)
+    save("ClayTile", grime(im, 0.18, 12), 200)
 
 
 def court(name, key):
@@ -315,10 +369,202 @@ def chain_link():
     print("wrote ChainLink")
 
 
+# ---------------------------------------------------------------- Sunny's Market interior (no alcohol, no tobacco, no lotto)
+DRINKS = [((220, 40, 40), "COLA"), ((40, 120, 220), "WATER"), ((250, 160, 30), "OJ"), ((60, 180, 80), "LIME"),
+          ((240, 220, 60), "LEMON"), ((150, 60, 180), "GRAPE"), ((30, 30, 30), "ZAP"), ((240, 240, 240), "MILK"),
+          ((230, 110, 160), "BERRY"), ((90, 200, 210), "ICE TEA")]
+SNACKS = [((230, 60, 40), "CHIPS"), ((250, 200, 40), "CORN"), ((60, 110, 210), "PRETZEL"), ((140, 80, 40), "COOKIE"),
+          ((80, 170, 70), "NUTS"), ((240, 140, 40), "CHEEZ"), ((200, 40, 120), "CANDY"), ((120, 60, 30), "CHOCO")]
+
+
+def shop_floor():
+    W = 256
+    im = Image.new("RGB", (W, W))
+    d = ImageDraw.Draw(im)
+    for i in range(4):
+        for j in range(4):
+            c = (226, 224, 216) if (i + j) % 2 else (150, 154, 158)
+            c = tuple(max(0, min(255, v + r.randint(-6, 6))) for v in c)
+            d.rectangle([i * 64, j * 64, i * 64 + 63, j * 64 + 63], fill=c)
+            d.line([(i * 64, j * 64), (i * 64 + 63, j * 64)], fill=(120, 120, 118), width=1)
+            d.line([(i * 64, j * 64), (i * 64, j * 64 + 63)], fill=(120, 120, 118), width=1)
+    save("ShopFloor", grime(scratches(im, 60, 41, (90, 90, 90), 40), 0.12, 42, streaks=False), 70)
+
+
+def ceiling():
+    W = 256
+    im = noise_tile(W, W, (232, 230, 224), 6, 43)
+    d = ImageDraw.Draw(im)
+    for k in range(0, W, 64):
+        d.line([(k, 0), (k, W)], fill=(190, 190, 186), width=4)
+        d.line([(0, k), (W, k)], fill=(190, 190, 186), width=4)
+    for _ in range(40):
+        x, y = r.randint(0, W), r.randint(0, W)
+        d.point((x, y), fill=(160, 158, 150))
+    save("Ceiling", im, 240)
+
+
+def bottle(d, x, y, w, h, col, label):
+    d.rounded_rectangle([x, y + h * 0.18, x + w, y + h], 4, fill=col)
+    d.rectangle([x + w * 0.3, y, x + w * 0.7, y + h * 0.2], fill=col)
+    d.rectangle([x + w * 0.28, y - 4, x + w * 0.72, y + 3], fill=(240, 240, 240))
+    d.rectangle([x + 1, y + h * 0.45, x + w - 1, y + h * 0.72], fill=(250, 250, 245))
+    fit_text(d, (x + w / 2, y + h * 0.585), label, FONT_B, w - 2, 10, col)
+
+
+def fridge_doors():
+    """3 glass doors of a drinks cooler, 3.0 m x 2.2 m, cold-lit shelves of sodas, water, juice, milk."""
+    W, H = 768, 576
+    im = Image.new("RGB", (W, H), (200, 202, 206))
+    d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, W, 60], fill=(30, 110, 200))
+    fit_text(d, (W / 2, 30), "COLD DRINKS", FONT_B, W - 60, 40, (255, 255, 255))
+    for k in range(3):
+        x0 = 10 + k * 252
+        d.rectangle([x0, 70, x0 + 238, H - 10], fill=(70, 74, 80))
+        d.rectangle([x0 + 8, 78, x0 + 230, H - 18], fill=(214, 232, 244))
+        for row in range(5):
+            y = 100 + row * 92
+            d.rectangle([x0 + 8, y + 74, x0 + 230, y + 80], fill=(150, 156, 160))
+            for i in range(7):
+                col, lab = DRINKS[(k * 11 + row * 3 + i) % len(DRINKS)]
+                bottle(d, x0 + 14 + i * 31, y, 26, 72, col, lab)
+        d.rectangle([x0 + 210, 250, x0 + 222, 400], fill=(200, 200, 204))                     # handle
+        d.polygon([(x0 + 20, 78), (x0 + 90, 78), (x0 + 20, 260)], fill=(255, 255, 255))           # glare
+    im = Image.blend(im, Image.new("RGB", (W, H), (210, 230, 245)), 0.12)
+    save("FridgeDoors", im, 30)
+
+
+def bag(d, x, y, w, h, col, label):
+    d.polygon([(x, y + 6), (x + w, y), (x + w - 2, y + h), (x + 2, y + h - 4)], fill=col)
+    d.ellipse([x + w * 0.2, y + h * 0.25, x + w * 0.8, y + h * 0.65], fill=(250, 240, 200))
+    fit_text(d, (x + w / 2, y + h * 0.45), label, FONT_B, w * 0.6, 11, col)
+
+
+def shelf_goods(name, seed):
+    """One side of a 3 m x 1.6 m gondola shelf: 4 shelves of snack bags, cereal boxes and cans."""
+    rr = random.Random(seed)
+    W, H = 768, 410
+    im = Image.new("RGB", (W, H), (236, 236, 232))
+    d = ImageDraw.Draw(im)
+    for row in range(4):
+        y = 10 + row * 100
+        d.rectangle([0, y + 88, W, y + 98], fill=(200, 200, 196))
+        d.rectangle([0, y + 90, W, y + 94], fill=(230, 60, 50) if row % 2 else (40, 90, 180))     # price strip
+        x = 6
+        kind = rr.choice(("bag", "box", "can"))
+        while x < W - 40:
+            col, lab = rr.choice(SNACKS)
+            if kind == "bag":
+                bag(d, x, y + 10, 52, 76, col, lab); x += 56
+            elif kind == "box":
+                d.rectangle([x, y + 4, x + 44, y + 86], fill=col)
+                d.rectangle([x + 4, y + 30, x + 40, y + 60], fill=(250, 245, 230))
+                fit_text(d, (x + 22, y + 45), lab, FONT_B, 34, 10, col); x += 48
+            else:
+                c2 = rr.choice(((200, 60, 40), (60, 140, 60), (230, 180, 40), (120, 120, 130)))
+                for k in range(2):
+                    d.rounded_rectangle([x, y + 46 - k * 40, x + 30, y + 86 - k * 40], 3, fill=c2)
+                    d.rectangle([x, y + 58 - k * 40, x + 30, y + 72 - k * 40], fill=(245, 240, 230))
+                x += 33
+    save(name, grime(im, 0.06, seed, streaks=False), 160)
+
+
+def candy_rack():
+    W, H = 512, 512
+    im = Image.new("RGB", (W, H), (60, 60, 64))
+    d = ImageDraw.Draw(im)
+    for row in range(6):
+        y = 10 + row * 84
+        for i in range(10):
+            col, lab = SNACKS[(row * 3 + i) % len(SNACKS)]
+            d.rectangle([8 + i * 50, y, 50 + i * 50, y + 70], fill=col)
+            d.rectangle([12 + i * 50, y + 22, 46 + i * 50, y + 46], fill=(250, 246, 236))
+            fit_text(d, (29 + i * 50, y + 34), lab, FONT_B, 32, 9, col)
+        d.rectangle([0, y + 72, W, y + 80], fill=(150, 150, 154))
+    save("CandyRack", im, 160)
+
+
+def faces():
+    # ICE box front, register screen, coffee machine, ATM, freezer lid, news box, A/C grille, posters
+    W, H = 512, 256
+    im = Image.new("RGB", (W, H), (245, 246, 248))
+    d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, W, 90], fill=(30, 110, 200))
+    fit_text(d, (W / 2, 46), "ICE", FONT_B, 300, 70, (255, 255, 255))
+    d.rectangle([20, 120, W - 20, H - 20], outline=(180, 184, 190), width=6)
+    d.rectangle([W / 2 - 60, 140, W / 2 + 60, 160], fill=(150, 150, 156))
+    save("IceFront", grime(im, 0.12, 44), 120)
+    im = Image.new("RGB", (256, 256), (40, 42, 46))
+    d = ImageDraw.Draw(im)
+    d.rectangle([20, 20, 236, 130], fill=(30, 60, 40))
+    fit_text(d, (128, 60), "TOTAL", FONT_B, 180, 30, (120, 255, 140))
+    fit_text(d, (128, 100), "$ 4.29", FONT_B, 180, 34, (120, 255, 140))
+    for i in range(4):
+        for j in range(3):
+            d.rectangle([40 + j * 60, 145 + i * 26, 88 + j * 60, 165 + i * 26], fill=(200, 200, 204))
+    save("Register", im, 80)
+    im = Image.new("RGB", (256, 384), (40, 40, 44))
+    d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, 256, 80], fill=(120, 60, 30))
+    fit_text(d, (128, 40), "FRESH COFFEE", FONT_B, 230, 30, (255, 236, 200))
+    for k in range(3):
+        d.rectangle([20 + k * 76, 110, 80 + k * 76, 150], fill=(200, 200, 200))
+        d.rectangle([30 + k * 76, 230, 70 + k * 76, 300], fill=(60, 30, 20))
+    d.rectangle([10, 320, 246, 330], fill=(160, 160, 164))
+    save("Coffee", im, 60)
+    im = Image.new("RGB", (256, 384), (60, 64, 70))
+    d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, 256, 60], fill=(30, 130, 80))
+    fit_text(d, (128, 30), "ATM", FONT_B, 200, 40, (255, 255, 255))
+    d.rectangle([40, 80, 216, 190], fill=(40, 90, 140))
+    fit_text(d, (128, 135), "INSERT CARD", FONT_B, 160, 20, (220, 240, 255))
+    for i in range(4):
+        for j in range(3):
+            d.rectangle([60 + j * 46, 210 + i * 30, 96 + j * 46, 232 + i * 30], fill=(190, 190, 196))
+    d.rectangle([60, 340, 196, 352], fill=(20, 20, 20))
+    save("AtmFace", im, 60)
+    im = Image.new("RGB", (512, 256), (230, 238, 246))
+    d = ImageDraw.Draw(im)
+    for i in range(14):
+        col = rr_c(i)
+        d.rounded_rectangle([12 + i * 35, 40 + (i % 3) * 50, 42 + i * 35, 100 + (i % 3) * 50], 6, fill=col)
+    d.rectangle([0, 0, 512, 30], fill=(60, 140, 220))
+    fit_text(d, (256, 15), "ICE CREAM", FONT_B, 300, 22, (255, 255, 255))
+    save("FreezerTop", Image.blend(im, Image.new("RGB", im.size, (220, 236, 250)), 0.2), 30)
+    for name, bg, words, sub in (("PosterSoda", (210, 40, 40), "SODA", "2 FOR $3"), ("PosterSnack", (250, 180, 30), "SNACKS", "DEALS INSIDE"),
+                                 ("PosterCoffee", (110, 60, 30), "HOT COFFEE", "$1.29 ANY SIZE"), ("PosterOpen", (30, 110, 200), "OPEN", "7 DAYS")):
+        im = Image.new("RGB", (256, 320), bg)
+        d = ImageDraw.Draw(im)
+        fit_text(d, (128, 120), words, FONT_B, 230, 70, (255, 255, 255))
+        fit_text(d, (128, 230), sub, FONT_B, 220, 30, (255, 250, 220))
+        d.rectangle([6, 6, 250, 314], outline=(255, 255, 255), width=6)
+        save(name, im, 120)
+    im = Image.new("RGB", (256, 256), (200, 202, 204))
+    d = ImageDraw.Draw(im)
+    for y in range(12, 256, 14):
+        d.rectangle([12, y, 244, y + 6], fill=(120, 124, 128))
+    save("AcGrille", grime(im, 0.2, 45), 150)
+    im = Image.new("RGB", (256, 256), (200, 40, 40))
+    d = ImageDraw.Draw(im)
+    d.rectangle([30, 30, 226, 140], fill=(40, 44, 50))
+    d.rectangle([40, 40, 216, 130], fill=(230, 226, 214))
+    fit_text(d, (128, 70), "DAILY", FONT_B, 160, 28, (30, 30, 30))
+    fit_text(d, (128, 105), "NEWS", FONT_B, 160, 28, (30, 30, 30))
+    d.rectangle([160, 170, 210, 220], fill=(160, 160, 164))
+    save("NewsFace", grime(im, 0.2, 46), 150)
+
+
+def rr_c(i):
+    return ((240, 120, 160), (250, 220, 120), (140, 90, 60), (120, 200, 230), (250, 250, 240), (160, 220, 120))[i % 6]
+
+
 walls()
-for fn in (bar_window, security_door, garage_door, shingles, lawn, concrete, asphalt, backboard, store_front, store_sign,
+for fn in (shop_floor, ceiling, fridge_doors, candy_rack, faces, bar_window, security_door, garage_door, shingles, clay_tile, lawn, concrete, asphalt, backboard, store_front, store_sign,
            store_door, plaza_pave, welcome_sign, shelter_ad, route_map, water, chain_link):
     fn()
+shelf_goods("ShelfGoodsA", 61)
+shelf_goods("ShelfGoodsB", 62)
 court("CourtPaint", None)
 for g, c in GANGS.items():
     court(f"CourtPaint{g}", c)
