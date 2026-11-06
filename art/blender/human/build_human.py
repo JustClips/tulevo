@@ -1,4 +1,6 @@
-"""Build tulevo's realistic test human ("Marcus Vale", original) from CC0 MakeHuman assets.
+"""RULE: no text, URLs, watermarks or credit marks in any shipped texture (Roblox moderation).
+
+Build tulevo's realistic test human ("Marcus Vale", original) from CC0 MakeHuman assets.
 
 Run (Blender 5.2, headless):
   blender --background --python build_human.py -- <data_dir> <out_dir> [--samples N] [--no-render]
@@ -39,9 +41,9 @@ WEIGHT = 0.5   # 0 min .. 0.5 avg
 HEIGHT = 0.5   # 0.5 avg .. 1 max
 PROPORTION = 0.7
 DETAIL = {
-    "chin-prominent-incr": 0.35, "chin-width-incr": 0.35, "chin-bones-incr": 0.3, "head-square": 0.45,
+    "chin-prominent-incr": 0.35, "chin-width-incr": 0.35, "chin-bones-incr": 0.3, "head-square": 0.3,
     "nose-hump-incr": 0.2, "nose-scale-horiz-incr": 0.1, "nose-width1-incr": 0.15,
-    "l-cheek-bones-incr": 0.35, "r-cheek-bones-incr": 0.35, "neck-scale-horiz-incr": 0.45,
+    "l-cheek-bones-incr": 0.35, "r-cheek-bones-incr": 0.35, "neck-scale-horiz-incr": 0.1,
     "torso-vshape-incr": 0.35, "torso-muscle-pectoral-incr": 0.3, "eyebrows-trans-down": 0.25,
     "mouth-scale-horiz-incr": 0.1,
 }
@@ -218,9 +220,9 @@ def pbr_mat(name, diffuse=None, normal=None, rough=0.6, alpha=False, color=(0.8,
 
 # ---- proxies (fitted in MH space against the shaped body)
 PROXIES = {
-    "Clothes": ("male_casualsuit06", "male_casualsuit06_diffuse.png", "male_casualsuit06_normal.png", 0.85, False),
+    "Clothes": ("male_casualsuit06", "male_casualsuit06_diffuse.png", None, 0.85, False),
     "Shoes": ("shoes05", "shoes05_diffuse.png", None, 0.55, False),
-    "Hair": ("short02", "short02_diffuse.png", "short02_normal.png", 0.7, True),
+    "Hair": ("short02", "short02_diffuse.png", None, 0.7, True),
     "Brows": ("eyebrow001", "eyebrow001.png", None, 0.8, True),
     "Lashes": ("eyelashes01", "eyelashes01.png", None, 0.8, True),
     "Eyes": ("high-poly", "brown_eye.png", None, 0.15, False),
@@ -493,34 +495,79 @@ def local_rot(bone, axis, deg):
     pb.rotation_quaternion = pb.rotation_quaternion @ Quaternion(axis, math.radians(deg))
 
 
-def arm_dir(side):
-    h = rig.data.bones[f"upperarm01.{side}"].head_local
-    t = rig.data.bones[f"lowerarm01.{side}"].head_local
-    return (t - h).normalized()
+def rotw(bone, axis, deg):
+    """Rotate a pose bone about a world axis through its head, respecting already-posed parents."""
+    bpy.context.view_layer.update()
+    pb = rig.pose.bones[bone]
+    m = pb.matrix.copy()
+    r = Quaternion(Vector(axis).normalized(), math.radians(deg)).to_matrix()
+    n = (r @ m.to_3x3()).to_4x4()
+    n.translation = m.translation
+    pb.matrix = n
+    bpy.context.view_layer.update()
+
+
+def head(bone):
+    bpy.context.view_layer.update()
+    return rig.pose.bones[bone].head.copy()
+
+
+def tail(bone):
+    bpy.context.view_layer.update()
+    return rig.pose.bones[bone].tail.copy()
+
+
+# GTA-style idle: shoulders relaxed, arms hanging straight beside the thighs, slight elbow bend,
+# feet under the hips, head level.
+def dbg(tag, side):
+    print(tag, side, "elbow", tuple(round(c, 3) for c in head(f"lowerarm01.{side}")), "wrist", tuple(round(c, 3) for c in tail(f"lowerarm02.{side}")))
 
 
 for side, sgn in (("L", 1), ("R", -1)):
-    d = arm_dir(side)
-    ang = math.degrees(math.atan2(-d.z, abs(d.x)))  # current angle below horizontal
-    world_rot(f"upperarm01.{side}", Vector((0, 1, 0)), sgn * (84 - ang))  # arms hang ~84 deg down
-bpy.context.view_layer.update()
+    dbg("rest", side)
+    rotw(f"clavicle.{side}", (0, 1, 0), sgn * 7)
+    dbg("clav", side)
+    d = (head(f"lowerarm01.{side}") - head(f"upperarm01.{side}")).normalized()
+    ang = math.degrees(math.atan2(-d.z, abs(d.x)))
+    rotw(f"upperarm01.{side}", (0, 1, 0), sgn * (87 - ang))
+    dbg("down", side)
+    rotw(f"upperarm01.{side}", (1, 0, 0), -5)  # hands a touch forward
+    dbg("fwd", side)
+    # elbow: the MakeHuman rest pose has the forearm bent ~45 deg forward. Straighten it to the
+    # upper-arm direction plus a slight 12 deg forward bend.
+    up = (head(f"lowerarm01.{side}") - head(f"upperarm01.{side}")).normalized()
+    target = Quaternion(Vector((1, 0, 0)), math.radians(-12)) @ up
+    cur = (tail(f"lowerarm02.{side}") - head(f"lowerarm01.{side}")).normalized()
+    ax = cur.cross(target)
+    if ax.length > 1e-6:
+        rotw(f"lowerarm01.{side}", ax, math.degrees(cur.angle(target)))
+    dbg("elbow", side)
+    # palms toward the thighs, thumbs forward
+    fa = (tail(f"lowerarm02.{side}") - head(f"lowerarm01.{side}")).normalized()
+    rotw(f"lowerarm02.{side}", fa, sgn * 12)
+    print(side, "wrist", tuple(round(c, 3) for c in tail(f"lowerarm02.{side}")),
+          "hip", tuple(round(c, 3) for c in head(f"upperleg01.{side}")))
+
+# legs: bring the feet in to roughly hip width
 for side, sgn in (("L", 1), ("R", -1)):
-    # forearms slightly forward and in, palms toward the thighs
-    up = rig.pose.bones[f"upperarm01.{side}"]
-    lo = rig.pose.bones[f"lowerarm01.{side}"]
-    # bend elbow about the axis perpendicular to the arm and world forward
-    arm_w = (rig.matrix_world @ up.matrix).to_3x3() @ Vector((0, 1, 0))
-    axis_w = arm_w.cross(Vector((0, -1, 0))).normalized()
-    lw = (rig.matrix_world @ lo.matrix).to_3x3()
-    lo.rotation_quaternion = (lw.inverted() @ Quaternion(axis_w, math.radians(-14)).to_matrix() @ lw).to_quaternion()
-bpy.context.view_layer.update()
+    ank = head(f"foot.{side}")
+    hip = head(f"upperleg01.{side}")
+    want = 0.105  # metres from the centre line at the ankle
+    off = abs(ank.x) - want
+    if off > 0:
+        deg = math.degrees(math.atan2(off, hip.z - ank.z))
+        rotw(f"upperleg01.{side}", (0, 1, 0), sgn * deg)
+        rotw(f"foot.{side}", (0, 1, 0), -sgn * deg)  # keep the sole flat
+    print(side, "ankle x", round(head(f"foot.{side}").x, 3))
+
 # fingers: soft natural curl
 for side in ("L", "R"):
     for f in range(1, 6):
         for j in range(1, 4):
             n = f"finger{f}-{j}.{side}"
             if n in rig.pose.bones:
-                local_rot(n, Vector((1, 0, 0)), 12 if f > 1 else 6)
+                local_rot(n, Vector((1, 0, 0)), (16 + 4 * j) if f > 1 else 8)
+rotw("neck01", (1, 0, 0), 3)
 # slight contrapposto: weight on right leg, head a touch down
 bpy.context.view_layer.update()
 bpy.ops.object.mode_set(mode="OBJECT")
@@ -546,6 +593,11 @@ for ob in meshes:
     me = ob.data
     for v in me.vertices:
         v.co = Vector(((v.co.x - cx) * S, (v.co.y - cy) * S, (v.co.z - zmin) * S))
+# push the tee/jeans a hair outward so posed skin never pokes through the sleeves
+cl = proxy_objs["Clothes"].data
+cl.update()
+for v in cl.vertices:
+    v.co = v.co + v.normal * 0.03
 print("final height studs", (zmax - zmin) * S, "metres look", (zmax - zmin))
 rig.hide_render = True
 
