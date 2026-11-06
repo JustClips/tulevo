@@ -120,11 +120,27 @@ def stripes(name, size=256):
     return texset(name, col, 0.35, 0.2)
 
 
+TEXDIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tex")  # tools/gas_station_textures.py
+
+
+def file_set(name, metal=0.0):
+    """Colour + roughness sheets drawn by tools/gas_station_textures.py; flat metalness."""
+    img = lambda ch: bpy.data.images.load(os.path.join(TEXDIR, f"{name}_{ch}.png"), check_existing=True)
+    n = 8
+    return {"Color": img("Color"), "Roughness": img("Roughness"),
+            "Metalness": save_png(name + "_Metalness", np.full((n, n, 3), metal, np.float32))}
+
+
 TEXSETS = {
-    "Forecourt": concrete("Forecourt"),
+    "Forecourt": file_set("Forecourt"),
+    "IslandKerb": file_set("IslandKerb"),
+    "PumpFace": file_set("PumpFace", 0.15),
+    "PumpSide": file_set("PumpSide", 0.15),
+    "PriceFace": file_set("PriceSign"),
+    "Paint": solid("Paint", (0.92, 0.92, 0.88), 0.7, 0.0),
     "Kerb": concrete("Kerb", 256, seed=6, base=(0.55, 0.55, 0.53), joint=False),
-    "Fascia": stripes("Fascia"),
-    "CanopyUnder": solid("CanopyUnder", (0.85, 0.86, 0.86), 0.5, 0.0),
+    "Fascia": file_set("Fascia", 0.1),
+    "CanopyUnder": file_set("CanopyUnder", 0.2),
     "Columns": solid("Columns", (0.90, 0.90, 0.89), 0.45, 0.0),
     "ColumnBase": solid("ColumnBase", TEAL, 0.4, 0.2),
     "Light": solid("Light", (0.95, 0.97, 1.0), 0.5, 0.0),
@@ -135,8 +151,8 @@ TEXSETS = {
     "Hose": solid("Hose", (0.03, 0.03, 0.03), 0.6, 0.0),
     "Nozzle": solid("Nozzle", (0.15, 0.15, 0.16), 0.3, 1.0),
     "Bollards": solid("Bollards", (0.95, 0.70, 0.05), 0.45, 0.1),
-    "ShopWall": concrete("ShopWall", 256, seed=7, base=(0.80, 0.79, 0.76), joint=False),
-    "ShopGlass": shopfront("ShopGlass"),
+    "ShopWall": file_set("ShopWall"),
+    "ShopGlass": file_set("ShopGlass", 0.5),
     "ShopTrim": solid("ShopTrim", (0.10, 0.10, 0.11), 0.4, 0.8),
     "ShopBand": solid("ShopBand", TEAL, 0.35, 0.1),
     "Roof": solid("Roof", (0.30, 0.30, 0.30), 0.8, 0.0),
@@ -150,12 +166,20 @@ TEXSETS = {
     "Props": solid("Props", (0.55, 0.12, 0.10), 0.5, 0.2),
     "IceBox": solid("IceBox", (0.92, 0.94, 0.96), 0.4, 0.1),
 }
-TILE = {"Forecourt": (6 * M, 6 * M), "Kerb": (2 * M, 2 * M), "ShopWall": (3 * M, 3 * M), "ShopGlass": (3 * 1.6 * M, 3.2 * M)}
-EMISSIVE = {"Light": (0.95, 0.97, 1.0), "Screen": (0.25, 0.6, 0.8), "PriceDigits": (1.0, 0.45, 0.05), "Sign": (1.0, 1.0, 1.0)}
+TILE = {"Forecourt": (6 * M, 6 * M), "Kerb": (2 * M, 2 * M), "ShopWall": (3 * M, 3 * M), "ShopGlass": (3 * 1.6 * M, 3.2 * M),
+        "CanopyUnder": (2.4 * M, 2.4 * M), "IslandKerb": (1.2 * M, 1.2 * M)}
+EXPLICIT_UV = {"PumpFace", "PumpSide", "PriceFace"}   # UVs set when the quads are made
+EMISSIVE = {"Light": (0.95, 0.97, 1.0), "Sign": (1.0, 1.0, 1.0)}
+
+
+_mats = {}
 
 
 def make_material(name):
+    if name in _mats:
+        return _mats[name]
     m = bpy.data.materials.new(name)
+    _mats[name] = m
     m.use_nodes = True
     N, L = m.node_tree.nodes, m.node_tree.links
     b = N['Principled BSDF']
@@ -175,20 +199,52 @@ def make_material(name):
 
 
 PARTS = {}
+LAMPS = []  # canopy lamp parts, listed in meta.json for the Roblox lights
 BMS = {}
 
 
-def bm_of(name):
+def bm_of(name, mat=None):
     """bmesh for a part; created on first use, written out at the end."""
     if name not in BMS:
         me = bpy.data.meshes.new(name)
         ob = bpy.data.objects.new(name, me)
         scene.collection.objects.link(ob)
-        ob.data.materials.append(make_material(name))
+        ob.data.materials.append(make_material(mat or name))
         PARTS[name] = ob
         BMS[name] = bmesh.new()
         BMS[name].loops.layers.uv.new("UVMap")
     return BMS[name]
+
+
+def quad(name, corners, uvs=((0, 0), (1, 0), (1, 1), (0, 1))):
+    """One textured quad (corners counter-clockwise seen from the front) with its own UVs."""
+    bm = bm_of(name)
+    uv = bm.loops.layers.uv.active
+    f = bm.faces.new([bm.verts.new(c) for c in corners])
+    for l, t in zip(f.loops, uvs):
+        l[uv].uv = t
+    return f
+
+
+def tube(name, pts, radius, segs=6):
+    """Hose: a smooth tube through the points (poly curve with a round bevel)."""
+    cu = bpy.data.curves.new("hose", 'CURVE')
+    cu.dimensions, cu.bevel_depth, cu.bevel_resolution, cu.resolution_u = '3D', radius, 1, 6
+    sp = cu.splines.new('BEZIER')
+    sp.bezier_points.add(len(pts) - 1)
+    for bp, p in zip(sp.bezier_points, pts):
+        bp.co = p
+        bp.handle_left_type = bp.handle_right_type = 'AUTO'
+    cu.use_fill_caps = True
+    ob = bpy.data.objects.new("hose", cu)
+    scene.collection.objects.link(ob)
+    bpy.context.view_layer.update()
+    deps = bpy.context.evaluated_depsgraph_get()
+    me = ob.evaluated_get(deps).to_mesh()
+    bm_of(name).from_mesh(me)
+    ob.evaluated_get(deps).to_mesh_clear()
+    bpy.data.objects.remove(ob)
+    bpy.data.curves.remove(cu)
 
 
 def box(name, center, size, rz=0.0):
@@ -263,7 +319,10 @@ for ix in range(6):
     for iy in range(3):
         x = (ix - 2.5) * CAN_W / 6.4
         y = CAN_Y + (iy - 1) * CAN_D / 3.4
-        box("Light", (x, y, CAN_CLEAR - 0.02), (2.2 * M * 0.55, 1.0 * M * 0.55, 0.1))
+        lamp = f"Lamp{len(LAMPS) + 1}"
+        bm_of(lamp, "Light")
+        box(lamp, (x, y, CAN_CLEAR - 0.06), (2.2 * M * 0.55, 1.0 * M * 0.55, 0.12))
+        LAMPS.append(lamp)
 # thin glow line under the fascia edge
 box("Light", (0, CAN_Y - CAN_D / 2 + 0.1, CAN_CLEAR - 0.05), (CAN_W - 1.2, 0.3, 0.12))
 # brand on the street-facing fascia and the two ends
@@ -277,36 +336,46 @@ for ix in ISLAND_X:
         box("ColumnBase", (ix, y, 0.6 + 0.6 * M / 2 + 0.6), (0.62 * M, 0.62 * M, 0.6 * M))
 
 # ---------------------------------------------------------------- pump islands
+ISLAND_TOP = 0.7
 for ix in ISLAND_X:
-    # raised island with rounded-ish ends (two boxes) + bollards at each end
-    box("Kerb", (ix, CAN_Y, 0.35), (1.3 * M, 9.0 * M, 0.7))
+    # raised island, painted with yellow/black safety bands, bollards at each end
+    box("IslandKerb", (ix, CAN_Y, ISLAND_TOP / 2), (1.3 * M, 9.0 * M, ISLAND_TOP))
     for sy in (-1, 1):
-        cyl("Bollards", (ix, CAN_Y + sy * 4.9 * M, 0.7 + 0.5 * M), 0.12 * M, 1.0 * M, segs=10)
-        cyl("Bollards", (ix, CAN_Y + sy * 4.9 * M, 0.7 + 1.0 * M + 0.15), 0.12 * M, 0.3, segs=10, r2=0.05)
-    # two dispensers per island, between the columns
+        cyl("Bollards", (ix, CAN_Y + sy * 4.9 * M, ISLAND_TOP + 0.5 * M), 0.12 * M, 1.0 * M, segs=12)
+        cyl("Bollards", (ix, CAN_Y + sy * 4.9 * M, ISLAND_TOP + 1.0 * M + 0.15), 0.12 * M, 0.3, segs=12, r2=0.05)
+    # two dispensers per island; the wide faces point +-X at the two lanes
     for sy in (-1, 1):
         py = CAN_Y + sy * 1.2 * M
-        h, w, d = 2.3 * M, 1.05 * M, 0.55 * M
-        z0 = 0.7
-        box("PumpDark", (ix, py, z0 + 0.15), (w + 0.4, d + 0.4, 0.3))                 # plinth
-        box("PumpBody", (ix, py, z0 + 0.3 + h * 0.4), (w, d, h * 0.8))                # lower cabinet
-        box("PumpTrim", (ix, py, z0 + 0.3 + h * 0.8 + h * 0.075), (w + 0.1, d + 0.1, h * 0.15))  # brand header
-        box("PumpDark", (ix, py, z0 + 0.3 + h * 0.95 + 0.15), (w + 0.2, d + 0.2, 0.3))  # cap
-        for side in (-1, 1):  # both faces (pumps serve both lanes, faces point +-X)
-            fx = ix + side * (w / 2 + 0.05)
-            box("Screen", (fx, py, z0 + 0.3 + h * 0.6), (0.1, w * 0.55 * 0.9, h * 0.18))
-            box("PumpDark", (fx, py, z0 + 0.3 + h * 0.43), (0.12, w * 0.4, h * 0.12))   # keypad
-            # three grade buttons
-            for k in range(3):
-                box("PumpTrim", (fx + side * 0.05, py - w * 0.28 + k * w * 0.28, z0 + 0.3 + h * 0.30), (0.1, w * 0.2, 0.25 * M * 0.6))
-            # nozzle holsters + nozzles on the side, hose loops down
-            for k, off in enumerate((-0.32, 0.32)):
-                hy = py + off * w * 1.1
-                box("PumpDark", (fx + side * 0.25, hy, z0 + 0.3 + h * 0.48), (0.5, 0.35, 0.6))
-                box("Nozzle", (fx + side * 0.55, hy, z0 + 0.3 + h * 0.46), (0.25, 0.25, 0.9), rz=0)
-                cyl("Hose", (fx + side * 0.6, hy, z0 + 0.3 + h * 0.28), 0.11, h * 0.35, segs=6)
-        text("Sign", "KESTREL", 0.32 * M, (ix + w / 2 + 0.11, py, z0 + 0.3 + h * 0.875), extrude=0.06, rz=math.pi / 2)
-        text("Sign", "KESTREL", 0.32 * M, (ix - w / 2 - 0.11, py, z0 + 0.3 + h * 0.875), extrude=0.06, rz=-math.pi / 2)
+        h, w, d = 2.4 * M, 1.25 * M, 0.6 * M        # height, width (along Y), depth (along X)
+        z0 = ISLAND_TOP
+        zb, zt = z0 + 0.3, z0 + 0.3 + h * 0.94      # cabinet bottom / top
+        box("PumpDark", (ix, py, z0 + 0.15), (d + 0.5, w + 0.5, 0.3))                 # plinth on the island
+        box("PumpBody", (ix, py, (zb + zt) / 2), (d - 0.1, w - 0.1, zt - zb))          # cabinet core
+        box("PumpDark", (ix, py, zt + 0.18), (d + 0.25, w + 0.25, 0.36))              # cap
+        # printed faces (screen, keypad, grade buttons, stickers, brand header) as textures
+        for side in (-1, 1):
+            x = ix + side * d / 2
+            ys = (py - w / 2, py + w / 2) if side > 0 else (py + w / 2, py - w / 2)
+            quad("PumpFace", [(x, ys[0], zb), (x, ys[1], zb), (x, ys[1], zt), (x, ys[0], zt)])
+            yy = py + side * w / 2
+            xs = (ix + d / 2, ix - d / 2) if side > 0 else (ix - d / 2, ix + d / 2)
+            quad("PumpSide", [(xs[0], yy, zb), (xs[1], yy, zb), (xs[1], yy, zt), (xs[0], yy, zt)])
+        # nozzle holsters on both faces, nozzles sit in them, hoses run from the cabinet top
+        # down in a sag and back up into the nozzle, resting on the island
+        for side in (-1, 1):
+            fx = ix + side * d / 2
+            for off in (-1, 1):
+                hy = py + off * w * 0.38
+                hz = z0 + 0.3 + h * 0.42
+                box("PumpDark", (fx + side * 0.22, hy, hz), (0.44, 0.5, 0.8))              # holster cup
+                box("Nozzle", (fx + side * 0.55, hy, hz + 0.15), (0.3, 0.28, 1.0))          # grip
+                box("Nozzle", (fx + side * 0.75, hy, hz + 0.55), (0.7, 0.18, 0.18))         # spout
+                top_pt = (ix + side * (d / 2 - 0.15), hy, zt - 0.2)
+                tube("Hose", [top_pt,
+                              (fx + side * 0.6, hy + off * 0.3, zt - 0.6),
+                              (fx + side * 1.1, hy + off * 0.5, z0 + 1.2),
+                              (fx + side * 0.9, hy + off * 0.2, z0 + 0.35),
+                              (fx + side * 0.62, hy, hz - 0.5)], 0.11)
 
 # ---------------------------------------------------------------- shop
 sx0, sy0 = SHOP_W / 2, SHOP_Y
@@ -324,7 +393,8 @@ box("ShopTrim", (0, gy - 0.1, 2.4 * M / 2), (2.2 * M, 0.2, 2.4 * M + 0.3))
 box("ShopGlass", (0, gy - 0.15, 1.2 * M), (2.0 * M, 0.05, 2.35 * M))
 # overhang band with the brand, lit edge under it
 box("ShopBand", (0, front + 0.4 * M, SHOP_H - 0.9 * M), (SHOP_W + 0.4, 0.8 * M + 0.4, 1.8 * M))
-box("Light", (0, front + 0.02 * M - 0.2, SHOP_H - 1.8 * M - 0.05), (SHOP_W - 1.0, 0.3, 0.12))
+bm_of("ShopLamp", "Light")
+box("ShopLamp", (0, front + 0.02 * M - 0.2, SHOP_H - 1.8 * M - 0.05), (SHOP_W - 1.0, 0.3, 0.12))
 text("Sign", "KESTREL  MART", 0.75 * M, (1.2 * M, front - 0.2 + 0.02, SHOP_H - 0.9 * M), extrude=0.15)
 wing("SignMark", (-5.8 * M, front - 0.18, SHOP_H - 0.85 * M), 1.2 * M, depth=0.25)
 # parapet + roof + rooftop units
@@ -348,27 +418,48 @@ text("Sign", "AIR", 0.25 * M, (ax, ay - 0.27 * M, 1.45 * M), extrude=0.04)
 
 # ---------------------------------------------------------------- price pylon (street corner)
 px, py = -LOT_W / 2 + 3.0 * M, -LOT_D / 2 + 2.0 * M
-pole_h = 9.0 * M
+pole_h = 9.5 * M
 for sx in (-1, 1):
-    box("SignPole", (px + sx * 1.0 * M, py, pole_h / 2), (0.35 * M, 0.35 * M, pole_h))
-box("SignPanel", (px, py, pole_h - 1.6 * M), (3.2 * M, 0.5 * M, 3.0 * M))       # brand panel
-box("PriceBoard", (px, py, pole_h - 4.4 * M), (3.2 * M, 0.45 * M, 2.6 * M))     # price board
+    box("SignPole", (px + sx * 1.2 * M, py, pole_h / 2), (0.35 * M, 0.35 * M, pole_h))
+# sign cabinet: 3.4 m wide, 6.8 m tall (1:2, matches the 512 x 1024 sheet), printed both sides
+sw, sh = 3.4 * M, 6.8 * M
+sz0 = pole_h - sh
+box("SignPanel", (px, py, sz0 + sh / 2), (sw + 0.6, 0.55 * M, sh + 0.6))
 for face in (-1, 1):
-    fy = py + face * 0.26 * M
-    text("Sign", "KESTREL", 0.55 * M, (px, fy, pole_h - 2.2 * M), facing=face, extrude=0.08)
-    wing("SignMark", (px - 0.2 * M, fy, pole_h - 1.1 * M), 1.3 * M, facing=face, depth=0.12)
-    for k, (grade, price) in enumerate((("REG", "3.49"), ("PLUS", "3.79"), ("PREM", "4.09"))):
-        z = pole_h - 3.55 * M - k * 0.8 * M
-        text("Sign", grade, 0.32 * M, (px - 0.85 * M * -face * -1 if False else px - 0.85 * M * (1 if face < 0 else -1), fy + face * 0.0, z), facing=face, extrude=0.05)
-        text("PriceDigits", price + "9", 0.55 * M, (px + 0.55 * M * (1 if face < 0 else -1), fy, z), facing=face, extrude=0.05)
-box("Kerb", (px, py, 0.4), (3.0 * M, 1.4 * M, 0.8))
+    y = py + face * (0.55 * M / 2 + 0.03)
+    xs = (px - sw / 2, px + sw / 2) if face < 0 else (px + sw / 2, px - sw / 2)
+    quad("PriceFace", [(xs[0], y, sz0), (xs[1], y, sz0), (xs[1], y, sz0 + sh), (xs[0], y, sz0 + sh)])
+box("Kerb", (px, py, 0.4), (3.4 * M, 1.4 * M, 0.8))
+
+# ---------------------------------------------------------------- painted markings
+# parking bays in front of the shop (5 x 2.7 m), stop bars at the exits, lane arrows
+front_y = SHOP_Y - SHOP_D / 2
+for k in range(6):
+    x = (k - 2.5) * 2.7 * M
+    box("Paint", (x, front_y - 1.5 * M - 2.5 * M, 0.012), (0.12 * M, 5.0 * M, 0.024))
+for sx in (-1, 1):
+    box("Paint", (sx * (LOT_W / 2 - 6 * M), -LOT_D / 2 + 1.2 * M, 0.012), (8 * M, 0.4 * M, 0.024))
+
+
+def arrow(cx, cy, s, ang):
+    bm = bm_of("Paint")
+    pts = [(-0.12, -0.5), (0.12, -0.5), (0.12, 0.1), (0.3, 0.1), (0, 0.5), (-0.3, 0.1), (-0.12, 0.1)]
+    R = Matrix.Rotation(ang, 2)
+    vs = [bm.verts.new((cx + (R @ Vector(p))[0] * s, cy + (R @ Vector(p))[1] * s, 0.026)) for p in pts]
+    bm.faces.new(vs[:3] + [vs[6]])
+    bm.faces.new([vs[2], vs[3], vs[4], vs[5], vs[6]][::1])
+
+
+for ix in ISLAND_X:
+    for side in (-1, 1):
+        arrow(ix + side * 2.6 * M, CAN_Y + 7.5 * M, 2.4 * M, 0)
 
 # ---------------------------------------------------------------- finish meshes
 for name, bm in BMS.items():
     uv = bm.loops.layers.uv.active
     bm.normal_update()
     tile = TILE.get(name)
-    for f in bm.faces:
+    for f in (bm.faces if name not in EXPLICIT_UV else []):
         n = f.normal
         ax_ = max(range(3), key=lambda i: abs(n[i]))
         for l in f.loops:
@@ -390,8 +481,8 @@ for name, bm in BMS.items():
             for l in f.loops:
                 co = l.vert.co
                 along = co.x if abs(f.normal.y) > 0.5 else co.y
-                l[uv].uv = (along / 20.0, (co.z - CAN_CLEAR) / CAN_FASCIA)
-    if name not in ("ShopGlass",):
+                l[uv].uv = (along / (6 * M), (co.z - CAN_CLEAR) / CAN_FASCIA)
+    if name not in ("ShopGlass",) and name not in EXPLICIT_UV and name != "Paint":
         bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     bm.to_mesh(PARTS[name].data)
     bm.free()
@@ -409,7 +500,7 @@ def bbox(ob):
     return [round(min(v[i] for v in xs), 2) for i in range(3)], [round(max(v[i] for v in xs), 2) for i in range(3)]
 
 
-meta = {"name": "GasStation", "units": "studs", "scale": 1, "parts": {}}
+meta = {"name": "GasStation", "units": "studs", "scale": 1, "parts": {}, "lamps": LAMPS}
 total = 0
 for name, ob in PARTS.items():
     lo, hi = bbox(ob)
