@@ -211,6 +211,37 @@ local function flicker(strength: number, model: Model?)
 	end
 end
 
+local TweenService = game:GetService("TweenService")
+
+local function disc(pos: Vector3, size: number, color: Color3, material: Enum.Material): Part
+	local p = Instance.new("Part")
+	p.Shape = Enum.PartType.Cylinder
+	p.Anchored, p.CanCollide, p.CanQuery, p.CanTouch, p.CastShadow = true, false, false, false, false
+	p.Material = material
+	p.Color = color
+	p.Size = Vector3.new(0.08, size, size)
+	p.CFrame = CFrame.new(pos) * CFrame.Angles(0, 0, math.pi / 2) -- cylinder axis up
+	p.Parent = folder
+	return p
+end
+
+-- a glowing shock ring that races out over the ground, and a burnt mark left behind
+local function groundMarks(pos: Vector3)
+	local ring = disc(pos + Vector3.new(0, 0.12, 0), 2, BOLT_COLOR, Enum.Material.Neon)
+	ring.Transparency = 0.2
+	TweenService:Create(ring, TweenInfo.new(0.45, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+		Size = Vector3.new(0.08, 42, 42),
+		Transparency = 1,
+	}):Play()
+	task.delay(0.5, ring.Destroy, ring)
+	local scorch = disc(pos + Vector3.new(0, 0.04, 0), 9, Color3.fromRGB(24, 21, 19), Enum.Material.SmoothPlastic)
+	scorch.Transparency = 0.2
+	task.delay(25, function()
+		TweenService:Create(scorch, TweenInfo.new(10), { Transparency = 1 }):Play()
+		task.delay(10.5, scorch.Destroy, scorch)
+	end)
+end
+
 local function onStrike(pos: Vector3, seed: number, kind: string)
 	local cam = workspace.CurrentCamera
 	if not cam then
@@ -265,6 +296,9 @@ local function onStrike(pos: Vector3, seed: number, kind: string)
 		end
 		sparks:Emit(45)
 		smoke:Emit(8)
+		if dist < 600 then
+			groundMarks(pos)
+		end
 	end
 	local close = dist < L.ShakeRadius
 	thunder(dist, dist < 450)
@@ -349,16 +383,34 @@ function Lightning.start()
 		if overlay.BackgroundTransparency < 1 then
 			overlay.BackgroundTransparency = math.min(1, overlay.BackgroundTransparency + dt * 2.6)
 		end
-		if shake > 0.01 then
-			shakeT += dt
-			local cam = workspace.CurrentCamera
-			local a = math.rad(shake)
-			local n = shakeT * 28
-			cam.CFrame *= CFrame.Angles(math.noise(n, 0.3) * a, math.noise(0.7, n) * a, math.noise(n, 5.1) * a * 0.5)
-			shake *= math.exp(-dt * 4.5)
-		else
-			shake = 0
+	end)
+
+	-- camera shake: put on after every camera script (Last + 1) and taken off again at the
+	-- start of the next frame, unless something (first-person undo) already reset the camera
+	local applied, shakenCF, cleanCF = false, CFrame.identity, CFrame.identity
+	RunService:BindToRenderStep("WeatherLightningUndo", Enum.RenderPriority.First.Value, function()
+		local cam = workspace.CurrentCamera
+		if applied and cam and cam.CFrame == shakenCF then
+			cam.CFrame = cleanCF
 		end
+		applied = false
+	end)
+	RunService:BindToRenderStep("WeatherLightningShake", Enum.RenderPriority.Last.Value + 1, function(dt)
+		local cam = workspace.CurrentCamera
+		if shake <= 0.01 or not cam then
+			shake = 0
+			return
+		end
+		shakeT += dt
+		local a = math.rad(shake)
+		local n = shakeT * 28
+		cleanCF = cam.CFrame
+		shakenCF = cleanCF
+			* CFrame.new(math.noise(n, 11.3) * 0.3 * shake, math.noise(n, 13.9) * 0.3 * shake, 0)
+			* CFrame.Angles(math.noise(n, 0.3) * a, math.noise(0.7, n) * a, math.noise(n, 5.1) * a * 0.5)
+		cam.CFrame = shakenCF
+		applied = true
+		shake *= math.exp(-dt * 4.5)
 	end)
 
 	local remotes = ReplicatedStorage:WaitForChild("WeatherRemotes", 30)

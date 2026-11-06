@@ -107,8 +107,17 @@ function Weather.strike(at: Vector3?, kind: string?)
 			end
 		end
 		strikeParams.FilterDescendantsInstances = list
-		local hit = workspace:Raycast(Vector3.new(pos.X, 2000, pos.Z), Vector3.new(0, -2600, 0), strikeParams)
-		pos = if hit then hit.Position else Vector3.new(pos.X, 0, pos.Z)
+		-- try a few spots close together and take the highest, so towers draw strikes
+		local best: Vector3? = nil
+		for i = 1, 3 do
+			local o = if i == 1 then Vector3.zero else Vector3.new(math.random(-60, 60), 0, math.random(-60, 60))
+			local hit =
+				workspace:Raycast(Vector3.new(pos.X + o.X, 2000, pos.Z + o.Z), Vector3.new(0, -2600, 0), strikeParams)
+			if hit and (not best or hit.Position.Y > best.Y) then
+				best = hit.Position
+			end
+		end
+		pos = best or Vector3.new(pos.X, 0, pos.Z)
 	end
 	strikeRemote:FireAllClients(pos, math.random(1, 2 ^ 30), kind)
 end
