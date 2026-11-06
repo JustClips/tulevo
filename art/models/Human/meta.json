@@ -1,20 +1,21 @@
 {
  "parts": {
-  "Head": 8860,
-  "Arms": 8072,
-  "Clothes": 7168,
-  "Shoes": 3064,
-  "Hair": 3344,
-  "Eyes": 1060
+  "Head": 18168,
+  "BodyUpper": 6074,
+  "BodyLower": 16090
  },
  "height": 6.2,
- "tris": 31568,
+ "source": "Microsoft Rocketbox Male_Adult_12 (MIT)",
+ "tris": 40332,
+ "part_texture": {
+  "Head": "Head",
+  "BodyUpper": "Body",
+  "BodyLower": "Body"
+ },
  "textures": {
   "Head": "tex\\Head.png",
-  "Arms": "tex\\Arms.png",
-  "Clothes": "tex\\Clothes.png",
-  "Shoes": "tex\\Shoes.png",
-  "Hair": "tex\\Hair.png",
-  "Eyes": "tex\\Eyes.png"
+  "Head_Normal": "tex\\Head_Normal.png",
+  "Body": "tex\\Body.png",
+  "Body_Normal": "tex\\Body_Normal.png"
  }
 }
