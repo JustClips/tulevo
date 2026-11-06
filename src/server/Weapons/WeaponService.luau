@@ -4,10 +4,17 @@
 	hit; clients only ask ("equip this", "I fired from here toward there").
 
 		WeaponService.give(player, "Pistol")   -- adds it (replaces the weapon in that wheel slot)
-		WeaponService.addAmmo(player, "CarbineRifle", 30)  -- spare bullets, up to MaxReserve
+		WeaponService.addAmmo(player, "Pistol", 30)  -- spare bullets (guns without an Ammo item), up to MaxReserve
 		WeaponService.take(player, "Pistol")
 		WeaponService.getAmmo / setAmmo(player, id, mag, reserve)
 		WeaponService.inventory(player)        -> { [Slot]: weaponId }
+		WeaponService.setAmmoSource(source)    -- Server/Inventory: guns with Ammo = "<item id>"
+		                                       -- reload from those items in the bag
+		WeaponService.ammoChanged(player)      -- the bag changed: resend the spare-bullet counts
+
+	Spare bullets: a gun with Ammo set (the carbine: "RifleAmmo") has no spare bullets of its
+	own; its reserve is how many of that ammo item the player carries, and a reload takes them
+	out of the bag. Guns without Ammo keep their own reserve (ReserveAmmo / MaxReserve).
 
 	Remotes (ReplicatedStorage.WeaponRemotes, made here):
 		Equip  (client -> server) weaponId | nil
@@ -72,10 +79,46 @@ local function stateOf(player: Player): State
 	return s
 end
 
+export type AmmoSource = {
+	count: (player: Player, itemId: string) -> number,
+	take: (player: Player, itemId: string, amount: number) -> number, -- returns how many it took
+}
+local ammoSource: AmmoSource? = nil
+
+function WeaponService.setAmmoSource(source: AmmoSource)
+	ammoSource = source
+end
+
+-- spare bullets: the ammo items carried, or the gun's own reserve
+local function reserveOf(player: Player, id: string, h: Held): number
+	local def = Weapons.get(id) :: any
+	if def and def.Ammo and ammoSource then
+		return ammoSource.count(player, def.Ammo)
+	end
+	return h.reserve
+end
+
+-- take up to amount spare bullets; returns how many it got
+local function takeReserve(player: Player, id: string, h: Held, amount: number): number
+	local def = Weapons.get(id) :: any
+	if def and def.Ammo and ammoSource then
+		return ammoSource.take(player, def.Ammo, amount)
+	end
+	local n = math.min(amount, h.reserve)
+	h.reserve -= n
+	return n
+end
+
 local function sendAmmo(player: Player, id: string)
 	local h = stateOf(player).held[id]
 	if h then
-		AmmoRemote:FireClient(player, id, h.mag, h.reserve)
+		AmmoRemote:FireClient(player, id, h.mag, reserveOf(player, id, h))
+	end
+end
+
+function WeaponService.ammoChanged(player: Player)
+	for id in stateOf(player).held do
+		sendAmmo(player, id)
 	end
 end
 
@@ -89,13 +132,20 @@ function WeaponService.give(player: Player, id: string)
 		WeaponService.take(player, old)
 	end
 	s.bySlot[slot] = id
-	s.held[id] = s.held[id] or { mag = def.MagSize or 0, reserve = def.ReserveAmmo or 0, lastFire = 0, reloadingUntil = 0 }
+	s.held[id] = s.held[id]
+		or {
+			mag = def.MagSize or 0,
+			reserve = if (def :: any).Ammo then 0 else def.ReserveAmmo or 0,
+			lastFire = 0,
+			reloadingUntil = 0,
+		}
 	player:SetAttribute("Weapons", table.concat(WeaponService.list(player), ","))
 	sendAmmo(player, id)
 	WeaponService.refreshModel(player)
 end
 
--- Spare bullets for a carried weapon (pickups, shops), capped at the weapon's MaxReserve.
+-- Spare bullets for a carried weapon without an Ammo item (pickups, shops), capped at the
+-- weapon's MaxReserve. Guns with an Ammo item get it as an item: InventoryService.add.
 function WeaponService.addAmmo(player: Player, id: string, amount: number)
 	local def = Weapons.get(id)
 	local h = stateOf(player).held[id]
@@ -111,7 +161,7 @@ end
 function WeaponService.getAmmo(player: Player, id: string): (number?, number?)
 	local h = stateOf(player).held[id]
 	if h then
-		return h.mag, h.reserve
+		return h.mag, reserveOf(player, id, h)
 	end
 	return nil, nil
 end
@@ -384,7 +434,7 @@ ReloadRemote.OnServerEvent:Connect(function(player)
 		return
 	end
 	local need = (def.MagSize or 0) - h.mag
-	if need <= 0 or h.reserve <= 0 or os.clock() < h.reloadingUntil then
+	if need <= 0 or reserveOf(player, id, h) <= 0 or os.clock() < h.reloadingUntil then
 		return
 	end
 	local doneAt = os.clock() + (def.ReloadTime or 1)
@@ -400,9 +450,7 @@ ReloadRemote.OnServerEvent:Connect(function(player)
 		if s.held[id] ~= h or h.reloadingUntil ~= doneAt then
 			return -- dropped, or cut short by holstering / switching
 		end
-		local take = math.min(need, h.reserve)
-		h.mag += take
-		h.reserve -= take
+		h.mag += takeReserve(player, id, h, need)
 		sendAmmo(player, id)
 	end)
 end)

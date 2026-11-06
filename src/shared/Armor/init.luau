@@ -11,6 +11,8 @@
 
 export type ArmorDef = {
 	Name: string,
+	DisplayName: string?, -- shown in the inventory
+	Description: string?, -- tooltip line in the inventory
 	MaxArmor: number, -- armor points when freshly worn
 	Weight: number, -- kg in the inventory (Shared/Items)
 	Cells: Vector2?, -- inventory cells it covers, wide x tall
@@ -22,6 +24,8 @@ export type ArmorDef = {
 local Defs: { [string]: ArmorDef } = {
 	ArmorVest = {
 		Name = "ArmorVest",
+		DisplayName = "Armor vest",
+		Description = "Takes 70% of every hit while it has armor left. Drag it onto the Armor slot to wear it.",
 		MaxArmor = 50,
 		Weight = 5, -- kg in the inventory
 		Cells = Vector2.new(2, 2), -- inventory cells, wide x tall

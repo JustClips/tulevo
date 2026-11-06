@@ -12,7 +12,9 @@
 	  - a vest onto the Armor slot: puts it on (the vest animation, like V); the worn vest
 	    dragged into a slot takes it off
 	Moves that would go over a weight limit are refused by the server. Hovering an item shows
-	its name and weight. Item icons are the real 3D models (ReplicatedStorage.ItemModels).
+	its name, description and weight. Right-click or double-click (double-tap) uses an item
+	(Shared/Items Use: drink, heal, take a gun out, put a vest on); so does its quick slot key.
+	A timed use shows a bar above the quick bar. Item icons are the real 3D models (ReplicatedStorage.ItemModels).
 
 	The window is drawn at a fixed design size (W x H) and a UIScale fits it to 94% of the
 	screen height (or 96% of the width on narrow screens).
@@ -33,12 +35,13 @@ local Items = require(Shared:WaitForChild("Items"))
 local Grid = require(Shared:WaitForChild("Items"):WaitForChild("Grid"))
 local Armor = require(Shared:WaitForChild("Armor"))
 local IconIds = require(Shared:WaitForChild("IconIds"))
-local ItemIconIds = require(Shared:WaitForChild("ItemIconIds"))
 local Weapons = require(script.Parent:WaitForChild("Weapons"))
 local WeaponState = require(script.Parent:WaitForChild("Weapons"):WaitForChild("State"))
 
 local Remotes = ReplicatedStorage:WaitForChild("InventoryRemotes")
 local MoveRemote = Remotes:WaitForChild("Move") :: RemoteEvent
+local UseRemote = Remotes:WaitForChild("Use") :: RemoteEvent
+local NoticeRemote = Remotes:WaitForChild("Notice") :: RemoteEvent
 local CFG = Config.Inventory
 local player = Players.LocalPlayer
 
@@ -422,11 +425,11 @@ tooltip.Parent = gui
 local modelsFolder = ReplicatedStorage:WaitForChild("ItemModels", 10)
 
 -- The item's picture, filling a tile of this aspect (width / height); turned items are drawn
--- turned. Items with a rendered picture (Shared.ItemIconIds, sharp and smooth) use that;
+-- turned. Items with a rendered picture (def.Icon from Shared.ItemIconIds, sharp and smooth) use that;
 -- the rest show their 3D model in a transparent ViewportFrame, or their name until it loads.
 local function makeIcon(id: string, aspect: number, rot: boolean?): GuiObject
 	local def = Items.get(id)
-	local picture = (ItemIconIds :: any)[id]
+	local picture = def and def.Icon
 	if picture then
 		local holder = Instance.new("Frame")
 		holder.Name = "Icon"
@@ -773,10 +776,19 @@ local function showTip(p: Vector2)
 	local n = item.count or 1
 	local w, h = Grid.size(item)
 	local lines = { `<b>{def.Name}</b>{if n > 1 then `  x{n}` else ""}` }
+	if def.Description then
+		table.insert(lines, def.Description)
+	end
 	table.insert(lines, string.format("%.2f kg  ·  %d x %d", def.Weight * n, w, h))
 	local share = armorShare(item, hovered == armorSlot)
 	if share then
 		table.insert(lines, `Armor {math.floor(share * 100 + 0.5)}%`)
+	end
+	local action = Items.useAction(def)
+	local meta = hovered and cellMeta[hovered]
+	if action and not (meta and meta.container == "Ground") then
+		local verb = if def.Use and def.Use.Action == "Wear" and hovered == armorSlot then "Take off" else action.Label
+		table.insert(lines, `<font color="#8c8f94">Right-click: {verb}</font>`)
 	end
 	tooltip.Text = table.concat(lines, "\n")
 	tooltip.Position = UDim2.fromOffset(p.X + 16, p.Y + 12)
@@ -793,6 +805,35 @@ task.spawn(function()
 		vestToggle = ev
 	end
 end)
+
+-- Use an item you carry (Shared/Items Use). from = the container it's shown in. Guns come
+-- out / go on your back, vests go on / come off (both here, with their animations); the rest
+-- is done by the server after the item's Use.Time. false if it can't be used.
+local function useItem(item: any, from: string?): boolean
+	local def = item and Items.get(item.id)
+	local action = Items.useAction(def)
+	if not def or not def.Use or not action or from == "Ground" then
+		return false
+	end
+	local kind = def.Use.Action
+	if kind == "Equip" then
+		Weapons.equip(if WeaponState.Equipped == item.id then nil else item.id)
+	elseif kind == "Wear" then
+		if not vestToggle then
+			return false
+		end
+		if from == "Armor" then
+			vestToggle:Fire(nil) -- take it off (into the first free spot)
+		elseif not state.armor then
+			vestToggle:Fire(item.uid)
+		else
+			return false
+		end
+	else
+		UseRemote:FireServer(item.uid)
+	end
+	return true
+end
 
 -- where the dragged item would land: green if it fits, red if not
 local preview = Instance.new("Frame")
@@ -1107,7 +1148,24 @@ local function cellAt(p: Vector2): Frame?
 	return nil
 end
 
+-- the item's container for useItem (Active items = the gun in your hands)
+local function useFrom(cell: Frame): string?
+	local c = cellMeta[cell] and cellMeta[cell].container
+	return if c == "Active" then "Quick" else c
+end
+
+local lastClick = { uid = nil :: string?, at = 0 }
+local DOUBLE_CLICK = 0.35
+
 UserInputService.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton2 and gui.Enabled and not drag then
+		local cell = cellAt(point(input))
+		local item = cell and cellItem[cell]
+		if cell and item then
+			useItem(item, useFrom(cell))
+		end
+		return
+	end
 	if input.UserInputType ~= Enum.UserInputType.MouseButton1 and input.UserInputType ~= Enum.UserInputType.Touch then
 		return
 	end
@@ -1120,6 +1178,14 @@ UserInputService.InputBegan:Connect(function(input)
 	if not cell or not item then
 		return
 	end
+	-- double-click / double-tap: use it
+	local now = os.clock()
+	if item.uid and lastClick.uid == item.uid and now - lastClick.at < DOUBLE_CLICK then
+		lastClick.uid = nil
+		useItem(item, useFrom(cell))
+		return
+	end
+	lastClick.uid, lastClick.at = item.uid, now
 	local meta = cellMeta[cell]
 	local w, h = Grid.size(item)
 	local key, from, gx, gy = nil, meta.container, (w - 1) // 2, (h - 1) // 2
@@ -1536,19 +1602,14 @@ end)
 
 ---------------------------------------------------------------- quick slots: keys 1-3 + the bar
 
--- Use quick slot i: a gun there comes out, or goes on your back if it's already in your
--- hands. (Eating / first aid from a quick slot comes later.)
+-- Use quick slot i: a gun there comes out (or goes on your back if it's in your hands),
+-- food / first aid gets used, a vest goes on.
 local function useQuick(i: number): boolean
 	local e = lists.Quick[i]
-	local def = e and Items.get(e.id)
-	if not e or not def then
+	if not e then
 		return false
 	end
-	if def.Kind == "Weapon" then
-		Weapons.equip(if WeaponState.Equipped == e.id then nil else e.id)
-		return true
-	end
-	return false
+	return useItem(e, "Quick")
 end
 
 local QUICK_KEYS = {
@@ -1636,6 +1697,58 @@ local function renderBar()
 end
 onQuickChanged = renderBar
 renderBar()
+
+---------------------------------------------------------------- using an item: bar + notices
+
+-- While the server runs a timed use (player attributes UsingItem / UseStart / UseEnd, set by
+-- Server/Inventory), a bar fills above the quick bar. Refusals ("Already at full health")
+-- show there for a moment too.
+local useGui = Instance.new("ScreenGui")
+useGui.Name = "ItemUse"
+useGui.ResetOnSpawn = false
+useGui.IgnoreGuiInset = true
+useGui.DisplayOrder = 6
+local USE_W = 220
+local useBox = Instance.new("Frame")
+useBox.Name = "Bar"
+useBox.AnchorPoint = Vector2.new(0.5, 1)
+useBox.Position = UDim2.new(0.5, 0, 1, -12 - BAR_CELL - 10)
+useBox.Size = UDim2.fromOffset(USE_W, 26)
+useBox.BackgroundColor3 = COLORS.Window
+useBox.BackgroundTransparency = 0.25
+useBox.BorderSizePixel = 0
+useBox.Visible = false
+useBox.Parent = useGui
+local useFill = box(useBox, "Fill", 0, 0, 0, 26, COLORS.Good, 0.35)
+local useText = label(useBox, "Text", "", 0, 0, USE_W, 26, 13, COLORS.Text, BOLD, Enum.TextXAlignment.Center)
+useText.ZIndex = 2
+useText.TextStrokeTransparency = 0.6
+useGui.Parent = player:WaitForChild("PlayerGui")
+
+local noticeUntil = 0
+NoticeRemote.OnClientEvent:Connect(function(text)
+	if typeof(text) == "string" then
+		useText.Text = text
+		useFill.Size = UDim2.fromOffset(0, 26)
+		noticeUntil = os.clock() + 1.8
+		useBox.Visible = true
+	end
+end)
+
+RunService.RenderStepped:Connect(function()
+	local name = player:GetAttribute("UsingItem")
+	local t0, t1 = player:GetAttribute("UseStart"), player:GetAttribute("UseEnd")
+	if typeof(name) == "string" and typeof(t0) == "number" and typeof(t1) == "number" then
+		local share = if t1 > t0 then math.clamp((workspace:GetServerTimeNow() - t0) / (t1 - t0), 0, 1) else 1
+		useText.Text = name
+		useFill.Size = UDim2.fromOffset(math.floor(USE_W * share), 26)
+		useBox.Visible = true
+	elseif os.clock() < noticeUntil then
+		useBox.Visible = true
+	else
+		useBox.Visible = false
+	end
+end)
 
 -- Active items and the bar follow the gun in your hands (it also changes on respawn, in cars...)
 RunService.Heartbeat:Connect(function()
