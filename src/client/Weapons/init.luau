@@ -40,6 +40,7 @@ local AnimSet = require(script:WaitForChild("AnimSet"))
 local Effects = require(script:WaitForChild("Effects"))
 local GunAudio = require(script:WaitForChild("GunAudio"))
 local GunPose = require(script:WaitForChild("GunPose"))
+local Recoil = require(script:WaitForChild("Recoil"))
 local Movement = require(script.Parent:WaitForChild("Movement"))
 local MoveInput = require(script.Parent:WaitForChild("Movement"):WaitForChild("Input"))
 
@@ -340,6 +341,7 @@ function Controller.fire()
 			Effects.flash(muzzle)
 		end
 		GunAudio.ownShot(def)
+		Recoil.kick(def, State.Aiming)
 		Effects.tracer(origin, target) -- the server's hits come back on Shot for others
 	end
 end
@@ -431,6 +433,7 @@ end
 
 function Controller.start()
 	bind()
+	Recoil.start()
 
 	Remotes.Ammo.OnClientEvent:Connect(function(id, mag, reserve)
 		ammo[id] = { mag = mag, reserve = reserve }

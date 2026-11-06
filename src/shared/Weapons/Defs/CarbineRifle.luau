@@ -45,6 +45,18 @@ return {
 	Automatic = true, -- hold to keep firing; false = one shot per click
 	Spread = 2.5, -- degrees, firing from the hip
 	AimSpread = 0.6, -- degrees, aiming
+	-- camera recoil, GTA style (Client/Weapons/Recoil): degrees per shot
+	Recoil = {
+		Climb = 0.45, -- view creeps up and stays (pull down to hold a spray)
+		Side = 0.22, -- random sideways drift, leaning right
+		SideBias = 0.35,
+		Kick = 1.1, -- snap up that springs back
+		Shake = 0.5, -- small yaw / roll wobble
+		FirstShot = 1.4, -- first shot of a burst kicks harder
+		Settle = 0.45, -- share of the climb that drifts back after a burst
+		HipScale = 1.35,
+		AimScale = 0.75,
+	},
 
 	-- magazine
 	MagSize = 30, -- bullets in a full magazine
