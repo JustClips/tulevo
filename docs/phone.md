@@ -32,7 +32,7 @@ Make `Phone/Apps/MyApp.luau`:
 return {
 	Id = "Bank", Name = "Bank", Color = Color3.fromRGB(28, 120, 80), Order = 12,
 	Icon = require(script.Parent.Parent.AppIcons).Bank, -- or nil = first letter
-	open = function(page, phone) -- page = full-screen Frame under the status bar, title already there
+	open = function(page, phone) -- page = full-screen TextButton (blocks taps to the home screen) under the status bar, title already there
 	end,
 	close = function(page) end, -- optional
 }

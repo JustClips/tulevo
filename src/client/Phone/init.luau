@@ -53,7 +53,8 @@ local byId = {}
 local isOpen = false
 local moving: Tween? = nil
 local currentApp = nil
-local currentPage: Frame? = nil
+local currentPage: GuiObject? = nil
+local homePage: Frame
 local mouseFree: TextButton
 local touchButton: TextButton?
 
@@ -90,7 +91,7 @@ local function loadApps()
 end
 
 -- the empty page an app without its own open() gets
-local function emptyPage(page: Frame, app)
+local function emptyPage(page: GuiObject, app)
 	Frame.new("TextLabel", {
 		Parent = page,
 		BackgroundTransparency = 1,
@@ -105,7 +106,7 @@ local function emptyPage(page: Frame, app)
 	})
 end
 
-local function slide(page: Frame, from: UDim2, to: UDim2, t: number)
+local function slide(page: GuiObject, from: UDim2, to: UDim2, t: number)
 	page.Position = from
 	local tw = TweenService:Create(page, TweenInfo.new(t, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { Position = to })
 	tw:Play()
@@ -118,6 +119,8 @@ local function closeApp(animate: boolean)
 	if not page then
 		return
 	end
+	homePage.Visible = true
+	homePage.Interactable = true
 	if app and app.close then
 		task.spawn(app.close, page)
 	end
@@ -147,9 +150,13 @@ function Phone.openApp(id: string)
 		return
 	end
 	closeApp(false)
-	local page = Frame.new("Frame", {
+	-- a button (not a Frame) so taps on the page never reach the home icons under it
+	local page = Frame.new("TextButton", {
 		Name = "App_" .. app.Id,
 		Parent = parts.pages,
+		Text = "",
+		AutoButtonColor = false,
+		Selectable = false,
 		Size = UDim2.fromScale(1, 1),
 		BackgroundColor3 = C.Page,
 		BorderSizePixel = 0,
@@ -175,7 +182,12 @@ function Phone.openApp(id: string)
 	else
 		emptyPage(page, app)
 	end
-	slide(page, UDim2.fromScale(1, 0), UDim2.fromScale(0, 0), 0.3)
+	homePage.Interactable = false
+	slide(page, UDim2.fromScale(1, 0), UDim2.fromScale(0, 0), 0.3).Completed:Connect(function()
+		if currentPage == page then
+			homePage.Visible = false -- fully covered; also keeps gamepad selection off it
+		end
+	end)
 end
 
 function Phone.notify(text: string, seconds: number?)
@@ -374,7 +386,7 @@ function Phone.start()
 	parts = Frame.build(gui)
 	Island.attach(parts.island)
 	loadApps()
-	Home.build(parts.pages, apps, function(app)
+	homePage = Home.build(parts.pages, apps, function(app)
 		Phone.openApp(app.Id)
 	end)
 
