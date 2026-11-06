@@ -2,10 +2,13 @@
 
   python3 tools/build_city_map.py
 
-The city is built one building at a time. Buildings are Blender models loaded by
-src/server/CityBuildings.server.luau (list in src/shared/CityLayout.luau); this file only
-holds the flat parts: ground, sidewalks, roads (tagged Road so the radar, full map and GPS
-see them), lane lines and the spawn.
+The city is built one building at a time. Buildings are Blender models (art/models/<Model>,
+uploaded with tools/upload_models.py) listed in BUILDINGS below. Each becomes an empty Model
+under City/Buildings with attributes LiveSyncAsset (asset id) + LiveSyncBoxCenter; the
+LiveSync plugin (v5+) loads the mesh into it in edit mode, and
+src/server/CityBuildings.server.luau loads it at run time if it is still empty.
+Everything else here is flat: ground, sidewalks, roads (tagged Road so the radar, full map
+and GPS see them), lane lines and the spawn.
 
 Layout (studs, Roblox axes, +Z = south on the map):
   Arkwell Bank tower at the origin, entrance facing -Z (north) onto Vault Avenue.
@@ -30,6 +33,12 @@ BLOCK_X = 120        # cross streets at x = +-BLOCK_X
 AVE_Z = -132         # Vault Avenue centre
 BACK_Z = 132         # back street centre
 EXTENT = 600         # roads run out to +-EXTENT
+
+
+# name, model key (art/models/<Model>), where its Blender origin (ground centre) goes
+BUILDINGS = [
+    ("ArkwellBank", "BankTower", (0, 0.6, 0)),
+]
 
 
 def part(name, size, pos, color, material="Concrete", tags=None, rot=0, **extra):
@@ -104,6 +113,8 @@ for name, size, pos in roads:
                 lines.append(part("L", (length, 0.05, 0.4), (c, 0.22, pos[2] + off), color, "SmoothPlastic", CanCollide=False))
             else:
                 lines.append(part("L", (0.4, 0.05, length), (pos[0] + off, 0.22, c), color, "SmoothPlastic", CanCollide=False))
+for i, l in enumerate(lines):
+    l["name"] = f"Line{i + 1}"
 children.append({"name": "Lines", "className": "Folder", "children": lines})
 
 # spawn: far sidewalk of Vault Avenue, facing the tower (+Z)
@@ -111,6 +122,20 @@ children.append(part("Spawn", (10, 1, 10), (0, kerb + 0.5, AVE_Z - ROAD_W / 2 - 
                      rot=180, Transparency=1, CanCollide=False, Duration=0))
 # paved lot behind the spawn for the test cars and showcase
 children.append(part("SpawnLot", (80, kerb, 40), (0, kerb / 2, AVE_Z - R - SIDE_W - 20), "#45474A", "Asphalt"))
+
+# buildings: empty Models the plugin / server fill with the uploaded mesh
+lock = json.load(open(os.path.join(ROOT, "art", "models.lock.json")))
+buildings = []
+for name, model, at in BUILDINGS:
+    meta = json.load(open(os.path.join(ROOT, "art", "models", model, "meta.json")))
+    lo = [min(p["min"][i] for p in meta["parts"].values()) for i in range(3)]
+    hi = [max(p["max"][i] for p in meta["parts"].values()) for i in range(3)]
+    c = [(a + b) / 2 for a, b in zip(lo, hi)]
+    # Blender (x, y, z) -> Roblox (-x, z, y)
+    center = [round(at[0] - c[0], 3), round(at[1] + c[2], 3), round(at[2] + c[1], 3)]
+    buildings.append({"name": name, "className": "Model", "tags": ["Building"], "attributes": {
+        "LiveSyncAsset": lock[model]["id"], "LiveSyncBoxCenter": {"Vector3": center}, "CityModel": model}})
+children.append({"name": "Buildings", "className": "Folder", "children": buildings})
 
 json.dump({"className": "Folder", "children": children}, open(OUT, "w"), indent=1)
 print(f"wrote {OUT}: {len(children)} parts + {len(lines)} lines")

@@ -1,21 +1,38 @@
--- Places the city's Blender buildings listed in Shared.CityLayout.
--- Parts are anchored, tagged Building for the radar/full map, and kept streamed in
--- so the skyline shows from anywhere. Part-name rules give the right look in Roblox:
+-- Finishes the city's Blender buildings: Models under workspace.City.Buildings with
+-- attribute LiveSyncAsset (made by tools/build_city_map.py).
+-- In Studio the LiveSync plugin (v5+) already loads each mesh in edit mode; if a model
+-- is still empty here (older plugin, or a fresh server) it is loaded now the same way.
+-- Then parts are anchored, kept streamed in so the skyline shows from anywhere, and
+-- named parts get their Roblox look:
 --   Light*  glowing strips -> Neon, no texture
---   *Glass  keep the PBR texture (metal/rough makes the reflections), no shadows inside
-local CollectionService = game:GetService("CollectionService")
 local InsertService = game:GetService("InsertService")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local Shared = ReplicatedStorage:WaitForChild("Shared")
-local ModelIds = require(Shared:WaitForChild("ModelIds"))
-local CityLayout = require(Shared:WaitForChild("CityLayout"))
+local function hasParts(model: Model): boolean
+	return model:FindFirstChildWhichIsA("BasePart", true) ~= nil
+end
 
-local folder = workspace:FindFirstChild("CityBuildings") or Instance.new("Folder")
-folder.Name = "CityBuildings"
-folder.Parent = workspace
+local function load(model: Model)
+	local id = tonumber(model:GetAttribute("LiveSyncAsset"))
+	if not id then
+		return
+	end
+	local ok, container = pcall(InsertService.LoadAsset, InsertService, id)
+	if not ok then
+		warn(`[City] could not load {model.Name} ({id}): {container}`)
+		return
+	end
+	for _, child in container:GetChildren() do
+		child.Parent = model
+	end
+	container:Destroy()
+	local center = model:GetAttribute("LiveSyncBoxCenter")
+	if typeof(center) == "Vector3" then
+		local box = model:GetBoundingBox()
+		model:PivotTo(CFrame.new(center) * box:ToObjectSpace(model:GetPivot()))
+	end
+end
 
-local function styleParts(model: Model)
+local function style(model: Model)
 	for _, d in model:GetDescendants() do
 		if d:IsA("Script") or d:IsA("LocalScript") then
 			d:Destroy()
@@ -34,41 +51,24 @@ local function styleParts(model: Model)
 				d.Color = Color3.fromRGB(225, 238, 255)
 				d.CastShadow = false
 				d.CanCollide = false
-			elseif d.Name:match("Glass$") then
-				d.CastShadow = true
 			end
 		end
 	end
+	model.ModelStreamingMode = Enum.ModelStreamingMode.Persistent
 end
 
-for _, entry in CityLayout do
-	local id = ModelIds[entry.Model]
-	if not id then
-		warn(`[City] {entry.Name}: model {entry.Model} is not uploaded yet`)
-		continue
+local city = workspace:WaitForChild("City", 10)
+local buildings = city and city:WaitForChild("Buildings", 10)
+if not buildings then
+	warn("[City] workspace.City.Buildings not found")
+	return
+end
+for _, model in buildings:GetChildren() do
+	if model:IsA("Model") and model:GetAttribute("LiveSyncAsset") then
+		if not hasParts(model) then
+			load(model)
+		end
+		style(model)
+		print(`[City] {model.Name} ready`)
 	end
-	local ok, container = pcall(InsertService.LoadAsset, InsertService, id)
-	if not ok then
-		warn(`[City] could not load {entry.Name} ({id}): {container}`)
-		continue
-	end
-	local model = Instance.new("Model")
-	model.Name = entry.Name
-	for _, child in container:GetChildren() do
-		child.Parent = model
-	end
-	container:Destroy()
-	styleParts(model)
-	if entry.Scale and entry.Scale ~= 1 then
-		model:ScaleTo(entry.Scale)
-	end
-	-- move so the bounding-box centre sits where the Blender origin + BoxCenter should be
-	local turn = CFrame.Angles(0, math.rad(entry.Yaw or 0), 0)
-	local box = model:GetBoundingBox()
-	local want = CFrame.new(entry.At) * turn * CFrame.new(entry.BoxCenter * (entry.Scale or 1))
-	model:PivotTo(want * box:ToObjectSpace(model:GetPivot()))
-	model.ModelStreamingMode = Enum.ModelStreamingMode.Persistent
-	CollectionService:AddTag(model, "Building")
-	model.Parent = folder
-	print(`[City] {entry.Name} placed`)
 end
