@@ -175,22 +175,23 @@ def limit(x, threshold, release=0.06):
 
 
 def big_shot(shot, rng):
-    """GTA 5 style carbine: a muffled, solid "pow" rather than a sharp crack (Dev: "глухо").
+    """GTA 5 style carbine: a solid "pow", between crisp and muffled (Dev: v3 too sharp, v4 far too muffled).
     Highs rolled off, the 250-1200 Hz body brought forward, no sub boom, limited so it stays
     loud, then a short dull echo off the street."""
     n = seconds(1.4)
     shot = pad(shot / (np.abs(shot).max() + 1e-9), n)
     mix = fft_filter(shot, hp(90, 2))                       # no sub rumble
-    mix = fft_filter(mix, lp(3200, 2.5))                    # take the hiss / sharpness off
-    mix = fft_filter(mix, lambda f: 1 + 1.2 / (1 + ((f - 600) / 450) ** 2))  # the "pow" body
+    mix = fft_filter(mix, lp(6500, 2))                      # soften the hiss, keep it clear
+    mix = fft_filter(mix, lambda f: 1 + 0.7 / (1 + ((f - 700) / 500) ** 2))  # the "pow" body
+    mix = fft_filter(mix, lambda f: 1 + 0.35 / (1 + ((f - 2500) / 1200) ** 2))  # a little snap back
     mix = limit(mix, 0.4)
     tail = np.zeros((n, 2))
-    src = fft_filter(mix, band(200, 2500))
+    src = fft_filter(mix, band(200, 4000))
     for d, g, side in ((0.085, 0.16, 0), (0.15, 0.12, 1), (0.26, 0.07, 0)):
         i = seconds(d)
         tail[i:, side] += g * src[: n - i, side]
         tail[i:, 1 - side] += g * 0.5 * src[: n - i, 1 - side]
-    rv = np.stack([reverb(src[:, c], rng, length=0.8, tone=2500, wet=1.0)[:n] for c in (0, 1)], 1)
+    rv = np.stack([reverb(src[:, c], rng, length=0.8, tone=3500, wet=1.0)[:n] for c in (0, 1)], 1)
     out = mix + tail + 0.08 * rv
     return fade_out(out, 0.5)
 
@@ -207,7 +208,7 @@ def gunshots(rng):
     for k, s in enumerate(onsets(mid, 2), 1):
         shot = mid[s:s + seconds(2.6)]
         # distance eats the top end first
-        distant = fft_filter(shot, lp(2800, 2.5))
+        distant = fft_filter(shot, lp(4200, 2))
         distant = fft_filter(distant, hp(120, 2))
         write(f"CarbineDistant{k}", fade_out(limit(distant, 0.5), 0.8))
         # far: mono, a dull pop, then a long low roll as the echo comes back off the city
