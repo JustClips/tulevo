@@ -106,6 +106,10 @@ local function weatherList(): { string }
 	if weatherModule and type(weatherModule.list) == "function" then
 		local ok, list = pcall(weatherModule.list)
 		if ok and type(list) == "table" then
+			list = table.clone(list)
+			if type(weatherModule.auto) == "function" then
+				table.insert(list, "Auto") -- back to the random cycle
+			end
 			return list
 		end
 	end
@@ -114,6 +118,13 @@ end
 
 local function setWeather(name: string): (boolean, string)
 	if weatherModule then
+		if name == "Auto" and type(weatherModule.auto) == "function" then
+			weatherModule.auto()
+			return true, "Weather: automatic cycle"
+		end
+		if type(weatherModule.list) == "function" and not table.find(weatherModule.list(), name) then
+			return false, "Unknown weather"
+		end
 		local ok, err = pcall(weatherModule.set, name)
 		return ok, if ok then `Weather: {name}` else `Weather failed: {err}`
 	end
