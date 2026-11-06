@@ -818,5 +818,60 @@
   "id": 71395553464739,
   "file": "art/weather/tex/Spray.png",
   "state": "Approved"
+ },
+ "2deb623ff6f7acb549b6a8086fa190c6ce3d8ada8c2e3306536e0f0248e227ca": {
+  "id": 90154573975366,
+  "file": "art/weather/clouds/Cloud_Cg01.png",
+  "state": "Approved"
+ },
+ "fefb236c36a8a65ae271e9e08bdc017a65828fcb68ee1dbe19e797a9bee8f4ba": {
+  "id": 75869283708368,
+  "file": "art/weather/clouds/Cloud_Cg02.png",
+  "state": "Approved"
+ },
+ "06db967ac420c702b584236fafdfd8635a90d7375a9474a74331aa022e104b21": {
+  "id": 79383019141524,
+  "file": "art/weather/clouds/Cloud_Cu04.png",
+  "state": "Approved"
+ },
+ "db6266d4024e2503b9b09de98f71659f5679adf2020bbbd55ba80bd2282cc477": {
+  "id": 114471185297621,
+  "file": "art/weather/clouds/Cloud_Cu05.png",
+  "state": "Approved"
+ },
+ "c091a0de34cb173d85f23bd947c366cb8ff092ac2c1e3fc0c1e1c4b098676b2a": {
+  "id": 131539568327357,
+  "file": "art/weather/clouds/Cloud_Cu06.png",
+  "state": "Approved"
+ },
+ "984ce2892cf6304bfaadfd6b2d2e9e184d99049fd7473cdccb20656a3334e16b": {
+  "id": 124282410304348,
+  "file": "art/weather/clouds/Cloud_Cu07.png",
+  "state": "Approved"
+ },
+ "edf46a429f96c3e731643443c338000e0298f1d98210034a96eb48361277a693": {
+  "id": 105712983242797,
+  "file": "art/weather/clouds/Cloud_Cu08.png",
+  "state": "Approved"
+ },
+ "d901ce302480666f1c159aee2ceba4d515bc3f5d24c118ec344baea47a0fbeb0": {
+  "id": 95491815513582,
+  "file": "art/weather/clouds/Cloud_St01.png",
+  "state": "Approved"
+ },
+ "5a30467859a4e8f60982965148c323311c8150bae97a27624527ac67b01f35cb": {
+  "id": 98210429359167,
+  "file": "art/weather/clouds/Cloud_St02.png",
+  "state": "Approved"
+ },
+ "d4f7c5bff067a9d774dedbda96b3ffd42fd93869757b7f657b35d6a064dd22b2": {
+  "id": 70378716699735,
+  "file": "art/weather/clouds/Cloud_St03.png",
+  "state": "Approved"
+ },
+ "048914a7466f078a793d435b2409c7574f25a39058f9ded36b4265f9078ccf16": {
+  "id": 77781631637285,
+  "file": "art/weather/clouds/Cloud_St04.png",
+  "state": "Approved"
  }
 }

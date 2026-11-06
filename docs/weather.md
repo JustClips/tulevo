@@ -44,3 +44,4 @@ Chat (admins in Config.Weather.Admins, or anyone in a Studio play test):
 
 ### Storm ceiling (2026-11-06)
 In rain the grey Overcast deck drops from 1300 to about 500 studs (`overcast.alt - 800 * gloom`), the strato cards sink up to 220 studs, and lightning bolts start at 470 studs, inside that deck. Rain fog is capped (Atmosphere density ~0.36, haze 1.8) so the clouds overhead stay visible.
+Full cloud set (14 renders: Cu01-08, Cg01-02 towering cells, St01-04 flat banks) is uploaded. Thunderstorms show 16 towering storm cells (Cg sprites, base ~360-440 studs, `w.storm` share), and `Clouds.towerNear` lets Lightning start a bolt under the nearest cell within 700 studs.

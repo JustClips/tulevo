@@ -21,6 +21,7 @@ local FADE_START = 0.3 * FIELD -- clouds start fading this far from the camera..
 local FADE_END = 0.48 * FIELD -- ...and are gone here
 local N_CUMULUS = 70
 local N_STRATO = 60
+local N_TOWER = 16 -- towering storm cells (Cg sprites), only in thunderstorms; bolts come out of them
 local PART_MAX = 2048 -- biggest size a part can have
 local LAYER_GRID = 7 -- sky layers are 7 x 7 parts (14,336 studs across)
 
@@ -34,6 +35,8 @@ type Cloud = {
 	speed: number,
 	breathe: number, -- breathing phase
 	strato: boolean,
+	tower: boolean,
+	baseAt: Vector3?, -- tower only: last spot of its dark base, for Lightning
 	shown: number, -- 0-1, eased toward the target
 }
 
@@ -96,10 +99,10 @@ function Clouds.start()
 	cirrus = layer("Cirrus", tex.Cirrus, 1700, 2048)
 	overcast = layer("Overcast", tex.Overcast, 1300, 1024)
 
-	local cumulus, strato = {}, {}
+	local cumulus, strato, towers = {}, {}, {}
 	for _, sp in CloudSprites do
 		if tex["Cloud_" .. sp.name] then
-			table.insert(if sp.kind == "St" then strato else cumulus, sp)
+			table.insert(if sp.kind == "St" then strato elseif sp.kind == "Cg" then towers else cumulus, sp)
 		end
 	end
 	if #cumulus == 0 then
@@ -110,9 +113,12 @@ function Clouds.start()
 		strato = cumulus
 	end
 	local rng = Random.new(1717) -- same seed for everyone = same sky
-	local function add(list, isStrato: boolean, i: number)
+	local function add(list, isStrato: boolean, i: number, isTower: boolean?)
 		local sp = list[rng:NextInteger(1, #list)]
-		local width = if isStrato then rng:NextNumber(1500, 2040) else rng:NextNumber(550, 1350)
+		local width = if isTower
+			then rng:NextNumber(1300, 1900)
+			elseif isStrato then rng:NextNumber(1500, 2040)
+			else rng:NextNumber(550, 1350)
 		local size = fit(Vector3.new(width, width / sp.aspect, 1))
 		local part = Instance.new("Part")
 		part.Name = `Cloud{i}`
@@ -129,12 +135,16 @@ function Clouds.start()
 			part = part,
 			decal = decal,
 			base = Vector2.new(rng:NextNumber(0, FIELD), rng:NextNumber(0, FIELD)),
-			alt = if isStrato then rng:NextNumber(520, 720) else rng:NextNumber(700, 1050),
+			alt = if isTower
+				then rng:NextNumber(360, 440)
+				elseif isStrato then rng:NextNumber(520, 720)
+				else rng:NextNumber(700, 1050),
 			size = size,
 			gate = rng:NextNumber(0, 0.98),
 			speed = Config.Weather.CloudSpeed * rng:NextNumber(0.75, 1.3) * (if isStrato then 1.25 else 1),
 			breathe = rng:NextNumber(0, math.pi * 2),
 			strato = isStrato,
+			tower = isTower == true,
 			shown = 0,
 		})
 	end
@@ -143,6 +153,11 @@ function Clouds.start()
 	end
 	for i = 1, N_STRATO do
 		add(strato, true, N_CUMULUS + i)
+	end
+	if #towers > 0 then
+		for i = 1, N_TOWER do
+			add(towers, false, N_CUMULUS + N_STRATO + i, true)
+		end
 	end
 end
 
@@ -215,7 +230,7 @@ function Clouds.update(w, dt: number, tint: Color3)
 	table.clear(cframes)
 	local ease = math.min(dt * 0.6, 1)
 	for _, c in clouds do
-		local share = if c.strato then w.strato else w.cumulus
+		local share = if c.tower then w.storm elseif c.strato then w.strato else w.cumulus
 		local target = math.clamp((share - c.gate) * 6, 0, 1)
 		c.shown += (target - c.shown) * ease
 		local x = wrap(c.base.X + (wx * c.speed * t) % FIELD, camPos.X)
@@ -227,18 +242,24 @@ function Clouds.update(w, dt: number, tint: Color3)
 		if math.abs(c.decal.Transparency - tr) > 0.01 then
 			c.decal.Transparency = tr
 		end
+		if tr >= 1 and c.tower then
+			c.baseAt = nil
+		end
 		if tr < 1 then
 			-- rain clouds sink lower and spread; every card swells and shrinks slowly
-			local low = gloom * (if c.strato then 220 else 110)
+			local low = if c.tower then 0 else gloom * (if c.strato then 220 else 110)
 			local breathe = 1 + 0.06 * math.sin(t / 53 + c.breathe)
 			local size = c.size * (breathe * (1 + 0.2 * gloom))
 			if resize then
 				c.part.Size = fit(Vector3.new(size.X, size.Y, 1))
 			end
 			if recolor then
-				c.decal.Color3 = if c.strato then stratoTint else cuTint
+				c.decal.Color3 = if c.strato or c.tower then stratoTint else cuTint
 			end
 			local pos = Vector3.new(x, c.alt - low + size.Y * 0.45, z)
+			if c.tower then
+				c.baseAt = if alpha > 0.5 then Vector3.new(x, c.alt + size.Y * 0.08, z) else nil
+			end
 			n += 1
 			parts[n] = c.part
 			cframes[n] = CFrame.lookAt(pos, camPos) -- the Front face (the decal) looks at the camera
@@ -247,6 +268,22 @@ function Clouds.update(w, dt: number, tint: Color3)
 	if n > 0 then
 		workspace:BulkMoveTo(parts, cframes, Enum.BulkMoveMode.FireCFrameChanged)
 	end
+end
+
+-- The dark base of the storm cell nearest to `at` (flat distance), if one is showing within
+-- `range`. Lightning starts its bolts there so they come out of a cloud.
+function Clouds.towerNear(at: Vector3, range: number): Vector3?
+	local best, bestD = nil, range
+	for _, c in clouds do
+		local b = c.baseAt
+		if b then
+			local d = Vector2.new(b.X - at.X, b.Z - at.Z).Magnitude
+			if d < bestD then
+				best, bestD = b, d
+			end
+		end
+	end
+	return best
 end
 
 return Clouds

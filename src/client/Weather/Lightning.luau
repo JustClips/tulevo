@@ -19,6 +19,7 @@ local SoundIds = require(Shared:WaitForChild("SoundIds"))
 local TextureIds = require(Shared:WaitForChild("TextureIds"))
 
 local Sky = require(script.Parent:WaitForChild("Sky"))
+local Clouds = require(script.Parent:WaitForChild("Clouds"))
 
 local Lightning = {}
 
@@ -262,6 +263,15 @@ local function onStrike(pos: Vector3, seed: number, kind: string)
 		math.max(CLOUD_HEIGHT, pos.Y + 150),
 		pos.Z + rng:NextNumber(-140, 140)
 	)
+	-- come out of the nearest storm cell's dark base when one is overhead
+	local cell = Clouds.towerNear(pos, 700)
+	if cell then
+		local flat = Vector3.new(pos.X - cell.X, 0, pos.Z - cell.Z)
+		if flat.Magnitude > 450 then
+			flat = flat.Unit * 450
+		end
+		top = Vector3.new(cell.X + flat.X, math.max(cell.Y, pos.Y + 150), cell.Z + flat.Z)
+	end
 	-- thicker when far so it still reads on screen
 	local width = math.clamp(dist / 260, 0.7, 5)
 	local model = if #boltIds > 0 then spriteBolt(rng, top, pos) else buildBolt(rng, top, pos, width)

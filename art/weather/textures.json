@@ -12,5 +12,16 @@
  "SplashFlip": "art/weather/tex/SplashFlip.png",
  "RippleFlip": "art/weather/tex/RippleFlip.png",
  "RainDrop": "art/weather/tex/RainDrop.png",
- "Spray": "art/weather/tex/Spray.png"
+ "Spray": "art/weather/tex/Spray.png",
+ "Cloud_Cg01": "art/weather/clouds/Cloud_Cg01.png",
+ "Cloud_Cg02": "art/weather/clouds/Cloud_Cg02.png",
+ "Cloud_Cu04": "art/weather/clouds/Cloud_Cu04.png",
+ "Cloud_Cu05": "art/weather/clouds/Cloud_Cu05.png",
+ "Cloud_Cu06": "art/weather/clouds/Cloud_Cu06.png",
+ "Cloud_Cu07": "art/weather/clouds/Cloud_Cu07.png",
+ "Cloud_Cu08": "art/weather/clouds/Cloud_Cu08.png",
+ "Cloud_St01": "art/weather/clouds/Cloud_St01.png",
+ "Cloud_St02": "art/weather/clouds/Cloud_St02.png",
+ "Cloud_St03": "art/weather/clouds/Cloud_St03.png",
+ "Cloud_St04": "art/weather/clouds/Cloud_St04.png"
 }
