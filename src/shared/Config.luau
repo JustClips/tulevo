@@ -145,6 +145,19 @@ local Config = {
 		AutosaveSeconds = 120,
 	},
 
+	-- Player IDs + overhead name tags (Server/PlayerIds, Client/NameTags).
+	-- TUID: short ID handed out on join, counts up per server (1, 2, 3...), never reused
+	-- in that server. StaticUID: permanent per account, from a global counter in a
+	-- DataStore, the same every time they join.
+	PlayerIds = {
+		DataStoreName = "PlayerIds_v1",
+		FirstStaticUID = 1, -- the first account ever to join gets this number
+		-- tags above other players' heads
+		TagMaxDistance = 40, -- studs; tags fade out over the last FadeStuds
+		TagFadeStuds = 10,
+		ShowOwnTag = false, -- true: you see your own tag too (handy for solo testing)
+	},
+
 	-- In-game clock (Server/GameClock + Shared/GameTime): drives Lighting.ClockTime and the
 	-- time/date on the HUD. GTA style: one game day = 48 real minutes (1 game minute = 2 s).
 	Time = {
