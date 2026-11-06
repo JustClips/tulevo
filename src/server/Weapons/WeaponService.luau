@@ -30,6 +30,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Weapons = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Weapons"))
 local Config = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Config"))
 local Joints = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Joints"))
+local Pouches = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Armor"):WaitForChild("Pouches"))
 local Hitscan = require(script.Parent:WaitForChild("Hitscan"))
 local GunModel = require(script.Parent:WaitForChild("GunModel"))
 
@@ -389,7 +390,11 @@ ReloadRemote.OnServerEvent:Connect(function(player)
 	local doneAt = os.clock() + (def.ReloadTime or 1)
 	h.reloadingUntil = doneAt
 	if player.Character and def.Model then
-		GunModel.reloadMag(player.Character, GunModel.ReloadLength / (def.ReloadTime or GunModel.ReloadLength))
+		GunModel.reloadMag(
+			player.Character,
+			GunModel.ReloadLength / (def.ReloadTime or GunModel.ReloadLength),
+			Pouches.forClass(def.Class)
+		)
 	end
 	task.delay(def.ReloadTime or 1, function()
 		if s.held[id] ~= h or h.reloadingUntil ~= doneAt then

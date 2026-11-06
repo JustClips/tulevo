@@ -38,7 +38,11 @@ return {
 	Weapon_Rifle_JumpUp = "rbxassetid://126833703245246",
 	Weapon_Rifle_Land = "rbxassetid://104146435432242",
 	Weapon_Rifle_Lowered = "rbxassetid://103675367670437",
-	Weapon_Rifle_Reload = "rbxassetid://123032385912413",
+	Weapon_Rifle_Reload = "rbxassetid://119789347542369",
+	Weapon_Rifle_ReloadPouch1 = "rbxassetid://122539324701829",
+	Weapon_Rifle_ReloadPouch1Open = "rbxassetid://84181280395054",
+	Weapon_Rifle_ReloadPouch2 = "rbxassetid://74002900065276",
+	Weapon_Rifle_ReloadPouch2Open = "rbxassetid://81562045536257",
 	Weapon_Rifle_Sprint = "rbxassetid://71046777720708",
 	Weapon_Rifle_Tuck = "rbxassetid://120216076485023",
 }

@@ -73,7 +73,8 @@ shows the rewound hitboxes in Studio.
 | Air | in the air (loop) |
 | JumpPrep / JumpUp / Land | jump wind-up (gun dips with the knees), take-off spring, landing bounce; played on the Movement Prep/TakeOff/Land events |
 | Lowered | a wall within `Config.Weapons.LowerNearWalls` studs in front; no shooting while it's down (`State.Lowered`) |
-| Reload | R: mag out, fresh mag from the vest, slap it in, charging handle |
+| Reload | R: mag out and tossed, no vest: fresh mag off the left hip, push it in, slap it home, charging handle |
+| ReloadPouch1/2 (+Open) | Same, but the fresh mag comes out of the next vest pouch: the hand flicks the lid open (it stays open; ...Open = it already is), pulls the mag out and pushes it in. `Shared/Armor/Pouches` picks the pouch (1 wearer's left, then 2 centre, round again; 3 is out of the left arm's reach), `GunModel.reloadMag` opens the lid and moves the mag on the clip's beats (`art/anim/gun.py` RELOAD). Lids and mags reset when the vest is put on again |
 | Equip | taking the gun out (spawn, or a gun that wasn't on the back) |
 | Holster / Draw | Putting it away lifts the rifle muzzle-up, flips it back over the right shoulder and slides it down onto the back (muzzle down toward the left hip, stock up behind the right shoulder, grip on the right shoulder blade, so the hand reaches it over the shoulder with the elbow up); the quick slot key does it backwards. The server moves the weld when the hand is on the back (`GunModel.HolsterSwap` / `DrawSwap`, from gun.py `HOLSTER`); no firing until the draw ends |
 | CrouchHold | crouched, not aiming: high ready |
@@ -125,7 +126,7 @@ just doesn't play. Hold and Aim loop and drive the upper body over the walk/run 
 | Pistol | Hold, Aim, Fire, Reload, Equip |
 | SMG | Hold, Aim, Fire, Reload, Equip |
 | Shotgun | Hold, Aim, Fire, Reload, Equip |
-| Rifle | Hold, Aim, Fire, Reload, Equip, Sprint, Tuck, Air, Lowered, JumpPrep, JumpUp, Land, Holster, Draw, CrouchHold |
+| Rifle | Hold, Aim, Fire, Reload, Equip, Sprint, Tuck, Air, Lowered, JumpPrep, JumpUp, Land, Holster, Draw, CrouchHold, ReloadPouch1, ReloadPouch1Open, ReloadPouch2, ReloadPouch2Open |
 
 ## Still to do
 

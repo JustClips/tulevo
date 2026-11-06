@@ -293,9 +293,36 @@ def keyed_clip(keys, fps=30, torso=None, head=None, left=None):
     return frames, worst
 
 
-# Reload timeline (seconds at playback speed 1). The server moves the real Magazine part on
-# the same beats (src/server/Weapons/GunModel.luau, RELOAD_BEATS), so keep them in sync.
-RELOAD = dict(grab=0.45, out=0.68, drop=0.8, new=1.12, seated=1.62, length=2.3)
+# Reload timeline (seconds at playback speed 1). The server moves the real parts on the same
+# beats (src/server/Weapons/GunModel.luau RELOAD_BEATS), so keep them in sync:
+#   grab     left hand has the old mag (weld to the hand, MAG_IN_HAND)
+#   drop     old mag falls away
+#   flap     the pouch flap starts to open (tweened over FLAP_TIME), the hand flicks it up
+#   take     hand on the mag top in the pouch (PouchMag piece follows the hand)
+#   swap     piece pulled 0.33 up: the full mag takes its place in the hand (MAG_DRAW_IN_HAND)
+#            (the rest of it is still inside the closed pouch box, so nothing pops)
+#   partial  mag pushed into the well, PARTIAL short of seated: it stays in the gun, the hand
+#            drops under it
+#   seated   the palm slaps it home
+RELOAD = dict(grab=0.40, out=0.60, drop=0.70, flap=0.90, take=1.10, swap=1.20, partial=1.58,
+              seated=1.74, length=2.45)
+FLAP_TIME = 0.1
+PARTIAL = 0.2           # studs the new mag sits short of seated before the slap
+SWAP_LIFT = 0.33        # how far the piece is pulled up when the full mag takes over
+
+# Rifle mag pouches on the vest front (art/models/ArmorVest/meta.json, Server/Armor places the
+# vest box centre at BOX_OFFSET): the mag top (MagWell point) standing in each pouch, in
+# UpperTorso space. 1 = wearer's left, 2 = centre, 3 = wearer's right. The mags stand with the
+# gun's muzzle direction pointing to the wearer's right (POUCH_ROT: gun axes -> torso axes),
+# so their left side faces out.
+POUCH_MAGS = {1: (-0.5525, -0.47, -0.7688), 2: (-0.0125, -0.47, -0.785), 3: (0.5275, -0.47, -0.7688)}
+POUCH_FRONT = {1: -0.894, 2: -0.91, 3: -0.894}   # front of each closed flap (z)
+POUCH_ROT = ry(D(-90))
+# The left hand reloads from pouches 1 and 2. Pouch 3 is out of reach: the blocky arm is ~2
+# studs long and that mag is ~2.15 from the left shoulder (the IK missed by 0.25).
+RELOAD_POUCHES = (1, 2)
+# no vest (or an old vest without pouch parts): the mag comes from the left hip
+POCKET_MAG = (-0.95, -0.55, -0.45)
 
 
 def mag_grip_in_gun():
@@ -307,44 +334,78 @@ def mag_grip_in_gun():
     return m
 
 
-def mag_in_hand():
+def mag_draw_grip_in_gun():
+    """Left hand on the left side of the magazine's top part (how it comes out of a pouch and
+    goes into the well), grip-point frame in gun space."""
+    m = mag_grip_in_gun()
+    m[:3, 3] = P["MagWell"] + np.array([0, -0.26, 0])
+    return m
+
+
+def mag_in_hand(grip=None):
     """Magazine part frame relative to the LeftHand while it's held (for the Weld C0)."""
-    return r15.T(*GRIP_OFFSET) @ np.linalg.inv(mag_grip_in_gun()) @ r15.T(*P["MagCenter"])
+    return r15.T(*GRIP_OFFSET) @ np.linalg.inv(grip if grip is not None else mag_grip_in_gun()) @ r15.T(*P["MagCenter"])
 
 
-def reload_clip():
+def pouch_mag(top, rot=None):
+    """Where the gun would be (torso space) if the magazine stood with its top at `top`."""
+    rot = POUCH_ROT if rot is None else rot
+    m = np.eye(4)
+    m[:3, :3] = rot
+    m[:3, 3] = np.array(top) - rot @ P["MagWell"]
+    return m
+
+
+def reload_clip(pouch=None, flap_closed=True):
     """Rifle tilts so the mag faces you; left hand grabs the mag, pulls it straight down out of
-    the well and tosses it, takes a fresh one from the vest, lines it up under the well and
-    pushes it up in, slaps the bottom, racks the charging handle, back on the handguard."""
+    the well and tosses it. Then (pouch 1-3) flicks the pouch flap open (unless it's open
+    already), takes the mag out of the pouch, or (pouch None) takes one from the left hip;
+    pushes it up into the well, lets go, slaps it home, racks the charging handle and goes
+    back to the handguard."""
     r = RELOAD
     tilt = dict(HOLD, pos=(0.2, 0.12, -0.9), pitch=2, yaw=40, roll=-35)
-    keys = [(0.0, HOLD), (0.3, tilt), (1.85, tilt), (2.1, HOLD), (r["length"], HOLD)]
-    vest = np.array([-0.35, -0.3, -0.62, 1])  # spare mag pouch on the chest, left of centre
+    keys = [(0.0, HOLD), (0.25, tilt), (1.9, tilt), (2.2, HOLD), (r["length"], HOLD)]
     grip = mag_grip_in_gun()
+    draw = mag_draw_grip_in_gun()
+    if pouch:
+        store = pouch_mag(POUCH_MAGS[pouch])
+    else:
+        store = pouch_mag(POCKET_MAG, ry(D(-90)) @ rz(D(15)))
 
     def at(gun, down=0.0, back=0.0, side=0.0):
         m = gun @ grip
         m[:3, 3] += gun[:3, :3] @ np.array([side, -down, back])
         return m
 
+    def drawn(gun, down):
+        """Draw grip on a mag lined up under the well, `down` studs short of seated."""
+        return gun @ r15.T(0, -down, 0) @ draw
+
+    def stored(ut, up=0.0, fwd=0.0):
+        """Draw grip on the mag in its pouch, moved up / forward (torso space)."""
+        return ut @ r15.T(0, up, -fwd) @ store @ draw
+
     def left(t, gun, ut):
         hand = support_target(gun)
         seated = at(gun)
         out = at(gun, down=0.62 * GUN_SCALE)
         toss = at(gun, down=0.8 * GUN_SCALE, side=-0.5)
-        pouch = np.eye(4)
-        pouch[:3, :3] = ut[:3, :3] @ rx(D(80)) @ rz(D(-20))
-        pouch[:3, 3] = (ut @ vest)[:3]
-        below = at(gun, down=0.5 * GUN_SCALE)
-        slap = at(gun, down=-0.03)
         charge = support_target(gun)
         charge[:3, 3] = (gun @ np.array([*(P["Charge"] + np.array([-0.15, 0.1, 0])), 1]))[:3]
         charge_back = charge.copy()
         charge_back[:3, 3] += gun[:3, 2] * 0.35
-        path = [(0.0, hand), (0.3, hand), (r["grab"], seated), (r["out"], out), (r["drop"], toss),
-                (r["new"] - 0.1, pouch), (r["new"], pouch), (1.42, below), (r["seated"], seated),
-                (1.68, slap), (1.74, seated), (1.86, charge), (1.95, charge_back), (2.02, charge),
-                (2.2, hand), (r["length"], hand)]
+        path = [(0.0, hand), (0.25, hand), (r["grab"], seated), (r["out"], out), (r["drop"], toss)]
+        if pouch and flap_closed:
+            front = POUCH_MAGS[pouch][2] - POUCH_FRONT[pouch]  # mag centre -> flap front
+            # fingers under the front of the lid, then up and back over the top: it flips open
+            path += [(r["flap"] - 0.02, stored(ut, up=0.02, fwd=front + 0.06)),
+                     (r["flap"] + FLAP_TIME, stored(ut, up=0.36, fwd=0.04))]
+        else:
+            path += [(r["flap"] + 0.02, stored(ut, up=0.28, fwd=0.12))]
+        path += [(r["take"], stored(ut)), (r["swap"], stored(ut, up=SWAP_LIFT)),
+                 (1.32, stored(ut, up=0.95, fwd=0.05)), (1.48, drawn(gun, 0.42)), (r["partial"], drawn(gun, PARTIAL)),
+                 (1.66, at(gun, down=PARTIAL + 0.25)), (r["seated"], at(gun, down=-0.03)), (1.80, seated),
+                 (1.92, charge), (2.01, charge_back), (2.08, charge), (2.3, hand), (r["length"], hand)]
         for (t0, a), (t1, b) in zip(path, path[1:]):
             if t0 <= t <= t1:
                 u = L.smooth((t - t0) / max(1e-6, t1 - t0))
@@ -589,6 +650,10 @@ def build():
         "Weapon_Rifle_CrouchHold": (*loop_clip(CROUCH_READY, 3.0, 15, amp_pos=0.01, amp_rot=0.5), True, ARMS),
         "Weapon_Rifle_Fire": (*fire_clip(), False, ARMS),
         "Weapon_Rifle_Reload": (*reload_clip(), False, ARMS),
+        # from the vest's rifle mag pouches (Client/Weapons picks the next one): flap shut ->
+        # the hand flicks it open first; ...Open: it's open already
+        **{f"Weapon_Rifle_ReloadPouch{k}{'' if shut else 'Open'}": (*reload_clip(k, shut), False, ARMS)
+           for k in RELOAD_POUCHES for shut in (True, False)},
         "Weapon_Rifle_Equip": (*equip_clip(), False, ARMS),
         "Weapon_Rifle_Holster": (*holster_clip(), False, ARMS),
         "Weapon_Rifle_Draw": (*draw_clip(), False, ARMS),
@@ -715,8 +780,8 @@ def main():
             render(frames[:: max(1, len(frames) // 24)], os.path.join(L.OUT, f"{name}.gif"), name)
             render(frames[:1], os.path.join(L.OUT, f"{name}.png"), name)
     print("HAND_TO_GUN C0:", ", ".join(f"{v:.4f}" for v in hand_to_gun_cframe()))
-    m = mag_in_hand()
-    print("MAG_IN_HAND C0:", ", ".join(f"{v:.4f}" for v in [*m[:3, 3], *m[:3, :3].flatten()]))
+    for label, m in (("MAG_IN_HAND", mag_in_hand()), ("MAG_DRAW_IN_HAND", mag_in_hand(mag_draw_grip_in_gun()))):
+        print(f"{label} C0:", ", ".join(f"{v:.4f}" for v in [*m[:3, 3], *m[:3, :3].flatten()]))
     print("RELOAD beats:", RELOAD)
     print("HOLSTER beats:", dict(swap=HOLSTER["swap"], length=HOLSTER["length"]), "DRAW beats:", draw_beats())
 

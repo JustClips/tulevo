@@ -47,6 +47,6 @@ return {
 	MagSize = 30, -- bullets in a full magazine
 	ReserveAmmo = 150, -- spare bullets you spawn with (5 more mags)
 	MaxReserve = 300, -- most spare bullets you can carry (pickups later)
-	ReloadTime = 2.3, -- seconds; = Weapon_Rifle_Reload length so the mag swap lines up
+	ReloadTime = 2.45, -- seconds; = Weapon_Rifle_Reload / ReloadPouch length so the mag swap lines up
 	AutoReload = true, -- pulling the trigger on an empty mag reloads
 }

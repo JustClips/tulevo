@@ -152,8 +152,24 @@
   "sha": "d99d9628eeddb7367ca0c0bedd172cd17b0b08dccf708c2b696589bfe71efd62"
  },
  "Weapon_Rifle_Reload": {
-  "id": 123032385912413,
-  "sha": "a58ef8a2842ebb75271e61d39142de5af917848791b5bb7170e559ca6869e980"
+  "id": 119789347542369,
+  "sha": "e60ed9ce7140973e9c8dd9bebe151d50c4b260c9503acabe66594559ba07214f"
+ },
+ "Weapon_Rifle_ReloadPouch1": {
+  "id": 122539324701829,
+  "sha": "89b6359a211e5268c1e10e2411832d4714d6ae8f9daf6712430eb99b490cf660"
+ },
+ "Weapon_Rifle_ReloadPouch1Open": {
+  "id": 84181280395054,
+  "sha": "1785d0970c64419d961e846dba648344aea7c002f3171bac9b73ca47e567592e"
+ },
+ "Weapon_Rifle_ReloadPouch2": {
+  "id": 74002900065276,
+  "sha": "333fae0de1836851f314e0c75f30f888588b12a20953d489ef796e31af43b728"
+ },
+ "Weapon_Rifle_ReloadPouch2Open": {
+  "id": 81562045536257,
+  "sha": "a3cbba377c0f103991f224a8d3e5db63ea4b0ad5b56e205d9ceaefde5d4c7d5f"
  },
  "Weapon_Rifle_Sprint": {
   "id": 71046777720708,

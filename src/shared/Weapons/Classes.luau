@@ -48,9 +48,12 @@ return {
 		-- JumpPrep / JumpUp / Land: the arms follow the both-feet jump (with a little bounce)
 		-- Holster / Draw: over the right shoulder onto the back and off it again (Q / slot key)
 		-- CrouchHold: high ready while crouched
+		-- ReloadPouch1/2 (+Open): the new mag comes out of a vest pouch (Shared/Armor/Pouches);
+		-- Reload: no vest, it comes off the left hip
 		Anims = {
 			"Hold", "Aim", "Fire", "Reload", "Equip", "Sprint", "Tuck", "Air", "Lowered",
 			"JumpPrep", "JumpUp", "Land", "Holster", "Draw", "CrouchHold",
+			"ReloadPouch1", "ReloadPouch1Open", "ReloadPouch2", "ReloadPouch2Open",
 		},
 		AimWalkSpeed = 8,
 		CanSprintWhileHeld = true,

@@ -21,10 +21,12 @@
 
 local InsertService = game:GetService("InsertService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
 
 local Shared = ReplicatedStorage:WaitForChild("Shared")
 local Config = require(Shared:WaitForChild("Config"))
 local ModelIds = require(Shared:WaitForChild("ModelIds"))
+local Pouches = require(Shared:WaitForChild("Armor"):WaitForChild("Pouches"))
 
 local GunModel = {}
 
@@ -44,11 +46,32 @@ local BACK = CFrame.fromMatrix(
 	Vector3.new(0.4226, 0.9063, 0)
 )
 
--- Reload: the magazine part goes into the left hand on the beats of Weapon_Rifle_Reload
--- (art/anim/gun.py RELOAD / MAG_IN_HAND; seconds at playback speed 1).
+-- Reload: the parts move on the beats of Weapon_Rifle_Reload / ReloadPouch<k>[Open]
+-- (art/anim/gun.py RELOAD, MAG_IN_HAND, MAG_DRAW_IN_HAND, PARTIAL; seconds at playback speed 1).
+-- Old mag: palmed from below (MAG_IN_HAND). New mag: held by its top half (MAG_DRAW_IN_HAND).
 local MAG_IN_HAND = CFrame.new(0.4881, 0.0454, 0.1066, 0.4226, 0.9063, 0, -0.8517, 0.3971, -0.342, -0.31, 0.1445, 0.9397)
-local RELOAD_BEATS = { grab = 0.45, drop = 0.8, new = 1.12, seated = 1.62, length = 2.3 }
+local MAG_DRAW_IN_HAND =
+	CFrame.new(-0.1542, -0.2099, -0.0677, 0.4226, 0.9063, 0, -0.8517, 0.3971, -0.342, -0.31, 0.1445, 0.9397)
+local RELOAD_BEATS = {
+	grab = 0.4, -- old mag into the left hand
+	drop = 0.7, -- old mag falls away
+	flap = 0.9, -- pouch lid flips open (FLAP_TIME)
+	take = 1.1, -- hand on the mag in the pouch
+	swap = 1.2, -- pulled 0.33 up: the full mag takes over from the pouch piece
+	partial = 1.58, -- pushed into the well, PARTIAL short; the hand lets go
+	seated = 1.74, -- slapped home
+	length = 2.45,
+}
 GunModel.ReloadLength = RELOAD_BEATS.length
+local PARTIAL = 0.2
+-- Vest pouches (Shared/Armor/Pouches, art/models/ArmorVest/meta.json): the lid turns this far
+-- about the back-top edge of its box (110 cuts into the vest, 90 stands stiff).
+local FLAP_OPEN = math.rad(100)
+local FLAP_TIME = 0.1
+-- the magazine top in gun space at scale 1 (art/anim/gun.py MagWell), and how a mag stands in
+-- a pouch: the gun's muzzle direction points to the wearer's right
+local MAGWELL = Vector3.new(0, 0.211, -0.475)
+local POUCH_ROT = CFrame.Angles(0, math.rad(-90), 0)
 
 -- Holster / draw (Weapon_Rifle_Holster / Draw, art/anim/gun.py HOLSTER and draw_beats(),
 -- seconds): when the hand has the rifle on the back, the weld moves to the back (holster) or
@@ -205,15 +228,96 @@ local function attach(character: Model, def, partName: string, offset: CFrame)
 	end
 end
 
+-- Half size, along the parent's axes, of a box turned by cf (cf only ever turns by 90 deg steps
+-- here, so this is exact).
+local function extents(cf: CFrame, size: Vector3): Vector3
+	local x, y, z = cf.XVector * size.X, cf.YVector * size.Y, cf.ZVector * size.Z
+	return Vector3.new(
+		math.abs(x.X) + math.abs(y.X) + math.abs(z.X),
+		math.abs(x.Y) + math.abs(y.Y) + math.abs(z.Y),
+		math.abs(x.Z) + math.abs(y.Z) + math.abs(z.Z)
+	) / 2
+end
+
+-- A vest part and its weld (Server/Armor welds every part to the torso; C1:Inverse() is where
+-- the part sits in the vest's box frame: front -Z, up +Y).
+local function vestPart(vest: Instance, name: string): (BasePart?, Weld?)
+	local part = vest:FindFirstChild(name, true)
+	local weld = part and part:FindFirstChild("VestWeld")
+	if part and part:IsA("BasePart") and weld and weld:IsA("Weld") then
+		return part, weld
+	end
+	return nil, nil
+end
+
+-- Pouch k's lid flips open about the back-top edge of its box and stays open.
+local function openFlap(vest: Instance, k: number, time: number)
+	local flap, weld = vestPart(vest, `MagFlap{k}`)
+	if not (flap and weld) or vest:GetAttribute(`Open{k}`) == true then
+		return
+	end
+	vest:SetAttribute(`Open{k}`, true)
+	local inBox = weld.C1:Inverse()
+	local ext = extents(inBox, flap.Size)
+	local hinge = CFrame.new(inBox.Position + Vector3.new(0, ext.Y, ext.Z))
+	local rest = hinge:Inverse() * inBox
+	local w = weld :: Weld
+	task.spawn(function()
+		local t0 = os.clock()
+		repeat
+			local u = math.min(1, (os.clock() - t0) / math.max(time, 1e-3))
+			u = 1 - (1 - u) * (1 - u) -- fast flick, eases out
+			w.C1 = (hinge * CFrame.Angles(FLAP_OPEN * u, 0, 0) * rest):Inverse()
+			if u < 1 then
+				RunService.Heartbeat:Wait()
+			end
+		until u >= 1 or not w.Parent
+	end)
+end
+
+-- A copy of pouch k's mag top, welded in the left hand where the full mag (magInGun: the
+-- Magazine part in gun space) will be held, so it comes up out of the pouch with the hand.
+-- The pouch's own copy hides (the pouch is empty).
+local function takePouchMag(character: Model, vest: Instance, k: number, hand: BasePart, magInGun: CFrame): BasePart?
+	local piece, weld = vestPart(vest, `PouchMag{k}`)
+	if not (piece and weld) then
+		return nil
+	end
+	local inBox = weld.C1:Inverse()
+	local top = inBox.Position + Vector3.new(0, extents(inBox, piece.Size).Y, 0)
+	local scale = Config.Weapons.GunScale or 1
+	-- where the whole magazine would be if it went on down into the pouch (Pouches rule:
+	-- mag top at the piece's top, muzzle direction to the wearer's right)
+	local fullMag = CFrame.new(top) * POUCH_ROT * CFrame.new(-MAGWELL * scale) * magInGun
+	local held = piece:Clone()
+	for _, d in held:GetChildren() do
+		if d:IsA("JointInstance") then
+			d:Destroy()
+		end
+	end
+	held.Name = "PouchMagHeld"
+	held.Transparency = 0 -- (a used pouch counts as refilled)
+	local w = Instance.new("Weld")
+	w.Part0 = hand
+	w.Part1 = held
+	w.C0 = MAG_DRAW_IN_HAND * fullMag:Inverse() * inBox
+	w.Parent = held
+	held.Parent = character
+	piece.Transparency = 1
+	vest:SetAttribute(`Taken{k}`, true)
+	return held
+end
+
 -- Plays the magazine swap on the real Magazine part, in time with the reload clip played at
--- `speed` (clip length / reload time). Old mag is dropped to the floor; the fresh one comes
--- from the vest and goes back into the gun.
-function GunModel.reloadMag(character: Model, speed: number)
+-- `speed` (clip length / reload time). Old mag is dropped to the floor. The new one comes out
+-- of the next vest pouch when fromPouches (Shared/Armor/Pouches: the lid flips open and stays
+-- open), else from the left hip; it's pushed into the well, then slapped home.
+function GunModel.reloadMag(character: Model, speed: number, fromPouches: boolean?)
 	local gun = character:FindFirstChild("Gun")
 	local mag = gun and gun:FindFirstChild("Magazine", true)
 	local weld = mag and mag:FindFirstChild("GunWeld")
 	local hand = character:FindFirstChild("LeftHand")
-	if not (mag and mag:IsA("BasePart") and weld and weld:IsA("Weld") and hand) then
+	if not (mag and mag:IsA("BasePart") and weld and weld:IsA("Weld") and hand and hand:IsA("BasePart")) then
 		return
 	end
 	local gunPart0, gunC0, gunC1 = weld.Part0, weld.C0, weld.C1
@@ -222,6 +326,19 @@ function GunModel.reloadMag(character: Model, speed: number)
 	end
 	local token = (mag:GetAttribute("Reload") or 0) + 1
 	mag:SetAttribute("Reload", token)
+	-- the pouch this reload takes from (the client picked its clip the same way)
+	local vest = character:FindFirstChild("ArmorVest")
+	local pouch = if fromPouches then Pouches.next(character) else nil
+	if vest and pouch then
+		vest:SetAttribute("NextPouch", Pouches.after(pouch))
+	end
+	local held: BasePart? = nil
+	local function dropHeld()
+		if held then
+			held:Destroy()
+			held = nil
+		end
+	end
 	local function at(t: number, fn: () -> ())
 		task.delay(t / speed, function()
 			if weld.Parent and mag.Parent and gun.Parent == character and mag:GetAttribute("Reload") == token then
@@ -249,14 +366,34 @@ function GunModel.reloadMag(character: Model, speed: number)
 		game:GetService("Debris"):AddItem(old, 10)
 		mag.Transparency = 1
 	end)
-	at(RELOAD_BEATS.new, function()
-		mag.Transparency = 0 -- fresh mag out of the vest pouch
+	if vest and pouch then
+		at(RELOAD_BEATS.flap, function()
+			if vest.Parent == character then
+				openFlap(vest, pouch, FLAP_TIME / speed)
+			end
+		end)
+		at(RELOAD_BEATS.take, function()
+			if vest.Parent == character then
+				held = takePouchMag(character, vest, pouch, hand, gunC1:Inverse())
+			end
+		end)
+	end
+	-- the full mag in the hand: out of the pouch (taking over from the piece) or off the hip
+	at(if vest and pouch then RELOAD_BEATS.swap else RELOAD_BEATS.take, function()
+		dropHeld()
+		weld.Part0, weld.C0, weld.C1 = hand, MAG_DRAW_IN_HAND, CFrame.new()
+		mag.Transparency = 0
+	end)
+	at(RELOAD_BEATS.partial, function()
+		-- in the well, not quite home; the hand lets go to slap it
+		weld.Part0, weld.C0, weld.C1 = gunPart0, gunC0 * CFrame.new(0, -PARTIAL, 0), gunC1
 	end)
 	at(RELOAD_BEATS.seated, function()
 		weld.Part0, weld.C0, weld.C1 = gunPart0, gunC0, gunC1
 	end)
 	-- whatever happens, the mag ends up back in the gun
 	local function restore()
+		dropHeld()
 		if weld.Parent then
 			weld.Part0, weld.C0, weld.C1 = gunPart0, gunC0, gunC1
 		end

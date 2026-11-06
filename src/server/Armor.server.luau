@@ -33,8 +33,9 @@ local InventoryService = require(script.Parent:WaitForChild("Inventory"):WaitFor
 
 local TORSO_WIDTH = 2 -- UpperTorso width the vest was built for
 -- Vest box center relative to the torso center (from art/models/ArmorVest/meta.json):
--- 0.1025 down (long cut reaching the belt), 0.0275 forward (forward = -Z).
-local BOX_OFFSET = CFrame.new(0, -0.1025, -0.0275)
+-- 0.1025 down (long cut reaching the belt), 0.0375 forward (forward = -Z; the deeper mag
+-- pouch lids moved the box front out by 0.02).
+local BOX_OFFSET = CFrame.new(0, -0.1025, -0.0375)
 -- Set to true if the vest shows up backwards on the character.
 local FLIP = false
 -- RightHand -> vest box centre while carried (art/anim/vest.py prints VEST_IN_HAND)

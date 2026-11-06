@@ -34,6 +34,7 @@ local TweenService = game:GetService("TweenService")
 local Shared = ReplicatedStorage:WaitForChild("Shared")
 local Config = require(Shared:WaitForChild("Config"))
 local Weapons = require(Shared:WaitForChild("Weapons"))
+local Pouches = require(Shared:WaitForChild("Armor"):WaitForChild("Pouches"))
 local State = require(script:WaitForChild("State"))
 local AnimSet = require(script:WaitForChild("AnimSet"))
 local Effects = require(script:WaitForChild("Effects"))
@@ -233,10 +234,16 @@ function Controller.reload()
 	State.Reloading = true
 	reloadToken += 1
 	local mine = reloadToken
+	-- the clip for where the new mag comes from (next vest pouch, lid shut or open; else the
+	-- hip), picked before the server moves on to the next pouch (Shared/Armor/Pouches)
+	local slot = if player.Character then Pouches.reloadSlot(player.Character, def.Class) else "Reload"
 	Remotes.Reload:FireServer()
 	if anims then
-		anims:play("Reload", 0.1, (anims.tracks.Reload and anims.tracks.Reload.Length > 0)
-			and anims.tracks.Reload.Length / (def.ReloadTime or 1) or 1)
+		if not anims.tracks[slot] then
+			slot = "Reload"
+		end
+		local track = anims.tracks[slot]
+		anims:play(slot, 0.1, if track and track.Length > 0 then track.Length / (def.ReloadTime or 1) else 1)
 	end
 	task.delay(def.ReloadTime or 1, function()
 		if reloadToken == mine then
