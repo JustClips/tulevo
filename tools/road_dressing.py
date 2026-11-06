@@ -41,6 +41,7 @@ WALK_TILE = 21.6  # 4 x 4 slabs of 5 ft
 # top-face heights of the layers (road tops are 0.2 / 0.204; lane lines sit above all of these)
 Y_LANES, Y_GRIME, Y_PATCH, Y_CRACK, Y_STAIN, Y_MANHOLE, Y_PAINT = 0.212, 0.22, 0.228, 0.236, 0.244, 0.252, 0.262
 THICK = 0.01
+Y_CAP = 0.212  # crossing caps: top 0.008 above the higher road top, like the other layers
 
 
 def _ids():
@@ -269,6 +270,11 @@ def _crossing(r, q, x0, x1, z0, z1):
     out = []
     rnd = random.Random("%s|%s" % (r.name, q.name))
     cx, cz = (x0 + x1) / 2, (z0 + z1) / 2
+    # one opaque asphalt cap over the box: the two crossing road parts overlap here 0.004 apart and
+    # their surface textures z-fight (flicker); the cap hides both
+    cap = _overlay("Cap", x1 - x0, z1 - z0, cx, cz, Y_CAP, 0, _texture(IDS["StreetColor"], STUDS_PER_TILE, STUDS_PER_TILE, name="Surface"))
+    cap["properties"].update({"Transparency": 0, "Material": "Asphalt", "MaterialVariant": VARIANT, "Color": "#FFFFFF"})
+    out.append(cap)
     out.append(_overlay("Grime", (x1 - x0) * 1.2, (z1 - z0) * 1.2, cx, cz, Y_GRIME, rnd.choice([0, 90, 180, 270]),
                         _decal(IDS["Grime%d" % rnd.randint(1, 3)])))
     out.append(_overlay("Tar", x1 - x0, z1 - z0, cx, cz, Y_CRACK, rnd.choice([0, 90, 180, 270]), _decal(IDS["Tar%d" % rnd.randint(1, 4)])))
