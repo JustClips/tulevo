@@ -14,6 +14,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 
 local Vehicles = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Vehicles"))
+local Joints = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Joints"))
 
 local Cockpit = {}
 
@@ -32,7 +33,7 @@ type State = {
 
 local states: { [Model]: State } = {}
 local driver: { model: Model, read: () -> any }? = nil
-local kneeWritten: { [Motor6D]: CFrame } = setmetatable({}, { __mode = "k" }) :: any
+local kneeWritten: { [Instance]: CFrame } = setmetatable({}, { __mode = "k" }) :: any
 
 -- The car this client drives: read() returns the current { Throttle, Steer, Handbrake }.
 function Cockpit.setDriver(model: Model?, read: (() -> any)?)
@@ -144,10 +145,10 @@ local function update(model: Model, dt: number, camPos: Vector3)
 		local character = hum and hum.Parent
 		if character then
 			for _, joint in { "RightKnee", "LeftKnee" } do
-				local lower = character:FindFirstChild(if joint == "RightKnee" then "RightLowerLeg" else "LeftLowerLeg")
-				local m = lower and lower:FindFirstChild(joint)
+				-- Motor6D or AnimationConstraint (Avatar Joint Upgrade), both have Transform
+				local m = Joints.find(character, if joint == "RightKnee" then "RightLowerLeg" else "LeftLowerLeg", joint)
 				-- only on top of a fresh animator pose (never stack it frame after frame)
-				if m and m:IsA("Motor6D") and m.Transform ~= kneeWritten[m] then
+				if m and m.Transform ~= kneeWritten[m] then
 					m.Transform *= CFrame.Angles(math.rad(rig.KneeLift), 0, 0)
 					kneeWritten[m] = m.Transform
 				end
