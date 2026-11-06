@@ -538,8 +538,8 @@ function Controller.start()
 	end
 
 	-- GTA camera on PC: while a gun is out the mouse is locked to the screen centre and turns
-	-- the camera (no right-drag needed); a dot shows where shots go. Aiming moves the camera
-	-- over the right shoulder.
+	-- the camera (no right-drag needed); while aiming a dot shows where shots go and the
+	-- camera moves over the right shoulder.
 	local crossGui = Instance.new("ScreenGui")
 	crossGui.Name = "Crosshair"
 	crossGui.IgnoreGuiInset = true
@@ -586,7 +586,9 @@ function Controller.start()
 			UserInputService.MouseIconEnabled = not lock
 		end
 		mouseLocked = lock
-		crossGui.Enabled = gunOut and (lock or raised)
+		-- the dot only while aiming (right click / L2; Dev 2026-11-06), not while hip-firing or
+		-- just carrying the gun
+		crossGui.Enabled = gunOut and State.Aiming
 		dot.Size = if raised then UDim2.fromOffset(4, 4) else UDim2.fromOffset(6, 6)
 		-- over the right shoulder while the gun is up (CameraOffset is in the character's
 		-- space, and the character faces the camera then)
