@@ -5,5 +5,12 @@
  "Cirrus": "art/weather/tex/Cirrus.png",
  "Overcast": "art/weather/tex/Overcast.png",
  "FootprintL": "art/weather/tex/FootprintL.png",
- "FootprintR": "art/weather/tex/FootprintR.png"
+ "FootprintR": "art/weather/tex/FootprintR.png",
+ "Cloud_Cu01": "art/weather/clouds/Cloud_Cu01.png",
+ "Cloud_Cu02": "art/weather/clouds/Cloud_Cu02.png",
+ "Cloud_Cu03": "art/weather/clouds/Cloud_Cu03.png",
+ "SplashFlip": "art/weather/tex/SplashFlip.png",
+ "RippleFlip": "art/weather/tex/RippleFlip.png",
+ "RainDrop": "art/weather/tex/RainDrop.png",
+ "Spray": "art/weather/tex/Spray.png"
 }

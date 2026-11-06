@@ -11,7 +11,6 @@ TextureIds.Weather.
 """
 import json
 import os
-import shutil
 import sys
 
 from PIL import Image
@@ -72,7 +71,14 @@ def main():
         p = os.path.join(src, "fx", fn)
         if os.path.exists(p):
             out = os.path.join(ROOT, "art", "weather", "tex", key + ".png")
-            shutil.copy(p, out)
+            im = Image.open(p).convert("RGBA")
+            if key.endswith("Flip") and im.size != (1024, 1024):
+                im = im.resize((1024, 1024), Image.LANCZOS)  # flipbooks: square, power of two
+            amax = im.getchannel("A").getextrema()[1]
+            if 0 < amax < 160:  # very faint render: lift it so it reads in game
+                k = 220 / amax
+                im.putalpha(im.getchannel("A").point(lambda v: min(255, int(v * k))))
+            im.save(out)
             m[key] = os.path.relpath(out, ROOT)
             print(out)
     ldir = os.path.join(src, "lightning")

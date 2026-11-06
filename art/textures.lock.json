@@ -783,5 +783,40 @@
   "id": 93147410557191,
   "file": "art/models/OfficeStone/tex/OfficeStone_RevDoor.png",
   "state": "Approved"
+ },
+ "1ff856654d07d14914ff9a2ce08a20e15d5a8252acbfe904b2c45609513e5f4e": {
+  "id": 106266301618026,
+  "file": "art/weather/clouds/Cloud_Cu01.png",
+  "state": "Approved"
+ },
+ "b45f98d70624e3ed5898d6c2b9028cb36164c6d75a743570325273eac9ca9dc0": {
+  "id": 74790677408630,
+  "file": "art/weather/clouds/Cloud_Cu02.png",
+  "state": "Approved"
+ },
+ "dac2827e86eb8fba4fd3636ecb919075a582a5a6537b9cc5e89d619376433303": {
+  "id": 100886296884403,
+  "file": "art/weather/clouds/Cloud_Cu03.png",
+  "state": "Approved"
+ },
+ "2c7013445d4936dd2d537b4e48f65da5f58323c13119a44172cfd7b00bd02ee1": {
+  "id": 126740861495179,
+  "file": "art/weather/tex/RainDrop.png",
+  "state": "Approved"
+ },
+ "44259b7cbfffd27ac2c4759fc9f4e5883f851e45af6c9c9bee54344f272d9e26": {
+  "id": 125079827017163,
+  "file": "art/weather/tex/RippleFlip.png",
+  "state": "Approved"
+ },
+ "321f16134f8bceb60b094e5b0a2a870ec9eaf3ea0979c2a4c8c44883f2ab6f12": {
+  "id": 109527567461357,
+  "file": "art/weather/tex/SplashFlip.png",
+  "state": "Approved"
+ },
+ "d37c17b5515752fc3569d77027d2293af84eefc9005b000c5fdaa02da03f83ad": {
+  "id": 71395553464739,
+  "file": "art/weather/tex/Spray.png",
+  "state": "Approved"
  }
 }

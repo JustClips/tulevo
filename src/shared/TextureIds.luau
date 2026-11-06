@@ -236,11 +236,18 @@ return {
 	},
 	Weather = {
 		Cirrus = 77958563532552,
+		Cloud_Cu01 = 106266301618026,
+		Cloud_Cu02 = 74790677408630,
+		Cloud_Cu03 = 100886296884403,
 		FootprintL = 117102981833016,
 		FootprintR = 72740635854735,
 		Overcast = 91829527228290,
+		RainDrop = 126740861495179,
 		RainSheet = 76746315614032,
 		RainSpray = 80848297953462,
 		RainStreak = 97549107602971,
+		RippleFlip = 125079827017163,
+		SplashFlip = 109527567461357,
+		Spray = 71395553464739,
 	},
 }
