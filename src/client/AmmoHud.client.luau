@@ -30,6 +30,8 @@ local FLOAT = {
 	Right = 0.55, -- studs right of the crosshair line, measured at the head
 	Up = -0.35, -- studs above the head (negative = lower, about gun height)
 	Forward = 1.6, -- studs ahead of the head, toward the aim
+	HeadHeight = 1.6, -- anchor height above the root part's centre (about the head)
+	SmoothY = 6, -- how fast the anchor height follows the body (lower = smoother)
 	Height = 0.85, -- panel height in studs at RefDistance; Height, Right and Up scale with the
 	-- camera distance (and FOV) so it stays the same size on screen when you zoom in or out
 	RefDistance = 11, -- studs from the camera to the panel in Dev's "this big" shot (aiming FOV)
@@ -214,7 +216,9 @@ local shownUntil = 0
 local lastMag = -1
 local pop = 0 -- number punch when a shot is fired
 
-local function placeLayers(cam: Camera, dt: number, head: BasePart)
+local anchorY: number? = nil -- smoothed height of the anchor point
+
+local function placeLayers(cam: Camera, dt: number, rootPart: BasePart)
 	local rot = cam.CFrame.Rotation
 	if not lagRot then
 		lagRot = rot
@@ -235,8 +239,18 @@ local function placeLayers(cam: Camera, dt: number, head: BasePart)
 	flat = if flat.Magnitude > 0.01 then flat.Unit else Vector3.zAxis
 	local right = flat:Cross(Vector3.yAxis)
 
+	-- anchored on the root part (not the head, which bobs and shakes with every animation),
+	-- at head height; the height is smoothed so steps, jumps and crouches glide
+	local rootPos = rootPart.Position
+	local targetY = rootPos.Y + FLOAT.HeadHeight
+	if not anchorY then
+		anchorY = targetY
+	else
+		anchorY = (anchorY :: number) + (targetY - (anchorY :: number)) * (1 - math.exp(-FLOAT.SmoothY * dt))
+	end
+	local anchor = Vector3.new(rootPos.X, anchorY :: number, rootPos.Z)
 	local camPos = cam.CFrame.Position
-	local ahead = head.Position + flat * FLOAT.Forward
+	local ahead = anchor + flat * FLOAT.Forward
 	local dist = (ahead - camPos).Magnitude
 	local scale = math.clamp(
 		dist * math.tan(math.rad(cam.FieldOfView / 2)) / (FLOAT.RefDistance * math.tan(math.rad(FLOAT.RefFov / 2))),
@@ -249,7 +263,7 @@ local function placeLayers(cam: Camera, dt: number, head: BasePart)
 	local step = FLOAT.Thickness * h / FLOAT.Layers
 	-- sideways from the camera's line (the shoulder camera sits right of the head), so the
 	-- panel stays just right of the crosshair whether or not the camera is over the shoulder
-	local side = (head.Position - camPos):Dot(right)
+	local side = (anchor - camPos):Dot(right)
 	local origin = ahead + right * (FLOAT.Right * scale - side) + Vector3.yAxis * FLOAT.Up * scale
 
 	-- faces the camera (lagged), turned about its left edge so the far end recedes
@@ -290,15 +304,16 @@ RunService:BindToRenderStep("AmmoHud", Enum.RenderPriority.Last.Value + 2, funct
 	alpha = math.clamp(alpha + (if target > alpha then 1 else -1) * dt / FLOAT.Fade, 0, 1)
 	local cam = workspace.CurrentCamera
 	local char = player.Character
-	local head = char and char:FindFirstChild("Head") :: BasePart?
-	if alpha <= 0 or not cam or not def or not head then
+	local rootPart = char and char:FindFirstChild("HumanoidRootPart") :: BasePart?
+	if alpha <= 0 or not cam or not def or not rootPart then
 		hideFloat()
 		lagRot = nil
+		anchorY = nil
 		lastMag = -1
 		return
 	end
 
-	placeLayers(cam, dt, head :: BasePart)
+	placeLayers(cam, dt, rootPart :: BasePart)
 
 	if lastMag >= 0 and State.Mag < lastMag then
 		pop = 1
