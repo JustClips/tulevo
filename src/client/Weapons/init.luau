@@ -580,10 +580,11 @@ function Controller.start()
 		-- the mouse lock / cursor and sensitivity are Movement/MouseLook (GTA mouse look); a
 		-- gun out always locks the mouse there
 		Movement.MouseLook.gunOut = gunOut
-		-- the dot only while aiming (right click / L2; Dev 2026-11-06), not while hip-firing or
-		-- just carrying the gun
-		crossGui.Enabled = gunOut and State.Aiming
-		dot.Size = if raised then UDim2.fromOffset(4, 4) else UDim2.fromOffset(6, 6)
+		-- GTA style: with the cursor hidden (mouse look) a small dot always marks the screen
+		-- centre, on foot too (Dev 2026-11-06: "why u removed crosshair"); the aiming dot as before
+		local aimDot = gunOut and State.Aiming
+		crossGui.Enabled = aimDot or Movement.MouseLook.isLocked()
+		dot.Size = if aimDot and raised then UDim2.fromOffset(4, 4) else UDim2.fromOffset(5, 5)
 		-- over the right shoulder while the gun is up (CameraOffset is in the character's
 		-- space, and the character faces the camera then)
 		local fp = isFirstPerson(player.Character)
