@@ -740,8 +740,8 @@ end
 -- seconds later if that request never comes.)
 local ProximityPromptService = game:GetService("ProximityPromptService")
 ProximityPromptService.PromptTriggered:Connect(function(prompt, who)
-	if who ~= player then
-		return
+	if who ~= player or Pickup.busy() then
+		return -- already picking something up: extra presses do nothing
 	end
 	local folder = workspace:FindFirstChild("DroppedItems")
 	local model = folder and prompt:FindFirstAncestorOfClass("Model")
@@ -753,6 +753,18 @@ ProximityPromptService.PromptTriggered:Connect(function(prompt, who)
 		print("[Pickup] prompt isn't on a dropped item model:", prompt:GetFullName())
 		return
 	end
+	-- hide this item's prompt until the pickup is over, so it can't be pressed again
+	prompt.Enabled = false
+	task.spawn(function()
+		local t0 = os.clock()
+		repeat
+			task.wait(0.1)
+		until not Pickup.busy() or os.clock() - t0 > 8
+		task.wait(0.5) -- the server's answer (item gone) usually lands first
+		if prompt.Parent then
+			prompt.Enabled = true
+		end
+	end)
 	Pickup.request(model:GetPivot().Position, function()
 		MoveRemote:FireServer("Ground", uid, "Inventory", 0, false) -- no slot: wherever it fits
 	end, true)

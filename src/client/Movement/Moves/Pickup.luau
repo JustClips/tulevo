@@ -48,6 +48,7 @@ type Pending = { pos: Vector3, grab: (() -> ())?, ready: boolean, at: number }
 
 local pending: Pending? = nil
 local walkToken = 0
+local playing = false -- the clip is on
 
 -- Output lines for chasing "no animation" reports (only when something goes off the normal path)
 local function note(text: string)
@@ -75,6 +76,12 @@ local Pickup = {
 
 -- Start a pickup of something lying at pos. grab (optional) runs once, when the hand reaches
 -- it (or right away if the clip can't play). walk = walk up to it first.
+-- true from E until the clip is over: Client/Inventory ignores more presses meanwhile (Dev
+-- 2026-11-06: a second E during the walk-up grabbed the item at once, with no clip)
+function Pickup.busy(): boolean
+	return pending ~= nil or playing
+end
+
 function Pickup.request(pos: Vector3, grab: (() -> ())?, walk: boolean?)
 	if pending and pending.grab then
 		grabNow(pending) -- a pickup still waiting: don't lose it
@@ -93,7 +100,7 @@ function Pickup.request(pos: Vector3, grab: (() -> ())?, walk: boolean?)
 		return
 	end
 	local function close(): boolean
-		return flatDistance(root.Position, pos) <= REACH + 0.45
+		return flatDistance(root.Position, pos) <= REACH + 0.75
 	end
 	if not walk or close() then
 		p.ready = true
@@ -102,14 +109,26 @@ function Pickup.request(pos: Vector3, grab: (() -> ())?, walk: boolean?)
 	task.spawn(function()
 		local flat = Vector3.new(pos.X - root.Position.X, 0, pos.Z - root.Position.Z)
 		local stand = pos - flat.Unit * REACH
+		local arrived = false
+		local conn = humanoid.MoveToFinished:Connect(function()
+			arrived = true
+		end)
 		humanoid:MoveTo(Vector3.new(stand.X, root.Position.Y, stand.Z))
 		local t0 = os.clock()
+		local stillFor = 0
 		while token == walkToken and os.clock() - t0 < WALK_TIMEOUT do
-			if close() or humanoid.Health <= 0 then
+			if arrived or close() or humanoid.Health <= 0 then
 				break
 			end
-			RunService.Heartbeat:Wait()
+			local dt = RunService.Heartbeat:Wait()
+			local v = root.AssemblyLinearVelocity
+			-- blocked (by the item itself, a wall...): stop waiting after a moment of not moving
+			stillFor = if os.clock() - t0 > 0.3 and Vector3.new(v.X, 0, v.Z).Magnitude < 0.5 then stillFor + dt else 0
+			if stillFor > 0.2 then
+				break
+			end
 		end
+		conn:Disconnect()
 		if token ~= walkToken then
 			return
 		end
@@ -175,6 +194,7 @@ Pickup.Start = function(ctx)
 	local s = state(ctx)
 	local p = pending :: Pending
 	pending = nil
+	playing = true
 	s.job, s.t = p, 0
 	s.track = if gunInHand() then s.left else s.right
 	local blend = ctx.Config.Movement.BlendTime
@@ -219,6 +239,7 @@ Pickup.Stop = function(ctx)
 		grabNow(s.job) -- cut short (jumped, knocked...): still take it
 	end
 	s.job = nil
+	playing = false
 	ctx.Humanoid.AutoRotate = true
 end
 
