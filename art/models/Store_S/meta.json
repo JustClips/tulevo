@@ -1,0 +1,510 @@
+{
+ "name": "Store_S",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Asphalt": {
+   "tris": 12,
+   "min": [
+    -46.8,
+    -46.8,
+    -0.3
+   ],
+   "max": [
+    46.8,
+    46.8,
+    0.0
+   ]
+  },
+  "Concrete": {
+   "tris": 12,
+   "min": [
+    -41.4,
+    -3.6,
+    0.0
+   ],
+   "max": [
+    41.4,
+    4.32,
+    0.65
+   ]
+  },
+  "Walls": {
+   "tris": 60,
+   "min": [
+    -39.6,
+    -46.8,
+    0.0
+   ],
+   "max": [
+    39.6,
+    -3.6,
+    21.6
+   ]
+  },
+  "Trim": {
+   "tris": 24,
+   "min": [
+    -39.65,
+    -19.28,
+    5.63
+   ],
+   "max": [
+    39.87,
+    -3.55,
+    22.03
+   ]
+  },
+  "Flat": {
+   "tris": 12,
+   "min": [
+    -39.3,
+    -46.5,
+    16.56
+   ],
+   "max": [
+    39.3,
+    -3.9,
+    16.62
+   ]
+  },
+  "StoreSign": {
+   "tris": 2,
+   "min": [
+    -34.56,
+    -3.55,
+    12.6
+   ],
+   "max": [
+    34.56,
+    -3.55,
+    21.24
+   ]
+  },
+  "Dark": {
+   "tris": 468,
+   "min": [
+    -46.15,
+    -44.71,
+    0.0
+   ],
+   "max": [
+    46.22,
+    44.28,
+    23.4
+   ]
+  },
+  "Sconce": {
+   "tris": 108,
+   "min": [
+    -40.25,
+    -47.38,
+    9.0
+   ],
+   "max": [
+    40.25,
+    -1.17,
+    22.0
+   ]
+  },
+  "Iron": {
+   "tris": 48,
+   "min": [
+    -25.27,
+    -3.59,
+    21.35
+   ],
+   "max": [
+    25.27,
+    -1.61,
+    21.85
+   ]
+  },
+  "StoreFront": {
+   "tris": 2,
+   "min": [
+    -7.2,
+    -3.56,
+    0.65
+   ],
+   "max": [
+    25.2,
+    -3.56,
+    12.17
+   ]
+  },
+  "StoreDoor": {
+   "tris": 2,
+   "min": [
+    -19.44,
+    -3.56,
+    0.65
+   ],
+   "max": [
+    -13.68,
+    -3.56,
+    10.01
+   ]
+  },
+  "BarWindow": {
+   "tris": 4,
+   "min": [
+    -32.04,
+    -19.08,
+    3.6
+   ],
+   "max": [
+    39.64,
+    -3.56,
+    10.8
+   ]
+  },
+  "NeonCyan": {
+   "tris": 24,
+   "min": [
+    -30.6,
+    -3.42,
+    7.24
+   ],
+   "max": [
+    -25.56,
+    -3.28,
+    9.32
+   ]
+  },
+  "Pole": {
+   "tris": 208,
+   "min": [
+    -43.83,
+    -3.6,
+    0.0
+   ],
+   "max": [
+    43.83,
+    43.83,
+    23.4
+   ]
+  },
+  "Yellow": {
+   "tris": 228,
+   "min": [
+    -32.81,
+    -2.61,
+    0.0
+   ],
+   "max": [
+    23.81,
+    2.59,
+    4.32
+   ]
+  },
+  "IceBox": {
+   "tris": 12,
+   "min": [
+    30.24,
+    -3.55,
+    0.65
+   ],
+   "max": [
+    38.16,
+    0.36,
+    6.84
+   ]
+  },
+  "IceBlue": {
+   "tris": 12,
+   "min": [
+    30.24,
+    0.29,
+    4.68
+   ],
+   "max": [
+    38.16,
+    0.43,
+    6.12
+   ]
+  },
+  "BinBlue": {
+   "tris": 12,
+   "min": [
+    -36.18,
+    -2.61,
+    1.44
+   ],
+   "max": [
+    -34.38,
+    -0.99,
+    3.96
+   ]
+  },
+  "Red": {
+   "tris": 12,
+   "min": [
+    -33.84,
+    -2.61,
+    1.44
+   ],
+   "max": [
+    -32.04,
+    -0.99,
+    3.96
+   ]
+  },
+  "Plastic": {
+   "tris": 24,
+   "min": [
+    -38.48,
+    -3.24,
+    11.2
+   ],
+   "max": [
+    38.48,
+    -1.8,
+    11.84
+   ]
+  },
+  "Tag": {
+   "tris": 2,
+   "min": [
+    -39.65,
+    -41.76,
+    2.16
+   ],
+   "max": [
+    -39.65,
+    -12.96,
+    12.96
+   ]
+  },
+  "SecurityDoor": {
+   "tris": 2,
+   "min": [
+    -23.49,
+    -46.84,
+    0.0
+   ],
+   "max": [
+    -19.71,
+    -46.84,
+    7.92
+   ]
+  },
+  "AcBody": {
+   "tris": 36,
+   "min": [
+    -28.08,
+    -34.74,
+    16.56
+   ],
+   "max": [
+    24.48,
+    -19.26,
+    20.16
+   ]
+  },
+  "Paint": {
+   "tris": 84,
+   "min": [
+    -30.46,
+    5.04,
+    0.0
+   ],
+   "max": [
+    30.46,
+    16.2,
+    0.03
+   ]
+  },
+  "WheelStop": {
+   "tris": 72,
+   "min": [
+    -28.44,
+    6.39,
+    0.0
+   ],
+   "max": [
+    28.44,
+    7.29,
+    0.58
+   ]
+  },
+  "Dumpster": {
+   "tris": 12,
+   "min": [
+    -46.08,
+    -42.48,
+    0.54
+   ],
+   "max": [
+    -41.04,
+    -34.56,
+    5.04
+   ]
+  },
+  "BinGreen": {
+   "tris": 24,
+   "min": [
+    43.74,
+    -44.68,
+    0.0
+   ],
+   "max": [
+    46.26,
+    -41.87,
+    3.89
+   ]
+  },
+  "BinGrey": {
+   "tris": 24,
+   "min": [
+    40.86,
+    -44.68,
+    0.0
+   ],
+   "max": [
+    43.38,
+    -41.87,
+    3.89
+   ]
+  },
+  "Lamp1": {
+   "tris": 12,
+   "min": [
+    37.66,
+    42.34,
+    22.39
+   ],
+   "max": [
+    39.38,
+    44.06,
+    22.68
+   ]
+  },
+  "Lamp2": {
+   "tris": 12,
+   "min": [
+    -39.38,
+    42.34,
+    22.39
+   ],
+   "max": [
+    -37.66,
+    44.06,
+    22.68
+   ]
+  },
+  "Stone": {
+   "tris": 24,
+   "min": [
+    -46.08,
+    -1.8,
+    0.0
+   ],
+   "max": [
+    46.08,
+    9.0,
+    2.16
+   ]
+  },
+  "Soil": {
+   "tris": 24,
+   "min": [
+    -45.54,
+    -1.26,
+    2.15
+   ],
+   "max": [
+    45.54,
+    8.46,
+    2.19
+   ]
+  },
+  "Trunk": {
+   "tris": 840,
+   "min": [
+    -43.95,
+    2.85,
+    2.16
+   ],
+   "max": [
+    43.92,
+    5.63,
+    33.51
+   ]
+  },
+  "Palm": {
+   "tris": 1232,
+   "min": [
+    -57.43,
+    -10.43,
+    23.97
+   ],
+   "max": [
+    58.0,
+    18.93,
+    33.6
+   ]
+  }
+ },
+ "lamps": [
+  "Lamp1",
+  "Lamp2"
+ ],
+ "textures": {
+  "Asphalt": "Asphalt_Color.png",
+  "Concrete": "Concrete_Color.png",
+  "Walls": "WallSand_Color.png",
+  "Trim": "Trim_Color.png",
+  "Flat": "Flat_Color.png",
+  "StoreSign": "StoreSign_Color.png",
+  "Dark": "Dark_Color.png",
+  "Sconce": "Sconce_Color.png",
+  "Iron": "Iron_Color.png",
+  "StoreFront": "StoreFront_Color.png",
+  "StoreDoor": "StoreDoor_Color.png",
+  "BarWindow": "BarWindow_Color.png",
+  "NeonCyan": "NeonCyan_Color.png",
+  "Pole": "Pole_Color.png",
+  "Yellow": "Yellow_Color.png",
+  "IceBox": "IceBox_Color.png",
+  "IceBlue": "IceBlue_Color.png",
+  "BinBlue": "BinBlue_Color.png",
+  "Red": "Red_Color.png",
+  "Plastic": "Plastic_Color.png",
+  "Tag": "Tag_Color.png",
+  "SecurityDoor": "SecurityDoor_Color.png",
+  "AcBody": "AcBody_Color.png",
+  "Paint": "Paint_Color.png",
+  "WheelStop": "WheelStop_Color.png",
+  "Dumpster": "Dumpster_Color.png",
+  "BinGreen": "BinGreen_Color.png",
+  "BinGrey": "BinGrey_Color.png",
+  "Lamp1": "Light_Color.png",
+  "Lamp2": "Light_Color.png",
+  "Stone": "Stone_Color.png",
+  "Soil": "Soil_Color.png",
+  "Trunk": "Trunk_Color.png",
+  "Palm": "Palm_Color.png"
+ },
+ "variants": {
+  "Walls": {
+   "Cream": "WallCream_Color.png",
+   "Sand": "WallSand_Color.png",
+   "Sky": "WallSky_Color.png",
+   "Rose": "WallRose_Color.png",
+   "Brick": "WallBrick_Color.png",
+   "Blush": "WallBlush_Color.png",
+   "Butter": "WallButter_Color.png",
+   "Tan": "WallTan_Color.png",
+   "Peach": "WallPeach_Color.png",
+   "Mint": "WallMint_Color.png",
+   "Sage": "WallSage_Color.png",
+   "Teal": "WallTeal_Color.png"
+  },
+  "Tag": {
+   "RedCrowns": "TagRedCrowns_Color.png",
+   "Vipers": "TagVipers_Color.png",
+   "GroveKings": "TagGroveKings_Color.png"
+  }
+ }
+}

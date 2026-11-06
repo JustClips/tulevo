@@ -1,0 +1,321 @@
+{
+ "name": "Court",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Asphalt": {
+   "tris": 12,
+   "min": [
+    -57.6,
+    -46.8,
+    -0.3
+   ],
+   "max": [
+    57.6,
+    46.8,
+    0.0
+   ]
+  },
+  "CourtPaint": {
+   "tris": 2,
+   "min": [
+    -50.4,
+    -27.0,
+    0.03
+   ],
+   "max": [
+    50.4,
+    27.0,
+    0.03
+   ]
+  },
+  "Pole": {
+   "tris": 1420,
+   "min": [
+    -56.05,
+    -45.32,
+    0.0
+   ],
+   "max": [
+    56.05,
+    45.25,
+    25.2
+   ]
+  },
+  "Backboard": {
+   "tris": 8,
+   "min": [
+    -46.11,
+    -3.24,
+    10.44
+   ],
+   "max": [
+    46.11,
+    3.24,
+    14.4
+   ]
+  },
+  "Rim": {
+   "tris": 360,
+   "min": [
+    -46.01,
+    -0.87,
+    10.91
+   ],
+   "max": [
+    46.01,
+    0.87,
+    11.05
+   ]
+  },
+  "Net": {
+   "tris": 128,
+   "min": [
+    -45.42,
+    -0.85,
+    9.36
+   ],
+   "max": [
+    45.42,
+    0.85,
+    10.99
+   ]
+  },
+  "ChainLink": {
+   "tris": 16,
+   "min": [
+    -55.83,
+    -45.03,
+    0.05
+   ],
+   "max": [
+    55.83,
+    45.0,
+    12.6
+   ]
+  },
+  "Block": {
+   "tris": 144,
+   "min": [
+    -56.16,
+    43.47,
+    0.0
+   ],
+   "max": [
+    56.16,
+    45.72,
+    9.36
+   ]
+  },
+  "Stone": {
+   "tris": 12,
+   "min": [
+    -56.34,
+    44.1,
+    9.36
+   ],
+   "max": [
+    56.34,
+    45.9,
+    9.79
+   ]
+  },
+  "Tag": {
+   "tris": 6,
+   "min": [
+    -40.32,
+    43.44,
+    1.08
+   ],
+   "max": [
+    36.72,
+    45.77,
+    10.44
+   ]
+  },
+  "Wood": {
+   "tris": 144,
+   "min": [
+    -53.37,
+    -39.78,
+    0.0
+   ],
+   "max": [
+    53.37,
+    40.68,
+    3.33
+   ]
+  },
+  "Iron": {
+   "tris": 240,
+   "min": [
+    -53.37,
+    -39.6,
+    0.0
+   ],
+   "max": [
+    53.37,
+    17.24,
+    3.51
+   ]
+  },
+  "BinGreen": {
+   "tris": 24,
+   "min": [
+    31.14,
+    -41.65,
+    0.0
+   ],
+   "max": [
+    33.66,
+    -38.84,
+    3.89
+   ]
+  },
+  "Dark": {
+   "tris": 248,
+   "min": [
+    -50.04,
+    -39.53,
+    0.0
+   ],
+   "max": [
+    50.04,
+    41.22,
+    25.2
+   ]
+  },
+  "BinGrey": {
+   "tris": 24,
+   "min": [
+    34.02,
+    -41.65,
+    0.0
+   ],
+   "max": [
+    36.54,
+    -38.84,
+    3.89
+   ]
+  },
+  "Lamp1": {
+   "tris": 12,
+   "min": [
+    -49.82,
+    -35.06,
+    24.19
+   ],
+   "max": [
+    -48.1,
+    -33.34,
+    24.48
+   ]
+  },
+  "Lamp2": {
+   "tris": 12,
+   "min": [
+    48.1,
+    33.34,
+    24.19
+   ],
+   "max": [
+    49.82,
+    35.06,
+    24.48
+   ]
+  },
+  "Lamp3": {
+   "tris": 12,
+   "min": [
+    -49.82,
+    33.34,
+    24.19
+   ],
+   "max": [
+    -48.1,
+    35.06,
+    24.48
+   ]
+  },
+  "Lamp4": {
+   "tris": 12,
+   "min": [
+    48.1,
+    -35.06,
+    24.19
+   ],
+   "max": [
+    49.82,
+    -33.34,
+    24.48
+   ]
+  },
+  "Trunk": {
+   "tris": 840,
+   "min": [
+    -57.62,
+    -45.38,
+    -0.0
+   ],
+   "max": [
+    57.59,
+    46.08,
+    37.62
+   ]
+  },
+  "Palm": {
+   "tris": 1232,
+   "min": [
+    -70.96,
+    -57.12,
+    29.34
+   ],
+   "max": [
+    70.25,
+    58.99,
+    37.64
+   ]
+  }
+ },
+ "lamps": [
+  "Lamp1",
+  "Lamp2",
+  "Lamp3",
+  "Lamp4"
+ ],
+ "textures": {
+  "Asphalt": "Asphalt_Color.png",
+  "CourtPaint": "CourtPaint_Color.png",
+  "Pole": "Pole_Color.png",
+  "Backboard": "Backboard_Color.png",
+  "Rim": "Rim_Color.png",
+  "Net": "Net_Color.png",
+  "ChainLink": "ChainLink_Color.png",
+  "Block": "Block_Color.png",
+  "Stone": "Stone_Color.png",
+  "Tag": "Tag_Color.png",
+  "Wood": "Wood_Color.png",
+  "Iron": "Iron_Color.png",
+  "BinGreen": "BinGreen_Color.png",
+  "Dark": "Dark_Color.png",
+  "BinGrey": "BinGrey_Color.png",
+  "Lamp1": "Light_Color.png",
+  "Lamp2": "Light_Color.png",
+  "Lamp3": "Light_Color.png",
+  "Lamp4": "Light_Color.png",
+  "Trunk": "Trunk_Color.png",
+  "Palm": "Palm_Color.png"
+ },
+ "variants": {
+  "CourtPaint": {
+   "RedCrowns": "CourtPaintRedCrowns_Color.png",
+   "Vipers": "CourtPaintVipers_Color.png",
+   "GroveKings": "CourtPaintGroveKings_Color.png"
+  },
+  "Tag": {
+   "RedCrowns": "TagRedCrowns_Color.png",
+   "Vipers": "TagVipers_Color.png",
+   "GroveKings": "TagGroveKings_Color.png"
+  }
+ }
+}

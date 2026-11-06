@@ -21,7 +21,14 @@ def args(default_out):
     out = next((a for a in argv if not a.startswith("--") and not a.replace(".", "").isdigit()), default_out)
     return {"out": out, "render": "--no-render" not in argv,
             "samples": int(argv[argv.index("--samples") + 1]) if "--samples" in argv else 128,
-            "res": float(argv[argv.index("--res") + 1]) if "--res" in argv else 1.0}
+            "res": float(argv[argv.index("--res") + 1]) if "--res" in argv else 1.0,
+            # --face S builds the same building turned round (front to +Y / Roblox +Z, south) as <Name>_S,
+            # because the LiveSync plugin places buildings without rotation
+            "face": argv[argv.index("--face") + 1] if "--face" in argv else "N"}
+
+
+def model_name(base, a):
+    return base if a["face"] == "N" else f"{base}_{a['face']}"
 
 
 class Kit:
@@ -50,7 +57,7 @@ class Kit:
         img.save()
         return img
 
-    def mat(self, name, color=None, sheet=None, rough=0.6, metal=0.0, tile=None, explicit=False, emit=0.0):
+    def mat(self, name, color=None, sheet=None, rough=0.6, metal=0.0, tile=None, explicit=False, emit=0.0, alpha=False):
         """color=(r,g,b) for a flat colour, or sheet='X' for tex/X_Color.png (+ X_Roughness.png if there)."""
         m = bpy.data.materials.new(name)
         m.use_nodes = True
@@ -74,6 +81,12 @@ class Kit:
         t = N.new('ShaderNodeTexImage'); t.image = img; t.extension = 'REPEAT'
         L.new(t.outputs['Color'], b.inputs['Base Color'])
         b.inputs['Metallic'].default_value = metal
+        if alpha:   # PNG alpha = see-through (graffiti, chain-link); Roblox MeshPart TextureID keeps it too
+            L.new(t.outputs['Alpha'], b.inputs['Alpha'])
+            try:
+                m.surface_render_method = 'DITHERED'
+            except Exception:
+                pass
         if emit:
             L.new(t.outputs['Color'], b.inputs['Emission Color'])
             b.inputs['Emission Strength'].default_value = emit
@@ -170,7 +183,7 @@ class Kit:
                     bm.faces.new([bm.verts.new(p - Vector((0, 0, 0.02))) for p in (a2, b2, b1, a1)])
 
     # ------------------------------------------------------------ finish + export
-    def finish(self, keep_normals=("Palm",)):
+    def finish(self, keep_normals=("Palm",), face="N"):
         for name, bm in self.bms.items():
             info = self.mats[self.parts[name]["mat"]]
             uv = bm.loops.layers.uv.active
@@ -196,6 +209,9 @@ class Kit:
                     bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
             bm.to_mesh(self.parts[name].data)
             bm.free()
+            turn = {"N": 0, "S": math.pi, "E": -math.pi / 2, "W": math.pi / 2}[face]
+            if turn:
+                self.parts[name].data.transform(Matrix.Rotation(turn, 4, 'Z'))
             for p in self.parts[name].data.polygons:
                 p.use_smooth = False
 

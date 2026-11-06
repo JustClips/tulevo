@@ -1,0 +1,465 @@
+{
+ "name": "SpawnPlaza_S",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Pave": {
+   "tris": 12,
+   "min": [
+    -79.2,
+    -72.0,
+    -0.6
+   ],
+   "max": [
+    79.2,
+    72.0,
+    0.0
+   ]
+  },
+  "Kerb": {
+   "tris": 12,
+   "min": [
+    -79.2,
+    70.92,
+    0.0
+   ],
+   "max": [
+    79.2,
+    72.0,
+    0.03
+   ]
+  },
+  "Stone": {
+   "tris": 1496,
+   "min": [
+    -63.36,
+    -69.12,
+    -0.0
+   ],
+   "max": [
+    63.36,
+    60.84,
+    14.76
+   ]
+  },
+  "Tile": {
+   "tris": 124,
+   "min": [
+    -14.4,
+    -14.4,
+    0.72
+   ],
+   "max": [
+    14.4,
+    14.4,
+    1.08
+   ]
+  },
+  "Water": {
+   "tris": 292,
+   "min": [
+    -14.18,
+    -14.18,
+    2.5
+   ],
+   "max": [
+    14.18,
+    14.18,
+    12.98
+   ]
+  },
+  "Wood": {
+   "tris": 204,
+   "min": [
+    -43.92,
+    -23.53,
+    1.51
+   ],
+   "max": [
+    26.42,
+    61.56,
+    3.33
+   ]
+  },
+  "Iron": {
+   "tris": 408,
+   "min": [
+    -43.34,
+    -23.3,
+    -0.02
+   ],
+   "max": [
+    26.3,
+    61.47,
+    3.51
+   ]
+  },
+  "Soil": {
+   "tris": 108,
+   "min": [
+    -62.82,
+    -62.46,
+    0.0
+   ],
+   "max": [
+    62.82,
+    64.8,
+    2.19
+   ]
+  },
+  "Trunk": {
+   "tris": 1680,
+   "min": [
+    -59.53,
+    -52.69,
+    2.16
+   ],
+   "max": [
+    58.35,
+    51.15,
+    31.66
+   ]
+  },
+  "Palm": {
+   "tris": 2464,
+   "min": [
+    -73.76,
+    -66.92,
+    23.41
+   ],
+   "max": [
+    71.73,
+    63.36,
+    31.73
+   ]
+  },
+  "Shrub": {
+   "tris": 360,
+   "min": [
+    -61.91,
+    -61.16,
+    -0.19
+   ],
+   "max": [
+    61.49,
+    63.86,
+    4.59
+   ]
+  },
+  "Trim": {
+   "tris": 492,
+   "min": [
+    -72.45,
+    -67.03,
+    2.92
+   ],
+   "max": [
+    72.45,
+    69.59,
+    36.4
+   ]
+  },
+  "WelcomeSign": {
+   "tris": 4,
+   "min": [
+    25.2,
+    57.85,
+    1.62
+   ],
+   "max": [
+    54.0,
+    60.95,
+    8.82
+   ]
+  },
+  "Light": {
+   "tris": 72,
+   "min": [
+    -47.7,
+    49.77,
+    0.0
+   ],
+   "max": [
+    51.12,
+    64.17,
+    9.36
+   ]
+  },
+  "Pole": {
+   "tris": 980,
+   "min": [
+    -72.63,
+    -66.85,
+    0.0
+   ],
+   "max": [
+    72.63,
+    69.55,
+    36.0
+   ]
+  },
+  "Glass": {
+   "tris": 12,
+   "min": [
+    -45.36,
+    59.47,
+    1.08
+   ],
+   "max": [
+    -29.16,
+    59.62,
+    9.0
+   ]
+  },
+  "ShelterAd": {
+   "tris": 4,
+   "min": [
+    -49.86,
+    59.26,
+    1.26
+   ],
+   "max": [
+    -45.54,
+    59.83,
+    8.46
+   ]
+  },
+  "BinBlue": {
+   "tris": 12,
+   "min": [
+    -26.28,
+    65.2,
+    8.64
+   ],
+   "max": [
+    -24.12,
+    65.34,
+    10.8
+   ]
+  },
+  "Dark": {
+   "tris": 84,
+   "min": [
+    -73.08,
+    -39.6,
+    0.0
+   ],
+   "max": [
+    73.08,
+    51.03,
+    23.4
+   ]
+  },
+  "RouteMap": {
+   "tris": 4,
+   "min": [
+    -18.45,
+    49.68,
+    2.52
+   ],
+   "max": [
+    -13.95,
+    51.12,
+    7.02
+   ]
+  },
+  "Lamp1": {
+   "tris": 12,
+   "min": [
+    71.14,
+    23.26,
+    22.39
+   ],
+   "max": [
+    72.86,
+    24.98,
+    22.68
+   ]
+  },
+  "Lamp2": {
+   "tris": 12,
+   "min": [
+    -72.86,
+    23.26,
+    22.39
+   ],
+   "max": [
+    -71.14,
+    24.98,
+    22.68
+   ]
+  },
+  "Lamp3": {
+   "tris": 12,
+   "min": [
+    71.14,
+    -24.98,
+    22.39
+   ],
+   "max": [
+    72.86,
+    -23.26,
+    22.68
+   ]
+  },
+  "Lamp4": {
+   "tris": 12,
+   "min": [
+    -72.86,
+    -24.98,
+    22.39
+   ],
+   "max": [
+    -71.14,
+    -23.26,
+    22.68
+   ]
+  },
+  "Lamp5": {
+   "tris": 12,
+   "min": [
+    17.14,
+    37.66,
+    22.39
+   ],
+   "max": [
+    18.86,
+    39.38,
+    22.68
+   ]
+  },
+  "Lamp6": {
+   "tris": 12,
+   "min": [
+    -18.86,
+    -39.38,
+    22.39
+   ],
+   "max": [
+    -17.14,
+    -37.66,
+    22.68
+   ]
+  },
+  "Flag": {
+   "tris": 12,
+   "min": [
+    3.06,
+    -66.67,
+    30.06
+   ],
+   "max": [
+    10.62,
+    -66.53,
+    34.74
+   ]
+  },
+  "IceBlue": {
+   "tris": 12,
+   "min": [
+    -7.74,
+    -66.67,
+    30.06
+   ],
+   "max": [
+    -0.18,
+    -66.53,
+    34.74
+   ]
+  },
+  "Red": {
+   "tris": 12,
+   "min": [
+    -18.54,
+    -66.67,
+    30.06
+   ],
+   "max": [
+    -10.98,
+    -66.53,
+    34.74
+   ]
+  },
+  "BinGrey": {
+   "tris": 132,
+   "min": [
+    -29.88,
+    -37.08,
+    0.0
+   ],
+   "max": [
+    29.88,
+    37.08,
+    3.6
+   ]
+  },
+  "Paint": {
+   "tris": 124,
+   "min": [
+    -7.92,
+    31.68,
+    0.0
+   ],
+   "max": [
+    7.92,
+    47.52,
+    0.02
+   ]
+  },
+  "Yellow": {
+   "tris": 96,
+   "min": [
+    -6.12,
+    33.48,
+    0.02
+   ],
+   "max": [
+    6.12,
+    45.72,
+    0.05
+   ]
+  }
+ },
+ "lamps": [
+  "Lamp1",
+  "Lamp2",
+  "Lamp3",
+  "Lamp4",
+  "Lamp5",
+  "Lamp6"
+ ],
+ "textures": {
+  "Pave": "PlazaPave_Color.png",
+  "Kerb": "Kerb_Color.png",
+  "Stone": "Stone_Color.png",
+  "Tile": "Tile_Color.png",
+  "Water": "Water_Color.png",
+  "Wood": "Wood_Color.png",
+  "Iron": "Iron_Color.png",
+  "Soil": "Soil_Color.png",
+  "Trunk": "Trunk_Color.png",
+  "Palm": "Palm_Color.png",
+  "Shrub": "Shrub_Color.png",
+  "Trim": "Trim_Color.png",
+  "WelcomeSign": "WelcomeSign_Color.png",
+  "Light": "Light_Color.png",
+  "Pole": "Pole_Color.png",
+  "Glass": "Glass_Color.png",
+  "ShelterAd": "ShelterAd_Color.png",
+  "BinBlue": "BinBlue_Color.png",
+  "Dark": "Dark_Color.png",
+  "RouteMap": "RouteMap_Color.png",
+  "Lamp1": "Light_Color.png",
+  "Lamp2": "Light_Color.png",
+  "Lamp3": "Light_Color.png",
+  "Lamp4": "Light_Color.png",
+  "Lamp5": "Light_Color.png",
+  "Lamp6": "Light_Color.png",
+  "Flag": "Flag_Color.png",
+  "IceBlue": "IceBlue_Color.png",
+  "Red": "Red_Color.png",
+  "BinGrey": "BinGrey_Color.png",
+  "Paint": "Paint_Color.png",
+  "Yellow": "Yellow_Color.png"
+ }
+}

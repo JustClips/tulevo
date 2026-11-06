@@ -13,7 +13,14 @@ and GPS see them), lane lines and the spawn.
 Layout (studs, Roblox axes, +Z = south on the map):
   Arkwell Bank tower at the origin, entrance facing -Z (north) onto Vault Avenue.
   Vault Avenue runs east-west in front of it; two cross streets and a back street make a
-  block loop round the tower so the GPS has a route. Spawn is across the avenue, facing it.
+  block loop round the tower so the GPS has a route.
+  Main spawn: a plaza across Vault Avenue (SpawnPlaza_S, fountain + WELCOME TO TULEVO), Spawn
+  on its compass inlay facing the avenue.
+  Gang neighborhoods (GANGS, original names) on two outer residential streets: Vipers (yellow)
+  on North Street east, Red Crowns on South Street east, Grove Kings (green) on South Street west. Each hood: a corner store, a
+  fenced basketball court with the gang spawn (SpawnLocation <Gang>Spawn, attribute Gang) and
+  rows of houses. Gang looks are texture variants: BUILDINGS entries may carry a 4th element
+  {part: variant} that picks "<part>@<variant>" from the model's textures.json.
 """
 import json
 import os
@@ -32,7 +39,10 @@ SIDE_W = 18          # sidewalk width
 BLOCK_X = 120        # cross streets at x = +-BLOCK_X
 AVE_Z = -132         # Vault Avenue centre
 BACK_Z = 132         # back street centre
-EXTENT = 600         # roads run out to +-EXTENT
+EXTENT = 640         # roads run out to +-EXTENT
+NORTH_Z = -480       # North Street (Vipers hood)
+SOUTH_Z = 480        # South Street (Red Crowns + Grove Kings hoods)
+RES_W, RES_SIDE = 30, 12   # residential streets: one lane each way, narrower sidewalks
 
 
 # name, model key (art/models/<Model>), where its Blender origin (ground centre) goes
@@ -47,7 +57,39 @@ BUILDINGS = [
     # lots sit 0.3 above the ground (a step down from the 0.6 kerb), fronts face north onto the street
     ("PalmviewMotel", "Motel", (-262, 0.3, -12)),       # west of West Street, facing Vault Avenue
     ("TheMarlowe", "Apartments", (430, 0.3, 211.6)),    # east of Meridian Plaza, facing Back Street
+    # main spawn plaza across Vault Avenue, turned to face it (south)
+    ("MainSpawnPlaza", "SpawnPlaza_S", (0, 0.6, AVE_Z - ROAD_W / 2 - SIDE_W - 72)),
 ]
+
+# ---------------------------------------------------------------- gang neighborhoods
+# lots are 16 m (57.6) wide houses, 26 m (93.6) deep; the store is 93.6 wide, the court 115.2.
+# Lots south of a street face north (default build), lots north of it face south (<Model>_S).
+LOT_D = 93.6
+GANGS = {
+    # gang: street z, first lot x (next to the downtown cross street), direction, wall paints
+    "Vipers": (NORTH_Z, 172, 1, ("Butter", "Tan", "Peach", "Sand", "Butter", "Cream")),
+    "RedCrowns": (SOUTH_Z, 172, 1, ("Rose", "Brick", "Blush", "Rose", "Sand", "Cream")),
+    "GroveKings": (SOUTH_Z, -172, -1, ("Mint", "Sage", "Teal", "Mint", "Sky", "Cream")),
+}
+HOUSES = ("HouseA", "HouseB", "HouseA", "HouseA", "HouseB", "HouseA")
+GANG_SPAWNS = []
+for gang, (sz, x0, d, paints) in GANGS.items():
+    edge = RES_W / 2 + RES_SIDE + LOT_D / 2
+    for side, z, lots in ((1, sz + edge, [("Court", 115.2)] + [(h, 57.6) for h in HOUSES]),
+                          (-1, sz - edge, [("Store", 93.6)] + [(h, 57.6) for h in HOUSES[::-1]])):
+        x = x0
+        for i, (model, w) in enumerate(lots):
+            cx = x + d * w / 2
+            x += d * w
+            key = model if side > 0 else f"{model}_S"
+            if model == "Court":
+                BUILDINGS.append((f"{gang}Court", key, (cx, 0.3, z), {"CourtPaint": gang, "Tag": gang}))
+                GANG_SPAWNS.append((gang, (cx, 0.3, z)))
+            elif model == "Store":
+                BUILDINGS.append((f"{gang}Store", key, (cx, 0.3, z), {"Walls": paints[3], "Tag": gang}))
+            else:
+                BUILDINGS.append((f"{gang}House{'N' if side > 0 else 'S'}{i}", key, (cx, 0.3, z),
+                                  {"Walls": paints[(i + (side < 0) * 2) % len(paints)], "Tag": gang}))
 
 # paved plazas under the towers, from the kerb to behind the building: name, x0, x1, z0, z1
 PLAZAS = [
@@ -72,13 +114,17 @@ children = []
 # base ground (big, so the edge of the world is far away)
 children.append(part("Ground", (2400, 2, 2400), (0, -1, 0), GROUND, "Concrete"))
 
-# roads: E-W avenue + back street, N-S cross streets; slightly different heights avoid z-fighting
+# roads: E-W avenue + back street + the two outer residential streets, N-S cross streets;
+# slightly different heights avoid z-fighting
 roads = [
     ("VaultAvenue", (2 * EXTENT, 0.2, ROAD_W), (0, 0.1, AVE_Z)),
     ("BackStreet", (2 * EXTENT, 0.2, ROAD_W), (0, 0.1, BACK_Z)),
+    ("NorthStreet", (2 * EXTENT, 0.2, RES_W), (0, 0.1, NORTH_Z)),
+    ("SouthStreet", (2 * EXTENT, 0.2, RES_W), (0, 0.1, SOUTH_Z)),
     ("WestStreet", (ROAD_W, 0.2, 2 * EXTENT), (-BLOCK_X, 0.104, 0)),
     ("EastStreet", (ROAD_W, 0.2, 2 * EXTENT), (BLOCK_X, 0.104, 0)),
 ]
+SIDEWALK_W = {"NorthStreet": RES_SIDE, "SouthStreet": RES_SIDE}   # others: SIDE_W
 for name, size, pos in roads:
     children.append(part(name, size, pos, ASPHALT, "Asphalt", tags=["Road"]))
 
@@ -88,22 +134,38 @@ kerb = 0.6
 R = ROAD_W / 2
 
 
-def spans(cross):
-    cuts = sorted(cross)
-    edges = [-EXTENT] + [c for x in cuts for c in (x - R, x + R)] + [EXTENT]
+def crossings(size, pos):
+    """[(centre, half width)] of the roads crossing this one, along its own axis."""
+    along_x = size[0] > size[2]
+    out = []
+    for _, s2, p2 in roads:
+        if (s2[0] > s2[2]) == along_x:
+            continue
+        if along_x and abs(pos[2] - p2[2]) <= s2[2] / 2:
+            out.append((p2[0], s2[0] / 2))
+        elif not along_x and abs(pos[0] - p2[0]) <= s2[0] / 2:
+            out.append((p2[2], s2[2] / 2))
+    return sorted(out)
+
+
+def spans(size, pos):
+    along_x = size[0] > size[2]
+    lo = (pos[0] if along_x else pos[2]) - max(size[0], size[2]) / 2
+    edges = [lo] + [e for c, h in crossings(size, pos) for e in (c - h, c + h)] + [lo + max(size[0], size[2])]
     return [(edges[i], edges[i + 1]) for i in range(0, len(edges), 2)]
 
 
 for name, size, pos in roads:
     along_x = size[0] > size[2]
-    for k, (a, b) in enumerate(spans((-BLOCK_X, BLOCK_X) if along_x else (AVE_Z, BACK_Z))):
+    half, sw = min(size[0], size[2]) / 2, SIDEWALK_W.get(name, SIDE_W)
+    for k, (a, b) in enumerate(spans(size, pos)):
         for side in (-1, 1):
-            off = side * (R + SIDE_W / 2)
+            off = side * (half + sw / 2)
             if along_x:
-                children.append(part(f"{name}Walk{k}{'N' if side < 0 else 'S'}", (b - a, kerb, SIDE_W),
+                children.append(part(f"{name}Walk{k}{'N' if side < 0 else 'S'}", (b - a, kerb, sw),
                                      ((a + b) / 2, kerb / 2, pos[2] + off), SIDEWALK))
             else:
-                children.append(part(f"{name}Walk{k}{'W' if side < 0 else 'E'}", (SIDE_W, kerb, b - a),
+                children.append(part(f"{name}Walk{k}{'W' if side < 0 else 'E'}", (sw, kerb, b - a),
                                      (pos[0] + off, kerb / 2, (a + b) / 2), SIDEWALK))
 
 # the tower block itself: one paved plaza between the four sidewalks
@@ -118,14 +180,15 @@ for name, x0, x1, z0, z1 in PLAZAS:
 lines = []
 for name, size, pos in roads:
     along_x = size[0] > size[2]
-    for a, b in spans((-BLOCK_X, BLOCK_X) if along_x else (AVE_Z, BACK_Z)):
+    half = min(size[0], size[2]) / 2
+    for a, b in spans(size, pos):
         a, b = a + SIDE_W, b - SIDE_W  # stop short of the crosswalk area
         if b - a < 10:
             continue
         marks = [((a + b) / 2, b - a, off, LINE_Y) for off in (-0.5, 0.5)]
         v = a
-        while v + 8 <= b:
-            marks += [(v + 4, 8, off, LINE_W) for off in (-R / 2, R / 2)]
+        while half >= 20 and v + 8 <= b:   # dashed lane dividers on the 4-lane roads only
+            marks += [(v + 4, 8, off, LINE_W) for off in (-half / 2, half / 2)]
             v += 24
         for c, length, off, color in marks:
             if along_x:
@@ -136,15 +199,21 @@ for i, l in enumerate(lines):
     l["name"] = f"Line{i + 1}"
 children.append({"name": "Lines", "className": "Folder", "children": lines})
 
-# spawn: far sidewalk of Vault Avenue, facing the tower (+Z)
-children.append(part("Spawn", (10, 1, 10), (0, kerb + 0.5, AVE_Z - ROAD_W / 2 - SIDE_W / 2), ASPHALT, "Asphalt",
+# main spawn: on the compass inlay of the spawn plaza (11 m from its centre towards the avenue), facing it (+Z)
+SPAWN_Z = AVE_Z - R - SIDE_W - 72 + 11 * 3.6
+children.append(part("Spawn", (10, 1, 10), (0, kerb + 0.5, SPAWN_Z), ASPHALT, "Asphalt",
                      rot=180, Transparency=1, CanCollide=False, Duration=0, className="SpawnLocation"))
-# paved lot behind the spawn for the test cars and showcase
-children.append(part("SpawnLot", (80, kerb, 40), (0, kerb / 2, AVE_Z - R - SIDE_W - 20), "#45474A", "Asphalt"))
+# gang spawns: middle of each hood's court. CharacterSetup spawns a gang member (Team) only on
+# spawns whose Gang attribute matches, everyone else on spawns without one.
+for gang, (x, y, z) in GANG_SPAWNS:
+    children.append(part(f"{gang}Spawn", (12, 1, 12), (x, y + 0.6, z), ASPHALT, "Asphalt", Transparency=1,
+                         CanCollide=False, Duration=0, Neutral=False, className="SpawnLocation")
+                    | {"attributes": {"Gang": gang}})
 
 # buildings: empty Models the plugin / server fill with the uploaded mesh
-def textures_attr(model):
-    """LiveSyncTextures = JSON { part: image id } from art/models/<model>/textures.json + art/textures.lock.json."""
+def textures_attr(model, variants=None):
+    """LiveSyncTextures = JSON { part: image id } from art/models/<model>/textures.json + art/textures.lock.json.
+    variants {part: name} swaps in the "<part>@<name>" image (gang paint, tags, court colours)."""
     import hashlib
     tj = os.path.join(ROOT, "art", "models", model, "textures.json")
     tl = os.path.join(ROOT, "art", "textures.lock.json")
@@ -152,7 +221,11 @@ def textures_attr(model):
         return {}
     tlock = json.load(open(tl))
     ids = {}
-    for part, rel in json.load(open(tj)).items():
+    tex = json.load(open(tj))
+    for part, rel in tex.items():
+        if "@" in part:
+            continue
+        rel = tex.get(f"{part}@{(variants or {}).get(part)}", rel)
         h = hashlib.sha256(open(os.path.join(ROOT, rel), "rb").read()).hexdigest()
         if h in tlock:
             ids[part] = tlock[h]["id"]
@@ -162,7 +235,7 @@ def textures_attr(model):
 
 lock = json.load(open(os.path.join(ROOT, "art", "models.lock.json")))
 buildings = []
-for name, model, at in BUILDINGS:
+for name, model, at, *variants in BUILDINGS:
     meta = json.load(open(os.path.join(ROOT, "art", "models", model, "meta.json")))
     lo = [min(p["min"][i] for p in meta["parts"].values()) for i in range(3)]
     hi = [max(p["max"][i] for p in meta["parts"].values()) for i in range(3)]
@@ -171,7 +244,7 @@ for name, model, at in BUILDINGS:
     center = [round(at[0] - c[0], 3), round(at[1] + c[2], 3), round(at[2] + c[1], 3)]
     buildings.append({"name": name, "className": "Model", "tags": ["Building"], "attributes": {
         "LiveSyncAsset": lock[model]["id"], "LiveSyncBoxCenter": {"Vector3": center}, "CityModel": model,
-        **textures_attr(model)}})
+        **textures_attr(model, variants[0] if variants else None)}})
 children.append({"name": "Buildings", "className": "Folder", "children": buildings})
 
 json.dump({"className": "Folder", "children": children}, open(OUT, "w"), indent=1)

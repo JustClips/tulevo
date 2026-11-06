@@ -16,6 +16,7 @@ local StarterPlayer = game:GetService("StarterPlayer")
 
 local Config = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Config"))
 local Knocked = require(script.Parent:WaitForChild("Knocked"))
+local Gangs = require(script.Parent:WaitForChild("Gangs"))
 local Limits = Config.Character
 
 Players.CharacterAutoLoads = false
@@ -66,13 +67,22 @@ local function describe(player: Player, plain: boolean?): HumanoidDescription
 	return desc
 end
 
-local function spawnCFrame(): CFrame
-	local spawns = {}
+-- gang members spawn at their hood's court (SpawnLocation with a matching Gang attribute),
+-- everyone else (and a gang without a spawn in the map) at the spawns without one
+local function spawnCFrame(player: Player): CFrame
+	local gang = Gangs.get(player)
+	local mine, open = {}, {}
 	for _, obj in workspace:GetDescendants() do
 		if obj:IsA("SpawnLocation") and obj.Enabled then
-			table.insert(spawns, obj)
+			local g = obj:GetAttribute("Gang")
+			if g == nil then
+				table.insert(open, obj)
+			elseif g == gang then
+				table.insert(mine, obj)
+			end
 		end
 	end
+	local spawns = if #mine > 0 then mine else open
 	if #spawns == 0 then
 		return CFrame.new(0, 10, 0)
 	end
@@ -115,7 +125,7 @@ local function build(player: Player, plain: boolean?)
 	end
 
 	local old = player.Character
-	character:PivotTo(spawnCFrame())
+	character:PivotTo(spawnCFrame(player))
 	player.Character = character
 	character.Parent = workspace
 	if old and old ~= character then

@@ -173,14 +173,24 @@ local Config = {
 		DroppedLifetime = 600, -- seconds before a dropped item disappears
 	},
 
+	-- Gangs (Server/Gangs): one Team each, and each has its own neighborhood with a court
+	-- spawn (City/<Id>Spawn, attribute Gang = Id, from tools/build_city_map.py). Members spawn
+	-- there; everyone else (Civilians) spawns at the main spawn plaza. Original names only.
+	Gangs = {
+		{ Id = "RedCrowns", Name = "Red Crowns", Color = Color3.fromRGB(200, 30, 36) },
+		{ Id = "Vipers", Name = "Vipers", Color = Color3.fromRGB(240, 196, 30) },
+		{ Id = "GroveKings", Name = "Grove Kings", Color = Color3.fromRGB(40, 160, 70) },
+	},
+
 	-- Cars (docs/vehicles.md). Get in with F (gamepad Y, tap the prompt on phones), out with F again.
 	-- W/S or triggers = gas/brake/reverse, A/D or stick = steer, Space / RB = handbrake.
 	Vehicles = {
 		EnterDistance = 8, -- studs from the driver's door
 		-- parked next to the spawn on start; Offset from the spawn, Yaw 0 = facing north (-Z)
 		TestCars = {
-			{ Id = "Sedan", Offset = Vector3.new(9, 0, -14), Yaw = 0 },
-			{ Id = "Hypercar", Offset = Vector3.new(-9, 0, -14), Yaw = 0 },
+			-- spawn plaza: between the spawn and the avenue, clear of the kiosk and lamps
+			{ Id = "Sedan", Offset = Vector3.new(9, 0, 16), Yaw = 0 },
+			{ Id = "Hypercar", Offset = Vector3.new(-9, 0, 16), Yaw = 0 },
 		},
 	},
 

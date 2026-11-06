@@ -393,6 +393,29 @@ clickButton = button(tp, "Click to teleport", 140, function()
 	end
 end)
 
+-- gangs: join one (spawn in its hood from the next respawn) and jump to every city spawn
+local gangRow = flow(playerPage)
+gangRow.LayoutOrder = 3
+button(gangRow, "Civilian", 90, function()
+	run("SetGang", "")
+end)
+for _, g in Config.Gangs do
+	local b = button(gangRow, `Join {g.Name}`, 130, function()
+		run("SetGang", g.Id)
+	end)
+	b.BackgroundColor3 = g.Color:Lerp(COLORS.Button, 0.45)
+end
+local spawnRow = flow(playerPage)
+spawnRow.LayoutOrder = 3
+button(spawnRow, "Main spawn", 110, function()
+	run("TeleportNamedSpawn", "Spawn")
+end)
+for _, g in Config.Gangs do
+	button(spawnRow, `{g.Name} hood`, 130, function()
+		run("TeleportNamedSpawn", g.Id .. "Spawn")
+	end)
+end
+
 local toPlayerHead = label(playerPage, "To player", 15, BOLD, COLORS.Header)
 toPlayerHead.LayoutOrder = 4
 local playerRow = row(playerPage)

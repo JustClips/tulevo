@@ -28,6 +28,7 @@ local Server = script.Parent
 local Money = require(Server:WaitForChild("Money"))
 local Damage = require(Server:WaitForChild("Damage"))
 local Knocked = require(Server:WaitForChild("Knocked"))
+local Gangs = require(Server:WaitForChild("Gangs"))
 local InventoryService = require(Server:WaitForChild("Inventory"):WaitForChild("InventoryService"))
 local VehicleService = require(Server:WaitForChild("Vehicles"):WaitForChild("VehicleService"))
 local Guard = require(Server:WaitForChild("Guard"))
@@ -416,6 +417,26 @@ function actions.TeleportSpawn(player)
 	local spawnPart = workspace:FindFirstChild("Spawn", true)
 	if not spawnPart or not spawnPart:IsA("BasePart") then
 		return false, "No Spawn part"
+	end
+	return teleportTo(player, spawnPart.Position + Vector3.new(0, spawnPart.Size.Y / 2, 0))
+end
+
+-- gang (Team) for testing the hood spawns; "" = Civilians
+function actions.SetGang(player, id)
+	if type(id) ~= "string" then
+		return false, "Bad gang"
+	end
+	if not Gangs.set(player, if id == "" then nil else id) then
+		return false, "Unknown gang"
+	end
+	return true, if id == "" then "Now a civilian" else `Joined {player.Team and player.Team.Name}`
+end
+
+-- one of the city spawns by name (Spawn, RedCrownsSpawn, ...)
+function actions.TeleportNamedSpawn(player, name)
+	local spawnPart = type(name) == "string" and workspace:FindFirstChild(name, true)
+	if not spawnPart or not spawnPart:IsA("SpawnLocation") then
+		return false, "No such spawn"
 	end
 	return teleportTo(player, spawnPart.Position + Vector3.new(0, spawnPart.Size.Y / 2, 0))
 end

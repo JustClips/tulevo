@@ -1,0 +1,395 @@
+{
+ "name": "HouseA",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Lawn": {
+   "tris": 12,
+   "min": [
+    -28.8,
+    -46.8,
+    -0.3
+   ],
+   "max": [
+    28.8,
+    46.8,
+    0.0
+   ]
+  },
+  "Concrete": {
+   "tris": 60,
+   "min": [
+    -18.72,
+    -46.8,
+    0.0
+   ],
+   "max": [
+    27.72,
+    39.6,
+    1.39
+   ]
+  },
+  "Foundation": {
+   "tris": 12,
+   "min": [
+    -21.7,
+    -7.3,
+    0.0
+   ],
+   "max": [
+    12.7,
+    28.9,
+    1.44
+   ]
+  },
+  "Walls": {
+   "tris": 12,
+   "min": [
+    -21.6,
+    -7.2,
+    1.44
+   ],
+   "max": [
+    12.6,
+    28.8,
+    11.52
+   ]
+  },
+  "Roof": {
+   "tris": 20,
+   "min": [
+    -23.4,
+    -15.84,
+    9.9
+   ],
+   "max": [
+    14.4,
+    30.6,
+    17.64
+   ]
+  },
+  "Trim": {
+   "tris": 232,
+   "min": [
+    -23.4,
+    -16.02,
+    0.0
+   ],
+   "max": [
+    14.4,
+    30.6,
+    11.54
+   ]
+  },
+  "Iron": {
+   "tris": 2148,
+   "min": [
+    -28.85,
+    -45.51,
+    -0.01
+   ],
+   "max": [
+    28.85,
+    36.09,
+    5.87
+   ]
+  },
+  "SecurityDoor": {
+   "tris": 4,
+   "min": [
+    -14.49,
+    -7.24,
+    1.44
+   ],
+   "max": [
+    -2.52,
+    28.84,
+    9.18
+   ]
+  },
+  "Sconce": {
+   "tris": 12,
+   "min": [
+    -10.04,
+    -7.78,
+    8.17
+   ],
+   "max": [
+    -9.4,
+    -7.2,
+    9.11
+   ]
+  },
+  "BarWindow": {
+   "tris": 16,
+   "min": [
+    -21.64,
+    -7.24,
+    4.32
+   ],
+   "max": [
+    12.64,
+    28.84,
+    9.36
+   ]
+  },
+  "AcBody": {
+   "tris": 12,
+   "min": [
+    12.64,
+    9.45,
+    5.94
+   ],
+   "max": [
+    14.87,
+    12.15,
+    7.74
+   ]
+  },
+  "Dark": {
+   "tris": 224,
+   "min": [
+    9.54,
+    -38.81,
+    0.0
+   ],
+   "max": [
+    23.54,
+    37.26,
+    7.49
+   ]
+  },
+  "Tag": {
+   "tris": 2,
+   "min": [
+    -21.65,
+    4.68,
+    6.66
+   ],
+   "max": [
+    -21.65,
+    14.4,
+    10.26
+   ]
+  },
+  "Pole": {
+   "tris": 92,
+   "min": [
+    -16.39,
+    17.78,
+    0.0
+   ],
+   "max": [
+    10.53,
+    45.14,
+    18.0
+   ]
+  },
+  "Plastic": {
+   "tris": 204,
+   "min": [
+    -3.78,
+    23.9,
+    0.0
+   ],
+   "max": [
+    11.88,
+    36.29,
+    16.56
+   ]
+  },
+  "Block": {
+   "tris": 36,
+   "min": [
+    -28.8,
+    -7.2,
+    0.0
+   ],
+   "max": [
+    28.8,
+    46.8,
+    6.48
+   ]
+  },
+  "Wood": {
+   "tris": 12,
+   "min": [
+    -8.1,
+    -44.1,
+    0.0
+   ],
+   "max": [
+    -7.74,
+    -43.74,
+    3.6
+   ]
+  },
+  "Mailbox": {
+   "tris": 12,
+   "min": [
+    -8.37,
+    -44.82,
+    3.44
+   ],
+   "max": [
+    -7.47,
+    -43.02,
+    4.34
+   ]
+  },
+  "Red": {
+   "tris": 12,
+   "min": [
+    -7.43,
+    -43.65,
+    3.96
+   ],
+   "max": [
+    -7.41,
+    -43.47,
+    4.68
+   ]
+  },
+  "BinGreen": {
+   "tris": 24,
+   "min": [
+    15.3,
+    -40.93,
+    0.0
+   ],
+   "max": [
+    17.82,
+    -38.12,
+    3.89
+   ]
+  },
+  "BinGrey": {
+   "tris": 24,
+   "min": [
+    18.18,
+    -40.93,
+    0.0
+   ],
+   "max": [
+    20.7,
+    -38.12,
+    3.89
+   ]
+  },
+  "BinBlue": {
+   "tris": 24,
+   "min": [
+    21.06,
+    -40.93,
+    0.0
+   ],
+   "max": [
+    23.58,
+    -38.12,
+    3.89
+   ]
+  },
+  "Trunk": {
+   "tris": 420,
+   "min": [
+    -23.06,
+    -34.2,
+    -0.0
+   ],
+   "max": [
+    -20.16,
+    -31.66,
+    28.62
+   ]
+  },
+  "Palm": {
+   "tris": 616,
+   "min": [
+    -34.17,
+    -47.29,
+    23.61
+   ],
+   "max": [
+    -5.57,
+    -18.11,
+    28.68
+   ]
+  },
+  "Shrub": {
+   "tris": 140,
+   "min": [
+    -22.19,
+    -12.0,
+    -0.24
+   ],
+   "max": [
+    9.44,
+    -8.87,
+    2.19
+   ]
+  },
+  "Net": {
+   "tris": 12,
+   "min": [
+    -14.44,
+    41.4,
+    6.98
+   ],
+   "max": [
+    -14.36,
+    45.0,
+    7.06
+   ]
+  }
+ },
+ "lamps": [],
+ "textures": {
+  "Lawn": "Lawn_Color.png",
+  "Concrete": "Concrete_Color.png",
+  "Foundation": "Foundation_Color.png",
+  "Walls": "WallCream_Color.png",
+  "Roof": "Shingles_Color.png",
+  "Trim": "Trim_Color.png",
+  "Iron": "Iron_Color.png",
+  "SecurityDoor": "SecurityDoor_Color.png",
+  "Sconce": "Sconce_Color.png",
+  "BarWindow": "BarWindow_Color.png",
+  "AcBody": "AcBody_Color.png",
+  "Dark": "Dark_Color.png",
+  "Tag": "Tag_Color.png",
+  "Pole": "Pole_Color.png",
+  "Plastic": "Plastic_Color.png",
+  "Block": "Block_Color.png",
+  "Wood": "Wood_Color.png",
+  "Mailbox": "Mailbox_Color.png",
+  "Red": "Red_Color.png",
+  "BinGreen": "BinGreen_Color.png",
+  "BinGrey": "BinGrey_Color.png",
+  "BinBlue": "BinBlue_Color.png",
+  "Trunk": "Trunk_Color.png",
+  "Palm": "Palm_Color.png",
+  "Shrub": "Shrub_Color.png",
+  "Net": "Net_Color.png"
+ },
+ "variants": {
+  "Walls": {
+   "Cream": "WallCream_Color.png",
+   "Sand": "WallSand_Color.png",
+   "Sky": "WallSky_Color.png",
+   "Rose": "WallRose_Color.png",
+   "Brick": "WallBrick_Color.png",
+   "Blush": "WallBlush_Color.png",
+   "Butter": "WallButter_Color.png",
+   "Tan": "WallTan_Color.png",
+   "Peach": "WallPeach_Color.png",
+   "Mint": "WallMint_Color.png",
+   "Sage": "WallSage_Color.png",
+   "Teal": "WallTeal_Color.png"
+  },
+  "Tag": {
+   "RedCrowns": "TagRedCrowns_Color.png",
+   "Vipers": "TagVipers_Color.png",
+   "GroveKings": "TagGroveKings_Color.png"
+  }
+ }
+}
