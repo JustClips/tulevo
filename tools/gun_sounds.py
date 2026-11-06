@@ -185,8 +185,9 @@ def big_shot(shot, rng):
     gate = np.where(t < 0.08, 1.0, np.exp(-(t - 0.08) / 0.12))  # blast stays, echo dies fast
     mix = shot * gate[:, None]
     mix = fft_filter(mix, hp(100, 2))
-    mix = fft_filter(mix, lambda f: 1 + 0.6 / (1 + ((f - 350) / 250) ** 2))   # close-up weight
-    mix = fft_filter(mix, lambda f: 1 + 0.3 / (1 + ((f - 2800) / 1500) ** 2))  # clear crack
+    mix = fft_filter(mix, lambda f: 1 + 0.25 / (1 + ((f - 350) / 250) ** 2))  # close-up weight
+    mix = fft_filter(mix, lambda f: 1 + 0.8 / (1 + ((f - 3000) / 1600) ** 2))  # clear, ringing crack
+    mix = fft_filter(mix, shelf(8000, 3.0))                                     # air (less muffled)
     mix = limit(mix, 0.45)
     return fade_out(mix, 0.3)
 
@@ -350,47 +351,42 @@ def punchy(x, threshold=0.3):
     return limit(np.tanh(x / (np.abs(x).max() + 1e-9) * 1.8), threshold)
 
 
+def muffled(x, fc=1100):
+    """Dull it down: what a hit sounds like from where you stand, not a microphone on the wall."""
+    return punchy(fft_filter(x, lp(fc, 3)), 0.35)
+
+
 def impact_concrete(rng):
-    out = np.zeros(seconds(0.6))
-    add(out, click(rng, 12000, 0.0005) * 1.0, 0)
-    # the "thock": a short mid knock of the wall itself
-    add(out, modes(rng, [420 + 120 * rng.random(), 910, 1650], [0.012, 0.008, 0.005], [1, 0.6, 0.4], 0.1) * 0.8, 0)
-    add(out, thud(rng, 150, 1400, 0.01) * 0.7, 0)
-    # a quick puff of chips
-    add(out, grains(rng, 0.09, 3000, 0.025, 1500, 9000, 0.0018) * 0.45, 0.002)
-    out = out  # dry: no echo off walls (GTA impacts are short and dry)
-    return punchy(out)
+    """A dull "tuk" into the wall: a short low knock with a little grit, no click, no echo."""
+    out = np.zeros(seconds(0.25))
+    add(out, thud(rng, 90, 900, 0.014, 0.12) * 1.0, 0)
+    add(out, modes(rng, [260 + 80 * rng.random(), 540], [0.02, 0.012], [1, 0.4], 0.1) * 0.6, 0)
+    add(out, grains(rng, 0.06, 1500, 0.02, 400, 2500, 0.003) * 0.25, 0.003)
+    return muffled(out, 1300)
 
 
 def impact_metal(rng):
-    out = np.zeros(seconds(0.6))
-    add(out, click(rng, 14000, 0.0003) * 1.0, 0)
-    base = 1900 + 900 * rng.random()
-    add(out, modes(rng, base * np.array([1.0, 1.47, 2.09, 2.76, 3.4]), [0.05, 0.035, 0.025, 0.018, 0.012],
-                   [0.8, 0.6, 0.45, 0.3, 0.2], 0.4) * 0.7, 0)
-    add(out, modes(rng, [380 + 150 * rng.random(), 780], [0.02, 0.012], [1, 0.5], 0.1) * 0.6, 0)
-    add(out, thud(rng, 200, 2000, 0.008) * 0.4, 0)
-    out = out  # dry: no echo off walls (GTA impacts are short and dry)
-    return punchy(out, 0.35)
+    """A dull "tonk": low metal knock, the ring cut short."""
+    out = np.zeros(seconds(0.3))
+    add(out, thud(rng, 120, 1200, 0.01, 0.12) * 0.8, 0)
+    base = 520 + 200 * rng.random()
+    add(out, modes(rng, base * np.array([1.0, 1.52, 2.3]), [0.05, 0.03, 0.02], [1, 0.6, 0.3], 0.25) * 0.8, 0)
+    return muffled(out, 1800)
 
 
 def impact_wood(rng):
-    out = np.zeros(seconds(0.45))
-    add(out, click(rng, 9000, 0.0007) * 0.9, 0)
-    base = 230 + 120 * rng.random()
-    add(out, modes(rng, base * np.array([1, 2.3, 3.9]), [0.025, 0.015, 0.01], [1, 0.55, 0.3], 0.15) * 0.9, 0)
-    add(out, grains(rng, 0.06, 2000, 0.02, 1000, 6000, 0.003) * 0.4, 0.002)
-    out = out  # dry: no echo off walls (GTA impacts are short and dry)
-    return punchy(out)
+    out = np.zeros(seconds(0.25))
+    add(out, thud(rng, 80, 800, 0.016, 0.12) * 1.0, 0)
+    base = 200 + 100 * rng.random()
+    add(out, modes(rng, base * np.array([1, 2.3]), [0.025, 0.015], [1, 0.5], 0.1) * 0.7, 0)
+    return muffled(out, 1200)
 
 
 def impact_dirt(rng):
-    out = np.zeros(seconds(0.5))
-    add(out, thud(rng, 70, 700, 0.018, 0.15) * 1.0, 0)
-    add(out, click(rng, 5000, 0.001) * 0.5, 0)
-    add(out, grains(rng, 0.12, 2200, 0.035, 500, 5000, 0.004) * 0.55, 0.003)
-    out = out  # dry: no echo off walls (GTA impacts are short and dry)
-    return punchy(out)
+    out = np.zeros(seconds(0.25))
+    add(out, thud(rng, 50, 500, 0.02, 0.15) * 1.0, 0)
+    add(out, grains(rng, 0.08, 1200, 0.03, 200, 1500, 0.005) * 0.3, 0.004)
+    return muffled(out, 900)
 
 
 def impact_glass(rng):
@@ -420,7 +416,7 @@ def impact_body(rng):
     slap = fft_filter(rng.standard_normal(seconds(0.04)), band(900, 4500, 2)) * decay(seconds(0.04), 0.005, 0.0004)
     add(out, slap / (np.abs(slap).max() + 1e-9) * 0.7, 0)
     add(out, grains(rng, 0.05, 1200, 0.015, 500, 3000, 0.004) * 0.2, 0.006)
-    return punchy(out, 0.32)
+    return muffled(out, 1500)
 
 
 def main():
