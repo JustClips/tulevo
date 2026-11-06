@@ -6,7 +6,7 @@
 #   python3 art/phone/proc.py FRAME_RAW.png WALLPAPER_RAW.png
 import glob, json, os, sys
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageFilter
 from scipy import ndimage
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT, APPS = os.path.join(HERE, "out"), os.path.join(HERE, "apps")
@@ -46,10 +46,17 @@ def frame(src):
 
 
 def wallpaper(src):
+    # pass --sideways for art made sideways (turned upright so the tall screen gets the full resolution)
     im = Image.open(src).convert("RGB")
-    h = im.height; w = round(h * 9 / 19.5)
+    if "--sideways" in sys.argv:
+        im = im.rotate(90, expand=True)
+    screen = json.load(open(os.path.join(OUT, "meta.json")))
+    sx, sy, sw, sh = screen["Screen"]
+    aspect = sw * screen["Aspect"] / sh
+    w = min(im.width, round(im.height * aspect))
     x = (im.width - w) // 2
-    im = im.crop((x, 0, x + w, h)).resize((w * 2, h * 2), Image.LANCZOS)
+    im = im.crop((x, 0, x + w, im.height))
+    im = im.resize((w * 2, im.height * 2), Image.LANCZOS).filter(ImageFilter.UnsharpMask(2, 60, 2))
     im.save(os.path.join(OUT, "Wallpaper.png"))
     print("wallpaper", im.size)
 
