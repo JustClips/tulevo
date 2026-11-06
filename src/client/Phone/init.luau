@@ -232,12 +232,12 @@ function Phone.open()
 	end
 	local h = parts.holder
 	h.Visible = true
-	h.Rotation = 4
+	h.Rotation = 0
 	parts.sleepCover.BackgroundTransparency = 0
 	mouseFree.Modal = true
-	-- GTA style: fast rise from under the corner, slow settle
-	local info = TweenInfo.new(CFG.OpenTime, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
-	moving = TweenService:Create(h, info, { Position = openPos(), Rotation = 0 })
+	-- GTA style: a smooth slide straight up from under the corner, easing in and out
+	local info = TweenInfo.new(CFG.OpenTime, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut)
+	moving = TweenService:Create(h, info, { Position = openPos() })
 	moving.Completed:Connect(function(state)
 		if state == Enum.PlaybackState.Completed then
 			moving = nil
@@ -245,9 +245,9 @@ function Phone.open()
 	end)
 	moving:Play()
 	-- screen wakes as it arrives
-	task.delay(CFG.OpenTime * 0.45, function()
+	task.delay(CFG.OpenTime * 0.55, function()
 		if isOpen then
-			TweenService:Create(parts.sleepCover, TweenInfo.new(0.25), { BackgroundTransparency = 1 }):Play()
+			TweenService:Create(parts.sleepCover, TweenInfo.new(0.35), { BackgroundTransparency = 1 }):Play()
 		end
 	end)
 	openedEvent:Fire()
@@ -262,9 +262,9 @@ function Phone.close()
 	if moving then
 		moving:Cancel()
 	end
-	TweenService:Create(parts.sleepCover, TweenInfo.new(0.12), { BackgroundTransparency = 0 }):Play()
-	local info = TweenInfo.new(CFG.CloseTime, Enum.EasingStyle.Quad, Enum.EasingDirection.In)
-	local tw = TweenService:Create(parts.holder, info, { Position = closedPos(), Rotation = 3 })
+	TweenService:Create(parts.sleepCover, TweenInfo.new(0.2), { BackgroundTransparency = 0 }):Play()
+	local info = TweenInfo.new(CFG.CloseTime, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut)
+	local tw = TweenService:Create(parts.holder, info, { Position = closedPos() })
 	moving = tw
 	tw.Completed:Connect(function(state)
 		if moving == tw then

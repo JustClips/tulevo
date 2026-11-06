@@ -14,6 +14,12 @@ JOBS = {
         "physical side buttons visible on the edges: action button and two volume buttons on the left edge, "
         "one long power button on the right edge. The screen is completely flat pure black (#000000), "
         "switched off, no reflections, no glare, no notch, no content, no text. Product UI cut-out, whole phone inside the frame."),
+    "wallpaper2": ("thumbnail", 2,
+        "Highly detailed premium smartphone lock screen wallpaper in the style of modern iOS default wallpapers (original art, not a copy): "
+        "large soft glowing 3D shapes made of translucent frosted glass ribbons and petals folding over each other, layered depth, "
+        "rich vivid colours (deep blue, violet, magenta, warm orange), fine light refraction, subtle grain, smooth gradients, "
+        "dark background around them, crisp high resolution, studio lighting. The main shape is a tall vertical composition "
+        "centred in the middle third of the image so it can be cropped to a tall phone screen. No text, no logo, no device, no UI."),
     "wallpaper": ("thumbnail", 1,
         "Abstract modern phone wallpaper art, smooth flowing glossy gradient waves, deep violet, midnight blue and "
         "warm orange-pink sunset glow, soft light, minimal, elegant, premium like a new flagship smartphone default wallpaper. "

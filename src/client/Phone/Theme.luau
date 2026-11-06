@@ -6,7 +6,9 @@ Theme.W = 300 -- whole phone (body), units
 Theme.H = 620
 Theme.Bezel = 11 -- black glass border around the screen
 Theme.BodyRadius = 50
-Theme.ScreenRadius = 40
+-- with the ForgeGUI body picture the picture's black glass rounds the corners, so the
+-- screen itself stays a little less round than the hole (never shows a gap)
+Theme.ScreenRadius = if require(script.Parent.PhoneArt).Frame then 30 else 40
 
 Theme.StatusBar = 46 -- height of the top strip (time, island, icons)
 Theme.IconSize = 52

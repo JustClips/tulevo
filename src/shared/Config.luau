@@ -275,8 +275,8 @@ local Config = {
 		GamepadKey = Enum.KeyCode.DPadDown, -- D-pad up/left/right are quick slots
 		ScreenHeight = 0.62, -- share of the screen height the phone takes (desktop)
 		TouchScreenHeight = 0.8, -- phones are small, so the phone is bigger there
-		OpenTime = 0.42,
-		CloseTime = 0.26,
+		OpenTime = 0.7, -- slow smooth slide up (Dev 2026-11-06: no shake)
+		CloseTime = 0.55,
 	},
 }
 
