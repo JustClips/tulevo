@@ -46,5 +46,9 @@
  "OfficeStone": {
   "id": 72862259720758,
   "sha": "a5bdc33b8523fd8ffd8195a55f5ea3dbaa50e360ea737d9b02c852b81885856c"
+ },
+ "WeatherMeshes": {
+  "id": 111007844108617,
+  "sha": "d3e6f2dda9f71da5e4f35ca3e6ed665acc4b1af13f111685b31c7f0e9ed2c8d6"
  }
 }

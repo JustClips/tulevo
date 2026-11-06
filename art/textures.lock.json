@@ -248,5 +248,30 @@
   "id": 92232645723888,
   "file": "art/models/OfficeStone/tex/OfficeStone_Roof.png",
   "state": "Approved"
+ },
+ "11d00fa06c6baab99642591dc07a07c72b0746aadb9f5e2582fb19dae2bf6e23": {
+  "id": 77958563532552,
+  "file": "art/weather/tex/Cirrus.png",
+  "state": "Approved"
+ },
+ "e57926ab2e64c2e0801c4735c30bd3785b38e3bf7de74319a70f81c59c469e62": {
+  "id": 91829527228290,
+  "file": "art/weather/tex/Overcast.png",
+  "state": "Approved"
+ },
+ "afa5e0dc4fe8833a225d9f85722c4937d97713378a08f134e949800e0c6a42f6": {
+  "id": 76746315614032,
+  "file": "art/weather/tex/RainSheet.png",
+  "state": "Approved"
+ },
+ "debd540938faa7d32c0172174e72971e2ae17abac06bc6b6cd282b6baa429565": {
+  "id": 80848297953462,
+  "file": "art/weather/tex/RainSpray.png",
+  "state": "Approved"
+ },
+ "bdcf9ed0de3127d9d9dca1a20075048a05a38ba8ec5d5dfd509a41c39eb82fa0": {
+  "id": 97549107602971,
+  "file": "art/weather/tex/RainStreak.png",
+  "state": "Reviewing"
  }
 }

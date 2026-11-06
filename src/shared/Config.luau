@@ -204,6 +204,27 @@ local Config = {
 		-- the in-game date starts on the server's real (UTC) date and then counts game days
 		DriveLighting = true, -- false: HUD clock still runs, but the sky stays as set in Studio
 	},
+
+	-- Weather (Server/Weather + Client/Weather, docs/weather.md). The server picks the weather
+	-- and everyone blends to it over FadeSeconds; clouds drift on the server clock, so every
+	-- player sees the same sky. Admins (and anyone in a Studio play test) can type
+	-- /weather clear | cloudy | rain | heavyrain | auto  in chat.
+	Weather = {
+		Enabled = true,
+		Start = "Clear", -- weather when a server starts
+		Cycle = true, -- false: stays on Start until someone uses /weather
+		MinMinutes = 6, -- real minutes each weather lasts (random in between)
+		MaxMinutes = 14,
+		-- how often each weather is picked by the cycle
+		Chances = { Clear = 5, Cloudy = 3, Rain = 2, HeavyRain = 1 },
+		FadeSeconds = 30, -- seconds to blend from one weather into the next
+		Admins = { 822623546, 347852675 }, -- user ids allowed to use /weather in live servers
+		DriveSky = true, -- false: leave Lighting/Atmosphere as set in Studio (clouds and rain still run)
+		-- clouds: direction they drift (x, z) and studs per second
+		WindDirection = Vector2.new(1, 0.35),
+		CloudSpeed = 9,
+		RainVolume = 0.55, -- rain loop volume at full rain
+	},
 }
 
 return Config

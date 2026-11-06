@@ -80,4 +80,11 @@ return {
 		Mech = 94761267115390,
 		Roof = 92232645723888,
 	},
+	Weather = {
+		Cirrus = 77958563532552,
+		Overcast = 91829527228290,
+		RainSheet = 76746315614032,
+		RainSpray = 80848297953462,
+		RainStreak = 97549107602971,
+	},
 }
