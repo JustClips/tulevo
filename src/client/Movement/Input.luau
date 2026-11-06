@@ -5,7 +5,7 @@
 
 	Sprint: hold Shift, click the left stick (toggle), or the Sprint button on phones (toggle).
 	Crouch: Ctrl or C, gamepad B, or the Crouch button on phones (all toggle).
-	LeanLeft / LeanRight: hold Q / E (only does anything with a gun out, see Client/Weapons).
+	LeanLeft / LeanRight: hold Q / E (on foot, gun or not; the pose is Client/Weapons/GunPose).
 	Roll (GTA 5): jump while aiming a gun: right mouse + Space, gamepad L2 + A, or the Roll
 	button on phones (Input.rollPending/takeRoll). Rolls toward the way you're moving.
 	New moves add their action to ACTIONS.

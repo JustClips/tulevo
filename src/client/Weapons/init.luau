@@ -585,8 +585,9 @@ function Controller.start()
 		-- space, and the character faces the camera then)
 		local fp = isFirstPerson(player.Character)
 		local want = if raised and gunOut and State.Aiming and not fp then 1.6 else 0
-		-- leaning: the camera slides with the head (first person follows the head by itself)
-		if gunOut and not fp then
+		-- leaning while the body faces the camera: the camera slides out with the head (first
+		-- person follows the head by itself)
+		if raised and not fp then
 			want += State.Lean * 1.1
 		end
 		shoulder += (want - shoulder) * math.min(1, dt * 10)
@@ -624,6 +625,23 @@ function Controller.start()
 			end
 		end
 	end)
+
+	-- Q / E lean (hold), on foot with or without a gun; not while sprinting, rolling, in the
+	-- air, driving or dressing. Weapons/GunPose turns State.Lean into the body pose.
+	local function updateLean(dt: number, h: Humanoid)
+		local active = Movement.active()
+		local can = h.Health > 0 and not State.InVehicle and not State.Dressing and h.SeatPart == nil
+			and active ~= "Sprint" and active ~= "SprintStop" and active ~= "Pivot" and active ~= "Roll"
+			and active ~= "Air" and active ~= "Seated"
+		local want = 0
+		if can then
+			want = (if MoveInput.isDown("LeanRight") then 1 else 0) - (if MoveInput.isDown("LeanLeft") then 1 else 0)
+		end
+		State.Lean += (want - State.Lean) * math.min(1, dt * 12)
+		if math.abs(State.Lean) < 0.002 and want == 0 then
+			State.Lean = 0
+		end
+	end
 
 	local sentUp = false
 	local sentPlant = false
@@ -666,7 +684,12 @@ function Controller.start()
 		end
 		if not def or not c or not h or not root then
 			State.Raised, State.Twist, State.Pitch, State.GaitReverse = false, 0, 0, false
-			State.StrafeSide, State.AimBlend, State.Lean, State.Lowered = 0, 0, 0, false
+			State.StrafeSide, State.AimBlend, State.Lowered = 0, 0, false
+			if h and root then
+				updateLean(dt, h)
+			else
+				State.Lean = 0
+			end
 			setZoom(false)
 			updateCamera(dt, false, false, h)
 			if wasRaised and h then
@@ -692,17 +715,7 @@ function Controller.start()
 		local fpReady = isFirstPerson(c) and def.Class.Kind == "Gun" and not rolling and not airborne
 			and active ~= "Sprint" and not State.Reloading
 		local ready = up or fpReady
-		-- Q / E lean (hold) with a gun out; not while sprinting, rolling, in the air or driving
-		local canLean = def.Class.Kind == "Gun" and not rolling and not airborne and not State.InVehicle
-			and active ~= "Sprint" and active ~= "SprintStop" and active ~= "Pivot" and not State.Dressing
-		local leanWant = 0
-		if canLean then
-			leanWant = (if MoveInput.isDown("LeanRight") then 1 else 0) - (if MoveInput.isDown("LeanLeft") then 1 else 0)
-		end
-		State.Lean += (leanWant - State.Lean) * math.min(1, dt * 12)
-		if math.abs(State.Lean) < 0.002 and leanWant == 0 then
-			State.Lean = 0
-		end
+		updateLean(dt, h)
 		-- aiming while standing: feet stay planted and step to turn (Weapons/GunPose)
 		State.FeetPlant = ready and not rolling and not airborne and active ~= "Crouch"
 

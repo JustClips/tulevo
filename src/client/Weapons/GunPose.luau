@@ -21,9 +21,10 @@
 	exactly the aim orientation in the world: facing yaw + aim pitch (up/down) + the blade.
 	Arms, head and gun hang off the chest, so they're locked too.
 
-	Lean (Q / E with a gun out): after all that, the chest tilts round the aim direction at the
-	waist (Config.Weapons.LeanAngle), so the head and gun slide out sideways and the barrel
-	still points at the crosshair.
+	Lean (hold Q / E, gun or not): after all that the body leans over: the hips tip a little
+	(legs kept upright, feet stay put), the chest tilts the rest of Config.Weapons.LeanAngle
+	round the aim direction (so the barrel still points at the crosshair) and the head tilts
+	back a bit toward level, like peeking round a corner.
 
 	Local player: values from Weapons/State (AimBlend = how much of the Aim pose is in,
 	Pitch, FeetPlant, Lean). Other players: character attributes GunUp / GunPitch / GunPlant /
@@ -56,6 +57,8 @@ type Rig = {
 	root: BasePart,
 	lowerRoot: Motor6D,
 	waist: Motor6D,
+	neck: Motor6D?,
+	hips: { Motor6D },
 	humanoid: Humanoid?,
 	blend: number,
 	pitch: number,
@@ -83,10 +86,21 @@ local function rigOf(character: Model): Rig?
 		return nil
 	end
 	local humanoid = character:FindFirstChildOfClass("Humanoid")
+	local function motorIn(partName: string, name: string): Motor6D?
+		local part = character:FindFirstChild(partName)
+		local m = part and part:FindFirstChild(name)
+		return if m and m:IsA("Motor6D") then m else nil
+	end
+	local hips = {}
+	for _, h in { motorIn("RightUpperLeg", "RightHip"), motorIn("LeftUpperLeg", "LeftHip") } do
+		table.insert(hips, h)
+	end
 	local rig: Rig = {
 		root = root,
 		lowerRoot = lowerRoot,
 		waist = waist,
+		neck = motorIn("Head", "Neck"),
+		hips = hips,
 		humanoid = humanoid,
 		blend = 0,
 		pitch = 0,
@@ -199,21 +213,45 @@ local function lock(r: Rig, blend: number, pitch: number, hipTurn: number)
 	r.waist.Transform = if blend >= 0.999 then locked else anim:Lerp(locked, blend)
 end
 
--- Lean: tilt the chest round the aim direction (yaw of the root + pitch) at the waist joint.
--- lean is -1..1 (+ = right); pitch is how far the aim pitch is applied (0 when the gun is down).
-local LEAN_MAX = math.rad(Config.Weapons.LeanAngle or 20)
+-- Lean pose. lean is -1..1 (+ = right); pitch is how much aim pitch the chest has (0 with the
+-- gun down). Every turn is a world rotation about that joint, applied on top of the animation.
+local LEAN_MAX = math.rad(Config.Weapons.LeanAngle or 25)
+local HIP_SHARE = 0.3 -- of the lean taken by the hips (the chest does the rest)
+local HEAD_BACK = 0.4 -- of the lean the head tilts back toward level
+
+local function partOf(parent: CFrame, m: Motor6D): CFrame
+	return parent * m.C0 * m.Transform * m.C1:Inverse()
+end
+
+local function turnJoint(m: Motor6D, parent: CFrame, rot: CFrame)
+	local joint = parent * m.C0
+	local pivot = (joint * m.Transform).Position
+	local turn = CFrame.new(pivot) * rot * CFrame.new(-pivot)
+	m.Transform = joint:Inverse() * turn * joint * m.Transform
+end
+
 local function applyLean(r: Rig, lean: number, pitch: number)
 	if math.abs(lean) < 0.001 then
 		return
 	end
-	local lr, w = r.lowerRoot, r.waist
-	local lowerTorso = r.root.CFrame * lr.C0 * lr.Transform * lr.C1:Inverse()
-	local joint = lowerTorso * w.C0
+	local angle = lean * LEAN_MAX
 	local _, yaw = r.root.CFrame:ToOrientation()
-	local axis = (CFrame.Angles(0, yaw, 0) * CFrame.Angles(pitch, 0, 0)).LookVector
-	local pivot = (joint * w.Transform).Position
-	local turn = CFrame.new(pivot) * CFrame.fromAxisAngle(axis, lean * LEAN_MAX) * CFrame.new(-pivot)
-	w.Transform = joint:Inverse() * turn * joint * w.Transform
+	local flat = CFrame.Angles(0, yaw, 0).LookVector
+	local aim = (CFrame.Angles(0, yaw, 0) * CFrame.Angles(pitch, 0, 0)).LookVector
+	-- hips tip toward the lean; the legs turn back so they stay upright
+	local hip = CFrame.fromAxisAngle(flat, angle * HIP_SHARE)
+	turnJoint(r.lowerRoot, r.root.CFrame, hip)
+	local lowerTorso = partOf(r.root.CFrame, r.lowerRoot)
+	for _, m in r.hips do
+		turnJoint(m, lowerTorso, hip:Inverse())
+	end
+	-- chest: the rest, so in total it has turned exactly the lean round the aim direction
+	local chest = CFrame.fromAxisAngle(aim, angle)
+	turnJoint(r.waist, lowerTorso, chest * hip:Inverse())
+	-- head tilts back toward level a little
+	if r.neck then
+		turnJoint(r.neck, partOf(lowerTorso, r.waist), CFrame.fromAxisAngle(aim, -angle * HEAD_BACK))
+	end
 end
 
 local function standingStill(r: Rig): boolean

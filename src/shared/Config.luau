@@ -26,9 +26,9 @@ local Config = {
 	},
 
 	Weapons = {
-		-- Q / E lean with a gun out: the chest tilts this many degrees round the aim (the
-		-- server moves the shot origin with it, so you can shoot round a corner)
-		LeanAngle = 20,
+		-- hold Q / E to lean (gun or not): the upper body tilts this many degrees round the aim
+		-- (the server moves the shot origin with it, so you can shoot round a corner)
+		LeanAngle = 25,
 		-- everyone gets these on join (put in their inventory, Server/Inventory), and spawns
 		-- holding EquipOnSpawn
 		DefaultLoadout = { "CarbineRifle" },
