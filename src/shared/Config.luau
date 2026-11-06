@@ -92,6 +92,40 @@ local Config = {
 		AimStep = { Turn = 40, Settle = 14 },
 		-- number keys pick a wheel slot (GTA-style wheel UI comes later)
 		SlotKeys = { "Melee", "Pistol", "SMG", "Shotgun", "Rifle" },
+		-- Gun sounds (Client/Weapons/GunAudio, files from tools/gun_sounds.py). Volumes are 0-1+,
+		-- distances in studs.
+		Sound = {
+			Enabled = true,
+			Volume = 1, -- master for every gun sound
+			PitchJitter = 0.03, -- each shot/impact is up to 3% higher or lower so autofire isn't a loop
+			OwnShot = 0.75, -- your own gun
+			-- someone else's gun: Shot is the loudness at ShotRef studs, then it falls off with
+			-- distance ^ ShotFalloff. Closer than NearRange you hear the close-up shot, up to
+			-- DistantRange the distant one, then the far pop; nothing past MaxRange.
+			Shot = 1,
+			ShotRef = 15,
+			ShotFalloff = 0.85,
+			NearRange = 70,
+			DistantRange = 260,
+			MaxRange = 900,
+			DistantBoost = 1.2, -- the distant / far files are duller, so they get a little extra
+			FarBoost = 1.6,
+			SpeedOfSound = 1225, -- studs/s (343 m/s): far shots are heard after their bullets land
+			-- bullets passing you: crack within CrackRadius (full loudness at CrackRef), whizz within WhizRadius
+			Crack = 0.9,
+			CrackRef = 4,
+			CrackRadius = 30,
+			Whiz = 0.55,
+			WhizRadius = 7,
+			-- bullets hitting things: full loudness at ImpactRef, unheard past ImpactRange
+			Impact = 0.9,
+			ImpactRef = 6,
+			ImpactRange = 170,
+			Body = 1, -- a bullet hitting someone else
+			BodyOnYou = 0.9, -- a bullet hitting you
+			Ricochet = 0.4, -- of the impact's loudness
+			RicochetChance = 0.15, -- per hit on concrete / metal
+		},
 	},
 
 	-- Inventory (N opens it; Client/Inventory, Server/Inventory). Weights are kg; every item's

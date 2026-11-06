@@ -58,16 +58,24 @@ local function damageAt(def, dist: number): number
 	return base * (1 - (1 - min) * math.clamp((dist - start) / math.max(1, range - start), 0, 1))
 end
 
-function Hitscan.fire(player: Player, def, origin: Vector3, direction: Vector3, aiming: boolean): { Vector3 }
+-- Returns where each bullet ended and what it hit there (for sounds / effects on clients):
+-- "Body" = a person, a material name (Enum.Material.Name) = the world, "" = nothing (flew out of range).
+function Hitscan.fire(
+	player: Player,
+	def,
+	origin: Vector3,
+	direction: Vector3,
+	aiming: boolean
+): ({ Vector3 }, { string })
 	local character = player.Character
 	local head = character and character:FindFirstChild("Head")
 	local humanoid = character and character:FindFirstChildOfClass("Humanoid")
 	if not head or not humanoid or humanoid.Health <= 0 then
-		return {}
+		return {}, {}
 	end
 	-- origin comes from the server (WeaponService passes the server's head position)
 	if (origin - head.Position).Magnitude > MAX_ORIGIN_OFFSET or direction.Magnitude < 0.01 then
-		return {}
+		return {}, {}
 	end
 	direction = direction.Unit
 
@@ -83,14 +91,14 @@ function Hitscan.fire(player: Player, def, origin: Vector3, direction: Vector3, 
 			if target and target.Health > 0 then
 				Damage.apply(target, def.Damage or 0, bodyPartOf(result.Instance, model :: Model))
 			end
-			return { result.Position }
+			return { result.Position }, { if target then "Body" else result.Material.Name }
 		end
-		return {}
+		return {}, {}
 	end
 
 	-- Guns: the map is checked as it is now (cover always blocks); players are checked where
 	-- the shooter saw them (LagComp). Other humanoids (NPCs) are hit by the normal raycast.
-	local hits = {}
+	local hits, kinds = {}, {}
 	local range = def.Range or 300
 	local spread = if aiming then def.AimSpread or 0 else def.Spread or 0
 	local worldParams = RaycastParams.new()
@@ -105,6 +113,7 @@ function Hitscan.fire(player: Player, def, origin: Vector3, direction: Vector3, 
 			local model = victim.Character
 			local target = model and model:FindFirstChildOfClass("Humanoid")
 			table.insert(hits, origin + dir * dist)
+			table.insert(kinds, "Body")
 			if target and target.Health > 0 then
 				-- TODO(teams/police): friendly-fire and wanted-level rules go here.
 				Damage.apply(target, damageAt(def, dist) * bodyMultiplier(def, partName), partName)
@@ -113,15 +122,17 @@ function Hitscan.fire(player: Player, def, origin: Vector3, direction: Vector3, 
 			table.insert(hits, result.Position)
 			local model = result.Instance:FindFirstAncestorOfClass("Model")
 			local target = model and model:FindFirstChildOfClass("Humanoid")
+			table.insert(kinds, if target and model ~= character then "Body" else result.Material.Name)
 			if target and target.Health > 0 and model ~= character then
 				local part = bodyPartOf(result.Instance, model)
 				Damage.apply(target, damageAt(def, worldDist) * bodyMultiplier(def, part), part)
 			end
 		else
 			table.insert(hits, origin + dir * range)
+			table.insert(kinds, "")
 		end
 	end
-	return hits
+	return hits, kinds
 end
 
 return Hitscan

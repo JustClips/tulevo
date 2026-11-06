@@ -17,7 +17,8 @@ which animations they need, and the server decides every hit.
 | `src/client/Weapons/GunPose.luau` | Bends every gun holder's waist to aim up/down and twist while strafing (replicated) |
 | `src/server/Weapons/GunModel.luau` | Gun model welded in the right hand (equipped) or on the back (holstered) |
 | `art/anim/gun.py` | Builds the rifle clips: places the gun, solves both arms with IK onto grip + handguard |
-| `src/client/Weapons/Effects.luau` | Tracers now; flash, sounds, impacts later |
+| `src/client/Weapons/Effects.luau` | Tracers and muzzle flash |
+| `src/client/Weapons/GunAudio.luau` | Gun sounds: shots by distance, bullet cracks, impacts (see Sounds below) |
 | `src/client/Movement/Moves/Aim.luau` | Aiming slows you to the class's aim walk and beats Sprint; sprint key while aiming = side run up to `Config.Movement.AimSprintSpeed` (12), sideways only (part of the Movement system) |
 | `Config.Weapons` | Studio test loadout, slot key order |
 
@@ -60,6 +61,23 @@ maths only); the map is never rewound, so cover always blocks. No shooting while
 a jump or in the air (`Movement.busy()` on the client; the server also drops shots from anyone
 more than 2.5 studs off the ground). `Config.Weapons.LagComp.Debug`
 shows the rewound hitboxes in Studio.
+
+## Sounds
+
+`Client/Weapons/GunAudio`, every number in `Config.Weapons.Sound`. Files come from `tools/gun_sounds.py`
+(then `tools/upload_sounds.py` uploads them and writes `Shared/SoundIds`).
+
+- Shots are real AR-15 recordings from The Free Firearm Sound Library (freefirearmsfx.com, CC0),
+  in `art/sounds/source/`. A weapon's `Sound` field picks the set (`Carbine` = CarbineShot /
+  CarbineDistant / CarbineFar).
+- Your own shot plays flat in both ears the moment you fire. Someone else's plays from their
+  muzzle: close-up shot under `NearRange`, distant shot up to `DistantRange`, a far pop past
+  that, nothing past `MaxRange`, delayed by distance / `SpeedOfSound` (so far away the bullets land first).
+- The server's `Shot` remote now also sends what each bullet hit (`"Body"`, a material name, or
+  `""` for nothing), so every client plays the right impact: concrete, metal, wood, dirt, glass or
+  a person (a hit on you plays flat and close). Concrete/metal sometimes ricochet.
+- A bullet passing within `CrackRadius` of you cracks past (supersonic snap + street echo), and
+  within `WhizRadius` also whizzes. These and impacts don't depend on how far the shooter is.
 
 ## Rifle poses
 

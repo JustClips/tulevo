@@ -90,5 +90,121 @@
  "ThunderRumble2": {
   "id": 139277930129909,
   "sha": "53225a9744a388347709abc059a19de9100053b59deae02bf18ff41821fe0647"
+ },
+ "BulletCrack1": {
+  "id": 91809559149249,
+  "sha": "644049919da41eb2e0df00342972f6e2fe9fa470bd32a750e1d7d4a3609a6150"
+ },
+ "BulletCrack2": {
+  "id": 132899945020971,
+  "sha": "081dda3966c6807501f9d73d842464c05eeca9910db7168a484efc0f77696401"
+ },
+ "BulletCrack3": {
+  "id": 76414655157977,
+  "sha": "bcc42abb241ffd38837d1a2d0a19d9f46a4a64555e0857d8cab375a282634065"
+ },
+ "BulletWhiz1": {
+  "id": 140525081366013,
+  "sha": "348b79bfb0d2ddc69a8bb23bb0f82a04636d52aa2155db9716f538732ef57c63"
+ },
+ "BulletWhiz2": {
+  "id": 103920254966331,
+  "sha": "4491d0050e50306842248e986ac6d0c05648ee93a96d0547717794f3cef17961"
+ },
+ "BulletWhiz3": {
+  "id": 98446113085993,
+  "sha": "b698be7c5943986c96fbc048c756c49ee363e2c13890d2b57794ebaa39e83d57"
+ },
+ "CarbineDistant1": {
+  "id": 129508518591231,
+  "sha": "e1280e5c5adeebbd919a965bf5b55620a4b30aabfe59361ac89afac7a077ec8b"
+ },
+ "CarbineDistant2": {
+  "id": 129961167519720,
+  "sha": "aab92946d29e0475c3774c4e2279910ad398ba9aa98bc39a3d44b77cc0a7c6d5"
+ },
+ "CarbineFar1": {
+  "id": 75636844975077,
+  "sha": "d03a0e133d54d4c768ee8c6031c71063de493cc089c34add92cd8e4e233dc82a"
+ },
+ "CarbineFar2": {
+  "id": 113574572220524,
+  "sha": "7c186923758183585c1832a0d7c295954af7a039413e816441b29270d87ec50c"
+ },
+ "CarbineShot1": {
+  "id": 131121879384382,
+  "sha": "419417194c2412e845f14f102ab6b6edfe9b133a42d155d9d1c654b971f208b6"
+ },
+ "CarbineShot2": {
+  "id": 87487006233390,
+  "sha": "85cd86793cd151da6b055d2e755de91475292055dc026c8a6f067026f4f8aadd"
+ },
+ "ImpactBody1": {
+  "id": 112017955890601,
+  "sha": "693c19095ab39ff0b5eb94363130fbc64c0d1f89dfe34cfbb764021eb3793614"
+ },
+ "ImpactBody2": {
+  "id": 107023367945237,
+  "sha": "e06cbf6ebf81b2205ba9baa027ca7c8800e4c7f451111d09c5b85a4feb46a4f7"
+ },
+ "ImpactBody3": {
+  "id": 83637973672066,
+  "sha": "60416c50f38d524cb6cc01f5dc06d39d435ebc5ef9d3a1e779e3683b26088dc4"
+ },
+ "ImpactConcrete1": {
+  "id": 86896357344900,
+  "sha": "1365f8f193c8bc8989b9942cc6f503301ca4359736e4f50397e4650f3f29c83f"
+ },
+ "ImpactConcrete2": {
+  "id": 139128157181240,
+  "sha": "24d18f52d8e3126adaadfa1b8dd81fde51add929f3b6d23cab1e49b316fee49e"
+ },
+ "ImpactConcrete3": {
+  "id": 121874131951402,
+  "sha": "a778bb463b9944bcfb2085aa09b40e5d8080b7ed4032ce870b465cf1b002942d"
+ },
+ "ImpactDirt1": {
+  "id": 94178794520068,
+  "sha": "e440454b0175108134c4bb2cbe9cc7a9517497bc7dce67c75f7e026d07c8acd4"
+ },
+ "ImpactDirt2": {
+  "id": 139091903569383,
+  "sha": "8215a03d8f476edd5ab972a5a114266fd4cb87325b88a64b228d0de127488747"
+ },
+ "ImpactGlass1": {
+  "id": 99713311494542,
+  "sha": "e6ae238d77a802177eb5963ae5a2c6db7d4deddbdf6cd922ec98a932ed9a6baf"
+ },
+ "ImpactGlass2": {
+  "id": 136286351373335,
+  "sha": "83eb24d46bc535818cd3c4e7ed576afeba4003407f1792420e48fd244d5f2bb2"
+ },
+ "ImpactMetal1": {
+  "id": 109388813572020,
+  "sha": "ed545b0632ca9a2833b6ad36332684ee89390d5dcde7866dbeb658c6e75df179"
+ },
+ "ImpactMetal2": {
+  "id": 106660285045808,
+  "sha": "16ea32c83f43dc1ed596c61a46ed1ca645f3217418376ed2e7598f57114acbd8"
+ },
+ "ImpactMetal3": {
+  "id": 83505948714558,
+  "sha": "b9ff746aff526e121e1708a70dfd6c29c11b71b777475f5b74636dcaa3ddc8e9"
+ },
+ "ImpactWood1": {
+  "id": 130869892545977,
+  "sha": "5765b184fb40209be9d63f2a6c777f754ebbccac146cbc1d49eb37a0db0d3e41"
+ },
+ "ImpactWood2": {
+  "id": 82659315585359,
+  "sha": "1aa8c152bc222072ffacc41a434873508890561e3b6c49806f8e5564ca6a4324"
+ },
+ "Ricochet1": {
+  "id": 122917105857319,
+  "sha": "b4a4304f5c6decd8e6ec56e6fe5e4e3c07a7847a158387edee406e61a84b875b"
+ },
+ "Ricochet2": {
+  "id": 92832486861182,
+  "sha": "ed95a22849252968ebf9064ab55e6e42940836c83d3803f660afe8ab58d74265"
  }
 }

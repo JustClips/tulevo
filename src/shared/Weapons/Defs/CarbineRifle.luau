@@ -15,6 +15,7 @@ return {
 	Model = "CarbineRifle", -- Shared.ModelIds
 	Description = "AR-15 style carbine. Reloads from Rifle ammo in your bag.",
 	Ammo = "RifleAmmo", -- inventory item it reloads from (Shared/Items/Defs.luau)
+	Sound = "Carbine", -- Shared.SoundIds CarbineShot / CarbineDistant / CarbineFar (Client/Weapons/GunAudio)
 
 	-- damage
 	Damage = 24, -- one bullet to the chest at close range

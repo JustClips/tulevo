@@ -22,7 +22,7 @@
 		       direction against the shooter's visible aim (see aimMatches)
 		Reload (client -> server)
 		Ammo   (server -> owner)  weaponId, mag, reserve
-		Shot   (server -> others) shooter, weaponId, origin, hitPositions   -- effects only
+		Shot   (server -> all) shooter, weaponId, origin, hitPositions, hitKinds   -- effects + sounds only
 		Pose   (client -> server) twist, pitch (radians), aiming, up, plant, lean (-1..1) -> character attributes
 		       GunTwist / GunPitch / GunAiming / GunUp / GunPlant / GunLean, so every client can turn that player's waist the same way (Client.Weapons.GunPose)
 
@@ -392,8 +392,8 @@ local function shoot(player: Player, id: string, def, h: Held, direction: Vector
 	end
 	local aiming = character:GetAttribute("GunAiming") == true
 	local origin = shotOrigin(character, head, direction)
-	local hits = Hitscan.fire(player, def, origin, direction, aiming)
-	ShotRemote:FireAllClients(player, id, origin, hits)
+	local hits, kinds = Hitscan.fire(player, def, origin, direction, aiming)
+	ShotRemote:FireAllClients(player, id, origin, hits, kinds)
 	if def.Class.Kind == "Gun" then
 		sendAmmo(player, id)
 	end

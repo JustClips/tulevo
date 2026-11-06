@@ -20,8 +20,8 @@
 	a wall is right in front. While the gun is up your whole body faces the camera: A/D play
 	side-steps and S plays the walk in reverse. Weapons/GunPose locks the chest to the aim
 	(yaw and pitch) every frame, for every player.
-	TODO later: GTA weapon wheel UI (hold Tab / L1), over-the-shoulder aim camera, crosshair,
-	sounds.
+	Sounds: Weapons/GunAudio (Config.Weapons.Sound).
+	TODO later: GTA weapon wheel UI (hold Tab / L1), over-the-shoulder aim camera, crosshair.
 ]]
 
 local ContextActionService = game:GetService("ContextActionService")
@@ -38,6 +38,7 @@ local Pouches = require(Shared:WaitForChild("Armor"):WaitForChild("Pouches"))
 local State = require(script:WaitForChild("State"))
 local AnimSet = require(script:WaitForChild("AnimSet"))
 local Effects = require(script:WaitForChild("Effects"))
+local GunAudio = require(script:WaitForChild("GunAudio"))
 local GunPose = require(script:WaitForChild("GunPose"))
 local Movement = require(script.Parent:WaitForChild("Movement"))
 local MoveInput = require(script.Parent:WaitForChild("Movement"):WaitForChild("Input"))
@@ -338,6 +339,7 @@ function Controller.fire()
 		if muzzle and muzzle:IsA("Attachment") then
 			Effects.flash(muzzle)
 		end
+		GunAudio.ownShot(def)
 		Effects.tracer(origin, target) -- the server's hits come back on Shot for others
 	end
 end
@@ -437,21 +439,26 @@ function Controller.start()
 		end
 	end)
 
-	Remotes.Shot.OnClientEvent:Connect(function(shooter, id, origin, hits)
+	Remotes.Shot.OnClientEvent:Connect(function(shooter, id, origin, hits, kinds)
 		local def = Weapons.get(id)
-		if shooter == player or not def or def.Class.Kind ~= "Gun" then
+		if not def or def.Class.Kind ~= "Gun" then
 			return
 		end
-		local gun = shooter.Character and shooter.Character:FindFirstChild("Gun")
+		local gun = shooter and shooter.Character and shooter.Character:FindFirstChild("Gun")
 		local muzzle = gun and gun:FindFirstChild("Muzzle", true)
 		if muzzle and muzzle:IsA("Attachment") then
 			origin = muzzle.WorldPosition
-			Effects.flash(muzzle)
 		end
-		for _, pos in hits do
-			Effects.tracer(origin, pos)
+		if shooter ~= player then
+			if muzzle and muzzle:IsA("Attachment") then
+				Effects.flash(muzzle)
+			end
+			for _, pos in hits do
+				Effects.tracer(origin, pos)
+			end
 		end
-		-- TODO(art): play the shooter's fire sound at origin
+		-- the bang (not for your own, that played when you fired), bullets passing you, impacts
+		GunAudio.shot(def, shooter, origin, hits, kinds)
 	end)
 
 	-- spawn holding the default gun (once the server has given it to us)
