@@ -1,6 +1,6 @@
-"""Inventory / pickup props: Mead (bottle of honey mead), Chaser (soda can), FirstAidKit.
+"""Inventory / pickup props: Mead (bottle of honey mead), Chaser (soda can), FirstAidKit, RifleAmmo (closed box of 5.56).
 
-Run:  blender --background --factory-startup --python build_props.py -- <Mead|Chaser|FirstAidKit> <out_dir>
+Run:  blender --background --factory-startup --python build_props.py -- <Mead|Chaser|FirstAidKit|RifleAmmo> <out_dir>
 Units: meters, real size. Origin = bottom center (sits on the ground).
 Coords (Blender): -Y = front (label side), +Z = up. GLB exported +Y up, so glTF = (x, z, -y).
 Output: <out_dir>/<Name>/<Name>.glb, meta.json, preview.png (+ extra renders).
@@ -251,7 +251,68 @@ def build_kit():
                 pivot="bottom center")
 
 
-{"Mead": build_mead, "Chaser": build_chaser, "FirstAidKit": build_kit}[ITEM]()
+def cartridge_bm(h, w, depth):
+    """Flat side view of a rifle cartridge (bottle-neck case + pointed bullet), standing on y = 0.
+    Returns (case_bm, bullet_bm) in the XY plane, z in [-depth, depth], centred on x."""
+    def poly(pts):
+        bm = bmesh.new(); f = bm.faces.new([bm.verts.new((x, y, -depth)) for x, y in pts])
+        r = bmesh.ops.extrude_face_region(bm, geom=[f])
+        for v in [e for e in r['geom'] if isinstance(e, bmesh.types.BMVert)]:
+            v.co.z = depth
+        bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
+        return bm
+    hw, nw = w / 2, w * 0.3
+    case = [(-hw * 0.95, 0), (hw * 0.95, 0), (hw * 0.95, h * 0.05), (hw * 0.8, h * 0.07), (hw, h * 0.09), (hw, h * 0.52),
+            (nw, h * 0.6), (nw, h * 0.68), (-nw, h * 0.68), (-nw, h * 0.6), (-hw, h * 0.52), (-hw, h * 0.09),
+            (-hw * 0.8, h * 0.07), (-hw * 0.95, h * 0.05)]
+    ogive = [(-nw, h * 0.68), (nw, h * 0.68)] + [(nw * (1 - k / 8) ** 0.6, h * (0.68 + 0.32 * k / 8)) for k in range(1, 8)] \
+        + [(0, h)] + [(-nw * (1 - k / 8) ** 0.6, h * (0.68 + 0.32 * k / 8)) for k in range(7, 0, -1)]
+    return poly(case), poly(ogive)
+
+
+def build_ammo():
+    green = mat("OliveCard", (0.16, 0.20, 0.07), rough=0.85)
+    dark = mat("DarkGreen", (0.07, 0.09, 0.03), rough=0.85)
+    tan = mat("LabelTan", (0.78, 0.68, 0.45), rough=0.8)
+    black = mat("Print", (0.03, 0.03, 0.03), rough=0.7)
+    brass = mat("Brass", (0.85, 0.62, 0.20), rough=0.25, metal=1.0)
+    copper = mat("Copper", (0.72, 0.33, 0.17), rough=0.3, metal=1.0)
+    W, D, H = 0.12, 0.065, 0.08
+    # cardboard body with soft edges, and the closed lid on top (slightly wider, like a tuck box)
+    box("Body", (W, D, H - 0.012), (0, 0, (H - 0.012) / 2), [green], bevel=0.004, seg=3)
+    box("Lid", (W + 0.002, D + 0.002, 0.014), (0, 0, H - 0.007), [green], bevel=0.003, seg=3)
+    box("LidSeam", (W + 0.0005, D + 0.0005, 0.0018), (0, 0, H - 0.0145), [dark], bevel=0.0006, seg=2)
+    # front tuck flap folded down over the front, with a thumb notch
+    box("Flap", (W * 0.9, 0.002, 0.022), (0, -(D / 2 + 0.002), H - 0.016), [green], bevel=0.0015, seg=2)
+    box("FlapNotch", (0.018, 0.0025, 0.006), (0, -(D / 2 + 0.0024), H - 0.024), [dark], bevel=0.0025, seg=3)
+    # front label: tan plate with three rounds (the icon's picture), calibre and count
+    yf = -(D / 2 + 0.0004)
+    plate = bmesh.new(); bmesh.ops.create_cube(plate, size=1.0)
+    for v in plate.verts:
+        v.co = Vector((v.co.x * W * 0.82, v.co.y * 0.046, v.co.z * 0.0012))
+    add_obj("Label", flat_front(plate, yf, 0.031), [tan], bevel=0.002, seg=2)
+    yl = yf - 0.0007
+    for k, x in enumerate((-0.03, -0.019, -0.008)):
+        cb, bb = cartridge_bm(0.034, 0.0072, 0.0007)
+        add_obj("RoundCase", flat_front(cb, yl, 0.014, x), [brass], smooth=False)
+        add_obj("RoundTip", flat_front(bb, yl, 0.014, x), [copper], smooth=False)
+    add_obj("Cal", flat_front(text_bm("5,56", 0.017, 0.0008), yl, 0.038, 0.024), [black], smooth=False)
+    add_obj("Cal2", flat_front(text_bm("×45 мм", 0.0075, 0.0006), yl, 0.025, 0.024), [black], smooth=False)
+    add_obj("Count", flat_front(text_bm("30 ПАТРОНОВ", 0.0058, 0.0006), yl, 0.015, 0.024), [black], smooth=False)
+    # same rounds on the back, plus a stencil stripe on both ends
+    yb = D / 2 + 0.0004
+    for x in (-0.011, 0.0, 0.011):
+        cb, bb = cartridge_bm(0.034, 0.0072, 0.0007)
+        add_obj("RoundCaseB", flat_back(cb, yb + 0.0003, 0.02), [brass], smooth=False).location.x = x
+        add_obj("RoundTipB", flat_back(bb, yb + 0.0003, 0.02), [copper], smooth=False).location.x = x
+    for sx in (-1, 1):
+        box("EndStripe", (0.001, D * 0.8, 0.008), (sx * (W / 2 + 0.0004), 0, H * 0.45), [tan], bevel=0.0004, seg=1)
+    DESC.update(model="Closed olive cardboard box of 5.56x45 rifle rounds: tuck lid, tan front label with three brass rounds, "
+                      "'5,56 ×45 мм' and '30 ПАТРОНОВ', rounds printed on the back too.",
+                pivot="bottom center")
+
+
+{"Mead": build_mead, "Chaser": build_chaser, "FirstAidKit": build_kit, "RifleAmmo": build_ammo}[ITEM]()
 
 # ------------------------------------------------------------------ join
 bpy.ops.object.select_all(action='DESELECT')
