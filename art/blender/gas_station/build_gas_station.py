@@ -137,6 +137,11 @@ TEXSETS = {
     "PumpFace": file_set("PumpFace", 0.15),
     "PumpSide": file_set("PumpSide", 0.15),
     "PriceFace": file_set("PriceSign"),
+    "ShopSign": file_set("ShopSign"),
+    "FasciaBrand": file_set("FasciaBrand"),
+    "IceLabel": file_set("IceLabel"),
+    "AirLabel": file_set("AirLabel"),
+    "NozzleGrip": solid("NozzleGrip", (0.02, 0.02, 0.022), 0.75, 0.0),
     "Paint": solid("Paint", (0.92, 0.92, 0.88), 0.7, 0.0),
     "Kerb": concrete("Kerb", 256, seed=6, base=(0.55, 0.55, 0.53), joint=False),
     "Fascia": file_set("Fascia", 0.1),
@@ -148,8 +153,8 @@ TEXSETS = {
     "PumpTrim": solid("PumpTrim", TEAL, 0.35, 0.3),
     "PumpDark": solid("PumpDark", (0.05, 0.05, 0.055), 0.3, 0.2),
     "Screen": solid("Screen", (0.10, 0.25, 0.32), 0.1, 0.0),
-    "Hose": solid("Hose", (0.03, 0.03, 0.03), 0.6, 0.0),
-    "Nozzle": solid("Nozzle", (0.15, 0.15, 0.16), 0.3, 1.0),
+    "Hose": solid("Hose", (0.035, 0.035, 0.037), 0.55, 0.0),
+    "Nozzle": solid("Nozzle", (0.55, 0.56, 0.58), 0.3, 1.0),
     "Bollards": solid("Bollards", (0.95, 0.70, 0.05), 0.45, 0.1),
     "ShopWall": file_set("ShopWall"),
     "ShopGlass": file_set("ShopGlass", 0.5),
@@ -168,7 +173,7 @@ TEXSETS = {
 }
 TILE = {"Forecourt": (6 * M, 6 * M), "Kerb": (2 * M, 2 * M), "ShopWall": (3 * M, 3 * M), "ShopGlass": (3 * 1.6 * M, 3.2 * M),
         "CanopyUnder": (2.4 * M, 2.4 * M), "IslandKerb": (1.2 * M, 1.2 * M)}
-EXPLICIT_UV = {"PumpFace", "PumpSide", "PriceFace"}   # UVs set when the quads are made
+EXPLICIT_UV = {"PumpFace", "PumpSide", "PriceFace", "ShopSign", "FasciaBrand", "IceLabel", "AirLabel"}   # UVs set when the quads are made
 EMISSIVE = {"Light": (0.95, 0.97, 1.0), "Sign": (1.0, 1.0, 1.0)}
 
 
@@ -245,6 +250,60 @@ def tube(name, pts, radius, segs=6):
     ob.evaluated_get(deps).to_mesh_clear()
     bpy.data.objects.remove(ob)
     bpy.data.curves.remove(cu)
+
+
+def catmull(pts, per=10):
+    pts = [Vector(p) for p in pts]
+    P = [pts[0] + (pts[0] - pts[1])] + pts + [pts[-1] + (pts[-1] - pts[-2])]
+    out = []
+    for i in range(1, len(P) - 2):
+        p0, p1, p2, p3 = P[i - 1], P[i], P[i + 1], P[i + 2]
+        for k in range(per):
+            t = k / per
+            out.append(0.5 * ((2 * p1) + (-p0 + p2) * t + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t * t + (-p0 + 3 * p1 - 3 * p2 + p3) * t ** 3))
+    out.append(P[-2])
+    return out
+
+
+def hose_tube(name, pts, radius, segs=8, rib=0.012):
+    """Smooth tube through the control points; every other ring slightly fatter (ribbed rubber).
+    Returns the sampled centre line so fittings can be placed along it."""
+    bm = bm_of(name)
+    line = catmull(pts, 7)
+    # parallel-transport frames so the tube never twists
+    t0 = (line[1] - line[0]).normalized()
+    nrm = t0.cross(Vector((0, 0, 1)) if abs(t0.z) < 0.9 else Vector((1, 0, 0))).normalized()
+    rings = []
+    for i, c in enumerate(line):
+        t = (line[min(i + 1, len(line) - 1)] - line[max(i - 1, 0)]).normalized()
+        nrm = (nrm - t * nrm.dot(t)).normalized()
+        bi = t.cross(nrm)
+        r = radius + (rib if i % 2 else 0)
+        rings.append([bm.verts.new(c + (nrm * math.cos(a) + bi * math.sin(a)) * r)
+                      for a in (2 * math.pi * k / segs for k in range(segs))])
+    for a, b in zip(rings, rings[1:]):
+        for k in range(segs):
+            j = (k + 1) % segs
+            bm.faces.new((a[k], a[j], b[j], b[k]))
+    bm.faces.new(list(reversed(rings[0])))
+    bm.faces.new(rings[-1])
+    return line
+
+
+def cyl_along(name, a, b, radius, segs=12):
+    """Cylinder from point a to point b."""
+    a, b = Vector(a), Vector(b)
+    d = b - a
+    rot = d.normalized().to_track_quat('Z', 'Y').to_matrix().to_4x4()
+    bmesh.ops.create_cone(bm_of(name), cap_ends=True, segments=segs, radius1=radius, radius2=radius, depth=d.length,
+                          matrix=Matrix.Translation((a + b) / 2) @ rot)
+
+
+def panel(name, center, width, height, facing=-1):
+    """Flat printed sign facing -Y (facing=-1) or +Y, full texture on it."""
+    cx, cy, cz = center
+    xs = (cx - width / 2, cx + width / 2) if facing < 0 else (cx + width / 2, cx - width / 2)
+    quad(name, [(xs[0], cy, cz - height / 2), (xs[1], cy, cz - height / 2), (xs[1], cy, cz + height / 2), (xs[0], cy, cz + height / 2)])
 
 
 def box(name, center, size, rz=0.0):
@@ -326,8 +385,8 @@ for ix in range(6):
 # thin glow line under the fascia edge
 box("Light", (0, CAN_Y - CAN_D / 2 + 0.1, CAN_CLEAR - 0.05), (CAN_W - 1.2, 0.3, 0.12))
 # brand on the street-facing fascia and the two ends
-text("Sign", "KESTREL", CAN_FASCIA * 0.55, (CAN_W * 0.12, CAN_Y - CAN_D / 2 - 0.32, CAN_CLEAR + CAN_FASCIA * 0.42), extrude=0.15)
-wing("SignMark", (-CAN_W * 0.12 - 9.5, CAN_Y - CAN_D / 2 - 0.3, CAN_CLEAR + CAN_FASCIA * 0.48), CAN_FASCIA * 0.8, depth=0.25)
+for face in (-1, 1):  # brand panel on the street side and the back of the canopy
+    panel("FasciaBrand", (0, CAN_Y + face * (CAN_D / 2 + 0.33), CAN_CLEAR + CAN_FASCIA / 2), CAN_FASCIA * 9.14, CAN_FASCIA, facing=face)
 # columns: one per island end (4), white cladding over a teal base
 for ix in ISLAND_X:
     for sy in (-1, 1):
@@ -360,22 +419,43 @@ for ix in ISLAND_X:
             yy = py + side * w / 2
             xs = (ix + d / 2, ix - d / 2) if side > 0 else (ix - d / 2, ix + d / 2)
             quad("PumpSide", [(xs[0], yy, zb), (xs[1], yy, zb), (xs[1], yy, zt), (xs[0], yy, zt)])
-        # nozzle holsters on both faces, nozzles sit in them, hoses run from the cabinet top
-        # down in a sag and back up into the nozzle, resting on the island
+        # nozzles in their boots on both faces; each hose runs from a fitting at the top of the
+        # face, hangs in a loop down toward the island and comes back up into the nozzle
         for side in (-1, 1):
             fx = ix + side * d / 2
+            o = lambda dist: fx + side * dist          # x at a distance out from the face
             for off in (-1, 1):
-                hy = py + off * w * 0.38
+                hy = py + off * (w / 2 - 0.05)   # at the face edges, clear of the screen
                 hz = z0 + 0.3 + h * 0.42
-                box("PumpDark", (fx + side * 0.22, hy, hz), (0.44, 0.5, 0.8))              # holster cup
-                box("Nozzle", (fx + side * 0.55, hy, hz + 0.15), (0.3, 0.28, 1.0))          # grip
-                box("Nozzle", (fx + side * 0.75, hy, hz + 0.55), (0.7, 0.18, 0.18))         # spout
-                top_pt = (ix + side * (d / 2 - 0.15), hy, zt - 0.2)
-                tube("Hose", [top_pt,
-                              (fx + side * 0.6, hy + off * 0.3, zt - 0.6),
-                              (fx + side * 1.1, hy + off * 0.5, z0 + 1.2),
-                              (fx + side * 0.9, hy + off * 0.2, z0 + 0.35),
-                              (fx + side * 0.62, hy, hz - 0.5)], 0.11)
+                # boot (holster) with a lip
+                box("PumpDark", (o(0.27), hy, hz - 0.05), (0.54, 0.6, 0.8))
+                box("PumpDark", (o(0.5), hy, hz + 0.38), (0.12, 0.62, 0.12))
+                # spout goes down into the boot, valve body above it
+                cyl_along("Nozzle", (o(0.3), hy, hz - 0.25), (o(0.3), hy, hz + 0.75), 0.07)
+                box("Nozzle", (o(0.36), hy, hz + 0.92), (0.42, 0.26, 0.42))
+                # rubber grip rising out of the body, trigger + guard on its outer side
+                box("NozzleGrip", (o(0.5), hy, hz + 1.42), (0.26, 0.24, 0.66))
+                box("Nozzle", (o(0.74), hy, hz + 1.36), (0.05, 0.16, 0.5))           # guard bar
+                box("Nozzle", (o(0.69), hy, hz + 1.12), (0.14, 0.16, 0.05))          # guard foot
+                box("NozzleGrip", (o(0.66), hy, hz + 1.35), (0.07, 0.12, 0.36))      # trigger
+                # scuff guard + swivel on top of the grip, the hose screws in here
+                cyl_along("NozzleGrip", (o(0.5), hy, hz + 1.74), (o(0.5), hy, hz + 1.98), 0.15)
+                cyl_along("Nozzle", (o(0.5), hy, hz + 1.98), (o(0.5), hy, hz + 2.16), 0.1)
+                inlet = Vector((o(0.5), hy, hz + 2.16))
+                # outlet fitting at the top of the face
+                cyl_along("Nozzle", (o(-0.05), hy, zt - 0.4), (o(0.3), hy, zt - 0.4), 0.14)
+                outlet = Vector((o(0.3), hy, zt - 0.4))
+                line = hose_tube("Hose", [outlet,
+                                          (o(0.65), hy, zt - 0.6),
+                                          (o(1.0), hy + off * 0.3, hz + 1.2),
+                                          (o(1.1), hy + off * 0.45, z0 + 1.1),
+                                          (o(0.95), hy + off * 0.4, z0 + 0.5),
+                                          (o(0.9), hy + off * 0.2, hz + 1.6),
+                                          (o(0.75), hy, hz + 2.75),
+                                          (o(0.52), hy, hz + 2.45),
+                                          inlet], 0.11)
+                # breakaway coupling a little way down the hose
+                cyl_along("Nozzle", line[8], line[11], 0.15)
 
 # ---------------------------------------------------------------- shop
 sx0, sy0 = SHOP_W / 2, SHOP_Y
@@ -395,8 +475,8 @@ box("ShopGlass", (0, gy - 0.15, 1.2 * M), (2.0 * M, 0.05, 2.35 * M))
 box("ShopBand", (0, front + 0.4 * M, SHOP_H - 0.9 * M), (SHOP_W + 0.4, 0.8 * M + 0.4, 1.8 * M))
 bm_of("ShopLamp", "Light")
 box("ShopLamp", (0, front + 0.02 * M - 0.2, SHOP_H - 1.8 * M - 0.05), (SHOP_W - 1.0, 0.3, 0.12))
-text("Sign", "KESTREL  MART", 0.75 * M, (1.2 * M, front - 0.2 + 0.02, SHOP_H - 0.9 * M), extrude=0.15)
-wing("SignMark", (-5.8 * M, front - 0.18, SHOP_H - 0.85 * M), 1.2 * M, depth=0.25)
+band_front = front + 0.4 * M - (0.8 * M + 0.4) / 2
+panel("ShopSign", (0, band_front - 0.03, SHOP_H - 0.9 * M), SHOP_W + 0.4, 1.8 * M)
 # parapet + roof + rooftop units
 box("Roof", (0, SHOP_Y + 0.4 * M, SHOP_H + 0.05), (SHOP_W - 0.4, SHOP_D - 0.8 * M - 0.4, 0.1))
 for (cx, cy, w_, d_) in ((-SHOP_W / 4, SHOP_Y + 1.5 * M, 2.2 * M, 1.6 * M), (SHOP_W / 5, SHOP_Y + 2.5 * M, 1.6 * M, 1.6 * M)):
@@ -404,7 +484,7 @@ for (cx, cy, w_, d_) in ((-SHOP_W / 4, SHOP_Y + 1.5 * M, 2.2 * M, 1.6 * M), (SHO
     cyl("Units", (cx, cy, SHOP_H + 1.2 * M), 0.5 * M, 0.2, segs=14)
 # props at the shop front: ice box, two bins, propane cage (red)
 box("IceBox", (-SHOP_W / 2 + 4.0 * M, front - 0.7 * M, 0.65 * M), (2.4 * M, 0.9 * M, 1.3 * M))
-text("Sign", "ICE", 0.5 * M, (-SHOP_W / 2 + 4.0 * M, front - 1.16 * M, 0.85 * M), extrude=0.05)
+panel("IceLabel", (-SHOP_W / 2 + 4.0 * M, front - 0.7 * M - 0.45 * M - 0.03, 0.75 * M), 2.2 * M, 0.82 * M)
 for bx_ in (-3.2 * M, 3.2 * M):
     cyl("Props", (bx_, front - 0.6 * M, 0.55 * M), 0.35 * M, 1.1 * M, segs=12)
 box("Props", (SHOP_W / 2 - 4.0 * M, front - 0.7 * M, 0.9 * M), (1.8 * M, 0.8 * M, 1.8 * M))
@@ -413,8 +493,11 @@ box("Props", (SHOP_W / 2 - 4.0 * M, front - 0.7 * M, 0.9 * M), (1.8 * M, 0.8 * M
 ax, ay = LOT_W / 2 - 3.0 * M, SHOP_Y - SHOP_D / 2 - 2.0 * M
 box("PumpTrim", (ax, ay, 0.8 * M), (0.6 * M, 0.45 * M, 1.6 * M))
 box("PumpBody", (ax, ay - 0.24 * M, 1.1 * M), (0.5 * M, 0.05, 0.5 * M))
-cyl("Hose", (ax + 0.35 * M, ay, 0.6 * M), 0.1, 0.9 * M, segs=6)
-text("Sign", "AIR", 0.25 * M, (ax, ay - 0.27 * M, 1.45 * M), extrude=0.04)
+cyl_along("Nozzle", (ax + 0.28 * M, ay, 1.25 * M), (ax + 0.36 * M, ay, 1.25 * M), 0.12)
+hose_tube("Hose", [(ax + 0.36 * M, ay, 1.25 * M), (ax + 0.55 * M, ay - 0.05 * M, 0.9 * M), (ax + 0.55 * M, ay - 0.1 * M, 0.2 * M),
+                   (ax + 0.42 * M, ay - 0.15 * M, 0.12 * M), (ax + 0.36 * M, ay - 0.2 * M, 0.45 * M)], 0.09)
+cyl_along("Nozzle", (ax + 0.36 * M, ay - 0.2 * M, 0.45 * M), (ax + 0.36 * M, ay - 0.2 * M, 0.75 * M), 0.12)
+panel("AirLabel", (ax, ay - 0.225 * M - 0.03, 1.4 * M), 0.56 * M, 0.28 * M)
 
 # ---------------------------------------------------------------- price pylon (street corner)
 px, py = -LOT_W / 2 + 3.0 * M, -LOT_D / 2 + 2.0 * M

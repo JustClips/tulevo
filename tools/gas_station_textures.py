@@ -331,3 +331,34 @@ def island_kerb():
 
 for fn in (pump_face, pump_side, price_sign, forecourt, shop_wall, shop_glass, ceiling, fascia, island_kerb):
     fn()
+
+
+# ------------------------------------------------------------------ printed signs (Roblox drops the caps of 3D font
+# meshes, so every lettered sign is a flat textured panel instead)
+def sign_strip(name, W, H, words, mark=True, line=True, size=None):
+    im = Image.new("RGB", (W, H), TEAL)
+    d = ImageDraw.Draw(im)
+    f = font(FONT_B, size or int(H * 0.55))
+    tw = d.textlength(words, font=f)
+    mark_w = H * 0.9 if mark else 0
+    x0 = (W - tw - mark_w) / 2
+    if mark:
+        wing(d, x0 + mark_w * 0.45, H * 0.5, H * 0.75, AMBER)
+    text_c(d, (x0 + mark_w + tw / 2, H * 0.5), words, f, WHITE)
+    if line:
+        d.rectangle([0, int(H * 0.9), W, int(H * 0.94)], fill=AMBER)
+    im = grime(im, 0.12, len(name), streaks=False)
+    save(name, im, Image.new("L", (W, H), 90))
+
+
+def label(name, W, H, words, bg, fg):
+    im = Image.new("RGB", (W, H), bg)
+    d = ImageDraw.Draw(im)
+    text_c(d, (W / 2, H / 2), words, font(FONT_B, int(H * 0.6)), fg)
+    save(name, grime(im, 0.15, 9, streaks=False), Image.new("L", (W, H), 120))
+
+
+sign_strip("ShopSign", 2048, 168, "KESTREL  MART")
+sign_strip("FasciaBrand", 1024, 112, "KESTREL")
+label("IceLabel", 512, 192, "ICE", (226, 238, 248), (20, 90, 170))
+label("AirLabel", 256, 128, "AIR · WATER", (8, 92, 98), WHITE)
