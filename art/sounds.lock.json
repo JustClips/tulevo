@@ -6,5 +6,73 @@
  "RainLoop": {
   "id": 126169591749441,
   "sha": "7794dc18c1d9b2b3ab3501b28e2c5534de3c450f484ff25315230595311d5ddc"
+ },
+ "Birds1": {
+  "id": 74953786033422,
+  "sha": "c8686b7dad91eabee4a159782d70e092cb86d437ce9e9df99ee976ae94915726"
+ },
+ "Birds2": {
+  "id": 100458708385686,
+  "sha": "4f4e01568818bc3ceed8f8275d2c170b2a99b19a2e32b6ac5f590b8a4be3419e"
+ },
+ "Birds3": {
+  "id": 128805731416732,
+  "sha": "5600b1c7f95cabcf6b71df4183d503c68362d920c19bc0370896c129a88c903c"
+ },
+ "CarHorn1": {
+  "id": 73706562662348,
+  "sha": "ac9b057a44539ac930f17c8d31dcc06e27ad021684967597b59ba7bd9ad07881"
+ },
+ "CarHorn2": {
+  "id": 109066519325026,
+  "sha": "4ada30c1ebd4c1efa2f0060406a669dd05475e15a97ab8473dff516aa2777bb7"
+ },
+ "CityDayLoop": {
+  "id": 139599083744212,
+  "sha": "eb9d8f44a24d3c55662495c97609194dffde803ca0935974866d98bb94c68637"
+ },
+ "CityNightLoop": {
+  "id": 112920808397122,
+  "sha": "17ddd76867480f8c688659b4f3cda9d8876c052efbda75405175c0889e0b0a32"
+ },
+ "CricketsLoop": {
+  "id": 75953072549948,
+  "sha": "3ffe6fc910f0305d0a044d4225d5d9b62c0c624728d523f426a591595d877d04"
+ },
+ "DogBark1": {
+  "id": 75008595970093,
+  "sha": "517a4a1a4e4bdc3bc6858123e8af127ef2d1ceac6bc5c6c16ec5e47d05950f64"
+ },
+ "DogBark2": {
+  "id": 99739192795068,
+  "sha": "6acfbceead4e6b7501b63aaf6f5627d56de7d52fa6c9d27f8085f4511c8a7958"
+ },
+ "SirenHiLo": {
+  "id": 140139087267480,
+  "sha": "25b20cbec7f5c9c870702495e275caf394d6b15b77cecb75f2f0cd3ce5289ed2"
+ },
+ "SirenWail": {
+  "id": 124246006008645,
+  "sha": "01b4bb81ce5f1cd9ab946852b71d43d4de9e1d5b72735b49c984abeb7895e137"
+ },
+ "ThunderClose1": {
+  "id": 87332425565572,
+  "sha": "5daf9bb8c909413be0ba00d3a68db2539759c9d2fa954cbc9e5df403e8abc775"
+ },
+ "ThunderClose2": {
+  "id": 114753844889226,
+  "sha": "cbe36048b9708dbee73a49b54b073c2e4e6abda2e68388047819f99d29fe2658"
+ },
+ "ThunderFar1": {
+  "id": 132863869511245,
+  "sha": "ecf192d78cca6d13dbfd5749e412ac31f369fb19e7d1b968c1eba568bb70aef8"
+ },
+ "ThunderFar2": {
+  "id": 74198952664511,
+  "sha": "c8113a058a0473a2886a9757323c4ab61c94297d85630e06d210507db1d9287e"
+ },
+ "ThunderFar3": {
+  "id": 95841160431164,
+  "sha": "6011997bf8945f3fa8629431807a818cd95662e393228480055928a93efbbd07"
  }
 }

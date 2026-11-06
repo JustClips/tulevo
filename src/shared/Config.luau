@@ -239,6 +239,23 @@ local Config = {
 		CloudSpeed = 9,
 		RainVolume = 0.55, -- rain loop volume at full rain
 	},
+
+	-- City ambience (Client/Ambience.client, docs/ambience.md): distant traffic bed (day / night), crickets at
+	-- night, and one-off distant sounds placed around you: birds (mornings, never in rain),
+	-- dogs (more at night), sirens, car horns. Muffled under a roof. Volumes per layer:
+	Ambience = {
+		Enabled = true,
+		Volume = 1, -- master
+		DayTraffic = 0.17,
+		NightTraffic = 0.13,
+		Crickets = 0.1,
+		Birds = 0.22,
+		Dogs = 0.28,
+		Sirens = 0.3,
+		Horns = 0.22,
+		-- average seconds between one-offs when they're at their most likely
+		Every = { Birds = 9, Dogs = 50, Sirens = 75, Horns = 40 },
+	},
 }
 
 return Config
