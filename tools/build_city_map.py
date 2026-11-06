@@ -203,7 +203,7 @@ for i, l in enumerate(lines):
     l["name"] = f"Line{i + 1}"
     road_dressing.style_line(l)
 children.append({"name": "Lines", "className": "Folder", "children": lines})
-children.append(road_dressing.dress(roads))
+children.append(road_dressing.dress(roads, children))
 
 # main spawn: on the compass inlay of the spawn plaza (11 m from its centre towards the avenue), facing it (+Z)
 SPAWN_Z = AVE_Z - R - SIDE_W - 72 + 11 * 3.6

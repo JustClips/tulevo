@@ -1009,6 +1009,36 @@
   "file": "art/road/tex/Tar4.png",
   "state": "Approved"
  },
+ "4bcf7a3c0d6f5d87b5e650a5d884c9c7399890f2a1181c0853ac6f6b9fe8761a": {
+  "id": 120974152335803,
+  "file": "art/road/tex/Gum.png",
+  "state": "Approved"
+ },
+ "67aaf1043440ca0df607ed2de152d90aa05d7b06a00c600d76dd8543d124f7b6": {
+  "id": 135973451998378,
+  "file": "art/road/tex/KerbFace.png",
+  "state": "Approved"
+ },
+ "a66b36537813927c8e095fad56fb8b2ccbd72f7fac0a92470c63c065e094540f": {
+  "id": 76257060755996,
+  "file": "art/road/tex/KerbTop.png",
+  "state": "Approved"
+ },
+ "f7bd8bb6c8d1af40bfbc8f0bee88016bfb92eab0f6d9c2ef9949978ef2390779": {
+  "id": 81777358312256,
+  "file": "art/road/tex/WalkColor.png",
+  "state": "Approved"
+ },
+ "a0fc35156ffbd49b36f7b69a54180aff5ab0ec204a810613f1be060b741b98ea": {
+  "id": 124855193210607,
+  "file": "art/road/tex/WalkNormal.png",
+  "state": "Approved"
+ },
+ "89dde45c8e40e5fc8707ac89d7265c7463804030e0a3373c45eedbb4175b755d": {
+  "id": 91122167848880,
+  "file": "art/road/tex/WalkRough.png",
+  "state": "Approved"
+ },
  "33c85bafd7e3967fc1a59a2173c29d927af675a6ee61b7e6b00f6c0f31bf9300": {
   "id": 90029325507735,
   "file": "art/models/Apartments/tex/AptWall_Color.png",

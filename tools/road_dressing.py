@@ -35,10 +35,13 @@ LOCK = os.path.join(ROOT, "art", "textures.lock.json")
 VARIANT = "TulevoStreet"
 VARIANT_OUT = os.path.join(ROOT, "src", "materials", VARIANT + ".model.json")
 STUDS_PER_TILE = 16
+WALK_VARIANT = "TulevoSidewalk"
+WALK_TILE = 21.6  # 4 x 4 slabs of 5 ft
 
 # top-face heights of the layers (road tops are 0.2 / 0.204; lane lines sit above all of these)
 Y_LANES, Y_GRIME, Y_PATCH, Y_CRACK, Y_STAIN, Y_MANHOLE, Y_PAINT = 0.212, 0.22, 0.228, 0.236, 0.244, 0.252, 0.262
 THICK = 0.01
+Y_CAP = 0.212  # crossing caps: top 0.008 above the higher road top, like the other layers
 
 
 def _ids():
@@ -61,18 +64,25 @@ def ready():
 
 
 def write_variant():
-    """src/materials/TulevoStreet.model.json (MaterialService, see default.project.json)."""
+    """src/materials/TulevoStreet + TulevoSidewalk .model.json (MaterialService, see default.project.json)."""
     os.makedirs(os.path.dirname(VARIANT_OUT), exist_ok=True)
     json.dump({"className": "MaterialVariant", "properties": {
         "BaseMaterial": "Asphalt", "StudsPerTile": STUDS_PER_TILE, "MaterialPattern": "Regular",
         "ColorMap": IDS["StreetColor"], "NormalMap": IDS["StreetNormal"], "RoughnessMap": IDS["StreetRough"],
     }}, open(VARIANT_OUT, "w"), indent=1)
+    json.dump({"className": "MaterialVariant", "properties": {
+        "BaseMaterial": "Concrete", "StudsPerTile": WALK_TILE, "MaterialPattern": "Regular",
+        "ColorMap": IDS["WalkColor"], "NormalMap": IDS["WalkNormal"], "RoughnessMap": IDS["WalkRough"],
+    }}, open(os.path.join(os.path.dirname(VARIANT_OUT), WALK_VARIANT + ".model.json"), "w"), indent=1)
 
 
 def style_road(p):
-    """Road Part dict -> uses the street MaterialVariant (white tint so the maps show true colour)."""
+    """Road Part dict -> street MaterialVariant (white tint so the maps show true colour) plus the same
+    asphalt colour map as a tiling Top Texture. The Texture always shows (scripts and any Studio can set
+    it), so the road looks right even where the plugin-only MaterialVariant didn't load."""
     if ready():
         p["properties"].update({"Material": "Asphalt", "MaterialVariant": VARIANT, "Color": "#FFFFFF"})
+        p.setdefault("children", []).append(_texture(IDS["StreetColor"], STUDS_PER_TILE, STUDS_PER_TILE, name="Surface"))
     return p
 
 
@@ -163,8 +173,10 @@ def _crossings(rs):
     return boxes
 
 
-def dress(roads):
-    """roads: [(name, size, pos)] as in build_city_map. Returns the RoadDressing Folder dict."""
+def dress(roads, children=None):
+    """roads: [(name, size, pos)] as in build_city_map. Returns the RoadDressing Folder dict.
+    With children (the City parts so far), kerb-height concrete/pavement parts (sidewalks, plazas)
+    also get the sidewalk look: TulevoSidewalk slabs, kerb edge + kerb face on road sides, gum/stains/cracks."""
     if not ready():
         print("road_dressing: road textures not uploaded yet (python3 tools/upload_textures.py); roads left plain")
         return {"name": "RoadDressing", "className": "Folder", "children": []}
@@ -188,6 +200,8 @@ def dress(roads):
             parts += _scatter(r, s0, s1, rnd, lane_w)
     for r, q, x0, x1, z0, z1 in boxes:
         parts += _crossing(r, q, x0, x1, z0, z1)
+    if children:
+        parts += sidewalks(children, rs)
     for i, p in enumerate(parts):
         p["name"] = "%s%d" % (p["name"], i + 1)
     return {"name": "RoadDressing", "className": "Folder", "children": parts}
@@ -256,6 +270,11 @@ def _crossing(r, q, x0, x1, z0, z1):
     out = []
     rnd = random.Random("%s|%s" % (r.name, q.name))
     cx, cz = (x0 + x1) / 2, (z0 + z1) / 2
+    # one opaque asphalt cap over the box: the two crossing road parts overlap here 0.004 apart and
+    # their surface textures z-fight (flicker); the cap hides both
+    cap = _overlay("Cap", x1 - x0, z1 - z0, cx, cz, Y_CAP, 0, _texture(IDS["StreetColor"], STUDS_PER_TILE, STUDS_PER_TILE, name="Surface"))
+    cap["properties"].update({"Transparency": 0, "Material": "Asphalt", "MaterialVariant": VARIANT, "Color": "#FFFFFF"})
+    out.append(cap)
     out.append(_overlay("Grime", (x1 - x0) * 1.2, (z1 - z0) * 1.2, cx, cz, Y_GRIME, rnd.choice([0, 90, 180, 270]),
                         _decal(IDS["Grime%d" % rnd.randint(1, 3)])))
     out.append(_overlay("Tar", x1 - x0, z1 - z0, cx, cz, Y_CRACK, rnd.choice([0, 90, 180, 270]), _decal(IDS["Tar%d" % rnd.randint(1, 4)])))
@@ -278,3 +297,83 @@ def _crossing(r, q, x0, x1, z0, z1):
         x, z = road.world(edge + d * 10.8, road.c_across + side * W / 4)
         out.append(_bar("StopLine", 0.9, W / 2 - 0.8, x, z, road.yaw))
     return out
+
+
+# ---------------------------------------------------------------- sidewalks
+KERB_H = 0.6
+Y_KERB, Y_WALK_SPOT, Y_WALK_CRACK = 0.608, 0.614, 0.62
+
+
+def _is_walk(p):
+    if p.get("className") != "Part" or p.get("name") == "Ground":
+        return False
+    pr = p["properties"]
+    if pr.get("Material") not in ("Concrete", "Pavement") or pr.get("Transparency", 0) >= 1:
+        return False
+    if pr["CFrame"].get("orientation", [0, 0, 0])[1] % 180 != 0:
+        return False
+    top = pr["CFrame"]["position"][1] + pr["Size"][1] / 2
+    return abs(top - KERB_H) < 0.06 and pr["Size"][1] <= 1.5
+
+
+def sidewalks(children, rs):
+    out = []
+    for p in children:
+        if not _is_walk(p):
+            continue
+        pr = p["properties"]
+        sx, sy, sz = pr["Size"]
+        px, py, pz = pr["CFrame"]["position"]
+        top = py + sy / 2
+        x0, x1, z0, z1 = px - sx / 2, px + sx / 2, pz - sz / 2, pz + sz / 2
+        plaza = pr["Material"] == "Pavement"
+        pr.update({"Material": "Concrete", "MaterialVariant": WALK_VARIANT, "Color": "#E4E2DC" if plaza else "#FFFFFF"})
+        faces = p.setdefault("children", [])
+        faces.append(_texture(IDS["WalkColor"], WALK_TILE, WALK_TILE, color="#E4E2DC" if plaza else "#FFFFFF", name="Surface"))
+        # kerbs: every edge of this slab that sits on a road edge
+        for r in rs:
+            e0, e1 = r.c_across - r.width / 2, r.c_across + r.width / 2
+            if r.along_x:
+                lo, hi = max(x0, r.c_along - r.length / 2), min(x1, r.c_along + r.length / 2)
+                for edge, road_dir, face in ((z1, 1, "Back"), (z0, -1, "Front")):
+                    if hi - lo > 1 and abs(edge - (e0 if road_dir > 0 else e1)) < 0.3:
+                        out.append(_kerb(lo, hi, edge, road_dir, True, top))
+                        faces.append(_texture(IDS["KerbFace"], 8, sy, name="KerbFace" + face))
+                        faces[-1]["properties"]["Face"] = face
+            else:
+                lo, hi = max(z0, r.c_along - r.length / 2), min(z1, r.c_along + r.length / 2)
+                for edge, road_dir, face in ((x1, 1, "Right"), (x0, -1, "Left")):
+                    if hi - lo > 1 and abs(edge - (e0 if road_dir > 0 else e1)) < 0.3:
+                        out.append(_kerb(lo, hi, edge, road_dir, False, top))
+                        faces.append(_texture(IDS["KerbFace"], 8, sy, name="KerbFace" + face))
+                        faces[-1]["properties"]["Face"] = face
+        # gum, small stains and the odd crack on top
+        rnd = random.Random(p["name"])
+        for _ in range(int(sx * sz / (700 if plaza else 450))):
+            kind = rnd.random()
+            if kind < 0.5:
+                S, tex, y = rnd.uniform(5, 8), "Gum", Y_WALK_SPOT
+            elif kind < 0.8:
+                S, tex, y = rnd.uniform(2.5, 5), "Stain%d" % rnd.randint(1, 3), Y_WALK_SPOT + 0.003
+            else:
+                S, tex, y = rnd.uniform(6, 10), "Crack%d" % rnd.randint(1, 3), Y_WALK_CRACK
+            if sx < S + 1 or sz < S + 1:
+                continue
+            cx, cz = rnd.uniform(x0 + S / 2, x1 - S / 2), rnd.uniform(z0 + S / 2, z1 - S / 2)
+            out.append(_overlay("WalkSpot", S, S, cx, cz, top + (y - KERB_H), rnd.choice([0, 90, 180, 270]),
+                                _decal(IDS[tex], transparency=0.15)))
+    return out
+
+
+def _kerb(lo, hi, edge, road_dir, along_x, top):
+    """Worn kerb band on the slab top along a road edge. road_dir: which way the road is (+1 = +Z / +X).
+    KerbTop's image top (v = 0) is the road side; on a Top face v = 0 is local -Z."""
+    w = 1.2
+    c = edge - road_dir * w / 2
+    if along_x:
+        x, z, yaw = (lo + hi) / 2, c, 180 if road_dir > 0 else 0
+    else:
+        # yaw 90 turns local -Z to world -X
+        x, z, yaw = c, (lo + hi) / 2, 270 if road_dir > 0 else 90
+    tex = _texture(IDS["KerbTop"], 8, w, name="KerbTop")
+    return _overlay("Kerb", hi - lo, w, x, z, top + (Y_KERB - KERB_H), yaw, tex)

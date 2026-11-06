@@ -25,5 +25,11 @@
  "Grime3": "art/road/tex/Grime3.png",
  "Paint": "art/road/tex/Paint.png",
  "PaintV": "art/road/tex/PaintV.png",
- "Manhole": "art/road/tex/Manhole.png"
+ "Manhole": "art/road/tex/Manhole.png",
+ "WalkColor": "art/road/tex/WalkColor.png",
+ "WalkNormal": "art/road/tex/WalkNormal.png",
+ "WalkRough": "art/road/tex/WalkRough.png",
+ "KerbTop": "art/road/tex/KerbTop.png",
+ "KerbFace": "art/road/tex/KerbFace.png",
+ "Gum": "art/road/tex/Gum.png"
 }

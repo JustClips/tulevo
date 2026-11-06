@@ -31,12 +31,14 @@ local Config = {
 		StartStopSteps = true,
 	},
 
-	-- PC mouse look, GTA 5 style (Client/Movement/MouseLook). The mouse always turns the camera
-	-- (cursor hidden, no right-drag); menus or holding Left Alt bring the cursor back. Input is
+	-- PC mouse look, GTA 5 style (Client/Movement/MouseLook). With a gun out the mouse turns the
+	-- camera (cursor hidden, no right-drag); menus or holding Left Alt bring the cursor back. Input is
 	-- raw 1:1 (no acceleration or smoothing) and up/down turns as fast as left/right. Roblox's
 	-- own Esc-menu sensitivity and invert still apply on top. Tune live: F8 > Camera.
 	Camera = {
-		MouseLook = true, -- false: Roblox default (right-drag to turn) unless a gun is out
+		-- true: mouse always turns the camera, gun or not. false (Dev 2026-11-06): normal cursor
+		-- without a gun in hand, locked mouse look only while a gun is out
+		MouseLook = false,
 		Sensitivity = 1, -- on foot
 		AimSensitivity = 1, -- while aiming (right click), times the zoom scale below
 		VehicleSensitivity = 1, -- driving / riding
