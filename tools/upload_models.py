@@ -53,12 +53,21 @@ def upload(path, name):
     return asset_id
 
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import strip_glb_textures  # noqa: E402
+
+
 def main():
     lock = json.load(open(LOCK)) if os.path.exists(LOCK) else {}
     for name in sorted(os.listdir(SRC)):
         path = os.path.join(SRC, name, f"{name}.glb")
         if not os.path.exists(path):
             continue
+        meta_p = os.path.join(SRC, name, "meta.json")
+        if os.path.exists(meta_p) and "lamps" in json.load(open(meta_p)):   # art/blender/kit.py city buildings
+            # textured via separate Images (LiveSyncTextures): drop the GLB's own images so Roblox
+            # makes no SurfaceAppearances / TexturePacks (see tools/strip_glb_textures.py)
+            strip_glb_textures.strip(path)
         h = hashlib.sha256(open(path, "rb").read()).hexdigest()
         if lock.get(name, {}).get("sha") == h and "--force" not in sys.argv:
             continue
