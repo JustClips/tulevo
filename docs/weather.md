@@ -13,6 +13,7 @@ Blender meshes, synthesised sound).
 | `src/client/Weather/init.luau` | blends old → new weather over `FadeSeconds`, runs the three parts every frame |
 | `src/client/Weather/Sky.luau` | time-of-day keys (night, dawn, morning, noon, golden hour, sunset, dusk) → Lighting, Atmosphere, Sky, colour grade, sun rays; gloom pulls everything to grey |
 | `src/client/Weather/Clouds.luau` | 64 cumulus + 26 stratocumulus meshes drifting on the server clock (same for everyone), slowly turning and breathing; scrolling cirrus and overcast layers |
+| `src/client/Weather/Footprints.luau` | ground gets wet while it rains (dries ~2.5 min after), then everyone's steps leave fading shoe prints (not under roofs) with a small splash; `TOE_FLIP` turns prints round if they point backwards |
 | `src/client/Weather/Rain.luau` | 7x7 streak emitters over the camera that stop at roofs, mesh splash crowns + ripples + spray, mist sheets, rain sound muffled under roofs |
 
 ## Weathers
@@ -29,7 +30,7 @@ Chat (admins in Config.Weather.Admins, or anyone in a Studio play test):
   (Cumulus1-5, Congestus, Strato1-2, RainCrown, RainRipple), uploaded by `tools/upload_models.py`
   as `ModelIds.WeatherMeshes`. Run with Blender 5.2 or `pip install bpy==5.2.3`.
 - Textures: `tools/weather_textures.py` → `art/weather/tex/*.png` (RainStreak, RainSpray,
-  RainSheet, Cirrus, Overcast), uploaded by `tools/upload_textures.py` → `TextureIds.Weather`.
+  RainSheet, Cirrus, Overcast, FootprintL/R), uploaded by `tools/upload_textures.py` → `TextureIds.Weather`.
 - Sound: `tools/weather_sounds.py` → `art/sounds/RainLoop.ogg`, `RainHeavyLoop.ogg` (numpy +
   ffmpeg, seamless loops), uploaded by `tools/upload_sounds.py` → `SoundIds`.
 

@@ -8,6 +8,7 @@ White images with alpha; the game tints them.
   RainSheet    soft vertical streaky haze for the distant rain curtains (tiles sideways)
   Cirrus       wispy high clouds, tiles both ways, scrolled across the sky layer
   Overcast     thick soft cloud deck for storms, tiles both ways
+  FootprintL/R a wet shoe print (sole + heel with tread lines), left and its mirror
 """
 import json
 import os
@@ -87,6 +88,31 @@ def overcast():
     return save("Overcast", a)
 
 
+def footprints():
+    h, w = 256, 128
+    y, x = np.mgrid[0:h, 0:w].astype(float)
+    x = (x - w / 2) / (w / 2)  # -1..1 across
+    y = y / h  # 0 = toe, 1 = heel
+    # left shoe: half-width along the length (toe at the top), centre leaning to the big-toe side
+    ys = np.array([0.03, 0.1, 0.28, 0.45, 0.6, 0.75, 0.88, 0.97])
+    ws = np.array([0.0, 0.62, 0.86, 0.72, 0.56, 0.62, 0.58, 0.0])
+    half = np.interp(y, ys, ws)
+    # round toe and heel caps instead of points
+    toe = 0.7 * np.sqrt(np.clip(1 - ((0.16 - y) / 0.13) ** 2, 0, 1))
+    heel = 0.6 * np.sqrt(np.clip(1 - ((y - 0.84) / 0.13) ** 2, 0, 1))
+    half = np.where(y < 0.16, toe, np.where(y > 0.84, heel, half))
+    centre = np.interp(y, [0, 0.3, 0.6, 1], [-0.14, -0.08, 0.06, 0.0])
+    inside = half - np.abs(x - centre)
+    sole = np.clip(inside * 9, 0, 1) * (y > 0.02) * (y < 0.98)
+    lines = np.where(y < 0.5, np.sin(y * 170), np.sin(y * 120 + x * 4))
+    tread = 0.72 + 0.28 * (lines > -0.3)
+    arch = np.clip(1 - np.exp(-((y - 0.6) / 0.07) ** 2) * np.clip((x - centre + 0.1) * 3, 0, 1), 0.25, 1)
+    tread = tread * arch
+    mottle = 0.85 + 0.15 * periodic_noise(h, w, 1.2) / 3
+    a = np.clip(sole * tread * mottle, 0, 1) * 0.9
+    return save("FootprintL", a), save("FootprintR", a[:, ::-1])
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     m = {
@@ -96,6 +122,7 @@ def main():
         "Cirrus": cirrus(),
         "Overcast": overcast(),
     }
+    m["FootprintL"], m["FootprintR"] = footprints()
     json.dump(m, open(os.path.join(ROOT, "art", "weather", "textures.json"), "w"), indent=1)
     print("\n".join(m.values()))
 

@@ -272,6 +272,16 @@
  "bdcf9ed0de3127d9d9dca1a20075048a05a38ba8ec5d5dfd509a41c39eb82fa0": {
   "id": 97549107602971,
   "file": "art/weather/tex/RainStreak.png",
+  "state": "Approved"
+ },
+ "805ebf1ec90d0b9f115de99c144d68c0e82aeec3e928da1b82478d38f79b7502": {
+  "id": 117102981833016,
+  "file": "art/weather/tex/FootprintL.png",
+  "state": "Approved"
+ },
+ "eb4f32a10b2d74b1d4771adf15c2c5ef7204fdce36016f23606f96502964da68": {
+  "id": 72740635854735,
+  "file": "art/weather/tex/FootprintR.png",
   "state": "Reviewing"
  }
 }

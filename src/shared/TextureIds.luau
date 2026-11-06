@@ -82,6 +82,8 @@ return {
 	},
 	Weather = {
 		Cirrus = 77958563532552,
+		FootprintL = 117102981833016,
+		FootprintR = 72740635854735,
 		Overcast = 91829527228290,
 		RainSheet = 76746315614032,
 		RainSpray = 80848297953462,

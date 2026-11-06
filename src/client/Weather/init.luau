@@ -4,6 +4,7 @@
 --   Sky     lighting, atmosphere, colour grading by time of day + weather (GTA-style)
 --   Clouds  drifting mesh clouds + scrolling cirrus / overcast layers
 --   Rain    rain streaks that stop at roofs, splashes, ripples, mist and the rain sound
+--   Footprints  wet shoe prints behind everyone once the ground is soaked
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 
@@ -14,6 +15,7 @@ local WeatherTypes = require(Shared:WaitForChild("WeatherTypes"))
 local Sky = require(script:WaitForChild("Sky"))
 local Clouds = require(script:WaitForChild("Clouds"))
 local Rain = require(script:WaitForChild("Rain"))
+local Footprints = require(script:WaitForChild("Footprints"))
 
 local Weather = {}
 
@@ -44,11 +46,13 @@ function Weather.start()
 	Sky.start()
 	Clouds.start()
 	Rain.start()
+	Footprints.start()
 	RunService.RenderStepped:Connect(function(dt)
 		local mix = Weather.current()
 		Sky.update(mix, dt)
 		Clouds.update(mix, dt, Sky.cloudTint())
 		Rain.update(mix, dt)
+		Footprints.update(mix, dt)
 	end)
 end
 

@@ -274,6 +274,18 @@ local function stepSplashes(now: number)
 	end
 end
 
+-- a foot landing in the wet (Footprints): a ripple, plus spray while it's raining
+function Rain.footSplash(pos: Vector3, normal: Vector3, raining: boolean)
+	if not spray or #splashes == 0 then
+		return
+	end
+	startSplash(pos, normal, os.clock())
+	if raining then
+		spray.WorldPosition = pos + Vector3.new(0, 0.05, 0)
+		sprayEmitter:Emit(3)
+	end
+end
+
 function Rain.update(w, dt: number)
 	local cam = workspace.CurrentCamera
 	if not cam then
