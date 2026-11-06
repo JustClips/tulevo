@@ -40,12 +40,33 @@ local gui = Instance.new("ScreenGui")
 gui.Name = "Minimap"
 gui.ResetOnSpawn = false
 gui.IgnoreGuiInset = true
+-- Stay clear of the notch and Roblox's top buttons.
+gui.ScreenInsets = Enum.ScreenInsets.CoreUISafeInsets
 gui.Parent = player:WaitForChild("PlayerGui")
 
 local frame = Instance.new("Frame")
 frame.Name = "Frame"
 frame.AnchorPoint = Vector2.new(0, 1)
 frame.Position = UDim2.new(0, LEFT, 1, -BOTTOM)
+
+-- Size/position per screen (see HudLayout): bottom-left above the health bar on
+-- desktop, top-left on phones (keeps the thumbstick side free).
+local HudLayout = require(script.Parent:WaitForChild("HudLayout"))
+local uiScale = Instance.new("UIScale")
+uiScale.Parent = frame
+local function layout()
+	local l = HudLayout.get()
+	uiScale.Scale = l.scale
+	if l.touch then
+		frame.AnchorPoint = Vector2.new(0, 0)
+		frame.Position = UDim2.fromOffset(LEFT * l.scale, 8)
+	else
+		frame.AnchorPoint = Vector2.new(0, 1)
+		frame.Position = UDim2.new(0, LEFT, 1, -(8 + (18 + 3) * l.scale))
+	end
+end
+HudLayout.Changed:Connect(layout)
+layout()
 frame.Size = UDim2.fromOffset(W, H)
 frame.BackgroundColor3 = COLORS.Frame
 frame.BorderSizePixel = 0
@@ -213,7 +234,7 @@ RunService.RenderStepped:Connect(function()
 	local viewDir = forward * math.sin(TILT) - Vector3.yAxis * math.cos(TILT)
 	vpCam.CFrame = CFrame.lookAt(target - viewDir * DIST, target, forward)
 
-	local size = vp.AbsoluteSize
+	local size = vp.AbsoluteSize / uiScale.Scale -- offsets inside the scaled frame are unscaled
 	local me = project(pos, size)
 	arrow.Position = UDim2.fromOffset(me.X, me.Y)
 

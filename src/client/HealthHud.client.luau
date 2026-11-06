@@ -29,12 +29,34 @@ local gui = Instance.new("ScreenGui")
 gui.Name = "HealthHud"
 gui.ResetOnSpawn = false
 gui.IgnoreGuiInset = true
+-- Stay clear of the notch and Roblox's top buttons.
+gui.ScreenInsets = Enum.ScreenInsets.CoreUISafeInsets
 gui.Parent = player:WaitForChild("PlayerGui")
 
 local root = Instance.new("Frame")
 root.Name = "Root"
 root.AnchorPoint = Vector2.new(0, 1)
 root.Position = UDim2.new(0, MARGIN, 1, -BOTTOM)
+
+-- Size/position per screen (see HudLayout): bottom-left on desktop, under the
+-- radar at the top-left on phones.
+local HudLayout = require(script.Parent:WaitForChild("HudLayout"))
+local uiScale = Instance.new("UIScale")
+uiScale.Parent = root
+local RADAR_H, GAP = 150, 3 -- matches Minimap
+local function layout()
+	local l = HudLayout.get()
+	uiScale.Scale = l.scale
+	if l.touch then
+		root.AnchorPoint = Vector2.new(0, 0)
+		root.Position = UDim2.fromOffset(MARGIN * l.scale, 8 + (RADAR_H + GAP) * l.scale)
+	else
+		root.AnchorPoint = Vector2.new(0, 1)
+		root.Position = UDim2.new(0, MARGIN, 1, -BOTTOM)
+	end
+end
+HudLayout.Changed:Connect(layout)
+layout()
 root.Size = UDim2.fromOffset(BAR_W, BAR_H)
 root.BackgroundTransparency = 1
 root.Parent = gui
