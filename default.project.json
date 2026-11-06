@@ -14,6 +14,7 @@
       }
     },
     "StarterGui": { "$path": "src/gui" },
-    "Workspace": { "$path": "src/workspace" }
+    "Workspace": { "$path": "src/workspace" },
+    "MaterialService": { "$path": "src/materials" }
   }
 }

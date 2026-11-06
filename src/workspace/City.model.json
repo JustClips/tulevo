@@ -11500,6 +11500,11 @@
    ]
   },
   {
+   "name": "RoadDressing",
+   "className": "Folder",
+   "children": []
+  },
+  {
    "name": "Spawn",
    "className": "SpawnLocation",
    "properties": {

@@ -17,6 +17,10 @@ Layout (studs, Roblox axes, +Z = south on the map):
 """
 import json
 import os
+import sys
+
+sys.path.insert(0, os.path.dirname(__file__))
+import road_dressing  # noqa: E402  realistic street asphalt, wear, cracks, crosswalks (tools/road_dressing.py)
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 OUT = os.path.join(ROOT, "src", "workspace", "City.model.json")
@@ -80,7 +84,7 @@ roads = [
     ("EastStreet", (ROAD_W, 0.2, 2 * EXTENT), (BLOCK_X, 0.104, 0)),
 ]
 for name, size, pos in roads:
-    children.append(part(name, size, pos, ASPHALT, "Asphalt", tags=["Road"]))
+    children.append(road_dressing.style_road(part(name, size, pos, ASPHALT, "Asphalt", tags=["Road"])))
 
 # sidewalks: raised kerb slabs along both sides of every road, cut at the crossings
 # (not tagged; the map shows roads only)
@@ -134,7 +138,9 @@ for name, size, pos in roads:
                 lines.append(part("L", (0.4, 0.05, length), (pos[0] + off, 0.22, c), color, "SmoothPlastic", CanCollide=False))
 for i, l in enumerate(lines):
     l["name"] = f"Line{i + 1}"
+    road_dressing.style_line(l)
 children.append({"name": "Lines", "className": "Folder", "children": lines})
+children.append(road_dressing.dress(roads))
 
 # spawn: far sidewalk of Vault Avenue, facing the tower (+Z)
 children.append(part("Spawn", (10, 1, 10), (0, kerb + 0.5, AVE_Z - ROAD_W / 2 - SIDE_W / 2), ASPHALT, "Asphalt",
