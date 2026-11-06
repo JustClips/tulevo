@@ -26,11 +26,15 @@ local EMPTY = Color3.fromRGB(230, 70, 60)
 -- floating panel placement, in camera space as a share of the view's half-height at the
 -- panel's depth (so it keeps the same spot and size on screen when the aim zoom changes FOV)
 local FLOAT = {
-	Depth = 7, -- studs in front of the camera at FOV 70
-	Right = 0.2, -- left edge of the panel, right of the crosshair
-	Down = 0.1, -- panel centre, below the crosshair
-	Height = 0.2, -- panel height
-	Yaw = 10, -- degrees the panel is turned toward the view centre (reads as 3D)
+	Depth = 4.5, -- studs in front of the camera at FOV 70
+	Right = 0.07, -- left edge of the panel, right of the crosshair
+	Down = 0.17, -- panel centre, below the crosshair
+	Height = 0.12, -- panel height
+	Yaw = 28, -- degrees turned about its left edge: the right end goes away from you
+	Pitch = -8, -- degrees tipped back (top away)
+	Roll = -2,
+	Layers = 6, -- stacked copies that make the extrusion
+	Thickness = 0.18, -- extrusion depth, as a share of the panel height
 	Follow = 11, -- how fast it catches up with camera turns (higher = less lag)
 	MaxLag = 14, -- degrees it may trail behind at most
 	Linger = 0.8, -- seconds it stays after the gun goes down
@@ -87,87 +91,118 @@ local reserve = label(1, 22)
 local mag = label(2, 40)
 
 -- floating panel ---------------------------------------------------------------------------
--- an invisible local part in front of the camera carries a SurfaceGui drawn on top of the world
-local board = Instance.new("Part")
-board.Name = "AmmoFloat"
-board.Anchored = true
-board.CanCollide = false
-board.CanQuery = false
-board.CanTouch = false
-board.CastShadow = false
-board.Transparency = 1
-board.Size = Vector3.new(2, 1, 0.05)
-
-local surface = Instance.new("SurfaceGui")
-surface.Name = "AmmoFloat"
-surface.Adornee = board
-surface.Face = Enum.NormalId.Back -- the face looking back at the camera
-surface.AlwaysOnTop = true
-surface.LightInfluence = 0
-surface.SizingMode = Enum.SurfaceGuiSizingMode.FixedSize
-surface.CanvasSize = CANVAS
-surface.ResetOnSpawn = false
-surface.Enabled = false
-surface.Parent = gui.Parent
-
-local panel = Instance.new("Frame")
-panel.Size = UDim2.fromScale(1, 1)
-panel.BackgroundTransparency = 1
-panel.Parent = surface
-
+-- A stack of invisible local parts in front of the camera, each carrying the same SurfaceGui
+-- drawn on top of the world. The front layer is lit; the ones behind it are darker and
+-- step back in depth, so the icons and digits read as a solid extruded 3D object.
 local ROW_H = CANVAS.Y / 2
 local ICON = 34
-local function row(y: number): (Frame, TextLabel)
-	local icon = Instance.new("Frame")
-	icon.BackgroundTransparency = 1
-	icon.AnchorPoint = Vector2.new(0, 0.5)
-	icon.Position = UDim2.fromOffset(4, y + ROW_H / 2)
-	icon.Size = UDim2.fromOffset(ICON + 4, ICON)
-	icon.Parent = panel
 
-	local text = Instance.new("TextLabel")
-	text.BackgroundTransparency = 1
-	text.AnchorPoint = Vector2.new(0, 0.5)
-	text.Position = UDim2.fromOffset(ICON + 22, y + ROW_H / 2)
-	text.Size = UDim2.fromOffset(CANVAS.X - ICON - 26, ROW_H)
-	text.TextXAlignment = Enum.TextXAlignment.Left
-	text.FontFace = FLOAT_FONT
-	text.TextSize = 50
-	text.TextColor3 = WHITE
-	text.TextStrokeColor3 = Color3.new(0, 0, 0)
-	text.TextStrokeTransparency = 0.75
-	text.Parent = panel
-	return icon, text
+type Layer = {
+	part: Part,
+	surface: SurfaceGui,
+	magText: TextLabel,
+	resText: TextLabel,
+	bars: { Frame },
+	disc: Frame,
+	front: boolean,
+}
+
+local function shade(c: Color3, k: number): Color3
+	return Color3.new(c.R * k, c.G * k, c.B * k)
 end
 
--- magazine icon: rounds standing side by side, like the reference
-local magIcon, magText = row(0)
-local magBars = {}
-for i = 0, 3 do
-	local b = Instance.new("Frame")
-	b.BorderSizePixel = 0
-	b.BackgroundColor3 = ORANGE
-	b.Position = UDim2.fromOffset(i * 10, 4)
-	b.Size = UDim2.fromOffset(7, ICON - 8)
-	b.Parent = magIcon
-	local tip = Instance.new("UICorner")
-	tip.CornerRadius = UDim.new(0, 3)
-	tip.Parent = b
-	magBars[i + 1] = b
+local function makeLayer(index: number): Layer
+	local front = index == 0
+	local k = if front then 1 else 0.42 - 0.04 * index -- side walls of the extrusion
+	local part = Instance.new("Part")
+	part.Name = "AmmoFloat" .. index
+	part.Anchored = true
+	part.CanCollide = false
+	part.CanQuery = false
+	part.CanTouch = false
+	part.CastShadow = false
+	part.Transparency = 1
+	part.Size = Vector3.new(2, 1, 0.01)
+
+	local surface = Instance.new("SurfaceGui")
+	surface.Name = part.Name
+	surface.Adornee = part
+	surface.Face = Enum.NormalId.Back -- the face looking back at the camera
+	surface.AlwaysOnTop = true
+	surface.ZOffset = -index -- front layer drawn last
+	surface.LightInfluence = 0
+	surface.SizingMode = Enum.SurfaceGuiSizingMode.FixedSize
+	surface.CanvasSize = CANVAS
+	surface.ResetOnSpawn = false
+	surface.Enabled = false
+	surface.Parent = gui.Parent
+
+	local function row(y: number): (Frame, TextLabel)
+		local icon = Instance.new("Frame")
+		icon.BackgroundTransparency = 1
+		icon.AnchorPoint = Vector2.new(0, 0.5)
+		icon.Position = UDim2.fromOffset(4, y + ROW_H / 2)
+		icon.Size = UDim2.fromOffset(ICON + 4, ICON)
+		icon.Parent = surface
+
+		local text = Instance.new("TextLabel")
+		text.BackgroundTransparency = 1
+		text.AnchorPoint = Vector2.new(0, 0.5)
+		text.Position = UDim2.fromOffset(ICON + 22, y + ROW_H / 2)
+		text.Size = UDim2.fromOffset(CANVAS.X - ICON - 26, ROW_H)
+		text.TextXAlignment = Enum.TextXAlignment.Left
+		text.FontFace = FLOAT_FONT
+		text.TextSize = 50
+		text.TextColor3 = shade(WHITE, k)
+		text.TextStrokeTransparency = 1
+		text.Parent = surface
+		return icon, text
+	end
+
+	-- magazine icon: rounds standing side by side, like the reference
+	local magIcon, magText = row(0)
+	local bars = {}
+	for i = 0, 3 do
+		local b = Instance.new("Frame")
+		b.BorderSizePixel = 0
+		b.BackgroundColor3 = shade(ORANGE, k)
+		b.Position = UDim2.fromOffset(i * 10, 4)
+		b.Size = UDim2.fromOffset(7, ICON - 8)
+		b.Parent = magIcon
+		local tip = Instance.new("UICorner")
+		tip.CornerRadius = UDim.new(0, 3)
+		tip.Parent = b
+		bars[i + 1] = b
+	end
+
+	-- round icon: an orange disc
+	local resIcon, resText = row(ROW_H)
+	local disc = Instance.new("Frame")
+	disc.BorderSizePixel = 0
+	disc.BackgroundColor3 = shade(ORANGE, k)
+	disc.AnchorPoint = Vector2.new(0.5, 0.5)
+	disc.Position = UDim2.fromScale(0.5, 0.5)
+	disc.Size = UDim2.fromOffset(ICON - 4, ICON - 4)
+	disc.Parent = resIcon
+	local round = Instance.new("UICorner")
+	round.CornerRadius = UDim.new(0.5, 0)
+	round.Parent = disc
+
+	return {
+		part = part,
+		surface = surface,
+		magText = magText,
+		resText = resText,
+		bars = bars,
+		disc = disc,
+		front = front,
+	}
 end
 
--- round icon: an orange disc
-local resIcon, resText = row(ROW_H)
-local disc = Instance.new("Frame")
-disc.BorderSizePixel = 0
-disc.BackgroundColor3 = ORANGE
-disc.AnchorPoint = Vector2.new(0.5, 0.5)
-disc.Position = UDim2.fromScale(0.5, 0.5)
-disc.Size = UDim2.fromOffset(ICON - 4, ICON - 4)
-disc.Parent = resIcon
-local round = Instance.new("UICorner")
-round.CornerRadius = UDim.new(0.5, 0)
-round.Parent = disc
+local layers: { Layer } = {}
+for i = 0, FLOAT.Layers - 1 do
+	layers[i + 1] = makeLayer(i)
+end
 
 local lagRot: CFrame? = nil -- camera rotation the panel follows, trailing the real one
 local alpha = 0 -- 0 hidden .. 1 shown
@@ -175,7 +210,7 @@ local shownUntil = 0
 local lastMag = -1
 local pop = 0 -- number punch when a shot is fired
 
-local function placeBoard(cam: Camera, dt: number)
+local function placeLayers(cam: Camera, dt: number)
 	local camCf = cam.CFrame
 	local rot = camCf.Rotation
 	if not lagRot then
@@ -198,13 +233,24 @@ local function placeBoard(cam: Camera, dt: number)
 	local unit = depth * tanHalf -- studs per "half view height" at that depth
 	local h = FLOAT.Height * unit
 	local w = h * CANVAS.X / CANVAS.Y
-	board.Size = Vector3.new(w, h, 0.05)
+	local step = FLOAT.Thickness * h / FLOAT.Layers
 
-	local centre = Vector3.new(FLOAT.Right * unit + w / 2, -FLOAT.Down * unit, -depth)
-	board.CFrame = CFrame.new(camCf.Position)
+	-- turned about its left edge (the end nearest the crosshair), so the far end recedes
+	local hinge = CFrame.new(camCf.Position)
 		* (lagRot :: CFrame)
-		* CFrame.new(centre)
-		* CFrame.Angles(0, math.rad(FLOAT.Yaw), 0)
+		* CFrame.new(FLOAT.Right * unit, -FLOAT.Down * unit, -depth)
+		* CFrame.Angles(math.rad(FLOAT.Pitch), math.rad(FLOAT.Yaw), math.rad(FLOAT.Roll))
+	for i, layer in layers do
+		layer.part.Size = Vector3.new(w, h, 0.01)
+		layer.part.CFrame = hinge * CFrame.new(w / 2, 0, -(i - 1) * step)
+	end
+end
+
+local function hideFloat()
+	for _, layer in layers do
+		layer.surface.Enabled = false
+		layer.part.Parent = nil
+	end
 end
 
 RunService:BindToRenderStep("AmmoHud", Enum.RenderPriority.Last.Value + 2, function(dt)
@@ -226,43 +272,43 @@ RunService:BindToRenderStep("AmmoHud", Enum.RenderPriority.Last.Value + 2, funct
 
 	local target = if floating then 1 else 0
 	alpha = math.clamp(alpha + (if target > alpha then 1 else -1) * dt / FLOAT.Fade, 0, 1)
-	if alpha <= 0 then
-		surface.Enabled = false
-		board.Parent = nil
+	local cam = workspace.CurrentCamera
+	if alpha <= 0 or not cam or not def then
+		hideFloat()
 		lagRot = nil
 		lastMag = -1
 		return
 	end
 
-	local cam = workspace.CurrentCamera
-	if not cam then
-		return
-	end
-	if board.Parent ~= cam then
-		board.Parent = cam
-	end
-	surface.Enabled = true
-	local fade = 1 - alpha
-	magText.TextTransparency = fade
-	resText.TextTransparency = fade
-	magText.TextStrokeTransparency = 0.75 + 0.25 * fade
-	resText.TextStrokeTransparency = 0.75 + 0.25 * fade
-	disc.BackgroundTransparency = fade
-	placeBoard(cam, dt)
+	placeLayers(cam, dt)
 
-	if def then
-		if lastMag >= 0 and State.Mag < lastMag then
-			pop = 1
+	if lastMag >= 0 and State.Mag < lastMag then
+		pop = 1
+	end
+	lastMag = State.Mag
+	pop = math.max(0, pop - dt * 8)
+	local fade = 1 - alpha
+	-- while reloading the magazine icon pulses
+	local dim = if State.Reloading then 0.35 + 0.35 * math.sin(now * 12) else 0
+	local magCol = magColor(def, State.Mag)
+	for i, layer in layers do
+		if layer.part.Parent ~= cam then
+			layer.part.Parent = cam
 		end
-		lastMag = State.Mag
-		pop = math.max(0, pop - dt * 8)
-		magText.Text = tostring(State.Mag)
-		magText.TextSize = 50 + 6 * pop
-		magText.TextColor3 = magColor(def, State.Mag)
-		resText.Text = tostring(State.Reserve)
-		-- while reloading the magazine icon pulses
-		local dim = if State.Reloading then 0.35 + 0.35 * math.sin(now * 12) else 0
-		for _, b in magBars do
+		layer.surface.Enabled = true
+		layer.magText.Text = tostring(State.Mag)
+		layer.magText.TextSize = 50 + 6 * pop
+		layer.resText.Text = tostring(State.Reserve)
+		layer.magText.TextTransparency = fade
+		layer.resText.TextTransparency = fade
+		layer.disc.BackgroundTransparency = fade
+		if layer.front then
+			layer.magText.TextColor3 = magCol
+		else
+			local k = 0.42 - 0.04 * (i - 1)
+			layer.magText.TextColor3 = Color3.new(magCol.R * k, magCol.G * k, magCol.B * k)
+		end
+		for _, b in layer.bars do
 			b.BackgroundTransparency = 1 - (1 - dim) * alpha
 		end
 	end
