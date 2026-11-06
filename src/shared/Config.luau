@@ -133,6 +133,26 @@ local Config = {
 		BodyTypeMax = 0.3, -- 0 = classic blocky proportions, 1 = full Rthro
 		ProportionMax = 0.0,
 	},
+
+	-- Money (Server/Money): every player has Cash (wallet) and Bank, shown next to the radar.
+	Money = {
+		StartCash = 500,
+		StartBank = 5000,
+		-- keep balances between sessions (DataStore). Studio needs "Enable Studio Access
+		-- to API Services" on, otherwise it just warns and starts everyone fresh.
+		Save = true,
+		DataStoreName = "Money_v1",
+		AutosaveSeconds = 120,
+	},
+
+	-- In-game clock (Server/GameClock + Shared/GameTime): drives Lighting.ClockTime and the
+	-- time/date on the HUD. GTA style: one game day = 48 real minutes (1 game minute = 2 s).
+	Time = {
+		DayMinutes = 48, -- real minutes per in-game day
+		StartHour = 9, -- in-game hour when a server starts
+		-- the in-game date starts on the server's real (UTC) date and then counts game days
+		DriveLighting = true, -- false: HUD clock still runs, but the sky stays as set in Studio
+	},
 }
 
 return Config
