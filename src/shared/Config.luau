@@ -196,6 +196,20 @@ local Config = {
 		Key = Enum.KeyCode.F8,
 	},
 
+	-- Server checks (Server/Guard + Server/MovementGuard, docs/server-checks.md). The server
+	-- decides damage, money and items; these limits catch clients that lie about movement.
+	AntiCheat = {
+		Debug = false, -- true: print every rejected request
+		-- on foot: horizontal studs/s over a CheckEvery window (sprint is 20, a roll 17)
+		MaxFootSpeed = 45,
+		TeleportStuds = 80, -- one window moving further than this = pulled back right away
+		CheckEvery = 0.5, -- seconds between movement checks
+		Strikes = 2, -- windows in a row over MaxFootSpeed before pulling back
+		SpawnGrace = 2, -- seconds after spawning / a server teleport with no checks
+		KnockedDrift = 12, -- studs a knocked body may slide from where it fell
+		CarSpeedFactor = 1.6, -- driven cars may go this many times their MaxSpeed (crashes, ramps)
+	},
+
 	-- In-game clock (Server/GameClock + Shared/GameTime): drives Lighting.ClockTime and the
 	-- time/date on the HUD. GTA style: one game day = 48 real minutes (1 game minute = 2 s).
 	Time = {

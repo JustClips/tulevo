@@ -63,6 +63,7 @@ local Weapons = require(Shared:WaitForChild("Weapons"))
 local WeaponService = require(script.Parent.Parent:WaitForChild("Weapons"):WaitForChild("WeaponService"))
 local ItemModels = require(script.Parent:WaitForChild("ItemModels"))
 local ItemUse = require(script.Parent:WaitForChild("ItemUse"))
+local Guard = require(script.Parent.Parent:WaitForChild("Guard"))
 
 local CFG = Config.Inventory
 
@@ -592,10 +593,11 @@ function pickup(player: Player, uid: string, to: string?, toSlot: number?, rot: 
 	local character = player.Character
 	local root = character and character:FindFirstChild("HumanoidRootPart") :: BasePart?
 	local humanoid = character and character:FindFirstChildOfClass("Humanoid")
-	if not d or not inv or not root or not humanoid or humanoid.Health <= 0 then
+	if not d or not inv or not root or not humanoid or not Guard.alive(player) then
 		return
 	end
 	if (root.Position - d.model:GetPivot().Position).Magnitude > CFG.PickupRange then
+		Guard.flag(player, "picked up an item from too far away")
 		return
 	end
 	local item = d.item
@@ -726,18 +728,20 @@ local function move(inv: Inv, from: string, fromSlot: number, to: string, toSlot
 	toList[toSlot] = src
 end
 
-local lastMove: { [Player]: number } = {}
 MoveRemote.OnServerEvent:Connect(function(player, from, fromKey, to, toKey, rot)
 	local inv = invs[player]
 	if not inv or typeof(from) ~= "string" or typeof(to) ~= "string" then
 		return
 	end
 	rot = rot == true
-	local now = os.clock()
-	if now - (lastMove[player] or 0) < 0.05 then
+	-- knocked down: no moving, dropping or picking up (the client gets its real state back)
+	if not Guard.rate(player, "InvMove", 15, 8) then
 		return
 	end
-	lastMove[player] = now
+	if not Guard.alive(player) then
+		sync(player)
+		return
+	end
 	local function validSlot(name: string, key: any): boolean
 		local n = if name == "Quick" then QUICK elseif CONTAINERS[name] then CONTAINERS[name].slots else nil
 		return n ~= nil and typeof(key) == "number" and key >= 1 and key <= n and key % 1 == 0
@@ -768,6 +772,9 @@ MoveRemote.OnServerEvent:Connect(function(player, from, fromKey, to, toKey, rot)
 end)
 
 RequestRemote.OnServerEvent:Connect(function(player)
+	if not Guard.rate(player, "InvRequest", 2, 3) then
+		return
+	end
 	InventoryService.get(player)
 	sync(player)
 end)
@@ -871,6 +878,9 @@ function InventoryService.use(player: Player, uid: string)
 end
 
 UseRemote.OnServerEvent:Connect(function(player, uid)
+	if not Guard.rate(player, "InvUse", 4, 4) then
+		return
+	end
 	if uid == nil then
 		if using[player] then
 			stopUsing(player)
@@ -962,7 +972,6 @@ function InventoryService.start()
 	end
 	Players.PlayerRemoving:Connect(function(player)
 		invs[player] = nil
-		lastMove[player] = nil
 		using[player] = nil
 	end)
 	-- dropped items time out

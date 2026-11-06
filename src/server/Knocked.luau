@@ -22,6 +22,7 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Config = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Config"))
+local Guard = require(script.Parent:WaitForChild("Guard"))
 
 local Knocked = {}
 
@@ -201,24 +202,38 @@ local function addPrompt(character: Model, e: Entry)
 	prompt.GamepadKeyCode = Enum.KeyCode.ButtonX
 	prompt.Parent = part
 	table.insert(e.added, prompt)
+	-- the server checks what the prompt checks on the helper's screen: standing, close enough
+	-- (a little slack for lag), and holding for the whole HoldDuration
+	local holdStarted: { [Player]: number } = {}
 	local function okHelper(helper: Player): boolean
-		local c = helper.Character
-		local h = c and c:FindFirstChildOfClass("Humanoid")
-		return helper ~= e.player and h ~= nil and h.Health > 0 and not Knocked.isKnocked(c)
+		local _, _, root = Guard.alive(helper)
+		if helper == e.player or not root then
+			return false
+		end
+		return (root.Position - (part :: BasePart).Position).Magnitude <= prompt.MaxActivationDistance + 4
 	end
 	prompt.PromptButtonHoldBegan:Connect(function(helper)
 		if okHelper(helper) then
+			holdStarted[helper] = os.clock()
 			character:SetAttribute("BeingHelped", helper.DisplayName)
 		end
 	end)
-	prompt.PromptButtonHoldEnded:Connect(function()
+	prompt.PromptButtonHoldEnded:Connect(function(helper)
+		holdStarted[helper] = nil
 		character:SetAttribute("BeingHelped", nil)
 	end)
 	prompt.Triggered:Connect(function(helper)
 		character:SetAttribute("BeingHelped", nil)
-		if okHelper(helper) then
-			Knocked.revive(character, cfg.ReviveHealth)
+		local started = holdStarted[helper]
+		holdStarted[helper] = nil
+		if not okHelper(helper) then
+			return
 		end
+		if not started or os.clock() - started < prompt.HoldDuration * 0.8 then
+			Guard.flag(helper, "picked someone up without holding E long enough")
+			return
+		end
+		Knocked.revive(character, cfg.ReviveHealth)
 	end)
 end
 
@@ -313,6 +328,9 @@ GiveUp.OnServerEvent:Connect(function(player)
 end)
 
 ResetRemote.OnServerEvent:Connect(function(player)
+	if not Guard.rate(player, "Reset", 0.2, 1) then
+		return -- once every 5 s
+	end
 	local character = player.Character
 	local humanoid = character and character:FindFirstChildOfClass("Humanoid")
 	if not humanoid or humanoid.Health <= 0 or Knocked.isKnocked(character) or not entries[character :: Model] then
@@ -322,6 +340,9 @@ ResetRemote.OnServerEvent:Connect(function(player)
 end)
 
 WaitHelp.OnServerEvent:Connect(function(player)
+	if not Guard.rate(player, "WaitHelp", 2, 2) then
+		return
+	end
 	local character = player.Character
 	if character and Knocked.isKnocked(character) then
 		character:SetAttribute("WaitingHelp", true)

@@ -40,6 +40,7 @@ local Joints = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Jo
 local Pouches = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Armor"):WaitForChild("Pouches"))
 local Hitscan = require(script.Parent:WaitForChild("Hitscan"))
 local GunModel = require(script.Parent:WaitForChild("GunModel"))
+local Guard = require(script.Parent.Parent:WaitForChild("Guard"))
 
 local WeaponService = {}
 
@@ -211,6 +212,10 @@ EquipRemote.OnServerEvent:Connect(function(player, id)
 	if id ~= nil and (typeof(id) ~= "string" or not s.held[id]) then
 		return
 	end
+	-- knocked down: hands are empty; a few swaps a second at most
+	if (id ~= nil and not Guard.alive(player)) or not Guard.rate(player, "Equip", 4, 4) then
+		return
+	end
 	local old = s.equipped
 	s.equipped = id
 	player:SetAttribute("Weapon", id)
@@ -277,18 +282,19 @@ end
 
 PoseRemote.OnServerEvent:Connect(function(player, twist, pitch, aiming, up, plant, lean)
 	local character = player.Character
-	if not character or typeof(twist) ~= "number" or typeof(pitch) ~= "number" then
-		return
+	twist, pitch = Guard.number(twist), Guard.number(pitch)
+	if not character or not twist or not pitch then
+		return -- not numbers, NaN or infinite
 	end
-	if twist ~= twist or pitch ~= pitch then
-		return -- NaN
+	if not Guard.rate(player, "Pose", 40, 20) then
+		return -- the client sends ~20 a second
 	end
 	character:SetAttribute("GunTwist", math.clamp(twist, -1.6, 1.6))
 	character:SetAttribute("GunPitch", math.clamp(pitch, -1.4, 1.4))
 	character:SetAttribute("GunAiming", aiming == true)
 	character:SetAttribute("GunUp", up == true) -- shouldered: other clients lock the chest to the aim
 	character:SetAttribute("GunPlant", plant == true) -- standing aim: feet planted, turn steps
-	if typeof(lean) == "number" and lean == lean then
+	if Guard.number(lean) then
 		-- Q / E lean, -1..1 of Config.Weapons.LeanAngle (shots start from the leaned head)
 		character:SetAttribute("GunLean", math.clamp(lean, -1, 1))
 	end
@@ -402,14 +408,18 @@ FireRemote.OnServerEvent:Connect(function(player, direction)
 	local id = s.equipped
 	local def = id and Weapons.get(id)
 	local h = id and s.held[id]
-	local character = player.Character
+	local character = Guard.alive(player)
 	if not def or not h or not character or airborne(character) then
-		return
+		return -- knocked down / no character / mid-air
 	end
 	local now = os.clock()
-	local interval = 1 / (def.FireRate or 1)
-	if now - h.lastFire < interval * 0.8 or now < h.reloadingUntil or now < s.readyAt - 0.1 then
-		return -- too fast (some slack for network jitter), reloading or still drawing
+	if now < h.reloadingUntil or now < s.readyAt - 0.1 then
+		return -- reloading or still drawing
+	end
+	-- fire rate: a token bucket per gun, refilled at FireRate and holding 1.5 shots, so lag can
+	-- bunch two shots up to half an interval apart but the average never beats FireRate
+	if not Guard.rate(player, "Fire:" .. id, def.FireRate or 1, 1.5) then
+		return
 	end
 	h.lastFire = now
 	if def.Class.Kind ~= "Gun" or aimMatches(character, direction) then
@@ -426,6 +436,9 @@ FireRemote.OnServerEvent:Connect(function(player, direction)
 end)
 
 ReloadRemote.OnServerEvent:Connect(function(player)
+	if not Guard.alive(player) then
+		return
+	end
 	local s = stateOf(player)
 	local id = s.equipped
 	local def = id and Weapons.get(id)

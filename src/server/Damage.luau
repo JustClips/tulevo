@@ -1,6 +1,7 @@
 --[[
 	The one place damage is dealt. Weapons (and anything else that hurts players) call
-	Damage.apply instead of Humanoid:TakeDamage so armor is counted.
+	Damage.apply instead of Humanoid:TakeDamage so armor is counted. Server only: the amount
+	always comes from server data (weapon defs), never from a client.
 
 	Damage.apply(humanoid, amount, partName?) -> (healthDamage, armorDamage)
 	  partName is the body part that was hit (nil = unknown, treated as covered).
@@ -36,7 +37,13 @@ function Damage.addArmor(humanoid: Humanoid, amount: number)
 end
 
 function Damage.apply(humanoid: Humanoid, amount: number, partName: string?): (number, number)
-	if amount <= 0 or humanoid.Health <= 0 or hasForceField(humanoid) then
+	if
+		typeof(amount) ~= "number"
+		or amount ~= amount
+		or amount <= 0
+		or humanoid.Health <= 0
+		or hasForceField(humanoid)
+	then
 		return 0, 0
 	end
 	local armorDamage = 0

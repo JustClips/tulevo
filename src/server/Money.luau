@@ -8,6 +8,11 @@
 --   Money.deposit(player, 200)     -- wallet -> bank
 --   Money.withdraw(player, 200)    -- bank -> wallet
 --
+-- Server only: there is no money remote. Anything that pays or charges (ATMs, shops, jobs)
+-- must decide the amount on the server and call these; never take an amount from a client.
+-- Amounts that aren't real numbers (NaN, inf) are refused, so a bad value can't poison a
+-- balance.
+--
 -- Saved in a DataStore (Config.Money) when a player leaves, on shutdown and every
 -- AutosaveSeconds. If loading failed, that player's money is never saved, so a
 -- DataStore hiccup can't wipe a real balance with the starting amount.
@@ -40,14 +45,24 @@ local function whole(n: number): number
 	return math.floor(n + 0.5)
 end
 
+local LIMIT = 1e12 -- way above any real balance; stops a runaway number
+
+local function finite(n: any): boolean
+	return typeof(n) == "number" and n == n and math.abs(n) < LIMIT
+end
+
 function Money.get(player: Player): (number, number)
 	return player:GetAttribute("Cash") or 0, player:GetAttribute("Bank") or 0
 end
 
 local function change(player: Player, attr: string, amount: number): boolean
+	if not finite(amount) then
+		warn(`[Money] refused a bad amount for {player.Name}: {amount}`)
+		return false
+	end
 	amount = whole(amount)
 	local current = player:GetAttribute(attr) or 0
-	if current + amount < 0 then
+	if current + amount < 0 or current + amount >= LIMIT then
 		return false
 	end
 	player:SetAttribute(attr, current + amount)
@@ -63,6 +78,9 @@ function Money.addBank(player: Player, amount: number): boolean
 end
 
 function Money.deposit(player: Player, amount: number): boolean
+	if not finite(amount) then
+		return false
+	end
 	amount = whole(amount)
 	if amount <= 0 or not change(player, "Cash", -amount) then
 		return false
@@ -72,6 +90,9 @@ function Money.deposit(player: Player, amount: number): boolean
 end
 
 function Money.withdraw(player: Player, amount: number): boolean
+	if not finite(amount) then
+		return false
+	end
 	amount = whole(amount)
 	if amount <= 0 or not change(player, "Bank", -amount) then
 		return false
@@ -102,8 +123,9 @@ local function load(player: Player)
 		if ok then
 			loaded[player] = true
 			if type(data) == "table" then
-				cash = tonumber(data.cash) or cash
-				bank = tonumber(data.bank) or bank
+				local c, b = tonumber(data.cash), tonumber(data.bank)
+				cash = if finite(c) and c >= 0 then whole(c :: number) else cash
+				bank = if finite(b) and b >= 0 then whole(b :: number) else bank
 			end
 		else
 			warn("[Money] load failed for", player.Name, "(not saving this session):", data)
