@@ -241,12 +241,12 @@
    "tris": 2,
    "min": [
     36.0,
-    49.65,
+    49.62,
     8.28
    ],
    "max": [
     44.64,
-    49.65,
+    49.62,
     10.44
    ]
   },
@@ -355,16 +355,29 @@
    ]
   },
   "Coping": {
-   "tris": 96,
+   "tris": 120,
    "min": [
-    -94.07,
+    -94.08,
     -70.56,
     0.54
    ],
    "max": [
-    47.56,
-    76.07,
-    24.12
+    47.57,
+    76.08,
+    28.58
+   ]
+  },
+  "Trim": {
+   "tris": 36,
+   "min": [
+    -94.06,
+    -70.56,
+    11.16
+   ],
+   "max": [
+    94.32,
+    76.06,
+    25.92
    ]
   },
   "RoofTile": {
@@ -534,19 +547,6 @@
     90.72,
     -62.66,
     10.8
-   ]
-  },
-  "Trim": {
-   "tris": 12,
-   "min": [
-    56.88,
-    -70.56,
-    11.16
-   ],
-   "max": [
-    94.32,
-    -62.64,
-    15.84
    ]
   },
   "OfficeSign": {
@@ -755,6 +755,7 @@
   "Meter": "Meter_Color.png",
   "Concrete": "Concrete_Color.png",
   "Coping": "Coping_Color.png",
+  "Trim": "Trim_Color.png",
   "RoofTile": "RoofTile_Color.png",
   "Post": "Post_Color.png",
   "Rail": "Rail_Color.png",
@@ -768,7 +769,6 @@
   "Lamp3": "Light_Color.png",
   "Lamp4": "Light_Color.png",
   "OfficeGlass": "OfficeGlass_Color.png",
-  "Trim": "Trim_Color.png",
   "OfficeSign": "OfficeSign_Color.png",
   "Lamp5": "Light_Color.png",
   "SignBox": "SignBox_Color.png",
