@@ -39,4 +39,8 @@ first-aid kit in the inventory, and the armor vest worn (Armor slot).
   (a copy posed by the idle animation's first frame out of sight, then frozen), with the worn
   vest and a gun on the back (a gun in the hand is left out). Rebuilt when the window opens and
   when the vest, a gun or clothes change while it's open.
+- Window size: the 820 x 700 design is scaled to fit the screen. On short screens (phones held
+  sideways, where that would be under 0.75x) it fills 86% of the width instead, sits under the
+  Roblox top bar, and the Ground/Backpack and middle columns scroll (the inventory grid gets
+  shorter and scrolls by itself). Scrolling is frozen while you drag an item.
 - Not saved between sessions yet. Equipment slots and the Bag slot are layout only.

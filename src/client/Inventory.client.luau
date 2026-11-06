@@ -56,6 +56,11 @@ end)
 local W, H = 820, 700
 local HEIGHT_SHARE = 0.94
 local WIDTH_SHARE = 0.96
+-- Short screens (phones held sideways): the whole window would shrink to about half size, so
+-- instead it fills the width at a readable size, sits under the Roblox top bar, and the left
+-- and middle columns scroll (the inventory grid gets shorter and scrolls on its own).
+local COMPACT_BELOW = 0.75 -- use that when the fitted scale would be smaller than this
+local COMPACT_WIDTH_SHARE = 0.86 -- leaves room for a phone's notch on either side
 
 local PAD = 14
 local TOP = 48 -- columns start under the header row
@@ -189,6 +194,7 @@ end
 
 type Target = { frame: GuiObject, container: string, slot: number?, clip: GuiObject? }
 local targets: { Target } = {}
+local scrollers: { ScrollingFrame } = {} -- everything that scrolls; frozen while dragging
 local cells: { [string]: { Frame } } = { Inventory = {}, Backpack = {}, Ground = {} }
 local cellMeta: { [Frame]: { container: string, slot: number? } } = {}
 local cellItem: { [Frame]: any } = {} -- the item covering this cell
@@ -243,6 +249,7 @@ local function grid(
 		table.insert(targets, { frame = s, container = name, slot = i, clip = sf })
 	end
 	sf.Parent = parent
+	table.insert(scrollers, sf)
 	return sf
 end
 
@@ -250,10 +257,37 @@ end
 box(window, "DividerLeft", MID_X - 8, TOP, 1, BOTTOM - TOP, COLORS.Line, 0.6)
 box(window, "DividerRight", RIGHT_X - 8, TOP, 1, BOTTOM - TOP, COLORS.Line, 0.6)
 
+-- a column that scrolls when the window is shorter than its content (phones)
+-- a grid that always fits its box doesn't scroll, so a finger on it scrolls the column instead
+local function fixed(sf: ScrollingFrame)
+	sf.ScrollingEnabled = false
+	local i = table.find(scrollers, sf)
+	if i then
+		table.remove(scrollers, i)
+	end
+end
+
+local function column(name: string, x: number, w: number): ScrollingFrame
+	local sf = Instance.new("ScrollingFrame")
+	sf.Name = name
+	sf.Position = UDim2.fromOffset(x, 0)
+	sf.Size = UDim2.fromOffset(w, H)
+	sf.CanvasSize = UDim2.fromOffset(0, H)
+	sf.BackgroundTransparency = 1
+	sf.BorderSizePixel = 0
+	sf.ScrollBarThickness = 3
+	sf.ScrollBarImageColor3 = COLORS.Dim
+	sf.ScrollingDirection = Enum.ScrollingDirection.Y
+	sf.Parent = window
+	table.insert(scrollers, sf)
+	return sf
+end
+
 ---------------------------------------------------------------- left: ground + backpack
-local left = box(window, "Left", LEFT_X, 0, SIDE_W, H)
+local left = column("Left", LEFT_X, SIDE_W)
 label(left, "Title", "Ground", 0, 10, SIDE_W, 26, 16, COLORS.Text, BOLD)
 local groundGrid = grid(left, "Ground", 0, TOP, SIDE_W, 320, 4, 56, 6, 20)
+fixed(groundGrid)
 table.insert(targets, { frame = groundGrid, container = "Ground" }) -- empty space counts too
 
 box(left, "Line", 0, 380, SIDE_W, 1, COLORS.Line, 0.6)
@@ -272,10 +306,10 @@ takeOff.TextSize = 13
 takeOff.TextColor3 = COLORS.Dim
 takeOff.FontFace = REGULAR
 takeOff.Parent = left
-grid(left, "Backpack", 0, 422, SIDE_W, BOTTOM - 422, GRIDS.Backpack.cols, 56, 6, GRIDS.Backpack.cols * GRIDS.Backpack.rows)
+fixed(grid(left, "Backpack", 0, 422, SIDE_W, BOTTOM - 422, GRIDS.Backpack.cols, 56, 6, GRIDS.Backpack.cols * GRIDS.Backpack.rows))
 
 ---------------------------------------------------------------- middle: character + equipment
-local mid = box(window, "Middle", MID_X, 0, MID_W, H)
+local mid = column("Middle", MID_X, MID_W)
 local nameLabel = label(mid, "PlayerName", "", 0, 10, MID_W, 26, 16, COLORS.Text, BOLD, Enum.TextXAlignment.Center)
 
 -- 4 equipment slots down each side of the character, 5 under it (layout only for now)
@@ -357,7 +391,8 @@ close.TextSize = 22
 close.TextColor3 = COLORS.Dim
 close.FontFace = REGULAR
 close.Parent = right
-grid(right, "Inventory", 0, TOP, SIDE_W, BOTTOM - TOP, GRIDS.Inventory.cols, 44, 4, GRIDS.Inventory.cols * GRIDS.Inventory.rows)
+local inventoryGrid =
+	grid(right, "Inventory", 0, TOP, SIDE_W, BOTTOM - TOP, GRIDS.Inventory.cols, 44, 4, GRIDS.Inventory.cols * GRIDS.Inventory.rows)
 
 -- hover info and the item being dragged sit above the window, outside its UIScale
 local tooltip = Instance.new("TextLabel")
@@ -803,7 +838,14 @@ local function fade(cell: Frame, on: boolean)
 	end
 end
 
+local function freezeScrolling(on: boolean)
+	for _, sf in scrollers do
+		sf.ScrollingEnabled = not on
+	end
+end
+
 local function cancelDrag()
+	freezeScrolling(false)
 	if drag and drag.ghost then
 		drag.ghost:Destroy()
 	end
@@ -815,9 +857,21 @@ local function cancelDrag()
 	ContextActionService:UnbindAction("Inventory_Rotate")
 end
 
+-- inside every scrolling area around it too (the rest of a scrolled column is hidden)
+local function shown(obj: GuiObject, p: Vector2): boolean
+	local a = obj.Parent
+	while a and a ~= window do
+		if a:IsA("ScrollingFrame") and not inside(a, p) then
+			return false
+		end
+		a = a.Parent
+	end
+	return true
+end
+
 local function hitTest(p: Vector2): Target?
 	for _, t in targets do
-		if t.frame.Visible and inside(t.frame, p) and (not t.clip or inside(t.clip, p)) then
+		if t.frame.Visible and inside(t.frame, p) and (not t.clip or inside(t.clip, p)) and shown(t.frame, p) then
 			return t
 		end
 	end
@@ -1103,6 +1157,7 @@ UserInputService.InputBegan:Connect(function(input)
 		grabY = gy,
 		fromActive = fromActive,
 	}
+	freezeScrolling(true) -- a finger dragging an item mustn't scroll the list under it
 end)
 
 UserInputService.InputChanged:Connect(function(input)
@@ -1149,7 +1204,22 @@ local function fit()
 		return
 	end
 	local v = cam.ViewportSize
-	scale.Scale = math.min(v.Y * HEIGHT_SHARE / H, v.X * WIDTH_SHARE / W)
+	local s = math.min(v.Y * HEIGHT_SHARE / H, v.X * WIDTH_SHARE / W)
+	local shownH = H
+	local top = 0
+	if s < COMPACT_BELOW then
+		-- phone: fill the width, start under the top bar, scroll the columns
+		top = GuiService:GetGuiInset().Y
+		s = math.min(1, v.X * COMPACT_WIDTH_SHARE / W)
+		shownH = math.min(H, math.floor((v.Y - top - 8) / s))
+	end
+	scale.Scale = s
+	window.Size = UDim2.fromOffset(W, shownH)
+	window.Position = UDim2.new(0.5, 0, 0.5, top / 2)
+	window.ClipsDescendants = shownH < H
+	left.Size = UDim2.fromOffset(SIDE_W, shownH)
+	mid.Size = UDim2.fromOffset(MID_W, shownH)
+	inventoryGrid.Size = UDim2.fromOffset(SIDE_W, shownH - TOP - PAD)
 end
 local camConn: RBXScriptConnection? = nil
 local function watchCamera()
