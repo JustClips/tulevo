@@ -241,6 +241,14 @@ function actions.FillAmmo(player)
 		local def = Weapons.get(id)
 		if def then
 			WeaponService.setAmmo(player, id, def.MagSize or 0, def.MaxReserve or def.ReserveAmmo or 0)
+			-- guns that reload from an ammo item (Items/Defs): top the bag up to ReserveAmmo
+			local ammo = (def :: any).Ammo
+			if ammo then
+				local want = (def.ReserveAmmo or 0) - InventoryService.count(player, ammo)
+				if want > 0 then
+					InventoryService.add(player, ammo, want)
+				end
+			end
 			n += 1
 		end
 	end
