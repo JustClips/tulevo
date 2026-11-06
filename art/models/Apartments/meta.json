@@ -1,0 +1,446 @@
+{
+ "name": "Apartments",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Pave": {
+   "tris": 12,
+   "min": [
+    -79.2,
+    -39.6,
+    -0.3
+   ],
+   "max": [
+    79.2,
+    57.6,
+    0.0
+   ]
+  },
+  "AptWall": {
+   "tris": 72,
+   "min": [
+    -72.0,
+    -28.8,
+    0.0
+   ],
+   "max": [
+    72.0,
+    50.4,
+    72.72
+   ]
+  },
+  "Roof": {
+   "tris": 12,
+   "min": [
+    -70.92,
+    -27.72,
+    61.92
+   ],
+   "max": [
+    70.92,
+    49.32,
+    62.02
+   ]
+  },
+  "Band": {
+   "tris": 456,
+   "min": [
+    -72.72,
+    -34.2,
+    15.3
+   ],
+   "max": [
+    72.72,
+    50.76,
+    73.44
+   ]
+  },
+  "LobbyGlass": {
+   "tris": 2,
+   "min": [
+    -68.4,
+    -28.82,
+    0.0
+   ],
+   "max": [
+    -46.8,
+    -28.82,
+    15.52
+   ]
+  },
+  "Trim": {
+   "tris": 12,
+   "min": [
+    -72.0,
+    -37.44,
+    12.6
+   ],
+   "max": [
+    -43.2,
+    -28.8,
+    14.76
+   ]
+  },
+  "AptSign": {
+   "tris": 2,
+   "min": [
+    -63.36,
+    -37.47,
+    12.6
+   ],
+   "max": [
+    -51.84,
+    -37.47,
+    14.76
+   ]
+  },
+  "Steel": {
+   "tris": 1636,
+   "min": [
+    -70.85,
+    -37.01,
+    0.0
+   ],
+   "max": [
+    77.04,
+    36.18,
+    67.68
+   ]
+  },
+  "Lamp1": {
+   "tris": 12,
+   "min": [
+    -61.92,
+    -34.02,
+    12.55
+   ],
+   "max": [
+    -53.28,
+    -32.22,
+    12.59
+   ]
+  },
+  "Laundromat": {
+   "tris": 2,
+   "min": [
+    -43.2,
+    -28.82,
+    0.0
+   ],
+   "max": [
+    28.8,
+    -28.82,
+    15.52
+   ]
+  },
+  "GarageGate": {
+   "tris": 4,
+   "min": [
+    -36.0,
+    -28.82,
+    0.0
+   ],
+   "max": [
+    63.0,
+    7.13,
+    69.48
+   ]
+  },
+  "Dark": {
+   "tris": 896,
+   "min": [
+    -67.5,
+    -37.55,
+    0.0
+   ],
+   "max": [
+    76.86,
+    36.65,
+    66.33
+   ]
+  },
+  "Light": {
+   "tris": 24,
+   "min": [
+    36.63,
+    -29.52,
+    8.73
+   ],
+   "max": [
+    64.17,
+    -28.8,
+    9.99
+   ]
+  },
+  "Kerb": {
+   "tris": 156,
+   "min": [
+    -77.55,
+    -38.31,
+    -0.02
+   ],
+   "max": [
+    63.36,
+    -28.8,
+    0.9
+   ]
+  },
+  "AptWindowB": {
+   "tris": 48,
+   "min": [
+    -72.02,
+    -28.82,
+    16.38
+   ],
+   "max": [
+    72.02,
+    50.4,
+    61.38
+   ]
+  },
+  "AptBalcony": {
+   "tris": 32,
+   "min": [
+    -54.0,
+    -28.82,
+    16.38
+   ],
+   "max": [
+    54.0,
+    -28.82,
+    61.38
+   ]
+  },
+  "Rail": {
+   "tris": 7452,
+   "min": [
+    -53.32,
+    -34.2,
+    15.66
+   ],
+   "max": [
+    77.04,
+    18.05,
+    54.65
+   ]
+  },
+  "Dish": {
+   "tris": 476,
+   "min": [
+    -63.36,
+    -31.59,
+    20.27
+   ],
+   "max": [
+    52.16,
+    37.3,
+    69.95
+   ]
+  },
+  "AptWindowA": {
+   "tris": 48,
+   "min": [
+    -72.02,
+    -28.82,
+    16.38
+   ],
+   "max": [
+    72.02,
+    50.4,
+    61.38
+   ]
+  },
+  "Chair": {
+   "tris": 720,
+   "min": [
+    -51.3,
+    -32.22,
+    16.38
+   ],
+   "max": [
+    43.38,
+    -30.31,
+    53.73
+   ]
+  },
+  "Pot": {
+   "tris": 360,
+   "min": [
+    -39.27,
+    -31.39,
+    16.38
+   ],
+   "max": [
+    52.23,
+    -29.81,
+    52.52
+   ]
+  },
+  "Shrub": {
+   "tris": 380,
+   "min": [
+    -76.86,
+    -37.47,
+    0.49
+   ],
+   "max": [
+    52.75,
+    -29.37,
+    54.08
+   ]
+  },
+  "AptBack": {
+   "tris": 80,
+   "min": [
+    -72.0,
+    50.42,
+    1.08
+   ],
+   "max": [
+    72.0,
+    50.42,
+    61.92
+   ]
+  },
+  "AcBody": {
+   "tris": 108,
+   "min": [
+    -67.77,
+    -30.96,
+    31.23
+   ],
+   "max": [
+    60.93,
+    -28.8,
+    55.89
+   ]
+  },
+  "Units": {
+   "tris": 160,
+   "min": [
+    -57.96,
+    -10.08,
+    61.92
+   ],
+   "max": [
+    54.36,
+    36.36,
+    66.24
+   ]
+  },
+  "Solar": {
+   "tris": 24,
+   "min": [
+    8.64,
+    -22.68,
+    63.72
+   ],
+   "max": [
+    59.04,
+    0.36,
+    66.24
+   ]
+  },
+  "Soil": {
+   "tris": 36,
+   "min": [
+    -77.4,
+    -38.16,
+    0.36
+   ],
+   "max": [
+    25.2,
+    -32.4,
+    0.72
+   ]
+  },
+  "Trunk": {
+   "tris": 1260,
+   "min": [
+    -74.87,
+    -36.04,
+    0.72
+   ],
+   "max": [
+    21.63,
+    -33.85,
+    45.2
+   ]
+  },
+  "Palm": {
+   "tris": 1848,
+   "min": [
+    -88.48,
+    -50.28,
+    36.99
+   ],
+   "max": [
+    36.64,
+    -20.04,
+    45.21
+   ]
+  },
+  "Bin": {
+   "tris": 24,
+   "min": [
+    -49.86,
+    -35.82,
+    0.0
+   ],
+   "max": [
+    -44.1,
+    -33.3,
+    3.96
+   ]
+  },
+  "Mailbox": {
+   "tris": 56,
+   "min": [
+    -27.99,
+    -37.71,
+    1.08
+   ],
+   "max": [
+    -26.01,
+    -35.73,
+    5.22
+   ]
+  }
+ },
+ "lamps": [
+  "Lamp1"
+ ],
+ "textures": {
+  "Pave": "Pave_Color.png",
+  "AptWall": "AptWall_Color.png",
+  "Roof": "Roof_Color.png",
+  "Band": "Band_Color.png",
+  "LobbyGlass": "LobbyGlass_Color.png",
+  "Trim": "Trim_Color.png",
+  "AptSign": "AptSign_Color.png",
+  "Steel": "Steel_Color.png",
+  "Lamp1": "Light_Color.png",
+  "Laundromat": "Laundromat_Color.png",
+  "GarageGate": "GarageGate_Color.png",
+  "Dark": "Dark_Color.png",
+  "Light": "Light_Color.png",
+  "Kerb": "Kerb_Color.png",
+  "AptWindowB": "AptWindowB_Color.png",
+  "AptBalcony": "AptBalcony_Color.png",
+  "Rail": "Rail_Color.png",
+  "Dish": "Dish_Color.png",
+  "AptWindowA": "AptWindowA_Color.png",
+  "Chair": "Chair_Color.png",
+  "Pot": "Pot_Color.png",
+  "Shrub": "Shrub_Color.png",
+  "AptBack": "AptBack_Color.png",
+  "AcBody": "AcBody_Color.png",
+  "Units": "Units_Color.png",
+  "Solar": "Solar_Color.png",
+  "Soil": "Soil_Color.png",
+  "Trunk": "Trunk_Color.png",
+  "Palm": "Palm_Color.png",
+  "Bin": "Bin_Color.png",
+  "Mailbox": "Mailbox_Color.png"
+ }
+}

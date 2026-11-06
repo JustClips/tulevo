@@ -17,7 +17,7 @@
    ]
   },
   "Kerb": {
-   "tris": 48,
+   "tris": 304,
    "min": [
     -86.4,
     -72.0,
@@ -26,7 +26,7 @@
    "max": [
     86.4,
     72.0,
-    0.8
+    2.16
    ]
   },
   "CanopyUnder": {
@@ -381,16 +381,16 @@
    ]
   },
   "PumpDark": {
-   "tris": 480,
+   "tris": 1248,
    "min": [
-    -28.64,
-    -24.83,
-    0.7
+    -77.76,
+    -41.58,
+    0.0
    ],
    "max": [
-    28.64,
-    -11.17,
-    9.48
+    74.16,
+    67.5,
+    31.0
    ]
   },
   "PumpBody": {
@@ -472,7 +472,7 @@
    ]
   },
   "ShopWall": {
-   "tris": 36,
+   "tris": 84,
    "min": [
     -39.6,
     21.6,
@@ -481,7 +481,7 @@
    "max": [
     39.6,
     64.8,
-    18.0
+    20.52
    ]
   },
   "ShopGlass": {
@@ -550,14 +550,14 @@
    ]
   },
   "Units": {
-   "tris": 128,
+   "tris": 164,
    "min": [
     -23.76,
-    45.72,
-    18.18
+    41.4,
+    0.72
    ],
    "max": [
-    18.72,
+    45.0,
     55.08,
     22.42
    ]
@@ -588,19 +588,6 @@
     4.18
    ]
   },
-  "Props": {
-   "tris": 100,
-   "min": [
-    -12.78,
-    17.64,
-    0.0
-   ],
-   "max": [
-    28.44,
-    20.7,
-    6.48
-   ]
-  },
   "PumpTrim": {
    "tris": 12,
    "min": [
@@ -628,15 +615,15 @@
    ]
   },
   "SignPole": {
-   "tris": 24,
+   "tris": 120,
    "min": [
-    -80.55,
+    -82.49,
     -65.43,
     0.0
    ],
    "max": [
-    -70.65,
-    -64.17,
+    78.89,
+    67.03,
     34.2
    ]
   },
@@ -678,6 +665,292 @@
     16.2,
     0.03
    ]
+  },
+  "DoorGlass": {
+   "tris": 2,
+   "min": [
+    -3.6,
+    25.7,
+    0.02
+   ],
+   "max": [
+    3.6,
+    25.7,
+    8.48
+   ]
+  },
+  "Steel": {
+   "tris": 1432,
+   "min": [
+    -72.9,
+    -41.51,
+    0.0
+   ],
+   "max": [
+    50.51,
+    68.4,
+    21.96
+   ]
+  },
+  "Vending": {
+   "tris": 4,
+   "min": [
+    12.77,
+    22.91,
+    0.18
+   ],
+   "max": [
+    20.33,
+    22.91,
+    6.59
+   ]
+  },
+  "Atm": {
+   "tris": 2,
+   "min": [
+    -18.05,
+    23.27,
+    0.07
+   ],
+   "max": [
+    -14.95,
+    23.27,
+    5.83
+   ]
+  },
+  "Bin": {
+   "tris": 48,
+   "min": [
+    -28.26,
+    -19.26,
+    0.0
+   ],
+   "max": [
+    28.26,
+    20.7,
+    4.3
+   ]
+  },
+  "BinLabel": {
+   "tris": 16,
+   "min": [
+    -28.08,
+    -19.29,
+    1.62
+   ],
+   "max": [
+    28.08,
+    20.73,
+    3.11
+   ]
+  },
+  "Extinguisher": {
+   "tris": 188,
+   "min": [
+    -28.75,
+    -29.84,
+    3.24
+   ],
+   "max": [
+    28.8,
+    20.88,
+    6.98
+   ]
+  },
+  "PropaneLabel": {
+   "tris": 2,
+   "min": [
+    21.96,
+    17.25,
+    6.41
+   ],
+   "max": [
+    28.44,
+    17.25,
+    7.2
+   ]
+  },
+  "Tanks": {
+   "tris": 704,
+   "min": [
+    22.23,
+    18.54,
+    0.47
+   ],
+   "max": [
+    28.17,
+    19.62,
+    5.51
+   ]
+  },
+  "PumpNumber": {
+   "tris": 8,
+   "min": [
+    -27.9,
+    -30.54,
+    12.96
+   ],
+   "max": [
+    27.9,
+    -5.46,
+    14.76
+   ]
+  },
+  "Coping": {
+   "tris": 84,
+   "min": [
+    -79.66,
+    21.45,
+    6.48
+   ],
+   "max": [
+    39.75,
+    64.95,
+    20.72
+   ]
+  },
+  "StaffDoor": {
+   "tris": 2,
+   "min": [
+    8.2,
+    64.84,
+    0.0
+   ],
+   "max": [
+    11.8,
+    64.84,
+    7.92
+   ]
+  },
+  "Lamp19": {
+   "tris": 12,
+   "min": [
+    9.1,
+    67.5,
+    8.54
+   ],
+   "max": [
+    10.9,
+    68.22,
+    8.6
+   ]
+  },
+  "Block": {
+   "tris": 36,
+   "min": [
+    -79.56,
+    45.0,
+    0.0
+   ],
+   "max": [
+    -50.04,
+    60.84,
+    6.48
+   ]
+  },
+  "Dumpster": {
+   "tris": 72,
+   "min": [
+    -73.08,
+    54.36,
+    0.54
+   ],
+   "max": [
+    -56.52,
+    59.76,
+    5.29
+   ]
+  },
+  "WheelStop": {
+   "tris": 60,
+   "min": [
+    -22.68,
+    13.59,
+    0.0
+   ],
+   "max": [
+    22.68,
+    14.49,
+    0.58
+   ]
+  },
+  "Soil": {
+   "tris": 36,
+   "min": [
+    -82.08,
+    -61.2,
+    0.72
+   ],
+   "max": [
+    85.2,
+    70.8,
+    1.08
+   ]
+  },
+  "Shrub": {
+   "tris": 360,
+   "min": [
+    -80.45,
+    -59.43,
+    0.49
+   ],
+   "max": [
+    98.09,
+    67.15,
+    5.12
+   ]
+  },
+  "Trunk": {
+   "tris": 1260,
+   "min": [
+    73.44,
+    -51.13,
+    1.08
+   ],
+   "max": [
+    82.33,
+    65.53,
+    45.9
+   ]
+  },
+  "Palm": {
+   "tris": 1848,
+   "min": [
+    59.77,
+    -63.03,
+    35.78
+   ],
+   "max": [
+    94.49,
+    77.87,
+    45.97
+   ]
+  },
+  "Lamp20": {
+   "tris": 12,
+   "min": [
+    70.92,
+    -27.68,
+    30.15
+   ],
+   "max": [
+    73.8,
+    -26.32,
+    30.19
+   ]
+  },
+  "Lamp21": {
+   "tris": 12,
+   "min": [
+    -77.4,
+    65.92,
+    30.15
+   ],
+   "max": [
+    -74.52,
+    67.28,
+    30.19
+   ]
   }
  },
  "lamps": [
@@ -698,6 +971,84 @@
   "Lamp15",
   "Lamp16",
   "Lamp17",
-  "Lamp18"
- ]
+  "Lamp18",
+  "Lamp19",
+  "Lamp20",
+  "Lamp21"
+ ],
+ "textures": {
+  "Forecourt": "Forecourt_Color.png",
+  "Kerb": "Kerb_Color.png",
+  "CanopyUnder": "CanopyUnder_Color.png",
+  "Roof": "Roof_Color.png",
+  "Fascia": "Fascia_Color.png",
+  "Lamp1": "Light_Color.png",
+  "Lamp2": "Light_Color.png",
+  "Lamp3": "Light_Color.png",
+  "Lamp4": "Light_Color.png",
+  "Lamp5": "Light_Color.png",
+  "Lamp6": "Light_Color.png",
+  "Lamp7": "Light_Color.png",
+  "Lamp8": "Light_Color.png",
+  "Lamp9": "Light_Color.png",
+  "Lamp10": "Light_Color.png",
+  "Lamp11": "Light_Color.png",
+  "Lamp12": "Light_Color.png",
+  "Lamp13": "Light_Color.png",
+  "Lamp14": "Light_Color.png",
+  "Lamp15": "Light_Color.png",
+  "Lamp16": "Light_Color.png",
+  "Lamp17": "Light_Color.png",
+  "Lamp18": "Light_Color.png",
+  "Light": "Light_Color.png",
+  "FasciaBrand": "FasciaBrand_Color.png",
+  "Columns": "Columns_Color.png",
+  "ColumnBase": "ColumnBase_Color.png",
+  "IslandKerb": "IslandKerb_Color.png",
+  "Bollards": "Bollards_Color.png",
+  "PumpDark": "PumpDark_Color.png",
+  "PumpBody": "PumpBody_Color.png",
+  "PumpFace": "PumpFace_Color.png",
+  "PumpSide": "PumpSide_Color.png",
+  "Nozzle": "Nozzle_Color.png",
+  "NozzleGrip": "NozzleGrip_Color.png",
+  "Hose": "Hose_Color.png",
+  "ShopWall": "ShopWall_Color.png",
+  "ShopGlass": "ShopGlass_Color.png",
+  "ShopTrim": "ShopTrim_Color.png",
+  "ShopBand": "ShopBand_Color.png",
+  "ShopLamp": "Light_Color.png",
+  "ShopSign": "ShopSign_Color.png",
+  "Units": "Units_Color.png",
+  "IceBox": "IceBox_Color.png",
+  "IceLabel": "IceLabel_Color.png",
+  "PumpTrim": "PumpTrim_Color.png",
+  "AirLabel": "AirLabel_Color.png",
+  "SignPole": "SignPole_Color.png",
+  "SignPanel": "SignPanel_Color.png",
+  "PriceFace": "PriceSign_Color.png",
+  "Paint": "Paint_Color.png",
+  "DoorGlass": "DoorGlass_Color.png",
+  "Steel": "Steel_Color.png",
+  "Vending": "Vending_Color.png",
+  "Atm": "Atm_Color.png",
+  "Bin": "Bin_Color.png",
+  "BinLabel": "BinLabel_Color.png",
+  "Extinguisher": "Extinguisher_Color.png",
+  "PropaneLabel": "PropaneLabel_Color.png",
+  "Tanks": "Tanks_Color.png",
+  "PumpNumber": "PumpNumber_Color.png",
+  "Coping": "Coping_Color.png",
+  "StaffDoor": "StaffDoor_Color.png",
+  "Lamp19": "Light_Color.png",
+  "Block": "Block_Color.png",
+  "Dumpster": "Dumpster_Color.png",
+  "WheelStop": "WheelStop_Color.png",
+  "Soil": "Soil_Color.png",
+  "Shrub": "Shrub_Color.png",
+  "Trunk": "Trunk_Color.png",
+  "Palm": "Palm_Color.png",
+  "Lamp20": "Light_Color.png",
+  "Lamp21": "Light_Color.png"
+ }
 }

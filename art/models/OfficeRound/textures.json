@@ -1,8 +1,17 @@
 {
+ "Bark": "art/models/OfficeRound/tex/OfficeRound_Bark.png",
  "Base": "art/models/OfficeRound/tex/OfficeRound_Base.png",
+ "Bench": "art/models/OfficeRound/tex/OfficeRound_Bench.png",
  "Frame": "art/models/OfficeRound/tex/OfficeRound_Frame.png",
  "Glass": "art/models/OfficeRound/tex/OfficeRound_Glass.png",
+ "Lamp1": "art/models/OfficeRound/tex/OfficeRound_Light.png",
+ "Lamp2": "art/models/OfficeRound/tex/OfficeRound_Light.png",
  "Light": "art/models/OfficeRound/tex/OfficeRound_Light.png",
  "Lobby": "art/models/OfficeRound/tex/OfficeRound_Lobby.png",
- "Roof": "art/models/OfficeRound/tex/OfficeRound_Roof.png"
+ "NeonRed": "art/models/OfficeRound/tex/OfficeRound_NeonRed.png",
+ "Plant": "art/models/OfficeRound/tex/OfficeRound_Plant.png",
+ "Planter": "art/models/OfficeRound/tex/OfficeRound_Planter.png",
+ "RevDoor": "art/models/OfficeRound/tex/OfficeRound_RevDoor.png",
+ "Roof": "art/models/OfficeRound/tex/OfficeRound_Roof.png",
+ "Steel": "art/models/OfficeRound/tex/OfficeRound_Steel.png"
 }

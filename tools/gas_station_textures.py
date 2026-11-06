@@ -354,7 +354,10 @@ def sign_strip(name, W, H, words, mark=True, line=True, size=None):
 def label(name, W, H, words, bg, fg):
     im = Image.new("RGB", (W, H), bg)
     d = ImageDraw.Draw(im)
-    text_c(d, (W / 2, H / 2), words, font(FONT_B, int(H * 0.6)), fg)
+    size = int(H * 0.6)
+    while size > 8 and d.textlength(words, font=font(FONT_B, size)) > W * 0.9:  # shrink to fit the panel
+        size -= 2
+    text_c(d, (W / 2, H / 2), words, font(FONT_B, size), fg)
     save(name, grime(im, 0.15, 9, streaks=False), Image.new("L", (W, H), 120))
 
 
@@ -362,3 +365,124 @@ sign_strip("ShopSign", 2048, 168, "KESTREL  MART")
 sign_strip("FasciaBrand", 1024, 112, "KESTREL")
 label("IceLabel", 512, 192, "ICE", (226, 238, 248), (20, 90, 170))
 label("AirLabel", 256, 128, "AIR · WATER", (8, 92, 98), WHITE)
+
+
+# ------------------------------------------------------------------ v4 detail pass: door, vending machine, ATM, column
+# numbers, propane cage label, staff door (all original designs and brands)
+def door_glass():
+    W, H = 256, 512
+    g = Image.linear_gradient("L").resize((W, H))
+    im = Image.merge("RGB", [g.point(lambda v, a=a, b=b: int(a + (b - a) * v / 255)) for a, b in ((105, 40), (125, 50), (135, 58))])
+    d = ImageDraw.Draw(im, "RGBA")
+    rough = Image.new("L", (W, H), 15)
+    rd = ImageDraw.Draw(rough)
+    d.polygon([(30, 0), (90, 0), (10, 200), (0, 200), (0, 80)], fill=(255, 255, 255, 28))   # sky reflection streak
+    for k in range(3):  # shelves glimpsed inside
+        y = 300 + k * 50
+        d.rectangle([0, y, W, y + 6], fill=(200, 170, 110, 90))
+    d.rectangle([0, 0, W, 14], fill=(28, 29, 31, 255)); d.rectangle([0, H - 30, W, H], fill=(28, 29, 31, 255))
+    d.rectangle([0, 0, 12, H], fill=(28, 29, 31, 255)); d.rectangle([W - 12, 0, W, H], fill=(28, 29, 31, 255))
+    d.rectangle([W // 2 - 4, 0, W // 2 + 4, H], fill=(28, 29, 31, 255))
+    for x0 in (12, W // 2 + 4):  # push bars + kick plates
+        d.rounded_rectangle([x0 + 10, 236, x0 + 104, 250], 6, fill=(190, 192, 196, 255))
+        d.rectangle([x0, H - 74, x0 + 120, H - 30], fill=(160, 162, 166, 255))
+        rd.rectangle([x0 + 10, 236, x0 + 104, 250], fill=70)
+    d.rectangle([24, 120, 110, 176], fill=(236, 237, 234, 230))
+    text_c(d, (67, 136), "OPEN", font(FONT_B, 18), TEAL)
+    text_c(d, (67, 160), "24 HOURS", font(FONT_B, 13), BLACK)
+    text_c(d, (W // 2 + 64, 216), "PUSH", font(FONT_B, 16), (236, 237, 234, 200))
+    text_c(d, (64, 216), "PUSH", font(FONT_B, 16), (236, 237, 234, 200))
+    wing(d, W // 2 + 64, 150, 50, (*AMBER, 230))
+    save("DoorGlass", im, rough)
+
+
+def vending():
+    W, H = 256, 512
+    im = Image.new("RGB", (W, H), (176, 26, 34))
+    d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, W, 70], fill=(140, 18, 26))
+    text_c(d, (W / 2, 38), "ICY FIZZ", font(FONT_B, 34), WHITE)
+    # window with rows of cans
+    d.rectangle([16, 84, 176, 380], fill=(18, 20, 24))
+    cols = ((220, 40, 40), (40, 110, 210), (250, 200, 40), (60, 170, 80), (240, 240, 240), (240, 120, 30))
+    for j in range(6):
+        y = 96 + j * 47
+        d.rectangle([20, y + 36, 172, y + 40], fill=(120, 120, 126))
+        for i in range(6):
+            x = 24 + i * 25
+            d.rounded_rectangle([x, y + 4, x + 18, y + 36], 4, fill=cols[(i + j) % len(cols)])
+            d.rectangle([x + 3, y + 8, x + 6, y + 30], fill=(255, 255, 255))
+    d.polygon([(16, 84), (60, 84), (16, 200)], fill=(70, 74, 82))
+    # button column + coin slot + bill reader
+    d.rectangle([188, 84, 244, 380], fill=(30, 30, 34))
+    for k in range(6):
+        d.rectangle([198, 96 + k * 34, 234, 120 + k * 34], fill=(220, 220, 220))
+    d.rectangle([200, 316, 232, 330], fill=(10, 10, 10)); d.rectangle([206, 340, 226, 368], fill=(80, 200, 110))
+    # dispenser bay
+    d.rectangle([30, 404, 226, 470], fill=(16, 16, 18)); d.rectangle([30, 404, 226, 414], fill=(60, 60, 64))
+    text_c(d, (W / 2, 492), "PUSH", font(FONT_B, 16), (255, 220, 120))
+    im = grime(im, 0.12, 61)
+    rough = Image.new("L", (W, H), 70)
+    ImageDraw.Draw(rough).rectangle([16, 84, 176, 380], fill=12)
+    save("Vending", im, rough)
+
+
+def atm():
+    W, H = 256, 512
+    im = Image.new("RGB", (W, H), (120, 124, 128))
+    d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, W, 80], fill=TEAL)
+    text_c(d, (W / 2, 42), "CASH", font(FONT_B, 40), WHITE)
+    d.rectangle([20, 100, W - 20, 270], fill=(40, 42, 46))
+    d.rectangle([34, 112, W - 34, 214], fill=(30, 110, 150))
+    text_c(d, (W / 2, 140), "WELCOME", font(FONT_B, 20), WHITE)
+    text_c(d, (W / 2, 176), "INSERT CARD", font(FONT_R, 14), (220, 240, 250))
+    for k in range(4):
+        d.rectangle([24, 120 + k * 24, 32, 130 + k * 24], fill=(200, 200, 200))
+        d.rectangle([W - 32, 120 + k * 24, W - 24, 130 + k * 24], fill=(200, 200, 200))
+    d.rectangle([150, 236, 230, 250], fill=(10, 10, 10)); d.rectangle([150, 252, 230, 256], fill=(60, 200, 90))
+    for j in range(4):
+        for i in range(3):
+            x, y = 40 + i * 34, 290 + j * 34
+            d.rectangle([x, y, x + 26, y + 26], fill=(210, 212, 214))
+            text_c(d, (x + 13, y + 13), "123456789*0#"[j * 3 + i], font(FONT_B, 14), BLACK)
+    for k, c in enumerate(((200, 40, 40), (230, 190, 40), (40, 160, 70))):
+        d.rectangle([160, 290 + k * 40, 220, 316 + k * 40], fill=c)
+    d.rectangle([40, 440, 216, 456], fill=(12, 12, 12))
+    text_c(d, (W / 2, 480), "24 HR ATM", font(FONT_B, 18), WHITE)
+    im = grime(im, 0.12, 62)
+    save("Atm", im, Image.new("L", (W, H), 80))
+
+
+def pump_numbers():
+    W = 512
+    im = Image.new("RGB", (W, W), WHITE)
+    d = ImageDraw.Draw(im)
+    for k in range(4):
+        x0, y0 = (k % 2) * 256, (k // 2) * 256
+        d.rectangle([x0 + 6, y0 + 6, x0 + 250, y0 + 250], outline=TEAL, width=10)
+        d.ellipse([x0 + 48, y0 + 30, x0 + 208, y0 + 190], fill=TEAL)
+        text_c(d, (x0 + 128, y0 + 110), str(k + 1), font(FONT_B, 110), WHITE)
+        text_c(d, (x0 + 128, y0 + 220), "PUMP", font(FONT_B, 30), TEAL)
+    im = grime(im, 0.12, 63, streaks=False)
+    save("PumpNumber", im, Image.new("L", (W, W), 110))
+
+
+def staff_door():
+    W, H = 256, 512
+    im = Image.new("RGB", (W, H), (96, 100, 102))
+    d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, W, H], outline=(50, 52, 54), width=12)
+    d.rectangle([20, H - 80, W - 20, H - 14], fill=(140, 142, 146))
+    d.rectangle([W - 60, 230, W - 30, 260], fill=(190, 192, 196))
+    d.rectangle([50, 120, 206, 190], fill=(236, 237, 234))
+    text_c(d, (128, 142), "EMPLOYEES", font(FONT_B, 22), (180, 30, 30))
+    text_c(d, (128, 172), "ONLY", font(FONT_B, 22), (180, 30, 30))
+    im = scratches(grime(im, 0.25, 64), 120, 65, (170, 170, 170), 70)
+    save("StaffDoor", im, Image.new("L", (W, H), 120))
+
+
+for fn in (door_glass, vending, atm, pump_numbers, staff_door):
+    fn()
+label("PropaneLabel", 512, 128, "PROPANE EXCHANGE", (196, 36, 36), WHITE)
+label("BinLabel", 384, 140, "THANK YOU", (8, 92, 98), WHITE)

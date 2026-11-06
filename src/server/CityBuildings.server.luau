@@ -8,12 +8,19 @@
 --   Lamp*      canopy lamps -> Neon + a SurfaceLight shining down + a soft light-shaft Beam
 --   ShopLamp   strip over a shop front -> Neon + a SurfaceLight shining down
 --   PriceFace  printed price sign -> a small glow so it reads at night
+--   Neon<Colour> (NeonPink, NeonCyan, NeonRed) coloured neon tubes / beacons + a coloured glow
+--   Sconce     small porch lights -> warm Neon
 -- Lamps get brighter and the light shafts show up as the in-game clock goes into night.
 local InsertService = game:GetService("InsertService")
 local Lighting = game:GetService("Lighting")
 local RunService = game:GetService("RunService")
 
 local LAMP_COLOR = Color3.fromRGB(255, 244, 222)
+local NEON = {
+	NeonPink = Color3.fromRGB(255, 70, 170),
+	NeonCyan = Color3.fromRGB(60, 235, 255),
+	NeonRed = Color3.fromRGB(255, 40, 30),
+}
 local lamps = {} -- { light = SurfaceLight, beam = Beam?, day = number, night = number }
 
 local function hasParts(model: Model): boolean
@@ -141,6 +148,16 @@ local function style(model: Model)
 			elseif d.Name == "ShopLamp" then
 				neon(d)
 				downLight(d, 16, 0.4, 2)
+			elseif NEON[d.Name] then
+				neon(d)
+				d.Color = NEON[d.Name]
+				local glow = Instance.new("PointLight")
+				glow.Range, glow.Brightness, glow.Color = 12, 0, NEON[d.Name]
+				glow.Parent = d
+				table.insert(lamps, { light = glow, day = 0, night = 1.5 })
+			elseif d.Name == "Sconce" then
+				neon(d)
+				d.Color = Color3.fromRGB(255, 226, 170)
 			elseif d.Name == "PriceFace" then
 				local glow = Instance.new("PointLight")
 				glow.Range, glow.Brightness, glow.Color = 14, 0, Color3.fromRGB(255, 220, 170)

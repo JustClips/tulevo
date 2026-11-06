@@ -93,8 +93,129 @@
     -46.1,
     22.0
    ]
+  },
+  "Planter": {
+   "tris": 444,
+   "min": [
+    -58.0,
+    -67.55,
+    0.0
+   ],
+   "max": [
+    58.0,
+    7.9,
+    400.6
+   ]
+  },
+  "Plant": {
+   "tris": 528,
+   "min": [
+    -58.38,
+    -66.25,
+    2.13
+   ],
+   "max": [
+    58.12,
+    -57.99,
+    13.84
+   ]
+  },
+  "Bark": {
+   "tris": 48,
+   "min": [
+    -54.35,
+    -62.35,
+    0.0
+   ],
+   "max": [
+    54.35,
+    -61.65,
+    10.56
+   ]
+  },
+  "Bench": {
+   "tris": 48,
+   "min": [
+    -46.5,
+    -62.8,
+    1.35
+   ],
+   "max": [
+    46.5,
+    -61.17,
+    3.2
+   ]
+  },
+  "Steel": {
+   "tris": 696,
+   "min": [
+    -65.1,
+    -67.45,
+    0.0
+   ],
+   "max": [
+    65.1,
+    9.1,
+    422.0
+   ]
+  },
+  "Lamp1": {
+   "tris": 12,
+   "min": [
+    -62.75,
+    -65.5,
+    14.39
+   ],
+   "max": [
+    -60.85,
+    -64.5,
+    14.45
+   ]
+  },
+  "Lamp2": {
+   "tris": 12,
+   "min": [
+    60.85,
+    -65.5,
+    14.39
+   ],
+   "max": [
+    62.75,
+    -64.5,
+    14.45
+   ]
+  },
+  "RevDoor": {
+   "tris": 64,
+   "min": [
+    -26.0,
+    -52.3,
+    0.2
+   ],
+   "max": [
+    26.0,
+    -44.3,
+    9.0
+   ]
+  },
+  "NeonRed": {
+   "tris": 24,
+   "min": [
+    4.1,
+    -0.7,
+    407.6
+   ],
+   "max": [
+    5.5,
+    0.7,
+    423.2
+   ]
   }
  },
+ "lamps": [
+  "Lamp1",
+  "Lamp2"
+ ],
  "textures": {
   "Facade": "OfficeStone_Facade.png",
   "Cornice": "OfficeStone_Cornice.png",
@@ -102,6 +223,15 @@
   "Light": "OfficeStone_Light.png",
   "Mech": "OfficeStone_Mech.png",
   "Base": "OfficeStone_Base.png",
-  "Lobby": "OfficeStone_Lobby.png"
+  "Lobby": "OfficeStone_Lobby.png",
+  "Planter": "OfficeStone_Planter.png",
+  "Plant": "OfficeStone_Plant.png",
+  "Bark": "OfficeStone_Bark.png",
+  "Bench": "OfficeStone_Bench.png",
+  "Steel": "OfficeStone_Steel.png",
+  "Lamp1": "OfficeStone_Light.png",
+  "Lamp2": "OfficeStone_Light.png",
+  "RevDoor": "OfficeStone_RevDoor.png",
+  "NeonRed": "OfficeStone_NeonRed.png"
  }
 }

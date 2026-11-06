@@ -44,6 +44,9 @@ BUILDINGS = [
     ("HollisTower", "OfficeStone", (0, 0.6, 240)),      # stepped limestone, across Back Street from the bank
     ("MeridianPlaza", "OfficeDark", (250, 0.6, 226)),   # black glass slab, corner of East St x Back St
     ("CrestlineTower", "OfficeRound", (240, 0.6, -40)),  # rounded glass tower on Vault Avenue, east of the bank
+    # lots sit 0.3 above the ground (a step down from the 0.6 kerb), fronts face north onto the street
+    ("PalmviewMotel", "Motel", (-262, 0.3, -12)),       # west of West Street, facing Vault Avenue
+    ("TheMarlowe", "Apartments", (430, 0.3, 211.6)),    # east of Meridian Plaza, facing Back Street
 ]
 
 # paved plazas under the towers, from the kerb to behind the building: name, x0, x1, z0, z1

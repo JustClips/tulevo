@@ -159,32 +159,220 @@
     1.33
    ]
   },
-  "Sign": {
-   "tris": 940,
+  "TowerSign": {
+   "tris": 2,
    "min": [
-    -13.26,
-    -68.75,
-    31.51
+    -29.0,
+    -42.03,
+    525.0
    ],
    "max": [
-    21.26,
-    -41.99,
-    532.32
+    29.0,
+    -42.03,
+    535.0
    ]
   },
-  "SignMark": {
-   "tris": 80,
+  "PodiumSign": {
+   "tris": 2,
    "min": [
-    -32.5,
-    -68.7,
-    30.3
+    -36.0,
+    -68.08,
+    29.8
    ],
    "max": [
-    -14.5,
-    -41.99,
-    533.56
+    36.0,
+    -68.08,
+    35.8
+   ]
+  },
+  "AtmWall": {
+   "tris": 2,
+   "min": [
+    -74.0,
+    -68.08,
+    1.2
+   ],
+   "max": [
+    -60.0,
+    -68.08,
+    11.7
+   ]
+  },
+  "RevDoor": {
+   "tris": 64,
+   "min": [
+    -26.0,
+    -66.9,
+    1.0
+   ],
+   "max": [
+    26.0,
+    -58.9,
+    10.0
+   ]
+  },
+  "Steel": {
+   "tris": 828,
+   "min": [
+    -74.3,
+    -91.45,
+    0.0
+   ],
+   "max": [
+    74.3,
+    -58.5,
+    46.0
+   ]
+  },
+  "Planter": {
+   "tris": 396,
+   "min": [
+    -68.5,
+    -91.55,
+    0.0
+   ],
+   "max": [
+    68.5,
+    -77.5,
+    2.8
+   ]
+  },
+  "Plant": {
+   "tris": 288,
+   "min": [
+    -68.2,
+    -84.1,
+    2.4
+   ],
+   "max": [
+    68.2,
+    -75.59,
+    17.2
+   ]
+  },
+  "Bark": {
+   "tris": 48,
+   "min": [
+    -64.4,
+    -80.4,
+    0.0
+   ],
+   "max": [
+    64.4,
+    -79.6,
+    13.48
+   ]
+  },
+  "Bench": {
+   "tris": 48,
+   "min": [
+    -58.0,
+    -80.8,
+    1.35
+   ],
+   "max": [
+    58.0,
+    -79.18,
+    3.2
+   ]
+  },
+  "Lamp1": {
+   "tris": 12,
+   "min": [
+    -71.95,
+    -86.5,
+    14.39
+   ],
+   "max": [
+    -70.05,
+    -85.5,
+    14.45
+   ]
+  },
+  "Lamp2": {
+   "tris": 12,
+   "min": [
+    70.05,
+    -86.5,
+    14.39
+   ],
+   "max": [
+    71.95,
+    -85.5,
+    14.45
+   ]
+  },
+  "FlagTeal": {
+   "tris": 4,
+   "min": [
+    44.3,
+    -72.0,
+    37.0
+   ],
+   "max": [
+    53.3,
+    -71.38,
+    43.0
+   ]
+  },
+  "FlagAmber": {
+   "tris": 4,
+   "min": [
+    53.3,
+    -72.0,
+    37.0
+   ],
+   "max": [
+    62.3,
+    -71.38,
+    43.0
+   ]
+  },
+  "FlagBlue": {
+   "tris": 4,
+   "min": [
+    62.3,
+    -72.0,
+    37.0
+   ],
+   "max": [
+    71.3,
+    -71.38,
+    43.0
    ]
   }
  },
- "height": 701.45
+ "height": 701.45,
+ "lamps": [
+  "Lamp1",
+  "Lamp2"
+ ],
+ "textures": {
+  "Glass": "Glass_Color.png",
+  "CornerGlass": "CornerGlass_Color.png",
+  "Fins": "Fins_Color.png",
+  "Bands": "Bands_Color.png",
+  "Roof": "Roof_Color.png",
+  "Rim": "Rim_Color.png",
+  "Light": "Light_Color.png",
+  "Mast": "Mast_Color.png",
+  "Stone": "Stone_Color.png",
+  "LobbyGlass": "LobbyGlass_Color.png",
+  "Canopy": "Canopy_Color.png",
+  "Steps": "Steps_Color.png",
+  "TowerSign": "TowerSign_Color.png",
+  "PodiumSign": "PodiumSign_Color.png",
+  "AtmWall": "AtmWall_Color.png",
+  "RevDoor": "RevDoor_Color.png",
+  "Steel": "Steel_Color.png",
+  "Planter": "Planter_Color.png",
+  "Plant": "Plant_Color.png",
+  "Bark": "Bark_Color.png",
+  "Bench": "Bench_Color.png",
+  "Lamp1": "Light_Color.png",
+  "Lamp2": "Light_Color.png",
+  "FlagTeal": "FlagTeal_Color.png",
+  "FlagAmber": "FlagAmber_Color.png",
+  "FlagBlue": "FlagBlue_Color.png"
+ }
 }

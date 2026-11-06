@@ -248,5 +248,505 @@
   "id": 92232645723888,
   "file": "art/models/OfficeStone/tex/OfficeStone_Roof.png",
   "state": "Approved"
+ },
+ "8cb2714198c026522a6a47f40036e681bd06f528450b68515fe4903e95d434ed": {
+  "id": 98980420760926,
+  "file": "art/models/Apartments/tex/AcBody_Color.png",
+  "state": "Approved"
+ },
+ "2ceb67de55c1e978eb35f0e179ff61f444455d7fa61038ef3f0efbce7b7a89d3": {
+  "id": 99490632127084,
+  "file": "art/models/Apartments/tex/AptBack_Color.png",
+  "state": "Approved"
+ },
+ "55691af1a4d9621cf7c348898da467153f77eed604e6c97e110d57374c3702b6": {
+  "id": 85008188462438,
+  "file": "art/models/Apartments/tex/AptBalcony_Color.png",
+  "state": "Approved"
+ },
+ "8be15a4e52e3e9729e453515c39bb992c02615b3472b046b19df2299a593dc0c": {
+  "id": 70388077870590,
+  "file": "art/models/Apartments/tex/AptSign_Color.png",
+  "state": "Approved"
+ },
+ "1c8d5bcc4f4df5bcceeabfab9ae12390aee241457664d61bc56804031ccebf70": {
+  "id": 116410833948251,
+  "file": "art/models/Apartments/tex/AptWall_Color.png",
+  "state": "Approved"
+ },
+ "4bc473ee8cf714ceedbd14fffd9df5abef20bf95a0756731cd60792bfa7a168e": {
+  "id": 101406186742231,
+  "file": "art/models/Apartments/tex/AptWindowA_Color.png",
+  "state": "Approved"
+ },
+ "8764034175cd0a6c8acf64819033f9118154606c1092782e90efc5ce33ed4094": {
+  "id": 87597448292438,
+  "file": "art/models/Apartments/tex/AptWindowB_Color.png",
+  "state": "Approved"
+ },
+ "bfe603e7a3b511bf471d048b69e657a695702288a5b5bf75f8bc2ef56b3ee5a1": {
+  "id": 136747061331316,
+  "file": "art/models/Apartments/tex/Band_Color.png",
+  "state": "Approved"
+ },
+ "853141273c95480c1afabb7cceb96d3561ece7e0a0da781bb308aa60ef9951de": {
+  "id": 91084857185169,
+  "file": "art/models/Apartments/tex/Bin_Color.png",
+  "state": "Approved"
+ },
+ "189cd8e0d43fdded53d9d4815fb1b95c0eba5a67799bd29271f1c4404f1edb65": {
+  "id": 71382961348159,
+  "file": "art/models/Apartments/tex/Chair_Color.png",
+  "state": "Approved"
+ },
+ "a8dd9b00b7d7b23351b77858c55972d4c765fd2d74ffd9aa139a9749a60e4204": {
+  "id": 122941870454070,
+  "file": "art/models/Apartments/tex/Dark_Color.png",
+  "state": "Approved"
+ },
+ "0f6883f07b5195dc319f07bcab74c5e1cc53358066ea1cfbbabd42eba19682db": {
+  "id": 109550891369871,
+  "file": "art/models/Apartments/tex/Dish_Color.png",
+  "state": "Approved"
+ },
+ "45a42c2c20e7046f658b190fcd1d4894c782902c22626e5f869a740aba950a6e": {
+  "id": 87392158911715,
+  "file": "art/models/Apartments/tex/GarageGate_Color.png",
+  "state": "Approved"
+ },
+ "36d43e698ff511ae1a83c3843b7b6618ab5d1e0defa07776c24899dbf2a4d3bd": {
+  "id": 75707941016828,
+  "file": "art/models/Apartments/tex/Kerb_Color.png",
+  "state": "Approved"
+ },
+ "8b89c7117773c23bb3f0b7853db5fab46c62a9c18c11057f0474512ce756128f": {
+  "id": 137400735635764,
+  "file": "art/models/Apartments/tex/Light_Color.png",
+  "state": "Approved"
+ },
+ "a1dd5d8bebe26f28200b0ee8db5cd1ad767b1ce2925228bc9b316cc7363c12cd": {
+  "id": 136611627332868,
+  "file": "art/models/Apartments/tex/Laundromat_Color.png",
+  "state": "Approved"
+ },
+ "f7bea89098e84ef3ce39bac8501e64739743501e6c2e6989d6910283ac2f6468": {
+  "id": 73568097935866,
+  "file": "art/models/Apartments/tex/LobbyGlass_Color.png",
+  "state": "Approved"
+ },
+ "8b254587bdaf33c76cd59ad93874cf5e88c2e321419169bd6894d3bbdc2aafde": {
+  "id": 89440567920641,
+  "file": "art/models/Apartments/tex/Mailbox_Color.png",
+  "state": "Approved"
+ },
+ "d42a11ec5912319eeb17bafc917439eab88cab23df37d0393e783c75c45f02de": {
+  "id": 134438416091542,
+  "file": "art/models/Apartments/tex/Palm_Color.png",
+  "state": "Approved"
+ },
+ "f80b0b7b0bf48e57f60928c3606bac0c2fff44e1d4e9bcdc8e1ba11d8ba4453f": {
+  "id": 123941453134260,
+  "file": "art/models/Apartments/tex/Pave_Color.png",
+  "state": "Approved"
+ },
+ "b5b9e41179aebf67dc4d208e7475d701c9a77f42c0430a089f3007dd7e9ae634": {
+  "id": 77887954241069,
+  "file": "art/models/Apartments/tex/Pot_Color.png",
+  "state": "Approved"
+ },
+ "414401749fefb31ecbdf97fab86ee77bb22dc2631da232b7ce8ba0710f4296ac": {
+  "id": 131865626743903,
+  "file": "art/models/Apartments/tex/Rail_Color.png",
+  "state": "Approved"
+ },
+ "53864f202ada5d52f851fa3e269fd0dfb460b451709403afc5ef33e9ff23bf43": {
+  "id": 87735320191979,
+  "file": "art/models/Apartments/tex/Roof_Color.png",
+  "state": "Approved"
+ },
+ "e06add9c0c1e119060ee45f709649055159a8e75d9fbae21a496bae359b533a1": {
+  "id": 123061237532644,
+  "file": "art/models/Apartments/tex/Shrub_Color.png",
+  "state": "Approved"
+ },
+ "a8908f52ba8ff408023164d7dadfc9a31f764c2148e3251c2c41c2dd85462600": {
+  "id": 127688372637650,
+  "file": "art/models/Apartments/tex/Soil_Color.png",
+  "state": "Approved"
+ },
+ "7cdada09d037b260930738dcd7d5507797336478eb59c49ef57352db9a8a6a41": {
+  "id": 93179268980152,
+  "file": "art/models/Apartments/tex/Solar_Color.png",
+  "state": "Approved"
+ },
+ "6a632a5dc510ca95dfef7588eb466c4f4de08d9f7159671ac8df911e44f25012": {
+  "id": 101988420999227,
+  "file": "art/models/Apartments/tex/Trim_Color.png",
+  "state": "Approved"
+ },
+ "009ca1b64bf3f8bd8015253e693d60ff1b5711bf737388a54a3ba608de377e2f": {
+  "id": 84064326386661,
+  "file": "art/models/Apartments/tex/Trunk_Color.png",
+  "state": "Approved"
+ },
+ "3d4bf1ecd224faaf71513d4b3d50d115e3e26970566bea70c09264f79983165b": {
+  "id": 74437236019427,
+  "file": "art/models/BankTower/tex/AtmWall_Color.png",
+  "state": "Approved"
+ },
+ "271ba34725dc99c8376766feae215d219622c42d4ebf8250a1520c9ee926aeb9": {
+  "id": 100339388213325,
+  "file": "art/models/BankTower/tex/Bands_Color.png",
+  "state": "Approved"
+ },
+ "f48278d6cb2f96c5143b4c6cd1fec75422b7e689f16517213108cd6dbc511fe9": {
+  "id": 112704406592561,
+  "file": "art/models/BankTower/tex/Bark_Color.png",
+  "state": "Approved"
+ },
+ "b3529ad4b542bd5d5a0e19f686562d7455d47e107c17bc76add138136339cb27": {
+  "id": 74407114638198,
+  "file": "art/models/BankTower/tex/Bench_Color.png",
+  "state": "Approved"
+ },
+ "884b4408c3921f8665aa1c2d1bff6a87fbb27eb8af08ce285ac9056b55ec4109": {
+  "id": 137972512085036,
+  "file": "art/models/BankTower/tex/Canopy_Color.png",
+  "state": "Approved"
+ },
+ "084ed622d8c6d97b3fa10874c5549abab5e185a4732f9dcb3cfc2ddc72df594e": {
+  "id": 85124372213865,
+  "file": "art/models/BankTower/tex/CornerGlass_Color.png",
+  "state": "Approved"
+ },
+ "3a604b39361384703073f8e7e90678cfcdada9cd64ff99bc416109cf0ade51f0": {
+  "id": 98250038109885,
+  "file": "art/models/BankTower/tex/Fins_Color.png",
+  "state": "Approved"
+ },
+ "db8bd0a3166f9f86f845f3fea0d2347038c61f6848940ac74b94a6f5a0069fb7": {
+  "id": 88095776660843,
+  "file": "art/models/BankTower/tex/FlagAmber_Color.png",
+  "state": "Approved"
+ },
+ "eb734b6d46938a0c4ba69c43da8a3dcfd4194c75675035b93200a461f8f8870e": {
+  "id": 95767795570599,
+  "file": "art/models/BankTower/tex/FlagBlue_Color.png",
+  "state": "Approved"
+ },
+ "595e1478f88d3afe4f1cfda5af07b903ba66b47d4e60361fd66293949417a291": {
+  "id": 72200027942721,
+  "file": "art/models/BankTower/tex/FlagTeal_Color.png",
+  "state": "Approved"
+ },
+ "599093e4c05f76a1a023d08d49917614b56ba952cec67a6b3e29b3da1e2f2a6b": {
+  "id": 119094598277240,
+  "file": "art/models/BankTower/tex/Glass_Color.png",
+  "state": "Approved"
+ },
+ "067fe41299bcbf75b03df06c64ed8dd492575c486dd11fb537ee1a6bbd287eb5": {
+  "id": 112763792795333,
+  "file": "art/models/BankTower/tex/Light_Color.png",
+  "state": "Approved"
+ },
+ "23a602092abf54d6f93584d68523af63a9a2dff6714486dd08011d672e15f6e4": {
+  "id": 91803935653463,
+  "file": "art/models/BankTower/tex/LobbyGlass_Color.png",
+  "state": "Approved"
+ },
+ "3bec93bf03cd4e7aa5a3ff62a05fe646eee21816288cb9175f051b551b3ad029": {
+  "id": 73365403100986,
+  "file": "art/models/BankTower/tex/Mast_Color.png",
+  "state": "Approved"
+ },
+ "f921ea6c3a01b56de0b34fc3742f04988a73a6b17307a84317beeb9ba0284daa": {
+  "id": 109462770145914,
+  "file": "art/models/BankTower/tex/Plant_Color.png",
+  "state": "Approved"
+ },
+ "c80ee8acb6f476fd3ce39b59c8d721dac932f28fa95d9c7686397d6e3479427a": {
+  "id": 119365320132075,
+  "file": "art/models/BankTower/tex/Planter_Color.png",
+  "state": "Approved"
+ },
+ "0249ac64964148f514b97dbefd64e0eaabbc4d94ff486b2fb43c4413e3ad775f": {
+  "id": 103910849322231,
+  "file": "art/models/BankTower/tex/PodiumSign_Color.png",
+  "state": "Approved"
+ },
+ "95e0b75dfebb188e609c0a4d1aeedc50baa5c39ac3fcac2849f96bb65a1d1ed5": {
+  "id": 129546151100663,
+  "file": "art/models/BankTower/tex/RevDoor_Color.png",
+  "state": "Approved"
+ },
+ "cc182c23847e74ff3c335b1dfa2d8172d634b00e690169e20af47f23d9807140": {
+  "id": 80549591337124,
+  "file": "art/models/BankTower/tex/Rim_Color.png",
+  "state": "Approved"
+ },
+ "7a389fdee2acfaf2c75d96804f73a09b9d0dfc1af3ac5e64c9f01b4b9223575e": {
+  "id": 129865890169071,
+  "file": "art/models/BankTower/tex/Roof_Color.png",
+  "state": "Approved"
+ },
+ "7aefde899b26845787d14f132e5d2ff8a022dbf6bad38f461988149a024f088a": {
+  "id": 130227078004404,
+  "file": "art/models/BankTower/tex/Steps_Color.png",
+  "state": "Approved"
+ },
+ "4bd4acee2603cb0eb1a5b97a80fdc0944a29bc76a8a8fa19010de50cef4eaed6": {
+  "id": 113294833293056,
+  "file": "art/models/BankTower/tex/Stone_Color.png",
+  "state": "Approved"
+ },
+ "d9080ee33d8b3f6170f434793854f5b3d7e7323f43cc15987b2ca6a095543c69": {
+  "id": 122902209943948,
+  "file": "art/models/BankTower/tex/TowerSign_Color.png",
+  "state": "Approved"
+ },
+ "55fbe52f01f0780ac27439f11db50dbc44c6d85a15b10d7a678fea5411c73990": {
+  "id": 113912767036385,
+  "file": "art/models/GasStation/tex/AirLabel_Color.png",
+  "state": "Approved"
+ },
+ "11e48279e469b233072171d9239ec2b3ab56a3b239cad1ae413dfafff1bb7333": {
+  "id": 95844745166510,
+  "file": "art/models/GasStation/tex/Atm_Color.png",
+  "state": "Approved"
+ },
+ "14861780a3ab4fd837ba2aee028bcfcaee7c48a7d5934706cc761c6cdbb5a503": {
+  "id": 81572733368213,
+  "file": "art/models/GasStation/tex/Bin_Color.png",
+  "state": "Approved"
+ },
+ "02f33751f519ce4af15ac9e04c4e04e38073b405c4d418856e28980228d505dd": {
+  "id": 126554295041727,
+  "file": "art/models/GasStation/tex/BinLabel_Color.png",
+  "state": "Approved"
+ },
+ "6968a88b4df642052b092e28e5adc6086b2ba148b0a2e28eee8213b770e700a9": {
+  "id": 80794303045527,
+  "file": "art/models/GasStation/tex/Block_Color.png",
+  "state": "Approved"
+ },
+ "70694b93f5857acbd9dbf0838979e3369820c192b3d249350b79aa2fd8faccf8": {
+  "id": 121355325287586,
+  "file": "art/models/GasStation/tex/Coping_Color.png",
+  "state": "Approved"
+ },
+ "26b71a73fc8027628e520d1b614e6e6546fc859380b65da51b49404a2a55e31f": {
+  "id": 72613804549534,
+  "file": "art/models/GasStation/tex/DoorGlass_Color.png",
+  "state": "Approved"
+ },
+ "990d762fd0ade5af3d74bee0191276d5074eac61278d64fe1dfa733e8cb45668": {
+  "id": 117755130761694,
+  "file": "art/models/GasStation/tex/Dumpster_Color.png",
+  "state": "Approved"
+ },
+ "3ab8b1f843cd5cdc438cd0100ae5a8b2a132aa0861367050a964f5504d68dfd1": {
+  "id": 117628160198390,
+  "file": "art/models/GasStation/tex/Extinguisher_Color.png",
+  "state": "Approved"
+ },
+ "c9287817858d06f2ad0160f8451fc96278fb105a34c070e61da9e445aac17de0": {
+  "id": 93879642314466,
+  "file": "art/models/GasStation/tex/PropaneLabel_Color.png",
+  "state": "Approved"
+ },
+ "49375d23467fb6c78e2052c4a687881b8a84bf105604c3d138d045cac0536d61": {
+  "id": 100032936469702,
+  "file": "art/models/GasStation/tex/PumpNumber_Color.png",
+  "state": "Approved"
+ },
+ "a9db11d20293010826c8dbd44459045778522ff9b03ef406265124d4c1c0a83c": {
+  "id": 137941878306506,
+  "file": "art/models/GasStation/tex/StaffDoor_Color.png",
+  "state": "Approved"
+ },
+ "5f1ac0136595bb0c4abf81e297a8a824acb606f4b295347d63f2ac2b8eb313e7": {
+  "id": 78634731431454,
+  "file": "art/models/GasStation/tex/Steel_Color.png",
+  "state": "Approved"
+ },
+ "cc48cd4bbb31707ac992d7db32f0796492497a60be27af5ed651eefd31718f5d": {
+  "id": 85411577254198,
+  "file": "art/models/GasStation/tex/Vending_Color.png",
+  "state": "Approved"
+ },
+ "2fb3ca6b58757149ecad64852bf5a3a33f65414789e90ac4cb000fe3dc5252ee": {
+  "id": 91678662139407,
+  "file": "art/models/GasStation/tex/WheelStop_Color.png",
+  "state": "Approved"
+ },
+ "edcfa9811e2673e7e7f3bed77a3e6072d62d54f50f5d205158893da8bb3b896b": {
+  "id": 111320390506099,
+  "file": "art/models/Motel/tex/AcBody_Color.png",
+  "state": "Approved"
+ },
+ "ee84c934355db44dd05d124088443d1c64bb8bb45216cb2c2e5519608903d3d1": {
+  "id": 105360920272401,
+  "file": "art/models/Motel/tex/AcUnit_Color.png",
+  "state": "Approved"
+ },
+ "69f6612035f7558b0b33da763b541cf4a5af0b5c27ec098ed8d74d94e884e753": {
+  "id": 110873609104026,
+  "file": "art/models/Motel/tex/Asphalt_Color.png",
+  "state": "Approved"
+ },
+ "a169d3b67adc2dc0c9e7380a0a1bfb32c096276d9d53b915929a271b3ed1ea06": {
+  "id": 96795050177031,
+  "file": "art/models/Motel/tex/BackWall_Color.png",
+  "state": "Approved"
+ },
+ "38e62772c48d259cca68308f584e2ec1a5c070bf28c1169f8353147f648361a2": {
+  "id": 97078705675878,
+  "file": "art/models/Motel/tex/Canvas_Color.png",
+  "state": "Approved"
+ },
+ "9a7c994979e61492109cde8f1a358f872c4055146d09e0099810aca05da85022": {
+  "id": 102792349449697,
+  "file": "art/models/Motel/tex/Concrete_Color.png",
+  "state": "Approved"
+ },
+ "e84de6543b8532c88031462bfe4126f1ac4c222fc08c793a1539bd15c698d38d": {
+  "id": 88308891247408,
+  "file": "art/models/Motel/tex/Coping_Color.png",
+  "state": "Approved"
+ },
+ "50ec9dd6f10209fc3315dd6b8c22c6adc2f9f0787175cb9c43370b2f131c7dac": {
+  "id": 114104438934679,
+  "file": "art/models/Motel/tex/IceMachine_Color.png",
+  "state": "Approved"
+ },
+ "5b8e37ae060bf0ae6b24be21043ae14a4567304d94e11da494f8ef254d978eef": {
+  "id": 104708884051687,
+  "file": "art/models/Motel/tex/IceSign_Color.png",
+  "state": "Approved"
+ },
+ "e1a93f7f888e9ec7b9bef84d6e0fe96dd98fd1a930194bca417a01b6d2c28484": {
+  "id": 82295983500348,
+  "file": "art/models/Motel/tex/Lounger_Color.png",
+  "state": "Approved"
+ },
+ "ef84b03e505bb34a08e8da84bd22f860a40f428bc7542afb94909ac60269a471": {
+  "id": 82590249607533,
+  "file": "art/models/Motel/tex/MotelSign_Color.png",
+  "state": "Approved"
+ },
+ "341943af3082f9aa5d17cebd4c9faa77696addc5efbf2ec8611aedb343dd5ce7": {
+  "id": 120736007075904,
+  "file": "art/models/Motel/tex/NeonCyan_Color.png",
+  "state": "Approved"
+ },
+ "2c65ca9630324f43c7ea2970f6bf311550c3b6c70e13a51e65f6f00a94a5d4f9": {
+  "id": 94498854021664,
+  "file": "art/models/Motel/tex/NeonPink_Color.png",
+  "state": "Approved"
+ },
+ "3fe8d64446ffaabebc4be1e234978caae55c8403c31b8efe1b00489c01fe41ed": {
+  "id": 124253678742549,
+  "file": "art/models/Motel/tex/OfficeGlass_Color.png",
+  "state": "Approved"
+ },
+ "a0e62bcc5f31ed5066210bfcb9af2d4d65232eabc57ab2959f72b6f32f595ba8": {
+  "id": 125630014872188,
+  "file": "art/models/Motel/tex/OfficeSign_Color.png",
+  "state": "Approved"
+ },
+ "c53112aa8b2f1e4da6cfc06f58688c2e51937bb8da29674519f84289929424c7": {
+  "id": 111766927145857,
+  "file": "art/models/Motel/tex/PoolWater_Color.png",
+  "state": "Approved"
+ },
+ "0dd28bdd56b2d94b352d5b7eae2facfa385bee0dabeaf866f752900112e40ec1": {
+  "id": 97486063163323,
+  "file": "art/models/Motel/tex/Post_Color.png",
+  "state": "Approved"
+ },
+ "91b0102bf490fa0ae73a09647ca4688fca81a87ac7d20a8edd329fa53ec15d75": {
+  "id": 84881770144623,
+  "file": "art/models/Motel/tex/Rail_Color.png",
+  "state": "Approved"
+ },
+ "84dafa5db64feb05cfdc7044e8c506d00aacb61b548299f51c00c2823a954c62": {
+  "id": 116337052005834,
+  "file": "art/models/Motel/tex/Roof_Color.png",
+  "state": "Approved"
+ },
+ "9d0d916a50abc11df85ca274ec515613ec6c7ce928d3912df66ca9d9401b1f56": {
+  "id": 78476642224403,
+  "file": "art/models/Motel/tex/RoofTile_Color.png",
+  "state": "Approved"
+ },
+ "6144ddbef42ffe9c30ceb4961ca6c082b4163ad3f9bf571bdd1e55d27a2a936f": {
+  "id": 131436773078945,
+  "file": "art/models/Motel/tex/RoomFront_Color.png",
+  "state": "Approved"
+ },
+ "783bd8ff6f21f0fb3d3074bdc3eb6b33e2173527b1ba12ea9f5e73b334fc0664": {
+  "id": 97608063573929,
+  "file": "art/models/Motel/tex/RoomNumbers_Color.png",
+  "state": "Approved"
+ },
+ "35f23fc05373711263eccacaca06d774ed508b90f6ee9d840287474489749847": {
+  "id": 71671242114833,
+  "file": "art/models/Motel/tex/SignBox_Color.png",
+  "state": "Approved"
+ },
+ "38a435c6dd8a2a268338e26d68c8e6ae6685e0cbd711719702e80a8589323098": {
+  "id": 96788611572780,
+  "file": "art/models/Motel/tex/Soda_Color.png",
+  "state": "Approved"
+ },
+ "1d91661bad7db0ce51e06a8015184f0658fc5a303f954112fcc1aa619f6aec0c": {
+  "id": 116653468436742,
+  "file": "art/models/Motel/tex/Steel_Color.png",
+  "state": "Approved"
+ },
+ "8f1f086e3df39fccc8b40d96ccef32526b1a3a354e8b121cfcc65f5be3d3b5b2": {
+  "id": 71972068426030,
+  "file": "art/models/Motel/tex/Stucco_Color.png",
+  "state": "Approved"
+ },
+ "7296e62f5303541aeed1f2beed029cd779347bff681b1d8ade87c5b14efbef35": {
+  "id": 113825643468321,
+  "file": "art/models/Motel/tex/Trim_Color.png",
+  "state": "Approved"
+ },
+ "5ed37289bdb2666a310f9a3c49482bf561d6f8f1f2ca7037166870281d5f6237": {
+  "id": 87267921952474,
+  "file": "art/models/OfficeDark/tex/OfficeDark_NeonRed.png",
+  "state": "Approved"
+ },
+ "372a0acd226582adb7ce59165bea6ab1f25a3b6da7f34c3d2978f9db45c886e9": {
+  "id": 85666887330134,
+  "file": "art/models/OfficeDark/tex/OfficeDark_Planter.png",
+  "state": "Approved"
+ },
+ "c20d3b8c9d2b1af294fc94f2220e1bb45713d6baad8c5e171e74791d300f230f": {
+  "id": 97699434453353,
+  "file": "art/models/OfficeDark/tex/OfficeDark_RevDoor.png",
+  "state": "Approved"
+ },
+ "030492fe5d4e2678cf86858758db36d5f7d7f0c7a0b3968e47c81160bf93f52c": {
+  "id": 119699640094865,
+  "file": "art/models/OfficeRound/tex/OfficeRound_Planter.png",
+  "state": "Approved"
+ },
+ "83829112c09676ec3a180a91fe1b66e041834baa31928d0f95ccf8c9f253caaf": {
+  "id": 87519907499581,
+  "file": "art/models/OfficeRound/tex/OfficeRound_RevDoor.png",
+  "state": "Approved"
+ },
+ "3f079c6464a38d6a139d9f896e47957b5032475cd8d66232ec749c79387e37dd": {
+  "id": 131030064324751,
+  "file": "art/models/OfficeStone/tex/OfficeStone_Planter.png",
+  "state": "Approved"
+ },
+ "6a71ff7557def8494a7cd616e63717ea4ab05c3860c5e78ee7eb0cbec90887f1": {
+  "id": 93147410557191,
+  "file": "art/models/OfficeStone/tex/OfficeStone_RevDoor.png",
+  "state": "Approved"
  }
 }

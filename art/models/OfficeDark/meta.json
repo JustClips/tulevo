@@ -93,8 +93,129 @@
     29.15,
     22.8
    ]
+  },
+  "Planter": {
+   "tris": 468,
+   "min": [
+    -67.0,
+    -53.55,
+    0.0
+   ],
+   "max": [
+    67.0,
+    7.9,
+    340.6
+   ]
+  },
+  "Plant": {
+   "tris": 528,
+   "min": [
+    -66.7,
+    -52.1,
+    2.13
+   ],
+   "max": [
+    66.74,
+    -43.95,
+    16.75
+   ]
+  },
+  "Bark": {
+   "tris": 48,
+   "min": [
+    -63.35,
+    -48.35,
+    0.0
+   ],
+   "max": [
+    63.35,
+    -47.65,
+    12.87
+   ]
+  },
+  "Bench": {
+   "tris": 48,
+   "min": [
+    -53.75,
+    -48.8,
+    1.35
+   ],
+   "max": [
+    53.75,
+    -47.17,
+    3.2
+   ]
+  },
+  "Steel": {
+   "tris": 720,
+   "min": [
+    -75.9,
+    -53.45,
+    0.0
+   ],
+   "max": [
+    75.9,
+    9.1,
+    362.0
+   ]
+  },
+  "Lamp1": {
+   "tris": 12,
+   "min": [
+    -73.55,
+    -51.5,
+    14.39
+   ],
+   "max": [
+    -71.65,
+    -50.5,
+    14.45
+   ]
+  },
+  "Lamp2": {
+   "tris": 12,
+   "min": [
+    71.65,
+    -51.5,
+    14.39
+   ],
+   "max": [
+    73.55,
+    -50.5,
+    14.45
+   ]
+  },
+  "RevDoor": {
+   "tris": 64,
+   "min": [
+    -34.0,
+    -35.35,
+    0.2
+   ],
+   "max": [
+    34.0,
+    -27.35,
+    9.0
+   ]
+  },
+  "NeonRed": {
+   "tris": 24,
+   "min": [
+    8.9,
+    -0.7,
+    347.6
+   ],
+   "max": [
+    10.3,
+    0.7,
+    363.2
+   ]
   }
  },
+ "lamps": [
+  "Lamp1",
+  "Lamp2"
+ ],
  "textures": {
   "Glass": "OfficeDark_Glass.png",
   "Frame": "OfficeDark_Frame.png",
@@ -102,6 +223,15 @@
   "Screen": "OfficeDark_Screen.png",
   "Light": "OfficeDark_Light.png",
   "Base": "OfficeDark_Base.png",
-  "Lobby": "OfficeDark_Lobby.png"
+  "Lobby": "OfficeDark_Lobby.png",
+  "Planter": "OfficeDark_Planter.png",
+  "Plant": "OfficeDark_Plant.png",
+  "Bark": "OfficeDark_Bark.png",
+  "Bench": "OfficeDark_Bench.png",
+  "Steel": "OfficeDark_Steel.png",
+  "Lamp1": "OfficeDark_Light.png",
+  "Lamp2": "OfficeDark_Light.png",
+  "RevDoor": "OfficeDark_RevDoor.png",
+  "NeonRed": "OfficeDark_NeonRed.png"
  }
 }

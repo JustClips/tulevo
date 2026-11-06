@@ -13,7 +13,7 @@ a glass lobby and a cantilevered canopy. Name "ARKWELL" + a chevron mark (our ow
 """
 import bpy, bmesh, math, os, sys, json
 import numpy as np
-from mathutils import Vector
+from mathutils import Vector, Matrix
 
 argv = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
 OUT = next((a for a in argv if not a.startswith("--")), r"C:\out\banktower")
@@ -141,7 +141,23 @@ TEXSETS = {
     "SignMark": solid("SignMark", (0.95, 0.62, 0.12), 0.4, 0.2),
     "Canopy": solid("Canopy", (0.13, 0.14, 0.15), 0.35, 0.9),
     "Steps": solid("Steps", (0.42, 0.42, 0.43), 0.7, 0.0),
+    # v2 detail pass
+    "Plant": solid("Plant", (0.14, 0.32, 0.12), 0.85, 0.0),
+    "Bark": solid("Bark", (0.30, 0.22, 0.15), 0.95, 0.0),
+    "Bench": solid("Bench", (0.55, 0.38, 0.22), 0.7, 0.0),
+    "Steel": solid("Steel", (0.16, 0.17, 0.18), 0.4, 0.8),
+    "Planter": solid("Planter", (0.36, 0.35, 0.34), 0.5, 0.0),
+    "FlagTeal": solid("FlagTeal", (0.05, 0.40, 0.42), 0.8, 0.0),
+    "FlagAmber": solid("FlagAmber", (0.95, 0.62, 0.12), 0.8, 0.0),
+    "FlagBlue": solid("FlagBlue", (0.10, 0.20, 0.50), 0.8, 0.0),
+    "RevDoor": curtain_wall("RevDoor", 256, 2, 1, (0.55, 0.62, 0.66), (0.30, 0.34, 0.36), (0.2, 0.2, 0.21), (0.2, 0.2, 0.21),
+                            mull=0.04, band=0.02, tint_rand=0.0, seed=9),
 }
+SIGN_TEX = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tex")   # tools/bank_textures.py
+for _n in ("TowerSign", "PodiumSign", "AtmWall"):
+    _img = lambda ch: bpy.data.images.load(os.path.join(SIGN_TEX, f"{_n}_{ch}.png"), check_existing=True)
+    TEXSETS[_n] = {"Color": _img("Color"), "Roughness": _img("Roughness"),
+                   "Metalness": save_png(_n + "_Metalness", np.full((8, 8, 3), 0.1, np.float32))}
 TILE = {"Glass": (24, 24), "CornerGlass": (20, 24), "LobbyGlass": (12, 36), "Stone": (24, 12)}
 
 
@@ -174,6 +190,7 @@ def new_part(name, mat=None):
     ob = bpy.data.objects.new(name, me)
     scene.collection.objects.link(ob)
     ob.data.materials.append(make_material(mat or name, emissive=(name == "Light")))
+    ob["mat"] = mat or name
     PARTS[name] = ob
     return ob
 
@@ -516,22 +533,117 @@ def chevron(bm, center, size, depth=0.5):
             bm.faces.new((front[j], front[i], back[i], back[j]))
 
 
+def panel(ob_name, x0, x1, y, z0, z1):
+    """Printed sign panel facing -Y (Roblox drops the caps of 3D text, so signs are textures)."""
+    ob = PARTS.get(ob_name) or new_part(ob_name)
+    bm = bmesh.new()
+    if len(ob.data.vertices):
+        bm.from_mesh(ob.data)
+    u = bm.loops.layers.uv.verify()
+    f = bm.faces.new([bm.verts.new(p) for p in ((x0, y, z0), (x1, y, z0), (x1, y, z1), (x0, y, z1))])
+    for l, t in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))):
+        l[u].uv = t
+    finish(ob, bm)
+
+
 def signs():
-    sign, mark = new_part("Sign"), new_part("SignMark")
-    # tower sign near the top of the front face
+    # tower sign near the top of the front face (1024 x 176 sheet -> 58 x 10 studs)
     z = SHAFT_TOP - 30
-    yf = -BASE_D / 2 * scale_at(z) - 0.6
-    bm = bmesh.new(); u = bm.loops.layers.uv.new("UVMap")
-    text_mesh(bm, "ARKWELL", 6.0, (5, yf, z), extrude=0.35)
-    solid_uv(bm, u); finish(sign, bm)
-    bm = bmesh.new(); u = bm.loops.layers.uv.new("UVMap")
-    chevron(bm, (-18.5, yf + 0.35, z), 8.0, depth=0.7)
-    # podium sign on the attic band over the lobby
-    chevron(bm, (-30, -POD_D / 2 - 0.1, PODIUM_H - 3.2), 5.0, depth=0.6)
-    solid_uv(bm, u); finish(mark, bm)
-    bm = bmesh.new(); bm.from_mesh(sign.data); u = bm.loops.layers.uv.verify()
-    text_mesh(bm, "ARKWELL BANK", 4.2, (4, -POD_D / 2 - 0.45, PODIUM_H - 3.2), extrude=0.3)
-    solid_uv(bm, u); finish(sign, bm)
+    yf = -BASE_D / 2 * scale_at(z + 5) - 0.35
+    panel("TowerSign", -29, 29, yf, z - 5, z + 5)
+    # podium sign on the attic band over the lobby (1536 x 128 -> 72 x 6)
+    panel("PodiumSign", -36, 36, -POD_D / 2 - 0.08, PODIUM_H - 6.2, PODIUM_H - 0.2)
+    # ATM wall on the left stone pylon
+    panel("AtmWall", -74, -60, -POD_D / 2 - 0.08, 1.2, 11.7)
+
+
+def plaza():
+    """Street details in front of the podium: revolving doors, planters with trees, benches,
+    bollards, lamp posts (Lamp parts light the plaza at night) and three flagpoles."""
+    rng = __import__("random").Random(7)
+    bms = {}
+
+    def bm_(name):
+        if name not in bms:
+            if name not in PARTS:
+                new_part(name, "Light" if name.startswith("Lamp") else None)
+            bms[name] = bmesh.new()
+            bms[name].loops.layers.uv.new("UVMap")
+        return bms[name]
+
+    d = POD_D / 2
+    # revolving doors in front of the lobby glass
+    for dx in (-22, 22):
+        cy = -d + 10 - 0.5 - 4.4
+        bm = bm_("RevDoor")
+        bot = [Vector((dx + 4 * math.cos(a), cy + 4 * math.sin(a), 1.0)) for a in [k / 16 * math.tau for k in range(16)]]
+        top = [v + Vector((0, 0, 9)) for v in bot]
+        prism(bm, bot, top, cap_bottom=False, cap_top=False)
+        bm = bm_("Steel")
+        bmesh.ops.create_cone(bm, cap_ends=True, segments=16, radius1=4.4, radius2=4.4, depth=1.2,
+                              matrix=Matrix.Translation((dx, cy, 10.6)))
+        for k in range(2):
+            add_box(bm, (dx, cy, 5.5), (7.6, 0.15, 0.15) if k == 0 else (0.15, 7.6, 0.15))
+            add_box(bm, (dx, cy, 5.5), (0.15, 0.15, 9) if k == 0 else (0.1, 0.1, 0.1))
+    # planters with trees + shrubs, benches, bollards
+    fy = -d - 12
+    for sx in (-1, 1):
+        for px in (46, 64):
+            x = sx * px
+            add_box(bm_("Planter"), (x, fy, 1.2), (9, 5, 2.4))
+            add_box(bm_("Plant"), (x, fy, 2.45), (8.4, 4.4, 0.1))
+            h = rng.uniform(11, 14)
+            add_box(bm_("Bark"), (x, fy, h / 2), (0.8, 0.8, h))
+            for k in range(3):
+                r = bmesh.ops.create_icosphere(bm_("Plant"), subdivisions=1, radius=rng.uniform(2.8, 3.6))
+                ox, oy, oz = rng.uniform(-1.6, 1.6), rng.uniform(-1.6, 1.6), h + rng.uniform(-0.5, 1.5)
+                for v in r["verts"]:
+                    v.co = Vector((x + ox + v.co.x, fy + oy + v.co.y, oz + v.co.z * 0.8))
+        bx = sx * 55
+        add_box(bm_("Bench"), (bx, fy, 1.5), (6, 1.6, 0.3))
+        add_box(bm_("Bench"), (bx, fy + 0.7, 2.4), (6, 0.25, 1.6))
+        for ex in (-2.4, 2.4):
+            add_box(bm_("Steel"), (bx + ex, fy, 0.75), (0.3, 1.4, 1.5))
+    for i in range(-15, 16):
+        x = i * 4.5
+        if abs(abs(x) - 28) < 2:
+            continue
+        add_box(bm_("Steel"), (x, -d - 23, 1.3), (0.9, 0.9, 2.6))
+        add_box(bm_("Planter"), (x, -d - 23, 2.7), (1.1, 1.1, 0.2))
+    lamps = []
+    for sx in (-1, 1):
+        x = sx * 74
+        add_box(bm_("Steel"), (x, -d - 18, 7.5), (0.6, 0.6, 15))
+        add_box(bm_("Steel"), (x - sx * 1.5, -d - 18, 15), (3.6, 0.4, 0.4))
+        add_box(bm_("Steel"), (x - sx * 3.0, -d - 18, 14.7), (2.2, 1.2, 0.5))
+        name = f"Lamp{len(lamps) + 1}"
+        add_box(bm_(name), (x - sx * 3.0, -d - 18, 14.42), (1.9, 1.0, 0.06))
+        lamps.append(name)
+    # flagpoles on the right of the steps, flags as double-sided panels
+    for k, flag in enumerate(("FlagTeal", "FlagAmber", "FlagBlue")):
+        x = 44 + k * 9
+        add_box(bm_("Steel"), (x, -d - 4, 1.0), (2.0, 2.0, 2.0))
+        bmesh.ops.create_cone(bm_("Steel"), cap_ends=True, segments=10, radius1=0.35, radius2=0.25, depth=44,
+                              matrix=Matrix.Translation((x, -d - 4, 24)))
+        bm = bm_(flag)
+        for side in (0, 1):
+            pts = [(x + 0.3, -d - 4, 37), (x + 9.3, -d - 4 + 0.6, 37), (x + 9.3, -d - 4 + 0.6, 43), (x + 0.3, -d - 4, 43)]
+            pts = [Vector(p) + Vector((0, 0.02 * side, 0)) for p in pts]
+            bm.faces.new([bm.verts.new(p) for p in (pts if side == 0 else list(reversed(pts)))])
+    for name, bm in bms.items():
+        ob = PARTS[name]
+        if len(ob.data.vertices):
+            old = bmesh.new(); old.from_mesh(ob.data)
+            old.to_mesh(ob.data); old.free()
+        solid_uv(bm, bm.loops.layers.uv.active) if name != "RevDoor" else None
+        if name == "RevDoor":
+            u = bm.loops.layers.uv.active
+            for f in bm.faces:
+                for l in f.loops:
+                    co = l.vert.co
+                    l[u].uv = (math.atan2(co.y, co.x - math.copysign(22, co.x)) / math.tau * 4, (co.z - 1) / 9)
+        finish(ob, bm)
+    return lamps
 
 
 # ---------------------------------------------------------------- build
@@ -542,11 +654,13 @@ outline = crown()
 mast_base = mast()
 podium()
 signs()
+LAMPS = plaza()
 
 # normals: everything must face out (Roblox hides back faces)
 for ob in PARTS.values():
     bm = bmesh.new(); bm.from_mesh(ob.data)
-    if ob.name not in ("Glass", "CornerGlass", "LobbyGlass", "Light"):
+    if ob.name not in ("Glass", "CornerGlass", "LobbyGlass", "Light", "TowerSign", "PodiumSign", "AtmWall",
+                       "FlagTeal", "FlagAmber", "FlagBlue", "RevDoor"):
         bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     bm.to_mesh(ob.data); bm.free()
     for p in ob.data.polygons:
@@ -581,6 +695,16 @@ for name, ob in PARTS.items():
     meta["parts"][name] = {"tris": tris(ob), "min": lo, "max": hi}
     print(f"{name:12s} tris {tris(ob):6d}  min {lo}  max {hi}")
 meta["height"] = max(p["max"][2] for p in meta["parts"].values())
+meta["lamps"] = LAMPS
+# colour image per part (tools/upload_textures.py uploads these as Roblox Images, set as TextureID)
+import shutil
+meta["textures"] = {}
+for name, ob in PARTS.items():
+    img = TEXSETS[ob["mat"]]["Color"]
+    src = bpy.path.abspath(img.filepath_raw or img.filepath)
+    if os.path.abspath(os.path.dirname(src)) != os.path.abspath(TEX):
+        shutil.copyfile(src, os.path.join(TEX, os.path.basename(src)))
+    meta["textures"][name] = os.path.basename(src)
 json.dump(meta, open(os.path.join(OUT, "meta.json"), "w"), indent=1)
 bpy.ops.wm.save_as_mainfile(filepath=os.path.join(OUT, "BankTower.blend"))
 

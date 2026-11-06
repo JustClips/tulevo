@@ -1,9 +1,18 @@
 {
+ "Bark": "art/models/OfficeStone/tex/OfficeStone_Bark.png",
  "Base": "art/models/OfficeStone/tex/OfficeStone_Base.png",
+ "Bench": "art/models/OfficeStone/tex/OfficeStone_Bench.png",
  "Cornice": "art/models/OfficeStone/tex/OfficeStone_Cornice.png",
  "Facade": "art/models/OfficeStone/tex/OfficeStone_Facade.png",
+ "Lamp1": "art/models/OfficeStone/tex/OfficeStone_Light.png",
+ "Lamp2": "art/models/OfficeStone/tex/OfficeStone_Light.png",
  "Light": "art/models/OfficeStone/tex/OfficeStone_Light.png",
  "Lobby": "art/models/OfficeStone/tex/OfficeStone_Lobby.png",
  "Mech": "art/models/OfficeStone/tex/OfficeStone_Mech.png",
- "Roof": "art/models/OfficeStone/tex/OfficeStone_Roof.png"
+ "NeonRed": "art/models/OfficeStone/tex/OfficeStone_NeonRed.png",
+ "Plant": "art/models/OfficeStone/tex/OfficeStone_Plant.png",
+ "Planter": "art/models/OfficeStone/tex/OfficeStone_Planter.png",
+ "RevDoor": "art/models/OfficeStone/tex/OfficeStone_RevDoor.png",
+ "Roof": "art/models/OfficeStone/tex/OfficeStone_Roof.png",
+ "Steel": "art/models/OfficeStone/tex/OfficeStone_Steel.png"
 }

@@ -195,7 +195,7 @@ class Building:
             bm.free()
             for p in self.parts[part].data.polygons:
                 p.use_smooth = False
-        meta = {"name": self.name, "units": "studs", "scale": 1, "parts": {}}
+        meta = {"name": self.name, "units": "studs", "scale": 1, "parts": {}, "lamps": getattr(self, "lamps", [])}
         for part, ob in self.parts.items():
             vs = [v.co for v in ob.data.vertices]
             tris = sum(len(p.vertices) - 2 for p in ob.data.polygons)
@@ -294,6 +294,7 @@ def build_A():
         B.box("Base", (x, -47, FLOOR - 1), (2.4, 2.4, 2 * FLOOR - 2))
     B.box("Cornice", (0, -50, 2 * FLOOR - 2.5), (66, 8, 1.4))           # entrance canopy
     B.box("Light", (0, -54.1, 2 * FLOOR - 3.3), (64, 0.3, 0.3), mname="Light")
+    detail(B, -62, -46.1, (-22, 22), 60, 31 * FLOOR + 22, (12, 12), mast_z=31 * FLOOR + 22, seed=1)
     return B
 
 
@@ -337,6 +338,7 @@ def build_B():
     for x in (-20, 20):
         B.box("Frame", (x, -D / 2 - 13, 7.3), (0.8, 0.8, 14.6))
     B.box("Light", (0, -D / 2 - 7, 14.5), (40, 10, 0.1), mname="Light")
+    detail(B, -48, -D / 2 - 0.15, (-30, 30), 70, H + 22, (24, 12), mast_z=H + 22, seed=2)
     return B
 
 
@@ -374,7 +376,97 @@ def build_C():
         if i % 3 == 0:
             B.box("Base", (x * 0.97, y * 0.97, FLOOR * 0.75), (2.2, 2.2, FLOOR * 1.5))
     B.slab("Light", grow(plan, 0.55), FLOOR * 1.5 - 0.8, FLOOR * 1.5 - 0.4, mname="Light")
+    detail(B, -42, -24.8, (0,), 70, H + 12, (16, 10), mast_z=H + 35, seed=3)
     return B
+
+
+
+# ================================================================ v2 detail pass: plaza furniture, revolving doors, roof kit
+def detail(B, front_y, door_y, door_xs, plaza_x, roof_z, roof_xy, mast_z=None, seed=1):
+    """Street + roof details shared by the three towers (front faces -Y).
+    front_y: plaza line for planters/benches/bollards, door_y: lobby glass line, door_xs: revolving door x's,
+    plaza_x: half width for planters + poles, roof_z/roof_xy: roof deck height + half size for units, mast_z: top for a mast."""
+    rng = __import__("random").Random(seed)
+    B.material("Plant", solid_col((0.14, 0.32, 0.12)), 0.85)
+    B.material("Bark", solid_col((0.30, 0.22, 0.15)), 0.95)
+    B.material("Bench", solid_col((0.55, 0.38, 0.22)), 0.7)
+    B.material("Steel", solid_col((0.16, 0.17, 0.18)), 0.4, 0.8)
+    B.material("Planter", granite(256, seed + 40, (0.36, 0.35, 0.34)), 0.5)
+    B.material("NeonRed", solid_col((1.0, 0.1, 0.08)), 0.5, 0.0, emit=(1.0, 0.1, 0.05))
+    B.material("RevDoor", glass_wall(256, 2, 1, (0.55, 0.62, 0.66), (0.30, 0.34, 0.36), (0.2, 0.2, 0.21), (0.2, 0.2, 0.21), mull=0.04, band=0.02, seed=seed + 50, lit=0.8), 0.05, 0.6)
+    tree = lambda x, y, h: (B.box("Bark", (x, y, h / 2), (0.7, 0.7, h)), crown(x, y, h))
+
+    def crown(x, y, h):
+        bm = B.bm("Plant")
+        for k in range(3):
+            r = bmesh.ops.create_icosphere(bm, subdivisions=1, radius=rng.uniform(2.6, 3.4))
+            ox, oy, oz = rng.uniform(-1.5, 1.5), rng.uniform(-1.5, 1.5), h + rng.uniform(-0.5, 1.5)
+            for v in r["verts"]:
+                v.co = Vector((x + ox + v.co.x, y + oy + v.co.y, oz + v.co.z * 0.8))
+
+    # planters with a tree + shrubs, benches between them, bollards along the plaza edge
+    for sx in (-1, 1):
+        for k, px in enumerate((plaza_x * 0.55, plaza_x * 0.9)):
+            x = sx * px
+            B.box("Planter", (x, front_y, 1.2), (8, 5, 2.4))
+            B.box("Plant", (x, front_y, 2.45), (7.4, 4.4, 0.1))
+            tree(x, front_y, rng.uniform(10, 13))
+            bm = B.bm("Plant")
+            for j in range(3):
+                r = bmesh.ops.create_icosphere(bm, subdivisions=1, radius=1.1)
+                for v in r["verts"]:
+                    v.co = Vector((x - 2.5 + j * 2.5 + v.co.x, front_y + 1.3 + v.co.y, 2.9 + v.co.z * 0.7))
+        bx = sx * plaza_x * 0.725
+        B.box("Bench", (bx, front_y, 1.5), (6, 1.6, 0.3))
+        B.box("Bench", (bx, front_y + 0.7, 2.4), (6, 0.25, 1.6))
+        for ex in (-2.4, 2.4):
+            B.box("Steel", (bx + ex, front_y, 0.75), (0.3, 1.4, 1.5))
+    n = int(plaza_x * 0.35 / 4)
+    for i in range(-n, n + 1):
+        x = i * 4.0
+        B.box("Steel", (x, front_y - 5, 1.3), (0.9, 0.9, 2.6))
+        B.box("Planter", (x, front_y - 5, 2.7), (1.1, 1.1, 0.2))
+    # lamp posts at the plaza corners (Lamp parts light the plaza at night)
+    lamps = getattr(B, "lamps", [])
+    B.lamps = lamps
+    for sx in (-1, 1):
+        x = sx * plaza_x * 1.08
+        B.box("Steel", (x, front_y - 3, 7.5), (0.6, 0.6, 15))
+        B.box("Steel", (x - sx * 1.5, front_y - 3, 15), (3.6, 0.4, 0.4))
+        B.box("Steel", (x - sx * 3.0, front_y - 3, 14.7), (2.2, 1.2, 0.5))
+        name = f"Lamp{len(B.lamps) + 1}"
+        B.material("Light", solid_col((1.0, 0.95, 0.85)), 0.5, 0.0, emit=(1.0, 0.9, 0.7))
+        B.bm(name, "Light")
+        B.box(name, (x - sx * 3.0, front_y - 3, 14.42), (1.9, 1.0, 0.06), mname="Light")
+        B.lamps.append(name)
+    # revolving doors: glass drum, steel top + base discs, four wings
+    for dx in door_xs:
+        pts = [(dx + 4 * math.cos(a), door_y - 2.2 + 4 * math.sin(a)) for a in [k / 16 * math.tau for k in range(16)]]
+        B.wall("RevDoor", pts, 0.2, 9.0, (6.3, 9))
+        B.slab("Steel", grow(pts, 0.4), 9.0, 10.2)
+        B.slab("Steel", grow(pts, 0.2), 0.0, 0.2)
+        for k in range(2):
+            a = k * math.pi / 2 + math.pi / 4
+            B.box("Steel", (dx, door_y - 2.2, 4.6), (7.6 * abs(math.cos(a)) + 0.15, 7.6 * abs(math.sin(a)) + 0.15, 0.15))
+    # roof: cooling units with fans, vent stacks, a window-washing gantry rail
+    rx, ry = roof_xy
+    for k in range(3):
+        x = -rx * 0.5 + k * rx * 0.5
+        B.box("Steel", (x, ry * 0.55, roof_z + 3), (7, 5, 6))
+        for f in (-1.6, 1.6):
+            pts = [(x + f + 1.3 * math.cos(a), ry * 0.55 + 1.3 * math.sin(a)) for a in [j / 12 * math.tau for j in range(12)]]
+            B.slab("Planter", pts, roof_z + 6, roof_z + 6.6)
+    for (vx, vy) in ((-rx * 0.6, -ry * 0.5), (rx * 0.6, -ry * 0.4), (0, -ry * 0.6)):
+        B.box("Steel", (vx, vy, roof_z + 1.5), (0.8, 0.8, 3))
+    B.box("Steel", (0, -ry + 1.0, roof_z + 1.2), (rx * 1.6, 0.4, 0.4))
+    B.box("Steel", (-rx * 0.3, -ry + 1.6, roof_z + 2.2), (1.2, 1.2, 4.4))
+    B.box("Steel", (-rx * 0.3, -ry - 0.6, roof_z + 4.2), (1.0, 5.0, 1.0))
+    if mast_z:
+        B.box("Steel", (rx * 0.4, 0, mast_z + 14), (1.0, 1.0, 28))
+        for k in range(1, 4):
+            B.box("Steel", (rx * 0.4, 0, mast_z + k * 7), (3.0, 0.3, 0.3))
+        B.box("NeonRed", (rx * 0.4, 0, mast_z + 28.6), (1.4, 1.4, 1.2), mname="NeonRed")
+        B.box("NeonRed", (rx * 0.4, 0, mast_z + 14), (1.2, 1.2, 0.8), mname="NeonRed")
 
 
 # ================================================================ render
@@ -451,4 +543,5 @@ for key in ONLY:
         shot(cam, os.path.join(r, "01_street.png"), (-110, -170, 6), (0, 0, h * 0.42), 24, (1000, 1500))
         shot(cam, os.path.join(r, "02_full.png"), (-420, -620, 120), (0, 0, h * 0.45), 40, (1000, 1400))
         shot(cam, os.path.join(r, "03_entrance.png"), (-30, -110, 8), (0, -40, 14), 28, (1600, 900))
+        shot(cam, os.path.join(r, "04_roof.png"), (-90, -120, h + 40), (0, 0, h - 20), 30, (1600, 900))
 print("done")

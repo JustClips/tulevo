@@ -1,0 +1,618 @@
+{
+ "name": "Motel",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Asphalt": {
+   "tris": 12,
+   "min": [
+    -100.8,
+    -79.2,
+    -0.3
+   ],
+   "max": [
+    100.8,
+    79.2,
+    0.0
+   ]
+  },
+  "Stucco": {
+   "tris": 134,
+   "min": [
+    -93.6,
+    -64.8,
+    0.0
+   ],
+   "max": [
+    93.6,
+    75.6,
+    28.44
+   ]
+  },
+  "Roof": {
+   "tris": 36,
+   "min": [
+    -93.3,
+    -64.0,
+    15.02
+   ],
+   "max": [
+    93.4,
+    75.3,
+    26.38
+   ]
+  },
+  "Units": {
+   "tris": 48,
+   "min": [
+    -84.24,
+    -45.72,
+    15.12
+   ],
+   "max": [
+    78.48,
+    65.52,
+    29.88
+   ]
+  },
+  "Dark": {
+   "tris": 228,
+   "min": [
+    -82.75,
+    -15.3,
+    0.0
+   ],
+   "max": [
+    87.12,
+    64.8,
+    31.0
+   ]
+  },
+  "RoomFront": {
+   "tris": 54,
+   "min": [
+    -67.68,
+    -36.72,
+    0.0
+   ],
+   "max": [
+    47.52,
+    49.68,
+    23.04
+   ]
+  },
+  "RoomNumbers": {
+   "tris": 54,
+   "min": [
+    -67.64,
+    -31.14,
+    5.94
+   ],
+   "max": [
+    39.64,
+    49.64,
+    18.4
+   ]
+  },
+  "Sconce": {
+   "tris": 324,
+   "min": [
+    -67.68,
+    -36.18,
+    7.56
+   ],
+   "max": [
+    34.31,
+    49.68,
+    20.16
+   ]
+  },
+  "AcBody": {
+   "tris": 324,
+   "min": [
+    -67.68,
+    -28.15,
+    1.48
+   ],
+   "max": [
+    45.29,
+    49.68,
+    14.51
+   ]
+  },
+  "AcUnit": {
+   "tris": 54,
+   "min": [
+    -66.57,
+    -28.08,
+    1.51
+   ],
+   "max": [
+    45.22,
+    48.57,
+    14.47
+   ]
+  },
+  "BackWall": {
+   "tris": 66,
+   "min": [
+    -93.63,
+    -36.72,
+    0.0
+   ],
+   "max": [
+    47.52,
+    75.63,
+    23.04
+   ]
+  },
+  "IceSign": {
+   "tris": 2,
+   "min": [
+    36.0,
+    49.65,
+    8.28
+   ],
+   "max": [
+    44.64,
+    49.65,
+    10.44
+   ]
+  },
+  "Soda": {
+   "tris": 2,
+   "min": [
+    35.71,
+    46.77,
+    0.07
+   ],
+   "max": [
+    39.17,
+    46.77,
+    6.7
+   ]
+  },
+  "IceMachine": {
+   "tris": 2,
+   "min": [
+    41.47,
+    46.77,
+    0.07
+   ],
+   "max": [
+    44.93,
+    46.77,
+    6.7
+   ]
+  },
+  "Concrete": {
+   "tris": 72,
+   "min": [
+    -97.2,
+    -76.32,
+    0.0
+   ],
+   "max": [
+    94.32,
+    49.68,
+    11.52
+   ]
+  },
+  "Coping": {
+   "tris": 72,
+   "min": [
+    -89.64,
+    -70.56,
+    0.54
+   ],
+   "max": [
+    47.52,
+    49.68,
+    24.12
+   ]
+  },
+  "RoofTile": {
+   "tris": 4,
+   "min": [
+    -67.68,
+    -36.72,
+    24.12
+   ],
+   "max": [
+    47.52,
+    49.68,
+    28.44
+   ]
+  },
+  "Post": {
+   "tris": 216,
+   "min": [
+    -62.28,
+    -70.02,
+    0.0
+   ],
+   "max": [
+    93.06,
+    49.68,
+    23.04
+   ]
+  },
+  "Rail": {
+   "tris": 6132,
+   "min": [
+    -97.29,
+    -76.41,
+    0.0
+   ],
+   "max": [
+    65.77,
+    49.52,
+    15.26
+   ]
+  },
+  "Steel": {
+   "tris": 456,
+   "min": [
+    -61.39,
+    -36.79,
+    -0.49
+   ],
+   "max": [
+    65.85,
+    49.75,
+    11.47
+   ]
+  },
+  "Paint": {
+   "tris": 192,
+   "min": [
+    -60.12,
+    -21.82,
+    0.0
+   ],
+   "max": [
+    41.98,
+    42.12,
+    0.02
+   ]
+  },
+  "WheelStop": {
+   "tris": 168,
+   "min": [
+    -58.41,
+    -19.98,
+    0.0
+   ],
+   "max": [
+    40.14,
+    40.41,
+    0.58
+   ]
+  },
+  "SignPole": {
+   "tris": 144,
+   "min": [
+    -36.99,
+    -74.07,
+    0.0
+   ],
+   "max": [
+    84.96,
+    22.03,
+    30.96
+   ]
+  },
+  "Kerb": {
+   "tris": 292,
+   "min": [
+    -38.16,
+    -79.2,
+    0.0
+   ],
+   "max": [
+    99.87,
+    22.68,
+    2.16
+   ]
+  },
+  "Lamp1": {
+   "tris": 12,
+   "min": [
+    6.84,
+    -15.08,
+    30.15
+   ],
+   "max": [
+    9.72,
+    -13.72,
+    30.19
+   ]
+  },
+  "Lamp2": {
+   "tris": 12,
+   "min": [
+    19.08,
+    -15.08,
+    30.15
+   ],
+   "max": [
+    21.96,
+    -13.72,
+    30.19
+   ]
+  },
+  "Lamp3": {
+   "tris": 12,
+   "min": [
+    71.64,
+    20.92,
+    30.15
+   ],
+   "max": [
+    74.52,
+    22.28,
+    30.19
+   ]
+  },
+  "Lamp4": {
+   "tris": 12,
+   "min": [
+    83.88,
+    20.92,
+    30.15
+   ],
+   "max": [
+    86.76,
+    22.28,
+    30.19
+   ]
+  },
+  "OfficeGlass": {
+   "tris": 2,
+   "min": [
+    60.48,
+    -62.66,
+    0.0
+   ],
+   "max": [
+    90.72,
+    -62.66,
+    10.8
+   ]
+  },
+  "Trim": {
+   "tris": 12,
+   "min": [
+    56.88,
+    -70.56,
+    11.16
+   ],
+   "max": [
+    94.32,
+    -62.64,
+    15.84
+   ]
+  },
+  "OfficeSign": {
+   "tris": 2,
+   "min": [
+    57.6,
+    -70.59,
+    11.34
+   ],
+   "max": [
+    93.6,
+    -70.59,
+    15.3
+   ]
+  },
+  "Lamp5": {
+   "tris": 12,
+   "min": [
+    70.2,
+    -67.86,
+    11.11
+   ],
+   "max": [
+    81.0,
+    -66.06,
+    11.15
+   ]
+  },
+  "SignBox": {
+   "tris": 24,
+   "min": [
+    -39.96,
+    -74.52,
+    12.78
+   ],
+   "max": [
+    -24.84,
+    -72.36,
+    41.22
+   ]
+  },
+  "MotelSign": {
+   "tris": 4,
+   "min": [
+    -38.88,
+    -74.55,
+    13.68
+   ],
+   "max": [
+    -25.92,
+    -72.33,
+    39.6
+   ]
+  },
+  "NeonPink": {
+   "tris": 96,
+   "min": [
+    -39.6,
+    -75.13,
+    13.07
+   ],
+   "max": [
+    -25.2,
+    -71.75,
+    40.21
+   ]
+  },
+  "NeonCyan": {
+   "tris": 72,
+   "min": [
+    -39.78,
+    -73.89,
+    41.54
+   ],
+   "max": [
+    -24.48,
+    -72.99,
+    42.88
+   ]
+  },
+  "PoolWater": {
+   "tris": 12,
+   "min": [
+    -88.2,
+    -69.12,
+    0.54
+   ],
+   "max": [
+    -55.8,
+    -50.4,
+    0.72
+   ]
+  },
+  "Lounger": {
+   "tris": 332,
+   "min": [
+    -85.86,
+    -75.24,
+    0.0
+   ],
+   "max": [
+    -49.68,
+    -45.72,
+    3.78
+   ]
+  },
+  "Canvas": {
+   "tris": 44,
+   "min": [
+    -56.52,
+    -52.56,
+    8.46
+   ],
+   "max": [
+    -46.44,
+    -42.48,
+    10.26
+   ]
+  },
+  "Soil": {
+   "tris": 36,
+   "min": [
+    -23.4,
+    -77.04,
+    0.54
+   ],
+   "max": [
+    99.72,
+    -7.2,
+    0.9
+   ]
+  },
+  "Shrub": {
+   "tris": 320,
+   "min": [
+    -22.34,
+    -76.4,
+    0.53
+   ],
+   "max": [
+    99.62,
+    -17.91,
+    4.26
+   ]
+  },
+  "Trunk": {
+   "tris": 1680,
+   "min": [
+    -96.13,
+    -74.88,
+    0.54
+   ],
+   "max": [
+    97.93,
+    -20.88,
+    47.52
+   ]
+  },
+  "Palm": {
+   "tris": 2464,
+   "min": [
+    -107.39,
+    -87.17,
+    34.05
+   ],
+   "max": [
+    108.99,
+    -7.22,
+    47.47
+   ]
+  }
+ },
+ "lamps": [
+  "Lamp1",
+  "Lamp2",
+  "Lamp3",
+  "Lamp4",
+  "Lamp5"
+ ],
+ "textures": {
+  "Asphalt": "Asphalt_Color.png",
+  "Stucco": "Stucco_Color.png",
+  "Roof": "Roof_Color.png",
+  "Units": "Units_Color.png",
+  "Dark": "Dark_Color.png",
+  "RoomFront": "RoomFront_Color.png",
+  "RoomNumbers": "RoomNumbers_Color.png",
+  "Sconce": "Sconce_Color.png",
+  "AcBody": "AcBody_Color.png",
+  "AcUnit": "AcUnit_Color.png",
+  "BackWall": "BackWall_Color.png",
+  "IceSign": "IceSign_Color.png",
+  "Soda": "Soda_Color.png",
+  "IceMachine": "IceMachine_Color.png",
+  "Concrete": "Concrete_Color.png",
+  "Coping": "Coping_Color.png",
+  "RoofTile": "RoofTile_Color.png",
+  "Post": "Post_Color.png",
+  "Rail": "Rail_Color.png",
+  "Steel": "Steel_Color.png",
+  "Paint": "Paint_Color.png",
+  "WheelStop": "WheelStop_Color.png",
+  "SignPole": "SignPole_Color.png",
+  "Kerb": "Kerb_Color.png",
+  "Lamp1": "Light_Color.png",
+  "Lamp2": "Light_Color.png",
+  "Lamp3": "Light_Color.png",
+  "Lamp4": "Light_Color.png",
+  "OfficeGlass": "OfficeGlass_Color.png",
+  "Trim": "Trim_Color.png",
+  "OfficeSign": "OfficeSign_Color.png",
+  "Lamp5": "Light_Color.png",
+  "SignBox": "SignBox_Color.png",
+  "MotelSign": "MotelSign_Color.png",
+  "NeonPink": "NeonPink_Color.png",
+  "NeonCyan": "NeonCyan_Color.png",
+  "PoolWater": "PoolWater_Color.png",
+  "Lounger": "Lounger_Color.png",
+  "Canvas": "Canvas_Color.png",
+  "Soil": "Soil_Color.png",
+  "Shrub": "Shrub_Color.png",
+  "Trunk": "Trunk_Color.png",
+  "Palm": "Palm_Color.png"
+ }
+}

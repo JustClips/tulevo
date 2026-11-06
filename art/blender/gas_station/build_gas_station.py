@@ -170,10 +170,31 @@ TEXSETS = {
     "SignPole": solid("SignPole", (0.45, 0.46, 0.47), 0.4, 0.9),
     "Props": solid("Props", (0.55, 0.12, 0.10), 0.5, 0.2),
     "IceBox": solid("IceBox", (0.92, 0.94, 0.96), 0.4, 0.1),
+    # v4 detail pass
+    "DoorGlass": file_set("DoorGlass", 0.3),
+    "Vending": file_set("Vending", 0.1),
+    "Atm": file_set("Atm", 0.3),
+    "PumpNumber": file_set("PumpNumber"),
+    "StaffDoor": file_set("StaffDoor", 0.6),
+    "PropaneLabel": file_set("PropaneLabel"),
+    "BinLabel": file_set("BinLabel"),
+    "Steel": solid("Steel", (0.52, 0.54, 0.56), 0.45, 0.85),
+    "Bin": solid("Bin", (0.04, 0.26, 0.28), 0.5, 0.2),
+    "Extinguisher": solid("Extinguisher", (0.75, 0.06, 0.05), 0.35, 0.1),
+    "Tanks": solid("Tanks", (0.90, 0.90, 0.88), 0.4, 0.3),
+    "Dumpster": solid("Dumpster", (0.10, 0.25, 0.14), 0.6, 0.3),
+    "Block": solid("Block", (0.66, 0.64, 0.60), 0.9, 0.0),
+    "Soil": solid("Soil", (0.18, 0.12, 0.08), 1.0, 0.0),
+    "Shrub": solid("Shrub", (0.12, 0.30, 0.10), 0.85, 0.0),
+    "Palm": solid("Palm", (0.20, 0.42, 0.14), 0.7, 0.0),
+    "Trunk": solid("Trunk", (0.40, 0.31, 0.22), 0.95, 0.0),
+    "WheelStop": solid("WheelStop", (0.75, 0.74, 0.70), 0.9, 0.0),
+    "Coping": solid("Coping", (0.80, 0.80, 0.79), 0.6, 0.2),
 }
 TILE = {"Forecourt": (6 * M, 6 * M), "Kerb": (2 * M, 2 * M), "ShopWall": (3 * M, 3 * M), "ShopGlass": (3 * 1.6 * M, 3.2 * M),
         "CanopyUnder": (2.4 * M, 2.4 * M), "IslandKerb": (1.2 * M, 1.2 * M)}
-EXPLICIT_UV = {"PumpFace", "PumpSide", "PriceFace", "ShopSign", "FasciaBrand", "IceLabel", "AirLabel"}   # UVs set when the quads are made
+EXPLICIT_UV = {"PumpFace", "PumpSide", "PriceFace", "ShopSign", "FasciaBrand", "IceLabel", "AirLabel",
+               "DoorGlass", "Vending", "Atm", "PumpNumber", "StaffDoor", "PropaneLabel", "BinLabel"}   # UVs set when the quads are made
 EMISSIVE = {"Light": (0.95, 0.97, 1.0), "Sign": (1.0, 1.0, 1.0)}
 
 
@@ -485,9 +506,6 @@ for (cx, cy, w_, d_) in ((-SHOP_W / 4, SHOP_Y + 1.5 * M, 2.2 * M, 1.6 * M), (SHO
 # props at the shop front: ice box, two bins, propane cage (red)
 box("IceBox", (-SHOP_W / 2 + 4.0 * M, front - 0.7 * M, 0.65 * M), (2.4 * M, 0.9 * M, 1.3 * M))
 panel("IceLabel", (-SHOP_W / 2 + 4.0 * M, front - 0.7 * M - 0.45 * M - 0.03, 0.75 * M), 2.2 * M, 0.82 * M)
-for bx_ in (-3.2 * M, 3.2 * M):
-    cyl("Props", (bx_, front - 0.6 * M, 0.55 * M), 0.35 * M, 1.1 * M, segs=12)
-box("Props", (SHOP_W / 2 - 4.0 * M, front - 0.7 * M, 0.9 * M), (1.8 * M, 0.8 * M, 1.8 * M))
 
 # ---------------------------------------------------------------- air / water stand
 ax, ay = LOT_W / 2 - 3.0 * M, SHOP_Y - SHOP_D / 2 - 2.0 * M
@@ -537,6 +555,233 @@ for ix in ISLAND_X:
     for side in (-1, 1):
         arrow(ix + side * 2.6 * M, CAN_Y + 7.5 * M, 2.4 * M, 0)
 
+# ---------------------------------------------------------------- v4 detail pass (Dev: "detail all the buildings more")
+def face_y(name, cx, y, z0, width, height, facing=-1, uvs=None):
+    """Printed quad in a vertical plane at y, facing -Y (facing=-1) or +Y."""
+    xs = (cx - width / 2, cx + width / 2) if facing < 0 else (cx + width / 2, cx - width / 2)
+    c = [(xs[0], y, z0), (xs[1], y, z0), (xs[1], y, z0 + height), (xs[0], y, z0 + height)]
+    return quad(name, c, uvs) if uvs else quad(name, c)
+
+
+def face_x(name, x, cy, z0, width, height, facing=1):
+    """Printed quad in a vertical plane at x, facing +X (facing=1) or -X."""
+    ys = (cy - width / 2, cy + width / 2) if facing > 0 else (cy + width / 2, cy - width / 2)
+    return quad(name, [(x, ys[0], z0), (x, ys[1], z0), (x, ys[1], z0 + height), (x, ys[0], z0 + height)])
+
+
+# shop door: printed glass double door over the dark frame (was a plain black slab)
+face_y("DoorGlass", 0, gy - 0.22, 0.02, 2.0 * M, 2.35 * M)
+box("Steel", (0, gy - 0.6 * M, 2.45 * M + 0.15), (2.6 * M, 1.0 * M, 0.12))               # little door canopy
+for sx in (-1, 1):
+    box("Steel", (sx * 1.25 * M, gy - 1.05 * M, 2.45 * M - 0.25), (0.05 * M, 0.05 * M, 0.6))   # hangers to the canopy edge
+
+# vending machines + ATM against the glass, square bins either side of the door
+for vx in (14.5, 18.6):
+    vy = gy - 0.1 - 1.44
+    box("PumpDark", (vx, vy, 1.85 * M / 2), (1.0 * M, 0.8 * M, 1.85 * M))
+    face_y("Vending", vx, vy - 0.4 * M - 0.03, 0.05 * M, 0.96 * M, 1.78 * M)
+atx, aty = -16.5, gy - 0.1 - 1.26
+box("Steel", (atx, aty, 1.7 * M / 2), (0.9 * M, 0.7 * M, 1.7 * M))
+box("Steel", (atx, aty - 0.33 * M, 1.62 * M), (0.94 * M, 0.12 * M, 0.2 * M))              # hood over the screen
+face_y("Atm", atx, aty - 0.35 * M - 0.03, 0.02 * M, 0.86 * M, 1.6 * M)
+BIN_SPOTS = [(-9.5, front - 0.6 * M), (9.5, front - 0.6 * M)] + [(ix, CAN_Y) for ix in ISLAND_X]
+
+
+def square_bin(bx, by, z0=0.0):
+    box("Bin", (bx, by, z0 + 0.5 * M), (0.7 * M, 0.7 * M, 1.0 * M))
+    box("Steel", (bx, by, z0 + 1.0 * M + 0.18), (0.76 * M, 0.76 * M, 0.36))                  # lid
+    box("PumpDark", (bx, by - 0.38 * M, z0 + 0.86 * M), (0.4 * M, 0.02 * M, 0.12 * M))     # swing flap
+    for f in (-1, 1):
+        face_y("BinLabel", bx, by + f * (0.35 * M + 0.03), z0 + 0.45 * M, 0.6 * M, 0.22 * M, facing=f)
+
+
+for bx, by in BIN_SPOTS:
+    square_bin(bx, by, ISLAND_TOP if by == CAN_Y else 0.0)
+
+# propane exchange cage (steel frame, bars, red roof, tanks inside)
+cx_, cy_ = SHOP_W / 2 - 4.0 * M, front - 0.7 * M
+cw, cd, ch = 1.8 * M, 0.8 * M, 1.8 * M
+for sx in (-1, 1):
+    for sy in (-1, 1):
+        box("Steel", (cx_ + sx * cw / 2, cy_ + sy * cd / 2, ch / 2), (0.06 * M, 0.06 * M, ch))
+for z in (0.05 * M, ch / 2, ch - 0.05 * M):
+    for sy in (-1, 1):
+        box("Steel", (cx_, cy_ + sy * cd / 2, z), (cw, 0.05 * M, 0.05 * M))
+    for sx in (-1, 1):
+        box("Steel", (cx_ + sx * cw / 2, cy_, z), (0.05 * M, cd, 0.05 * M))
+for k in range(1, 12):
+    x = cx_ - cw / 2 + k * cw / 12
+    for sy in (-1, 1):
+        box("Steel", (x, cy_ + sy * cd / 2, ch / 2), (0.025 * M, 0.025 * M, ch))
+box("Extinguisher", (cx_, cy_, ch + 0.08 * M), (cw + 0.2 * M, cd + 0.2 * M, 0.12 * M))
+face_y("PropaneLabel", cx_, cy_ - cd / 2 - 0.1 * M - 0.03, ch - 0.02 * M, cw, 0.22 * M)
+for shelf, z0 in ((0, 0.1 * M), (1, ch / 2 + 0.03 * M)):
+    box("Steel", (cx_, cy_, z0 - 0.02 * M), (cw - 0.1 * M, cd - 0.1 * M, 0.04 * M))
+    for k in range(4):
+        tx = cx_ - cw / 2 + (k + 0.5) * cw / 4
+        cyl("Tanks", (tx, cy_, z0 + 0.28 * M), 0.15 * M, 0.5 * M, segs=12)
+        cyl("Tanks", (tx, cy_, z0 + 0.56 * M), 0.15 * M, 0.08 * M, segs=12, r2=0.08 * M)
+        cyl("Steel", (tx, cy_, z0 + 0.64 * M), 0.06 * M, 0.1 * M, segs=8)
+
+# columns: pump number boards, fire extinguishers, paper towel boxes
+for i, ix in enumerate(ISLAND_X):
+    for j, sy in enumerate((-1, 1)):
+        y = CAN_Y + sy * 3.2 * M
+        k = i * 2 + j
+        u0, vt = (k % 2) * 0.5, 1 - (k // 2) * 0.5
+        uvs = ((u0, vt - 0.5), (u0 + 0.5, vt - 0.5), (u0 + 0.5, vt), (u0, vt))
+        face_y("PumpNumber", ix, y + sy * (0.275 * M + 0.03), 3.6 * M, 0.5 * M, 0.5 * M, facing=sy, uvs=uvs)
+        side = 1 if i else -1                       # the outer face of each column
+        ex = ix + side * (0.275 * M + 0.12 * M)
+        box("Steel", (ix + side * (0.275 * M + 0.02 * M), y, 1.25 * M), (0.04 * M, 0.2 * M, 0.3 * M))
+        cyl("Extinguisher", (ex, y, 1.15 * M), 0.09 * M, 0.5 * M, segs=12)
+        cyl("PumpDark", (ex, y, 1.45 * M), 0.04 * M, 0.1 * M, segs=8)
+        box("PumpDark", (ex + side * 0.03 * M, y, 1.5 * M), (0.12 * M, 0.04 * M, 0.04 * M))
+        box("Steel", (ix - side * (0.275 * M + 0.08 * M), y, 1.4 * M), (0.16 * M, 0.3 * M, 0.4 * M))   # towels
+
+# canopy: security cameras at the four corners
+for sx in (-1, 1):
+    for sy in (-1, 1):
+        x, y = sx * (CAN_W / 2 - 1.0 * M), CAN_Y + sy * (CAN_D / 2 - 1.0 * M)
+        box("Steel", (x, y, CAN_CLEAR - 0.15 * M), (0.06 * M, 0.06 * M, 0.3 * M))
+        box("PumpDark", (x, y - 0.1 * M * sy, CAN_CLEAR - 0.35 * M), (0.14 * M, 0.3 * M, 0.14 * M))
+
+# shop roof: parapet + coping, extra vents and a duct
+x0, x1, y0, y1 = -SHOP_W / 2, SHOP_W / 2, front, SHOP_Y + SHOP_D / 2
+ph, pt = 0.7 * M, 0.25 * M
+for (cx, cy, sx_, sy_) in (((x0 + x1) / 2, y0 + pt / 2, SHOP_W, pt), ((x0 + x1) / 2, y1 - pt / 2, SHOP_W, pt),
+                          (x0 + pt / 2, (y0 + y1) / 2, pt, y1 - y0), (x1 - pt / 2, (y0 + y1) / 2, pt, y1 - y0)):
+    box("ShopWall", (cx, cy, SHOP_H + ph / 2), (sx_, sy_, ph))
+    box("Coping", (cx, cy, SHOP_H + ph + 0.1), (sx_ + 0.3 if sx_ > pt else sx_ + 0.3, sy_ + 0.3, 0.2))
+for (vx, vy) in ((-SHOP_W / 3, SHOP_Y + 4 * M), (0, SHOP_Y + 3.5 * M), (SHOP_W / 3, SHOP_Y - 1 * M)):
+    cyl("Steel", (vx, vy, SHOP_H + 0.5 * M), 0.08 * M, 1.0 * M, segs=8)
+    cyl("Steel", (vx, vy, SHOP_H + 1.05 * M), 0.14 * M, 0.1 * M, segs=8)
+box("Units", (-SHOP_W / 4, SHOP_Y + 0.2 * M, SHOP_H + 0.35 * M), (0.6 * M, 1.4 * M, 0.6 * M))   # duct from the AC unit
+for cx, cy in ((-SHOP_W / 4, SHOP_Y + 1.5 * M), (SHOP_W / 5, SHOP_Y + 2.5 * M)):
+    for k in range(5):  # grille slats on the unit fronts
+        box("PumpDark", (cx - 0.6 * M + k * 0.3 * M, cy - 0.81 * M, SHOP_H + 0.6 * M), (0.12 * M, 0.04, 0.8 * M))
+
+# shop back + side: staff door with a lamp, downpipes, AC condensers, electrical panel
+face_y("StaffDoor", 10, y1 + 0.04, 0.0, 1.0 * M, 2.2 * M, facing=1)
+box("Steel", (10, y1 + 0.5 * M, 2.45 * M), (1.5 * M, 1.0 * M, 0.1 * M))
+bm_of("Lamp19", "Light")
+box("Lamp19", (10, y1 + 0.85 * M, 2.38 * M), (0.5 * M, 0.2 * M, 0.06))
+LAMPS.append("Lamp19")
+for sx in (-1, 1):
+    for yy in (front + 0.4 * M, y1):
+        cyl("Steel", (sx * (SHOP_W / 2 + 0.12 * M), yy + (0.12 * M if yy == y1 else 1.5 * M), SHOP_H / 2), 0.08 * M, SHOP_H, segs=8)
+for k, yy in enumerate((SHOP_Y + 0.5 * M, SHOP_Y + 2.2 * M)):
+    xx = SHOP_W / 2 + 1.0 * M
+    box("Kerb", (xx, yy, 0.1 * M), (1.3 * M, 1.3 * M, 0.2 * M))
+    box("Units", (xx, yy, 0.2 * M + 0.45 * M), (1.0 * M, 1.0 * M, 0.9 * M))
+    cyl("PumpDark", (xx, yy, 1.1 * M + 0.02), 0.38 * M, 0.04, segs=16)
+    cyl("Steel", (xx - 0.5 * M - 0.02, yy, 0.5 * M), 0.04 * M, 0.08 * M, segs=6, axis='X')
+    cyl_along("Steel", (xx - 0.54 * M, yy, 0.5 * M), (SHOP_W / 2, yy, 0.5 * M), 0.04 * M)
+box("Steel", (SHOP_W / 2 + 0.12 * M, SHOP_Y - 3.0 * M, 1.6 * M), (0.25 * M, 0.8 * M, 1.1 * M))
+cyl("Steel", (SHOP_W / 2 + 0.08 * M, SHOP_Y - 3.0 * M, 2.15 * M + (SHOP_H - 2.15 * M) / 2), 0.05 * M, SHOP_H - 2.15 * M, segs=6)
+
+# dumpster enclosure (block walls, open to the front) on the left of the shop
+ex0, ex1, ey0, ey1 = -LOT_W / 2 + 2.0 * M, -SHOP_W / 2 - 3.0 * M, SHOP_Y + 0.5 * M, SHOP_Y + 4.8 * M
+wh, wt = 1.8 * M, 0.2 * M
+box("Block", ((ex0 + ex1) / 2, ey1, wh / 2), (ex1 - ex0, wt, wh))
+for xx in (ex0, ex1):
+    box("Block", (xx, (ey0 + ey1) / 2, wh / 2), (wt, ey1 - ey0, wh))
+    box("Coping", (xx, (ey0 + ey1) / 2, wh + 0.1), (wt + 0.2, ey1 - ey0, 0.2))
+box("Coping", ((ex0 + ex1) / 2, ey1, wh + 0.1), (ex1 - ex0, wt + 0.2, 0.2))
+for k, dx in enumerate((-1.3 * M, 1.3 * M)):
+    cx = (ex0 + ex1) / 2 + dx
+    cy = ey1 - 0.95 * M
+    box("Dumpster", (cx, cy, 0.15 * M + 0.6 * M), (2.0 * M, 1.4 * M, 1.2 * M))
+    for sx in (-1, 1):  # lids, slightly open on one
+        box("Dumpster", (cx + sx * 0.5 * M, cy, 1.38 * M + (0.06 * M if k and sx > 0 else 0)), (0.98 * M, 1.5 * M, 0.06 * M),
+            rz=0)
+    box("Steel", (cx, cy - 0.72 * M, 1.2 * M), (1.9 * M, 0.06 * M, 0.06 * M))
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            cyl("PumpDark", (cx + sx * 0.85 * M, cy + sy * 0.55 * M, 0.08 * M), 0.08 * M, 0.08 * M, segs=8, axis='X')
+
+# parking wheel stops
+for k in range(5):
+    box("WheelStop", ((k - 2) * 2.7 * M, front_y - 1.5 * M - 0.6 * M, 0.08 * M), (1.8 * M, 0.25 * M, 0.16 * M))
+
+# planter beds with shrubs + palms along the quiet side and behind the shop
+import random as _r
+rng_ = _r.Random(4)
+
+
+def planter(x0, x1, y0, y1):
+    box("Soil", ((x0 + x1) / 2, (y0 + y1) / 2, 0.25 * M), (x1 - x0, y1 - y0, 0.1 * M))
+    for (cx, cy, sx_, sy_) in (((x0 + x1) / 2, y0, x1 - x0, 0.3), ((x0 + x1) / 2, y1, x1 - x0, 0.3),
+                              (x0, (y0 + y1) / 2, 0.3, y1 - y0), (x1, (y0 + y1) / 2, 0.3, y1 - y0)):
+        box("Kerb", (cx, cy, 0.3 * M / 2), (sx_ + 0.3, sy_ + 0.3, 0.3 * M))
+
+
+def shrub(x, y, s):
+    bm = bm_of("Shrub")
+    r = bmesh.ops.create_icosphere(bm, subdivisions=1, radius=s)
+    for v in r["verts"]:
+        v.co = Vector((v.co.x * rng_.uniform(0.85, 1.15), v.co.y * rng_.uniform(0.85, 1.15), v.co.z * 0.75 * rng_.uniform(0.9, 1.1)))
+        v.co += Vector((x, y, 0.3 * M + s * 0.6))
+
+
+def palm(x, y, h, lean=(0.6, 0.2)):
+    pts = [Vector((x + lean[0] * M * (t ** 2), y + lean[1] * M * (t ** 2), 0.3 * M + h * t)) for t in [i / 14 for i in range(15)]]
+    for i in range(14):
+        r = 0.2 * M * (1 - 0.35 * i / 14) * (1.08 if i % 2 else 1.0)
+        cyl_along("Trunk", pts[i], pts[i + 1], r, segs=8)
+    top = pts[-1]
+    cyl("Trunk", tuple(top + Vector((0, 0, 0.2 * M))), 0.2 * M, 0.5 * M, segs=8, r2=0.1 * M)
+    bm = bm_of("Palm")
+    for f in range(11):
+        a = f / 11 * math.tau + rng_.uniform(-0.15, 0.15)
+        d = Vector((math.cos(a), math.sin(a), 0))
+        side = Vector((-d.y, d.x, 0))
+        L = rng_.uniform(3.6, 4.4) * M
+        lift = rng_.uniform(0.3, 0.9)
+        rows = []
+        for s_ in range(8):
+            t = s_ / 7
+            c = top + Vector((0, 0, 0.35 * M)) + d * (L * t) + Vector((0, 0, (lift * t - 1.6 * t * t) * M))
+            w = 0.55 * M * math.sin(math.pi * min(1.0, t * 1.15 + 0.05))
+            dip = Vector((0, 0, -0.18 * M * w / (0.55 * M)))
+            rows.append((c + side * w + dip, c, c - side * w + dip))
+        for s_ in range(7):
+            for k in range(2):
+                a1, b1 = rows[s_][k], rows[s_][k + 1]
+                a2, b2 = rows[s_ + 1][k], rows[s_ + 1][k + 1]
+                top_ = [bm.verts.new(p) for p in (a1, b1, b2, a2)]
+                bm.faces.new(top_)
+                bot = [bm.verts.new(p - Vector((0, 0, 0.02))) for p in (a2, b2, b1, a1)]
+                bm.faces.new(bot)
+
+
+qx = LOT_W / 2 - 1.2 - 2.0 * M        # inner edge of the quiet-side bed
+planter(qx, LOT_W / 2 - 1.2, -LOT_D / 2 + 3.0 * M, SHOP_Y - SHOP_D / 2 - 4.0 * M)
+planter(SHOP_W / 2 + 2.5 * M, LOT_W / 2 - 1.2, LOT_D / 2 - 1.2 - 1.6 * M, LOT_D / 2 - 1.2)
+planter(px - 1.8 * M, px + 1.8 * M, py + 1.2 * M, py + 3.0 * M)
+for k in range(9):
+    shrub(qx + 1.0 * M + rng_.uniform(-0.2, 0.2) * M, -LOT_D / 2 + 4.0 * M + k * 2.6 * M, rng_.uniform(0.55, 0.8) * M)
+for k in range(6):
+    shrub(SHOP_W / 2 + 3.6 * M + k * 2.4 * M, LOT_D / 2 - 2.0 * M, rng_.uniform(0.5, 0.7) * M)
+for k in range(3):
+    shrub(px - 1.0 * M + k * 1.0 * M, py + 2.1 * M, 0.45 * M)
+palm(qx + 1.0 * M, -LOT_D / 2 + 6.0 * M, 10.5 * M, (-0.5, 0.3))
+palm(qx + 1.0 * M, -LOT_D / 2 + 17.0 * M, 12.0 * M, (-0.7, -0.2))
+palm(LOT_W / 2 - 3.0 * M, LOT_D / 2 - 2.0 * M, 11.0 * M, (-0.4, -0.6))
+
+# lot lights on tall poles (lamp heads light the forecourt at night)
+for (lx, ly, ax_dir) in ((LOT_W / 2 - 2.2 * M, -LOT_D / 2 + 12.5 * M, -1), (-LOT_W / 2 + 1.2 * M, SHOP_Y + 6.5 * M, 1)):
+    ph_ = 8.0 * M
+    cyl("SignPole", (lx, ly, 0.6 * M + ph_ / 2), 0.12 * M, ph_, segs=10, r2=0.09 * M)
+    cyl("Kerb", (lx, ly, 0.3 * M), 0.3 * M, 0.6 * M, segs=12)
+    box("SignPole", (lx + ax_dir * 0.8 * M, ly, 0.6 * M + ph_ - 0.1 * M), (1.6 * M, 0.12 * M, 0.12 * M))
+    hx = lx + ax_dir * 1.7 * M
+    box("PumpDark", (hx, ly, 0.6 * M + ph_ - 0.1 * M), (1.0 * M, 0.5 * M, 0.22 * M))
+    lamp = f"Lamp{len(LAMPS) + 1}"
+    bm_of(lamp, "Light")
+    box(lamp, (hx, ly, 0.6 * M + ph_ - 0.1 * M - 0.12 * M), (0.8 * M, 0.38 * M, 0.04))
+    LAMPS.append(lamp)
+
 # ---------------------------------------------------------------- finish meshes
 for name, bm in BMS.items():
     uv = bm.loops.layers.uv.active
@@ -565,7 +810,7 @@ for name, bm in BMS.items():
                 co = l.vert.co
                 along = co.x if abs(f.normal.y) > 0.5 else co.y
                 l[uv].uv = (along / (6 * M), (co.z - CAN_CLEAR) / CAN_FASCIA)
-    if name not in ("ShopGlass",) and name not in EXPLICIT_UV and name != "Paint":
+    if name not in ("ShopGlass", "Palm") and name not in EXPLICIT_UV and name != "Paint":
         bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     bm.to_mesh(PARTS[name].data)
     bm.free()
@@ -591,6 +836,16 @@ for name, ob in PARTS.items():
     total += tris(ob)
     print(f"{name:12s} tris {tris(ob):6d}  min {lo}  max {hi}")
 print("total tris", total)
+# colour image per part (tools/upload_textures.py uploads these as Roblox Images, set as TextureID)
+import shutil
+meta["textures"] = {}
+for name, ob in PARTS.items():
+    img = TEXSETS[ob.data.materials[0].name]["Color"]
+    src = bpy.path.abspath(img.filepath_raw or img.filepath)
+    dst = os.path.join(TEX, os.path.basename(src))
+    if os.path.abspath(src) != os.path.abspath(dst):
+        shutil.copyfile(src, dst)
+    meta["textures"][name] = os.path.basename(src)
 json.dump(meta, open(os.path.join(OUT, "meta.json"), "w"), indent=1)
 bpy.ops.wm.save_as_mainfile(filepath=os.path.join(OUT, "GasStation.blend"))
 
@@ -683,5 +938,7 @@ shot("01_street_34", (-120, -190, 18), (0, -5, 14), lens=26)
 shot("02_pumps", (-14, CAN_Y * 1.0 - 30, 7), (ISLAND_X[0], CAN_Y, 6), lens=24)
 shot("03_shop", (25, -10, 8), (0, SHOP_Y - SHOP_D / 2, 9), lens=22)
 shot("04_aerial", (140, -170, 120), (0, 0, 0), lens=30)
+shot("06_back", (LOT_W / 2 + 40, LOT_D / 2 + 70, 30), (0, SHOP_Y, 8), lens=24)
+shot("07_dumpster", (-LOT_W / 2 + 10, SHOP_Y - 30, 9), (-LOT_W / 2 + 20, SHOP_Y + 12, 4), lens=26)
 shot("05_price_sign", (px + 30, py - 28, 14), (px, py, pole_h - 3 * M), lens=35, res=(1000, 1400))
 print("done")

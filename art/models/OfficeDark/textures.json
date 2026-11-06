@@ -1,9 +1,18 @@
 {
+ "Bark": "art/models/OfficeDark/tex/OfficeDark_Bark.png",
  "Base": "art/models/OfficeDark/tex/OfficeDark_Base.png",
+ "Bench": "art/models/OfficeDark/tex/OfficeDark_Bench.png",
  "Frame": "art/models/OfficeDark/tex/OfficeDark_Frame.png",
  "Glass": "art/models/OfficeDark/tex/OfficeDark_Glass.png",
+ "Lamp1": "art/models/OfficeDark/tex/OfficeDark_Light.png",
+ "Lamp2": "art/models/OfficeDark/tex/OfficeDark_Light.png",
  "Light": "art/models/OfficeDark/tex/OfficeDark_Light.png",
  "Lobby": "art/models/OfficeDark/tex/OfficeDark_Lobby.png",
+ "NeonRed": "art/models/OfficeDark/tex/OfficeDark_NeonRed.png",
+ "Plant": "art/models/OfficeDark/tex/OfficeDark_Plant.png",
+ "Planter": "art/models/OfficeDark/tex/OfficeDark_Planter.png",
+ "RevDoor": "art/models/OfficeDark/tex/OfficeDark_RevDoor.png",
  "Roof": "art/models/OfficeDark/tex/OfficeDark_Roof.png",
- "Screen": "art/models/OfficeDark/tex/OfficeDark_Screen.png"
+ "Screen": "art/models/OfficeDark/tex/OfficeDark_Screen.png",
+ "Steel": "art/models/OfficeDark/tex/OfficeDark_Steel.png"
 }
