@@ -40,6 +40,17 @@ BUILDINGS = [
     ("ArkwellBank", "BankTower", (0, 0.6, 0)),
     # outer corner of West Street x Back Street, pumps facing Back Street, price sign on the corner
     ("KestrelGas", "GasStation", (-246.4, 0.5, 244)),
+    # LA-style office towers (fronts face -Z / north onto the street in front)
+    ("HollisTower", "OfficeStone", (0, 0.6, 240)),      # stepped limestone, across Back Street from the bank
+    ("MeridianPlaza", "OfficeDark", (250, 0.6, 226)),   # black glass slab, corner of East St x Back St
+    ("CrestlineTower", "OfficeRound", (240, 0.6, -40)),  # rounded glass tower on Vault Avenue, east of the bank
+]
+
+# paved plazas under the towers, from the kerb to behind the building: name, x0, x1, z0, z1
+PLAZAS = [
+    ("HollisPlaza", -70, 70, BACK_Z + 22 + 18, 310),
+    ("MeridianLot", 160, 330, BACK_Z + 22 + 18, 280),
+    ("CrestlinePlaza", 160, 320, AVE_Z + 22 + 18, 10),
 ]
 
 
@@ -96,6 +107,9 @@ for name, size, pos in roads:
 inner_x = BLOCK_X - R - SIDE_W
 inner_z0, inner_z1 = AVE_Z + R + SIDE_W, BACK_Z - R - SIDE_W
 children.append(part("BankPlaza", (2 * inner_x, kerb, inner_z1 - inner_z0), (0, kerb / 2, (inner_z0 + inner_z1) / 2), "#A3A39D", "Pavement"))
+
+for name, x0, x1, z0, z1 in PLAZAS:
+    children.append(part(name, (x1 - x0, kerb, z1 - z0), ((x0 + x1) / 2, kerb / 2, (z0 + z1) / 2), "#A3A39D", "Pavement"))
 
 # lane lines: solid double yellow centre + dashed white lane dividers, stopping at crossings
 lines = []

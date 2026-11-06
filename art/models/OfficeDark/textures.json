@@ -1,0 +1,9 @@
+{
+ "Base": "art/models/OfficeDark/tex/OfficeDark_Base.png",
+ "Frame": "art/models/OfficeDark/tex/OfficeDark_Frame.png",
+ "Glass": "art/models/OfficeDark/tex/OfficeDark_Glass.png",
+ "Light": "art/models/OfficeDark/tex/OfficeDark_Light.png",
+ "Lobby": "art/models/OfficeDark/tex/OfficeDark_Lobby.png",
+ "Roof": "art/models/OfficeDark/tex/OfficeDark_Roof.png",
+ "Screen": "art/models/OfficeDark/tex/OfficeDark_Screen.png"
+}

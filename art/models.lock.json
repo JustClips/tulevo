@@ -34,5 +34,17 @@
  "GasStation": {
   "id": 90655736889494,
   "sha": "7f614b145f99928d281b71f248609085c4b4c943845caabca6683b19c637a22d"
+ },
+ "OfficeDark": {
+  "id": 111099087589600,
+  "sha": "47c34b1f0e85cf3b7dbbe61cc5e980c59b137ae5d4e521bc6b4041d4b41bc578"
+ },
+ "OfficeRound": {
+  "id": 107915978885670,
+  "sha": "5fc8f9f6e5a45b3c5c493bfaf92457d865dde9ba7cd8a59e6bce27ce891a98ad"
+ },
+ "OfficeStone": {
+  "id": 72862259720758,
+  "sha": "a5bdc33b8523fd8ffd8195a55f5ea3dbaa50e360ea737d9b02c852b81885856c"
  }
 }

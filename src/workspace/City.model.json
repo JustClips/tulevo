@@ -854,6 +854,90 @@
    }
   },
   {
+   "name": "HollisPlaza",
+   "className": "Part",
+   "properties": {
+    "Anchored": true,
+    "Size": [
+     140,
+     0.6,
+     138
+    ],
+    "Color": "#A3A39D",
+    "Material": "Pavement",
+    "TopSurface": "Smooth",
+    "BottomSurface": "Smooth",
+    "CFrame": {
+     "position": [
+      0.0,
+      0.3,
+      241.0
+     ],
+     "orientation": [
+      0,
+      0,
+      0
+     ]
+    }
+   }
+  },
+  {
+   "name": "MeridianLot",
+   "className": "Part",
+   "properties": {
+    "Anchored": true,
+    "Size": [
+     170,
+     0.6,
+     108
+    ],
+    "Color": "#A3A39D",
+    "Material": "Pavement",
+    "TopSurface": "Smooth",
+    "BottomSurface": "Smooth",
+    "CFrame": {
+     "position": [
+      245.0,
+      0.3,
+      226.0
+     ],
+     "orientation": [
+      0,
+      0,
+      0
+     ]
+    }
+   }
+  },
+  {
+   "name": "CrestlinePlaza",
+   "className": "Part",
+   "properties": {
+    "Anchored": true,
+    "Size": [
+     160,
+     0.6,
+     102
+    ],
+    "Color": "#A3A39D",
+    "Material": "Pavement",
+    "TopSurface": "Smooth",
+    "BottomSurface": "Smooth",
+    "CFrame": {
+     "position": [
+      240.0,
+      0.3,
+      -41.0
+     ],
+     "orientation": [
+      0,
+      0,
+      0
+     ]
+    }
+   }
+  },
+  {
    "name": "Lines",
    "className": "Folder",
    "children": [
@@ -11513,6 +11597,63 @@
       },
       "CityModel": "GasStation",
       "LiveSyncTextures": "{\"AirLabel\":87947570892853,\"Bollards\":91216481586355,\"CanopyUnder\":89473850104373,\"ColumnBase\":71664357418754,\"Columns\":134973008490414,\"Fascia\":127006585344172,\"FasciaBrand\":97067365020810,\"Forecourt\":108903885541149,\"Hose\":85161195995128,\"IceBox\":76945622385905,\"IceLabel\":123121460170113,\"IslandKerb\":95017864959402,\"Kerb\":82785033961756,\"Lamp1\":83730937457562,\"Lamp10\":83730937457562,\"Lamp11\":83730937457562,\"Lamp12\":83730937457562,\"Lamp13\":83730937457562,\"Lamp14\":83730937457562,\"Lamp15\":83730937457562,\"Lamp16\":83730937457562,\"Lamp17\":83730937457562,\"Lamp18\":83730937457562,\"Lamp2\":83730937457562,\"Lamp3\":83730937457562,\"Lamp4\":83730937457562,\"Lamp5\":83730937457562,\"Lamp6\":83730937457562,\"Lamp7\":83730937457562,\"Lamp8\":83730937457562,\"Lamp9\":83730937457562,\"Light\":83730937457562,\"Nozzle\":85520805515143,\"NozzleGrip\":124887888659844,\"Paint\":70664914605512,\"PriceFace\":72151185570472,\"Props\":71245203775771,\"PumpBody\":97052512231374,\"PumpDark\":138610721771687,\"PumpFace\":86460200248529,\"PumpSide\":104686793259978,\"PumpTrim\":71664357418754,\"Roof\":106772473890993,\"ShopBand\":71664357418754,\"ShopGlass\":87706699249456,\"ShopLamp\":83730937457562,\"ShopSign\":73017214928835,\"ShopTrim\":91629206728031,\"ShopWall\":140009300173517,\"SignPanel\":71664357418754,\"SignPole\":77834394813889,\"Units\":108313236777295}"
+     }
+    },
+    {
+     "name": "HollisTower",
+     "className": "Model",
+     "tags": [
+      "Building"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 72862259720758,
+      "LiveSyncBoxCenter": {
+       "Vector3": [
+        0.0,
+        197.6,
+        236.375
+       ]
+      },
+      "CityModel": "OfficeStone",
+      "LiveSyncTextures": "{\"Base\":110636295123024,\"Cornice\":112251434162263,\"Facade\":112703479639301,\"Light\":113892145126700,\"Lobby\":132807019550555,\"Mech\":113968797078247,\"Roof\":121025989026017}"
+     }
+    },
+    {
+     "name": "MeridianPlaza",
+     "className": "Model",
+     "tags": [
+      "Building"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 111099087589600,
+      "LiveSyncBoxCenter": {
+       "Vector3": [
+        250.0,
+        167.6,
+        219.425
+       ]
+      },
+      "CityModel": "OfficeDark",
+      "LiveSyncTextures": "{\"Base\":123419739077926,\"Frame\":75705203102545,\"Glass\":83692352573905,\"Light\":90077212911540,\"Lobby\":107782379079353,\"Roof\":101146663367417,\"Screen\":99810654447776}"
+     }
+    },
+    {
+     "name": "CrestlineTower",
+     "className": "Model",
+     "tags": [
+      "Building"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 107915978885670,
+      "LiveSyncBoxCenter": {
+       "Vector3": [
+        239.955,
+        222.1,
+        -40.0
+       ]
+      },
+      "CityModel": "OfficeRound",
+      "LiveSyncTextures": "{\"Base\":90742317100020,\"Frame\":80242697697038,\"Glass\":124867889769866,\"Light\":84593669623913,\"Lobby\":81796429469783,\"Roof\":77821912219167}"
      }
     }
    ]

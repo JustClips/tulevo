@@ -1,0 +1,107 @@
+{
+ "name": "OfficeDark",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Glass": {
+   "tris": 16,
+   "min": [
+    -56.0,
+    -29.0,
+    24.0
+   ],
+   "max": [
+    56.0,
+    29.0,
+    312.0
+   ]
+  },
+  "Frame": {
+   "tris": 356,
+   "min": [
+    -56.8,
+    -43.0,
+    0.0
+   ],
+   "max": [
+    56.8,
+    29.85,
+    313.6
+   ]
+  },
+  "Roof": {
+   "tris": 34,
+   "min": [
+    -56.0,
+    -29.0,
+    313.6
+   ],
+   "max": [
+    56.0,
+    29.0,
+    334.0
+   ]
+  },
+  "Screen": {
+   "tris": 16,
+   "min": [
+    -32.0,
+    -18.0,
+    313.8
+   ],
+   "max": [
+    32.0,
+    18.0,
+    334.0
+   ]
+  },
+  "Light": {
+   "tris": 40,
+   "min": [
+    -32.1,
+    -41.0,
+    14.45
+   ],
+   "max": [
+    32.1,
+    18.1,
+    333.6
+   ]
+  },
+  "Base": {
+   "tris": 16,
+   "min": [
+    -56.0,
+    -29.0,
+    0.0
+   ],
+   "max": [
+    56.0,
+    29.0,
+    24.0
+   ]
+  },
+  "Lobby": {
+   "tris": 4,
+   "min": [
+    -40.0,
+    -29.15,
+    0.0
+   ],
+   "max": [
+    40.0,
+    29.15,
+    22.8
+   ]
+  }
+ },
+ "textures": {
+  "Glass": "OfficeDark_Glass.png",
+  "Frame": "OfficeDark_Frame.png",
+  "Roof": "OfficeDark_Roof.png",
+  "Screen": "OfficeDark_Screen.png",
+  "Light": "OfficeDark_Light.png",
+  "Base": "OfficeDark_Base.png",
+  "Lobby": "OfficeDark_Lobby.png"
+ }
+}

@@ -1,0 +1,93 @@
+{
+ "name": "OfficeRound",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Glass": {
+   "tris": 52,
+   "min": [
+    -50.0,
+    -30.0,
+    24.0
+   ],
+   "max": [
+    50.0,
+    30.0,
+    408.0
+   ]
+  },
+  "Frame": {
+   "tris": 456,
+   "min": [
+    -50.61,
+    -30.8,
+    23.4
+   ],
+   "max": [
+    50.8,
+    30.8,
+    443.0
+   ]
+  },
+  "Roof": {
+   "tris": 192,
+   "min": [
+    -50.0,
+    -30.0,
+    18.0
+   ],
+   "max": [
+    50.0,
+    30.0,
+    420.0
+   ]
+  },
+  "Light": {
+   "tris": 200,
+   "min": [
+    -50.71,
+    -30.7,
+    17.2
+   ],
+   "max": [
+    50.71,
+    30.7,
+    440.8
+   ]
+  },
+  "Base": {
+   "tris": 160,
+   "min": [
+    -50.0,
+    -30.2,
+    0.0
+   ],
+   "max": [
+    50.0,
+    30.2,
+    24.0
+   ]
+  },
+  "Lobby": {
+   "tris": 52,
+   "min": [
+    -43.95,
+    -24.0,
+    0.0
+   ],
+   "max": [
+    43.95,
+    24.0,
+    18.0
+   ]
+  }
+ },
+ "textures": {
+  "Glass": "OfficeRound_Glass.png",
+  "Frame": "OfficeRound_Frame.png",
+  "Roof": "OfficeRound_Roof.png",
+  "Light": "OfficeRound_Light.png",
+  "Base": "OfficeRound_Base.png",
+  "Lobby": "OfficeRound_Lobby.png"
+ }
+}

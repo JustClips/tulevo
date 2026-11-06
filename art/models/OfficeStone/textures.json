@@ -1,0 +1,9 @@
+{
+ "Base": "art/models/OfficeStone/tex/OfficeStone_Base.png",
+ "Cornice": "art/models/OfficeStone/tex/OfficeStone_Cornice.png",
+ "Facade": "art/models/OfficeStone/tex/OfficeStone_Facade.png",
+ "Light": "art/models/OfficeStone/tex/OfficeStone_Light.png",
+ "Lobby": "art/models/OfficeStone/tex/OfficeStone_Lobby.png",
+ "Mech": "art/models/OfficeStone/tex/OfficeStone_Mech.png",
+ "Roof": "art/models/OfficeStone/tex/OfficeStone_Roof.png"
+}

@@ -1,0 +1,107 @@
+{
+ "name": "OfficeStone",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Facade": {
+   "tris": 48,
+   "min": [
+    -42.0,
+    -42.0,
+    24.0
+   ],
+   "max": [
+    42.0,
+    42.0,
+    372.0
+   ]
+  },
+  "Cornice": {
+   "tris": 152,
+   "min": [
+    -47.0,
+    -54.0,
+    20.8
+   ],
+   "max": [
+    47.0,
+    47.0,
+    394.0
+   ]
+  },
+  "Roof": {
+   "tris": 112,
+   "min": [
+    -46.0,
+    -46.0,
+    25.6
+   ],
+   "max": [
+    46.0,
+    46.0,
+    374.6
+   ]
+  },
+  "Light": {
+   "tris": 68,
+   "min": [
+    -32.0,
+    -54.25,
+    20.55
+   ],
+   "max": [
+    32.0,
+    29.7,
+    391.2
+   ]
+  },
+  "Mech": {
+   "tris": 24,
+   "min": [
+    -20.0,
+    -20.0,
+    375.0
+   ],
+   "max": [
+    20.0,
+    20.0,
+    385.0
+   ]
+  },
+  "Base": {
+   "tris": 76,
+   "min": [
+    -46.0,
+    -48.2,
+    0.0
+   ],
+   "max": [
+    46.0,
+    46.0,
+    24.0
+   ]
+  },
+  "Lobby": {
+   "tris": 2,
+   "min": [
+    -30.0,
+    -46.1,
+    0.0
+   ],
+   "max": [
+    30.0,
+    -46.1,
+    22.0
+   ]
+  }
+ },
+ "textures": {
+  "Facade": "OfficeStone_Facade.png",
+  "Cornice": "OfficeStone_Cornice.png",
+  "Roof": "OfficeStone_Roof.png",
+  "Light": "OfficeStone_Light.png",
+  "Mech": "OfficeStone_Mech.png",
+  "Base": "OfficeStone_Base.png",
+  "Lobby": "OfficeStone_Lobby.png"
+ }
+}

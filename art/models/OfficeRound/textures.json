@@ -1,0 +1,8 @@
+{
+ "Base": "art/models/OfficeRound/tex/OfficeRound_Base.png",
+ "Frame": "art/models/OfficeRound/tex/OfficeRound_Frame.png",
+ "Glass": "art/models/OfficeRound/tex/OfficeRound_Glass.png",
+ "Light": "art/models/OfficeRound/tex/OfficeRound_Light.png",
+ "Lobby": "art/models/OfficeRound/tex/OfficeRound_Lobby.png",
+ "Roof": "art/models/OfficeRound/tex/OfficeRound_Roof.png"
+}
