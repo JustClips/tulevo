@@ -23,7 +23,7 @@ local Sky = require(script.Parent:WaitForChild("Sky"))
 local Lightning = {}
 
 local BOLT_COLOR = Color3.fromRGB(222, 230, 255)
-local CLOUD_HEIGHT = 620 -- bolts start about here
+local CLOUD_HEIGHT = 470 -- bolts start inside the low storm deck (Clouds drops it to ~500)
 local SOUND_SPEED = 1150 -- studs per second (1 m = 3.6 studs)
 
 local folder: Folder

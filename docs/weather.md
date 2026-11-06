@@ -41,3 +41,6 @@ Chat (admins in Config.Weather.Admins, or anyone in a Studio play test):
   shrunk to fit.
 - Vector2/Vector3 are 32-bit; anything that multiplies by server time is done in plain numbers.
 - Roblox's own Terrain clouds are switched off on the client so they don't fight the meshes.
+
+### Storm ceiling (2026-11-06)
+In rain the grey Overcast deck drops from 1300 to about 500 studs (`overcast.alt - 800 * gloom`), the strato cards sink up to 220 studs, and lightning bolts start at 470 studs, inside that deck. Rain fog is capped (Atmosphere density ~0.36, haze 1.8) so the clouds overhead stay visible.

@@ -283,9 +283,10 @@ function Sky.update(w, dt: number)
 	Lighting.EnvironmentSpecularScale = 0.6 + 0.4 * w.rain -- wet streets shine
 	atmosphere.Color = grey(k.atmo, g, 1 - 0.3 * g):Lerp(FLASH_COLOR, f * 0.7)
 	atmosphere.Decay = grey(k.decay, g, 1 - 0.2 * g)
-	atmosphere.Haze = k.haze + (2.6 - k.haze) * g
+	atmosphere.Haze = k.haze + (1.8 - k.haze) * g
 	atmosphere.Glare = k.glare * (1 - g)
-	atmosphere.Density = k.dens + (0.46 - k.dens) * g + 0.06 * w.rain
+	-- kept fairly low so the storm clouds overhead still show through the rain
+	atmosphere.Density = k.dens + (0.36 - k.dens) * g + 0.02 * w.rain
 	atmosphere.Offset = 0.1
 	grade.Saturation = k.sat - 0.22 * g
 	grade.Contrast = 0.06 - 0.03 * g

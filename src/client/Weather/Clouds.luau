@@ -20,7 +20,7 @@ local FIELD = 7000 -- studs; the wrapping square around the camera
 local FADE_START = 0.3 * FIELD -- clouds start fading this far from the camera...
 local FADE_END = 0.48 * FIELD -- ...and are gone here
 local N_CUMULUS = 70
-local N_STRATO = 30
+local N_STRATO = 60
 local PART_MAX = 2048 -- biggest size a part can have
 local LAYER_GRID = 7 -- sky layers are 7 x 7 parts (14,336 studs across)
 
@@ -112,7 +112,7 @@ function Clouds.start()
 	local rng = Random.new(1717) -- same seed for everyone = same sky
 	local function add(list, isStrato: boolean, i: number)
 		local sp = list[rng:NextInteger(1, #list)]
-		local width = if isStrato then rng:NextNumber(1300, 2000) else rng:NextNumber(550, 1350)
+		local width = if isStrato then rng:NextNumber(1500, 2040) else rng:NextNumber(550, 1350)
 		local size = fit(Vector3.new(width, width / sp.aspect, 1))
 		local part = Instance.new("Part")
 		part.Name = `Cloud{i}`
@@ -162,10 +162,10 @@ function Clouds.update(w, dt: number, tint: Color3)
 	local wx, wz = windDir.X, windDir.Y
 	local gloom = w.gloom
 	-- scrolling layers: follow the camera in whole-part steps; the texture drifts with the wind
-	local function scroll(l: Layer, speed: number, alpha: number, color: Color3)
+	local function scroll(l: Layer, alt: number, speed: number, alpha: number, color: Color3)
 		local snap = CFrame.new(
 			math.floor(camPos.X / PART_MAX + 0.5) * PART_MAX,
-			l.alt,
+			alt,
 			math.floor(camPos.Z / PART_MAX + 0.5) * PART_MAX
 		)
 		if l.model:GetPivot().Position ~= snap.Position then
@@ -184,8 +184,15 @@ function Clouds.update(w, dt: number, tint: Color3)
 			end
 		end
 	end
-	scroll(cirrus, Config.Weather.CloudSpeed * 1.6, 0.75 * w.cirrus, tint)
-	scroll(overcast, Config.Weather.CloudSpeed * 1.2, 0.92 * w.overcast, tint:Lerp(Color3.new(0.45, 0.47, 0.5), 0.25))
+	scroll(cirrus, cirrus.alt, Config.Weather.CloudSpeed * 1.6, 0.75 * w.cirrus, tint)
+	-- the grey deck drops down to a low storm ceiling in rain, so bolts come out of it
+	scroll(
+		overcast,
+		overcast.alt - 800 * gloom,
+		Config.Weather.CloudSpeed * 1.2,
+		0.92 * w.overcast,
+		tint:Lerp(Color3.new(0.45, 0.47, 0.5), 0.25)
+	)
 
 	-- cloud cards
 	sizeClock += dt
@@ -222,7 +229,7 @@ function Clouds.update(w, dt: number, tint: Color3)
 		end
 		if tr < 1 then
 			-- rain clouds sink lower and spread; every card swells and shrinks slowly
-			local low = gloom * (if c.strato then 160 else 110)
+			local low = gloom * (if c.strato then 220 else 110)
 			local breathe = 1 + 0.06 * math.sin(t / 53 + c.breathe)
 			local size = c.size * (breathe * (1 + 0.2 * gloom))
 			if resize then
