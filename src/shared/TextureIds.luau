@@ -662,6 +662,17 @@ return {
 		SplashFlip = 109527567461357,
 		Spray = 71395553464739,
 	},
+	WeaponFx = {
+		MuzzleFront1 = 86117278735323,
+		MuzzleFront2 = 71382686388481,
+		MuzzleSide1 = 85119040571457,
+		MuzzleSide2 = 127311510431766,
+		MuzzleSide3 = 85166698604057,
+		MuzzleSide4 = 140011180865026,
+		MuzzleSmoke1 = 108967211925570,
+		MuzzleSmoke2 = 124882619480578,
+		Tracer = 87614283668655,
+	},
 	Road = {
 		Crack1 = 97385509807634,
 		Crack2 = 116880134219230,

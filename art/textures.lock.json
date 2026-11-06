@@ -1448,5 +1448,50 @@
   "id": 138447206810131,
   "file": "art/models/Store/tex/StoreSign_Color.png",
   "state": "Approved"
+ },
+ "0a59638d99f87763c175fdaeb35fa39d267db562b3d0d24c97914c15eeaeb8e6": {
+  "id": 86117278735323,
+  "file": "art/weapons/fx/MuzzleFront1.png",
+  "state": "Approved"
+ },
+ "ead8f02d6da188759c3386e900ea1b9e11d78da139f6a63b1bd6616c74a74066": {
+  "id": 71382686388481,
+  "file": "art/weapons/fx/MuzzleFront2.png",
+  "state": "Approved"
+ },
+ "8757d8dd5bdaa1e6885bbb240eaee4e9a267e989fa644a79ac36b5be90f053d2": {
+  "id": 85119040571457,
+  "file": "art/weapons/fx/MuzzleSide1.png",
+  "state": "Approved"
+ },
+ "49082edbb7eefe97f3e53d25e8eb76312802fe2ad40b6eddda7a7abc19982256": {
+  "id": 127311510431766,
+  "file": "art/weapons/fx/MuzzleSide2.png",
+  "state": "Approved"
+ },
+ "c340eb7ddfa31fa40988281079d3517c54f71cd634919a99b8b78b491869d9da": {
+  "id": 85166698604057,
+  "file": "art/weapons/fx/MuzzleSide3.png",
+  "state": "Approved"
+ },
+ "80886cc4408b691e849bb3ab16303be01c0c5a531faa6c4a93a7f13cb6185bed": {
+  "id": 140011180865026,
+  "file": "art/weapons/fx/MuzzleSide4.png",
+  "state": "Approved"
+ },
+ "8d727e1fd2382eb558a673ed64c195427b5afff65814ef2591c13ad3e1a0ec2f": {
+  "id": 108967211925570,
+  "file": "art/weapons/fx/MuzzleSmoke1.png",
+  "state": "Approved"
+ },
+ "0e39fbaaeb5d3298295bcf15753628f34d0a9dc6d61475827b67352e18843f85": {
+  "id": 124882619480578,
+  "file": "art/weapons/fx/MuzzleSmoke2.png",
+  "state": "Approved"
+ },
+ "fe02cad249f827299b1d0eaf222059c015c522a1916b24d8c58e15079f0671b1": {
+  "id": 87614283668655,
+  "file": "art/weapons/fx/Tracer.png",
+  "state": "Reviewing"
  }
 }
