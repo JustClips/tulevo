@@ -30,6 +30,7 @@ local Damage = require(Server:WaitForChild("Damage"))
 local Knocked = require(Server:WaitForChild("Knocked"))
 local InventoryService = require(Server:WaitForChild("Inventory"):WaitForChild("InventoryService"))
 local VehicleService = require(Server:WaitForChild("Vehicles"):WaitForChild("VehicleService"))
+local Guard = require(Server:WaitForChild("Guard"))
 local WeaponService = require(Server:WaitForChild("Weapons"):WaitForChild("WeaponService"))
 
 local cfg = Config.Debug or {}
@@ -379,6 +380,7 @@ local function teleportTo(player: Player, pos: Vector3): (boolean, string)
 	local flatLook = root.CFrame.LookVector * Vector3.new(1, 0, 1)
 	local up = humanoid.HipHeight + root.Size.Y / 2 + 0.5
 	local at = pos + Vector3.new(0, up, 0)
+	Guard.allowTeleport(player, 1) -- else MovementGuard pulls them back
 	character:PivotTo(if flatLook.Magnitude > 0.01 then CFrame.lookAt(at, at + flatLook) else CFrame.new(at))
 	root.AssemblyLinearVelocity = Vector3.zero
 	return true, string.format("Teleported to %d, %d, %d", pos.X, pos.Y, pos.Z)
