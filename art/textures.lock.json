@@ -873,5 +873,140 @@
   "id": 77781631637285,
   "file": "art/weather/clouds/Cloud_St04.png",
   "state": "Approved"
+ },
+ "bce9b768b0d7d25902a54817bd3686c3f84eda9a2f2a28d8109165f022444b75": {
+  "id": 97385509807634,
+  "file": "art/road/tex/Crack1.png",
+  "state": "Approved"
+ },
+ "432f474a069c313f2ca77b6f949cad6eb928f99f12267bf4fcd14bb3b05bb912": {
+  "id": 116880134219230,
+  "file": "art/road/tex/Crack2.png",
+  "state": "Approved"
+ },
+ "6f8ad3159c64301b5359b90a47514fc01ac7ed3cbc7e4b88ec46ab7acf0081bd": {
+  "id": 80561259749057,
+  "file": "art/road/tex/Crack3.png",
+  "state": "Approved"
+ },
+ "4fffe1d5e57b033a43c679a001d401a93bd1a2c168f70a35cbaf92ee88f38318": {
+  "id": 136745673293770,
+  "file": "art/road/tex/Gator1.png",
+  "state": "Approved"
+ },
+ "0a78e0a98403da0135fe6df5c91f40d4a6d7199b33d7ae3c6b98eb95c7e5e173": {
+  "id": 73571243562092,
+  "file": "art/road/tex/Gator2.png",
+  "state": "Approved"
+ },
+ "039d3928ac16bdbb7d1b7fa7aa25de3d479fdfed70d7e299699875e81c7b83df": {
+  "id": 118256031307779,
+  "file": "art/road/tex/Grime1.png",
+  "state": "Approved"
+ },
+ "b477504fd9d7150b5a036c60382d25ec9f4fdc3847fb0a1aab13ecc2d93bf8c1": {
+  "id": 104402876585895,
+  "file": "art/road/tex/Grime2.png",
+  "state": "Approved"
+ },
+ "7a3501008917666bf12d857d2af6625f8cfef25e3047e02e588d3ef45c51d7e8": {
+  "id": 127484172956541,
+  "file": "art/road/tex/Grime3.png",
+  "state": "Approved"
+ },
+ "2232b1695b4c489557d8bfe4b207d38304718771e22de258b680c1d0eecea910": {
+  "id": 126577375174943,
+  "file": "art/road/tex/Lanes2.png",
+  "state": "Approved"
+ },
+ "d2933159957d30fa69dfa28d58b0faadc3991ba358c0c98904e54e1e37b1a547": {
+  "id": 92650890986003,
+  "file": "art/road/tex/Lanes4.png",
+  "state": "Approved"
+ },
+ "962647fafa0fe8aff5b325cc744dcaf3621af0f0781df57f7d24bed2e9a781a9": {
+  "id": 95307424833580,
+  "file": "art/road/tex/Lanes6.png",
+  "state": "Approved"
+ },
+ "5a2e0ff1adbde803765529e071a30217583bcf8bb347497bbaeb9f2df0c6180d": {
+  "id": 79270392150966,
+  "file": "art/road/tex/Manhole.png",
+  "state": "Approved"
+ },
+ "ef08903a05c574b9c963e489cd8952c8dc938ecd60f539fb95b1bed91090aee2": {
+  "id": 73462805078082,
+  "file": "art/road/tex/Paint.png",
+  "state": "Approved"
+ },
+ "1de7b0add7424110166fcb264ef1aa2679db37bf39aa4df60372366673c6fae0": {
+  "id": 107324463653438,
+  "file": "art/road/tex/PaintV.png",
+  "state": "Approved"
+ },
+ "47c68e991ca58b103932fbf622ace40e327fd020b8918d68a9f728a965850f18": {
+  "id": 130287841223529,
+  "file": "art/road/tex/Patch1.png",
+  "state": "Approved"
+ },
+ "cb7df225c1084a3abae9016486b7fbc8fe9525378a6208285665a7d74735ad14": {
+  "id": 122305511453385,
+  "file": "art/road/tex/Patch2.png",
+  "state": "Approved"
+ },
+ "bfb56bb00f1b3f406024dc18fc707d0c3b76916b6f225a66b1032670830bcfb7": {
+  "id": 97849286348538,
+  "file": "art/road/tex/Patch3.png",
+  "state": "Approved"
+ },
+ "11ade0c3e45d2986e894243140f6e93e7d23f532e7c88b47d11499c263f42c7e": {
+  "id": 126371038944520,
+  "file": "art/road/tex/Stain1.png",
+  "state": "Approved"
+ },
+ "c4aeda50013b06c9cd9416f39f979ba9eb1e9614c8d98e5af7a5a8c602f2f5b7": {
+  "id": 130456434166489,
+  "file": "art/road/tex/Stain2.png",
+  "state": "Approved"
+ },
+ "1134fdee3bfd011b6ef343d7d325b45b91a20ef104a37a22404146608086f3eb": {
+  "id": 128399295249375,
+  "file": "art/road/tex/Stain3.png",
+  "state": "Approved"
+ },
+ "e34e328c8c161bba149acb96c15e492ebc8332f37d55bc3dcff78654b2b7919b": {
+  "id": 92172085035672,
+  "file": "art/road/tex/StreetColor.png",
+  "state": "Approved"
+ },
+ "8733ba1eef71fadbd1dc2014d88ee77b952aeed0489384c1b25e493665c2e482": {
+  "id": 115279397844892,
+  "file": "art/road/tex/StreetNormal.png",
+  "state": "Approved"
+ },
+ "345d090e03460bb1097779c307d3acbf7bd95a1e1a62bec1d5785a005f8cd819": {
+  "id": 124358387369580,
+  "file": "art/road/tex/StreetRough.png",
+  "state": "Approved"
+ },
+ "cf1a6170ce03c0dc6679fa2c3b43edb0a6e90f6628a498c0064f69ee4bddb713": {
+  "id": 114611441998733,
+  "file": "art/road/tex/Tar1.png",
+  "state": "Approved"
+ },
+ "8b83d4742ea59ec702ca74d073737224a587de5c735c65923894303ce5c5d617": {
+  "id": 83439400035636,
+  "file": "art/road/tex/Tar2.png",
+  "state": "Approved"
+ },
+ "6209304738daeb9d17b0abd678b94873df9e6026cc5e67f91b127b0372c13697": {
+  "id": 96531596332965,
+  "file": "art/road/tex/Tar3.png",
+  "state": "Approved"
+ },
+ "39030d2f922d066cfc23fa902149044075d45fe3e67465c6558b18fcc06c1682": {
+  "id": 75045426257832,
+  "file": "art/road/tex/Tar4.png",
+  "state": "Approved"
  }
 }

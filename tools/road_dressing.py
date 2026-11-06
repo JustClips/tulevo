@@ -226,19 +226,19 @@ def _scatter(r, s0, s1, rnd, lane_w):
                 L, Wd = rnd.uniform(9, 22), rnd.uniform(0.55, 0.85) * lane_w
                 put("Patch", "Patch%d" % rnd.randint(1, 3), L, Wd, a + L / 2, lane_c + rnd.uniform(-1, 1), Y_PATCH, flip=rnd.random() < 0.5)
                 a += L
-            elif roll < 0.5:
+            elif roll < 0.32:
                 S = rnd.uniform(14, 24)
                 put("Crack", "Crack%d" % rnd.randint(1, 3), S, S, a + S / 2, lane_c + rnd.uniform(-2, 2), Y_CRACK + 0.004, yaw_extra=rnd.choice([0, 90, 180, 270]))
                 a += S * 0.6
-            elif roll < 0.6:
+            elif roll < 0.42:
                 S = rnd.uniform(12, 20)
                 put("Gator", "Gator%d" % rnd.randint(1, 2), S, S * 0.75, a + S / 2, lane_c + rnd.uniform(-1, 1), Y_CRACK + 0.004, flip=rnd.random() < 0.5)
                 a += S
-            elif roll < 0.88:
+            elif roll < 0.84:
                 S = rnd.uniform(5, 9)
                 put("Stain", "Stain%d" % rnd.randint(1, 3), S * 1.4, S, a + S / 2, lane_c + rnd.uniform(-0.8, 0.8), Y_STAIN, yaw_extra=rnd.choice([0, 180]))
                 a += S
-            elif roll < 0.95:
+            elif roll < 0.9:
                 put("Manhole", "Manhole", 3.2, 3.2, a + 2, lane_c + rnd.choice([-2.6, 2.6]), Y_MANHOLE, yaw_extra=rnd.uniform(0, 360))
                 a += 4
             a += rnd.uniform(8, 34)
