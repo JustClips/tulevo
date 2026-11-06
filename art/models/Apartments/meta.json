@@ -198,6 +198,58 @@
     61.38
    ]
   },
+  "GlassF": {
+   "tris": 54,
+   "min": [
+    -72.05,
+    -28.85,
+    5.94
+   ],
+   "max": [
+    72.05,
+    50.45,
+    59.14
+   ]
+  },
+  "Frame": {
+   "tris": 11520,
+   "min": [
+    -72.38,
+    -29.18,
+    5.69
+   ],
+   "max": [
+    72.38,
+    50.78,
+    59.39
+   ]
+  },
+  "Sill": {
+   "tris": 4608,
+   "min": [
+    -72.74,
+    -29.54,
+    5.44
+   ],
+   "max": [
+    72.74,
+    51.14,
+    59.82
+   ]
+  },
+  "GlassC": {
+   "tris": 72,
+   "min": [
+    -72.05,
+    -28.85,
+    5.94
+   ],
+   "max": [
+    72.05,
+    50.45,
+    59.14
+   ]
+  },
   "AptBalcony": {
    "tris": 32,
    "min": [
@@ -211,6 +263,19 @@
     61.38
    ]
   },
+  "GlassB": {
+   "tris": 70,
+   "min": [
+    -72.05,
+    -28.85,
+    19.48
+   ],
+   "max": [
+    72.05,
+    50.45,
+    59.14
+   ]
+  },
   "Rail": {
    "tris": 7452,
    "min": [
@@ -222,6 +287,19 @@
     77.04,
     18.05,
     54.65
+   ]
+  },
+  "GlassD": {
+   "tris": 68,
+   "min": [
+    -72.05,
+    -28.85,
+    5.94
+   ],
+   "max": [
+    72.05,
+    50.45,
+    59.14
    ]
   },
   "Dish": {
@@ -248,6 +326,32 @@
     72.02,
     50.4,
     61.38
+   ]
+  },
+  "GlassA": {
+   "tris": 62,
+   "min": [
+    -72.05,
+    -28.85,
+    5.94
+   ],
+   "max": [
+    72.05,
+    50.45,
+    59.14
+   ]
+  },
+  "GlassE": {
+   "tris": 58,
+   "min": [
+    -72.05,
+    -28.85,
+    5.94
+   ],
+   "max": [
+    72.05,
+    50.45,
+    59.14
    ]
   },
   "Chair": {
@@ -313,6 +417,32 @@
     60.93,
     -28.8,
     55.89
+   ]
+  },
+  "WinIron": {
+   "tris": 2688,
+   "min": [
+    -69.93,
+    50.89,
+    5.76
+   ],
+   "max": [
+    69.93,
+    51.03,
+    11.2
+   ]
+  },
+  "Pipe": {
+   "tris": 1092,
+   "min": [
+    -71.16,
+    50.59,
+    0.0
+   ],
+   "max": [
+    37.32,
+    51.08,
+    65.52
    ]
   },
   "Units": {
@@ -426,15 +556,25 @@
   "Light": "Light_Color.png",
   "Kerb": "Kerb_Color.png",
   "AptWindowB": "AptWindowB_Color.png",
+  "GlassF": "GlassF_Color.png",
+  "Frame": "Frame_Color.png",
+  "Sill": "Sill_Color.png",
+  "GlassC": "GlassC_Color.png",
   "AptBalcony": "AptBalcony_Color.png",
+  "GlassB": "GlassB_Color.png",
   "Rail": "Rail_Color.png",
+  "GlassD": "GlassD_Color.png",
   "Dish": "Dish_Color.png",
   "AptWindowA": "AptWindowA_Color.png",
+  "GlassA": "GlassA_Color.png",
+  "GlassE": "GlassE_Color.png",
   "Chair": "Chair_Color.png",
   "Pot": "Pot_Color.png",
   "Shrub": "Shrub_Color.png",
   "AptBack": "AptBack_Color.png",
   "AcBody": "AcBody_Color.png",
+  "WinIron": "WinIron_Color.png",
+  "Pipe": "Pipe_Color.png",
   "Units": "Units_Color.png",
   "Solar": "Solar_Color.png",
   "Soil": "Soil_Color.png",

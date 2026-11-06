@@ -23,7 +23,7 @@ GF, FL, NUP = 4.4 * M, 3.2 * M, 4            # ground floor, upper floor height,
 TOPZ = GF + NUP * FL                          # roof deck
 BAY = 5 * M
 
-for name, sheet, tile in (("AptWall", "AptWall", (2 * M, 2 * M)), ("Concrete", None, None)):
+for name, sheet, tile in (("AptWall", "AptWall", (3.5 * M, 3.5 * M)), ("Concrete", None, None)):
     if sheet:
         K.mat(name, sheet=sheet, tile=tile)
 for name in ("AptWindowA", "AptWindowB", "AptBalcony", "Laundromat", "LobbyGlass", "GarageGate", "AptSign", "AptBack", "Solar"):
@@ -37,6 +37,15 @@ for name, col, rough, metal, emit in (
         ("Shrub", (0.12, 0.30, 0.10), 0.85, 0, 0), ("Palm", (0.20, 0.42, 0.14), 0.7, 0, 0), ("Trunk", (0.40, 0.31, 0.22), 0.95, 0, 0),
         ("Soil", (0.18, 0.12, 0.08), 1.0, 0, 0), ("Kerb", (0.62, 0.62, 0.60), 0.9, 0, 0)):
     K.mat(name, color=col, rough=rough, metal=metal, emit=emit)
+K.facade_mats()
+
+
+def win_over(ax, plane, facing, cx, zb, pw, ph, panes, sheet_w=800, sheet_h=512, bars=False):
+    """3D frames + fresh glass over the windows printed on a bay sheet. panes: (px x0, px x1, px y0, px y1)."""
+    for (x0, x1, y0, y1) in panes:
+        u = (x0 + x1) / 2 / sheet_w - 0.5
+        K.window3d(ax, plane, facing, cx + u * pw, zb + (sheet_h - y1) / sheet_h * ph, (x1 - x0) / sheet_w * pw,
+                   (y1 - y0) / sheet_h * ph, mull=1, bars=bars, depth=0.1 * M)
 
 # ---------------------------------------------------------------- site + block
 K.boxr("Pave", -22 * M, 22 * M, -11 * M, 16 * M, -0.3, 0.0)
@@ -77,6 +86,7 @@ for f in range(NUP):
         cx = -W2 + (b + 0.5) * BAY
         if b in BALC:
             K.face_y("AptBalcony", cx, Y0 - 0.02, z0 + 0.15 * M, BAY, FL - 0.3 * M)
+            win_over("y", Y0 - 0.02, -1, cx, z0 + 0.15 * M, BAY, FL - 0.3 * M, ((560, 740, 110, 330),))
             bx0, bx1, by0 = cx - 2.3 * M, cx + 2.3 * M, Y0 - 1.5 * M
             K.boxr("Band", bx0, bx1, by0, Y0, z0 - 0.1 * M, z0 + 0.15 * M)
             for z in (z0 + 1.15 * M, z0 + 0.25 * M):
@@ -105,6 +115,7 @@ for f in range(NUP):
                 K.cyl_along("Dish", (cx + 1.6 * M, Y0 - 0.5 * M, dz), (cx + 1.6 * M, Y0 - 0.62 * M, dz + 0.05 * M), 0.4 * M, segs=14)
         else:
             K.face_y("AptWindowA" if (b + f) % 2 else "AptWindowB", cx, Y0 - 0.02, z0 + 0.15 * M, BAY, FL - 0.3 * M)
+            win_over("y", Y0 - 0.02, -1, cx, z0 + 0.15 * M, BAY, FL - 0.3 * M, ((90, 350, 110, 360), (450, 710, 110, 360)))
             if rng.random() < 0.45:   # window A/C unit hanging out under one of the two windows
                 ax = cx + rng.choice((-0.95, 0.95)) * M
                 K.box("AcBody", (ax, Y0 - 0.3 * M, z0 + 0.15 * M + 1.15 * M), (0.75 * M, 0.6 * M, 0.45 * M))
@@ -114,10 +125,17 @@ for f in range(NUP):
         cy = Y0 + (s + 0.5) * 5.5 * M
         K.face_x("AptWindowA" if (s + f) % 2 else "AptWindowB", W2 + 0.02, cy, z0 + 0.15 * M, 5.5 * M, FL - 0.3 * M, facing=1)
         K.face_x("AptWindowB" if (s + f) % 2 else "AptWindowA", -W2 - 0.02, cy, z0 + 0.15 * M, 5.5 * M, FL - 0.3 * M, facing=-1)
+        for (sx, fc) in ((W2 + 0.02, 1), (-W2 - 0.02, -1)):
+            win_over("x", sx, fc, cy, z0 + 0.15 * M, 5.5 * M, FL - 0.3 * M, ((90, 350, 110, 360), (450, 710, 110, 360)))
     for b in range(8):
         K.face_y("AptBack", -W2 + (b + 0.5) * BAY, Y1 + 0.02, z0, BAY, FL, facing=1)
+        win_over("y", Y1 + 0.02, 1, -W2 + (b + 0.5) * BAY, z0, BAY, FL, ((80, 260, 140, 330), (380, 560, 140, 330)), sheet_w=640)
 for b in range(8):
     K.face_y("AptBack", -W2 + (b + 0.5) * BAY, Y1 + 0.02, 0.3 * M, BAY, GF - 0.6 * M, facing=1)
+    win_over("y", Y1 + 0.02, 1, -W2 + (b + 0.5) * BAY, 0.3 * M, BAY, GF - 0.6 * M, ((80, 260, 140, 330), (380, 560, 140, 330)),
+             sheet_w=640, bars=True)
+    if b % 3 == 0:
+        K.downpipe(-W2 + b * BAY + 0.3 * M, Y1 + 0.12 * M, 0, TOPZ + 1.0 * M)
 
 # ---------------------------------------------------------------- fire escape on the east side
 FX0, FX1 = W2 + 0.02, W2 + 1.4 * M

@@ -43,28 +43,28 @@
    ]
   },
   "Units": {
-   "tris": 48,
+   "tris": 432,
    "min": [
-    -84.24,
+    -93.82,
     -45.72,
-    15.12
+    9.54
    ],
    "max": [
     78.48,
-    65.52,
+    75.82,
     29.88
    ]
   },
   "Dark": {
-   "tris": 228,
+   "tris": 744,
    "min": [
-    -82.75,
-    -15.3,
+    -95.81,
+    -33.41,
     0.0
    ],
    "max": [
     87.12,
-    64.8,
+    77.81,
     31.0
    ]
   },
@@ -79,6 +79,45 @@
     47.52,
     49.68,
     23.04
+   ]
+  },
+  "GlassB": {
+   "tris": 24,
+   "min": [
+    -93.63,
+    -29.97,
+    3.6
+   ],
+   "max": [
+    45.52,
+    75.63,
+    20.34
+   ]
+  },
+  "Frame": {
+   "tris": 6048,
+   "min": [
+    -93.96,
+    -35.5,
+    0.0
+   ],
+   "max": [
+    46.64,
+    75.96,
+    21.82
+   ]
+  },
+  "Sill": {
+   "tris": 2184,
+   "min": [
+    -94.32,
+    -35.01,
+    3.1
+   ],
+   "max": [
+    47.07,
+    76.32,
+    21.02
    ]
   },
   "RoomNumbers": {
@@ -108,16 +147,16 @@
    ]
   },
   "AcBody": {
-   "tris": 324,
+   "tris": 456,
    "min": [
-    -67.68,
+    -95.76,
     -28.15,
     1.48
    ],
    "max": [
-    45.29,
-    49.68,
-    14.51
+    47.74,
+    77.76,
+    17.19
    ]
   },
   "AcUnit": {
@@ -133,17 +172,69 @@
     14.47
    ]
   },
-  "BackWall": {
-   "tris": 66,
+  "GlassA": {
+   "tris": 18,
    "min": [
     -93.63,
-    -36.72,
+    -29.45,
+    3.6
+   ],
+   "max": [
+    -11.21,
+    75.63,
+    19.8
+   ]
+  },
+  "GlassD": {
+   "tris": 18,
+   "min": [
+    -93.63,
+    -15.57,
+    3.6
+   ],
+   "max": [
+    31.41,
+    75.63,
+    20.34
+   ]
+  },
+  "GlassC": {
+   "tris": 10,
+   "min": [
+    -72.41,
+    49.62,
+    3.6
+   ],
+   "max": [
+    3.19,
+    75.63,
+    20.34
+   ]
+  },
+  "GlassF": {
+   "tris": 18,
+   "min": [
+    -58.3,
+    49.62,
+    3.6
+   ],
+   "max": [
+    31.99,
+    75.63,
+    20.34
+   ]
+  },
+  "BackWall": {
+   "tris": 2,
+   "min": [
+    33.12,
+    49.65,
     0.0
    ],
    "max": [
     47.52,
-    75.63,
-    23.04
+    49.65,
+    11.52
    ]
   },
   "IceSign": {
@@ -185,8 +276,73 @@
     6.7
    ]
   },
+  "GlassE": {
+   "tris": 30,
+   "min": [
+    -93.63,
+    -15.05,
+    3.6
+   ],
+   "max": [
+    46.39,
+    75.63,
+    20.34
+   ]
+  },
+  "GlassFrost": {
+   "tris": 64,
+   "min": [
+    -93.63,
+    -34.33,
+    6.3
+   ],
+   "max": [
+    38.43,
+    75.63,
+    19.98
+   ]
+  },
+  "WinIron": {
+   "tris": 2736,
+   "min": [
+    -94.39,
+    -29.63,
+    3.42
+   ],
+   "max": [
+    45.7,
+    76.39,
+    8.46
+   ]
+  },
+  "Pipe": {
+   "tris": 1008,
+   "min": [
+    -94.13,
+    6.24,
+    0.0
+   ],
+   "max": [
+    47.76,
+    76.13,
+    28.44
+   ]
+  },
+  "Meter": {
+   "tris": 48,
+   "min": [
+    -94.32,
+    6.82,
+    3.24
+   ],
+   "max": [
+    35.35,
+    76.32,
+    5.4
+   ]
+  },
   "Concrete": {
-   "tris": 72,
+   "tris": 96,
    "min": [
     -97.2,
     -76.32,
@@ -194,20 +350,20 @@
    ],
    "max": [
     94.32,
-    49.68,
+    76.05,
     11.52
    ]
   },
   "Coping": {
-   "tris": 72,
+   "tris": 96,
    "min": [
-    -89.64,
+    -94.07,
     -70.56,
     0.54
    ],
    "max": [
-    47.52,
-    49.68,
+    47.56,
+    76.07,
     24.12
    ]
   },
@@ -577,14 +733,26 @@
   "Units": "Units_Color.png",
   "Dark": "Dark_Color.png",
   "RoomFront": "RoomFront_Color.png",
+  "GlassB": "GlassB_Color.png",
+  "Frame": "Frame_Color.png",
+  "Sill": "Sill_Color.png",
   "RoomNumbers": "RoomNumbers_Color.png",
   "Sconce": "Sconce_Color.png",
   "AcBody": "AcBody_Color.png",
   "AcUnit": "AcUnit_Color.png",
+  "GlassA": "GlassA_Color.png",
+  "GlassD": "GlassD_Color.png",
+  "GlassC": "GlassC_Color.png",
+  "GlassF": "GlassF_Color.png",
   "BackWall": "BackWall_Color.png",
   "IceSign": "IceSign_Color.png",
   "Soda": "Soda_Color.png",
   "IceMachine": "IceMachine_Color.png",
+  "GlassE": "GlassE_Color.png",
+  "GlassFrost": "GlassFrost_Color.png",
+  "WinIron": "WinIron_Color.png",
+  "Pipe": "Pipe_Color.png",
+  "Meter": "Meter_Color.png",
   "Concrete": "Concrete_Color.png",
   "Coping": "Coping_Color.png",
   "RoofTile": "RoofTile_Color.png",

@@ -182,6 +182,66 @@ class Kit:
                     bm.faces.new([bm.verts.new(p) for p in (a1, b1, b2, a2)])
                     bm.faces.new([bm.verts.new(p - Vector((0, 0, 0.02))) for p in (a2, b2, b1, a1)])
 
+    # ------------------------------------------------------------ facade detail
+    GLASS = ("GlassA", "GlassB", "GlassC", "GlassD", "GlassE", "GlassF")
+
+    def facade_mats(self, frame=(0.93, 0.92, 0.89), sill=(0.80, 0.78, 0.73)):
+        """Frame / Sill / WinIron colours + the Glass* sheets (tex_kit.glass_set) if the building has them."""
+        for name, col, rough, metal in (("Frame", frame, 0.45, 0.2), ("Sill", sill, 0.8, 0.0), ("WinIron", (0.03, 0.03, 0.035), 0.45, 0.6),
+                                        ("Pipe", (0.86, 0.85, 0.82), 0.5, 0.2), ("Meter", (0.55, 0.57, 0.58), 0.4, 0.7)):
+            if name not in self.mats:
+                self.mat(name, color=col, rough=rough, metal=metal)
+        for g in self.GLASS + ("GlassFrost",):
+            if g not in self.mats and os.path.exists(os.path.join(self.texdir, f"{g}_Color.png")):
+                self.mat(g, sheet=g, explicit=True)
+
+    def _wbox(self, part, ax, plane, facing, a, da, out, z, sa, so, sz):
+        if ax == "y":
+            self.box(part, (a + da, plane + facing * out, z), (sa, so, sz))
+        else:
+            self.box(part, (plane + facing * out, a + da, z), (so, sa, sz))
+
+    def window3d(self, ax, plane, facing, a, z0, w, h, glass=None, depth=0.12 * M, fw=0.07 * M, mull=1, transom=False,
+                 bars=False, sill=True, head=True, frame="Frame"):
+        """A real window on a wall plane: framed glass with depth, mullions, sill and head trim,
+        optional iron security bars. ax 'y' = wall plane y=plane (a along x), 'x' = plane x (a along y);
+        facing = the side it is seen from (+1/-1). glass = a Glass* part (None: a random one)."""
+        glass = glass or self.GLASS[(hash((round(a, 1), round(z0, 1), round(plane, 1))) % len(self.GLASS))]
+        if glass in self.mats:
+            if ax == "y":
+                self.face_y(glass, a, plane + 0.03 * facing, z0, w, h, facing=facing)
+            else:
+                self.face_x(glass, plane + 0.03 * facing, a, z0, w, h, facing=facing)
+        B = lambda part, da, out, z, sa, so, sz: self._wbox(part, ax, plane, facing, a, da, out, z, sa, so, sz)
+        # frame: 4 sides standing out of the wall
+        B(frame, 0, depth / 2, z0 + h + fw / 2, w + 2 * fw, depth, fw)
+        B(frame, 0, depth / 2, z0 - fw / 2, w + 2 * fw, depth, fw)
+        for s_ in (-1, 1):
+            B(frame, s_ * (w / 2 + fw / 2), depth / 2, z0 + h / 2, fw, depth, h)
+        for k in range(1, mull + 1):                           # vertical mullions (sash split)
+            B(frame, -w / 2 + k * w / (mull + 1), depth * 0.3, z0 + h / 2, fw * 0.6, depth * 0.6, h)
+        if transom:
+            B(frame, 0, depth * 0.3, z0 + h * 0.72, w, depth * 0.6, fw * 0.6)
+        if sill:
+            B("Sill", 0, (depth + 0.1 * M) / 2, z0 - fw - 0.035 * M, w + 2 * fw + 0.2 * M, depth + 0.1 * M, 0.07 * M)
+        if head:
+            B("Sill", 0, 0.04 * M, z0 + h + fw + 0.06 * M, w + 2 * fw + 0.24 * M, 0.08 * M, 0.12 * M)
+        if bars:
+            n = max(2, int(w / (0.13 * M)))
+            for i in range(n + 1):
+                B("WinIron", -w / 2 + i * w / n, depth + 0.05 * M, z0 + h / 2, 0.03 * M, 0.03 * M, h + 0.1 * M)
+            for z in (z0 + 0.12 * h, z0 + h * 0.5, z0 + 0.88 * h):
+                B("WinIron", 0, depth + 0.05 * M, z, w + 0.1 * M, 0.04 * M, 0.04 * M)
+
+    def downpipe(self, x, y, z0, z1, r=0.05 * M):
+        self.cyl("Pipe", (x, y, (z0 + z1) / 2), r, z1 - z0, segs=8)
+        for z in [z0 + 0.4 * M + k * 1.6 * M for k in range(int((z1 - z0 - 0.4 * M) / (1.6 * M)) + 1)]:
+            self.cyl("Pipe", (x, y, z), r * 1.35, 0.06 * M, segs=8)
+
+    def meter_box(self, ax, plane, facing, a, z):
+        self._wbox("Meter", ax, plane, facing, a, 0, 0.1 * M, z, 0.45 * M, 0.2 * M, 0.6 * M)
+        self._wbox("WinIron", ax, plane, facing, a, 0, 0.21 * M, z + 0.08 * M, 0.2 * M, 0.02 * M, 0.2 * M)
+
     # ------------------------------------------------------------ finish + export
     def finish(self, keep_normals=("Palm",), face="N"):
         for name, bm in self.bms.items():

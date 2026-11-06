@@ -22,7 +22,7 @@ TOP = 2 * FH + 1.5 * M                      # parapet top
 LOT_W, LOT_D = 56 * M, 44 * M
 
 # ---------------------------------------------------------------- materials
-for name, sheet, tile, explicit in (("Stucco", "Stucco", (2 * M, 2 * M), False), ("Asphalt", "Asphalt", (8 * M, 8 * M), False),
+for name, sheet, tile, explicit in (("Stucco", "Stucco", (3.5 * M, 3.5 * M), False), ("Asphalt", "Asphalt", (8 * M, 8 * M), False),
                                     ("Concrete", "Concrete", (3 * M, 3 * M), False), ("PoolWater", "PoolWater", (3 * M, 3 * M), False)):
     K.mat(name, sheet=sheet, tile=tile, explicit=explicit)
 for name in ("RoomFront", "RoomNumbers", "BackWall", "RoofTile", "MotelSign", "OfficeGlass", "OfficeSign", "IceSign", "Soda",
@@ -38,6 +38,7 @@ for name, col, rough, metal, emit in (
         ("Shrub", (0.12, 0.30, 0.10), 0.85, 0, 0), ("Palm", (0.20, 0.42, 0.14), 0.7, 0, 0), ("Trunk", (0.40, 0.31, 0.22), 0.95, 0, 0),
         ("Soil", (0.18, 0.12, 0.08), 1.0, 0, 0), ("Kerb", (0.62, 0.62, 0.60), 0.9, 0, 0), ("Sconce", (1.0, 0.92, 0.75), 0.5, 0, 3.0)):
     K.mat(name, color=col, rough=rough, metal=metal, emit=emit)
+K.facade_mats()
 
 # ---------------------------------------------------------------- lot
 K.boxr("Asphalt", -LOT_W / 2, LOT_W / 2, -LOT_D / 2, LOT_D / 2, -0.3, 0.0)
@@ -80,12 +81,20 @@ def room(face, floor, i, a0, ice=False):
         bx = lambda part, u, z, size, out: K.box(part, (SX1 + out / 2, a0 + u * BAY, z0 + z), (out, size[0], size[1]))
     if ice:
         f("BackWall", 0.5, 0, BAY, FH)
-        f("IceSign", 0.5, 2.3 * M, 2.4 * M, 0.6 * M)
+        f("IceSign", 0.5, 2.3 * M, 2.4 * M, 0.6 * M, dz=0.03)
         for u, part in ((0.3, "Soda"), (0.7, "IceMachine")):
             bx("Dark", u, 0.95 * M, (1.0 * M, 1.9 * M), 0.8 * M)
             f(part, u, 0.02 * M, 0.96 * M, 1.84 * M, dz=0.8 * M)
         return
     f("RoomFront", 0.5, 0, BAY, FH)
+    # 3D window + door frame over the printed front (sheet: window px 300-590 x 120-330, door 70-220 from 70 down)
+    ax, plane, facing = ("y", MY0 - 0.03, -1) if face == "main" else ("x", SX1 + 0.03, 1)
+    K.window3d(ax, plane, facing, a0 + 0.695 * BAY, z0 + 1.14 * M, 0.453 * BAY, 1.31 * M, mull=1, depth=0.1 * M)
+    dc, dw, dt = a0 + 0.227 * BAY, 0.234 * BAY, z0 + 0.863 * FH
+    for s_ in (-1, 1):
+        K._wbox("Frame", ax, plane, facing, dc, s_ * (dw / 2 + 0.05 * M), 0.05 * M, (z0 + dt) / 2,
+                0.1 * M, 0.1 * M, dt - z0)
+    K._wbox("Frame", ax, plane, facing, dc, 0, 0.05 * M, dt + 0.05 * M, dw + 0.2 * M, 0.1 * M, 0.1 * M)
     n = numbers_uv(floor, room.counter[floor])
     room.counter[floor] += 1
     f("RoomNumbers", 0.42, 1.65 * M, 0.26 * M, 0.26 * M, dz=0.01, uvs=n)
@@ -101,12 +110,30 @@ for floor in (0, 1):
         room("side", floor, k, SY0 + k * BAY)
     for k in range(8):
         room("main", floor, k, MX0 + k * BAY, ice=(floor == 0 and k == 7))
-# backs of the rooms
-for floor in (0, 1):
-    for k in range(10):
-        K.face_y("BackWall", -26.0 * M + (k + 0.5) * BAY * 39.2 / 40, MY1 + 0.03, floor * FH, BAY * 39.2 / 40, FH, facing=1)
-    for k in range(6):
-        K.face_x("BackWall", SX0 - 0.03, SY0 + (k + 0.5) * BAY, floor * FH, BAY, FH, facing=-1)
+# backs of the rooms: frosted bathroom windows + a bedroom window per room, A/C sleeves, vents,
+# downpipes, meters, a plinth and a floor band, so the street side isn't a blank wall
+BACKS = [("y", MY1, 1, -26.0 * M + (k + 0.5) * BAY * 39.2 / 40, BAY * 39.2 / 40) for k in range(10)] + \
+        [("x", SX0, -1, SY0 + (k + 0.5) * BAY, BAY) for k in range(6)]
+for i, (ax, plane, facing, a, bw) in enumerate(BACKS):
+    for floor in (0, 1):
+        z0 = floor * FH
+        K.window3d(ax, plane, facing, a - 0.24 * bw, z0 + 1.75 * M, 0.75 * M, 0.6 * M, glass="GlassFrost", mull=0, depth=0.08 * M)
+        K.window3d(ax, plane, facing, a + 0.18 * bw, z0 + 1.0 * M, 1.4 * M, 1.3 * M, mull=1, bars=(floor == 0), depth=0.1 * M)
+        K._wbox("Units", ax, plane, facing, a - 0.24 * bw, 0, 0.03 * M, z0 + 2.75 * M, 0.3 * M, 0.06 * M, 0.2 * M)      # bath vent
+        K._wbox("Dark", ax, plane, facing, a - 0.24 * bw, 0, 0.065 * M, z0 + 2.75 * M, 0.24 * M, 0.02 * M, 0.14 * M)
+        if (i + floor) % 3 == 0:                                                                       # wall A/C sleeve
+            K._wbox("AcBody", ax, plane, facing, a + 0.42 * bw, 0, 0.3 * M, z0 + 1.35 * M, 0.75 * M, 0.6 * M, 0.45 * M)
+            K._wbox("Dark", ax, plane, facing, a + 0.42 * bw, 0, 0.61 * M, z0 + 1.35 * M, 0.6 * M, 0.02, 0.32 * M)
+    if i % 3 == 0:
+        o = 0.08 * M * facing
+        K.downpipe(*((a + bw / 2, plane + o) if ax == "y" else (plane + o, a + bw / 2)), 0, TOP)
+    if i % 4 == 1:
+        K.meter_box(ax, plane, facing, a - 0.42 * bw, 1.2 * M)
+for (x0, x1, y0, y1) in ((-26.0 * M, MX1, MY1, MY1 + 0.12 * M), (SX0 - 0.12 * M, SX0, SY0, MY1 + 0.12 * M)):
+    K.boxr("Concrete", x0 - 0.02, x1 + 0.02, y0 - 0.02, y1 + 0.02, 0, 0.45 * M)                         # plinth
+    K.boxr("Coping", x0 - 0.04, x1 + 0.04, y0 - 0.04, y1 + 0.04, FH - 0.08 * M, FH + 0.08 * M)           # floor band
+    K.boxr("Trim", x0 - 0.03, x1 + 0.03, y0 - 0.03, y1 + 0.03, TOP - 0.95 * M, TOP - 0.7 * M)          # coral stripe
+    K.boxr("Coping", x0 - 0.05, x1 + 0.05, y0 - 0.05, y1 + 0.05, TOP - 0.08 * M, TOP + 0.04 * M)        # cap
 
 # ---------------------------------------------------------------- walkways, posts, railings, roof overhang + mansard
 WX = SX1 + WK        # side walkway outer edge (x)
@@ -300,4 +327,6 @@ if A["render"]:
     K.shot("06_office", (14 * M, -32 * M, 2.5 * M), (21 * M, -16 * M, 2.5 * M), lens=24)
     K.shot("04_aerial", (45 * M, -55 * M, 40 * M), (-2 * M, 0, 0), lens=30)
     K.shot("05_pool", (-11 * M, -24 * M, 4 * M), (-20 * M, -15 * M, 0.5 * M), lens=24)
+    K.shot("07_back", (-46 * M, 34 * M, 7 * M), (-18 * M, 10 * M, 3 * M), lens=26)
+    K.shot("08_back_close", (-34 * M, 2 * M, 2.2 * M), (-26 * M, 6 * M, 3.2 * M), lens=24)
     print("done")

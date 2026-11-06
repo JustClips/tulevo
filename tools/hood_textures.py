@@ -14,7 +14,7 @@ import sys
 from PIL import Image, ImageDraw, ImageFilter
 
 sys.path.insert(0, os.path.dirname(__file__))
-from tex_kit import FONT_B, FONT_R, fit_text, font, grime, noise_tile, saver, scratches, text_c  # noqa: E402
+from tex_kit import FONT_B, FONT_R, fit_text, font, glass_set, grime, noise_tile, saver, scratches, stucco, text_c  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 OUT = os.path.join(ROOT, "art", "blender", "hood", "tex")
@@ -36,7 +36,8 @@ IRON = (24, 24, 26)
 
 def walls():
     for name, col in PALETTES.items():
-        save(f"Wall{name}", grime(noise_tile(256, 256, col, 10, len(name)), 0.16, len(name) + 1), 230)
+        save(f"Wall{name}", grime(stucco(col, len(name)), 0.12, len(name) + 1), 230)
+    glass_set(save, seed=950)
 
 
 def bar_window():

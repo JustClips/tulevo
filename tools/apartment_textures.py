@@ -12,7 +12,7 @@ import sys
 from PIL import Image, ImageDraw
 
 sys.path.insert(0, os.path.dirname(__file__))
-from tex_kit import FONT_B, FONT_R, fit_text, font, grime, noise_tile, saver, scratches, text_c  # noqa: E402
+from tex_kit import FONT_B, FONT_R, fit_text, font, grime, noise_tile, saver, scratches, text_c, glass_set, stucco as stucco_tex  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 save = saver(os.path.join(ROOT, "art", "blender", "apartments", "tex"))
@@ -23,7 +23,8 @@ FRAME = (52, 54, 58)
 
 
 def wall():
-    save("AptWall", grime(noise_tile(256, 256, PEACH, 9, 31), 0.12, 32), 230)
+    save("AptWall", grime(stucco_tex(PEACH, 31), 0.1, 32), 230)
+    glass_set(save, seed=930)
 
 
 def window_pane(d, x0, y0, x1, y1, lit, curtain, blinds):

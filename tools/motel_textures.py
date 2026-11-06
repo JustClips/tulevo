@@ -12,7 +12,7 @@ import sys
 from PIL import Image, ImageDraw, ImageFilter
 
 sys.path.insert(0, os.path.dirname(__file__))
-from tex_kit import FONT_B, FONT_R, fit_text, font, grime, noise_tile, saver, scratches, text_c  # noqa: E402
+from tex_kit import FONT_B, FONT_R, fit_text, font, grime, noise_tile, saver, scratches, text_c, glass_set, stucco as stucco_tex  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 save = saver(os.path.join(ROOT, "art", "blender", "motel", "tex"))
@@ -25,8 +25,9 @@ PINK = (255, 70, 170)
 
 
 def stucco():
-    im = grime(noise_tile(256, 256, CREAM, 10, 1), 0.12, 2)
-    save("Stucco", im, 230)
+    # 512 px sprayed stucco with cracks + patches (tex_kit.stucco), tiled every 3.5 m
+    save("Stucco", grime(stucco_tex(CREAM, 1), 0.1, 2), 230)
+    glass_set(save, seed=910)
 
 
 def room_front():

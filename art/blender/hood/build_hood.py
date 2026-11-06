@@ -35,7 +35,7 @@ GANGS = ("RedCrowns", "Vipers", "GroveKings")   # original gang names, see tools
 VARIANTS = {}
 
 # ---------------------------------------------------------------- materials
-K.mat("Walls", sheet="WallCream" if ONLY != "Store" else "WallSand", tile=(2.5 * M, 2.5 * M))
+K.mat("Walls", sheet="WallCream" if ONLY != "Store" else "WallSand", tile=(3.5 * M, 3.5 * M))
 for name, sheet, tile in (("Lawn", "Lawn", (3 * M, 3 * M)), ("Concrete", "Concrete", (3 * M, 3 * M)),
                           ("Asphalt", "Asphalt", (8 * M, 8 * M)), ("Roof", "Shingles", (2.5 * M, 2.5 * M)),
                           ("Pave", "PlazaPave", (4 * M, 4 * M)), ("Water", "Water", (3 * M, 3 * M))):
@@ -60,6 +60,7 @@ for name, col, rough, metal, emit in (
         ("Soil", (0.18, 0.12, 0.08), 1.0, 0, 0), ("Kerb", (0.62, 0.62, 0.60), 0.9, 0, 0), ("Flag", (0.85, 0.85, 0.82), 0.8, 0, 0),
         ("Tile", (0.16, 0.42, 0.55), 0.3, 0, 0), ("Plastic", (0.92, 0.92, 0.90), 0.5, 0, 0)):
     K.mat(name, color=col, rough=rough, metal=metal, emit=emit)
+K.facade_mats()
 
 
 # ---------------------------------------------------------------- helpers
@@ -73,15 +74,11 @@ def piece(part, x, y, rz, dx, dy, z, size):
     K.box(part, (x + ox, y + oy, z), size, rz=rz)
 
 
-def window(face, a, z0, w=1.4 * M, h=1.4 * M):
-    """Barred window on a wall plane: face = ('y', y, facing) or ('x', x, facing); a = centre along the wall."""
+def window(face, a, z0, w=1.4 * M, h=1.4 * M, bars=True):
+    """Real 3D window on a wall plane: face = ('y', y, facing) or ('x', x, facing); a = centre along
+    the wall. Ground-floor windows get iron security bars, LA style."""
     ax, pos, facing = face
-    if ax == "y":
-        K.face_y("BarWindow", a, pos + 0.04 * facing, z0, w, h, facing=facing)
-        K.box("Trim", (a, pos + 0.12 * facing, z0 - 0.06), (w + 0.4, 0.3, 0.14))
-    else:
-        K.face_x("BarWindow", pos + 0.04 * facing, a, z0, w, h, facing=facing)
-        K.box("Trim", (pos + 0.12 * facing, a, z0 - 0.06), (0.3, w + 0.4, 0.14))
+    K.window3d(ax, pos, facing, a, z0, w, h, mull=1, bars=bars and z0 < 2.5 * M, depth=0.1 * M)
 
 
 def iron_fence(x0, y0, x1, y1, h=1.4 * M, gaps=(), step=0.16 * M, z0=0.0):
