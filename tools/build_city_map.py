@@ -38,6 +38,8 @@ EXTENT = 600         # roads run out to +-EXTENT
 # name, model key (art/models/<Model>), where its Blender origin (ground centre) goes
 BUILDINGS = [
     ("ArkwellBank", "BankTower", (0, 0.6, 0)),
+    # outer corner of West Street x Back Street, pumps facing Back Street, price sign on the corner
+    ("KestrelGas", "GasStation", (-246.4, 0.5, 244)),
 ]
 
 

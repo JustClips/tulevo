@@ -30,5 +30,9 @@
  "BankTower": {
   "id": 137258592692425,
   "sha": "c536278bd1f628ab61cecf68bd5106115ba2c6d3abe208da71d22e70aada2cd2"
+ },
+ "GasStation": {
+  "id": 136378158559707,
+  "sha": "eec7dea94ae3678ff86a6e461687bc3ac6acb2952d17de8790cd73698a7a4178"
  }
 }

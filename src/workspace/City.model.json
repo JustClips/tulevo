@@ -11495,6 +11495,24 @@
       },
       "CityModel": "BankTower"
      }
+    },
+    {
+     "name": "KestrelGas",
+     "className": "Model",
+     "tags": [
+      "Building"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 136378158559707,
+      "LiveSyncBoxCenter": {
+       "Vector3": [
+        -246.4,
+        16.45,
+        244.0
+       ]
+      },
+      "CityModel": "GasStation"
+     }
     }
    ]
   }
