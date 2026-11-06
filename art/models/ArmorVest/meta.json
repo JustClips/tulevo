@@ -4,19 +4,85 @@
   "fits": "R15 UpperTorso ~2 x 1.6 x 1 studs (X width, Z height, Y depth). Hollow inside: torso box +-1.0 x +-0.5, z -1.2..+0.8 is clear; bottom edge at z -1.16 (just above the belt).",
   "origin": "UpperTorso center - weld with identity offset",
   "axes": "Blender coords: -Y = front (chest), +Z = up, +X = wearer's left. GLB exported +Y up, so glTF = (x, z, -y): front faces glTF +Z. If it imports facing backwards in Studio, rotate 180 deg about Y.",
-  "mesh": "single mesh 'Vest', single material 'Vest_Mat'",
+  "mesh": "mesh 'Vest' plus separate mag-pouch flaps 'MagFlap1' (x +0.54, wearer's left), 'MagFlap2' (x 0), 'MagFlap3' (x -0.54); all share material 'Vest_Mat' and the same UV atlas, origins at UpperTorso center",
+  "mag_flaps": [
+    {
+      "k": 1,
+      "pouch_center_x": 0.54,
+      "pouch_center_y": -0.7688,
+      "pouch_top_z": -0.55,
+      "flap_bbox_min": [
+        0.274,
+        -0.8938,
+        -0.655
+      ],
+      "flap_bbox_max": [
+        0.806,
+        -0.6648,
+        -0.51
+      ],
+      "hinge_back_top_edge_yz": [
+        -0.6648,
+        -0.51
+      ]
+    },
+    {
+      "k": 2,
+      "pouch_center_x": 0.0,
+      "pouch_center_y": -0.785,
+      "pouch_top_z": -0.55,
+      "flap_bbox_min": [
+        -0.266,
+        -0.91,
+        -0.655
+      ],
+      "flap_bbox_max": [
+        0.266,
+        -0.681,
+        -0.51
+      ],
+      "hinge_back_top_edge_yz": [
+        -0.681,
+        -0.51
+      ]
+    },
+    {
+      "k": 3,
+      "pouch_center_x": -0.54,
+      "pouch_center_y": -0.7688,
+      "pouch_top_z": -0.55,
+      "flap_bbox_min": [
+        -0.806,
+        -0.8938,
+        -0.655
+      ],
+      "flap_bbox_max": [
+        -0.274,
+        -0.6648,
+        -0.51
+      ],
+      "hinge_back_top_edge_yz": [
+        -0.6648,
+        -0.51
+      ]
+    }
+  ],
+  "flap_open_hint": "open = rotate the flap about the X axis through its back-top bbox edge (y = flap_bbox_max.y, z = flap_bbox_max.z), front edge lifting up and back toward the vest",
   "triangles": {
-    "Vest": 21148
+    "Vest": 20500,
+    "MagFlap1": 216,
+    "MagFlap2": 216,
+    "MagFlap3": 216
   },
   "size_m": {
     "x_width": 2.605,
-    "y_depth": 1.725,
+    "y_depth": 1.745,
     "z_height": 2.125
   },
   "bbox_m": {
     "min": [
       -1.315,
-      -0.89,
+      -0.91,
       -1.165
     ],
     "max": [
@@ -31,5 +97,23 @@
     "Roughness": "Vest_Roughness.png",
     "Metalness": "Vest_Metalness.png"
   },
-  "texture_size": 2048
+  "texture_size": 2048,
+  "pouch_mags": {
+    "rule": "carbine Magazine x1.7 (GunScale), MagWell at (pouch centre x, pouch centre y, pouch top z + 0.08) Blender coords, -90 deg about Z (muzzle dir -> wearer's right -X), top 0.42 studs kept; tools/build_vest_pouch_mags.py",
+    "flap_lid_top_z_after_raise": -0.46,
+    "hinge_back_top_edge_yz_after_raise": {
+      "1": [
+        -0.6648,
+        -0.46
+      ],
+      "2": [
+        -0.681,
+        -0.46
+      ],
+      "3": [
+        -0.6648,
+        -0.46
+      ]
+    }
+  }
 }

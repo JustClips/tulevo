@@ -8,7 +8,7 @@ import bpy, bmesh, os, json, math
 import numpy as np
 from mathutils import Vector
 
-OUT = r"C:\out\vest2"
+OUT = r"C:\out\vest3"
 TEX = os.path.join(OUT, "textures")
 REN = os.path.join(OUT, "renders")
 os.makedirs(TEX, exist_ok=True); os.makedirs(REN, exist_ok=True)
@@ -251,19 +251,30 @@ for k in range(9):
     slab(f"FWeb{k}", 8, 1, mpos, lambda u, v: (0, -1, 0), 0.014, M_WEB, bevel=0.004)
 
 # triple rifle magazine pouches (lower front)
-for k, xc in enumerate((-0.42, 0.0, 0.42)):
-    w, h, d = 0.36, 0.50, 0.17
+# Each flap + tab goes into vertex group MagFlap1..3 so it can be split off after baking
+# (1 = x +0.54, wearer's left; 2 = centre; 3 = x -0.54).
+FLAP_H = 0.07
+MAGS = []
+for k, xc in ((1, 0.54), (2, 0.0), (3, -0.54)):
+    w, h, d = 0.52, 0.50, 0.19
     zc = -0.80
     yb = front_out(xc) + 0.01
+    top = zc + h / 2
     box(f"MagPouch{k}", (w, d, h), (xc, yb - d / 2, zc), M_FAB, bevel=0.035, seg=2)
-    box(f"MagFlap{k}", (w + 0.03, d + 0.03, 0.14), (xc, yb - d / 2 - 0.006, zc + h / 2 - 0.03), M_FAB, bevel=0.03)
-    box(f"MagTab{k}", (0.12, 0.02, 0.09), (xc, yb - d - 0.02, zc + h / 2 - 0.13), M_WEB, bevel=0.008)
+    # flap overhang trimmed to w + 0.012 so neighbouring flaps (0.54 apart) don't overlap
+    fl = box(f"MagFlap{k}", (w + 0.012, d + 0.03, FLAP_H), (xc, yb - d / 2 - 0.006, top + 0.04 - FLAP_H / 2),
+             M_FAB, bevel=0.02)
+    tb = box(f"MagTab{k}", (0.12, 0.02, 0.09), (xc, yb - d - 0.02, top + 0.04 - FLAP_H + 0.015 - 0.045),
+             M_WEB, bevel=0.008)
+    for o in (fl, tb):
+        o.vertex_groups.new(name=f"MagFlap{k}").add(list(range(len(o.data.vertices))), 1.0, 'REPLACE')
     box(f"MagBand{k}", (w + 0.006, d + 0.006, 0.045), (xc, yb - d / 2, zc - 0.10), M_WEB, bevel=0.01)
     box(f"MagBand2_{k}", (w + 0.006, d + 0.006, 0.045), (xc, yb - d / 2, zc + 0.02), M_WEB, bevel=0.01)
+    MAGS.append({"k": k, "pouch_center_x": xc, "pouch_center_y": round(yb - d / 2, 4), "pouch_top_z": round(top, 4)})
 
 # pistol mag / tourniquet pouches on the outer front
 for sx in (-1, 1):
-    xc = sx * 0.80
+    xc = sx * 0.92
     yb = front_out(xc) + 0.01
     box(f"PistolPouch{sx}", (0.16, 0.10, 0.34), (xc, yb - 0.05, -0.78), M_FAB, bevel=0.025)
     box(f"PistolFlap{sx}", (0.18, 0.12, 0.08), (xc, yb - 0.055, -0.62), M_FAB, bevel=0.02)
@@ -381,7 +392,7 @@ bk = scene.render.bake
 bk.margin = 8; bk.margin_type = 'EXTEND'; bk.use_clear = True
 target(imgs['Normal']); scene.cycles.samples = 4
 bpy.ops.object.bake(type='NORMAL', normal_space='TANGENT', normal_r='POS_X', normal_g='POS_Y', normal_b='POS_Z')
-target(imgs['AO']); scene.cycles.samples = 24
+target(imgs['AO']); scene.cycles.samples = 8
 bpy.ops.object.bake(type='AO')
 for ch, inp in (('Color', 'Base Color'), ('Roughness', 'Roughness'), ('Metalness', 'Metallic')):
     saved = []
@@ -450,25 +461,70 @@ vest.data.materials.clear(); vest.data.materials.append(fm)
 vest.data.polygons.foreach_set('material_index', [0] * len(vest.data.polygons))
 vest.data.update()
 
+# ------------------------------------------------------------------ split the mag flaps off (after bake)
+FLAPS = []
+for m in MAGS:
+    nm_ = f"MagFlap{m['k']}"
+    gi = vest.vertex_groups[nm_].index
+    me = vest.data
+    inG = [False] * len(me.vertices)
+    for v in me.vertices:
+        for g in v.groups:
+            if g.group == gi and g.weight > 0.5:
+                inG[v.index] = True
+    for v in me.vertices:
+        v.select = False
+    for e in me.edges:
+        e.select = False
+    for p in me.polygons:
+        p.select = all(inG[i] for i in p.vertices)
+    print(nm_, "faces:", sum(p.select for p in me.polygons))
+    for o in scene.objects:
+        o.select_set(o == vest)
+    bpy.context.view_layer.objects.active = vest
+    bpy.ops.object.mode_set(mode='EDIT')
+    bpy.ops.mesh.select_mode(type='FACE')
+    bpy.ops.mesh.separate(type='SELECTED')
+    bpy.ops.object.mode_set(mode='OBJECT')
+    fo = [o for o in bpy.context.selected_objects if o != vest][0]
+    fo.name = nm_; fo.data.name = nm_
+    FLAPS.append(fo)
+for o in [vest] + FLAPS:
+    while o.vertex_groups:
+        o.vertex_groups.remove(o.vertex_groups[0])
+
 # ------------------------------------------------------------------ export
+EXP = [vest] + FLAPS
 for o in scene.objects:
-    o.select_set(o == vest)
+    o.select_set(o in EXP)
 bpy.context.view_layer.objects.active = vest
 bpy.ops.export_scene.gltf(filepath=os.path.join(OUT, "vest.glb"), export_format='GLB', use_selection=True,
                           export_yup=True, export_apply=True, export_texcoords=True, export_normals=True,
                           export_materials='EXPORT', export_image_format='AUTO')
 
-lo = Vector((1e9,) * 3); hi = Vector((-1e9,) * 3)
-for c in vest.bound_box:
-    w = vest.matrix_world @ Vector(c); lo = Vector(map(min, lo, w)); hi = Vector(map(max, hi, w))
+def bbox(obs):
+    lo = Vector((1e9,) * 3); hi = Vector((-1e9,) * 3)
+    for ob in obs:
+        for c in ob.bound_box:
+            w = ob.matrix_world @ Vector(c); lo = Vector(map(min, lo, w)); hi = Vector(map(max, hi, w))
+    return lo, hi
+
+
+lo, hi = bbox(EXP)
+for m, fo in zip(MAGS, FLAPS):
+    a, b_ = bbox([fo])
+    m["flap_bbox_min"] = [round(v, 4) for v in a]; m["flap_bbox_max"] = [round(v, 4) for v in b_]
+    m["hinge_back_top_edge_yz"] = [round(b_.y, 4), round(b_.z, 4)]
 meta = {
     "model": "Long plate carrier armor vest covering UpperTorso + LowerTorso (front/back plate bags, full cummerbund with buckles, radio + med side pouches, 3 rifle mag + 2 pistol pouches, admin pouch, chest pouches, patch panel, hydration carrier, drag handle, MOLLE webbing). Original mesh.",
     "units": "meters (1 m = 1 stud)",
     "fits": "R15 UpperTorso ~2 x 1.6 x 1 studs (X width, Z height, Y depth). Hollow inside: torso box +-1.0 x +-0.5, z -1.2..+0.8 is clear; bottom edge at z -1.16 (just above the belt).",
     "origin": "UpperTorso center - weld with identity offset",
     "axes": "Blender coords: -Y = front (chest), +Z = up, +X = wearer's left. GLB exported +Y up, so glTF = (x, z, -y): front faces glTF +Z. If it imports facing backwards in Studio, rotate 180 deg about Y.",
-    "mesh": "single mesh 'Vest', single material 'Vest_Mat'",
-    "triangles": {"Vest": tris(vest)},
+    "mesh": "mesh 'Vest' plus separate mag-pouch flaps 'MagFlap1' (x +0.54, wearer's left), 'MagFlap2' (x 0), 'MagFlap3' (x -0.54); all share material 'Vest_Mat' and the same UV atlas, origins at UpperTorso center",
+    "mag_flaps": MAGS,
+    "flap_open_hint": "open = rotate the flap about the X axis through its back-top bbox edge (y = flap_bbox_max.y, z = flap_bbox_max.z), front edge lifting up and back toward the vest",
+    "triangles": {o.name: tris(o) for o in EXP},
     "size_m": {"x_width": round(hi.x - lo.x, 4), "y_depth": round(hi.y - lo.y, 4), "z_height": round(hi.z - lo.z, 4)},
     "bbox_m": {"min": [round(v, 4) for v in lo], "max": [round(v, 4) for v in hi]},
     "textures": {k: os.path.basename(v) for k, v in paths.items()},
@@ -523,4 +579,45 @@ for k, d in VIEWS.items():
         aim(l, target_pt)
     p = os.path.join(REN, f"vest_{k}.png"); scene.render.filepath = p
     bpy.ops.render.render(write_still=True); paths_r.append(p); print("rendered", p)
+
+
+# ------------------------------------------------------------------ flap open renders (MagFlap1)
+from mathutils import Matrix
+f1 = FLAPS[0]
+a, b_ = bbox([f1])
+piv = Vector((0, b_.y, b_.z))
+base = f1.matrix_world.copy()
+
+
+def set_open(deg):
+    # negative about +X lifts the -Y (front) edge up and back
+    f1.matrix_world = Matrix.Translation(piv) @ Matrix.Rotation(math.radians(-deg), 4, 'X') @ Matrix.Translation(-piv) @ base
+
+
+def shoot(name, d, tgt, dist, res):
+    scene.render.resolution_x = scene.render.resolution_y = res
+    d = Vector(d).normalized()
+    cam.location = tgt + d * dist; aim(cam, tgt)
+    r = d.cross(Z).normalized()
+    key, fill, rim, top = lights
+    key.location = tgt + (d + 0.9 * r + 0.8 * Z).normalized() * 4.0
+    fill.location = tgt + (d - 1.1 * r + 0.1 * Z).normalized() * 4.5
+    rim.location = tgt + (-d + 0.3 * r + 0.9 * Z).normalized() * 3.5
+    top.location = tgt + Z * 3.5
+    for l in lights:
+        aim(l, tgt)
+    p = os.path.join(REN, name); scene.render.filepath = p
+    bpy.ops.render.render(write_still=True); print("rendered", p)
+
+
+d34 = Vector(VIEWS["front34"]).normalized()
+for deg in (90, 100, 110):
+    set_open(deg)
+    sfx = "" if deg == 100 else f"_{deg}"
+    shoot(f"vest_flap_open{sfx}.png", d34, target_pt, (size * 0.47) / math.tan(hfov / 2), 1400)
+    # close-ups for judging clipping: from the wearer's left side and from front-left
+    fc = Vector((0.54, -0.72, -0.45))
+    shoot(f"check_side_{deg}.png", (1, -0.15, 0.1), fc, 2.2, 800)
+    shoot(f"check_front_{deg}.png", (0.45, -1, 0.35), fc, 2.4, 800)
+f1.matrix_world = base
 print("DONE")
