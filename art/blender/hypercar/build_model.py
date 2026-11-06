@@ -806,12 +806,39 @@ for s in (1, -1):
               cube("HandleKey", (0.014, 0.014, 0.004), "Black", matrix=hm @ Matrix.Translation((0, -0.05, 0.003)), bev=0.002)]
     # inside of the door: armrest, handle, pull strap, speaker
     ix = s * 0.722
-    card = [cube("Armrest", (0.07, 0.42, 0.045), "Leather", loc=(ix - s * 0.03, -0.28, 0.52), bev=0.015),
-            cube("InnerHandle", (0.012, 0.09, 0.022), "Alu", loc=(ix - s * 0.01, -0.56, 0.62), bev=0.004),
-            cube("PullStrap", (0.008, 0.14, 0.02), "Accent", loc=(ix - s * 0.006, -0.10, 0.63)),
-            cyl("Speaker", 0.06, 0.012, "Mesh", loc=(ix - s * 0.006, -0.62, 0.42), rot=(0, math.radians(90), 0), segs=24),
-            torus("SpeakerRing", 0.062, 0.005, "Alu", segs=24, rsegs=6)]
-    card[-1].matrix_world = Matrix.Translation((ix - s * 0.012, -0.62, 0.42)) @ Matrix.Rotation(math.radians(90), 4, 'Y')
+    ry = Matrix.Rotation(math.radians(90), 4, 'Y')
+    card = [
+        # panels: carbon top rail, alcantara insert with stitched seams, carbon kick panel
+        cube("CardCarbon", (0.01, 0.98, 0.10), "Carbon", loc=(ix - s * 0.004, -0.30, 0.68), bev=0.004),
+        cube("CardInsert", (0.012, 0.74, 0.15), "Alcantara", loc=(ix - s * 0.005, -0.30, 0.47), bev=0.01),
+        cube("CardSeamTop", (0.003, 0.72, 0.003), "Stitch", loc=(ix - s * 0.012, -0.30, 0.537)),
+        cube("CardSeamBot", (0.003, 0.72, 0.003), "Stitch", loc=(ix - s * 0.012, -0.30, 0.403)),
+        cube("CardKick", (0.01, 0.98, 0.07), "Carbon", loc=(ix - s * 0.004, -0.30, 0.31), bev=0.004),
+        # armrest with an alu cap strip and a switch pod (window / mirror switches)
+        cube("Armrest", (0.07, 0.44, 0.045), "Leather", loc=(ix - s * 0.035, -0.26, 0.565), bev=0.015),
+        cube("ArmrestCap", (0.05, 0.40, 0.004), "Alu", loc=(ix - s * 0.035, -0.26, 0.589), bev=0.002),
+        cube("SwitchPod", (0.04, 0.09, 0.012), "Screen", loc=(ix - s * 0.04, -0.40, 0.594), bev=0.004),
+    ]
+    for k in range(3):
+        card.append(cube("Switch", (0.016, 0.018, 0.008), "Black", loc=(ix - s * 0.04, -0.43 + 0.028 * k, 0.602), bev=0.003))
+    # door pull: alu grab bar standing off the card on two posts
+    for yy in (-0.12, 0.06):
+        card.append(cyl("PullPost", 0.008, 0.035, "Alu", loc=(ix - s * 0.02, yy, 0.64), rot=(0, math.radians(90), 0), segs=10))
+    card.append(tube("PullBar", [(ix - s * 0.036, -0.12, 0.64), (ix - s * 0.04, -0.03, 0.645), (ix - s * 0.036, 0.06, 0.64)], 0.009, "Alu", segs=10))
+    # inner release lever in a recessed black pocket
+    card.append(cube("ReleasePocket", (0.012, 0.11, 0.05), "Black", loc=(ix - s * 0.006, -0.62, 0.64), bev=0.01))
+    card.append(cube("ReleaseLever", (0.014, 0.08, 0.016), "Chrome", loc=(ix - s * 0.014, -0.61, 0.64), bev=0.006))
+    # pull strap in the accent colour, looped
+    card.append(swept("PullStrap", [(ix - s * 0.008, -0.05, 0.70), (ix - s * 0.03, -0.05, 0.66), (ix - s * 0.008, -0.05, 0.62)], [0.025] * 3, [0.004] * 3, "Accent", (0, 1, 0)))
+    # woofer and tweeter: honeycomb grilles in alu rings
+    for (yy, zz, r) in ((-0.64, 0.43, 0.065), (-0.74, 0.66, 0.025)):
+        card.append(cyl("SpeakerGrille", r, 0.012, "Mesh", matrix=Matrix.Translation((ix - s * 0.008, yy, zz)) @ ry, segs=28))
+        ring = torus("SpeakerRing", r + 0.003, 0.005, "Alu", segs=28, rsegs=6)
+        ring.matrix_world = Matrix.Translation((ix - s * 0.014, yy, zz)) @ ry
+        card.append(ring)
+    # map pocket: honeycomb net in a black frame low in the card
+    card.append(cube("PocketNet", (0.006, 0.30, 0.07), "Mesh", loc=(ix - s * 0.014, -0.20, 0.35)))
+    card.append(tube("PocketFrame", [(ix - s * 0.016, -0.35, 0.385), (ix - s * 0.016, -0.05, 0.385)], 0.005, "Black", segs=6))
     doors[side] = join(f"Door_{side}", [doors[side], stalk, house, cap, mglass] + handle + card)
 
     # ---- rear: tall buttresses running from behind the seats to the tail
@@ -1185,7 +1212,7 @@ a = Vector((0, -0.56, 0.615))
 bpt = Vector((0, 0.17, 0.36))
 mid = (a + bpt) / 2
 ang = math.atan2(a.z - bpt.z, bpt.y - a.y)
-cm = Matrix.Translation(mid) @ Matrix.Rotation(ang, 4, 'X')
+cm = Matrix.Translation(mid) @ Matrix.Rotation(-ang, 4, 'X')  # local +Y runs down the slope to the seats
 L = (bpt - a).length
 # solid console: one wedge from the floor up to the dash (no gap under it)
 con = prism_yz("Console", [(-0.56, 0.27), (0.17, 0.27), (0.17, 0.41), (-0.56, 0.665)], -0.125, 0.125, "Leather")
@@ -1200,8 +1227,41 @@ for row in range(4):
         inner.append(cube("ButtonIcon", (0.012, 0.004, 0.001), "LED", matrix=bm @ Matrix.Translation((0, 0, 0.0035))))
 for s in (1, -1):
     inner.append(cube("ConsoleRail", (0.012, L * 0.96, 0.014), "Alu", matrix=cm @ Matrix.Translation((s * 0.118, 0, 0.052)), bev=0.003))
-inner.append(cube("SelectorBase", (0.10, 0.12, 0.02), "Carbon", loc=(0, 0.04, 0.455), rot=(ang, 0, 0), bev=0.008))
-inner.append(cube("Selector", (0.04, 0.07, 0.045), "Alu", loc=(0, 0.04, 0.485), rot=(math.radians(-15), 0, 0), bev=0.012))
+inner.append(cube("SelectorBase", (0.10, 0.12, 0.02), "Carbon", loc=(0, 0.04, 0.455), rot=(-ang, 0, 0), bev=0.008))
+inner.append(cube("SelectorBoot", (0.06, 0.07, 0.03), "Leather", loc=(0, 0.04, 0.47), rot=(-ang, 0, 0), bev=0.012))
+inner.append(cube("Selector", (0.035, 0.06, 0.05), "Alu", loc=(0, 0.04, 0.50), rot=(math.radians(-15), 0, 0), bev=0.012))
+# console sides: carbon panels with an alu edge and stitched seam, a rubber tray at the back
+for s in (1, -1):
+    side = [(-0.53, 0.30), (0.14, 0.30), (0.14, 0.39), (-0.53, 0.62)]
+    inner.append(prism_yz("ConsoleSide", side, s * 0.126, s * 0.132, "Carbon"))
+    inner.append(swept("ConsoleSideEdge", [(s * 0.131, -0.53, 0.625), (s * 0.131, 0.14, 0.395)], [0.008] * 2, [0.004] * 2, "Alu", (1, 0, 0)))
+    inner.append(swept("ConsoleSeam", [(s * 0.127, -0.53, 0.29), (s * 0.127, 0.15, 0.29)], [0.003] * 2, [0.003] * 2, "Stitch", (1, 0, 0)))
+inner.append(cube("Tray", (0.20, 0.10, 0.012), "Black", loc=(0, 0.20, 0.36), bev=0.004))
+# dash: stitched seams along the top, carbon inlay across the passenger side, dash-top tweeters,
+# a hazard button between the centre vents and a small analog clock
+for zz in (0.735, 0.745):
+    inner.append(cube("DashSeam", (1.36, 0.003, 0.003), "Stitch", loc=(0, -0.52, zz)))
+inner.append(cube("DashInlay", (0.52, 0.006, 0.05), "Carbon", loc=(-0.38, -0.507, 0.655), bev=0.004))
+inner.append(cube("DashInlayEdge", (0.52, 0.004, 0.004), "Alu", loc=(-0.38, -0.506, 0.682)))
+for x in (-0.55, 0.62):
+    inner.append(cyl("DashTweeter", 0.03, 0.006, "Mesh", loc=(x, -0.70, 0.743), segs=24))
+    inner.append(torus("DashTweeterRing", 0.032, 0.004, "Alu", segs=24, rsegs=6))
+    inner[-1].matrix_world = Matrix.Translation((x, -0.70, 0.746))
+hz = Matrix.Translation((0, -0.505, 0.705)) @ Matrix.Rotation(math.radians(90), 4, 'X')
+inner.append(cube("Hazard", (0.03, 0.02, 0.012), "Tail", matrix=hz, bev=0.004))
+ck = Matrix.Translation((-0.22, -0.508, 0.712)) @ Matrix.Rotation(math.radians(90), 4, 'X')
+inner.append(cyl("ClockRing", 0.03, 0.012, "Chrome", matrix=ck, segs=28))
+inner.append(cyl("ClockFace", 0.026, 0.014, "Screen", matrix=ck, segs=28))
+for t in range(12):
+    a = 2 * math.pi * t / 12
+    inner.append(cube("ClockTick", (0.002, 0.005, 0.001), "Dial", matrix=ck @ Matrix.Translation((0, 0, 0.0075)) @ Matrix.Rotation(-a, 4, 'Z') @ Matrix.Translation((0, 0.02, 0))))
+inner.append(cube("ClockHand", (0.002, 0.016, 0.001), "Dial", matrix=ck @ Matrix.Translation((0, 0, 0.008)) @ Matrix.Rotation(math.radians(-40), 4, 'Z') @ Matrix.Translation((0, 0.007, 0))))
+# fire extinguisher on the passenger footwell bulkhead, carbon floor panels
+ext = Matrix.Translation((-0.42, -0.80, 0.38)) @ Matrix.Rotation(math.radians(90), 4, 'X')
+inner.append(cyl("Extinguisher", 0.035, 0.22, "Tail", matrix=Matrix.Translation((-0.42, -0.74, 0.36)) @ Matrix.Rotation(math.radians(90), 4, 'Y'), segs=20))
+inner.append(cube("ExtinguisherHead", (0.04, 0.03, 0.04), "Black", loc=(-0.29, -0.74, 0.37), bev=0.008))
+for s in (1, -1):
+    inner.append(cube("FloorCarbon", (0.44, 0.40, 0.006), "Carbon", loc=(s * C.DRIVER_X, -0.05, 0.272)))
 inner.append(cyl("StartKnob", 0.022, 0.02, "Accent", loc=(-0.10, -0.50, 0.57), rot=(math.radians(68), 0, 0), segs=20))
 inner.append(cyl("StartRing", 0.028, 0.012, "Chrome", loc=(-0.10, -0.502, 0.568), rot=(math.radians(68), 0, 0), segs=20))
 # tunnel and floor
