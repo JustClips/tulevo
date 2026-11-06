@@ -76,9 +76,9 @@ Rifle ammo, a mead, a chaser and a first-aid kit in the inventory, and the armor
   goes into the inventory with its armor left (on the ground if there's no room). Respawning
   refills the worn vest.
 - Dropped items sit in `Workspace.DroppedItems` (attributes Uid / ItemId / Count), show under
-  Ground within 8 studs, and can be picked up by dragging or by holding E. They vanish after 10 min.
+  Ground within 8 studs, and can be picked up by dragging or by pressing E. They vanish after 10 min.
   Picking up plays a bend-down-and-grab clip (Tulevo_Pickup, or Tulevo_PickupLeft with a gun in the
-  right hand; art/anim/pickup.py, Client/Movement/Moves/Pickup). With E the character walks up to the
+  right hand; art/anim/pickup.py, Client/Movement/Moves/Pickup); you can't move or jump while it plays. With E the character walks up to the
   item first and the client asks the server for it when the hand reaches it (0.5 s into the clip);
   the server's prompt handler takes it itself after 3.5 s if that request never comes.
 - The middle box shows a still picture of your own character from the front in the idle pose

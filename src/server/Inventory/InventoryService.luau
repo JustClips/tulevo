@@ -522,7 +522,7 @@ local function spawnDropped(item: Item, at: CFrame)
 		local prompt = Instance.new("ProximityPrompt")
 		prompt.ActionText = "Pick up"
 		prompt.ObjectText = if def then (if item.count > 1 then `{def.Name} x{item.count}` else def.Name) else item.id
-		prompt.HoldDuration = 0.25
+		prompt.HoldDuration = 0 -- one press (Dev 2026-11-06); the pickup clip does the waiting
 		prompt.MaxActivationDistance = 8
 		prompt.KeyboardKeyCode = Enum.KeyCode.E
 		prompt.RequiresLineOfSight = false

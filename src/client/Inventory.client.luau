@@ -8,7 +8,7 @@
 	fit or is too heavy) and R turns it 90 degrees. Drag an item:
 	  - into Inventory / Backpack: puts it there (or onto a stack of the same item)
 	  - onto Ground: drops it in front of you (a gun in your hands is put away first)
-	  - from Ground into a slot: picks it up (also: hold E on it: walk up, bend down, grab,
+	  - from Ground into a slot: picks it up (also: press E on it: walk up, bend down, grab,
 	    Movement/Moves/Pickup)
 	  - a vest onto the Armor slot: puts it on (the vest animation, like V); the worn vest
 	    dragged into a slot takes it off

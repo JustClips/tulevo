@@ -22,6 +22,7 @@
 		KeepGoing: ((ctx) -> boolean)?           -- may it continue? (default: CanStart)
 		Speed: ((ctx) -> number)?                -- target WalkSpeed while active
 		UsesGait: boolean?                       -- false = the walk/run layer fades out
+		Locked: boolean?                         -- true = can't move or jump at all while it runs
 		Start / Stop: ((ctx) -> ())?
 		Update: ((ctx, dt) -> ())?
 
@@ -169,6 +170,9 @@ local function bind(character: Model)
 	preparing = false
 	humanoid:SetStateEnabled(Enum.HumanoidStateType.Jumping, false)
 	jumpConnection = UserInputService.JumpRequest:Connect(function()
+		if current and current.Locked then
+			return -- rooted to the spot (Pickup): no jumping either
+		end
 		if preparing or humanoid.Health <= 0 or Input.rollModifier() or Input.rollPending() then
 			return -- Space while aiming is a roll, not a jump
 		end
@@ -260,7 +264,9 @@ local function bind(character: Model)
 		-- ease WalkSpeed toward the move's speed (GTA-style build-up, quicker slow-down)
 		local target = if current.Speed then current.Speed(ctx) else Config.Movement.WalkSpeed
 		local accel = Config.Movement.Acceleration
-		if walkSpeed < target then
+		if current.Locked then
+			walkSpeed = target -- rooted to the spot (Pickup): no easing
+		elseif walkSpeed < target then
 			walkSpeed = math.min(target, walkSpeed + accel * dt)
 		else
 			walkSpeed = math.max(target, walkSpeed - accel * 2 * dt)

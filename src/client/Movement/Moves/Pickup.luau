@@ -3,13 +3,14 @@
 	back up. Clips Tulevo_Pickup (right hand) and Tulevo_PickupLeft (left hand, used while a gun
 	is in the right hand) from art/anim/pickup.py.
 
-	E on a dropped item (Client/Inventory): the character first walks up to it (Humanoid:MoveTo,
+	Press E (no hold) on a dropped item (Client/Inventory): the character first walks up to it (Humanoid:MoveTo,
 	so pushing the stick cancels the walk), turns to face it, plays the clip and asks the server
 	to take the item at GRAB_AT, when the hand closes on it. Too far away after the walk (or
 	cancelled): the item is taken straight away with no animation. Dragging an item out of the
 	inventory's Ground list only plays the clip (the item has already moved).
 
-	Feet stay planted while it plays (Speed 0); weapons can't fire meanwhile (Movement.busy).
+	The player is rooted while it plays (Locked: no moving or jumping, Speed 0); weapons can't fire
+	meanwhile (Movement.busy).
 	Fades in and out over Config.Movement.BlendTime like every other move.
 
 	Other scripts: require this module and call Pickup.request(position, grab?, walk?).
@@ -49,6 +50,7 @@ local Pickup = {
 	Name = "Pickup",
 	Priority = 25, -- over Aim / Air, under Roll
 	UsesGait = false,
+	Locked = true, -- Dev 2026-11-06: can't move or jump until the clip is over
 }
 
 -- Start a pickup of something lying at pos. grab (optional) runs once, when the hand reaches
@@ -132,7 +134,7 @@ end
 
 Pickup.KeepGoing = function(ctx)
 	local s = state(ctx)
-	return s.t < LENGTH - ctx.Config.Movement.BlendTime * 0.75 and ctx.Humanoid.Health > 0
+	return s.t < LENGTH - ctx.Config.Movement.BlendTime * 0.5 and ctx.Humanoid.Health > 0
 end
 
 Pickup.Speed = function(_ctx)
@@ -163,6 +165,9 @@ Pickup.Update = function(ctx, dt)
 		local root = ctx.Root
 		root.CFrame = CFrame.new(root.Position) * s.from:Lerp(s.to, u * u * (3 - 2 * u))
 	end
+	-- rooted: no sliding from leftover speed, input can't push the body
+	local v = ctx.Root.AssemblyLinearVelocity
+	ctx.Root.AssemblyLinearVelocity = Vector3.new(0, v.Y, 0)
 	if s.job and s.t >= GRAB_AT then
 		grabNow(s.job)
 		s.job = nil
