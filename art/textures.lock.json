@@ -150,102 +150,102 @@
   "state": "Approved"
  },
  "ccbded21664d59b656fed665d21fbcc1b7703942e6eed101573da4346832c450": {
-  "id": 123419739077926,
+  "id": 75875926962331,
   "file": "art/models/OfficeDark/tex/OfficeDark_Base.png",
   "state": "Approved"
  },
  "42b5c38360de8880d524e267ee5ef42370eac03a8b51952142e8b93225d28f3f": {
-  "id": 75705203102545,
+  "id": 115179035203804,
   "file": "art/models/OfficeDark/tex/OfficeDark_Frame.png",
   "state": "Approved"
  },
  "aa8c259a24688687ee870649c70a8236fa8d071b825edff30990428636126959": {
-  "id": 83692352573905,
+  "id": 96495675004037,
   "file": "art/models/OfficeDark/tex/OfficeDark_Glass.png",
   "state": "Approved"
  },
  "e436f3f87c9a7cf7d6c245e25623712c1f88b6d40289728b6482aff836c7f55e": {
-  "id": 90077212911540,
+  "id": 123755130553817,
   "file": "art/models/OfficeDark/tex/OfficeDark_Light.png",
   "state": "Approved"
  },
  "0e72d87640b3a1e78917170d34d76298fb0d16319ebcae6f88cdc7769ded16c7": {
-  "id": 107782379079353,
+  "id": 101117844613267,
   "file": "art/models/OfficeDark/tex/OfficeDark_Lobby.png",
   "state": "Approved"
  },
  "5d19c31c24c87036d4aaf5afdda72469062821632eec463507cb96584255ea87": {
-  "id": 101146663367417,
+  "id": 116572954031085,
   "file": "art/models/OfficeDark/tex/OfficeDark_Roof.png",
   "state": "Approved"
  },
  "a4b8cf12f230c22afbe95124b7a7aa870764012c289d2da6f8b74ec5a27ad90e": {
-  "id": 99810654447776,
+  "id": 118785328607199,
   "file": "art/models/OfficeDark/tex/OfficeDark_Screen.png",
   "state": "Approved"
  },
  "335f6b702dbc644742cfb16c00790ea202d5b3f3db96e862a4f7171c77e62e52": {
-  "id": 90742317100020,
+  "id": 123666981443306,
   "file": "art/models/OfficeRound/tex/OfficeRound_Base.png",
   "state": "Approved"
  },
  "294c477b8601a47d905e907f42f0edb2231774380a8bd3970bf5abeb583c38ae": {
-  "id": 80242697697038,
+  "id": 96794344758804,
   "file": "art/models/OfficeRound/tex/OfficeRound_Frame.png",
   "state": "Approved"
  },
  "dfb1ccffee57200435a6bb81a5b459b69fc0a60df37eeb817d777c9076d6a649": {
-  "id": 124867889769866,
+  "id": 91487123777018,
   "file": "art/models/OfficeRound/tex/OfficeRound_Glass.png",
   "state": "Approved"
  },
  "2f8790ef29b5a05e83d934b2f82296ea6c3b68ed52d40f204ec516b392c6c2c1": {
-  "id": 84593669623913,
+  "id": 104957615987029,
   "file": "art/models/OfficeRound/tex/OfficeRound_Light.png",
   "state": "Approved"
  },
  "c2c665b2c9b46927708bc20afb394a33783bd87bab4d01a062f037b0b9617407": {
-  "id": 81796429469783,
+  "id": 100693593512053,
   "file": "art/models/OfficeRound/tex/OfficeRound_Lobby.png",
   "state": "Approved"
  },
  "8528e2c9bf332fb907763735eed3619ae2c0a61b7f86b80e98bcf0037ace69fb": {
-  "id": 77821912219167,
+  "id": 74000148946437,
   "file": "art/models/OfficeRound/tex/OfficeRound_Roof.png",
   "state": "Approved"
  },
  "136b75896999fddf3118a32257c45c2b44ebcb5349f679a2f8f2309b81678c13": {
-  "id": 110636295123024,
+  "id": 71671034462123,
   "file": "art/models/OfficeStone/tex/OfficeStone_Base.png",
   "state": "Approved"
  },
  "66602826aa4ba4a8d046091bd0722b2c453c870e455628db2a23cb5c0ab96783": {
-  "id": 112251434162263,
+  "id": 77291495119151,
   "file": "art/models/OfficeStone/tex/OfficeStone_Cornice.png",
   "state": "Approved"
  },
  "21f306cdedda71363cdf0bab817fb3bde086116b50d80bcc13b9cb66163a008f": {
-  "id": 112703479639301,
+  "id": 84412399490283,
   "file": "art/models/OfficeStone/tex/OfficeStone_Facade.png",
   "state": "Approved"
  },
  "5e188cfc680e97dac124f06dc94eaf021561c8acb64dbc474afdcb021f8e1c31": {
-  "id": 113892145126700,
+  "id": 137380545509287,
   "file": "art/models/OfficeStone/tex/OfficeStone_Light.png",
   "state": "Approved"
  },
  "1a726ba4871fe11d23db6e8831b2bc55207b156e9587e44decbf2d3b996f0d26": {
-  "id": 132807019550555,
+  "id": 116713272898630,
   "file": "art/models/OfficeStone/tex/OfficeStone_Lobby.png",
   "state": "Approved"
  },
  "373787042e4d1350604128af158a5b2cc145eabab5a3cb35095faa2d733e48a9": {
-  "id": 113968797078247,
+  "id": 94761267115390,
   "file": "art/models/OfficeStone/tex/OfficeStone_Mech.png",
   "state": "Approved"
  },
  "41b6735abaae41721b40aa5beb06cd83ade5a2556b0c76f3fdc86b9681a73bd6": {
-  "id": 121025989026017,
+  "id": 92232645723888,
   "file": "art/models/OfficeStone/tex/OfficeStone_Roof.png",
   "state": "Approved"
  }

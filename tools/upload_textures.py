@@ -39,10 +39,19 @@ def upload(path):
         time.sleep(2)
         code, op = request("GET", f"https://apis.roblox.com/assets/v1/{op['path']}")
     asset_id = int((op.get("response") or {})["assetId"])
+    # a fresh asset often answers CannotManageAsset for a while; without the grant Dev's alt / the
+    # group game can't load the image and the building shows grey, so retry until it sticks
     for subject, sid in GRANTS:
-        body = {"subjectType": subject, "subjectId": sid, "action": "Use", "requests": [{"assetId": asset_id, "grantToDependencies": False}]}
-        request("PATCH", "https://apis.roblox.com/asset-permissions-api/v1/assets/permissions",
-                json.dumps(body).encode(), {"Content-Type": "application/json-patch+json"})
+        for _ in range(12):
+            body = {"subjectType": subject, "subjectId": sid, "action": "Use", "requests": [{"assetId": asset_id, "grantToDependencies": False}]}
+            code, r = request("PATCH", "https://apis.roblox.com/asset-permissions-api/v1/assets/permissions",
+                              json.dumps(body).encode(), {"Content-Type": "application/json-patch+json"})
+            errs = (r.get("errors") if isinstance(r, dict) else None) or []
+            if code < 300 and not errs:
+                break
+            time.sleep(10)
+        else:
+            print(f"  grant {subject} {sid} failed for {asset_id}: {code} {errs or r}")
     return asset_id
 
 
