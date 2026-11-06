@@ -15,6 +15,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local StarterPlayer = game:GetService("StarterPlayer")
 
 local Config = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Config"))
+local Knocked = require(script.Parent:WaitForChild("Knocked"))
 local Limits = Config.Character
 
 Players.CharacterAutoLoads = false
@@ -128,6 +129,19 @@ local function build(player: Player, plain: boolean?)
 		addRegen(humanoid)
 	end
 
+	-- health 0 = knocked down on the floor, not dead (Server/Knocked); "Потерять сознание"
+	-- respawns, a revive starts the health regen again
+	Knocked.attach(player, character, function()
+		if player.Parent and player.Character == character then
+			spawnPlayer(player)
+		end
+	end, function()
+		if not hasHealth then
+			addRegen(humanoid)
+		end
+	end)
+
+	-- a real death (falling out of the map) still respawns as before
 	humanoid.Died:Once(function()
 		task.wait(Players.RespawnTime)
 		if player.Parent and player.Character == character then

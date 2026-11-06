@@ -174,6 +174,17 @@ local Config = {
 		ShowOwnTag = true, -- true: you see your own tag too (handy for solo testing)
 	},
 
+	-- Knocked down instead of dying (Server/Knocked + Client/Knocked): health 0 = ragdoll on the
+	-- floor with the "ВЫ РАНЕНЫ" screen. "Ожидать помощи" stays down, "Потерять сознание"
+	-- respawns.
+	Knocked = {
+		Enabled = true, -- false: old behaviour (die and respawn after RespawnTime)
+		GiveUpDelay = 1.5, -- seconds before "Потерять сознание" works (no accidental clicks)
+		ReviveHealth = 20, -- health after Knocked.revive (medics / first-aid later)
+		FallPush = 9, -- random sideways push when falling (studs/s), so bodies land differently
+		CameraMinZoom = 9, -- camera pulled out of first person while lying down
+	},
+
 	-- In-game clock (Server/GameClock + Shared/GameTime): drives Lighting.ClockTime and the
 	-- time/date on the HUD. GTA style: one game day = 48 real minutes (1 game minute = 2 s).
 	Time = {
