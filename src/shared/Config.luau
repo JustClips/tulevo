@@ -70,6 +70,25 @@ local Config = {
 		-- reads small next to chunky R15 bodies). The rifle animations (art/anim/gun.py
 		-- GUN_SCALE) are solved for it, so change both together.
 		GunScale = 1.7,
+		-- shot VFX (Client/Weapons/Effects; sprites rendered in Blender, art/blender/weapons)
+		Fx = {
+			FlashTime = 0.045, -- seconds the flash is up (GTA: a frame or two)
+			FlashSize = 1.0, -- studs per render unit: the plume is ~0.8-1.1 of them long
+			FlashBrightness = 2.5,
+			StarSize = 1.1, -- the down-the-barrel star (shows only when looking along the barrel)
+			LightRange = 9,
+			LightBrightness = 2.5,
+			SmokeSize = 1.4, -- studs, when the puff has spread
+			SmokeOpacity = 0.35,
+			-- tracer: a thin streak flying from the muzzle to the hit
+			TracerChance = 1, -- share of shots that draw one (GTA shows nearly every one)
+			TracerSpeed = 1100, -- studs per second
+			TracerLength = 12, -- studs of streak
+			TracerStart = 1.2, -- studs past the muzzle it starts (clear of the flash)
+			TracerPixels = 4, -- on-screen width of the streak's sprite (the bright core is ~1/3)
+			TracerMinWidth = 0.05,
+			TracerBrightness = 3,
+		},
 		-- damage multiplier per body part hit, for weapons without their own BodyDamage table
 		-- (each weapon file in Shared/Weapons/Defs can override any part)
 		BodyDamage = {

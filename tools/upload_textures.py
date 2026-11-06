@@ -66,6 +66,7 @@ def main():
     base = os.path.join(ROOT, "art", "models")
     sources = [(m, os.path.join(base, m, "textures.json")) for m in sorted(os.listdir(base))]
     sources.append(("Weather", os.path.join(ROOT, "art", "weather", "textures.json")))  # rain + sky
+    sources.append(("WeaponFx", os.path.join(ROOT, "art", "weapons", "fx", "textures.json")))  # muzzle flash, tracer
     for model, mp in sources:
         if not os.path.exists(mp):
             continue
