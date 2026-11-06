@@ -175,25 +175,20 @@ def limit(x, threshold, release=0.06):
 
 
 def big_shot(shot, rng):
-    """GTA 5 style carbine: a solid "pow", between crisp and muffled (Dev: v3 too sharp, v4 far too muffled).
-    Highs rolled off, the 250-1200 Hz body brought forward, no sub boom, limited so it stays
-    loud, then a short dull echo off the street."""
-    n = seconds(1.4)
+    """GTA 5 style carbine, heard from the shooter's own position: dry, close and punchy.
+    Echo is what makes a shot sound far away (Dev: v4/v5 sounded "400 m away"), so the
+    recording's own echo is gated off after the blast and no reverb is added. Full top end
+    (no low-pass), boom below 100 Hz cut, close-up low-mid weight, gently limited."""
+    n = seconds(0.9)
     shot = pad(shot / (np.abs(shot).max() + 1e-9), n)
-    mix = fft_filter(shot, hp(90, 2))                       # no sub rumble
-    mix = fft_filter(mix, lp(6500, 2))                      # soften the hiss, keep it clear
-    mix = fft_filter(mix, lambda f: 1 + 0.7 / (1 + ((f - 700) / 500) ** 2))  # the "pow" body
-    mix = fft_filter(mix, lambda f: 1 + 0.35 / (1 + ((f - 2500) / 1200) ** 2))  # a little snap back
-    mix = limit(mix, 0.4)
-    tail = np.zeros((n, 2))
-    src = fft_filter(mix, band(200, 4000))
-    for d, g, side in ((0.085, 0.16, 0), (0.15, 0.12, 1), (0.26, 0.07, 0)):
-        i = seconds(d)
-        tail[i:, side] += g * src[: n - i, side]
-        tail[i:, 1 - side] += g * 0.5 * src[: n - i, 1 - side]
-    rv = np.stack([reverb(src[:, c], rng, length=0.8, tone=3500, wet=1.0)[:n] for c in (0, 1)], 1)
-    out = mix + tail + 0.08 * rv
-    return fade_out(out, 0.5)
+    t = np.arange(n) / SR
+    gate = np.where(t < 0.08, 1.0, np.exp(-(t - 0.08) / 0.12))  # blast stays, echo dies fast
+    mix = shot * gate[:, None]
+    mix = fft_filter(mix, hp(100, 2))
+    mix = fft_filter(mix, lambda f: 1 + 0.6 / (1 + ((f - 350) / 250) ** 2))   # close-up weight
+    mix = fft_filter(mix, lambda f: 1 + 0.3 / (1 + ((f - 2800) / 1500) ** 2))  # clear crack
+    mix = limit(mix, 0.45)
+    return fade_out(mix, 0.3)
 
 
 def gunshots(rng):

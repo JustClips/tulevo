@@ -6,14 +6,10 @@ Cut from real CC0 recordings (art/sounds/source/foley, SOURCES.md). Server/Weapo
 plays each one on the beat it belongs to (RELOAD_BEATS), from the gun, so everyone nearby
 hears them and a cancelled reload stops where it is:
 
-  ReloadMagOut     mag release pressed, empty mag slides out       (grab)
-  ReloadMagDrop    the empty mag clatters on the ground            (when it lands)
-  ReloadPouch      vest pouch lid ripped open (velcro)             (flap)
-  ReloadMagIn      full mag pushed up into the well                (just before partial)
-  ReloadMagSeat    slapped home, click                             (seated)
-  ReloadCharge     charging handle pulled back and let go          (1.97 s)
+  ReloadMagOut     mag release click, empty mag out    (grab)
+  ReloadMagSeat    new mag clacks home                 (seated)
 
-Same muffled treatment as the carbine shot (GTA 5 feel): no hiss, a bit of metal body.
+GTA style: two clean clicks, nothing else.
 """
 import os
 import sys
@@ -21,7 +17,7 @@ import sys
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(__file__))
-from gun_sounds import SR, add, fade_out, fft_filter, hp, limit, load, lp, seconds, write  # noqa: E402
+from gun_sounds import fade_out, fft_filter, hp, limit, load, seconds, write  # noqa: E402
 
 FOLEY = os.path.join(os.path.dirname(__file__), "..", "art", "sounds", "source", "foley")
 _cache = {}
@@ -40,25 +36,17 @@ def cut(name, a, b):
     return fade_out(x, min(0.04, (b - a) / 3))
 
 
-def treat(x, tone=5500):
-    x = fft_filter(x, hp(120, 2))
-    x = fft_filter(x, lp(tone, 2))
-    x = x + 0.6 * fft_filter(x, lambda f: 1 / (1 + ((f - 700) / 400) ** 2))  # metal body
-    return limit(x, 0.5)
+def treat(x):
+    """Clean: just the click, no rumble, no hiss, nothing else."""
+    x = fft_filter(x, hp(250, 2))
+    return limit(x, 0.55)
 
 
 def main():
-    write("ReloadMagOut", treat(cut("rifle_reload", 0.13, 0.46)))
-    write("ReloadMagIn", treat(cut("rifle_reload", 1.025, 1.22)))
-    write("ReloadMagSeat", treat(cut("rifle_reload", 1.22, 1.56)))
-    drop = cut("equipment_clicks", 3.72, 4.15)
-    write("ReloadMagDrop", treat(drop, 3500))
-    pouch = load(os.path.join(FOLEY, "velcro_03.flac")).mean(1)
-    write("ReloadPouch", treat(fade_out(pouch[: seconds(0.35)], 0.06), 7000))
-    charge = np.zeros(seconds(0.45))
-    add(charge, cut("equipment_clicks", 2.04, 2.13), 0.04)   # pulled back (2.01)
-    add(charge, cut("equipment_clicks", 2.37, 2.56), 0.11)   # slams forward (2.08)
-    write("ReloadCharge", treat(charge))
+    # GTA style: simple and clean. Mag out click, then the new mag clacks home. (Dev 2026-11-06:
+    # the full set with ground clatter, velcro and charging handle was too much.)
+    write("ReloadMagOut", treat(cut("rifle_reload", 0.22, 0.36)))
+    write("ReloadMagSeat", treat(cut("rifle_reload", 1.26, 1.42)))
 
 
 if __name__ == "__main__":

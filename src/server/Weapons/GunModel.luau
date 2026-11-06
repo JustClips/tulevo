@@ -311,7 +311,6 @@ end
 
 -- Reload sounds (tools/reload_sounds.py), played from the server so everyone nearby hears them.
 -- Volume / range: Config.Weapons.Sound.Reload / ReloadRange.
-local CHARGE_AT = 1.95 -- ReloadCharge: handle back at 2.01, forward at 2.08 (gun.py)
 local function reloadSound(part: BasePart, name: string)
 	local id = (SoundIds :: any)[name]
 	local cfg = Config.Weapons.Sound
@@ -388,16 +387,10 @@ function GunModel.reloadMag(character: Model, speed: number, fromPouches: boolea
 		old.AssemblyLinearVelocity = mag.AssemblyLinearVelocity + Vector3.new(0, -4, 0)
 		game:GetService("Debris"):AddItem(old, 10)
 		mag.Transparency = 1
-		task.delay(0.35, function()
-			reloadSound(old, "ReloadMagDrop") -- hits the ground
-		end)
 	end)
 	if vest and pouch then
 		at(RELOAD_BEATS.flap, function()
 			if vest.Parent == character then
-				if not vest:GetAttribute(`Open{pouch}`) then
-					reloadSound(mag, "ReloadPouch")
-				end
 				openFlap(vest, pouch, FLAP_TIME / speed)
 			end
 		end)
@@ -413,14 +406,8 @@ function GunModel.reloadMag(character: Model, speed: number, fromPouches: boolea
 		weld.Part0, weld.C0, weld.C1 = hand, MAG_DRAW_IN_HAND, CFrame.new()
 		mag.Transparency = 0
 	end)
-	at(RELOAD_BEATS.partial - 0.04, function()
-		reloadSound(mag, "ReloadMagIn")
-	end)
-	at(RELOAD_BEATS.seated - 0.08, function()
+	at(RELOAD_BEATS.seated - 0.02, function()
 		reloadSound(mag, "ReloadMagSeat")
-	end)
-	at(CHARGE_AT, function()
-		reloadSound(mag, "ReloadCharge")
 	end)
 	at(RELOAD_BEATS.partial, function()
 		-- in the well, not quite home; the hand lets go to slap it
