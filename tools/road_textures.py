@@ -3,7 +3,8 @@
   python3 tools/road_textures.py
 
 Sources are CC0 photo scans, downloaded once into art/road/src (git-ignored):
-  ambientCG Asphalt025C (base asphalt), ambientCG ManholeCover006, Poly Haven asphalt_track (patch fill).
+  ambientCG Asphalt025C (base asphalt), ambientCG ManholeCover006, Poly Haven asphalt_track (patch fill),
+  Poly Haven brushed_concrete (sidewalks).
 
 Outputs (every image: x = along the road, y = across it, top of the image = the road's left edge):
   StreetColor/Normal/Rough   1024 tiling MaterialVariant maps (16 studs per tile)
@@ -16,6 +17,9 @@ Outputs (every image: x = along the road, y = across it, top of the image = the 
   Grime1..3                  big soft dark/dusty blotches, 44 x 66 studs
   Paint, PaintV              worn chipped road paint, tiles along the line (6 studs); V = turned 90
   Manhole                    round iron cover with its asphalt ring
+  WalkColor/Normal/Rough     sidewalk concrete MaterialVariant maps (Poly Haven brushed_concrete):
+                             4 x 4 scored 5 ft slabs per tile (21.6 studs), per-slab tone, cracks
+  KerbTop, KerbFace, Gum     kerb edge band, kerb's vertical face, gum spots
 art/road/textures.json maps these names to the png paths for tools/upload_textures.py.
 """
 import io
@@ -50,6 +54,10 @@ def fetch():
         p = os.path.join(SRC, f"asphalt_track_{kind}.png")
         if not os.path.exists(p):
             open(p, "wb").write(get(PH.format(kind)))
+    for kind in ("diff", "nor_gl", "rough"):
+        p = os.path.join(SRC, f"brushed_concrete_{kind}.png")
+        if not os.path.exists(p):
+            open(p, "wb").write(get(PH.format(kind).replace("asphalt_track", "brushed_concrete")))
 
 
 def load(path, mode="RGB", size=None):
@@ -384,6 +392,107 @@ def manhole():
     return save("Manhole", rgba(col, a))
 
 
+# ---------------------------------------------------------------- sidewalks
+PANEL_PX = 256  # 4 x 4 scored panels per 1024 tile; tile = 21.6 studs, panel = 5.4 studs (5 ft)
+
+
+def sidewalk():
+    """LA-style broom-finished concrete slabs: per-panel tone, scored joints, stains, a few cracked panels."""
+    g = np.random.default_rng(900)
+    S = 1024
+    col = load(os.path.join(SRC, "brushed_concrete_diff.png"), size=(S, S))
+    nor = load(os.path.join(SRC, "brushed_concrete_nor_gl.png"), size=(S, S))
+    rough = load(os.path.join(SRC, "brushed_concrete_rough.png"), "L", size=(S, S))
+    col = col - blur(col, 50) + col.mean(axis=(0, 1))
+    lum = col.mean(axis=2, keepdims=True)
+    col = lum + (col - lum) * 0.25  # nearly grey, a hint of warm
+    lum = col.mean(axis=2, keepdims=True)
+    col = lum.mean() + (col - lum.mean()) * 0.55  # softer trowel marks
+    col = col / col.mean() * 0.56 * np.array([1.0, 0.99, 0.96])
+    yy, xx = np.mgrid[0:S, 0:S]
+    pi, pj = yy // PANEL_PX, xx // PANEL_PX
+    tone = g.uniform(0.9, 1.08, (4, 4))
+    col *= tone[pi, pj][..., None]
+    # dirt that collects toward joints + random blotches per panel
+    dy = np.minimum(yy % PANEL_PX, PANEL_PX - yy % PANEL_PX)
+    dx = np.minimum(xx % PANEL_PX, PANEL_PX - xx % PANEL_PX)
+    dj = np.minimum(dx, dy).astype(np.float32)
+    col *= (1 - 0.12 * np.exp(-dj / 18))[..., None]
+    blot = smooth(noise(S, S, 70, 3, seed=901), 0.62, 0.8)
+    col *= (1 - 0.1 * blot)[..., None]
+    # scored joints: a groove 4 px wide with dark grime
+    groove = np.exp(-(dj / 2.2) ** 2)
+    col = col * (1 - groove[..., None] * 0.7)
+    # cracks in a few panels
+    cm = mask_from(lambda d, ss: [stroke(d, [q * ss for q in walk(
+        (pj0 * PANEL_PX + g.uniform(0, 1) * PANEL_PX, pi0 * PANEL_PX + g.choice([2, PANEL_PX - 2])),
+        g.uniform(1.0, 2.1) * (1 if g.random() < 0.5 else -1), PANEL_PX * g.uniform(0.6, 1.2), 3, 0.07, g)],
+        taper(2.4 * ss, 0.5, g)) for pi0, pj0 in g.integers(0, 4, (3, 2))], (S, S))
+    col *= (1 - cm[..., None] * 0.7)
+    save("WalkColor", np.clip(col, 0, 1))
+    # normals: the scan's broom grain + groove slopes from a height map
+    h = -groove * 3.0 - cm * 1.5
+    gx = np.roll(h, -1, 1) - np.roll(h, 1, 1)
+    gy = np.roll(h, -1, 0) - np.roll(h, 1, 0)
+    n = nor * 2 - 1
+    n[..., 0] -= gx * 0.5
+    n[..., 1] += gy * 0.5
+    n /= np.linalg.norm(n, axis=2, keepdims=True)
+    save("WalkNormal", n * 0.5 + 0.5)
+    r = 0.82 + (rough - rough.mean()) * 1.2 + groove * 0.1 - blot * 0.06
+    save("WalkRough", np.clip(r, 0.6, 0.98), "L")
+
+
+def kerb():
+    """Kerb top edge band (1.2 studs across, 8 along): worn, chipped lip with gutter grime on the road side.
+    y = 0 is the road side."""
+    W, H = 1024, 160
+    y = np.arange(H)[:, None] / H
+    n = noise(H, W, 30, 3, seed=910)
+    lip = np.exp(-(y / 0.18) ** 2)  # the rounded worn edge right at the road
+    grime = np.exp(-(y / 0.08) ** 2) * (0.5 + 0.5 * noise(H, W, 12, 2, seed=911))
+    chips = smooth(noise(H, W, 5, 2, seed=912), 0.66, 0.74) * np.exp(-(y / 0.25) ** 2)
+    scuff = smooth(noise(H, W, 60, 2, seed=913), 0.62, 0.72) * np.exp(-(y / 0.35) ** 2)  # black tyre scuffs
+    light = np.array([0.66, 0.65, 0.62])
+    dark = np.array([0.09, 0.085, 0.08])
+    w_dark = np.clip(grime * 0.8 + chips * 0.9 + scuff * 0.3, 0, 1)
+    w_light = lip * 0.45 * (0.6 + 0.4 * n)
+    col = (light * w_light[..., None] + dark * w_dark[..., None]) / (w_light + w_dark + 1e-6)[..., None]
+    a = np.clip(w_light + w_dark, 0, 0.9)
+    return save("KerbTop", rgba(col, a))
+
+
+def kerb_face():
+    """The kerb's vertical face (8 studs along, 0.6 tall): grimy concrete, darker toward the road surface,
+    drip streaks and tyre scuffs. Opaque, top of the image = top of the kerb."""
+    W, H = 1024, 80
+    y = np.arange(H)[:, None] / H
+    base = np.array([0.5, 0.49, 0.46]) * (0.85 + 0.3 * noise(H, W, 20, 3, seed=920))[..., None]
+    streak = smooth(noise(H, W * 1, 6, 2, seed=921), 0.55, 0.75)
+    base *= (1 - 0.35 * streak * y)[..., None]
+    base *= (1 - 0.55 * y ** 2)[..., None]
+    scuff = smooth(noise(H, W, 30, 2, seed=922), 0.68, 0.8)
+    base *= (1 - 0.35 * scuff)[..., None]
+    return save("KerbFace", np.dstack([base, np.ones((H, W))]))
+
+
+def gum():
+    """Gum spots and small stains for sidewalk tops (8 x 8 studs)."""
+    g = np.random.default_rng(930)
+    S = 512
+
+    def draw(d, ss):
+        for _ in range(70):
+            x, y = g.uniform(30, S - 30, 2)
+            r = g.uniform(2.5, 6)
+            d.ellipse([(x - r) * ss, (y - r * 0.9) * ss, (x + r) * ss, (y + r * 0.9) * ss], fill=int(g.uniform(120, 255)))
+
+    m = mask_from(draw, (S, S), blur=0.8)
+    a = m * 0.75
+    col = np.array([0.2, 0.2, 0.2])
+    return save("Gum", rgba(col, a))
+
+
 def main():
     os.makedirs(TEX, exist_ok=True)
     fetch()
@@ -397,6 +506,8 @@ def main():
     names += [stain(i) for i in range(1, 4)]
     names += [grime(i) for i in range(1, 4)]
     names += [paint(), "PaintV", manhole()]
+    sidewalk()
+    names += ["WalkColor", "WalkNormal", "WalkRough", kerb(), kerb_face(), gum()]
     tj = {n: f"art/road/tex/{n}.png" for n in names}
     json.dump(tj, open(os.path.join(ROOT, "art", "road", "textures.json"), "w"), indent=1)
     print(f"wrote {len(names)} textures to {TEX}")

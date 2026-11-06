@@ -140,7 +140,7 @@ for i, l in enumerate(lines):
     l["name"] = f"Line{i + 1}"
     road_dressing.style_line(l)
 children.append({"name": "Lines", "className": "Folder", "children": lines})
-children.append(road_dressing.dress(roads))
+children.append(road_dressing.dress(roads, children))
 
 # spawn: far sidewalk of Vault Avenue, facing the tower (+Z)
 children.append(part("Spawn", (10, 1, 10), (0, kerb + 0.5, AVE_Z - ROAD_W / 2 - SIDE_W / 2), ASPHALT, "Asphalt",
