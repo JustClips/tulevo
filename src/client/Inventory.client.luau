@@ -8,7 +8,8 @@
 	fit or is too heavy) and R turns it 90 degrees. Drag an item:
 	  - into Inventory / Backpack: puts it there (or onto a stack of the same item)
 	  - onto Ground: drops it in front of you (a gun in your hands is put away first)
-	  - from Ground into a slot: picks it up (also: walk up to it and hold E)
+	  - from Ground into a slot: picks it up (also: hold E on it: walk up, bend down, grab,
+	    Movement/Moves/Pickup)
 	  - a vest onto the Armor slot: puts it on (the vest animation, like V); the worn vest
 	    dragged into a slot takes it off
 	Moves that would go over a weight limit are refused by the server. Hovering an item shows
@@ -37,6 +38,7 @@ local Armor = require(Shared:WaitForChild("Armor"))
 local IconIds = require(Shared:WaitForChild("IconIds"))
 local Weapons = require(script.Parent:WaitForChild("Weapons"))
 local WeaponState = require(script.Parent:WaitForChild("Weapons"):WaitForChild("State"))
+local Pickup = require(script.Parent:WaitForChild("Movement"):WaitForChild("Moves"):WaitForChild("Pickup"))
 
 local Remotes = ReplicatedStorage:WaitForChild("InventoryRemotes")
 local MoveRemote = Remotes:WaitForChild("Move") :: RemoteEvent
@@ -722,6 +724,39 @@ if modelsFolder then
 	end)
 end
 
+-- a dropped item's model by its Uid
+local function droppedModel(uid: string): Model?
+	local folder = workspace:FindFirstChild("DroppedItems")
+	for _, m in (if folder then folder:GetChildren() else {}) do
+		if m:IsA("Model") and m:GetAttribute("Uid") == uid then
+			return m
+		end
+	end
+	return nil
+end
+
+-- E on a dropped item: walk up to it, bend down and grab it (Movement/Moves/Pickup); the server
+-- is asked to take it when the hand gets there. (The server also takes it by itself a few
+-- seconds later if that request never comes.)
+local ProximityPromptService = game:GetService("ProximityPromptService")
+ProximityPromptService.PromptTriggered:Connect(function(prompt, who)
+	if who ~= player then
+		return
+	end
+	local folder = workspace:FindFirstChild("DroppedItems")
+	local model = folder and prompt:FindFirstAncestorOfClass("Model")
+	while model and model.Parent ~= folder do
+		model = model:FindFirstAncestorOfClass("Model")
+	end
+	local uid = model and model:GetAttribute("Uid")
+	if not model or typeof(uid) ~= "string" then
+		return
+	end
+	Pickup.request(model:GetPivot().Position, function()
+		MoveRemote:FireServer("Ground", uid, "Inventory", 0, false) -- no slot: wherever it fits
+	end, true)
+end)
+
 -- dropped items near you (Workspace.DroppedItems, Server/Inventory)
 local function scanGround()
 	local list = {}
@@ -1131,6 +1166,12 @@ local function finish(d: Drag)
 			return -- dropped back where it was
 		end
 		MoveRemote:FireServer(d.from, d.key, pl.to, pl.slot, d.rot)
+		if d.from == "Ground" then
+			local m = droppedModel(d.key)
+			if m then
+				Pickup.request(m:GetPivot().Position, nil, false) -- bend down for it (just the animation)
+			end
+		end
 		-- show it there straight away (the server's answer follows and wins if it disagrees)
 		if not pl.merge and GRIDS[d.from] and GRIDS[pl.to] then
 			local src = state.containers[d.from] or {}

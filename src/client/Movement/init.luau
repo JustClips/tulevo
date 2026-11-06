@@ -8,7 +8,7 @@
 	normal speed (Config.Movement.AnimRateFollowsSpeed).
 
 	Moves: Walk 0, Crouch 5, Sprint 10, SprintStop 11 (let go mid-sprint: skid), Pivot 11
-	(reverse while running: plant and turn), Aim 12, Air 20, Roll 30. Footwork clips come from
+	(reverse while running: plant and turn), Aim 12, Air 20, Pickup 25 (item off the ground), Roll 30. Footwork clips come from
 	art/anim/steps.py.
 
 	Adding a move (crouch, dive, roll, ...): copy Moves/Sprint.luau, give it a Priority, and
@@ -83,13 +83,13 @@ function Movement.active(): string?
 	return current and current.Name
 end
 
--- Rolling, winding up a jump, or in the air (no shooting then, like GTA).
+-- Rolling, winding up a jump, in the air or picking something up (no shooting then, like GTA).
 function Movement.busy(): boolean
 	if preparing then
 		return true
 	end
 	local name = current and current.Name
-	if name == "Roll" or name == "Air" then
+	if name == "Roll" or name == "Air" or name == "Pickup" then
 		return true
 	end
 	local st = ctx and ctx.Humanoid and ctx.Humanoid:GetState()

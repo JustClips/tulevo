@@ -47,6 +47,14 @@
   "id": 71222898189001,
   "sha": "a2589bdc3dea0d2a5164969756e42a0808b7adf468d9b2d40dabe14e592b5aee"
  },
+ "Tulevo_Pickup": {
+  "id": 110986967643406,
+  "sha": "5c7b47f636ddc0ad6ab809493c83d91a1b1174b90fdb879e64af256bac779a4e"
+ },
+ "Tulevo_PickupLeft": {
+  "id": 100172348869943,
+  "sha": "d97548fdbc85a2901f8737c406c003b696e00894282ca7c1dd9ba59aa56a486e"
+ },
  "Tulevo_Pivot": {
   "id": 112442235427041,
   "sha": "e95377da20d475820f083259c791d5ccc0a2ae1637c1f25959727625fa1bd89f"

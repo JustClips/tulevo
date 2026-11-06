@@ -485,6 +485,9 @@ local function removeDropped(uid: string)
 end
 
 local pickup -- defined below (the prompt calls it)
+-- seconds after E before the server takes the item itself: the client's walk-up (up to 1.6 s)
+-- plus the bend down to the grab (0.5 s) plus some ping
+local PICKUP_FALLBACK = 3.5
 
 local function spawnDropped(item: Item, at: CFrame)
 	local def = Items.get(item.id)
@@ -524,8 +527,18 @@ local function spawnDropped(item: Item, at: CFrame)
 		prompt.KeyboardKeyCode = Enum.KeyCode.E
 		prompt.RequiresLineOfSight = false
 		prompt.Parent = holder
+		-- the client walks up, plays the bend-down clip and asks for it when the hand gets there
+		-- (Client/Movement/Moves/Pickup, Move "Ground" -> any slot). If that never comes (old
+		-- client, script error) the item is taken anyway a little later.
 		prompt.Triggered:Connect(function(player)
-			pickup(player, item.uid, nil, nil)
+			task.delay(PICKUP_FALLBACK, function()
+				local d = dropped[item.uid]
+				local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart") :: BasePart?
+				-- walked away meanwhile: leave it (no "too far" flag for a fallback)
+				if d and d.item == item and root and (root.Position - d.model:GetPivot().Position).Magnitude <= CFG.PickupRange then
+					pickup(player, item.uid, nil, nil)
+				end
+			end)
 		end)
 	end
 	model.Parent = droppedFolder

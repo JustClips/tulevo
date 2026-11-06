@@ -12,6 +12,8 @@ return {
 	Tulevo_JumpStand = "rbxassetid://87974758839303",
 	Tulevo_Land = "rbxassetid://128461769007218",
 	Tulevo_Medkit = "rbxassetid://71222898189001",
+	Tulevo_Pickup = "rbxassetid://110986967643406",
+	Tulevo_PickupLeft = "rbxassetid://100172348869943",
 	Tulevo_Pivot = "rbxassetid://112442235427041",
 	Tulevo_RollBack = "rbxassetid://99638802672029",
 	Tulevo_RollForward = "rbxassetid://139394301756916",
