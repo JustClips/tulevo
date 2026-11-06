@@ -750,6 +750,7 @@ ProximityPromptService.PromptTriggered:Connect(function(prompt, who)
 	end
 	local uid = model and model:GetAttribute("Uid")
 	if not model or typeof(uid) ~= "string" then
+		print("[Pickup] prompt isn't on a dropped item model:", prompt:GetFullName())
 		return
 	end
 	Pickup.request(model:GetPivot().Position, function()

@@ -49,6 +49,11 @@ type Pending = { pos: Vector3, grab: (() -> ())?, ready: boolean, at: number }
 local pending: Pending? = nil
 local walkToken = 0
 
+-- Output lines for chasing "no animation" reports (only when something goes off the normal path)
+local function note(text: string)
+	print(`[Pickup] {text}`)
+end
+
 local function grabNow(p: Pending)
 	local grab = p.grab
 	p.grab = nil
@@ -82,6 +87,7 @@ function Pickup.request(pos: Vector3, grab: (() -> ())?, walk: boolean?)
 	local humanoid = character and character:FindFirstChildOfClass("Humanoid")
 	local root = character and character:FindFirstChild("HumanoidRootPart") :: BasePart?
 	if not humanoid or not root or humanoid.Health <= 0 or humanoid.SeatPart then
+		note("no character / seated: taken without the clip")
 		pending = nil
 		grabNow(p)
 		return
@@ -107,7 +113,10 @@ function Pickup.request(pos: Vector3, grab: (() -> ())?, walk: boolean?)
 		if token ~= walkToken then
 			return
 		end
-		humanoid:Move(Vector3.zero) -- end the walk (MoveTo) where we are
+		if not close() then
+			note(`walk-up ended {math.floor(flatDistance(root.Position, pos) * 10) / 10} studs away: clip plays here`)
+		end
+		humanoid:MoveTo(root.Position) -- end the walk (MoveTo) where we are
 		-- Dev 2026-11-06 ("sometimes it doesn't play at all"): always play the clip, even if the
 		-- walk was cut short or blocked
 		if humanoid.Health > 0 then
@@ -142,12 +151,15 @@ Pickup.CanStart = function(ctx)
 	if not p or not p.ready then
 		return false
 	end
-	if os.clock() - p.at > 4 or ctx.Humanoid.SeatPart then
+	if os.clock() - p.at > 6 or ctx.Humanoid.SeatPart then
+		note(`couldn't start (grounded {ctx.Grounded}, state {ctx.Humanoid:GetState().Name}, move {ctx.Active}): taken without the clip`)
 		pending = nil
 		grabNow(p)
 		return false
 	end
-	return ctx.Grounded
+	-- standing on something (FloorMaterial alone: the state can flicker to Landed/Freefall for a
+	-- frame after a walk or a drop, and that used to keep the clip from starting)
+	return ctx.Humanoid.FloorMaterial ~= Enum.Material.Air
 end
 
 Pickup.KeepGoing = function(ctx)
@@ -166,7 +178,11 @@ Pickup.Start = function(ctx)
 	s.job, s.t = p, 0
 	s.track = if gunInHand() then s.left else s.right
 	local blend = ctx.Config.Movement.BlendTime
+	s.track:Stop(0)
 	s.track:Play(blend * 0.5, 1, 1)
+	if s.track.Length <= 0 then
+		note("clip not loaded yet when it started")
+	end
 	ctx.Humanoid.AutoRotate = false
 	-- turn to face the item
 	local root = ctx.Root
@@ -199,6 +215,7 @@ Pickup.Stop = function(ctx)
 		s.track = nil
 	end
 	if s.job and ctx.Humanoid.Health > 0 then
+		note(`clip cut short at {math.floor(s.t * 100) / 100}s (move {ctx.Active})`)
 		grabNow(s.job) -- cut short (jumped, knocked...): still take it
 	end
 	s.job = nil
