@@ -23,13 +23,14 @@ local ORANGE = Color3.fromRGB(245, 128, 36)
 local LOW = Color3.fromRGB(240, 190, 80)
 local EMPTY = Color3.fromRGB(230, 70, 60)
 
--- floating panel placement, in camera space as a share of the view's half-height at the
--- panel's depth (so it keeps the same spot and size on screen when the aim zoom changes FOV)
+-- floating panel placement (Dev 2026-11-06: camera-pinned looked "far asf"): it hangs in the
+-- world beside the character's head, on the gun side, in the camera's (lagged) frame, so it
+-- reads as an object next to you and swings a little when the camera turns
 local FLOAT = {
-	Depth = 2.6, -- studs in front of the camera at FOV 70
-	Right = 0.11, -- left edge of the panel, right of the crosshair
-	Down = 0.1, -- panel centre, below the crosshair
-	Height = 0.14, -- panel height
+	Right = 0.55, -- studs right of the crosshair line, measured at the head
+	Up = -0.35, -- studs above the head (negative = lower, about gun height)
+	Forward = 1.6, -- studs ahead of the head, toward the aim
+	Height = 0.85, -- panel height in studs
 	Yaw = 16, -- degrees turned about its left edge: the right end goes away from you
 	Pitch = -8, -- degrees tipped back (top away)
 	Roll = -2,
@@ -210,9 +211,8 @@ local shownUntil = 0
 local lastMag = -1
 local pop = 0 -- number punch when a shot is fired
 
-local function placeLayers(cam: Camera, dt: number)
-	local camCf = cam.CFrame
-	local rot = camCf.Rotation
+local function placeLayers(cam: Camera, dt: number, head: BasePart)
+	local rot = cam.CFrame.Rotation
 	if not lagRot then
 		lagRot = rot
 	else
@@ -226,19 +226,23 @@ local function placeLayers(cam: Camera, dt: number)
 		end
 		lagRot = nextRot
 	end
+	local lr = lagRot :: CFrame
+	local look = lr.LookVector
+	local flat = Vector3.new(look.X, 0, look.Z)
+	flat = if flat.Magnitude > 0.01 then flat.Unit else Vector3.zAxis
+	local right = flat:Cross(Vector3.yAxis)
 
-	-- same on-screen size and spot whatever the FOV (the aim zoom changes it)
-	local tanHalf = math.tan(math.rad(cam.FieldOfView / 2))
-	local depth = FLOAT.Depth * math.tan(math.rad(35)) / tanHalf
-	local unit = depth * tanHalf -- studs per "half view height" at that depth
-	local h = FLOAT.Height * unit
+	local h = FLOAT.Height
 	local w = h * CANVAS.X / CANVAS.Y
 	local step = FLOAT.Thickness * h / FLOAT.Layers
+	-- sideways from the camera's line (the shoulder camera sits right of the head), so the
+	-- panel stays just right of the crosshair whether or not the camera is over the shoulder
+	local side = (head.Position - cam.CFrame.Position):Dot(right)
+	local origin = head.Position + right * (FLOAT.Right - side) + Vector3.yAxis * FLOAT.Up + flat * FLOAT.Forward
 
-	-- turned about its left edge (the end nearest the crosshair), so the far end recedes
-	local hinge = CFrame.new(camCf.Position)
-		* (lagRot :: CFrame)
-		* CFrame.new(FLOAT.Right * unit, -FLOAT.Down * unit, -depth)
+	-- faces the camera (lagged), turned about its left edge so the far end recedes
+	local hinge = CFrame.new(origin)
+		* lr
 		* CFrame.Angles(math.rad(FLOAT.Pitch), math.rad(FLOAT.Yaw), math.rad(FLOAT.Roll))
 	for i, layer in layers do
 		layer.part.Size = Vector3.new(w, h, 0.01)
@@ -273,14 +277,16 @@ RunService:BindToRenderStep("AmmoHud", Enum.RenderPriority.Last.Value + 2, funct
 	local target = if floating then 1 else 0
 	alpha = math.clamp(alpha + (if target > alpha then 1 else -1) * dt / FLOAT.Fade, 0, 1)
 	local cam = workspace.CurrentCamera
-	if alpha <= 0 or not cam or not def then
+	local char = player.Character
+	local head = char and char:FindFirstChild("Head") :: BasePart?
+	if alpha <= 0 or not cam or not def or not head then
 		hideFloat()
 		lagRot = nil
 		lastMag = -1
 		return
 	end
 
-	placeLayers(cam, dt)
+	placeLayers(cam, dt, head :: BasePart)
 
 	if lastMag >= 0 and State.Mag < lastMag then
 		pop = 1
