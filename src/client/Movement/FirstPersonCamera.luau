@@ -10,6 +10,7 @@
 	  * aiming down sights (+ right click): on the sight line, just behind the rear sight
 	    ("Sight" attachment, along the gun's own axis) so the rear aperture, front post and
 	    crosshair line up,
+	  * leaning (Q / E): the view tilts with the chest (fully on the sights, half otherwise),
 	  * rolls: the view also tumbles with the hips through the roll and settles back on the
 	    aim (Config.Movement.FirstPersonRollCamera = false turns the tumble off).
 
@@ -36,6 +37,7 @@ local EYE = Vector3.new(0, 0.15, -0.3) -- eye point in Head space (a little forw
 local SIGHT_BACK = 0.55 -- ADS eye: this far behind the rear sight aperture, on the sight line
 local HIP_EYE = Vector3.new(-0.5, 0.26, 0.7) -- gun up, not aiming: eye from the rear sight (view space)
 local ADS_TIME = 0.17 -- seconds for the eye to glide onto the sights and back
+local LEAN_MAX = math.rad(Config.Weapons.LeanAngle or 20)
 
 local weight = 0
 local ads = 0 -- 0..1 how far the eye has moved onto the sights
@@ -143,7 +145,9 @@ function FirstPersonCamera.start(isRolling: () -> boolean)
 			end
 		end
 
-		local cf = CFrame.new(pos) * turn * base.Rotation
+		-- lean tilt: half the chest's tilt normally, all of it on the sights (keeps them level)
+		local tilt = (WeaponState.Lean or 0) * LEAN_MAX * (0.5 + 0.5 * ads)
+		local cf = CFrame.new(pos) * turn * base.Rotation * CFrame.Angles(0, 0, -tilt)
 		cam.CFrame = cf
 		cam.Focus = cf * base:ToObjectSpace(focus)
 		baseCFrame, baseFocus, applied = base, focus, true

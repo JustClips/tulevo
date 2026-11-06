@@ -28,7 +28,13 @@ Add a weapon: copy a file in `Defs/`. Damage per hit = `Damage` x body-part mult
 1-3 use the inventory's quick slots (`Client/Inventory`, docs/inventory.md): a gun in that slot comes
 out, the same key puts it on the back (gamepad D-pad left / up / right, the quick bar at the bottom of
 the screen on phones); dragging a gun onto / off Active items in the inventory does the same. Q and V
-were removed (Dev, 2026-11-06) · left click fire (R2) · right click aim (L2) · R reload (X). Holstering or switching mid-reload cuts the reload short (no refill;
+were removed as holster/vest keys (Dev, 2026-11-06) · left click fire (R2) · right click aim (L2) · R reload (X)
+· hold Q / E lean left / right with a gun out (keyboard only for now; E still opens item prompts).
+Leaning tilts the chest `Config.Weapons.LeanAngle` degrees round the aim at the waist
+(`Client/Weapons/GunPose`, replicated as `GunLean`), the third-person camera slides with it and
+first person tilts; the server tilts the shot origin the same way (`WeaponService` `shotOrigin`,
+never through a wall) so you can shoot round a corner. No lean while sprinting, rolling, in the
+air or driving. Holstering or switching mid-reload cuts the reload short (no refill;
 the server puts the magazine back, `GunModel.cancelReload`).
 Phones get Fire / Aim / Reload buttons while something is in hand. Dragging the vest out of / onto
 the inventory's Armor slot takes the armor vest off / puts it back on (`Client/Vest.client.luau`,
@@ -65,7 +71,7 @@ shows the rewound hitboxes in Studio.
 | Tuck | during rolls (Space while aiming, like GTA 5) |
 | Air | in the air (loop) |
 | JumpPrep / JumpUp / Land | jump wind-up (gun dips with the knees), take-off spring, landing bounce; played on the Movement Prep/TakeOff/Land events |
-| Lowered | a wall within `Config.Weapons.LowerNearWalls` studs in front |
+| Lowered | a wall within `Config.Weapons.LowerNearWalls` studs in front; no shooting while it's down (`State.Lowered`) |
 | Reload | R: mag out, fresh mag from the vest, slap it in, charging handle |
 | Equip | taking the gun out (spawn, or a gun that wasn't on the back) |
 | Holster / Draw | Putting it away lifts the rifle muzzle-up, flips it back over the right shoulder and slides it down onto the back (muzzle down toward the left hip, stock up behind the right shoulder, grip on the right shoulder blade, so the hand reaches it over the shoulder with the elbow up); the quick slot key does it backwards. The server moves the weld when the hand is on the back (`GunModel.HolsterSwap` / `DrawSwap`, from gun.py `HOLSTER`); no firing until the draw ends |

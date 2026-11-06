@@ -21,9 +21,13 @@
 	exactly the aim orientation in the world: facing yaw + aim pitch (up/down) + the blade.
 	Arms, head and gun hang off the chest, so they're locked too.
 
+	Lean (Q / E with a gun out): after all that, the chest tilts round the aim direction at the
+	waist (Config.Weapons.LeanAngle), so the head and gun slide out sideways and the barrel
+	still points at the crosshair.
+
 	Local player: values from Weapons/State (AimBlend = how much of the Aim pose is in,
-	Pitch, FeetPlant). Other players: character attributes GunUp / GunPitch / GunPlant (server
-	copies them from the Pose remote), smoothed here.
+	Pitch, FeetPlant, Lean). Other players: character attributes GunUp / GunPitch / GunPlant /
+	GunLean (server copies them from the Pose remote), smoothed here.
 ]]
 
 local Players = game:GetService("Players")
@@ -61,6 +65,7 @@ type Rig = {
 	still: number, -- seconds the body hasn't been turning
 	stepUntil: number, -- os.clock() until the current turn step ends
 	steps: { [number]: AnimationTrack }?, -- local player: -1 left, 1 right
+	lean: number, -- other players: smoothed GunLean (-1..1)
 }
 local rigs: { [Model]: Rig } = {}
 
@@ -91,6 +96,7 @@ local function rigOf(character: Model): Rig?
 		still = 0,
 		stepUntil = 0,
 		steps = nil,
+		lean = 0,
 	}
 	rigs[character] = rig
 	-- a turn step starting (ours or replicated from its owner): the feet catch up
@@ -193,6 +199,23 @@ local function lock(r: Rig, blend: number, pitch: number, hipTurn: number)
 	r.waist.Transform = if blend >= 0.999 then locked else anim:Lerp(locked, blend)
 end
 
+-- Lean: tilt the chest round the aim direction (yaw of the root + pitch) at the waist joint.
+-- lean is -1..1 (+ = right); pitch is how far the aim pitch is applied (0 when the gun is down).
+local LEAN_MAX = math.rad(Config.Weapons.LeanAngle or 20)
+local function applyLean(r: Rig, lean: number, pitch: number)
+	if math.abs(lean) < 0.001 then
+		return
+	end
+	local lr, w = r.lowerRoot, r.waist
+	local lowerTorso = r.root.CFrame * lr.C0 * lr.Transform * lr.C1:Inverse()
+	local joint = lowerTorso * w.C0
+	local _, yaw = r.root.CFrame:ToOrientation()
+	local axis = (CFrame.Angles(0, yaw, 0) * CFrame.Angles(pitch, 0, 0)).LookVector
+	local pivot = (joint * w.Transform).Position
+	local turn = CFrame.new(pivot) * CFrame.fromAxisAngle(axis, lean * LEAN_MAX) * CFrame.new(-pivot)
+	w.Transform = joint:Inverse() * turn * joint * w.Transform
+end
+
 local function standingStill(r: Rig): boolean
 	local v = r.root.AssemblyLinearVelocity
 	local h = r.humanoid
@@ -221,16 +244,29 @@ function GunPose.start()
 						old.feetYaw = nil
 					end
 				end
+				if State.Lean ~= 0 then
+					local lr = r or rigOf(c)
+					if lr then
+						applyLean(lr, State.Lean, State.Pitch * State.AimBlend)
+					end
+				end
 			else
 				local up = c:GetAttribute("GunUp") == true
-				local r = (up or rigs[c]) and rigOf(c)
+				local lean = c:GetAttribute("GunLean")
+				lean = if typeof(lean) == "number" then math.clamp(lean, -1, 1) else 0
+				local r = (up or lean ~= 0 or rigs[c]) and rigOf(c)
 				if r then
+					r.lean += (lean - r.lean) * math.min(1, dt * 12)
+					if math.abs(r.lean) < 0.002 and lean == 0 then
+						r.lean = 0
+					end
 					local k = math.min(1, dt * 12)
 					r.blend += ((if up then 1 else 0) - r.blend) * k
 					r.pitch += ((c:GetAttribute("GunPitch") or 0) - r.pitch) * k
 					local planted = up and c:GetAttribute("GunPlant") == true and standingStill(r)
 					local lag = plantFeet(r, dt, planted, false)
 					lock(r, r.blend, r.pitch, stanceTurn(r, dt) - lag)
+					applyLean(r, r.lean, r.pitch * r.blend)
 				end
 			end
 		end

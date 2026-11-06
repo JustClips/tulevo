@@ -5,6 +5,7 @@
 
 	Sprint: hold Shift, click the left stick (toggle), or the Sprint button on phones (toggle).
 	Crouch: Ctrl or C, gamepad B, or the Crouch button on phones (all toggle).
+	LeanLeft / LeanRight: hold Q / E (only does anything with a gun out, see Client/Weapons).
 	Roll (GTA 5): jump while aiming a gun: right mouse + Space, gamepad L2 + A, or the Roll
 	button on phones (Input.rollPending/takeRoll). Rolls toward the way you're moving.
 	New moves add their action to ACTIONS.
@@ -29,6 +30,9 @@ local ACTIONS = {
 		touchPosition = UDim2.new(1, -170, 1, -150),
 		cancels = { "Sprint" }, -- pressing Crouch mid-sprint drops straight into the crouch
 	},
+	-- peek round corners; E still opens item prompts (the bind passes the key on)
+	LeanLeft = { hold = { Enum.KeyCode.Q } },
+	LeanRight = { hold = { Enum.KeyCode.E } },
 }
 
 local held: { [string]: boolean } = {}

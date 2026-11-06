@@ -17,4 +17,6 @@ return {
 	HipTurn = 0, -- radians the hips are turned right of the aim (rifle stance, set by Weapons/GunPose)
 	Dressing = false, -- putting the armor vest on / off (Client/Vest): no weapons meanwhile
 	FeetPlant = false, -- aiming standing up: feet stay planted and step to turn (Weapons/GunPose)
+	Lean = 0, -- -1 (full left) .. 1 (full right), smoothed; Q / E with a gun out (Weapons/GunPose)
+	Lowered = false, -- gun pushed down by a wall right in front: can't shoot
 }

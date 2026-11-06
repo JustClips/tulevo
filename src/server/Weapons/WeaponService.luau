@@ -16,8 +16,8 @@
 		Reload (client -> server)
 		Ammo   (server -> owner)  weaponId, mag, reserve
 		Shot   (server -> others) shooter, weaponId, origin, hitPositions   -- effects only
-		Pose   (client -> server) twist, pitch (radians), aiming, up, plant -> character attributes
-		       GunTwist / GunPitch / GunAiming / GunUp / GunPlant, so every client can turn that player's waist the same way (Client.Weapons.GunPose)
+		Pose   (client -> server) twist, pitch (radians), aiming, up, plant, lean (-1..1) -> character attributes
+		       GunTwist / GunPitch / GunAiming / GunUp / GunPlant / GunLean, so every client can turn that player's waist the same way (Client.Weapons.GunPose)
 
 	The gun model sits in the right hand while equipped and on the back otherwise (GunModel).
 
@@ -223,7 +223,7 @@ function WeaponService.refreshModel(player: Player)
 	GunModel.remove(character)
 end
 
-PoseRemote.OnServerEvent:Connect(function(player, twist, pitch, aiming, up, plant)
+PoseRemote.OnServerEvent:Connect(function(player, twist, pitch, aiming, up, plant, lean)
 	local character = player.Character
 	if not character or typeof(twist) ~= "number" or typeof(pitch) ~= "number" then
 		return
@@ -236,7 +236,36 @@ PoseRemote.OnServerEvent:Connect(function(player, twist, pitch, aiming, up, plan
 	character:SetAttribute("GunAiming", aiming == true)
 	character:SetAttribute("GunUp", up == true) -- shouldered: other clients lock the chest to the aim
 	character:SetAttribute("GunPlant", plant == true) -- standing aim: feet planted, turn steps
+	if typeof(lean) == "number" and lean == lean then
+		-- Q / E lean, -1..1 of Config.Weapons.LeanAngle (shots start from the leaned head)
+		character:SetAttribute("GunLean", math.clamp(lean, -1, 1))
+	end
 end)
+
+-- The shot origin: the server's head, tilted round the waist by the shooter's lean (the
+-- client leans its chest locally, so the server's copy of the head doesn't move with it).
+local function shotOrigin(character: Model, head: BasePart, direction: Vector3): Vector3
+	local lean = character:GetAttribute("GunLean")
+	local ut = character:FindFirstChild("UpperTorso") :: BasePart?
+	local waist = ut and ut:FindFirstChild("Waist")
+	if typeof(lean) ~= "number" or math.abs(lean) < 0.01 or not (waist and waist:IsA("Motor6D")) then
+		return head.Position
+	end
+	local pivot = (ut :: BasePart).CFrame * waist.C1
+	local angle = math.rad(Config.Weapons.LeanAngle or 20) * math.clamp(lean, -1, 1)
+	local turn = CFrame.fromAxisAngle(direction.Unit, angle)
+	local leaned = pivot.Position + turn * (head.Position - pivot.Position)
+	-- never through a wall: stop just short of anything between the head and the leaned point
+	local params = RaycastParams.new()
+	params.FilterType = Enum.RaycastFilterType.Exclude
+	params.FilterDescendantsInstances = { character }
+	local step = leaned - head.Position
+	local hit = step.Magnitude > 0.01 and workspace:Raycast(head.Position, step, params)
+	if hit then
+		return head.Position + step.Unit * math.max(0, hit.Distance - 0.1)
+	end
+	return leaned
+end
 
 -- Anti-cheat for shots. The client only says "I fired, toward this direction". The server
 -- picks the origin (its own copy of the shooter's head), the spread, the hit and the damage,
@@ -304,8 +333,9 @@ local function shoot(player: Player, id: string, def, h: Held, direction: Vector
 		h.mag -= 1
 	end
 	local aiming = character:GetAttribute("GunAiming") == true
-	local hits = Hitscan.fire(player, def, head.Position, direction, aiming)
-	ShotRemote:FireAllClients(player, id, head.Position, hits)
+	local origin = shotOrigin(character, head, direction)
+	local hits = Hitscan.fire(player, def, origin, direction, aiming)
+	ShotRemote:FireAllClients(player, id, origin, hits)
 	if def.Class.Kind == "Gun" then
 		sendAmmo(player, id)
 	end

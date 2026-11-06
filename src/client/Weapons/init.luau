@@ -39,6 +39,7 @@ local AnimSet = require(script:WaitForChild("AnimSet"))
 local Effects = require(script:WaitForChild("Effects"))
 local GunPose = require(script:WaitForChild("GunPose"))
 local Movement = require(script.Parent:WaitForChild("Movement"))
+local MoveInput = require(script.Parent:WaitForChild("Movement"):WaitForChild("Input"))
 
 local Remotes = ReplicatedStorage:WaitForChild("WeaponRemotes")
 local player = Players.LocalPlayer
@@ -70,6 +71,7 @@ local zoomed = false
 local baseFov: number? = nil
 local lastPoseSent = 0
 local sentTwist, sentPitch = 0, 0
+local sentLean = 0
 
 
 local function character()
@@ -264,6 +266,9 @@ function Controller.fire()
 	if Movement.busy() or os.clock() < drawUntil then
 		return -- no shooting while rolling, jumping, falling (GTA) or still drawing
 	end
+	if State.Lowered and def.Class.Kind == "Gun" then
+		return -- muzzle pushed down by a wall right in front
+	end
 	local now = os.clock()
 	if now - lastFire < 1 / (def.FireRate or (1 / (def.SwingTime or 0.6))) then
 		return
@@ -298,7 +303,14 @@ function Controller.fire()
 	-- the server only gets a direction (from the head, like its own origin) and checks it
 	-- against where our body aims, so send the latest aim first
 	local camLook = Movement.view().LookVector
-	Remotes.Pose:FireServer(State.Twist, math.clamp(math.asin(math.clamp(camLook.Y, -1, 1)), -1.2, 1.2), State.Aiming, true)
+	Remotes.Pose:FireServer(
+		State.Twist,
+		math.clamp(math.asin(math.clamp(camLook.Y, -1, 1)), -1.2, 1.2),
+		State.Aiming,
+		true,
+		State.FeetPlant,
+		math.round(State.Lean * 20) / 20
+	)
 	Remotes.Fire:FireServer(target - (head or hand).Position)
 
 	if def.Class.Kind == "Melee" then
@@ -470,6 +482,7 @@ function Controller.start()
 		State.Raised = false
 		State.Reloading = false
 		State.Twist, State.Pitch, State.GaitReverse, State.StrafeSide, State.AimBlend = 0, 0, false, 0, 0
+		State.Lean, State.Lowered = 0, false
 		wasRaised = false
 		setTouchButtons(false)
 		task.spawn(equipOnSpawn, c)
@@ -572,6 +585,10 @@ function Controller.start()
 		-- space, and the character faces the camera then)
 		local fp = isFirstPerson(player.Character)
 		local want = if raised and gunOut and State.Aiming and not fp then 1.6 else 0
+		-- leaning: the camera slides with the head (first person follows the head by itself)
+		if gunOut and not fp then
+			want += State.Lean * 1.1
+		end
 		shoulder += (want - shoulder) * math.min(1, dt * 10)
 		-- first person (eye on the head, aim down the sights) is Movement/FirstPersonCamera
 		if h then
@@ -614,13 +631,14 @@ function Controller.start()
 		local now = os.clock()
 		local up = State.AimBlend > 0.5
 		local plant = State.FeetPlant
+		local lean = math.round(State.Lean * 20) / 20 -- steps of 0.05 so it settles
 		local changed = math.abs(twist - sentTwist) > 0.03 or math.abs(pitch - sentPitch) > 0.03 or up ~= sentUp
-			or plant ~= sentPlant
+			or plant ~= sentPlant or lean ~= sentLean
 		local settled = (twist == 0 and pitch == 0) and (sentTwist ~= 0 or sentPitch ~= 0)
 		if (changed and now - lastPoseSent > 0.1) or (settled and now - lastPoseSent > 0.1) then
 			lastPoseSent = now
-			sentTwist, sentPitch, sentUp, sentPlant = twist, pitch, up, plant
-			Remotes.Pose:FireServer(twist, pitch, State.Aiming, up, plant)
+			sentTwist, sentPitch, sentUp, sentPlant, sentLean = twist, pitch, up, plant, lean
+			Remotes.Pose:FireServer(twist, pitch, State.Aiming, up, plant, lean)
 		end
 	end
 
@@ -648,7 +666,7 @@ function Controller.start()
 		end
 		if not def or not c or not h or not root then
 			State.Raised, State.Twist, State.Pitch, State.GaitReverse = false, 0, 0, false
-			State.StrafeSide, State.AimBlend = 0, 0
+			State.StrafeSide, State.AimBlend, State.Lean, State.Lowered = 0, 0, 0, false
 			setZoom(false)
 			updateCamera(dt, false, false, h)
 			if wasRaised and h then
@@ -674,6 +692,17 @@ function Controller.start()
 		local fpReady = isFirstPerson(c) and def.Class.Kind == "Gun" and not rolling and not airborne
 			and active ~= "Sprint" and not State.Reloading
 		local ready = up or fpReady
+		-- Q / E lean (hold) with a gun out; not while sprinting, rolling, in the air or driving
+		local canLean = def.Class.Kind == "Gun" and not rolling and not airborne and not State.InVehicle
+			and active ~= "Sprint" and active ~= "SprintStop" and active ~= "Pivot" and not State.Dressing
+		local leanWant = 0
+		if canLean then
+			leanWant = (if MoveInput.isDown("LeanRight") then 1 else 0) - (if MoveInput.isDown("LeanLeft") then 1 else 0)
+		end
+		State.Lean += (leanWant - State.Lean) * math.min(1, dt * 12)
+		if math.abs(State.Lean) < 0.002 and leanWant == 0 then
+			State.Lean = 0
+		end
 		-- aiming while standing: feet stay planted and step to turn (Weapons/GunPose)
 		State.FeetPlant = ready and not rolling and not airborne and active ~= "Crouch"
 
@@ -709,7 +738,7 @@ function Controller.start()
 		updateCamera(dt, def.Class.Kind == "Gun", State.Raised, h)
 
 		if not anims then
-			State.AimBlend = 0
+			State.AimBlend, State.Lowered = 0, false
 			return
 		end
 		-- which pose loop the arms use
@@ -734,6 +763,7 @@ function Controller.start()
 		-- into and out of Aim quickly (dropping the gun after aiming shouldn't lag)
 		local quick = pose == "Aim" or pose == "Tuck" or anims:weight("Aim") > 0.05
 		anims:blend({ [pose] = 1 }, dt, if quick then 18 else 10)
+		State.Lowered = pose == "Lowered"
 		State.AimBlend = if rolling then 0 else anims:weight("Aim")
 	end)
 end
