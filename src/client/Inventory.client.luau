@@ -830,7 +830,18 @@ local function useItem(item: any, from: string?): boolean
 			return false
 		end
 	else
-		UseRemote:FireServer(item.uid)
+		if WeaponState.Dressing or player:GetAttribute("UsingItem") ~= nil then
+			return false
+		end
+		if WeaponState.Equipped then
+			-- both hands are needed: the gun goes on your back first
+			Weapons.equip(nil)
+			task.delay(0.65, function()
+				UseRemote:FireServer(item.uid)
+			end)
+		else
+			UseRemote:FireServer(item.uid)
+		end
 	end
 	return true
 end
@@ -1724,6 +1735,53 @@ local useText = label(useBox, "Text", "", 0, 0, USE_W, 26, 13, COLORS.Text, BOLD
 useText.ZIndex = 2
 useText.TextStrokeTransparency = 0.6
 useGui.Parent = player:WaitForChild("PlayerGui")
+
+-- the use animation (Shared/Items Use.Anim), stretched to the use's length; the server holds
+-- the item's model in the hand meanwhile
+local AnimIds = require(Shared:WaitForChild("AnimIds"))
+local useTrack: AnimationTrack? = nil
+local function stopUseAnim()
+	if useTrack then
+		useTrack:Stop(0.2)
+		useTrack = nil
+	end
+end
+local function playUseAnim()
+	stopUseAnim()
+	local def = Items.get(player:GetAttribute("UsingItemId"))
+	local animId = def and def.Use and def.Use.Anim and (AnimIds :: any)[def.Use.Anim]
+	local character = player.Character
+	local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+	local animator = humanoid and humanoid:FindFirstChildOfClass("Animator")
+	if not def or not animId or not animator then
+		return
+	end
+	local anim = Instance.new("Animation")
+	anim.AnimationId = animId
+	local track = animator:LoadAnimation(anim)
+	track.Priority = Enum.AnimationPriority.Action3
+	track.Looped = false
+	useTrack = track
+	track:Play(0.15)
+	task.spawn(function()
+		local t0 = os.clock()
+		while track.Length <= 0 and os.clock() - t0 < 3 do
+			task.wait()
+		end
+		local time = (def.Use :: any).Time or 0
+		if useTrack == track and track.Length > 0 and time > 0 then
+			track:AdjustSpeed(track.Length / time)
+		end
+	end)
+end
+player:GetAttributeChangedSignal("UsingItemId"):Connect(function()
+	if player:GetAttribute("UsingItemId") then
+		playUseAnim()
+	else
+		stopUseAnim()
+	end
+end)
+player.CharacterAdded:Connect(stopUseAnim)
 
 local noticeUntil = 0
 NoticeRemote.OnClientEvent:Connect(function(text)

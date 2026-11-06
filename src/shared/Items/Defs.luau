@@ -15,8 +15,12 @@
 			Stack = 10,                 -- how many fit on one tile
 			Model = "Bandage",          -- key in Shared.ModelIds (optional: no model = a small box on the ground)
 			ModelScale = 3.6,           -- props exported in meters use 3.6
-			Use = { Action = "Heal", Amount = 15, Time = 2 }, -- optional, see Items/Actions.luau
+			Use = { Action = "Heal", Amount = 15, Time = 2, Anim = "Tulevo_Medkit" }, -- optional, see Items/Actions.luau
 		},
+
+	Use.Anim = a clip in Shared.AnimIds played while it's used (stretched to Use.Time). While it
+	plays the item's model is held in the hand: where exactly comes from Items/Holds.luau
+	(made by art/anim/use_items.py, which also makes the clips).
 
 	The inventory picture comes from Shared.ItemIconIds[Id] (tools/item_icons/render.js renders
 	the model, tools/upload_icons.py --set items uploads it). Until there is one the 3D model is
@@ -34,7 +38,7 @@ return {
 		Model = "Mead",
 		ModelScale = 3.6,
 		IconView = Vector3.new(0.3, 0.25, -1),
-		Use = { Action = "Drink", Amount = 5, Time = 2 },
+		Use = { Action = "Drink", Amount = 5, Time = 2, Anim = "Tulevo_DrinkBottle" },
 	},
 	Chaser = {
 		Name = "Chaser",
@@ -46,7 +50,7 @@ return {
 		Model = "Chaser",
 		ModelScale = 3.6,
 		IconView = Vector3.new(0.3, 0.25, -1),
-		Use = { Action = "Drink", Amount = 3, Time = 1.5 },
+		Use = { Action = "Drink", Amount = 3, Time = 1.5, Anim = "Tulevo_DrinkCan" },
 	},
 	FirstAidKit = {
 		Name = "First-aid kit",
@@ -58,7 +62,7 @@ return {
 		Model = "FirstAidKit",
 		ModelScale = 3.6,
 		IconView = Vector3.new(0.45, 0.55, -1),
-		Use = { Action = "Heal", Amount = 40, Time = 4 },
+		Use = { Action = "Heal", Amount = 40, Time = 4, Anim = "Tulevo_Medkit" },
 	},
 	RifleAmmo = {
 		Name = "Rifle ammo",

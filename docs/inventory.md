@@ -37,7 +37,14 @@ Give it in code with `InventoryService.add(player, id, count)` or put it on the 
 Right-click or double-click (double-tap on phones) an item in the window, or press its quick
 slot key (1-3). Guns come out / go on your back, a vest goes on (on the Armor slot: comes off),
 food and first aid are used by the server after their `Use.Time` with a bar above the quick
-bar. A use stops if you're knocked down or the item leaves your bag. Refusals ("Already at
+bar. A use stops if you're knocked down, take a gun out, or the item leaves your bag. A gun in
+your hands goes on your back first.
+
+Use animations: `art/anim/use_items.py` makes Tulevo_DrinkBottle (mead), Tulevo_DrinkCan
+(chaser) and Tulevo_Medkit (first-aid kit, held by its handle in the left hand) and writes
+`src/shared/Items/Holds.luau` (where the real model sits in the hand); upload with
+`tools/upload_anims.py`. An item names its clip with `Use.Anim`; the client plays it stretched
+to `Use.Time` and the server welds the item's model (`HeldItem`) to the hand meanwhile. Refusals ("Already at
 full health") show in the same spot.
 
 ## Ammo

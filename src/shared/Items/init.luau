@@ -32,6 +32,8 @@ local Config = require(Shared:WaitForChild("Config"))
 local ModelIds = require(Shared:WaitForChild("ModelIds"))
 local ItemIconIds = require(Shared:WaitForChild("ItemIconIds"))
 local Actions = require(script:WaitForChild("Actions"))
+local Holds = require(script:WaitForChild("Holds"))
+local AnimIds = require(Shared:WaitForChild("AnimIds"))
 local PlainDefs = require(script:WaitForChild("Defs"))
 
 export type Kind = "Weapon" | "Armor" | "Consumable" | "Ammo" | "Misc"
@@ -39,7 +41,9 @@ export type UseDef = {
 	Action: string, -- key in Items/Actions.luau
 	Time: number?, -- seconds it takes (server actions); 0 / nil = instant
 	Amount: number?, -- the action's number (HP healed...)
+	Anim: string?, -- clip in Shared.AnimIds played while using it (stretched to Time)
 }
+export type HoldDef = { Part: string, C0: CFrame } -- the model in the hand while it's used
 export type ItemDef = {
 	Id: string,
 	Name: string,
@@ -58,6 +62,7 @@ export type ItemDef = {
 	DropTilt: Vector3?, -- degrees (X, Y, Z) it's turned lying on the ground
 	Use: UseDef?,
 	Ammo: string?, -- weapons: the item id they reload from
+	Hold: HoldDef?, -- from Items/Holds.luau (art/anim/use_items.py)
 }
 
 local KINDS = { Weapon = true, Armor = true, Consumable = true, Ammo = true, Misc = true }
@@ -135,11 +140,15 @@ for id, def in Defs do
 		if not Actions[def.Use.Action] then
 			bad(`Use.Action "{tostring(def.Use.Action)}" isn't in Items/Actions.luau`)
 		end
+		if def.Use.Anim and (AnimIds :: any)[def.Use.Anim] == nil then
+			warn(`Shared/Items: item {id}: Use.Anim "{def.Use.Anim}" isn't in Shared.AnimIds yet (no animation)`)
+		end
 	end
 	if def.Model and (ModelIds :: any)[def.Model] == nil then
 		warn(`Shared/Items: item {id}: Model "{def.Model}" isn't in Shared.ModelIds yet (shown as a box)`)
 	end
 	def.Icon = def.Icon or (ItemIconIds :: any)[id]
+	def.Hold = def.Hold or (Holds :: any)[id]
 end
 for id, def in Defs do
 	if def.Ammo and not (Defs[def.Ammo] and Defs[def.Ammo].Kind == "Ammo") then

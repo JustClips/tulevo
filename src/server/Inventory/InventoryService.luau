@@ -788,8 +788,60 @@ local function notice(player: Player, text: string)
 	NoticeRemote:FireClient(player, text)
 end
 
+-- the item's model in the hand while it's used (Shared/Items Hold)
+local function removeHeld(player: Player)
+	local character = player.Character
+	local old = character and character:FindFirstChild("HeldItem")
+	if old then
+		old:Destroy()
+	end
+end
+
+local function attachHeld(player: Player, character: Model, def: Items.ItemDef, token: number)
+	removeHeld(player)
+	local hold = def.Hold
+	local hand = hold and character:FindFirstChild(hold.Part) :: BasePart?
+	local template = hand and ItemModels.get(def.Id) -- yields the first time
+	if not hold or not hand or not template or player.Character ~= character or using[player] ~= token then
+		return
+	end
+	local model = template:Clone()
+	model.Name = "HeldItem"
+	local pivot = model:GetPivot()
+	local main = model.PrimaryPart or model:FindFirstChildWhichIsA("BasePart", true)
+	if not main then
+		model:Destroy()
+		return
+	end
+	for _, d in model:GetDescendants() do
+		if d:IsA("BasePart") then
+			d.Anchored = false
+			d.CanCollide = false
+			d.CanQuery = false
+			d.CanTouch = false
+			d.Massless = true
+			if d ~= main then
+				local wc = Instance.new("WeldConstraint")
+				wc.Part0, wc.Part1 = main, d
+				wc.Parent = d
+			end
+		end
+	end
+	local weld = Instance.new("Weld")
+	weld.Name = "HeldWeld"
+	weld.Part0 = hand
+	weld.Part1 = main
+	weld.C0 = hold.C0
+	weld.C1 = main.CFrame:ToObjectSpace(pivot)
+	weld.Parent = main
+	model:PivotTo(hand.CFrame * hold.C0)
+	model.Parent = character
+end
+
 local function stopUsing(player: Player)
 	using[player] = nil
+	removeHeld(player)
+	player:SetAttribute("UsingItemId", nil)
 	player:SetAttribute("UsingItem", nil)
 	player:SetAttribute("UseStart", nil)
 	player:SetAttribute("UseEnd", nil)
@@ -808,7 +860,7 @@ end
 function InventoryService.use(player: Player, uid: string)
 	local inv = invs[player]
 	local character, humanoid = usable(player)
-	if not inv or not character or not humanoid or using[player] then
+	if not inv or not character or not humanoid or using[player] or humanoid.SeatPart then
 		return
 	end
 	local _, _, item = findUid(inv, uid)
@@ -838,6 +890,8 @@ function InventoryService.use(player: Player, uid: string)
 	local time = math.max(def.Use.Time or 0, 0)
 	local now = workspace:GetServerTimeNow()
 	player:SetAttribute("UsingItem", def.Name)
+	player:SetAttribute("UsingItemId", def.Id)
+	task.spawn(attachHeld, player, character, def, token)
 	player:SetAttribute("UseStart", now)
 	player:SetAttribute("UseEnd", now + time)
 	task.spawn(function()
@@ -848,7 +902,12 @@ function InventoryService.use(player: Player, uid: string)
 				return -- cancelled
 			end
 			local c = usable(player)
-			if c ~= character or not invs[player] or not findUid(invs[player], uid) then
+			if
+				c ~= character
+				or not invs[player]
+				or not findUid(invs[player], uid)
+				or player:GetAttribute("Weapon") ~= nil -- took a gun out
+			then
 				stopUsing(player)
 				return
 			end
