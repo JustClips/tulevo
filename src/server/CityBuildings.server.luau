@@ -97,7 +97,36 @@ local function lightShaft(part: BasePart, model: Model)
 	lamps[#lamps].beam = beam
 end
 
+-- Colour textures uploaded as separate Images (tools/upload_textures.py): the model's
+-- LiveSyncTextures attribute is JSON { part name: image id }. The GLB's own embedded
+-- SurfaceAppearance images don't always show in game, so these replace them.
+local HttpService = game:GetService("HttpService")
+
+local function applyTextures(model: Model)
+	local raw = model:GetAttribute("LiveSyncTextures")
+	if type(raw) ~= "string" then
+		return
+	end
+	local ok, map = pcall(HttpService.JSONDecode, HttpService, raw)
+	if not ok then
+		return
+	end
+	for _, d in model:GetDescendants() do
+		local id = d:IsA("MeshPart") and map[d.Name]
+		if id then
+			for _, c in d:GetChildren() do
+				if c:IsA("SurfaceAppearance") then
+					c:Destroy()
+				end
+			end
+			d.TextureID = `rbxassetid://{id}`
+			d.Color = Color3.new(1, 1, 1)
+		end
+	end
+end
+
 local function style(model: Model)
+	applyTextures(model)
 	for _, d in model:GetDescendants() do
 		if d:IsA("Script") or d:IsA("LocalScript") then
 			d:Destroy()

@@ -1,0 +1,152 @@
+{
+ "0f11004bb5367231d49020a10a17478a8b8c369832737dc201e7a7a1c7b29537": {
+  "id": 87947570892853,
+  "file": "art/models/GasStation/tex/AirLabel_Color.png",
+  "state": "Approved"
+ },
+ "e575a64da4534a9c8317c3d74cf29366fe542e9eed2225d59d7eadff7cffeefe": {
+  "id": 91216481586355,
+  "file": "art/models/GasStation/tex/Bollards_Color.png",
+  "state": "Approved"
+ },
+ "68d5ad9ba021b075f4d32b8a85507cf9eaf138e895f20f3c39f519b96b24129c": {
+  "id": 89473850104373,
+  "file": "art/models/GasStation/tex/CanopyUnder_Color.png",
+  "state": "Approved"
+ },
+ "4f55a7e7db01e52d4a6d61c337ecc658f6bf035c106c328c5e7ffa4347e037fe": {
+  "id": 71664357418754,
+  "file": "art/models/GasStation/tex/ColumnBase_Color.png",
+  "state": "Approved"
+ },
+ "bd343e5a5ed6f8b4de7beadaad02b822933fd0168c71816e378423172ede1238": {
+  "id": 134973008490414,
+  "file": "art/models/GasStation/tex/Columns_Color.png",
+  "state": "Approved"
+ },
+ "51441c98b42c9ee7c379fc7e3a5282e497a5d391d590a7fc4b690070f91adeb1": {
+  "id": 127006585344172,
+  "file": "art/models/GasStation/tex/Fascia_Color.png",
+  "state": "Approved"
+ },
+ "c65e54835a405793041e954cb7023a8344dee2434704fa15b879094b23d5dd59": {
+  "id": 97067365020810,
+  "file": "art/models/GasStation/tex/FasciaBrand_Color.png",
+  "state": "Approved"
+ },
+ "a3e15bdd842f60a11d9d601929f2e09238f406883940dc435240d1c184045c7a": {
+  "id": 108903885541149,
+  "file": "art/models/GasStation/tex/Forecourt_Color.png",
+  "state": "Approved"
+ },
+ "4c79a260fe06b6676ab45984e832dde0a96aa3218af55ed23d106c667a642e9c": {
+  "id": 85161195995128,
+  "file": "art/models/GasStation/tex/Hose_Color.png",
+  "state": "Approved"
+ },
+ "358df8ad8c39ef1d1aa9e4040327cf0b60c9670e5441dae874c1df189d8fa62e": {
+  "id": 76945622385905,
+  "file": "art/models/GasStation/tex/IceBox_Color.png",
+  "state": "Approved"
+ },
+ "1415806bf27799b1675f22ca5ffbd6aaf79b4c70c84df70ca8ba625c57fade8c": {
+  "id": 123121460170113,
+  "file": "art/models/GasStation/tex/IceLabel_Color.png",
+  "state": "Approved"
+ },
+ "d0a14c35d19f325083be16767640b5fcefda997079b03da3ab8cce27263ecc24": {
+  "id": 95017864959402,
+  "file": "art/models/GasStation/tex/IslandKerb_Color.png",
+  "state": "Approved"
+ },
+ "5950c32ce01b22fd80efe5face25c5f992478e4f573a74ba59891c9d6fa47be2": {
+  "id": 82785033961756,
+  "file": "art/models/GasStation/tex/Kerb_Color.png",
+  "state": "Approved"
+ },
+ "9d1a7057e4fcff17c6aeb3101aa81a4f990be5cb873b3205b2c662e648ec4390": {
+  "id": 83730937457562,
+  "file": "art/models/GasStation/tex/Light_Color.png",
+  "state": "Approved"
+ },
+ "8711cb5ca8dd9e9ca0712bf5133ca91343f40c7af2c70192d94fb27410a188b5": {
+  "id": 85520805515143,
+  "file": "art/models/GasStation/tex/Nozzle_Color.png",
+  "state": "Approved"
+ },
+ "068a9a64deae7bfe0f3db51c19566e457f2b5394d0e8c38d8a4dfde33834520d": {
+  "id": 124887888659844,
+  "file": "art/models/GasStation/tex/NozzleGrip_Color.png",
+  "state": "Approved"
+ },
+ "5dd082d4e923976deb4c88c352f4c7530c3eac390031eac1d3db75db21f70faa": {
+  "id": 70664914605512,
+  "file": "art/models/GasStation/tex/Paint_Color.png",
+  "state": "Approved"
+ },
+ "f9ff3eb111c15da93102209ebe85d10b2ca56fb42a29bd4db8dca5cf6eb49b88": {
+  "id": 72151185570472,
+  "file": "art/models/GasStation/tex/PriceSign_Color.png",
+  "state": "Approved"
+ },
+ "7693f6a46b37be1104ff75b4cc288ffe188460e409a244c3aeb59d82dc87a3f7": {
+  "id": 71245203775771,
+  "file": "art/models/GasStation/tex/Props_Color.png",
+  "state": "Approved"
+ },
+ "0a60a0ba762e0ad925377d0ff0dc0e24d70415ba8a1b8f4ce1f9af666a8edc67": {
+  "id": 97052512231374,
+  "file": "art/models/GasStation/tex/PumpBody_Color.png",
+  "state": "Approved"
+ },
+ "6a0bf43f803218b71072e097c4ca086ae3082081e4ca4371ffeab39f314d4774": {
+  "id": 138610721771687,
+  "file": "art/models/GasStation/tex/PumpDark_Color.png",
+  "state": "Approved"
+ },
+ "cc6196b947003717be27136587354029cacc73cd57710fb6e691b78d8a53253c": {
+  "id": 86460200248529,
+  "file": "art/models/GasStation/tex/PumpFace_Color.png",
+  "state": "Approved"
+ },
+ "3b1403a76bdc087646ec8184c1676a69979087aa0f1477a0b02fa5d3ed731ae5": {
+  "id": 104686793259978,
+  "file": "art/models/GasStation/tex/PumpSide_Color.png",
+  "state": "Approved"
+ },
+ "6abea3d03daad39e7bd036e1c5d6d069337d917745a50080cc6784867a3f063f": {
+  "id": 106772473890993,
+  "file": "art/models/GasStation/tex/Roof_Color.png",
+  "state": "Approved"
+ },
+ "5553116c2ff2c87e45df597a3e408fb0e7ced0c42e898c19395446608021b5af": {
+  "id": 87706699249456,
+  "file": "art/models/GasStation/tex/ShopGlass_Color.png",
+  "state": "Approved"
+ },
+ "5c7e98eb574035e2f0f5cd80a672c916e70ea675f5c2a1bbe66c06b3d4600998": {
+  "id": 73017214928835,
+  "file": "art/models/GasStation/tex/ShopSign_Color.png",
+  "state": "Approved"
+ },
+ "38ae1a52b6f4b1a1c520fd555096f1978bc591e272daf0947d002b3be628f212": {
+  "id": 91629206728031,
+  "file": "art/models/GasStation/tex/ShopTrim_Color.png",
+  "state": "Approved"
+ },
+ "c42b4941485d20e3bea6c2c2c55ad22d40acbf2ceb5b8e1c73a914cc8fe4143a": {
+  "id": 140009300173517,
+  "file": "art/models/GasStation/tex/ShopWall_Color.png",
+  "state": "Approved"
+ },
+ "f5f022e5de8e6bd57d2425f0b0cef4abaf5d491bac667ff87ed719aa357072ea": {
+  "id": 77834394813889,
+  "file": "art/models/GasStation/tex/SignPole_Color.png",
+  "state": "Approved"
+ },
+ "9d4b1b691548fc909e4e36505df4667839b573ba51483e07c160459b3b5b724c": {
+  "id": 108313236777295,
+  "file": "art/models/GasStation/tex/Units_Color.png",
+  "state": "Approved"
+ }
+}

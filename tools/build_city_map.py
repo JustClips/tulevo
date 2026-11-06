@@ -126,6 +126,23 @@ children.append(part("Spawn", (10, 1, 10), (0, kerb + 0.5, AVE_Z - ROAD_W / 2 - 
 children.append(part("SpawnLot", (80, kerb, 40), (0, kerb / 2, AVE_Z - R - SIDE_W - 20), "#45474A", "Asphalt"))
 
 # buildings: empty Models the plugin / server fill with the uploaded mesh
+def textures_attr(model):
+    """LiveSyncTextures = JSON { part: image id } from art/models/<model>/textures.json + art/textures.lock.json."""
+    import hashlib
+    tj = os.path.join(ROOT, "art", "models", model, "textures.json")
+    tl = os.path.join(ROOT, "art", "textures.lock.json")
+    if not (os.path.exists(tj) and os.path.exists(tl)):
+        return {}
+    tlock = json.load(open(tl))
+    ids = {}
+    for part, rel in json.load(open(tj)).items():
+        h = hashlib.sha256(open(os.path.join(ROOT, rel), "rb").read()).hexdigest()
+        if h in tlock:
+            ids[part] = tlock[h]["id"]
+    return {"LiveSyncTextures": json.dumps(ids, sort_keys=True, separators=(",", ":"))}
+
+
+
 lock = json.load(open(os.path.join(ROOT, "art", "models.lock.json")))
 buildings = []
 for name, model, at in BUILDINGS:
@@ -136,7 +153,8 @@ for name, model, at in BUILDINGS:
     # Blender (x, y, z) -> Roblox (-x, z, y)
     center = [round(at[0] - c[0], 3), round(at[1] + c[2], 3), round(at[2] + c[1], 3)]
     buildings.append({"name": name, "className": "Model", "tags": ["Building"], "attributes": {
-        "LiveSyncAsset": lock[model]["id"], "LiveSyncBoxCenter": {"Vector3": center}, "CityModel": model}})
+        "LiveSyncAsset": lock[model]["id"], "LiveSyncBoxCenter": {"Vector3": center}, "CityModel": model,
+        **textures_attr(model)}})
 children.append({"name": "Buildings", "className": "Folder", "children": buildings})
 
 json.dump({"className": "Folder", "children": children}, open(OUT, "w"), indent=1)
