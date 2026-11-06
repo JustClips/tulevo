@@ -13,6 +13,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TweenService = game:GetService("TweenService")
 
 local GameTime = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("GameTime"))
+local IconIds = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("IconIds"))
 local HudLayout = require(script.Parent:WaitForChild("HudLayout"))
 
 local player = Players.LocalPlayer
@@ -107,57 +108,23 @@ local function label(parent: Instance, order: number, size: number, font: Font, 
 	return t
 end
 
--- Small flat icons from frames (no image uploads needed).
-local function walletIcon(parent: Instance, order: number)
+-- Icons: white ForgeGUI glyphs (art/icons, Shared/IconIds), tinted here.
+local function icon(parent: Instance, order: number, image: string, size: number, color: Color3)
 	local holder = Instance.new("Frame")
 	holder.LayoutOrder = order
 	holder.BackgroundTransparency = 1
-	holder.Size = UDim2.fromOffset(18, 22)
+	holder.Size = UDim2.new(0, size, 1, 0)
 	holder.Parent = parent
-	local body = Instance.new("Frame")
-	body.AnchorPoint = Vector2.new(0, 0.5)
-	body.Position = UDim2.new(0, 0, 0.5, 2)
-	body.Size = UDim2.fromOffset(17, 12)
-	body.BackgroundColor3 = COLORS.Main
-	body.BorderSizePixel = 0
-	body.Parent = holder
-	local flap = Instance.new("Frame")
-	flap.Position = UDim2.fromOffset(2, -3)
-	flap.Size = UDim2.fromOffset(11, 3)
-	flap.BackgroundColor3 = COLORS.Main
-	flap.BorderSizePixel = 0
-	flap.Parent = body
-	local clasp = Instance.new("Frame")
-	clasp.AnchorPoint = Vector2.new(1, 0.5)
-	clasp.Position = UDim2.new(1, 0, 0.5, 0)
-	clasp.Size = UDim2.fromOffset(6, 5)
-	clasp.BackgroundColor3 = Color3.fromRGB(40, 44, 48)
-	clasp.BorderSizePixel = 0
-	clasp.Parent = body
-end
-
-local function cardIcon(parent: Instance, order: number)
-	local holder = Instance.new("Frame")
-	holder.LayoutOrder = order
-	holder.BackgroundTransparency = 1
-	holder.Size = UDim2.fromOffset(18, 18)
-	holder.Parent = parent
-	local body = Instance.new("Frame")
-	body.AnchorPoint = Vector2.new(0, 0.5)
-	body.Position = UDim2.new(0, 1, 0.5, 1)
-	body.Size = UDim2.fromOffset(15, 10)
-	body.BackgroundTransparency = 1
-	body.Parent = holder
-	local stroke = Instance.new("UIStroke")
-	stroke.Color = COLORS.Dim
-	stroke.Thickness = 1.5
-	stroke.Parent = body
-	local stripe = Instance.new("Frame")
-	stripe.Position = UDim2.fromOffset(0, 3)
-	stripe.Size = UDim2.new(1, 0, 0, 2)
-	stripe.BackgroundColor3 = COLORS.Dim
-	stripe.BorderSizePixel = 0
-	stripe.Parent = body
+	local img = Instance.new("ImageLabel")
+	img.AnchorPoint = Vector2.new(0, 0.5)
+	img.Position = UDim2.fromScale(0, 0.55)
+	img.Size = UDim2.fromOffset(size, size)
+	img.BackgroundTransparency = 1
+	img.Image = image
+	img.ImageColor3 = color
+	img.ScaleType = Enum.ScaleType.Fit
+	img.Parent = holder
+	return img
 end
 
 local timeRow = row(1, 28)
@@ -167,14 +134,14 @@ local dayRow = row(2, 18)
 local dayText = label(dayRow, 1, 17, REGULAR, COLORS.Dim)
 
 local cashRow = row(3, 26, 12)
-walletIcon(cashRow, 1)
+icon(cashRow, 1, IconIds.Wallet, 22, COLORS.Main)
 local cashText = label(cashRow, 2, 24, BOLD, COLORS.Main)
 local deltaText = label(cashRow, 3, 18, BOLD, COLORS.Plus)
 deltaText.TextTransparency = 1
 deltaText.TextStrokeTransparency = 1
 
 local bankRow = row(4, 20, 2)
-cardIcon(bankRow, 1)
+icon(bankRow, 1, IconIds.BankCard, 18, COLORS.Dim)
 local bankText = label(bankRow, 2, 17, REGULAR, COLORS.Dim)
 
 -- 1234567 -> "$1,234,567"

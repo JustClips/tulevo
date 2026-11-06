@@ -14,6 +14,8 @@ ICONS = {
     "Vest": "a tactical body armor vest / plate carrier seen from the front, with shoulder straps and a few pouches",
     "Backpack": "a backpack seen from the front, with two shoulder straps and a front pocket",
     "Hands": "two open hands side by side, palms facing the viewer",
+    "Wallet": "a closed leather wallet seen from the front, with a flap and a small clasp, a bank note peeking out the top",
+    "BankCard": "a bank credit card seen from the front, a chip on the left and a magnetic stripe, card outline drawn with the inner area cut out so the details read",
 }
 TAG = sys.argv[1]
 only = sys.argv[2:] or list(ICONS)
