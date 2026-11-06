@@ -344,8 +344,8 @@ def thud(rng, lo, hi, tau, dur=0.15):
     return x / (np.abs(x).max() + 1e-9)
 
 
-# GTA-style impacts: short, punchy and loud. A sharp hit, the material's own "thock / ping",
-# a quick puff of debris and a short slap off the street, then squashed so it cuts through.
+# GTA-style impacts: short, dry and punchy. A sharp hit, the material's own "thock / ping" and
+# a quick puff of debris, no echo, squashed so it cuts through.
 def punchy(x, threshold=0.3):
     return limit(np.tanh(x / (np.abs(x).max() + 1e-9) * 1.8), threshold)
 
@@ -358,7 +358,7 @@ def impact_concrete(rng):
     add(out, thud(rng, 150, 1400, 0.01) * 0.7, 0)
     # a quick puff of chips
     add(out, grains(rng, 0.09, 3000, 0.025, 1500, 9000, 0.0018) * 0.45, 0.002)
-    out = reverb(out, rng, length=0.35, tone=4500, wet=0.22, early=((0.025, 0.35),))
+    out = out  # dry: no echo off walls (GTA impacts are short and dry)
     return punchy(out)
 
 
@@ -366,11 +366,11 @@ def impact_metal(rng):
     out = np.zeros(seconds(0.6))
     add(out, click(rng, 14000, 0.0003) * 1.0, 0)
     base = 1900 + 900 * rng.random()
-    add(out, modes(rng, base * np.array([1.0, 1.47, 2.09, 2.76, 3.4]), [0.09, 0.06, 0.045, 0.03, 0.02],
+    add(out, modes(rng, base * np.array([1.0, 1.47, 2.09, 2.76, 3.4]), [0.05, 0.035, 0.025, 0.018, 0.012],
                    [0.8, 0.6, 0.45, 0.3, 0.2], 0.4) * 0.7, 0)
     add(out, modes(rng, [380 + 150 * rng.random(), 780], [0.02, 0.012], [1, 0.5], 0.1) * 0.6, 0)
     add(out, thud(rng, 200, 2000, 0.008) * 0.4, 0)
-    out = reverb(out, rng, length=0.4, tone=6000, wet=0.18, early=((0.025, 0.3),))
+    out = out  # dry: no echo off walls (GTA impacts are short and dry)
     return punchy(out, 0.35)
 
 
@@ -380,7 +380,7 @@ def impact_wood(rng):
     base = 230 + 120 * rng.random()
     add(out, modes(rng, base * np.array([1, 2.3, 3.9]), [0.025, 0.015, 0.01], [1, 0.55, 0.3], 0.15) * 0.9, 0)
     add(out, grains(rng, 0.06, 2000, 0.02, 1000, 6000, 0.003) * 0.4, 0.002)
-    out = reverb(out, rng, length=0.3, tone=4000, wet=0.18)
+    out = out  # dry: no echo off walls (GTA impacts are short and dry)
     return punchy(out)
 
 
@@ -389,7 +389,7 @@ def impact_dirt(rng):
     add(out, thud(rng, 70, 700, 0.018, 0.15) * 1.0, 0)
     add(out, click(rng, 5000, 0.001) * 0.5, 0)
     add(out, grains(rng, 0.12, 2200, 0.035, 500, 5000, 0.004) * 0.55, 0.003)
-    out = reverb(out, rng, length=0.3, tone=3000, wet=0.15)
+    out = out  # dry: no echo off walls (GTA impacts are short and dry)
     return punchy(out)
 
 
@@ -405,7 +405,7 @@ def impact_glass(rng):
         g = modes(rng, [f, f * 1.73], [0.02, 0.012], [1, 0.4], 0.06)
         add(shards, g * rng.random() ** 1.5 * np.exp(-t / 0.18), seconds(t))
     add(out, shards / (np.abs(shards).max() + 1e-9) * 0.5, 0.005)
-    out = reverb(out, rng, length=0.35, tone=7000, wet=0.18)
+    out = out  # dry: no echo off walls (GTA impacts are short and dry)
     return punchy(out, 0.35)
 
 

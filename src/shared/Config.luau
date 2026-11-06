@@ -118,13 +118,13 @@ local Config = {
 			Whiz = 0.9,
 			WhizRadius = 7,
 			-- bullets hitting things: full loudness at ImpactRef, unheard past ImpactRange
-			Impact = 1.6,
+			Impact = 1.1,
 			ImpactRef = 8,
 			ImpactRange = 170,
 			Body = 1.8, -- a bullet hitting someone else
 			BodyOnYou = 1.5, -- a bullet hitting you
 			Ricochet = 0.4, -- of the impact's loudness
-			RicochetChance = 0.15, -- per hit on concrete / metal
+			RicochetChance = 0, -- per hit on concrete / metal (0 = off; Dev disliked them)
 			Reload = 1.3, -- reload sounds (Server/Weapons/GunModel), heard up to ReloadRange studs
 			ReloadRange = 60,
 		},
