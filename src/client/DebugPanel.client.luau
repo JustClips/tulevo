@@ -316,6 +316,11 @@ local weatherHead = label(worldPage, "Weather", 15, BOLD, COLORS.Header)
 weatherHead.LayoutOrder = 4
 local weatherRow = row(worldPage)
 weatherRow.LayoutOrder = 5
+local stormRow = flow(worldPage)
+stormRow.LayoutOrder = 6
+button(stormRow, "Lightning near me", 150, function()
+	run("Lightning")
+end)
 
 task.spawn(function()
 	while true do

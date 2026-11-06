@@ -20,7 +20,7 @@ local W = Config.Weather
 local Weather = {}
 
 -- in the order the debug panel shows them
-local ORDER = { "Clear", "Cloudy", "Rain", "HeavyRain" }
+local ORDER = { "Clear", "Cloudy", "Rain", "HeavyRain", "Storm" }
 
 -- meshes ---------------------------------------------------------------------
 local function loadMeshes()

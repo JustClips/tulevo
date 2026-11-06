@@ -307,6 +307,14 @@ function actions.Weather(_player, name)
 	return setWeather(name)
 end
 
+function actions.Lightning(player)
+	local mod = Server:FindFirstChild("Lightning")
+	if not mod then
+		return false, "No lightning module"
+	end
+	return require(mod :: ModuleScript).strikeNear(player)
+end
+
 function actions.SpawnCar(player, id)
 	return spawnCar(player, id)
 end

@@ -18,11 +18,11 @@ Blender meshes, synthesised sound).
 
 ## Weathers
 
-`Clear`, `Cloudy`, `Rain`, `HeavyRain`. Add one by adding a row to WeatherTypes and a chance in
+`Clear`, `Cloudy`, `Rain`, `HeavyRain`, `Storm` (lightning, see `docs/lightning.md`). Add one by adding a row to WeatherTypes and a chance in
 Config.Weather.Chances.
 
 Chat (admins in Config.Weather.Admins, or anyone in a Studio play test):
-`/weather clear | cloudy | rain | heavyrain` (stays until `/weather auto`).
+`/weather clear | cloudy | rain | heavyrain | storm` (stays until `/weather auto`).
 
 ## Assets
 

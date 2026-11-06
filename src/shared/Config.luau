@@ -222,7 +222,7 @@ local Config = {
 	-- Weather (Server/Weather + Client/Weather, docs/weather.md; also the F8 debug panel). The server picks the weather
 	-- and everyone blends to it over FadeSeconds; clouds drift on the server clock, so every
 	-- player sees the same sky. Admins (and anyone in a Studio play test) can type
-	-- /weather clear | cloudy | rain | heavyrain | auto  in chat.
+	-- /weather clear | cloudy | rain | heavyrain | storm | auto  in chat.
 	Weather = {
 		Enabled = true,
 		Start = "Clear", -- weather when a server starts
@@ -230,7 +230,7 @@ local Config = {
 		MinMinutes = 6, -- real minutes each weather lasts (random in between)
 		MaxMinutes = 14,
 		-- how often each weather is picked by the cycle
-		Chances = { Clear = 5, Cloudy = 3, Rain = 2, HeavyRain = 1 },
+		Chances = { Clear = 5, Cloudy = 3, Rain = 2, HeavyRain = 1, Storm = 1 },
 		FadeSeconds = 30, -- seconds to blend from one weather into the next
 		Admins = { 822623546, 347852675 }, -- user ids allowed to use /weather in live servers
 		DriveSky = true, -- false: leave Lighting/Atmosphere as set in Studio (clouds and rain still run)
@@ -238,6 +238,24 @@ local Config = {
 		WindDirection = Vector2.new(1, 0.35),
 		CloudSpeed = 9,
 		RainVolume = 0.55, -- rain loop volume at full rain
+	},
+
+	-- Lightning (Server/Lightning + Client/Lightning.client, docs/lightning.md). Strikes
+	-- while the weather's `storm` value is up (Storm, now and then in HeavyRain). The server
+	-- picks every strike so all players see the same bolt; the debug panel can strike next to you.
+	Lightning = {
+		Enabled = true,
+		MinGap = 4, -- seconds between strikes at full storm (random in between)
+		MaxGap = 15,
+		NearChance = 0.12, -- share of strikes that land 25-90 studs from a player (full storm only)
+		CloudChance = 0.35, -- share that stay up in the clouds: flash + rumble, no bolt
+		SoundSpeed = 900, -- studs per second: thunder arrives later the further away the strike is
+		CloseRange = 300, -- closer than this: sharp crack; further: low rolling rumble
+		ShakeRange = 140, -- strikes closer than this shake the camera (harder the closer)
+		ShakeDegrees = 2.2, -- camera shake at point-blank
+		FlashStrength = 1, -- how bright the screen flash gets
+		ThunderVolume = 1,
+		ImpactRange = 900, -- sparks, smoke and a scorch mark only within this distance
 	},
 
 	-- City ambience (Client/Ambience.client, docs/ambience.md): distant traffic bed (day / night), crickets at
