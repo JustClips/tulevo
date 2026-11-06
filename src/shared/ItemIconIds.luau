@@ -5,4 +5,5 @@ return {
 	Chaser = "rbxassetid://89929907963391",
 	FirstAidKit = "rbxassetid://86414421299045",
 	Mead = "rbxassetid://126008330368583",
+	RifleAmmo = "rbxassetid://120325140898154",
 }
