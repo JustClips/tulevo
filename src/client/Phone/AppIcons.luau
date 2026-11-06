@@ -3,6 +3,7 @@ return {
 	Bank = "rbxassetid://122597392305674",
 	Browser = "rbxassetid://97788883628436",
 	Calls = "rbxassetid://74309879012324",
+	Camera = "rbxassetid://120966084629668",
 	Contacts = "rbxassetid://137010791478397",
 	Garage = "rbxassetid://135079619013704",
 	Jobs = "rbxassetid://108030269291529",

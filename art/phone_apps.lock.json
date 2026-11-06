@@ -42,5 +42,9 @@
  "Taxi": {
   "id": 72930229181826,
   "sha": "326e6725ffc80917198a3f17e51a4523ad5561910199a16f32906d49fc0a176d"
+ },
+ "Camera": {
+  "id": 120966084629668,
+  "sha": "539eff7ec6aa5e5b5b0e17b58db80978f4b6dd23e2df8fd4ab651fc504d6bee1"
  }
 }
