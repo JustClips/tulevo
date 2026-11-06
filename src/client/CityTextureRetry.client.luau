@@ -1,7 +1,8 @@
 --!strict
 -- Building and road images that fail to load on this client (a just-uploaded image still
--- "being generated", a Roblox hiccup) stay grey until the property changes. For the first
--- few minutes, check every image under workspace.City and set failed ones again.
+-- "being generated", a Roblox hiccup) stay grey until the property changes. Check every image
+-- under workspace.City every 15 s for the first 5 minutes, then every minute, and set failed
+-- ones again.
 
 local ContentProvider = game:GetService("ContentProvider")
 
@@ -22,8 +23,10 @@ local function users(): { [string]: { Instance } }
 	return map
 end
 
-for _ = 1, 20 do
-	task.wait(15)
+local round = 0
+while true do
+	round += 1
+	task.wait(if round <= 20 then 15 else 60)
 	local map = users()
 	local ids = {}
 	for id in map do
