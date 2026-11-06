@@ -26,11 +26,11 @@ local EMPTY = Color3.fromRGB(230, 70, 60)
 -- floating panel placement, in camera space as a share of the view's half-height at the
 -- panel's depth (so it keeps the same spot and size on screen when the aim zoom changes FOV)
 local FLOAT = {
-	Depth = 4.5, -- studs in front of the camera at FOV 70
-	Right = 0.07, -- left edge of the panel, right of the crosshair
-	Down = 0.17, -- panel centre, below the crosshair
-	Height = 0.12, -- panel height
-	Yaw = 28, -- degrees turned about its left edge: the right end goes away from you
+	Depth = 2.6, -- studs in front of the camera at FOV 70
+	Right = 0.11, -- left edge of the panel, right of the crosshair
+	Down = 0.1, -- panel centre, below the crosshair
+	Height = 0.14, -- panel height
+	Yaw = 16, -- degrees turned about its left edge: the right end goes away from you
 	Pitch = -8, -- degrees tipped back (top away)
 	Roll = -2,
 	Layers = 6, -- stacked copies that make the extrusion
