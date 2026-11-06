@@ -9,7 +9,9 @@ local C = Theme.Colors
 local Home = {}
 
 local COLS = 4
-local CELL_W, CELL_H = 64, 78
+local CELL_H = 80 -- grid row height (icon + name); cell width = a quarter of the row
+local SIDE = 14 -- space between the screen edge and the first / last icon column
+local DOCK_H = 78
 
 -- One app icon: rounded square in the app's colour, picture or a letter, name under it.
 -- onClick runs when it is pressed. withLabel = false for the dock.
@@ -19,7 +21,6 @@ local function icon(app, parent: Instance, withLabel: boolean, onClick)
 		Name = app.Id,
 		Parent = parent,
 		BackgroundTransparency = 1,
-		Size = UDim2.fromOffset(CELL_W, if withLabel then CELL_H else s),
 		LayoutOrder = app.Order or 100,
 		ZIndex = 12,
 	})
@@ -28,7 +29,7 @@ local function icon(app, parent: Instance, withLabel: boolean, onClick)
 		Parent = cell,
 		AutoButtonColor = false,
 		AnchorPoint = Vector2.new(0.5, 0),
-		Position = UDim2.fromScale(0.5, 0),
+		Position = UDim2.new(0.5, 0, 0, if withLabel then 4 else (DOCK_H - s) / 2),
 		Size = UDim2.fromOffset(s, s),
 		BackgroundColor3 = app.Color or Color3.fromRGB(90, 90, 100),
 		BorderSizePixel = 0,
@@ -69,8 +70,9 @@ local function icon(app, parent: Instance, withLabel: boolean, onClick)
 			Name = "Label",
 			Parent = cell,
 			BackgroundTransparency = 1,
-			Position = UDim2.fromOffset(-4, s + 5),
-			Size = UDim2.new(1, 8, 0, 13),
+			AnchorPoint = Vector2.new(0.5, 0),
+			Position = UDim2.new(0.5, 0, 0, s + 9),
+			Size = UDim2.new(1, -2, 0, 14),
 			FontFace = Theme.Regular,
 			TextSize = 11.5,
 			TextColor3 = C.Text,
@@ -112,15 +114,16 @@ function Home.build(pages: Frame, apps, onOpen)
 		Parent = page,
 		BackgroundTransparency = 1,
 		AnchorPoint = Vector2.new(0.5, 0),
-		Position = UDim2.new(0.5, 0, 0, Theme.StatusBar + 16),
-		Size = UDim2.new(1, -20, 1, -(Theme.StatusBar + 16 + 110)),
+		Position = UDim2.new(0.5, 0, 0, Theme.StatusBar + 18),
+		Size = UDim2.new(1, -2 * SIDE, 1, -(Theme.StatusBar + 18 + DOCK_H + 40)),
 		ZIndex = 11,
 	}, {
+		-- 4 equal columns that always fit the screen width, so spacing stays even
 		new("UIGridLayout", {
-			CellSize = UDim2.fromOffset(CELL_W, CELL_H),
-			CellPadding = UDim2.fromOffset(0, 10),
+			CellSize = UDim2.new(1 / COLS, 0, 0, CELL_H),
+			CellPadding = UDim2.fromOffset(0, 8),
 			FillDirectionMaxCells = COLS,
-			HorizontalAlignment = Enum.HorizontalAlignment.Center,
+			HorizontalAlignment = Enum.HorizontalAlignment.Left,
 			SortOrder = Enum.SortOrder.LayoutOrder,
 		}),
 	})
@@ -129,18 +132,21 @@ function Home.build(pages: Frame, apps, onOpen)
 		Name = "Dock",
 		Parent = page,
 		AnchorPoint = Vector2.new(0.5, 1),
-		Position = UDim2.new(0.5, 0, 1, -22),
-		Size = UDim2.new(1, -20, 0, 76),
+		Position = UDim2.new(0.5, 0, 1, -24),
+		Size = UDim2.new(1, -2 * (SIDE - 4), 0, DOCK_H),
 		BackgroundColor3 = C.Dock,
 		BackgroundTransparency = 0.72,
 		BorderSizePixel = 0,
 		ZIndex = 11,
 	}, {
-		corner(30),
-		new("UIListLayout", {
-			FillDirection = Enum.FillDirection.Horizontal,
+		corner(28),
+		new("UIPadding", { PaddingLeft = UDim.new(0, 4), PaddingRight = UDim.new(0, 4) }),
+		-- same 4 columns as the grid so dock icons line up with the icons above
+		new("UIGridLayout", {
+			CellSize = UDim2.new(1 / COLS, 0, 1, 0),
+			CellPadding = UDim2.fromOffset(0, 0),
+			FillDirectionMaxCells = COLS,
 			HorizontalAlignment = Enum.HorizontalAlignment.Center,
-			VerticalAlignment = Enum.VerticalAlignment.Center,
 			SortOrder = Enum.SortOrder.LayoutOrder,
 		}),
 	})

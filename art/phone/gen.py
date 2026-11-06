@@ -20,6 +20,14 @@ JOBS = {
         "rich vivid colours (deep blue, violet, magenta, warm orange), fine light refraction, subtle grain, smooth gradients, "
         "dark background around them, crisp high resolution, studio lighting. The main shape is a tall vertical composition "
         "centred in the middle third of the image so it can be cropped to a tall phone screen. No text, no logo, no device, no UI."),
+    # made sideways (16:9) and turned 90 degrees in proc.py, so the tall screen gets the full 768 x 1376
+    "wallpaper3": ("thumbnail", 2,
+        "Highly detailed premium smartphone wallpaper, original abstract art in the spirit of modern iOS default wallpapers: "
+        "a long flowing composition of glossy translucent frosted-glass ribbons and folded petals, layered in depth, "
+        "running horizontally across the WHOLE image from the left edge to the right edge, filling the full frame, "
+        "intricate fine detail, light refraction and glowing edges, soft caustics, smooth rich gradients in deep blue, "
+        "violet, magenta and warm orange, dark navy background, razor sharp, 8k quality, studio lighting. "
+        "No text, no logo, no characters, no people, no device, no UI."),
     "wallpaper": ("thumbnail", 1,
         "Abstract modern phone wallpaper art, smooth flowing glossy gradient waves, deep violet, midnight blue and "
         "warm orange-pink sunset glow, soft light, minimal, elegant, premium like a new flagship smartphone default wallpaper. "
