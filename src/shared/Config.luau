@@ -187,6 +187,15 @@ local Config = {
 		CameraMinZoom = 9, -- camera pulled out of first person while lying down
 	},
 
+	-- Debug panel (Server/DebugPanel + Client/DebugPanel): F8 opens it for these accounts
+	-- (and for anyone in Studio play tests). The server checks every action again, so
+	-- nobody else can use it even with an exploit.
+	Debug = {
+		Admins = { 347852675, 822623546 },
+		AllowInStudio = true,
+		Key = Enum.KeyCode.F8,
+	},
+
 	-- In-game clock (Server/GameClock + Shared/GameTime): drives Lighting.ClockTime and the
 	-- time/date on the HUD. GTA style: one game day = 48 real minutes (1 game minute = 2 s).
 	Time = {
