@@ -23,6 +23,7 @@ local ContextActionService = game:GetService("ContextActionService")
 local GuiService = game:GetService("GuiService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
 local StarterGui = game:GetService("StarterGui")
 local UserInputService = game:GetService("UserInputService")
 
@@ -309,10 +310,13 @@ end
 local healthFill, healthValue = bar("Health", 322, COLORS.Health, IconIds.Heart)
 local armorFill, armorValue = bar("Armor", 344, COLORS.Armor, IconIds.Shield)
 
--- active items (things in use right now)
+-- active items: what's in your hands. Drag a gun in to take it out, drag it out to put it away.
 local active = box(mid, "ActiveItems", 0, 372, MID_W, 126, COLORS.Panel, 0.5)
-icon(active, "Icon", IconIds.Hands, MID_W / 2 - 18, 30, 36, COLORS.Icon)
-label(active, "Label", "Active items", 0, 66, MID_W, 20, 13, COLORS.Dim, REGULAR, Enum.TextXAlignment.Center)
+local activeIcon = icon(active, "Icon", IconIds.Hands, MID_W / 2 - 18, 30, 36, COLORS.Icon)
+local activeLabel =
+	label(active, "Label", "Active items", 0, 66, MID_W, 20, 13, COLORS.Dim, REGULAR, Enum.TextXAlignment.Center)
+cellMeta[active] = { container = "Active" }
+table.insert(targets, { frame = active, container = "Active" })
 
 -- armor + bag slots
 local armorSlot = slot(mid, "ArmorSlot", 0, 506, 130, 96)
@@ -325,10 +329,17 @@ local bagSlot = slot(mid, "BagSlot", 138, 506, 130, 96)
 icon(bagSlot, "EmptyIcon", IconIds.Backpack, 65 - 20, 20, 40, COLORS.Icon)
 label(bagSlot, "Label", "Bag", 0, 70, 130, 22, 12, COLORS.Dim, REGULAR, Enum.TextXAlignment.Center)
 
--- quick slots 1-3 (layout only for now)
-for i = 0, 2 do
-	local q = slot(mid, `Quick{i + 1}`, i * 92, 610, 84, BOTTOM - 610)
-	label(q, "Number", tostring(i + 1), 0, 2, 84, 14, 11, COLORS.Dim, REGULAR, Enum.TextXAlignment.Center)
+-- quick slots 1-3 (keys 1-3 / the quick bar use what's in them; Server/Inventory "Quick")
+local QUICK = CFG.QuickSlots or 3
+local quickSlots: { Frame } = {}
+for i = 1, QUICK do
+	local qw = (MID_W - (QUICK - 1) * 8) / QUICK
+	local q = slot(mid, `Quick{i}`, (i - 1) * (qw + 8), 610, qw, BOTTOM - 610)
+	local n = label(q, "Number", tostring(i), 0, 2, qw, 14, 11, COLORS.Dim, REGULAR, Enum.TextXAlignment.Center)
+	n.ZIndex = 3
+	quickSlots[i] = q
+	cellMeta[q] = { container = "Quick", slot = i }
+	table.insert(targets, { frame = q, container = "Quick", slot = i })
 end
 
 ---------------------------------------------------------------- right: inventory grid
@@ -548,8 +559,9 @@ end
 
 ---------------------------------------------------------------- state from the server
 
-local state: any = { containers = { Inventory = {}, Backpack = {} }, armor = false }
-local lists: { [string]: { [number]: any } } = { Inventory = {}, Backpack = {} } -- top-left slot -> item
+local state: any = { containers = { Inventory = {}, Backpack = {} }, armor = false, quick = {} }
+-- top-left slot -> item (Quick: slot number -> item)
+local lists: { [string]: { [number]: any } } = { Inventory = {}, Backpack = {}, Quick = {} }
 local ground: { any } = {}
 
 local function weightOf(list: { [any]: any }): number
@@ -559,6 +571,52 @@ local function weightOf(list: { [any]: any }): number
 		w += (if def then def.Weight else 0) * (e.count or 1)
 	end
 	return w
+end
+
+-- kg used toward a container's limit (the quick slots share the Inventory's)
+local function bucket(name: string): string
+	return if name == "Quick" then "Inventory" else name
+end
+local function used(name: string): number
+	local b = bucket(name)
+	local w = weightOf(lists[b] or {})
+	if b == "Inventory" then
+		w += weightOf(lists.Quick)
+	end
+	return w
+end
+local function maxOf(name: string): number
+	return if bucket(name) == "Backpack" then CFG.BackpackMaxWeight else CFG.MaxWeight
+end
+
+-- The carried item with this id (the gun in your hands): container, slot, item.
+local function findCarried(id: string?): (string?, number?, any?)
+	if not id then
+		return nil, nil, nil
+	end
+	for _, name in { "Quick", "Inventory", "Backpack" } do
+		for slotNo, e in lists[name] or {} do
+			if e.id == id then
+				return name, slotNo, e
+			end
+		end
+	end
+	return nil, nil, nil
+end
+
+local onQuickChanged: (() -> ())? = nil -- the quick bar (below) redraws on this
+
+-- Active items: the gun in your hands
+local activeRef: { container: string, slot: number, item: any }? = nil
+local shownEquipped: string? = nil
+local function renderActive()
+	shownEquipped = WeaponState.Equipped
+	local name, slotNo, e = findCarried(WeaponState.Equipped)
+	activeRef = if name and slotNo and e then { container = name, slot = slotNo, item = e } else nil
+	cellItem[active] = e
+	setTile(active, e)
+	activeIcon.Visible = e == nil
+	activeLabel.Visible = e == nil
 end
 
 local function renderGround()
@@ -591,8 +649,21 @@ local function render()
 			cell.BackgroundTransparency = if anchor then 1 else SLOT_TRANSPARENCY
 		end
 	end
-	invWeight.Text = string.format("%.2f / %d kg", weightOf(lists.Inventory), CFG.MaxWeight)
-	backpackWeight.Text = string.format("%.2f / %d kg", weightOf(lists.Backpack), CFG.BackpackMaxWeight)
+	local quickBy = {}
+	for _, e in state.quick or {} do
+		quickBy[e.slot] = e
+	end
+	lists.Quick = quickBy
+	for i, q in quickSlots do
+		cellItem[q] = quickBy[i]
+		setTile(q, quickBy[i])
+	end
+	renderActive()
+	if onQuickChanged then
+		onQuickChanged()
+	end
+	invWeight.Text = string.format("%.2f / %d kg", used("Inventory"), CFG.MaxWeight)
+	backpackWeight.Text = string.format("%.2f / %d kg", used("Backpack"), CFG.BackpackMaxWeight)
 	local armor = if state.armor then state.armor else nil
 	cellItem[armorSlot] = armor
 	setTile(armorSlot, armor, nil, nil, nil, true)
@@ -714,6 +785,7 @@ type Drag = {
 	ghost: Frame?,
 	ghostKey: string?,
 	plan: any?, -- what letting go here would do (see plan())
+	fromActive: boolean?, -- picked up from Active items (the gun in your hands)
 }
 local drag: Drag? = nil
 
@@ -790,6 +862,43 @@ local function plan(d: Drag, p: Vector2): any?
 		showPreview(a, b - a, ok)
 		return if ok then { action = "wear" } else nil
 	end
+	if t.container == "Active" then
+		-- a gun dropped here comes out into your hands
+		local ok = def.Kind == "Weapon" and d.from ~= "Ground" and d.from ~= "Armor"
+		local a, b = rectOf(active)
+		showPreview(a, b - a, ok)
+		return if ok then { action = "equip" } else nil
+	end
+	local sameBucket = bucket(d.from) == bucket(t.container) -- moving it doesn't add weight there
+	local extra = if sameBucket then 0 else def.Weight * (d.item.count or 1)
+	local max = maxOf(t.container)
+	if t.container == "Quick" then
+		-- one item per quick slot, any size
+		local slotNo = t.slot :: number
+		local dst = lists.Quick[slotNo]
+		local a, b = rectOf(t.frame)
+		local ok, merge = false, false
+		local weightOk = sameBucket or used(t.container) + extra <= max + 1e-6
+		if d.from == "Armor" then
+			ok = dst == nil and weightOk
+		elseif dst and dst.uid == d.item.uid then
+			ok = true -- back where it was
+		elseif dst and dst.id == d.item.id and def.Stack > 1 and not dst.data and not d.item.data then
+			local roomWeight = if sameBucket then math.huge else math.floor((max - used(t.container)) / math.max(def.Weight, 1e-6))
+			ok = math.min(def.Stack - (dst.count or 1), roomWeight) > 0
+			merge = true
+		elseif dst then
+			-- swap: the quick slot's item goes where this one was (the server checks it fits)
+			ok = d.from == "Quick" or GRIDS[d.from] ~= nil
+		else
+			ok = weightOk
+		end
+		showPreview(a, b - a, ok)
+		if not ok then
+			return nil
+		end
+		return { action = if d.from == "Armor" then "takeoff" else "move", to = "Quick", slot = slotNo, merge = merge }
+	end
 	local g = GRIDS[t.container]
 	local list = lists[t.container]
 	local slotNo = t.slot :: number
@@ -797,14 +906,12 @@ local function plan(d: Drag, p: Vector2): any?
 	local step = (g.cell + g.gap) * s
 	local occ = Grid.occupancy(list, g.cols)
 	local fromHere = d.from == t.container
-	local extra = if fromHere then 0 else def.Weight * (d.item.count or 1)
-	local max = if t.container == "Inventory" then CFG.MaxWeight else CFG.BackpackMaxWeight
 	-- the same item under the pointer: stack onto it
 	local under = occ[slotNo]
 	local dst = under and list[under]
 	if dst and dst.uid ~= d.item.uid and dst.id == d.item.id and def.Stack > 1 and not dst.data and not d.item.data then
 		local roomStack = def.Stack - (dst.count or 1)
-		local roomWeight = if fromHere then math.huge else math.floor((max - weightOf(list)) / math.max(def.Weight, 1e-6))
+		local roomWeight = if sameBucket then math.huge else math.floor((max - used(t.container)) / math.max(def.Weight, 1e-6))
 		local ok = math.min(roomStack, roomWeight) > 0
 		local uc, ur = Grid.pos(under, g.cols)
 		local hc, hr = Grid.pos(slotNo, g.cols)
@@ -822,7 +929,7 @@ local function plan(d: Drag, p: Vector2): any?
 	local ignore = if fromHere then d.key else nil
 	local ok = anchor ~= nil
 		and Grid.fits(list, g.cols, g.rows, anchor, w, h, ignore, occ)
-		and (fromHere or weightOf(list) + extra <= max + 1e-6)
+		and (sameBucket or used(t.container) + extra <= max + 1e-6)
 	showPreview(a, footprint(g, w, h) * s, ok)
 	if not ok then
 		return nil
@@ -887,12 +994,20 @@ end
 
 local function finish(d: Drag)
 	local pl = d.plan
+	-- the gun dragged out of your hands goes on your back (wherever it's dropped)
+	if d.fromActive and not (pl and (pl.action == "equip" or pl.action == "drop")) then
+		Weapons.equip(nil)
+	end
 	if not pl then
 		return
 	end
 	local item = d.item
 	local def = Items.get(item.id)
-	if pl.action == "drop" then
+	if pl.action == "equip" then
+		if WeaponState.Equipped ~= item.id then
+			Weapons.equip(item.id)
+		end
+	elseif pl.action == "drop" then
 		if def and def.Kind == "Weapon" and WeaponState.Equipped == item.id then
 			Weapons.equip(nil) -- put it away before it leaves your hands
 		end
@@ -911,7 +1026,7 @@ local function finish(d: Drag)
 		end
 		MoveRemote:FireServer(d.from, d.key, pl.to, pl.slot, d.rot)
 		-- show it there straight away (the server's answer follows and wins if it disagrees)
-		if not pl.merge and GRIDS[d.from] then
+		if not pl.merge and GRIDS[d.from] and GRIDS[pl.to] then
 			local src = state.containers[d.from] or {}
 			for i, e in src do
 				if e.slot == d.key then
@@ -955,7 +1070,17 @@ UserInputService.InputBegan:Connect(function(input)
 	local w, h = Grid.size(item)
 	local key, from, gx, gy = nil, meta.container, (w - 1) // 2, (h - 1) // 2
 	local source = cell
-	if GRIDS[from] then
+	local fromActive = false
+	if from == "Active" then
+		-- the gun in your hands: drag the real item (where it's kept in the bag)
+		local ref = activeRef
+		if not ref then
+			return
+		end
+		from, key, fromActive = ref.container, ref.slot, true
+	elseif from == "Quick" then
+		key = meta.slot
+	elseif GRIDS[from] then
 		local anchor = cellAnchor[cell] :: number
 		local g = GRIDS[from]
 		local cc, cr = Grid.pos(meta.slot :: number, g.cols)
@@ -976,6 +1101,7 @@ UserInputService.InputBegan:Connect(function(input)
 		rot = item.rot == true,
 		grabX = gx,
 		grabY = gy,
+		fromActive = fromActive,
 	}
 end)
 
@@ -1335,5 +1461,120 @@ ContextActionService:SetPosition("Inventory_Toggle", UDim2.new(1, -245, 1, -210)
 UserInputService.InputBegan:Connect(function(input)
 	if input.KeyCode == Enum.KeyCode.N and UserInputService:GetFocusedTextBox() == nil then
 		toggle()
+	end
+end)
+
+---------------------------------------------------------------- quick slots: keys 1-3 + the bar
+
+-- Use quick slot i: a gun there comes out, or goes on your back if it's already in your
+-- hands. (Eating / first aid from a quick slot comes later.)
+local function useQuick(i: number): boolean
+	local e = lists.Quick[i]
+	local def = e and Items.get(e.id)
+	if not e or not def then
+		return false
+	end
+	if def.Kind == "Weapon" then
+		Weapons.equip(if WeaponState.Equipped == e.id then nil else e.id)
+		return true
+	end
+	return false
+end
+
+local QUICK_KEYS = {
+	{ Enum.KeyCode.One, Enum.KeyCode.DPadLeft },
+	{ Enum.KeyCode.Two, Enum.KeyCode.DPadUp },
+	{ Enum.KeyCode.Three, Enum.KeyCode.DPadRight },
+}
+for i = 1, QUICK do
+	local keys = QUICK_KEYS[i]
+	if keys then
+		ContextActionService:BindActionAtPriority(`Inventory_Quick{i}`, function(_, inputState)
+			if inputState == Enum.UserInputState.Begin then
+				useQuick(i)
+			end
+			return Enum.ContextActionResult.Sink
+		end, false, Enum.ContextActionPriority.High.Value, table.unpack(keys))
+	end
+end
+
+-- the quick bar: the 3 quick slots at the bottom of the screen (tap one on a phone), the one
+-- in your hands outlined. Hidden while the window is open or you're driving.
+local bar = Instance.new("ScreenGui")
+bar.Name = "QuickBar"
+bar.ResetOnSpawn = false
+bar.IgnoreGuiInset = true
+bar.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+bar.DisplayOrder = 5
+local BAR_CELL, BAR_GAP = 58, 6
+local row = Instance.new("Frame")
+row.Name = "Row"
+row.AnchorPoint = Vector2.new(0.5, 1)
+row.Position = UDim2.new(0.5, 0, 1, -12)
+row.Size = UDim2.fromOffset(QUICK * BAR_CELL + (QUICK - 1) * BAR_GAP, BAR_CELL)
+row.BackgroundTransparency = 1
+row.Parent = bar
+
+type BarSlot = { button: TextButton, stroke: UIStroke, holder: Frame, count: TextLabel, key: string? }
+local barSlots: { BarSlot } = {}
+for i = 1, QUICK do
+	local b = Instance.new("TextButton")
+	b.Name = `Slot{i}`
+	b.AutoButtonColor = false
+	b.Text = ""
+	b.Position = UDim2.fromOffset((i - 1) * (BAR_CELL + BAR_GAP), 0)
+	b.Size = UDim2.fromOffset(BAR_CELL, BAR_CELL)
+	b.BackgroundColor3 = COLORS.Window
+	b.BackgroundTransparency = 0.3
+	b.BorderSizePixel = 0
+	local stroke = Instance.new("UIStroke")
+	stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	stroke.Thickness = 2
+	stroke.Color = COLORS.Text
+	stroke.Transparency = 1
+	stroke.Parent = b
+	local holder = box(b, "Item", 4, 4, BAR_CELL - 8, BAR_CELL - 8)
+	local n = label(b, "Number", tostring(i), 4, 2, 14, 14, 12, COLORS.Dim, BOLD)
+	n.ZIndex = 3
+	local count = label(b, "Count", "", BAR_CELL - 44, BAR_CELL - 16, 40, 14, 12, COLORS.Text, BOLD, Enum.TextXAlignment.Right)
+	count.TextStrokeTransparency = 0.5
+	count.ZIndex = 3
+	b.Activated:Connect(function()
+		useQuick(i)
+	end)
+	b.Parent = row
+	barSlots[i] = { button = b, stroke = stroke, holder = holder, count = count, key = nil }
+end
+bar.Enabled = false
+bar.Parent = player:WaitForChild("PlayerGui")
+
+local function renderBar()
+	for i, slotUi in barSlots do
+		local e = lists.Quick[i]
+		local key = if e then e.id else ""
+		if slotUi.key ~= key then
+			slotUi.key = key
+			slotUi.holder:ClearAllChildren()
+			if e then
+				makeIcon(e.id, 1, false).Parent = slotUi.holder
+			end
+		end
+		local n = if e then e.count or 1 else 0
+		slotUi.count.Text = if n > 1 then tostring(n) else ""
+		slotUi.stroke.Transparency = if e and WeaponState.Equipped == e.id then 0.1 else 1
+	end
+end
+onQuickChanged = renderBar
+renderBar()
+
+-- Active items and the bar follow the gun in your hands (it also changes on respawn, in cars...)
+RunService.Heartbeat:Connect(function()
+	if WeaponState.Equipped ~= shownEquipped then
+		renderActive()
+		renderBar()
+	end
+	local show = not gui.Enabled and not WeaponState.InVehicle
+	if bar.Enabled ~= show then
+		bar.Enabled = show
 	end
 end)

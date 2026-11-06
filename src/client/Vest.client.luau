@@ -1,15 +1,15 @@
 --[[
-	Armor vest off / on: V (gamepad D-pad up, phone "Vest" button).
+	Armor vest off / on, from the inventory window (Client/Inventory): drag the vest out of
+	the Armor slot / drop one on it. (No key: Dev removed V.)
 
 	Plays Tulevo_VestOff / Tulevo_VestOn (art/anim/vest.py) and tells the server, which moves
 	the real vest model with the hands on the same beats and takes the armor off / puts it
 	back (Server/Armor.server.luau). A gun in hand goes on the back first (both hands are
 	needed) and comes back out when you're done. Taken off, the vest goes into the inventory
-	with the armor it had left; V puts one from the inventory back on. Weapons can't be taken out meanwhile (Weapons/State.Dressing), and that lock always
+	with the armor it had left. Weapons can't be taken out meanwhile (Weapons/State.Dressing), and that lock always
 	lifts at the end, even on an error or a respawn.
 ]]
 
-local ContextActionService = game:GetService("ContextActionService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
@@ -79,7 +79,7 @@ local function dress(c: Model, h: Humanoid, animator: Animator, wearing: boolean
 	task.wait(LENGTH[name])
 end
 
--- uid: put on this vest from the inventory (dragged onto the Armor slot); nil = V.
+-- uid: put on this vest from the inventory (dragged onto the Armor slot); nil = take off.
 -- to, slot, rot: where the vest taken off goes (dragged out of the Armor slot).
 local function toggle(uid: string?, to: string?, slot: number?, rot: boolean?)
 	local c = player.Character
@@ -130,10 +130,3 @@ toggleEvent.Name = "VestToggle"
 toggleEvent.Event:Connect(toggle)
 toggleEvent.Parent = script
 
-ContextActionService:BindAction("ArmorVest", function(_, state)
-	if state == Enum.UserInputState.Begin then
-		toggle()
-	end
-	return Enum.ContextActionResult.Sink
-end, true, Enum.KeyCode.V, Enum.KeyCode.DPadUp)
-ContextActionService:SetTitle("ArmorVest", "Vest")

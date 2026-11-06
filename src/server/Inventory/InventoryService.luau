@@ -5,6 +5,8 @@
 	Each player has:
 	  Inventory  Config.Inventory Cols x Rows grid, up to MaxWeight kg
 	  Backpack   BackpackCols x BackpackRows grid, up to BackpackMaxWeight kg
+	  Quick      QuickSlots slots (keys 1-3), one item each, any size; their weight counts
+	             toward the Inventory's MaxWeight. The default weapons start here.
 	  Armor      the worn vest (equipment slot; doesn't count toward weight)
 	Items cover several cells (Shared/Items Cells: vest 2 x 2, carbine 4 x 2) and can be turned
 	(rot). An item is { uid, id, count, rot?, data? } stored at its top-left slot. id is a Shared/Items id; data holds what travels with
@@ -29,9 +31,10 @@
 		State   (server -> owner)  snapshot (see snapshot())
 		Request (client -> server) send me my snapshot
 		Move    (client -> server) from, fromKey, to, toKey, rot
-		        from/to: "Inventory" | "Backpack" | "Ground"; keys are top-left slot numbers
-		        (Shared/Items/Grid), or the dropped item's Uid for "Ground" as from (toKey is
-		        ignored for "Ground"); rot = the item turned 90 degrees (R while dragging)
+		        from/to: "Inventory" | "Backpack" | "Quick" | "Ground"; keys are top-left slot
+		        numbers (Shared/Items/Grid), quick slot numbers (1-3), or the dropped item's Uid
+		        for "Ground" as from (toKey is ignored for "Ground"); rot = the item turned 90
+		        degrees (R while dragging)
 ]]
 
 local HttpService = game:GetService("HttpService")
@@ -53,6 +56,7 @@ export type Item = { uid: string, id: string, count: number, rot: boolean?, data
 type Inv = {
 	Inventory: { [number]: Item },
 	Backpack: { [number]: Item },
+	Quick: { [number]: Item },
 	Armor: Item?,
 }
 
@@ -66,6 +70,7 @@ local CONTAINERS = {
 	},
 }
 local ORDER = { "Inventory", "Backpack" } -- where new items go first
+local QUICK = CFG.QuickSlots or 3
 
 local remotes = Instance.new("Folder")
 remotes.Name = "InventoryRemotes"
@@ -106,12 +111,31 @@ local function weightOf(list: { [number]: Item }): number
 	return w
 end
 
+-- Weight limits: the quick slots are on you, so they share the Inventory's limit.
+local function bucket(name: string): string
+	return if name == "Quick" then "Inventory" else name
+end
+
+local function maxOf(name: string): number
+	return CONTAINERS[bucket(name)].max
+end
+
+-- kg used toward this container's limit
+local function used(inv: Inv, name: string): number
+	local b = bucket(name)
+	local w = weightOf((inv :: any)[b])
+	if b == "Inventory" then
+		w += weightOf(inv.Quick)
+	end
+	return w
+end
+
 -- how many more of this item fit by weight
-local function roomByWeight(list: { [number]: Item }, max: number, weight: number): number
+local function roomByWeight(inv: Inv, name: string, weight: number): number
 	if weight <= 0 then
 		return math.huge
 	end
-	return math.max(0, math.floor((max - weightOf(list)) / weight + 1e-6))
+	return math.max(0, math.floor((maxOf(name) - used(inv, name)) / weight + 1e-6))
 end
 
 -- First spot for an item in a container (as it is, else turned). Returns slot, rot.
@@ -146,11 +170,21 @@ local function snapshot(inv: Inv)
 		end
 		out.containers[name] = list
 	end
+	local quick = {}
+	for slot, item in inv.Quick do
+		table.insert(quick, { slot = slot, uid = item.uid, id = item.id, count = item.count, data = item.data })
+	end
+	out.quick = quick
 	return out
 end
 
 local function allCarried(inv: Inv): { Item }
 	local out = {}
+	for i = 1, QUICK do
+		if inv.Quick[i] then
+			table.insert(out, inv.Quick[i])
+		end
+	end
 	for _, name in ORDER do
 		local list = (inv :: any)[name]
 		for i = 1, CONTAINERS[name].slots do
@@ -223,7 +257,7 @@ local function addInto(inv: Inv, id: string, count: number, data: { [string]: an
 			for slot = 1, c.slots do
 				local item = list[slot]
 				if left > 0 and item and item.id == id and not item.data then
-					local n = math.clamp(math.min(def.Stack - item.count, roomByWeight(list, c.max, def.Weight)), 0, left)
+					local n = math.clamp(math.min(def.Stack - item.count, roomByWeight(inv, name, def.Weight)), 0, left)
 					item.count += n
 					left -= n
 				end
@@ -234,7 +268,7 @@ local function addInto(inv: Inv, id: string, count: number, data: { [string]: an
 			if not slot then
 				break
 			end
-			local n = math.min(def.Stack, left, roomByWeight(list, c.max, def.Weight))
+			local n = math.min(def.Stack, left, roomByWeight(inv, name, def.Weight))
 			if n <= 0 then
 				break
 			end
@@ -252,10 +286,9 @@ end
 local function placeWhole(inv: Inv, item: Item): boolean
 	local w = itemWeight(item)
 	for _, name in ORDER do
-		local c = CONTAINERS[name]
 		local list = (inv :: any)[name]
 		local slot, rot = spotFor(name, list, item.id, item.rot)
-		if slot and weightOf(list) + w <= c.max + 1e-6 then
+		if slot and used(inv, name) + w <= maxOf(name) + 1e-6 then
 			item.rot = if rot then true else nil
 			list[slot] = item
 			return true
@@ -264,16 +297,54 @@ local function placeWhole(inv: Inv, item: Item): boolean
 	return false
 end
 
+-- A whole item at a chosen spot: a grid slot (rot = turned) or an empty quick slot, within
+-- the weight limit. true if placed.
+local function placeAt(inv: Inv, item: Item, to: any, slot: any, rot: any): boolean
+	if typeof(slot) ~= "number" or slot % 1 ~= 0 then
+		return false
+	end
+	if to == "Quick" then
+		if slot < 1 or slot > QUICK or inv.Quick[slot] or used(inv, to) + itemWeight(item) > maxOf(to) + 1e-6 then
+			return false
+		end
+		item.rot = nil
+		inv.Quick[slot] = item
+		return true
+	end
+	local c = typeof(to) == "string" and CONTAINERS[to] or nil
+	if not c then
+		return false
+	end
+	local list = (inv :: any)[to]
+	local w, h = Grid.baseSize(item.id)
+	if rot == true then
+		w, h = h, w
+	end
+	if not Grid.fits(list, c.cols, c.rows, slot, w, h) or used(inv, to) + itemWeight(item) > c.max + 1e-6 then
+		return false
+	end
+	item.rot = if rot == true then true else nil
+	list[slot] = item
+	return true
+end
+
 local function newInventory(player: Player): Inv
-	local inv: Inv = { Inventory = {}, Backpack = {}, Armor = nil }
+	local inv: Inv = { Inventory = {}, Backpack = {}, Quick = {}, Armor = nil }
 	local weapons = table.clone(Config.Weapons.DefaultLoadout)
 	if RunService:IsStudio() then
 		for _, id in Config.Weapons.StudioLoadout do
 			table.insert(weapons, id)
 		end
 	end
+	-- guns go in the quick slots first (keys 1-3)
+	local q = 1
 	for _, id in weapons do
-		addInto(inv, id, 1)
+		if q <= QUICK and Items.get(id) then
+			inv.Quick[q] = { uid = newUid(), id = id, count = 1 }
+			q += 1
+		else
+			addInto(inv, id, 1)
+		end
 	end
 	for _, entry in CFG.StartingItems do
 		addInto(inv, entry.Id, entry.Count or 1)
@@ -429,19 +500,7 @@ function pickup(player: Player, uid: string, to: string?, toSlot: number?, rot: 
 		return
 	end
 	local placed = false
-	local c = to and CONTAINERS[to]
-	local w, h = Grid.baseSize(item.id)
-	if rot then
-		w, h = h, w
-	end
-	if
-		c
-		and toSlot
-		and Grid.fits((inv :: any)[to], c.cols, c.rows, toSlot, w, h)
-		and weightOf((inv :: any)[to]) + itemWeight(item) <= c.max + 1e-6
-	then
-		item.rot = if rot then true else nil
-		;(inv :: any)[to][toSlot] = item
+	if to and toSlot and placeAt(inv, item, to, toSlot, rot) then
 		placed = true
 	elseif item.data or def.Stack <= 1 then
 		placed = placeWhole(inv, item)
@@ -463,7 +522,9 @@ end
 ---------------------------------------------------------------- moving
 
 -- Move an item so its top-left lands on toSlot (rot: turned 90 degrees), or onto a stack of
--- the same item covering toSlot. Refused if it would overlap something or go over the weight.
+-- the same item covering toSlot. Quick slots take one item each (a full one swaps when the
+-- other item fits where this one was). Refused if it would overlap something or go over the
+-- weight.
 local function move(inv: Inv, from: string, fromSlot: number, to: string, toSlot: number, rot: boolean)
 	local fromList, toList = (inv :: any)[from], (inv :: any)[to]
 	local src: Item? = fromList[fromSlot]
@@ -471,15 +532,11 @@ local function move(inv: Inv, from: string, fromSlot: number, to: string, toSlot
 	if not src or not def then
 		return
 	end
-	local c = CONTAINERS[to]
-	-- same item under the target cell: stack onto it
-	local occ = Grid.occupancy(toList, c.cols)
-	local underAnchor = occ[toSlot]
-	local dst: Item? = if underAnchor then toList[underAnchor] else nil
-	if dst and dst ~= src and dst.id == src.id and def.Stack > 1 and not src.data and not dst.data then
+	local crosses = bucket(from) ~= bucket(to) -- adds weight to the target's limit
+	local function stackOnto(dst: Item)
 		local room = def.Stack - dst.count
-		if from ~= to then
-			room = math.min(room, roomByWeight(toList, c.max, def.Weight))
+		if crosses then
+			room = math.min(room, roomByWeight(inv, to, def.Weight))
 		end
 		local n = math.clamp(room, 0, src.count)
 		dst.count += n
@@ -487,6 +544,67 @@ local function move(inv: Inv, from: string, fromSlot: number, to: string, toSlot
 		if src.count <= 0 then
 			fromList[fromSlot] = nil
 		end
+	end
+	local function stackable(dst: Item?): boolean
+		return dst ~= nil and dst ~= src and dst.id == src.id and def.Stack > 1 and not src.data and not dst.data
+	end
+
+	if to == "Quick" then
+		local dst = toList[toSlot]
+		if dst == src then
+			return
+		end
+		if dst and stackable(dst) then
+			stackOnto(dst)
+			return
+		end
+		if dst then
+			-- swap: the quick slot's item goes where this one was
+			if from ~= "Quick" then
+				local fc = CONTAINERS[from]
+				local occ = Grid.occupancy(fromList, fc.cols)
+				local bw, bh = Grid.baseSize(dst.id)
+				local dstRot: boolean? = nil
+				local fits = Grid.fits(fromList, fc.cols, fc.rows, fromSlot, bw, bh, fromSlot, occ)
+				if not fits and bw ~= bh then
+					fits = Grid.fits(fromList, fc.cols, fc.rows, fromSlot, bh, bw, fromSlot, occ)
+					dstRot = true
+				end
+				if not fits then
+					return
+				end
+				if crosses then
+					local ws, wd = itemWeight(src), itemWeight(dst)
+					if
+						used(inv, to) - wd + ws > maxOf(to) + 1e-6
+						or used(inv, from) - ws + wd > maxOf(from) + 1e-6
+					then
+						return
+					end
+				end
+				dst.rot = dstRot
+			end
+			src.rot = nil
+			fromList[fromSlot] = dst
+			toList[toSlot] = src
+			return
+		end
+		if crosses and used(inv, to) + itemWeight(src) > maxOf(to) + 1e-6 then
+			return
+		end
+		fromList[fromSlot] = nil
+		src.rot = nil
+		toList[toSlot] = src
+		return
+	end
+
+	local c = CONTAINERS[to]
+	-- same item under the target cell: stack onto it
+	local occ = Grid.occupancy(toList, c.cols)
+	local underAnchor = occ[toSlot]
+	local dst: Item? = if underAnchor then toList[underAnchor] else nil
+	if dst and stackable(dst) then
+		stackOnto(dst)
 		return
 	end
 	local w, h = Grid.baseSize(src.id)
@@ -496,7 +614,7 @@ local function move(inv: Inv, from: string, fromSlot: number, to: string, toSlot
 	if not Grid.fits(toList, c.cols, c.rows, toSlot, w, h, if from == to then fromSlot else nil, occ) then
 		return
 	end
-	if from ~= to and weightOf(toList) + itemWeight(src) > c.max + 1e-6 then
+	if crosses and used(inv, to) + itemWeight(src) > c.max + 1e-6 then
 		return
 	end
 	fromList[fromSlot] = nil
@@ -517,8 +635,8 @@ MoveRemote.OnServerEvent:Connect(function(player, from, fromKey, to, toKey, rot)
 	end
 	lastMove[player] = now
 	local function validSlot(name: string, key: any): boolean
-		local c = CONTAINERS[name]
-		return c ~= nil and typeof(key) == "number" and key >= 1 and key <= c.slots and key % 1 == 0
+		local n = if name == "Quick" then QUICK elseif CONTAINERS[name] then CONTAINERS[name].slots else nil
+		return n ~= nil and typeof(key) == "number" and key >= 1 and key <= n and key % 1 == 0
 	end
 	if from == "Ground" then
 		if typeof(fromKey) == "string" and to ~= "Ground" then
@@ -562,7 +680,7 @@ function InventoryService.putOnArmor(player: Player, uid: string?): Item?
 	if inv.Armor then
 		return nil
 	end
-	for _, name in ORDER do
+	for _, name in { "Quick", "Inventory", "Backpack" } do
 		local list = (inv :: any)[name]
 		for slot, item in list do
 			local def = Items.get(item.id)
@@ -577,8 +695,8 @@ function InventoryService.putOnArmor(player: Player, uid: string?): Item?
 	return nil
 end
 
--- Armor slot -> the bag, keeping the armor points left: at to/slot (rot = turned) if it was
--- dragged there and fits, else the first spot, else on the ground.
+-- Armor slot -> the bag, keeping the armor points left: at to/slot (rot = turned; to may be
+-- "Quick") if it was dragged there and fits, else the first spot, else on the ground.
 function InventoryService.takeOffArmor(player: Player, armorLeft: number?, to: any?, slot: any?, rot: any?)
 	local inv = InventoryService.get(player)
 	local item = inv.Armor
@@ -591,20 +709,7 @@ function InventoryService.takeOffArmor(player: Player, armorLeft: number?, to: a
 		data.armor = armorLeft
 	end
 	item.data = data
-	local placed = false
-	local c = typeof(to) == "string" and CONTAINERS[to] or nil
-	if c and typeof(slot) == "number" then
-		local list = (inv :: any)[to]
-		local w, h = Grid.baseSize(item.id)
-		if rot == true then
-			w, h = h, w
-		end
-		if Grid.fits(list, c.cols, c.rows, slot, w, h) and weightOf(list) + itemWeight(item) <= c.max + 1e-6 then
-			item.rot = if rot == true then true else nil
-			list[slot] = item
-			placed = true
-		end
-	end
+	local placed = placeAt(inv, item, to, slot, rot)
 	if not placed and not placeWhole(inv, item) then
 		local at = dropSpot(player)
 		if at then

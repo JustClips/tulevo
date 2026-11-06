@@ -4,13 +4,15 @@
 	predicts ammo and plays animations/effects so it feels instant.
 
 	Controls (keyboard / gamepad / phone):
-		1-5          pick a wheel slot (Config.Weapons.SlotKeys); same key again holsters
-		Q            gun on the back / take it out again (D-pad down, phone Gun button)
+		1-3          the inventory's quick slots (Client/Inventory): a gun there comes out,
+		             the same key puts it on your back (D-pad left / up / right, the quick
+		             bar at the bottom of the screen); dragging a gun onto / off Active items
+		             in the inventory does the same
 		Left click   fire / attack       (R2, phone Fire button)
 		Right click  aim                 (L2, phone Aim button)
 		R            reload              (X, phone Reload button)
-	Everyone spawns holding Config.Weapons.EquipOnSpawn (the carbine rifle). Q (or 5) puts it
-	on your back, Q (or 5) takes it out again: Q brings back the weapon you last had out.
+	Everyone spawns holding Config.Weapons.EquipOnSpawn (the carbine rifle, in quick slot 1).
+	Controller.equip(id) is the one way in and out of the hand (nil = on the back).
 
 	Gun poses (Weapons/AnimSet, clips from art/anim/gun.py) follow what you're doing:
 	Hold (low ready) walking/standing, Sprint (low ready, muzzle down), Aim (shouldered; also
@@ -69,7 +71,6 @@ local baseFov: number? = nil
 local lastPoseSent = 0
 local sentTwist, sentPitch = 0, 0
 
-local SLOT_KEYS = { Enum.KeyCode.One, Enum.KeyCode.Two, Enum.KeyCode.Three, Enum.KeyCode.Four, Enum.KeyCode.Five }
 
 local function character()
 	local c = player.Character
@@ -323,28 +324,7 @@ function Controller.fire()
 end
 
 local function bind()
-	for i, key in SLOT_KEYS do
-		ContextActionService:BindAction(`Weapon_Slot{i}`, function(_, state)
-			if state ~= Enum.UserInputState.Begin then
-				return Enum.ContextActionResult.Pass
-			end
-			local slot = Config.Weapons.SlotKeys[i]
-			local id = slot and owned()[slot]
-			if id then -- an empty slot does nothing
-				Controller.equip(if id == State.Equipped then nil else id)
-			end
-			return Enum.ContextActionResult.Sink
-		end, false, key)
-	end
-	ContextActionService:BindAction("Weapon_Holster", function(_, state)
-		if state == Enum.UserInputState.Begin then
-			Controller.toggle()
-		end
-		return Enum.ContextActionResult.Pass
-	end, true, Enum.KeyCode.Q, Enum.KeyCode.DPadDown)
-	ContextActionService:SetTitle("Weapon_Holster", "Gun")
-	ContextActionService:SetPosition("Weapon_Holster", UDim2.new(1, -170, 1, -270))
-
+	-- taking guns out / putting them away: the inventory's quick slots 1-3 (Client/Inventory)
 	ContextActionService:BindAction("Weapon_Fire", function(_, state)
 		if not State.Equipped then
 			return Enum.ContextActionResult.Pass

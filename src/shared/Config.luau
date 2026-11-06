@@ -88,6 +88,10 @@ local Config = {
 		BackpackCols = 4, -- backpack: 4 x 4
 		BackpackRows = 4,
 		BackpackMaxWeight = 10,
+		-- quick slots under the character (keys 1-3, the bar at the bottom of the screen): any
+		-- item, one per slot; a gun there is drawn / put away with its key. They count toward
+		-- MaxWeight. Config.Weapons.DefaultLoadout's weapons start in them.
+		QuickSlots = 3,
 		-- everyone starts with these (after Config.Weapons.DefaultLoadout's weapons)
 		StartingItems = {
 			{ Id = "Mead", Count = 1 },

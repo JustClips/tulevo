@@ -21,9 +21,16 @@ first-aid kit in the inventory, and the armor vest worn (Armor slot).
 - Items cover several cells and sit at their top-left cell. While dragging, a green box shows
   where the item lands (red = overlaps, out of the grid or too heavy) and R turns it 90 degrees
   (stored as `rot`). New items go to the first spot that fits, turned if only that fits.
-- Carrying a gun item = owning that weapon (5 / Q still draw it). Dropping the last one takes the
-  weapon away; its ammo stays with the dropped gun.
-- V, or dragging the vest out of / onto the Armor slot, plays the vest animation. A vest taken off
+- Carrying a gun item = owning that weapon. Dropping the last one takes the weapon away; its ammo
+  stays with the dropped gun.
+- Quick slots 1-3 (under the character; `Config.Inventory.QuickSlots`) hold one item each, any
+  size, and count toward the Inventory's weight. Keys 1 / 2 / 3 (gamepad D-pad left / up / right,
+  or tapping the quick bar at the bottom of the screen) use the slot: a gun comes out, the same
+  key puts it on the back. Food / first aid from a quick slot isn't done yet. The default guns
+  start in them (the carbine in slot 1). Dropping an item on a full quick slot swaps them.
+- Active items shows the gun in your hands. Drag a gun onto it to take it out; drag it out
+  (anywhere: onto a slot moves it there too) to put it on your back.
+- Dragging the vest out of / onto the Armor slot plays the vest animation (no key: V was removed). A vest taken off
   goes into the inventory with its armor left (on the ground if there's no room). Respawning
   refills the worn vest.
 - Dropped items sit in `Workspace.DroppedItems` (attributes Uid / ItemId / Count), show under
@@ -32,4 +39,4 @@ first-aid kit in the inventory, and the armor vest worn (Armor slot).
   (a copy posed by the idle animation's first frame out of sight, then frozen), with the worn
   vest and a gun on the back (a gun in the hand is left out). Rebuilt when the window opens and
   when the vest, a gun or clothes change while it's open.
-- Not saved between sessions yet. Equipment slots, the Bag slot and quick slots 1-3 are layout only.
+- Not saved between sessions yet. Equipment slots and the Bag slot are layout only.
