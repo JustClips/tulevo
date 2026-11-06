@@ -19,7 +19,8 @@ screen wakes from black, and it drops back down on close. Knocked down = phone c
   `notify(text, seconds)` (grows the Dynamic Island), `Opened`/`Closed` events.
 - `Phone/Frame.luau` builds the body, side buttons, screen, status bar (in-game clock),
   Dynamic Island, home bar. `Phone/Theme.luau` sizes/colours (phone units: 300 wide).
-- `Phone/Home.luau` home screen grid (4 across) + dock. `Phone/Island.luau` island animation.
+- `Phone/Home.luau` home screen grid (4 across) + glass dock. `Phone/Island.luau` island animation.
+- `Phone/Motion.luau` iPhone-like motion: apps zoom out of their icon and back in, home sinks back while an app is open, icons settle in when the phone wakes, icons dip when pressed.
 - `Phone/PhoneArt.luau` (generated) ForgeGUI body picture + screen hole + wallpaper ids.
   Without a body picture the body is drawn from Frames.
 - `Phone/AppIcons.luau` (generated) app icon glyph pictures by app Id.
@@ -38,7 +39,7 @@ return {
 }
 ```
 
-and remove its line from `Placeholders.luau`. Pages slide in from the right.
+and remove its line from `Placeholders.luau`. Pages zoom out of the app icon.
 
 ## Art (art/phone)
 - `gen.py` ForgeGUI body (`mixed`, transparent) + wallpaper (`thumbnail`) through the key pool

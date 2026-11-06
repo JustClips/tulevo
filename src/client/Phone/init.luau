@@ -36,6 +36,7 @@ local Theme = require(script.Theme)
 local Frame = require(script.Frame)
 local Home = require(script.Home)
 local Island = require(script.Island)
+local Motion = require(script.Motion)
 
 local CFG = Config.Phone
 local C = Theme.Colors
@@ -56,6 +57,8 @@ local moving: Tween? = nil
 local currentApp = nil
 local currentPage: GuiObject? = nil
 local homePage: Frame
+local homeScale: UIScale
+local homeIcons: { [string]: GuiObject } = {}
 local mouseFree: TextButton
 local touchButton: TextButton?
 
@@ -107,11 +110,8 @@ local function emptyPage(page: GuiObject, app)
 	})
 end
 
-local function slide(page: GuiObject, from: UDim2, to: UDim2, t: number)
-	page.Position = from
-	local tw = TweenService:Create(page, TweenInfo.new(t, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { Position = to })
-	tw:Play()
-	return tw
+local function iconRect(app)
+	return Motion.iconRect(app and homeIcons[app.Id], parts.screen, parts.scale.Scale)
 end
 
 local function closeApp(animate: boolean)
@@ -126,10 +126,18 @@ local function closeApp(animate: boolean)
 		task.spawn(app.close, page)
 	end
 	if animate then
-		slide(page, page.Position, UDim2.fromScale(1, 0), 0.25).Completed:Connect(function()
+		-- where the icon will be once the home screen is back at full size
+		local was = homeScale.Scale
+		homeScale.Scale = 1
+		local rect = iconRect(app)
+		homeScale.Scale = was
+		Motion.homeBack(homeScale, false)
+		page.Interactable = false
+		Motion.zoomOut(page, rect, parts.screenSize).Completed:Connect(function()
 			page:Destroy()
 		end)
 	else
+		homeScale.Scale = 1
 		page:Destroy()
 	end
 end
@@ -163,6 +171,27 @@ function Phone.openApp(id: string)
 		BorderSizePixel = 0,
 		ZIndex = 20,
 	}, { Frame.corner(Theme.ScreenRadius) })
+	Frame.new("UIScale", { Name = "Zoom", Parent = page })
+	-- app colour + icon on top while it zooms open (Motion fades it out)
+	local splash = Frame.new("Frame", {
+		Name = "Splash",
+		Parent = page,
+		Size = UDim2.fromScale(1, 1),
+		BackgroundColor3 = app.Color or C.Page,
+		BorderSizePixel = 0,
+		ZIndex = 30,
+	}, { Frame.corner(Theme.ScreenRadius) })
+	if app.Icon then
+		Frame.new("ImageLabel", {
+			Parent = splash,
+			BackgroundTransparency = 1,
+			AnchorPoint = Vector2.new(0.5, 0.5),
+			Position = UDim2.fromScale(0.5, 0.5),
+			Size = UDim2.fromOffset(110, 110),
+			Image = app.Icon,
+			ZIndex = 31,
+		})
+	end
 	-- title under the status bar
 	Frame.new("TextLabel", {
 		Name = "Title",
@@ -184,7 +213,8 @@ function Phone.openApp(id: string)
 		emptyPage(page, app)
 	end
 	homePage.Interactable = false
-	slide(page, UDim2.fromScale(1, 0), UDim2.fromScale(0, 0), 0.3).Completed:Connect(function()
+	Motion.homeBack(homeScale, true)
+	Motion.zoomIn(page, iconRect(app), parts.screenSize).Completed:Connect(function()
 		if currentPage == page then
 			homePage.Visible = false -- fully covered; also keeps gamepad selection off it
 		end
@@ -262,6 +292,11 @@ function Phone.open()
 	h.Rotation = 0
 	parts.sleepCover.BackgroundTransparency = 0
 	mouseFree.Modal = true
+	task.delay(CFG.OpenTime * 0.55, function()
+		if isOpen and not currentPage then
+			Motion.wake(homeScale)
+		end
+	end)
 	-- GTA style: a smooth slide straight up from under the corner, easing in and out
 	local info = TweenInfo.new(CFG.OpenTime, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut)
 	moving = TweenService:Create(h, info, { Position = openPos() })
@@ -403,9 +438,10 @@ function Phone.start()
 	parts = Frame.build(gui)
 	Island.attach(parts.island)
 	loadApps()
-	homePage = Home.build(parts.pages, apps, function(app)
+	homePage, homeIcons = Home.build(parts.pages, apps, function(app)
 		Phone.openApp(app.Id)
 	end)
+	homeScale = homePage:FindFirstChild("Zoom") :: UIScale
 
 	parts.homeBar.Activated:Connect(Phone.home)
 	parts.homeBar:FindFirstChild("HomeHit").Activated:Connect(Phone.home)
