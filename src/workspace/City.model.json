@@ -59,6 +59,20 @@
    },
    "tags": [
     "Road"
+   ],
+   "children": [
+    {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://92172085035672",
+      "Face": "Top",
+      "StudsPerTileU": 16,
+      "StudsPerTileV": 16,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    }
    ]
   },
   {
@@ -91,6 +105,20 @@
    },
    "tags": [
     "Road"
+   ],
+   "children": [
+    {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://92172085035672",
+      "Face": "Top",
+      "StudsPerTileU": 16,
+      "StudsPerTileV": 16,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    }
    ]
   },
   {
@@ -123,6 +151,20 @@
    },
    "tags": [
     "Road"
+   ],
+   "children": [
+    {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://92172085035672",
+      "Face": "Top",
+      "StudsPerTileU": 16,
+      "StudsPerTileV": 16,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    }
    ]
   },
   {
@@ -155,6 +197,20 @@
    },
    "tags": [
     "Road"
+   ],
+   "children": [
+    {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://92172085035672",
+      "Face": "Top",
+      "StudsPerTileU": 16,
+      "StudsPerTileV": 16,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    }
    ]
   },
   {
@@ -186,6 +242,18 @@
     "MaterialVariant": "TulevoSidewalk"
    },
    "children": [
+    {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    },
     {
      "name": "KerbFaceBack",
      "className": "Texture",
@@ -242,6 +310,18 @@
    },
    "children": [
     {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    },
+    {
      "name": "KerbFaceFront",
      "className": "Texture",
      "properties": {
@@ -296,6 +376,18 @@
     "MaterialVariant": "TulevoSidewalk"
    },
    "children": [
+    {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    },
     {
      "name": "KerbFaceBack",
      "className": "Texture",
@@ -364,6 +456,18 @@
    },
    "children": [
     {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    },
+    {
      "name": "KerbFaceFront",
      "className": "Texture",
      "properties": {
@@ -431,6 +535,18 @@
    },
    "children": [
     {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    },
+    {
      "name": "KerbFaceBack",
      "className": "Texture",
      "properties": {
@@ -485,6 +601,18 @@
     "MaterialVariant": "TulevoSidewalk"
    },
    "children": [
+    {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    },
     {
      "name": "KerbFaceFront",
      "className": "Texture",
@@ -541,6 +669,18 @@
    },
    "children": [
     {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    },
+    {
      "name": "KerbFaceBack",
      "className": "Texture",
      "properties": {
@@ -596,6 +736,18 @@
    },
    "children": [
     {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    },
+    {
      "name": "KerbFaceFront",
      "className": "Texture",
      "properties": {
@@ -650,6 +802,18 @@
     "MaterialVariant": "TulevoSidewalk"
    },
    "children": [
+    {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    },
     {
      "name": "KerbFaceBack",
      "className": "Texture",
@@ -718,6 +882,18 @@
    },
    "children": [
     {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    },
+    {
      "name": "KerbFaceFront",
      "className": "Texture",
      "properties": {
@@ -785,6 +961,18 @@
    },
    "children": [
     {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    },
+    {
      "name": "KerbFaceBack",
      "className": "Texture",
      "properties": {
@@ -839,6 +1027,18 @@
     "MaterialVariant": "TulevoSidewalk"
    },
    "children": [
+    {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    },
     {
      "name": "KerbFaceFront",
      "className": "Texture",
@@ -895,6 +1095,18 @@
    },
    "children": [
     {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    },
+    {
      "name": "KerbFaceBack",
      "className": "Texture",
      "properties": {
@@ -950,6 +1162,18 @@
    },
    "children": [
     {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    },
+    {
      "name": "KerbFaceBack",
      "className": "Texture",
      "properties": {
@@ -1004,6 +1228,18 @@
     "MaterialVariant": "TulevoSidewalk"
    },
    "children": [
+    {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    },
     {
      "name": "KerbFaceFront",
      "className": "Texture",
@@ -1072,6 +1308,18 @@
    },
    "children": [
     {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    },
+    {
      "name": "KerbFaceFront",
      "className": "Texture",
      "properties": {
@@ -1139,6 +1387,18 @@
    },
    "children": [
     {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    },
+    {
      "name": "KerbFaceFront",
      "className": "Texture",
      "properties": {
@@ -1193,6 +1453,18 @@
     "MaterialVariant": "TulevoSidewalk"
    },
    "children": [
+    {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    },
     {
      "name": "KerbFaceFront",
      "className": "Texture",
@@ -1249,6 +1521,18 @@
    },
    "children": [
     {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    },
+    {
      "name": "KerbFaceBack",
      "className": "Texture",
      "properties": {
@@ -1304,6 +1588,18 @@
    },
    "children": [
     {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    },
+    {
      "name": "KerbFaceBack",
      "className": "Texture",
      "properties": {
@@ -1358,6 +1654,18 @@
     "MaterialVariant": "TulevoSidewalk"
    },
    "children": [
+    {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    },
     {
      "name": "KerbFaceFront",
      "className": "Texture",
@@ -1426,6 +1734,18 @@
    },
    "children": [
     {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    },
+    {
      "name": "KerbFaceFront",
      "className": "Texture",
      "properties": {
@@ -1493,6 +1813,18 @@
    },
    "children": [
     {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    },
+    {
      "name": "KerbFaceFront",
      "className": "Texture",
      "properties": {
@@ -1548,6 +1880,18 @@
    },
    "children": [
     {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    },
+    {
      "name": "KerbFaceFront",
      "className": "Texture",
      "properties": {
@@ -1600,7 +1944,21 @@
      ]
     },
     "MaterialVariant": "TulevoSidewalk"
-   }
+   },
+   "children": [
+    {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#E4E2DC",
+      "Transparency": 0
+     }
+    }
+   ]
   },
   {
    "name": "HollisPlaza",
@@ -1629,7 +1987,21 @@
      ]
     },
     "MaterialVariant": "TulevoSidewalk"
-   }
+   },
+   "children": [
+    {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#E4E2DC",
+      "Transparency": 0
+     }
+    }
+   ]
   },
   {
    "name": "MeridianLot",
@@ -1658,7 +2030,21 @@
      ]
     },
     "MaterialVariant": "TulevoSidewalk"
-   }
+   },
+   "children": [
+    {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#E4E2DC",
+      "Transparency": 0
+     }
+    }
+   ]
   },
   {
    "name": "CrestlinePlaza",
@@ -1687,7 +2073,21 @@
      ]
     },
     "MaterialVariant": "TulevoSidewalk"
-   }
+   },
+   "children": [
+    {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#E4E2DC",
+      "Transparency": 0
+     }
+    }
+   ]
   },
   {
    "name": "Lines",

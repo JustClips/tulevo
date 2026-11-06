@@ -76,9 +76,12 @@ def write_variant():
 
 
 def style_road(p):
-    """Road Part dict -> uses the street MaterialVariant (white tint so the maps show true colour)."""
+    """Road Part dict -> street MaterialVariant (white tint so the maps show true colour) plus the same
+    asphalt colour map as a tiling Top Texture. The Texture always shows (scripts and any Studio can set
+    it), so the road looks right even where the plugin-only MaterialVariant didn't load."""
     if ready():
         p["properties"].update({"Material": "Asphalt", "MaterialVariant": VARIANT, "Color": "#FFFFFF"})
+        p.setdefault("children", []).append(_texture(IDS["StreetColor"], STUDS_PER_TILE, STUDS_PER_TILE, name="Surface"))
     return p
 
 
@@ -320,6 +323,7 @@ def sidewalks(children, rs):
         plaza = pr["Material"] == "Pavement"
         pr.update({"Material": "Concrete", "MaterialVariant": WALK_VARIANT, "Color": "#E4E2DC" if plaza else "#FFFFFF"})
         faces = p.setdefault("children", [])
+        faces.append(_texture(IDS["WalkColor"], WALK_TILE, WALK_TILE, color="#E4E2DC" if plaza else "#FFFFFF", name="Surface"))
         # kerbs: every edge of this slab that sits on a road edge
         for r in rs:
             e0, e1 = r.c_across - r.width / 2, r.c_across + r.width / 2
@@ -337,8 +341,6 @@ def sidewalks(children, rs):
                         out.append(_kerb(lo, hi, edge, road_dir, False, top))
                         faces.append(_texture(IDS["KerbFace"], 8, sy, name="KerbFace" + face))
                         faces[-1]["properties"]["Face"] = face
-        if not faces:
-            p.pop("children")
         # gum, small stains and the odd crack on top
         rnd = random.Random(p["name"])
         for _ in range(int(sx * sz / (700 if plaza else 450))):
