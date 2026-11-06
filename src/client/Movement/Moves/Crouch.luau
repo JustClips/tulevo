@@ -56,7 +56,8 @@ return {
 		c.mix += ((if moving then 1 else 0) - c.mix) * math.min(1, dt * 10)
 		c.idle:AdjustWeight(math.max(0.001, 1 - c.mix), 0)
 		c.walk:AdjustWeight(math.max(0.001, c.mix), 0)
-		c.walk:AdjustSpeed(math.clamp(math.max(ctx.Speed, 1) / NATURAL, 0.5, MAX_RATE))
+		local follow = ctx.Config.Movement.AnimRateFollowsSpeed == true
+		c.walk:AdjustSpeed(if follow then math.clamp(math.max(ctx.Speed, 1) / NATURAL, 0.5, MAX_RATE) else 1)
 	end,
 	Stop = function(ctx)
 		local c = tracks(ctx)

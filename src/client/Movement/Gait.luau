@@ -2,9 +2,9 @@
 	The foot animation layer: Walk, Jog and Sprint clips (art/anim/locomotion.py) played at
 	Movement priority above the default Animate script. Weights blend by real speed between
 	each gait's reference speed (Config.Movement), and every clip plays at
-	speed / Natural so the planted foot moves with the ground, up to the gait's MaxRate (a calm
-	top cadence: game speeds are fast for these legs, and a little foot slide reads far better
-	than legs spinning).
+	its normal speed (Config.Movement.AnimRateFollowsSpeed = false, Dev's pick). With it true,
+	clips play at speed / Natural so the planted foot moves with the ground, up to the gait's
+	MaxRate.
 ]]
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -91,6 +91,7 @@ function Gait:update(dt: number, enabled: boolean)
 	local side = math.clamp(WeaponState.StrafeSide or 0, -1, 1)
 	local forward = 1 - math.abs(side)
 	local m = ctx.Config.Movement
+	local follow = m.AnimRateFollowsSpeed == true -- else every clip plays at its normal speed
 	local sprintSide = m.AimSprintSpeed or m.SprintSpeed
 	local run = if self.hasRun then math.clamp((ctx.Speed - m.WalkSpeed) / math.max(0.5, sprintSide - m.WalkSpeed), 0, 1) else 0
 	for _, l in self.strafe do
@@ -108,7 +109,7 @@ function Gait:update(dt: number, enabled: boolean)
 				end
 			end
 		end
-		l.track:AdjustSpeed(math.clamp(math.max(ctx.Speed, 1) / (def.Natural * size), 0.5, def.MaxRate))
+		l.track:AdjustSpeed(if follow then math.clamp(math.max(ctx.Speed, 1) / (def.Natural * size), 0.5, def.MaxRate) else 1)
 		local w = math.max(0.001, self.weight * l.w)
 		if math.abs(w - l.sent) > 0.01 then
 			l.track:AdjustWeight(w, 0)
@@ -129,7 +130,7 @@ function Gait:update(dt: number, enabled: boolean)
 		if before < 0.02 and l.w >= 0.02 and l ~= lead and lead.track.Length > 0 and l.track.Length > 0 then
 			l.track.TimePosition = (lead.track.TimePosition / lead.track.Length) * l.track.Length
 		end
-		local rate = math.clamp(math.max(ctx.Speed, 1) / (l.natural * size), 0.5, l.maxRate)
+		local rate = if follow then math.clamp(math.max(ctx.Speed, 1) / (l.natural * size), 0.5, l.maxRate) else 1
 		l.track:AdjustSpeed(if WeaponState.GaitReverse then -rate else rate)
 		local w = math.max(0.001, self.weight * l.w * forward)
 		if math.abs(w - l.sent) > 0.01 then

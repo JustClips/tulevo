@@ -4,8 +4,8 @@
 	Every move is a module in Movement/Moves. Each frame the controller asks the moves which
 	ones want to run and picks the one with the highest Priority. The active move sets the
 	target WalkSpeed and can run its own code. Walking, jogging and sprinting share one foot
-	animation layer (Movement/Gait) that blends the clips by real speed so feet stay planted
-	(up to each gait's calm top cadence; past that the feet slide a little rather than spin).
+	animation layer (Movement/Gait) that blends the clips by real speed; each clip plays at its
+	normal speed (Config.Movement.AnimRateFollowsSpeed).
 
 	Moves: Walk 0, Crouch 5, Sprint 10, SprintStop 11 (let go mid-sprint: skid), Pivot 11
 	(reverse while running: plant and turn), Aim 12, Air 20, Roll 30. Footwork clips come from

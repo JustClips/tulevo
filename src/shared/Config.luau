@@ -13,6 +13,10 @@ local Config = {
 		JogSpeed = 14,
 		SprintSpeed = 20,
 		AimSprintSpeed = 12, -- aiming + sprint key: side run only (forward/back stay at the aim walk)
+		-- false: walk/run/sprint/strafe/crouch clips always play at their normal speed (Dev's
+		-- pick, 2026-11-06; feet slide a bit). true: playback follows movement speed so the feet
+		-- match the ground (up to each gait's MaxRate).
+		AnimRateFollowsSpeed = false,
 		CrouchSpeed = 4,
 		CrouchCameraDrop = 1.3, -- camera sits this much lower while crouched
 		RollSpeed = 17, -- studs/s during a roll (aim + Space)
