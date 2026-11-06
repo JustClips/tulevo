@@ -33,6 +33,7 @@ export type WeaponDef = {
 	Pellets: number?, -- shotguns > 1
 	Spread: number?, -- degrees, hip fire
 	AimSpread: number?, -- degrees, aimed
+	Recoil: { [string]: number }?, -- camera recoil numbers (Client/Weapons/Recoil)
 	Range: number?, -- studs, no damage past this
 	FalloffStart: number?, -- studs, damage drops linearly to FalloffMin at Range
 	FalloffMin: number?, -- damage share left at Range (default 0.5)
