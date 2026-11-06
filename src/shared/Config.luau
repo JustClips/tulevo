@@ -267,6 +267,17 @@ local Config = {
 		-- average seconds between one-offs when they're at their most likely
 		Every = { Birds = 9, Dogs = 50, Sirens = 75, Horns = 40 },
 	},
+
+	-- Phone (Client/Phone, docs/phone.md). Opens with a GTA-style slide up from the bottom right.
+	-- Apps are modules in Client/Phone/Apps.
+	Phone = {
+		Key = Enum.KeyCode.Up, -- on foot only; in a car the arrow keys still drive
+		GamepadKey = Enum.KeyCode.DPadDown, -- D-pad up/left/right are quick slots
+		ScreenHeight = 0.62, -- share of the screen height the phone takes (desktop)
+		TouchScreenHeight = 0.8, -- phones are small, so the phone is bigger there
+		OpenTime = 0.42,
+		CloseTime = 0.26,
+	},
 }
 
 return Config
