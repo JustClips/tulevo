@@ -30,7 +30,10 @@ local FLOAT = {
 	Right = 0.55, -- studs right of the crosshair line, measured at the head
 	Up = -0.35, -- studs above the head (negative = lower, about gun height)
 	Forward = 1.6, -- studs ahead of the head, toward the aim
-	Height = 0.85, -- panel height in studs
+	Height = 0.85, -- panel height in studs at RefDistance; Height, Right and Up scale with the
+	-- camera distance (and FOV) so it stays the same size on screen when you zoom in or out
+	RefDistance = 11, -- studs from the camera to the panel in Dev's "this big" shot (aiming FOV)
+	RefFov = 55,
 	Yaw = 16, -- degrees turned about its left edge: the right end goes away from you
 	Pitch = -8, -- degrees tipped back (top away)
 	Roll = -2,
@@ -232,13 +235,22 @@ local function placeLayers(cam: Camera, dt: number, head: BasePart)
 	flat = if flat.Magnitude > 0.01 then flat.Unit else Vector3.zAxis
 	local right = flat:Cross(Vector3.yAxis)
 
-	local h = FLOAT.Height
+	local camPos = cam.CFrame.Position
+	local ahead = head.Position + flat * FLOAT.Forward
+	local dist = (ahead - camPos).Magnitude
+	local scale = math.clamp(
+		dist * math.tan(math.rad(cam.FieldOfView / 2)) / (FLOAT.RefDistance * math.tan(math.rad(FLOAT.RefFov / 2))),
+		0.2,
+		8
+	)
+
+	local h = FLOAT.Height * scale
 	local w = h * CANVAS.X / CANVAS.Y
 	local step = FLOAT.Thickness * h / FLOAT.Layers
 	-- sideways from the camera's line (the shoulder camera sits right of the head), so the
 	-- panel stays just right of the crosshair whether or not the camera is over the shoulder
-	local side = (head.Position - cam.CFrame.Position):Dot(right)
-	local origin = head.Position + right * (FLOAT.Right - side) + Vector3.yAxis * FLOAT.Up + flat * FLOAT.Forward
+	local side = (head.Position - camPos):Dot(right)
+	local origin = ahead + right * (FLOAT.Right * scale - side) + Vector3.yAxis * FLOAT.Up * scale
 
 	-- faces the camera (lagged), turned about its left edge so the far end recedes
 	local hinge = CFrame.new(origin)
