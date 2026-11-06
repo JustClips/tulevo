@@ -17,8 +17,9 @@
 	The Aim clip (art/anim/gun.py) shoulders the rifle with the chest bladed (AIM_UT below),
 	but the chest hangs off the hips, and the walk/strafe clips bob, sway and turn the hips,
 	so on its own the rifle would wobble with every step. Every frame, right after the
-	animations are applied (PreSimulation), this sets the Waist joint so the UpperTorso has
+	animations are applied (PreSimulation), this sets the Waist joint's C0 so the UpperTorso has
 	exactly the aim orientation in the world: facing yaw + aim pitch (up/down) + the blade.
+	(C0, not Transform: the animator overwrote Transform writes, so they never showed.)
 	Arms, head and gun hang off the chest, so they're locked too.
 
 	Lean (hold Q / E, gun or not): after all that the body leans over: the hips tip a little
@@ -59,6 +60,8 @@ type Rig = {
 	waist: Motor6D,
 	neck: Motor6D?,
 	hips: { Motor6D },
+	base: { [Motor6D]: CFrame }, -- each joint's own C0 (before this module's changes)
+	written: { [Motor6D]: CFrame }, -- C0 this module set this frame
 	humanoid: Humanoid?,
 	blend: number,
 	pitch: number,
@@ -101,6 +104,8 @@ local function rigOf(character: Model): Rig?
 		waist = waist,
 		neck = motorIn("Head", "Neck"),
 		hips = hips,
+		base = {},
+		written = {},
 		humanoid = humanoid,
 		blend = 0,
 		pitch = 0,
@@ -193,6 +198,26 @@ local function plantFeet(r: Rig, dt: number, planted: boolean, isMe: boolean): n
 	return lag
 end
 
+-- All of this writes the joints' C0 (the animator never touches C0, while Transform writes
+-- were being overwritten by it). Each frame starts from the joint's real C0 (restore), so
+-- nothing builds up; a C0 changed by anything else (Roblox body scaling) becomes the new base.
+local function setC0(r: Rig, m: Motor6D, cf: CFrame)
+	if r.written[m] == nil then
+		r.base[m] = m.C0
+	end
+	m.C0 = cf
+	r.written[m] = cf
+end
+
+local function restore(r: Rig)
+	for m, w in r.written do
+		if m.C0 == w then
+			m.C0 = r.base[m]
+		end
+		r.written[m] = nil
+	end
+end
+
 -- hipTurn: radians the hips (and legs) turn right of the root part's facing
 local function lock(r: Rig, blend: number, pitch: number, hipTurn: number)
 	if blend < 0.01 then
@@ -203,14 +228,17 @@ local function lock(r: Rig, blend: number, pitch: number, hipTurn: number)
 	local lr = r.lowerRoot
 	-- hips and legs into the stance: turn about the root part's up axis at the hip joint
 	if math.abs(hipTurn * blend) > 0.001 then
-		local c0 = lr.C0.Rotation
-		lr.Transform = c0:Inverse() * CFrame.Angles(0, -hipTurn * blend, 0) * c0 * lr.Transform
+		local c0 = lr.C0
+		setC0(r, lr, CFrame.new(c0.Position) * CFrame.Angles(0, -hipTurn * blend, 0) * c0.Rotation)
 	end
 	local lowerTorso = r.root.CFrame * lr.C0 * lr.Transform * lr.C1:Inverse()
-	local base = (lowerTorso * r.waist.C0).Rotation
-	local anim = r.waist.Transform
-	local locked = CFrame.new(anim.Position) * base:Inverse() * target * r.waist.C1.Rotation
-	r.waist.Transform = if blend >= 0.999 then locked else anim:Lerp(locked, blend)
+	-- the waist C0 that gives the UpperTorso exactly the target rotation on top of this
+	-- frame's animated Transform
+	local w = r.waist
+	local c0 = w.C0
+	local want = lowerTorso.Rotation:Inverse() * target * w.C1.Rotation * w.Transform.Rotation:Inverse()
+	local locked = CFrame.new(c0.Position) * want
+	setC0(r, w, if blend >= 0.999 then locked else c0:Lerp(locked, blend))
 end
 
 -- Lean pose. lean is -1..1 (+ = right); pitch is how much aim pitch the chest has (0 with the
@@ -223,11 +251,10 @@ local function partOf(parent: CFrame, m: Motor6D): CFrame
 	return parent * m.C0 * m.Transform * m.C1:Inverse()
 end
 
-local function turnJoint(m: Motor6D, parent: CFrame, rot: CFrame)
+-- turn the joint's child part by a world rotation about the joint
+local function turnJoint(r: Rig, m: Motor6D, parent: CFrame, rot: CFrame)
 	local joint = parent * m.C0
-	local pivot = (joint * m.Transform).Position
-	local turn = CFrame.new(pivot) * rot * CFrame.new(-pivot)
-	m.Transform = joint:Inverse() * turn * joint * m.Transform
+	setC0(r, m, parent:Inverse() * CFrame.new(joint.Position) * rot * joint.Rotation)
 end
 
 local function applyLean(r: Rig, lean: number, pitch: number)
@@ -240,17 +267,17 @@ local function applyLean(r: Rig, lean: number, pitch: number)
 	local aim = (CFrame.Angles(0, yaw, 0) * CFrame.Angles(pitch, 0, 0)).LookVector
 	-- hips tip toward the lean; the legs turn back so they stay upright
 	local hip = CFrame.fromAxisAngle(flat, angle * HIP_SHARE)
-	turnJoint(r.lowerRoot, r.root.CFrame, hip)
+	turnJoint(r, r.lowerRoot, r.root.CFrame, hip)
 	local lowerTorso = partOf(r.root.CFrame, r.lowerRoot)
 	for _, m in r.hips do
-		turnJoint(m, lowerTorso, hip:Inverse())
+		turnJoint(r, m, lowerTorso, hip:Inverse())
 	end
 	-- chest: the rest, so in total it has turned exactly the lean round the aim direction
 	local chest = CFrame.fromAxisAngle(aim, angle)
-	turnJoint(r.waist, lowerTorso, chest * hip:Inverse())
+	turnJoint(r, r.waist, lowerTorso, chest * hip:Inverse())
 	-- head tilts back toward level a little
 	if r.neck then
-		turnJoint(r.neck, partOf(lowerTorso, r.waist), CFrame.fromAxisAngle(aim, -angle * HEAD_BACK))
+		turnJoint(r, r.neck, partOf(lowerTorso, r.waist), CFrame.fromAxisAngle(aim, -angle * HEAD_BACK))
 	end
 end
 
@@ -267,6 +294,11 @@ function GunPose.start()
 			local c = p.Character
 			if not c then
 				continue
+			end
+			-- back to the joints' own C0 before this frame's pose
+			local known = rigs[c]
+			if known then
+				restore(known)
 			end
 			if p == me then
 				local r = if State.AimBlend > 0.01 then rigOf(c) else nil
