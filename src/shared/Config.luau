@@ -180,7 +180,9 @@ local Config = {
 	Knocked = {
 		Enabled = true, -- false: old behaviour (die and respawn after RespawnTime)
 		GiveUpDelay = 1.5, -- seconds before "Потерять сознание" works (no accidental clicks)
-		ReviveHealth = 20, -- health after Knocked.revive (medics / first-aid later)
+		ReviveHealth = 10, -- health after being picked up
+		ReviveHold = 4, -- seconds another player holds E ("Поднять") next to the body
+		ReviveDistance = 7, -- studs
 		FallPush = 9, -- random sideways push when falling (studs/s), so bodies land differently
 		CameraMinZoom = 9, -- camera pulled out of first person while lying down
 	},

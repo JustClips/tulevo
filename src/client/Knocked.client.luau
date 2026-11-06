@@ -45,6 +45,7 @@ local TEXT = {
 	Title = "ВЫ РАНЕНЫ",
 	Body = "Вы получили тяжёлые ранения и не можете подняться.\nОрганизм держится из последних сил.",
 	BodyWaiting = "Вы ждёте помощи. Кто-то рядом может\nпоставить вас на ноги.",
+	BodyHelped = "%s поднимает вас...",
 	Wait = "Ожидать помощи",
 	Waiting = "Ожидание помощи",
 	GiveUp = "Потерять сознание",
@@ -414,6 +415,19 @@ local function enter(character: Model, humanoid: Humanoid)
 		local t = beat % 1.4
 		local thump = math.max(0, 1 - t / 0.35) + 0.6 * math.max(0, 1 - math.abs(t - 0.32) / 0.25)
 		pulse.BackgroundTransparency = 1 - 0.22 * math.min(1, thump)
+		-- nobody sees a prompt on their own body
+		local prompt = character:FindFirstChild("KnockedRevive", true)
+		if prompt and prompt:IsA("ProximityPrompt") and prompt.Enabled then
+			prompt.Enabled = false
+		end
+		local helper = character:GetAttribute("BeingHelped")
+		local want = if typeof(helper) == "string"
+			then string.format(TEXT.BodyHelped, helper)
+			elseif waiting then TEXT.BodyWaiting
+			else TEXT.Body
+		if body.Text ~= want then
+			body.Text = want
+		end
 		if waiting then
 			waitButton.Text = `{TEXT.Waiting}  {clock(os.clock() - (knockedAt or os.clock()))}`
 		end

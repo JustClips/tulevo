@@ -180,6 +180,45 @@ local function unragdoll(character: Model, e: Entry)
 	table.clear(e.saved)
 end
 
+-- Other players hold E (or tap/hold on phones) next to the body to pick the player up.
+local function addPrompt(character: Model, e: Entry)
+	local part = character:FindFirstChild("UpperTorso") or character:FindFirstChild("HumanoidRootPart")
+	if not part then
+		return
+	end
+	local cfg = settings()
+	local prompt = Instance.new("ProximityPrompt")
+	prompt.Name = "KnockedRevive"
+	prompt.ActionText = "Поднять"
+	prompt.ObjectText = e.player.DisplayName
+	prompt.HoldDuration = cfg.ReviveHold or 4
+	prompt.MaxActivationDistance = cfg.ReviveDistance or 7
+	prompt.RequiresLineOfSight = false
+	prompt.KeyboardKeyCode = Enum.KeyCode.E
+	prompt.GamepadKeyCode = Enum.KeyCode.ButtonX
+	prompt.Parent = part
+	table.insert(e.added, prompt)
+	local function okHelper(helper: Player): boolean
+		local c = helper.Character
+		local h = c and c:FindFirstChildOfClass("Humanoid")
+		return helper ~= e.player and h ~= nil and h.Health > 0 and not Knocked.isKnocked(c)
+	end
+	prompt.PromptButtonHoldBegan:Connect(function(helper)
+		if okHelper(helper) then
+			character:SetAttribute("BeingHelped", helper.DisplayName)
+		end
+	end)
+	prompt.PromptButtonHoldEnded:Connect(function()
+		character:SetAttribute("BeingHelped", nil)
+	end)
+	prompt.Triggered:Connect(function(helper)
+		character:SetAttribute("BeingHelped", nil)
+		if okHelper(helper) then
+			Knocked.revive(character, cfg.ReviveHealth)
+		end
+	end)
+end
+
 local function knock(character: Model, humanoid: Humanoid)
 	local e = entries[character]
 	if not e or character:GetAttribute("Knocked") then
@@ -202,6 +241,7 @@ local function knock(character: Model, humanoid: Humanoid)
 	character:SetAttribute("WaitingHelp", false)
 	character:SetAttribute("KnockedAt", workspace:GetServerTimeNow())
 	ragdoll(character, e) -- joints first, so the client already has them when it lets go
+	addPrompt(character, e)
 	character:SetAttribute("Knocked", true)
 end
 
@@ -246,6 +286,7 @@ function Knocked.revive(character: Model, health: number?)
 	end
 	humanoid.Health = math.clamp(health or settings().ReviveHealth or 20, 1, humanoid.MaxHealth)
 	character:SetAttribute("WaitingHelp", nil)
+	character:SetAttribute("BeingHelped", nil)
 	character:SetAttribute("KnockedAt", nil)
 	character:SetAttribute("Knocked", false) -- the client gets back up
 	if e.onRevive then

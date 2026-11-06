@@ -5,6 +5,9 @@ Health 0 no longer kills a player. They fall over as a ragdoll and lie on the fl
 
 - **Ожидать помощи**: stay down. The button turns into a wait timer and the character gets the
   attribute `WaitingHelp = true` (for medics / first-aid kits later).
+- Other players pick you up by holding **E "Поднять"** next to the body (`ReviveHold` 4 s,
+  `ReviveDistance` 7 studs). You stand up with `ReviveHealth` (10 HP). While someone holds it,
+  your screen says who is picking you up. You don't see the prompt on your own body.
 - **Потерять сознание**: respawn (after `Config.Knocked.GiveUpDelay`).
 
 ## Files
