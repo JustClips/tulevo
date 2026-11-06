@@ -125,6 +125,8 @@ local Config = {
 			BodyOnYou = 1.5, -- a bullet hitting you
 			Ricochet = 0.4, -- of the impact's loudness
 			RicochetChance = 0.15, -- per hit on concrete / metal
+			Reload = 1.3, -- reload sounds (Server/Weapons/GunModel), heard up to ReloadRange studs
+			ReloadRange = 60,
 		},
 	},
 

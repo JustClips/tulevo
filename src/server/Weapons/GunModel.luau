@@ -27,6 +27,7 @@ local Shared = ReplicatedStorage:WaitForChild("Shared")
 local Config = require(Shared:WaitForChild("Config"))
 local ModelIds = require(Shared:WaitForChild("ModelIds"))
 local Pouches = require(Shared:WaitForChild("Armor"):WaitForChild("Pouches"))
+local SoundIds = require(Shared:WaitForChild("SoundIds"))
 
 local GunModel = {}
 
@@ -308,6 +309,27 @@ local function takePouchMag(character: Model, vest: Instance, k: number, hand: B
 	return held
 end
 
+-- Reload sounds (tools/reload_sounds.py), played from the server so everyone nearby hears them.
+-- Volume / range: Config.Weapons.Sound.Reload / ReloadRange.
+local CHARGE_AT = 1.95 -- ReloadCharge: handle back at 2.01, forward at 2.08 (gun.py)
+local function reloadSound(part: BasePart, name: string)
+	local id = (SoundIds :: any)[name]
+	local cfg = Config.Weapons.Sound
+	if not id or not cfg or not cfg.Enabled or not part.Parent then
+		return
+	end
+	local s = Instance.new("Sound")
+	s.SoundId = "rbxassetid://" .. id
+	s.Volume = (cfg.Reload or 1) * (cfg.Volume or 1)
+	s.PlaybackSpeed = 1 + (math.random() * 2 - 1) * 0.03
+	s.RollOffMode = Enum.RollOffMode.InverseTapered
+	s.RollOffMinDistance = 5
+	s.RollOffMaxDistance = cfg.ReloadRange or 60
+	s.Parent = part
+	s:Play()
+	game:GetService("Debris"):AddItem(s, 2)
+end
+
 -- Plays the magazine swap on the real Magazine part, in time with the reload clip played at
 -- `speed` (clip length / reload time). Old mag is dropped to the floor. The new one comes out
 -- of the next vest pouch when fromPouches (Shared/Armor/Pouches: the lid flips open and stays
@@ -348,6 +370,7 @@ function GunModel.reloadMag(character: Model, speed: number, fromPouches: boolea
 	end
 	at(RELOAD_BEATS.grab, function()
 		weld.Part0, weld.C0, weld.C1 = hand, MAG_IN_HAND, CFrame.new()
+		reloadSound(mag, "ReloadMagOut")
 	end)
 	at(RELOAD_BEATS.drop, function()
 		-- the empty mag falls away
@@ -365,10 +388,16 @@ function GunModel.reloadMag(character: Model, speed: number, fromPouches: boolea
 		old.AssemblyLinearVelocity = mag.AssemblyLinearVelocity + Vector3.new(0, -4, 0)
 		game:GetService("Debris"):AddItem(old, 10)
 		mag.Transparency = 1
+		task.delay(0.35, function()
+			reloadSound(old, "ReloadMagDrop") -- hits the ground
+		end)
 	end)
 	if vest and pouch then
 		at(RELOAD_BEATS.flap, function()
 			if vest.Parent == character then
+				if not vest:GetAttribute(`Open{pouch}`) then
+					reloadSound(mag, "ReloadPouch")
+				end
 				openFlap(vest, pouch, FLAP_TIME / speed)
 			end
 		end)
@@ -383,6 +412,15 @@ function GunModel.reloadMag(character: Model, speed: number, fromPouches: boolea
 		dropHeld()
 		weld.Part0, weld.C0, weld.C1 = hand, MAG_DRAW_IN_HAND, CFrame.new()
 		mag.Transparency = 0
+	end)
+	at(RELOAD_BEATS.partial - 0.04, function()
+		reloadSound(mag, "ReloadMagIn")
+	end)
+	at(RELOAD_BEATS.seated - 0.08, function()
+		reloadSound(mag, "ReloadMagSeat")
+	end)
+	at(CHARGE_AT, function()
+		reloadSound(mag, "ReloadCharge")
 	end)
 	at(RELOAD_BEATS.partial, function()
 		-- in the well, not quite home; the hand lets go to slap it

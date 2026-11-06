@@ -226,5 +226,29 @@
  "UseMedkit": {
   "id": 140552740282854,
   "sha": "0c3d82ad0cf97e6fabbc04226b9ce26342454f9e70b48fb399876729d786995c"
+ },
+ "ReloadCharge": {
+  "id": 95818272867563,
+  "sha": "d040d9d5fc0d28e877666875acc96c747df6db8d5eea69d1c06b90b9480b8748"
+ },
+ "ReloadMagDrop": {
+  "id": 95775417266166,
+  "sha": "900c2ae20e9607556f21f9a4f031fef83c33014bf787666eda5d4c9f5c4c30db"
+ },
+ "ReloadMagIn": {
+  "id": 125883231194107,
+  "sha": "25e96f5844c6b837332159693890e45d10deb95932513042b37d6cd9fb19890d"
+ },
+ "ReloadMagOut": {
+  "id": 111921588537235,
+  "sha": "008a7240b039bdcca1f2295617cd50db6fbd3601dc2565fbaf60b8d4a6082bac"
+ },
+ "ReloadMagSeat": {
+  "id": 79516068558813,
+  "sha": "9e24ed806723f1c9ab50fb6a1b8449fdf41673e9e373d898257d3f07af73773d"
+ },
+ "ReloadPouch": {
+  "id": 136927836947789,
+  "sha": "67196050cd929089a1d05ac946acbeabdf0f11acfd3e88b63993ee091144064c"
  }
 }

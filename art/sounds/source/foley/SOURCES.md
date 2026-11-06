@@ -6,3 +6,5 @@
 - paper_rip : "Various Paper Sound Effects", https://opengameart.org/content/various-paper-sound-effects
 
 Converted to mono 44.1 kHz FLAC. tools/use_sounds.py builds the in-game sounds from these.
+- rifle_reload : "Gun reload sounds" (assaultriflereload1), https://opengameart.org/content/gun-reload-sounds
+- equipment_clicks : "Equipment Clicks II" by lfa, https://opengameart.org/content/equipment-clicks-ii
