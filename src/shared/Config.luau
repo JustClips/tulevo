@@ -98,11 +98,11 @@ local Config = {
 			Enabled = true,
 			Volume = 1, -- master for every gun sound
 			PitchJitter = 0.03, -- each shot/impact is up to 3% higher or lower so autofire isn't a loop
-			OwnShot = 0.75, -- your own gun
+			OwnShot = 1.6, -- your own gun
 			-- someone else's gun: Shot is the loudness at ShotRef studs, then it falls off with
 			-- distance ^ ShotFalloff. Closer than NearRange you hear the close-up shot, up to
 			-- DistantRange the distant one, then the far pop; nothing past MaxRange.
-			Shot = 1,
+			Shot = 1.8,
 			ShotRef = 15,
 			ShotFalloff = 0.85,
 			NearRange = 70,
@@ -112,17 +112,17 @@ local Config = {
 			FarBoost = 1.6,
 			SpeedOfSound = 1225, -- studs/s (343 m/s): far shots are heard after their bullets land
 			-- bullets passing you: crack within CrackRadius (full loudness at CrackRef), whizz within WhizRadius
-			Crack = 0.9,
+			Crack = 1.4,
 			CrackRef = 4,
 			CrackRadius = 30,
-			Whiz = 0.55,
+			Whiz = 0.9,
 			WhizRadius = 7,
 			-- bullets hitting things: full loudness at ImpactRef, unheard past ImpactRange
-			Impact = 0.9,
-			ImpactRef = 6,
+			Impact = 1.6,
+			ImpactRef = 8,
 			ImpactRange = 170,
-			Body = 1, -- a bullet hitting someone else
-			BodyOnYou = 0.9, -- a bullet hitting you
+			Body = 1.8, -- a bullet hitting someone else
+			BodyOnYou = 1.5, -- a bullet hitting you
 			Ricochet = 0.4, -- of the impact's loudness
 			RicochetChance = 0.15, -- per hit on concrete / metal
 		},

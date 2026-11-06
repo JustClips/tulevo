@@ -154,6 +154,54 @@ def onsets(x, count):
 
 
 # real gunshots --------------------------------------------------------------
+def limit(x, threshold, release=0.06):
+    """Peak limiter (instant attack, smooth release): squashes the spike of the blast so the
+    whole shot can be turned up. threshold = share of the peak that's kept."""
+    x = x / (np.abs(x).max() + 1e-9)
+    a = np.abs(x).max(1) if x.ndim == 2 else np.abs(x)
+    env = np.empty_like(a)
+    k = np.exp(-1 / (release * SR))
+    e = 0.0
+    for i, v in enumerate(a):
+        e = v if v > e else e * k + v * (1 - k)
+        env[i] = e
+    # 1 ms look-ahead so the gain is already down when the spike hits
+    la = seconds(0.001)
+    env = np.concatenate([env[la:], np.full(la, env[-1])])
+
+    g = np.minimum(1, threshold / np.maximum(env, 1e-9))
+    g = np.convolve(g, np.hanning(seconds(0.0015)) / np.hanning(seconds(0.0015)).sum(), mode="same")
+    return x * (g[:, None] if x.ndim == 2 else g)
+
+
+def big_shot(shot, rng):
+    """GTA-style carbine: the real crack on top, a heavy low punch under it, squashed hard so
+    it's loud, and a wide city echo after."""
+    n = seconds(2.2)
+    shot = pad(shot / (np.abs(shot).max() + 1e-9), n)
+    t = np.arange(n) / SR
+    # low punch: a fast-falling thump (110 -> 48 Hz) like the blast hitting your chest
+    f = 48 + 62 * np.exp(-t / 0.025)
+    punch = np.sin(2 * np.pi * np.cumsum(f) / SR) * decay(n, 0.075, 0.0012)
+    body = fft_filter(rng.standard_normal(n), band(120, 700, 2)) * decay(n, 0.03, 0.0008)
+    body /= np.abs(body).max() + 1e-9
+    low = (punch * 0.9 + body * 0.35)[:, None]
+    mix = shot + 0.75 * fft_filter(shot, band(80, 400)) + low * 0.8
+    # bit of drive for grit, then squash the peak
+    mix = np.tanh(mix / np.abs(mix).max() * 2.2)
+    mix = limit(mix, 0.3)
+    # city echo: slaps off buildings left and right, then a long low tail
+    tail = np.zeros((n, 2))
+    src = fft_filter(mix, lp(2500))
+    for d, g, side in ((0.11, 0.32, 0), (0.19, 0.26, 1), (0.33, 0.2, 0), (0.52, 0.14, 1), (0.8, 0.09, 0)):
+        i = seconds(d)
+        tail[i:, side] += g * src[: n - i, side]
+        tail[i:, 1 - side] += g * 0.45 * src[: n - i, 1 - side]
+    rv = np.stack([reverb(src[:, c], rng, length=1.8, tone=1800, wet=1.0)[:n] for c in (0, 1)], 1)
+    out = mix + tail + 0.22 * rv
+    return fade_out(out, 0.7)
+
+
 def gunshots(rng):
     near = load(os.path.join(SRC, "AR15_near.flac"))
     mid = load(os.path.join(SRC, "AR15_mid.flac"))
@@ -161,23 +209,21 @@ def gunshots(rng):
     mid = fft_filter(mid, hp(35, 4))
 
     for k, s in enumerate(onsets(near, 2), 1):
-        shot = near[s:s + seconds(1.7)]
-        # a touch more body: low shelf-ish bump under the blast, keep the crack bright
-        shot = shot + 0.35 * fft_filter(shot, band(70, 220)) * decay(len(shot), 0.12)[:, None]
-        write(f"CarbineShot{k}", fade_out(shot, 0.5))
+        write(f"CarbineShot{k}", big_shot(near[s:s + seconds(1.7)], rng))
 
     for k, s in enumerate(onsets(mid, 2), 1):
         shot = mid[s:s + seconds(2.6)]
         # distance eats the top end first
         distant = fft_filter(shot, lp(5500, 2))
-        write(f"CarbineDistant{k}", fade_out(distant, 0.8))
+        distant = distant + 0.5 * fft_filter(distant, band(60, 250))  # keep the weight at range
+        write(f"CarbineDistant{k}", fade_out(limit(np.tanh(distant / np.abs(distant).max() * 1.6), 0.35), 0.8))
         # far: mono, a dull pop, then a long low roll as the echo comes back off the city
         m = shot.mean(1)
         pop = fft_filter(m, lp(1300, 3)) * 1.0
         roll = reverb(fft_filter(m, lp(700, 2)), rng, length=2.4, tone=900, wet=0.9,
                       early=((0.21, 0.5), (0.47, 0.35), (0.83, 0.25), (1.3, 0.15)))
         far = pad(pop, len(roll)) * 0.6 + roll * 0.8
-        far = far[: seconds(3.2)]
+        far = limit(far[: seconds(3.2)] / (np.abs(far).max() + 1e-9), 0.4)
         write(f"CarbineFar{k}", fade_out(far, 1.0))
 
 
@@ -208,7 +254,7 @@ def crack(rng, k):
     # air carries a faint low "thump" with it from the mach cone hitting things around you
     thump = fft_filter(rng.standard_normal(seconds(0.08)), band(90, 300)) * decay(seconds(0.08), 0.015, 0.002)
     add(out, 0.25 * thump / (np.abs(thump).max() + 1e-9), 0.001)
-    return out
+    return limit(out, 0.4)
 
 
 def whiz(rng):
@@ -309,80 +355,83 @@ def thud(rng, lo, hi, tau, dur=0.15):
     return x / (np.abs(x).max() + 1e-9)
 
 
+# GTA-style impacts: short, punchy and loud. A sharp hit, the material's own "thock / ping",
+# a quick puff of debris and a short slap off the street, then squashed so it cuts through.
+def punchy(x, threshold=0.3):
+    return limit(np.tanh(x / (np.abs(x).max() + 1e-9) * 1.8), threshold)
+
+
 def impact_concrete(rng):
-    out = np.zeros(seconds(1.0))
-    add(out, click(rng, 11000, 0.0006) * 1.0, 0)
-    add(out, thud(rng, 120, 900, 0.012) * 0.55, 0.0)
-    # chips and dust spraying off the wall, then grit pattering down
-    add(out, grains(rng, 0.25, 2200, 0.05, 1800, 9000, 0.002, 0.08) * 0.55, 0.002)
-    add(out, grains(rng, 0.5, 220, 0.15, 1200, 7000, 0.003, 0.25) * 0.16, 0.06)
-    return reverb(out, rng, length=0.7, tone=5000, wet=0.3, early=((0.03, 0.4), (0.075, 0.25)))
+    out = np.zeros(seconds(0.6))
+    add(out, click(rng, 12000, 0.0005) * 1.0, 0)
+    # the "thock": a short mid knock of the wall itself
+    add(out, modes(rng, [420 + 120 * rng.random(), 910, 1650], [0.012, 0.008, 0.005], [1, 0.6, 0.4], 0.1) * 0.8, 0)
+    add(out, thud(rng, 150, 1400, 0.01) * 0.7, 0)
+    # a quick puff of chips
+    add(out, grains(rng, 0.09, 3000, 0.025, 1500, 9000, 0.0018) * 0.45, 0.002)
+    out = reverb(out, rng, length=0.35, tone=4500, wet=0.22, early=((0.025, 0.35),))
+    return punchy(out)
 
 
 def impact_metal(rng):
-    out = np.zeros(seconds(1.2))
-    add(out, click(rng, 12000, 0.0004) * 1.0, 0)
-    base = 900 + 700 * rng.random()
-    ratios = np.array([1.0, 1.59, 2.14, 2.83, 3.61, 4.52, 5.4])
-    ring = modes(rng, base * ratios, [0.11, 0.08, 0.06, 0.045, 0.035, 0.025, 0.02],
-                 [0.5, 0.45, 0.35, 0.3, 0.25, 0.2, 0.12], 1.0)
-    add(out, ring * 0.55, 0)
-    # the sheet/plate body thunks under it
-    add(out, thud(rng, 150, 1200, 0.02) * 0.4, 0)
-    add(out, grains(rng, 0.08, 1200, 0.02, 3000, 11000, 0.0015) * 0.2, 0.001)
-    return reverb(out, rng, length=0.8, tone=5000, wet=0.25, early=((0.03, 0.3),))
+    out = np.zeros(seconds(0.6))
+    add(out, click(rng, 14000, 0.0003) * 1.0, 0)
+    base = 1900 + 900 * rng.random()
+    add(out, modes(rng, base * np.array([1.0, 1.47, 2.09, 2.76, 3.4]), [0.09, 0.06, 0.045, 0.03, 0.02],
+                   [0.8, 0.6, 0.45, 0.3, 0.2], 0.4) * 0.7, 0)
+    add(out, modes(rng, [380 + 150 * rng.random(), 780], [0.02, 0.012], [1, 0.5], 0.1) * 0.6, 0)
+    add(out, thud(rng, 200, 2000, 0.008) * 0.4, 0)
+    out = reverb(out, rng, length=0.4, tone=6000, wet=0.18, early=((0.025, 0.3),))
+    return punchy(out, 0.35)
 
 
 def impact_wood(rng):
-    out = np.zeros(seconds(0.8))
-    add(out, click(rng, 8000, 0.0009) * 0.9, 0)
-    base = 260 + 150 * rng.random()
-    add(out, modes(rng, base * np.array([1, 2.3, 3.9, 5.6]), [0.03, 0.02, 0.012, 0.008],
-                   [0.8, 0.5, 0.35, 0.2], 0.3) * 0.7, 0)
-    # splinters
-    add(out, grains(rng, 0.12, 1600, 0.03, 900, 6000, 0.003, 0.05) * 0.45, 0.002)
-    return reverb(out, rng, length=0.6, tone=4000, wet=0.25, early=((0.03, 0.3),))
+    out = np.zeros(seconds(0.45))
+    add(out, click(rng, 9000, 0.0007) * 0.9, 0)
+    base = 230 + 120 * rng.random()
+    add(out, modes(rng, base * np.array([1, 2.3, 3.9]), [0.025, 0.015, 0.01], [1, 0.55, 0.3], 0.15) * 0.9, 0)
+    add(out, grains(rng, 0.06, 2000, 0.02, 1000, 6000, 0.003) * 0.4, 0.002)
+    out = reverb(out, rng, length=0.3, tone=4000, wet=0.18)
+    return punchy(out)
 
 
 def impact_dirt(rng):
-    out = np.zeros(seconds(0.9))
-    add(out, thud(rng, 60, 600, 0.02, 0.2) * 1.0, 0)
-    add(out, click(rng, 4000, 0.0012) * 0.35, 0)
-    # spray of soil, then bits raining back down
-    add(out, grains(rng, 0.2, 1800, 0.05, 500, 4500, 0.004, 0.07) * 0.6, 0.003)
-    add(out, grains(rng, 0.5, 120, 0.2, 700, 5000, 0.004, 0.3) * 0.18, 0.12)
-    return reverb(out, rng, length=0.5, tone=3000, wet=0.2)
+    out = np.zeros(seconds(0.5))
+    add(out, thud(rng, 70, 700, 0.018, 0.15) * 1.0, 0)
+    add(out, click(rng, 5000, 0.001) * 0.5, 0)
+    add(out, grains(rng, 0.12, 2200, 0.035, 500, 5000, 0.004) * 0.55, 0.003)
+    out = reverb(out, rng, length=0.3, tone=3000, wet=0.15)
+    return punchy(out)
 
 
 def impact_glass(rng):
-    out = np.zeros(seconds(1.3))
-    add(out, click(rng, 14000, 0.0004) * 1.0, 0)
-    # crack: bright snap spreading through the pane
-    add(out, grains(rng, 0.06, 6000, 0.015, 2500, 14000, 0.0012) * 0.7, 0.0)
-    # shards: lots of little ringing pieces falling and tinkling
-    n = seconds(1.1)
-    shards = np.zeros(n)
-    t = 0.02
-    while t < 0.9:
-        t += rng.exponential(1 / (220 * np.exp(-t / 0.25) + 8))
-        f = 2500 + rng.random() * 7000
-        g = modes(rng, [f, f * 1.73, f * 2.41], [0.025, 0.018, 0.012], [1, 0.5, 0.3], 0.08)
-        add(shards, g * rng.random() ** 1.5 * np.exp(-t / 0.4), seconds(t))
-    add(out, shards / (np.abs(shards).max() + 1e-9) * 0.55, 0.01)
-    return reverb(out, rng, length=0.8, tone=7000, wet=0.25, early=((0.03, 0.3),))
+    out = np.zeros(seconds(0.7))
+    add(out, click(rng, 15000, 0.0003) * 1.0, 0)
+    add(out, grains(rng, 0.05, 7000, 0.012, 2500, 15000, 0.001) * 0.8, 0.0)
+    shards = np.zeros(seconds(0.6))
+    t = 0.01
+    while t < 0.45:
+        t += rng.exponential(1 / (300 * np.exp(-t / 0.12) + 6))
+        f = 3000 + rng.random() * 6500
+        g = modes(rng, [f, f * 1.73], [0.02, 0.012], [1, 0.4], 0.06)
+        add(shards, g * rng.random() ** 1.5 * np.exp(-t / 0.18), seconds(t))
+    add(out, shards / (np.abs(shards).max() + 1e-9) * 0.5, 0.005)
+    out = reverb(out, rng, length=0.35, tone=7000, wet=0.18)
+    return punchy(out, 0.35)
 
 
 def impact_body(rng):
-    """A hit on a person: a deep, wet punch into cloth and flesh, no ring."""
-    out = np.zeros(seconds(0.5))
-    add(out, thud(rng, 55, 380, 0.035, 0.25) * 1.0, 0)
-    # cloth tear / slap on top
-    slap = fft_filter(rng.standard_normal(seconds(0.05)), band(700, 3500, 2)) * decay(seconds(0.05), 0.006, 0.0005)
-    add(out, slap / (np.abs(slap).max() + 1e-9) * 0.55, 0)
-    # a small wet tail
-    wet = grains(rng, 0.08, 900, 0.02, 400, 2500, 0.004) * 0.18
-    add(out, wet, 0.008)
-    return reverb(out, rng, length=0.35, tone=2500, wet=0.12)
+    """A hit on a person, GTA style: a meaty, slapping punch, no ring."""
+    out = np.zeros(seconds(0.35))
+    n = seconds(0.2)
+    t = np.arange(n) / SR
+    f = 70 + 90 * np.exp(-t / 0.02)
+    add(out, np.sin(2 * np.pi * np.cumsum(f) / SR) * decay(n, 0.045, 0.001) * 0.9, 0)
+    add(out, thud(rng, 120, 900, 0.02, 0.15) * 0.8, 0)
+    slap = fft_filter(rng.standard_normal(seconds(0.04)), band(900, 4500, 2)) * decay(seconds(0.04), 0.005, 0.0004)
+    add(out, slap / (np.abs(slap).max() + 1e-9) * 0.7, 0)
+    add(out, grains(rng, 0.05, 1200, 0.015, 500, 3000, 0.004) * 0.2, 0.006)
+    return punchy(out, 0.32)
 
 
 def main():
