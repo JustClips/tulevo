@@ -46,7 +46,8 @@ return {
 	end,
 	KeepGoing = function(ctx)
 		local s = state(ctx)
-		return s.t < s.length and ctx.Humanoid.Health > 0
+		-- hand back a blend early so the stand-up fades into the walk instead of popping
+		return s.t < s.length - ctx.Config.Movement.BlendTime * 0.75 and ctx.Humanoid.Health > 0
 	end,
 	Speed = function(ctx)
 		return ctx.Config.Movement.RollSpeed
@@ -57,7 +58,7 @@ return {
 		local name, dir = pick(ctx)
 		s.dir, s.t = dir, 0
 		s.track = s.tracks[name]
-		s.track:Play(0.06, 1, 1)
+		s.track:Play(0.1, 1, 1)
 		s.length = if s.track.Length > 0 then s.track.Length else 1.0
 		ctx.Humanoid.AutoRotate = false
 	end,
@@ -74,7 +75,7 @@ return {
 	Stop = function(ctx)
 		local s = state(ctx)
 		if s.track then
-			s.track:Stop(0.12)
+			s.track:Stop(ctx.Config.Movement.BlendTime)
 		end
 		ctx.Humanoid.AutoRotate = true
 		s.readyAt = os.clock() + ctx.Config.Movement.RollCooldown

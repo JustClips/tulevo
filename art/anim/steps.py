@@ -13,6 +13,13 @@ leans back while the body skids, then stands (Client/Movement/Moves/SprintStop).
 
 Pivot: reversing direction while running plants, dips and drives off the other way; the game
 turns the body round during it (Client/Movement/Moves/Pivot).
+
+Starts and stops (Client/Movement/Moves/StartStep, StopStep), so you never pop straight into
+or out of the walk/run loop:
+  Tulevo_StartWalk / Tulevo_StartRun: from standing, lean in and take the first step (the run
+  one pushes off the back foot and drives the knee, arms swing).
+  Tulevo_StopWalk / Tulevo_StopRun: one or two/three shortening steps, the chest comes up,
+  feet come together, arms settle.
 """
 import math
 import os
@@ -144,6 +151,60 @@ PIVOT = [
 ]
 
 
+# ------------------------------------------------------------------------- starts / stops
+START_WALK = [
+    (0.0, K(**ARMS_DOWN), 0.0, STAND_FEET),
+    # weight shifts forward onto the right foot, left heel peels up
+    (0.12, K(torso=-6, head=2, r_arm=(-8, 6, 15), l_arm=(14, 6, 22)), 0.05,
+     [(1, 0.45, 0.05, 0, 0.0), (-1, -0.45, 0.15, -25, 0.02)]),
+    # left foot swings through into the first step
+    (0.3, K(torso=-5, head=2, r_arm=(-14, 6, 18), l_arm=(18, 6, 26)), 0.1,
+     [(1, 0.45, 0.35, -18, 0.0), (-1, -0.45, -0.45, 10, 0.12)]),
+]
+
+START_RUN = [
+    (0.0, K(**ARMS_DOWN), 0.0, STAND_FEET),
+    # dip and lean in, arms load back/forward
+    (0.1, K(torso=-16, head=6, r_arm=(-25, 8, 40), l_arm=(30, 8, 60)), 0.18,
+     [(1, 0.45, 0.1, 0, 0.0), (-1, -0.45, 0.2, -20, 0.0)]),
+    # push off the back (right) foot, left knee drives up and forward, arms pump
+    (0.22, K(torso=-22, head=8, r_arm=(-45, 10, 60), l_arm=(60, 10, 85), twist=5), 0.12,
+     [(1, 0.45, 0.6, -40, 0.0), (-1, -0.45, -0.35, 5, 0.35)]),
+    # first stride lands, carrying on into the run loop
+    (0.34, K(torso=-16, head=6, r_arm=(-30, 8, 70), l_arm=(45, 8, 80), twist=3), 0.15,
+     [(1, 0.45, 0.75, -35, 0.15), (-1, -0.45, -0.55, 12, 0.0)]),
+]
+
+STOP_WALK = [
+    # mid walk stride
+    (0.0, K(torso=-4, head=2, r_arm=(14, 6, 24), l_arm=(-12, 6, 18)), 0.08,
+     [(1, 0.45, 0.45, -20, 0.0), (-1, -0.45, -0.4, 8, 0.0)]),
+    # last short step: right foot comes through and plants just ahead
+    (0.2, K(torso=-1, head=1, r_arm=(4, 6, 16), l_arm=(-2, 6, 14)), 0.06,
+     [(1, 0.45, -0.15, 4, 0.08), (-1, -0.45, 0.1, -10, 0.0)]),
+    # left foot comes in, settle
+    (0.36, K(torso=1, r_arm=(5, 5, 12), l_arm=(5, 5, 12)), 0.03,
+     [(1, 0.5, -0.05, 0, 0.0), (-1, -0.5, 0.05, -4, 0.05)]),
+    (0.5, K(**ARMS_DOWN), 0.0, STAND_FEET),
+]
+
+STOP_RUN = [
+    # running stride
+    (0.0, K(torso=-14, head=6, r_arm=(-28, 8, 70), l_arm=(42, 8, 82)), 0.14,
+     [(1, 0.45, 0.6, -30, 0.1), (-1, -0.45, -0.5, 10, 0.0)]),
+    # step 1: right foot reaches out and brakes on the heel, chest starts to come up
+    (0.18, K(torso=-4, head=2, r_arm=(20, 10, 50), l_arm=(-5, 10, 45)), 0.22,
+     [(1, 0.45, -0.55, 14, 0.0), (-1, -0.45, 0.45, -28, 0.04)]),
+    # step 2: left foot, shorter, body upright, arms come down
+    (0.36, K(torso=2, head=-1, r_arm=(8, 8, 30), l_arm=(15, 8, 32)), 0.14,
+     [(1, 0.45, 0.25, -12, 0.0), (-1, -0.45, -0.3, 6, 0.06)]),
+    # step 3: right foot comes in beside it, settle back
+    (0.54, K(torso=3, head=-2, r_arm=(6, 6, 18), l_arm=(8, 6, 20)), 0.06,
+     [(1, 0.5, 0.02, 0, 0.05), (-1, -0.5, -0.05, 0, 0.0)]),
+    (0.7, K(**ARMS_DOWN), 0.0, STAND_FEET),
+]
+
+
 def main():
     os.makedirs(L.OUT, exist_ok=True)
     clips = {
@@ -151,6 +212,10 @@ def main():
         "Tulevo_TurnStepRight": (turn_step(1), LEGS),
         "Tulevo_SprintStop": (keyed(SPRINT_STOP), FULL),
         "Tulevo_Pivot": (keyed(PIVOT), FULL),
+        "Tulevo_StartWalk": (keyed(START_WALK), FULL),
+        "Tulevo_StartRun": (keyed(START_RUN), FULL),
+        "Tulevo_StopWalk": (keyed(STOP_WALK), FULL),
+        "Tulevo_StopRun": (keyed(STOP_RUN), FULL),
     }
     for name, (frames, keys) in clips.items():
         with open(os.path.join(L.OUT, f"{name}.rbxmx"), "w") as fh:

@@ -23,7 +23,7 @@ return {
 	end,
 	KeepGoing = function(ctx)
 		local s = state(ctx)
-		return s.t < LENGTH and ctx.Grounded and not (ctx.Wants and s.t > 0.2) and ctx.Humanoid.Health > 0
+		return s.t < LENGTH - ctx.Config.Movement.BlendTime * 0.75 and ctx.Grounded and not (ctx.Wants and s.t > 0.2) and ctx.Humanoid.Health > 0
 	end,
 	Speed = function(ctx)
 		return ctx.Config.Movement.WalkSpeed
@@ -34,7 +34,7 @@ return {
 		local flat = Vector3.new(v.X, 0, v.Z)
 		s.t, s.speed = 0, flat.Magnitude
 		s.dir = if flat.Magnitude > 0.1 then flat.Unit else Vector3.zero
-		s.track:Play(0.08, 1, 1)
+		s.track:Play(0.12, 1, 1)
 	end,
 	Update = function(ctx, dt)
 		local s = state(ctx)
@@ -47,6 +47,6 @@ return {
 		end
 	end,
 	Stop = function(ctx)
-		state(ctx).track:Stop(0.15)
+		state(ctx).track:Stop(ctx.Config.Movement.BlendTime)
 	end,
 }

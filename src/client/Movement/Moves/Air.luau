@@ -46,7 +46,7 @@ return {
 				then c.jumpStand
 				elseif ctx.JumpKind == "Sprint" then c.jumpSprint
 				else c.jumpMove
-			c.jump:Play(0.04, 1, 1)
+			c.jump:Play(0.1, 1, 1)
 		end
 	end,
 	Update = function(ctx, dt)
@@ -57,17 +57,29 @@ return {
 		end
 		local jumpDone = c.jumped and (not c.jump.IsPlaying or c.jump.TimePosition >= c.jump.Length - 0.05)
 		if jumpDone or (not c.jumped and c.time > FALL_DELAY) then
-			c.fall:Play(if c.jumped then 0.3 else 0.2, 1, 1)
+			local fade = if c.jumped then 0.3 else ctx.Config.Movement.BlendTime
+			c.jump:Stop(fade) -- fade the take-off out instead of letting it end with a pop
+			c.fall:Play(fade, 1, 1)
 		end
 	end,
 	Stop = function(ctx)
 		local c = clips(ctx)
-		c.jump:Stop(0.1)
-		c.fall:Stop(0.12)
+		local blend = ctx.Config.Movement.BlendTime
+		c.jump:Stop(blend)
+		c.fall:Stop(blend)
 		if c.time > LAND_AFTER and ctx.Humanoid.Health > 0 then
 			-- running landings are a quick, lighter dip so you keep moving
 			local moving = ctx.Wants and ctx.Speed > 2
-			c.land:Play(0.05, if moving then 0.5 else 1, if moving then 1.5 else 1)
+			local rate = if moving then 1.5 else 1
+			c.land:Play(0.08, if moving then 0.5 else 1, rate)
+			-- fade the landing back into walking/standing before the clip runs out
+			local land = c.land
+			local hold = math.max(0, (if land.Length > 0 then land.Length else 0.32) / rate - blend)
+			task.delay(hold, function()
+				if land.IsPlaying then
+					land:Stop(blend)
+				end
+			end)
 			if ctx.Emit then
 				ctx.Emit("Land", moving)
 			end

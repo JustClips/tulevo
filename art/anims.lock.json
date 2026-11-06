@@ -67,6 +67,22 @@
   "id": 128469028057883,
   "sha": "77db5b82ba7e42d017102c4977b1e483615458dadb9d3623ebb30caa06adb64f"
  },
+ "Tulevo_StartRun": {
+  "id": 117264690744108,
+  "sha": "68c6afef578ee2b5bf05bc8ac9bae74bc58a5a0414f5225288eea267ff52b5d5"
+ },
+ "Tulevo_StartWalk": {
+  "id": 131027586342854,
+  "sha": "23b2149945145b4f96a09c721e51d7101f9ff267b5ea6c225bc92e9ac27f37bb"
+ },
+ "Tulevo_StopRun": {
+  "id": 73117348571510,
+  "sha": "424e7aab57ba4f636a296ec91cedd2ebdff3e6ee6418fa26b76d27afec1a013b"
+ },
+ "Tulevo_StopWalk": {
+  "id": 94391777264876,
+  "sha": "9384bb87a195193be078c1749ac5922ca876f0a4167416767484c43d6597a829"
+ },
  "Tulevo_StrafeLeft": {
   "id": 80523870878071,
   "sha": "657209c4b01fa0e814e8842c521dc0697b5d641dba0bdb31d803ddb75f98e6c9"

@@ -85,7 +85,7 @@ return {
 		ctx.Root.AssemblyLinearVelocity = Vector3.new(vel.X, v.Y, vel.Z)
 	end,
 	Stop = function(ctx)
-		state(ctx).track:Stop(0.15)
+		state(ctx).track:Stop(ctx.Config.Movement.BlendTime)
 		ctx.Humanoid.AutoRotate = true
 	end,
 }

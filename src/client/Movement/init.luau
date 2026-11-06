@@ -210,7 +210,7 @@ local function bind(character: Model)
 				humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
 				emit("TakeOff", ctx.JumpKind)
 			end
-			prep:Stop(0.08)
+			prep:Stop(0.1)
 			task.delay(0.3, function()
 				humanoid:SetStateEnabled(Enum.HumanoidStateType.Jumping, false)
 				preparing = false
@@ -229,6 +229,9 @@ local function bind(character: Model)
 		ctx.Speed = Vector3.new(v.X, 0, v.Z).Magnitude
 		ctx.Grounded = humanoid.FloorMaterial ~= Enum.Material.Air and GROUND_STATES[humanoid:GetState()] == true
 		ctx.Wants = humanoid.MoveDirection.Magnitude > 0.05
+		-- how long the character has been standing still (Moves/StartStep)
+		ctx.StillBefore = ctx.StillFor or 0 -- value from the frame before (the stick may just have moved)
+		ctx.StillFor = if ctx.Speed < 0.8 and not ctx.Wants then ctx.StillBefore + dt else 0
 
 		-- keep the current move while it may continue, unless a higher one wants in
 		local pick = nil

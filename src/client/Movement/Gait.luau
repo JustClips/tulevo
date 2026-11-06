@@ -84,7 +84,9 @@ end
 function Gait:update(dt: number, enabled: boolean)
 	local ctx = self.ctx
 	local on = enabled and ctx.Grounded and ctx.Wants and ctx.Speed > 0.6
-	self.weight += ((if on then 1 else 0) - self.weight) * math.min(1, dt * 12)
+	-- every weight eases ~95% of the way in Config.Movement.BlendTime
+	local blend = 1 - math.exp(-dt * 3 / math.max(0.02, ctx.Config.Movement.BlendTime or 0.2))
+	self.weight += ((if on then 1 else 0) - self.weight) * blend
 
 	local size = (ctx.Humanoid.HipHeight + ctx.Root.Size.Y / 2) / DEFAULT_GROUND
 	-- share of the movement that is sideways while aiming (signed: + right), set by Client.Weapons
@@ -99,7 +101,7 @@ function Gait:update(dt: number, enabled: boolean)
 		local dirShare = if def.Dir == "Right" then math.max(0, side) else math.max(0, -side)
 		local want = dirShare * (if def.Kind == "Run" then run else 1 - run)
 		local before = l.w
-		l.w += (want - l.w) * math.min(1, dt * 10)
+		l.w += (want - l.w) * blend
 		-- the side run fading in starts on the same step as the side walk (and back)
 		if before < 0.02 and l.w >= 0.02 and l.track.Length > 0 then
 			for _, o in self.strafe do
@@ -125,7 +127,7 @@ function Gait:update(dt: number, enabled: boolean)
 	end
 	for i, l in self.layers do
 		local before = l.w
-		l.w += (want[i] - l.w) * math.min(1, dt * 8)
+		l.w += (want[i] - l.w) * blend
 		-- a clip fading in starts on the same step as the one leading now
 		if before < 0.02 and l.w >= 0.02 and l ~= lead and lead.track.Length > 0 and l.track.Length > 0 then
 			l.track.TimePosition = (lead.track.TimePosition / lead.track.Length) * l.track.Length
