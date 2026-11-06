@@ -155,7 +155,7 @@ local Config = {
 		-- tags above other players' heads
 		TagMaxDistance = 40, -- studs; tags fade out over the last FadeStuds
 		TagFadeStuds = 10,
-		ShowOwnTag = false, -- true: you see your own tag too (handy for solo testing)
+		ShowOwnTag = true, -- true: you see your own tag too (handy for solo testing)
 	},
 
 	-- In-game clock (Server/GameClock + Shared/GameTime): drives Lighting.ClockTime and the
