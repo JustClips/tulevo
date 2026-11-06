@@ -1,0 +1,20 @@
+{
+ "parts": {
+  "Head": 8860,
+  "Arms": 8072,
+  "Clothes": 7168,
+  "Shoes": 3064,
+  "Hair": 3344,
+  "Eyes": 1060
+ },
+ "height": 6.2,
+ "tris": 31568,
+ "textures": {
+  "Head": "tex\\Head.png",
+  "Arms": "tex\\Arms.png",
+  "Clothes": "tex\\Clothes.png",
+  "Shoes": "tex\\Shoes.png",
+  "Hair": "tex\\Hair.png",
+  "Eyes": "tex\\Eyes.png"
+ }
+}
