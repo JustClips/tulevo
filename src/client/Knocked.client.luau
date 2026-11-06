@@ -30,6 +30,26 @@ end
 local remotes = ReplicatedStorage:WaitForChild("KnockedRemotes")
 local GiveUpRemote = remotes:WaitForChild("GiveUp") :: RemoteEvent
 local WaitHelpRemote = remotes:WaitForChild("WaitHelp") :: RemoteEvent
+local ResetRemote = remotes:WaitForChild("Reset") :: RemoteEvent
+
+-- Roblox menu "Reset Character" knocks you down instead of killing you
+do
+	local StarterGui = game:GetService("StarterGui")
+	local resetEvent = Instance.new("BindableEvent")
+	resetEvent.Event:Connect(function()
+		ResetRemote:FireServer()
+	end)
+	task.spawn(function()
+		-- SetCore fails until Roblox's core scripts are ready
+		for _ = 1, 30 do
+			if pcall(StarterGui.SetCore, StarterGui, "ResetButtonCallback", resetEvent) then
+				return
+			end
+			task.wait(1)
+		end
+		warn("[Knocked] couldn't hook the Reset Character button")
+	end)
+end
 
 local TITLE_FONT = Font.new("rbxasset://fonts/families/Montserrat.json", Enum.FontWeight.Heavy, Enum.FontStyle.Italic)
 local BODY_FONT = Font.new("rbxasset://fonts/families/Montserrat.json", Enum.FontWeight.Medium)

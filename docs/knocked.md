@@ -10,6 +10,8 @@ Health 0 no longer kills a player. They fall over as a ragdoll and lie on the fl
   your screen says who is picking you up. You don't see the prompt on your own body.
 - **Потерять сознание**: respawn (after `Config.Knocked.GiveUpDelay`).
 
+Roblox's menu **Reset Character** knocks you down too (ResetButtonCallback -> KnockedRemotes.Reset).
+
 ## Files
 
 - `src/server/Knocked.luau`: turns the Dead state off, sets the character attribute `Knocked`,

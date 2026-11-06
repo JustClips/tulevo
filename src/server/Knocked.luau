@@ -33,6 +33,9 @@ GiveUp.Parent = remotes
 local WaitHelp = Instance.new("RemoteEvent")
 WaitHelp.Name = "WaitHelp" -- client -> server: "Ожидать помощи"
 WaitHelp.Parent = remotes
+local ResetRemote = Instance.new("RemoteEvent")
+ResetRemote.Name = "Reset" -- client -> server: Roblox menu "Reset Character" knocks you down
+ResetRemote.Parent = remotes
 remotes.Parent = ReplicatedStorage
 
 type Entry = {
@@ -307,6 +310,15 @@ GiveUp.OnServerEvent:Connect(function(player)
 	end
 	entries[character :: Model] = nil
 	e.respawn()
+end)
+
+ResetRemote.OnServerEvent:Connect(function(player)
+	local character = player.Character
+	local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+	if not humanoid or humanoid.Health <= 0 or Knocked.isKnocked(character) or not entries[character :: Model] then
+		return
+	end
+	humanoid.Health = 0 -- HealthChanged -> knock
 end)
 
 WaitHelp.OnServerEvent:Connect(function(player)
