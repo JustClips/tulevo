@@ -460,6 +460,76 @@ openButton.FontFace = BOLD
 openButton.TextColor3 = COLORS.Header
 openButton.Parent = gui
 
+---------------------------------------------------------------- Camera
+-- live tuning for Movement/MouseLook (this session only; send Dev's picks to Config.Camera)
+
+local MouseLook = require(script.Parent:WaitForChild("Movement"):WaitForChild("MouseLook"))
+local cameraPage = page("Camera")
+label(cameraPage, "Mouse sensitivity (this session; defaults in Config.Camera)", 14, REGULAR, COLORS.Dim)
+local SENS_ROWS = {
+	{ "Sensitivity", "On foot" },
+	{ "AimSensitivity", "Aiming" },
+	{ "VehicleSensitivity", "Driving" },
+}
+local sensDefaults = {}
+for i, r in SENS_ROWS do
+	local key, name = r[1], r[2]
+	sensDefaults[key] = MouseLook.get(key)
+	local f = flow(cameraPage)
+	f.LayoutOrder = i
+	label(f, name, 15, BOLD).Size = UDim2.fromOffset(80, 30)
+	local value: TextLabel
+	local function show()
+		value.Text = string.format("%.2f", MouseLook.get(key))
+	end
+	local function nudge(by: number)
+		MouseLook.set(key, math.clamp(math.round((MouseLook.get(key) + by) * 100) / 100, 0.05, 5))
+		show()
+	end
+	button(f, "-0.1", 50, function()
+		nudge(-0.1)
+	end)
+	button(f, "-", 34, function()
+		nudge(-0.02)
+	end)
+	value = label(f, "", 16, BOLD)
+	value.Size = UDim2.fromOffset(50, 30)
+	value.TextXAlignment = Enum.TextXAlignment.Center
+	button(f, "+", 34, function()
+		nudge(0.02)
+	end)
+	button(f, "+0.1", 50, function()
+		nudge(0.1)
+	end)
+	button(f, "Reset", 60, function()
+		MouseLook.set(key, sensDefaults[key])
+		show()
+	end)
+	show()
+end
+
+local TOGGLES = {
+	{ "MouseLook", "Mouse look" },
+	{ "EqualAxes", "Equal up/down" },
+	{ "AimFovScale", "Aim zoom scale" },
+}
+local toggleRow = flow(cameraPage)
+toggleRow.LayoutOrder = #SENS_ROWS + 1
+for _, t in TOGGLES do
+	local key = t[1]
+	local b: TextButton
+	local function show()
+		b.BackgroundColor3 = if MouseLook.get(key) then COLORS.ButtonOn else COLORS.Button
+	end
+	b = button(toggleRow, t[2], 130, function()
+		MouseLook.set(key, not MouseLook.get(key))
+		show()
+	end)
+	show()
+end
+local camHint = label(cameraPage, "Hold Left Alt in game to get the cursor back.", 14, REGULAR, COLORS.Dim)
+camHint.LayoutOrder = #SENS_ROWS + 2
+
 local filled = false
 local function toggle()
 	window.Visible = not window.Visible

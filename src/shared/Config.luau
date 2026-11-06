@@ -31,6 +31,23 @@ local Config = {
 		StartStopSteps = true,
 	},
 
+	-- PC mouse look, GTA 5 style (Client/Movement/MouseLook). The mouse always turns the camera
+	-- (cursor hidden, no right-drag); menus or holding Left Alt bring the cursor back. Input is
+	-- raw 1:1 (no acceleration or smoothing) and up/down turns as fast as left/right. Roblox's
+	-- own Esc-menu sensitivity and invert still apply on top. Tune live: F8 > Camera.
+	Camera = {
+		MouseLook = true, -- false: Roblox default (right-drag to turn) unless a gun is out
+		Sensitivity = 1, -- on foot
+		AimSensitivity = 1, -- while aiming (right click), times the zoom scale below
+		VehicleSensitivity = 1, -- driving / riding
+		-- aiming: also scale by the zoom, so the world under the crosshair moves at the same speed
+		-- zoomed in (Weapons.AimFieldOfView) as at the normal field of view
+		AimFovScale = true,
+		BaseFieldOfView = 70,
+		EqualAxes = true, -- up/down as fast as left/right (Roblox normally turns up/down 23% slower)
+		FreeCursorKey = Enum.KeyCode.LeftAlt, -- hold to get the cursor back
+	},
+
 	Weapons = {
 		-- hold Q / E to lean (gun or not): the upper body tilts this many degrees round the aim
 		-- (the server moves the shot origin with it, so you can shoot round a corner)

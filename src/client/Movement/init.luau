@@ -42,6 +42,7 @@ local AnimIds = require(Shared:WaitForChild("AnimIds"))
 local Input = require(script:WaitForChild("Input"))
 local Gait = require(script:WaitForChild("Gait"))
 local FirstPersonCamera = require(script:WaitForChild("FirstPersonCamera"))
+local MouseLook = require(script:WaitForChild("MouseLook"))
 
 local Movement = {}
 
@@ -287,9 +288,11 @@ end
 -- person, no roll tumble): use it for aiming.
 Movement.view = FirstPersonCamera.view
 Movement.viewFocus = FirstPersonCamera.focus
+Movement.MouseLook = MouseLook
 
 function Movement.start()
 	local player = Players.LocalPlayer
+	MouseLook.start()
 	FirstPersonCamera.start(function()
 		return current ~= nil and current.Name == "Roll"
 	end)

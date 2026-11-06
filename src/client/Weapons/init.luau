@@ -575,27 +575,11 @@ function Controller.start()
 		return head ~= nil and cam ~= nil and (cam.CFrame.Position - cam.Focus.Position).Magnitude < 1
 	end
 
-	local mouseLocked = false
 	local shoulder = 0
-	local function menuOpen(): boolean
-		local pg = player:FindFirstChild("PlayerGui")
-		local map = pg and pg:FindFirstChild("FullMap")
-		local inv = pg and pg:FindFirstChild("Inventory") -- Client/Inventory window
-		return (map and map:IsA("ScreenGui") and map.Enabled)
-			or (inv and inv:IsA("ScreenGui") and inv.Enabled)
-			or UserInputService:GetFocusedTextBox() ~= nil
-	end
 	local function updateCamera(dt: number, gunOut: boolean, raised: boolean, h: Humanoid?)
-		local lock = gunOut and UserInputService.MouseEnabled and not menuOpen()
-		if lock then
-			UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
-		elseif mouseLocked then
-			UserInputService.MouseBehavior = Enum.MouseBehavior.Default
-		end
-		if lock ~= mouseLocked then
-			UserInputService.MouseIconEnabled = not lock
-		end
-		mouseLocked = lock
+		-- the mouse lock / cursor and sensitivity are Movement/MouseLook (GTA mouse look); a
+		-- gun out always locks the mouse there
+		Movement.MouseLook.gunOut = gunOut
 		-- the dot only while aiming (right click / L2; Dev 2026-11-06), not while hip-firing or
 		-- just carrying the gun
 		crossGui.Enabled = gunOut and State.Aiming
