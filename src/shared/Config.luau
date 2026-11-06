@@ -98,11 +98,11 @@ local Config = {
 			Enabled = true,
 			Volume = 1, -- master for every gun sound
 			PitchJitter = 0.03, -- each shot/impact is up to 3% higher or lower so autofire isn't a loop
-			OwnShot = 1.6, -- your own gun
+			OwnShot = 1.8, -- your own gun
 			-- someone else's gun: Shot is the loudness at ShotRef studs, then it falls off with
 			-- distance ^ ShotFalloff. Closer than NearRange you hear the close-up shot, up to
 			-- DistantRange the distant one, then the far pop; nothing past MaxRange.
-			Shot = 1.8,
+			Shot = 2,
 			ShotRef = 15,
 			ShotFalloff = 0.85,
 			NearRange = 70,

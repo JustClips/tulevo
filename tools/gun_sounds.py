@@ -175,31 +175,24 @@ def limit(x, threshold, release=0.06):
 
 
 def big_shot(shot, rng):
-    """GTA-style carbine: the real crack on top, a heavy low punch under it, squashed hard so
-    it's loud, and a wide city echo after."""
-    n = seconds(2.2)
+    """GTA 5 style carbine: clear and crisp, not boomy. The real crack kept clean, the low boom
+    cut, the 1.5-5 kHz snap brought forward, gently limited so it's loud without distortion,
+    then a short, bright echo off the street."""
+    n = seconds(1.4)
     shot = pad(shot / (np.abs(shot).max() + 1e-9), n)
-    t = np.arange(n) / SR
-    # low punch: a fast-falling thump (110 -> 48 Hz) like the blast hitting your chest
-    f = 48 + 62 * np.exp(-t / 0.025)
-    punch = np.sin(2 * np.pi * np.cumsum(f) / SR) * decay(n, 0.075, 0.0012)
-    body = fft_filter(rng.standard_normal(n), band(120, 700, 2)) * decay(n, 0.03, 0.0008)
-    body /= np.abs(body).max() + 1e-9
-    low = (punch * 0.9 + body * 0.35)[:, None]
-    mix = shot + 0.75 * fft_filter(shot, band(80, 400)) + low * 0.8
-    # bit of drive for grit, then squash the peak
-    mix = np.tanh(mix / np.abs(mix).max() * 2.2)
-    mix = limit(mix, 0.3)
-    # city echo: slaps off buildings left and right, then a long low tail
+    mix = fft_filter(shot, hp(160, 2))                      # no boom / mud
+    mix = fft_filter(mix, lambda f: 1 + 0.9 / (1 + ((f - 3000) / 1800) ** 2))  # snap forward
+    mix = fft_filter(mix, shelf(9000, 2.0))                 # a little air on top
+    mix = limit(mix, 0.5)                                   # clean, no drive
     tail = np.zeros((n, 2))
-    src = fft_filter(mix, lp(2500))
-    for d, g, side in ((0.11, 0.32, 0), (0.19, 0.26, 1), (0.33, 0.2, 0), (0.52, 0.14, 1), (0.8, 0.09, 0)):
+    src = fft_filter(mix, band(300, 6000))
+    for d, g, side in ((0.085, 0.16, 0), (0.15, 0.12, 1), (0.26, 0.07, 0)):
         i = seconds(d)
         tail[i:, side] += g * src[: n - i, side]
-        tail[i:, 1 - side] += g * 0.45 * src[: n - i, 1 - side]
-    rv = np.stack([reverb(src[:, c], rng, length=1.8, tone=1800, wet=1.0)[:n] for c in (0, 1)], 1)
-    out = mix + tail + 0.22 * rv
-    return fade_out(out, 0.7)
+        tail[i:, 1 - side] += g * 0.5 * src[: n - i, 1 - side]
+    rv = np.stack([reverb(src[:, c], rng, length=0.8, tone=5000, wet=1.0)[:n] for c in (0, 1)], 1)
+    out = mix + tail + 0.08 * rv
+    return fade_out(out, 0.5)
 
 
 def gunshots(rng):
@@ -215,8 +208,8 @@ def gunshots(rng):
         shot = mid[s:s + seconds(2.6)]
         # distance eats the top end first
         distant = fft_filter(shot, lp(5500, 2))
-        distant = distant + 0.5 * fft_filter(distant, band(60, 250))  # keep the weight at range
-        write(f"CarbineDistant{k}", fade_out(limit(np.tanh(distant / np.abs(distant).max() * 1.6), 0.35), 0.8))
+        distant = fft_filter(distant, hp(120, 2))
+        write(f"CarbineDistant{k}", fade_out(limit(distant, 0.5), 0.8))
         # far: mono, a dull pop, then a long low roll as the echo comes back off the city
         m = shot.mean(1)
         pop = fft_filter(m, lp(1300, 3)) * 1.0
