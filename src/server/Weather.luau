@@ -1,10 +1,11 @@
--- Picks the weather (see Config.Weather, Shared/WeatherTypes) and shares it through
+-- Server weather (ModuleScript; Server/WeatherRunner starts it). Picks the weather (see Config.Weather, Shared/WeatherTypes) and shares it through
 -- attributes on ReplicatedStorage.Shared:
 --   Weather       current weather name
 --   WeatherFrom   the one before it (clients fade from it)
 --   WeatherSince  workspace:GetServerTimeNow() when it changed
 -- Also loads the weather meshes (clouds, rain splashes) into ReplicatedStorage.WeatherMeshes
 -- for the clients, and handles the /weather chat command.
+-- The debug panel (Server/DebugPanel) uses Weather.list() and Weather.set(name).
 local InsertService = game:GetService("InsertService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -16,12 +17,13 @@ local ModelIds = require(Shared:WaitForChild("ModelIds"))
 local WeatherTypes = require(Shared:WaitForChild("WeatherTypes"))
 
 local W = Config.Weather
-if not W or not W.Enabled then
-	return
-end
+local Weather = {}
+
+-- in the order the debug panel shows them
+local ORDER = { "Clear", "Cloudy", "Rain", "HeavyRain" }
 
 -- meshes ---------------------------------------------------------------------
-task.spawn(function()
+local function loadMeshes()
 	local folder = Instance.new("Folder")
 	folder.Name = "WeatherMeshes"
 	local id = ModelIds.WeatherMeshes
@@ -44,15 +46,16 @@ task.spawn(function()
 		task.wait(3 * attempt)
 	end
 	folder.Parent = ReplicatedStorage
-end)
+end
 
 -- weather state --------------------------------------------------------------
 local auto = W.Cycle
 local nextChange = math.huge
+local started = false
 
 local function set(name: string)
 	if not WeatherTypes[name] then
-		return
+		error(`unknown weather {name}`)
 	end
 	Shared:SetAttribute("WeatherFrom", Shared:GetAttribute("Weather") or name)
 	Shared:SetAttribute("Weather", name)
@@ -84,20 +87,27 @@ local function schedule()
 	nextChange = os.clock() + math.random(W.MinMinutes * 60, W.MaxMinutes * 60)
 end
 
-Shared:SetAttribute("Weather", W.Start)
-Shared:SetAttribute("WeatherFrom", W.Start)
-Shared:SetAttribute("WeatherSince", workspace:GetServerTimeNow() - W.FadeSeconds)
-schedule()
-
-task.spawn(function()
-	while true do
-		task.wait(5)
-		if auto and os.clock() >= nextChange then
-			set(roll())
-			schedule()
+function Weather.list(): { string }
+	local list = table.clone(ORDER)
+	for name in WeatherTypes do
+		if not table.find(list, name) then
+			table.insert(list, name)
 		end
 	end
-end)
+	return list
+end
+
+-- switch now (fades over FadeSeconds); stays until the cycle is turned back on with auto()
+function Weather.set(name: string)
+	auto = false
+	set(name)
+end
+
+-- back to the automatic cycle
+function Weather.auto()
+	auto = true
+	schedule()
+end
 
 -- /weather <name|auto> -------------------------------------------------------
 local NAMES = {}
@@ -115,36 +125,60 @@ local function onChat(player: Player, msg: string)
 		return
 	end
 	if arg == "auto" then
-		auto = true
-		schedule()
+		Weather.auto()
 		print(`[Weather] {player.Name}: back to the automatic cycle`)
 	elseif NAMES[arg] then
-		auto = false -- stays until /weather auto
-		set(NAMES[arg])
+		Weather.set(NAMES[arg]) -- stays until /weather auto
 	end
 end
 
--- new chat (TextChatService): a real chat command, so "/weather rain" isn't posted as a message
-local TextChatService = game:GetService("TextChatService")
-if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
-	local cmd = Instance.new("TextChatCommand")
-	cmd.Name = "WeatherCommand"
-	cmd.PrimaryAlias = "/weather"
-	cmd.Triggered:Connect(function(source: TextSource, text: string)
-		local player = Players:GetPlayerByUserId(source.UserId)
-		if player then
-			onChat(player, text)
-		end
-	end)
-	cmd.Parent = TextChatService
-else
-	local function hook(player: Player)
-		player.Chatted:Connect(function(msg)
-			onChat(player, msg)
+local function hookChat()
+	-- new chat (TextChatService): a real chat command, so "/weather rain" isn't posted as a message
+	local TextChatService = game:GetService("TextChatService")
+	if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
+		local cmd = Instance.new("TextChatCommand")
+		cmd.Name = "WeatherCommand"
+		cmd.PrimaryAlias = "/weather"
+		cmd.Triggered:Connect(function(source: TextSource, text: string)
+			local player = Players:GetPlayerByUserId(source.UserId)
+			if player then
+				onChat(player, text)
+			end
 		end)
-	end
-	Players.PlayerAdded:Connect(hook)
-	for _, p in Players:GetPlayers() do
-		hook(p)
+		cmd.Parent = TextChatService
+	else
+		local function hook(player: Player)
+			player.Chatted:Connect(function(msg)
+				onChat(player, msg)
+			end)
+		end
+		Players.PlayerAdded:Connect(hook)
+		for _, p in Players:GetPlayers() do
+			hook(p)
+		end
 	end
 end
+
+function Weather.start()
+	if started or not W or not W.Enabled then
+		return
+	end
+	started = true
+	task.spawn(loadMeshes)
+	Shared:SetAttribute("Weather", W.Start)
+	Shared:SetAttribute("WeatherFrom", W.Start)
+	Shared:SetAttribute("WeatherSince", workspace:GetServerTimeNow() - W.FadeSeconds)
+	schedule()
+	hookChat()
+	task.spawn(function()
+		while true do
+			task.wait(5)
+			if auto and os.clock() >= nextChange then
+				set(roll())
+				schedule()
+			end
+		end
+	end)
+end
+
+return Weather

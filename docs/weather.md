@@ -9,7 +9,7 @@ Blender meshes, synthesised sound).
 | --- | --- |
 | `src/shared/Config.luau` → `Weather` | on/off, start weather, cycle length, chances, fade time, admins, wind, rain volume |
 | `src/shared/WeatherTypes.luau` | each weather as 0-1 numbers (cumulus, strato, cirrus, overcast, gloom, rain, heavy) |
-| `src/server/Weather.server.luau` | picks weather, sets `Weather` / `WeatherFrom` / `WeatherSince` on ReplicatedStorage.Shared, loads the meshes into ReplicatedStorage.WeatherMeshes, `/weather` command |
+| `src/server/Weather.luau` (+ `WeatherRunner.server.luau`) | picks weather, sets `Weather` / `WeatherFrom` / `WeatherSince` on ReplicatedStorage.Shared, loads the meshes into ReplicatedStorage.WeatherMeshes, `/weather` command; `list()` / `set(name)` used by the F8 debug panel |
 | `src/client/Weather/init.luau` | blends old → new weather over `FadeSeconds`, runs the three parts every frame |
 | `src/client/Weather/Sky.luau` | time-of-day keys (night, dawn, morning, noon, golden hour, sunset, dusk) → Lighting, Atmosphere, Sky, colour grade, sun rays; gloom pulls everything to grey |
 | `src/client/Weather/Clouds.luau` | 64 cumulus + 26 stratocumulus meshes drifting on the server clock (same for everyone), slowly turning and breathing; scrolling cirrus and overcast layers |

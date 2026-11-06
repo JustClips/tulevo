@@ -205,7 +205,7 @@ local Config = {
 		DriveLighting = true, -- false: HUD clock still runs, but the sky stays as set in Studio
 	},
 
-	-- Weather (Server/Weather + Client/Weather, docs/weather.md). The server picks the weather
+	-- Weather (Server/Weather + Client/Weather, docs/weather.md; also the F8 debug panel). The server picks the weather
 	-- and everyone blends to it over FadeSeconds; clouds drift on the server clock, so every
 	-- player sees the same sky. Admins (and anyone in a Studio play test) can type
 	-- /weather clear | cloudy | rain | heavyrain | auto  in chat.
