@@ -29,7 +29,6 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Weapons = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Weapons"))
 local Config = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Config"))
-local Joints = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Joints"))
 local Hitscan = require(script.Parent:WaitForChild("Hitscan"))
 local GunModel = require(script.Parent:WaitForChild("GunModel"))
 
@@ -248,11 +247,11 @@ end)
 local function shotOrigin(character: Model, head: BasePart, direction: Vector3): Vector3
 	local lean = character:GetAttribute("GunLean")
 	local ut = character:FindFirstChild("UpperTorso") :: BasePart?
-	local waist = Joints.find(character, "UpperTorso", "Waist") -- Motor6D or AnimationConstraint
-	if typeof(lean) ~= "number" or math.abs(lean) < 0.01 or not (ut and waist) then
+	local waist = ut and ut:FindFirstChild("Waist")
+	if typeof(lean) ~= "number" or math.abs(lean) < 0.01 or not (waist and waist:IsA("Motor6D")) then
 		return head.Position
 	end
-	local pivot = (ut :: BasePart).CFrame * Joints.c1(waist)
+	local pivot = (ut :: BasePart).CFrame * waist.C1
 	local angle = math.rad(Config.Weapons.LeanAngle or 20) * math.clamp(lean, -1, 1)
 	local turn = CFrame.fromAxisAngle(direction.Unit, angle)
 	local leaned = pivot.Position + turn * (head.Position - pivot.Position)
