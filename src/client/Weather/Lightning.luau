@@ -1,7 +1,9 @@
 -- Thunderstorm lightning on this client. The server picks every strike (Server/Weather ->
 -- WeatherRemotes.Strike: position, seed, kind) so everyone sees the same bolt.
---   bolt   jagged glowing bolt with branches from the clouds to the hit point (roof, tower,
---          street), a flickering flash that lights the sky, clouds and city, a light at the
+--   bolt   a Blender-rendered branching bolt (art/blender/weather/render_lightning.py ->
+--          TextureIds.Weather.LightningBolt01..08) on a tall card from the clouds to the hit
+--          point (roof, tower, street), always turned to the camera; a rendered impact flash
+--          flipbook at the hit; a flickering flash that lights the sky, clouds and city, a light at the
 --          hit, sparks + smoke, then thunder: a crack when close, a rumble when far, late by
 --          the distance (sound is slower than light)
 --   sheet  a flash inside the clouds and a far rumble, no bolt
@@ -29,6 +31,7 @@ local overlay: Frame
 local sparks: ParticleEmitter
 local smoke: ParticleEmitter
 local fxAt: Attachment
+local impact: ParticleEmitter?
 local shake = 0 -- current shake strength (degrees)
 local shakeT = 0
 
@@ -98,9 +101,59 @@ local function buildBolt(rng: Random, top: Vector3, hit: Vector3, width: number)
 	return model
 end
 
+local tex = TextureIds.Weather or {}
+local boltIds = {}
+for i = 1, 8 do
+	local id = tex[string.format("LightningBolt%02d", i)]
+	if id then
+		table.insert(boltIds, id)
+	end
+end
+
+-- rendered bolt on a card (the render's bottom edge is the hit point)
+local function spriteBolt(rng: Random, top: Vector3, hit: Vector3): Model
+	local model = Instance.new("Model")
+	model.Name = "Bolt"
+	local h = (top.Y - hit.Y) * 1.03
+	local width = math.min(h * 0.5, 2040)
+	h = math.min(h, 2040)
+	local card = Instance.new("Part")
+	card.Name = "Card"
+	card.Anchored, card.CanCollide, card.CanQuery, card.CanTouch, card.CastShadow = true, false, false, false, false
+	card.Transparency = 1
+	card.Size = Vector3.new(width, h, 0.2)
+	card:SetAttribute("Centre", Vector3.new(hit.X, hit.Y + h / 2 - h * 0.012, hit.Z))
+	local decal = Instance.new("Decal")
+	decal.Texture = `rbxassetid://{boltIds[rng:NextInteger(1, #boltIds)]}`
+	decal.Face = Enum.NormalId.Front
+	decal.Color3 = Color3.new(1, 1, 1)
+	decal.Parent = card
+	card.Parent = model
+	local glow = Instance.new("PointLight")
+	glow.Color = BOLT_COLOR
+	glow.Range = 60
+	glow.Brightness = 10
+	glow.Shadows = true
+	local holder = Instance.new("Part")
+	holder.Anchored, holder.CanCollide, holder.CanQuery, holder.CanTouch = true, false, false, false
+	holder.Transparency = 1
+	holder.Size = Vector3.new(1, 1, 1)
+	holder.Position = hit + Vector3.new(0, 12, 0)
+	glow.Parent = holder
+	holder.Parent = model
+	model.Parent = folder
+	return model
+end
+
+-- keep sprite bolts turned to the camera (upright, turning round the vertical only)
+local liveCards: { BasePart } = {}
+
 local function setBolt(model: Model, tr: number)
 	for _, p in model:GetChildren() do
-		if p:IsA("BasePart") then
+		local decal = p:FindFirstChildOfClass("Decal")
+		if decal then
+			decal.Transparency = tr
+		elseif p:IsA("BasePart") then
 			local light = p:FindFirstChildOfClass("PointLight")
 			if light then
 				light.Enabled = tr < 0.9
@@ -180,7 +233,11 @@ local function onStrike(pos: Vector3, seed: number, kind: string)
 	)
 	-- thicker when far so it still reads on screen
 	local width = math.clamp(dist / 260, 0.7, 5)
-	local model = buildBolt(rng, top, pos, width)
+	local model = if #boltIds > 0 then spriteBolt(rng, top, pos) else buildBolt(rng, top, pos, width)
+	local card = model:FindFirstChild("Card") :: BasePart?
+	if card then
+		table.insert(liveCards, card)
+	end
 	local strength = math.clamp(1.4 - dist / 2500, 0.45, 1.3)
 	flicker(strength, model)
 	task.delay(0.32, function()
@@ -189,11 +246,23 @@ local function onStrike(pos: Vector3, seed: number, kind: string)
 			setBolt(model, 0.3 + i * 0.09)
 			task.wait(0.03)
 		end
+		if card then
+			local i = table.find(liveCards, card)
+			if i then
+				table.remove(liveCards, i)
+			end
+		end
 		model:Destroy()
 	end)
 	-- impact
-	if dist < 900 then
+	if dist < 1200 then
 		fxAt.WorldPosition = pos + Vector3.new(0, 0.5, 0)
+		if impact then
+			impact.Size = NumberSequence.new(math.clamp(18 + dist / 40, 18, 40))
+			fxAt.WorldPosition = pos + Vector3.new(0, 6, 0)
+			impact:Emit(1)
+			fxAt.WorldPosition = pos + Vector3.new(0, 0.5, 0)
+		end
 		sparks:Emit(45)
 		smoke:Emit(8)
 	end
@@ -215,7 +284,20 @@ function Lightning.start()
 	fxAt = Instance.new("Attachment")
 	fxAt.Name = "LightningImpact"
 	fxAt.Parent = workspace.Terrain
-	local tex = TextureIds.Weather or {}
+	if tex.LightningImpact then
+		local e = Instance.new("ParticleEmitter")
+		e.Texture = `rbxassetid://{tex.LightningImpact}`
+		e.FlipbookLayout = Enum.ParticleFlipbookLayout.Grid4x4
+		e.FlipbookMode = Enum.ParticleFlipbookMode.OneShot
+		e.Orientation = Enum.ParticleOrientation.FacingCamera
+		e.LightEmission = 1
+		e.LightInfluence = 0
+		e.Speed = NumberRange.new(0)
+		e.Lifetime = NumberRange.new(0.55)
+		e.Rate = 0
+		e.Parent = fxAt
+		impact = e
+	end
 	sparks = Instance.new("ParticleEmitter")
 	sparks.Texture = `rbxassetid://{tex.Spray or tex.RainSpray}`
 	sparks.Color = ColorSequence.new(Color3.fromRGB(235, 240, 255), Color3.fromRGB(255, 190, 120))
@@ -256,6 +338,14 @@ function Lightning.start()
 
 	-- screen flash fade + camera shake, after the camera scripts have placed the camera
 	RunService:BindToRenderStep("WeatherLightning", Enum.RenderPriority.Camera.Value + 1, function(dt)
+		local camNow = workspace.CurrentCamera
+		if camNow and #liveCards > 0 then
+			local cp = camNow.CFrame.Position
+			for _, card in liveCards do
+				local c = card:GetAttribute("Centre") :: Vector3
+				card.CFrame = CFrame.lookAt(c, Vector3.new(cp.X, c.Y, cp.Z))
+			end
+		end
 		if overlay.BackgroundTransparency < 1 then
 			overlay.BackgroundTransparency = math.min(1, overlay.BackgroundTransparency + dt * 2.6)
 		end
