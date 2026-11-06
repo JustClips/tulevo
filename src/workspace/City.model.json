@@ -11501,7 +11501,7 @@
   },
   {
    "name": "Spawn",
-   "className": "Part",
+   "className": "SpawnLocation",
    "properties": {
     "Anchored": true,
     "Size": [

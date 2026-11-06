@@ -54,8 +54,8 @@ PLAZAS = [
 ]
 
 
-def part(name, size, pos, color, material="Concrete", tags=None, rot=0, **extra):
-    p = {"name": name, "className": "Part", "properties": {
+def part(name, size, pos, color, material="Concrete", tags=None, rot=0, className="Part", **extra):
+    p = {"name": name, "className": className, "properties": {
         "Anchored": True, "Size": list(size), "Color": color, "Material": material,
         "TopSurface": "Smooth", "BottomSurface": "Smooth",
         "CFrame": {"position": list(pos), "orientation": [0, rot, 0]}}}
@@ -135,7 +135,7 @@ children.append({"name": "Lines", "className": "Folder", "children": lines})
 
 # spawn: far sidewalk of Vault Avenue, facing the tower (+Z)
 children.append(part("Spawn", (10, 1, 10), (0, kerb + 0.5, AVE_Z - ROAD_W / 2 - SIDE_W / 2), ASPHALT, "Asphalt",
-                     rot=180, Transparency=1, CanCollide=False, Duration=0))
+                     rot=180, Transparency=1, CanCollide=False, Duration=0, className="SpawnLocation"))
 # paved lot behind the spawn for the test cars and showcase
 children.append(part("SpawnLot", (80, kerb, 40), (0, kerb / 2, AVE_Z - R - SIDE_W - 20), "#45474A", "Asphalt"))
 
