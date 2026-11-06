@@ -6,7 +6,7 @@
 	Press E (no hold) on a dropped item (Client/Inventory): the character first walks up to it (Humanoid:MoveTo,
 	so pushing the stick cancels the walk), turns to face it, plays the clip and asks the server
 	to take the item at GRAB_AT, when the hand closes on it. Too far away after the walk (or
-	cancelled): the item is taken straight away with no animation. Dragging an item out of the
+	cancelled): the clip still plays where you stand. Dragging an item out of the
 	inventory's Ground list only plays the clip (the item has already moved).
 
 	The player is rooted while it plays (Locked: no moving or jumping, Speed 0); weapons can't fire
@@ -16,7 +16,9 @@
 	Other scripts: require this module and call Pickup.request(position, grab?, walk?).
 ]]
 
+local ContentProvider = game:GetService("ContentProvider")
 local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 
 -- Client/Weapons/State (plain state table, no requires back into Movement)
@@ -25,9 +27,22 @@ local WeaponState = require(script.Parent.Parent.Parent:WaitForChild("Weapons"):
 local LENGTH = 1.2 -- clip length (art/anim/pickup.py LENGTH)
 local GRAB_AT = 0.5 -- the hand closes on the item (pickup.py GRAB_AT)
 local REACH = 1.15 -- the clip's hand lands this far in front of the root (pickup.py PICK_SPOT)
-local WALK_TIMEOUT = 1.6 -- seconds to walk up to it before giving up
-local PLAY_RANGE = 3.2 -- flat studs: further than this when the walk ends -> no animation
+local WALK_TIMEOUT = 2.2 -- seconds to walk up to it before giving up (the clip plays anyway)
 local TURN_TIME = 0.15
+
+-- download both clips up front (the first pickup used to finish before its clip had loaded)
+task.spawn(function()
+	local ids = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("AnimIds")) :: any
+	local list = {}
+	for _, name in { "Tulevo_Pickup", "Tulevo_PickupLeft" } do
+		if ids[name] then
+			local a = Instance.new("Animation")
+			a.AnimationId = ids[name]
+			table.insert(list, a)
+		end
+	end
+	pcall(ContentProvider.PreloadAsync, ContentProvider, list)
+end)
 
 type Pending = { pos: Vector3, grab: (() -> ())?, ready: boolean, at: number }
 
@@ -93,7 +108,9 @@ function Pickup.request(pos: Vector3, grab: (() -> ())?, walk: boolean?)
 			return
 		end
 		humanoid:Move(Vector3.zero) -- end the walk (MoveTo) where we are
-		if flatDistance(root.Position, pos) <= PLAY_RANGE and humanoid.Health > 0 then
+		-- Dev 2026-11-06 ("sometimes it doesn't play at all"): always play the clip, even if the
+		-- walk was cut short or blocked
+		if humanoid.Health > 0 then
 			p.ready = true
 		else
 			pending = nil
@@ -120,6 +137,7 @@ local function gunInHand(): boolean
 end
 
 Pickup.CanStart = function(ctx)
+	state(ctx) -- load the clips with the character, so the first pickup isn't skipped while they download
 	local p = pending
 	if not p or not p.ready then
 		return false

@@ -485,9 +485,9 @@ local function removeDropped(uid: string)
 end
 
 local pickup -- defined below (the prompt calls it)
--- seconds after E before the server takes the item itself: the client's walk-up (up to 1.6 s)
+-- seconds after E before the server takes the item itself: the client's walk-up (up to 2.2 s)
 -- plus the bend down to the grab (0.5 s) plus some ping
-local PICKUP_FALLBACK = 3.5
+local PICKUP_FALLBACK = 5
 
 local function spawnDropped(item: Item, at: CFrame)
 	local def = Items.get(item.id)
