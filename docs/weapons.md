@@ -22,7 +22,7 @@ which animations they need, and the server decides every hit.
 | `src/client/Movement/Moves/Aim.luau` | Aiming slows you to the class's aim walk and beats Sprint; sprint key while aiming = side run up to `Config.Movement.AimSprintSpeed` (12), sideways only (part of the Movement system) |
 | `Config.Weapons` | Studio test loadout, slot key order |
 
-Add a weapon: copy a file in `Defs/`. Damage per hit = `Damage` x body-part multiplier (`BodyDamage` in the weapon, else `Config.Weapons.BodyDamage`) x distance falloff. The ammo counter (top right, `src/client/AmmoHud.client.luau`) shows mag and spare bullets. Add a family: add a class in `Classes.luau` and its animations.
+Add a weapon: copy a file in `Defs/`. Damage per hit = `Damage` x body-part multiplier (`BodyDamage` in the weapon, else `Config.Weapons.BodyDamage`) x distance falloff. The ammo counter (`src/client/AmmoHud.client.luau`) shows mag and spare bullets: top right while the gun is down, and as a panel floating right of the aim (trailing camera turns) while aiming / firing / reloading. Add a family: add a class in `Classes.luau` and its animations.
 
 ## Controls
 
