@@ -5,6 +5,7 @@
 
 - writes src/server/CityPropLayout.luau: every "Light" spot from art/blender/cityfill/street_layout.json
   (Roblox position on the sidewalk + the direction toward the road), grouped by street model
+  and every "Signal" spot of StreetCorners (key Signals)
 - drops the old lamp pole collider boxes (the non-concrete box on each lamp spot) from
   art/models/Street*/meta.json, so no invisible poles stay behind. The concrete plinth box stays.
 Safe to run again.
@@ -43,9 +44,16 @@ def main():
             keep.append(b)
         meta["collider_boxes"] = keep
         json.dump(meta, open(meta_p, "w"), indent=1)
+    # traffic signals (StreetCorners): { x, y, z, dx, dz, arm, phase } = plinth point, direction of
+    # the traffic the heads face, arm length over its lanes, signal phase EW/NS
+    sigs = [p for p in layout.get("StreetCorners", []) if p.get("kind") == "Signal"]
+    lines.append("\tSignals = {")
+    for p in sigs:
+        lines.append(f"\t\t{{ {p['x']}, {p['y']}, {p['z']}, {p['dx']}, {p['dz']}, {p['arm']}, \"{p['phase']}\" }},")
+    lines.append("\t},")
     lines.append("}")
     open(OUT, "w").write("\n".join(lines) + "\n")
-    print(f"{total} lamp spots -> {os.path.relpath(OUT, ROOT)}, dropped {dropped} pole colliders")
+    print(f"{total} lamp spots + {len(sigs)} signals -> {os.path.relpath(OUT, ROOT)}, dropped {dropped} pole colliders")
 
 
 if __name__ == "__main__":

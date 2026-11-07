@@ -474,16 +474,20 @@ RunService.Heartbeat:Connect(function()
 	end
 end)
 
--- City Prop street lamps (2026-11-07): Roblox models (Shared/CityPropIds) on every street light
--- spot, placed by Server/CityPropPlacer (which lamp goes on which street is set there). If they
+-- City Prop street lamps and traffic signals (2026-11-07): Roblox models (Shared/CityPropIds) on
+-- every street light and signal spot, placed by Server/CityPropPlacer (which lamp goes on which street is set there). If they
 -- were already put in the place from the Studio command bar they are used as they are; otherwise
 -- they are placed now. Each lamp's glowing part gets the same night light as the old baked lamps.
 local CityPropPlacer = require(script.Parent:WaitForChild("CityPropPlacer")) :: any
 
 task.spawn(function()
+	local signals = city:FindFirstChild("TrafficSignals")
+	if not signals or #signals:GetChildren() == 0 then
+		CityPropPlacer.placeSignals()
+	end
 	local folder = city:FindFirstChild("StreetLamps")
 	if not folder or #folder:GetChildren() == 0 then
-		folder = CityPropPlacer.place(false)
+		folder = CityPropPlacer.placeLamps()
 	end
 	if not folder then
 		return

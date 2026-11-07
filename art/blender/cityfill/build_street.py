@@ -21,8 +21,8 @@ Props:
   Mailbox    blue city mail box
   Cabinet    signal control cabinet on a plinth
   Speed      speed limit sign; BusFlag bus stop sign; BusStop glass shelter with bench and ad
-  Signal     corner mast-arm traffic signal (lenses Signal<EW|NS><Red|Amber|Green>, cycled by
-             Client/TrafficSignals) + street name blades
+  Signal     plinth for a Roblox "City Prop" signal model (Server/CityPropPlacer) + street name
+             blades on a short post (old mast-arm signal with lenses: signal_old)
   StopSign   stop sign on a post, with street blades on some
 
 Blender (x, y, z) = Roblox (-x, z, y). Local prop frame: -Y = the prop's front (toward the road
@@ -542,6 +542,26 @@ class Street:
 
     # ------------------------------------------------------------ intersection props (world space)
     def signal(self, p):
+        """Signal spot: only the plinth is baked now, plus the street name blades on a short post
+        beside it. The signal itself is a Roblox "City Prop" model placed on the plinth
+        (Server/CityPropPlacer, 2026-11-07). The old mast-arm signal is kept as signal_old."""
+        dx, dz = p["dx"], p["dz"]
+        right = Vector((dz, dx, 0))          # Roblox right (-dz, dx) -> Blender (dz, dx)
+        self.T = Matrix.Translation((-p["x"], p["z"], p["y"]))
+        self.rz = 0.0
+        self.box("Plinth", (0, 0, 0.0), (0.7 * M, 0.7 * M, 0.12 * M))
+        self.col((0, 0, 0.0), (0.7 * M, 0.7 * M, 0.12 * M), "Concrete")
+        names = p.get("blades") or []
+        if names:
+            # short galvanized post 1.1 m behind the plinth (away from the road the arm reaches over)
+            b = right * 1.1 * M
+            H = 3.0 * M
+            self.cyl("PoleGalv", (b.x, b.y, H / 2), 0.05 * M, H, segs=8, mat="PoleGalv")
+            self.col((b.x, b.y, H / 2), (0.12 * M, 0.12 * M, H))
+            self.blade(names[0], self.w((b.x, b.y, H + 0.15 * M)), axis=Vector((1, 0, 0)))     # E-W street runs along x
+            self.blade(names[1], self.w((b.x, b.y, H + 0.45 * M)), axis=Vector((0, 1, 0)))     # N-S street runs along y
+
+    def signal_old(self, p):
         """Mast-arm signal on a corner, heads facing traffic travelling (dx, dz) (Roblox)."""
         dx, dz = p["dx"], p["dz"]
         # Blender vectors: travel d, heads face -d, arm runs to the left of travel (over its lanes)

@@ -1,5 +1,5 @@
--- Traffic signals at the downtown intersections (art/blender/cityfill/build_street.py,
--- model City.Buildings.StreetCorners). Each lens set is one MeshPart named
+-- Traffic signals at the downtown intersections: City Prop signal models in City.TrafficSignals
+-- (Server/CityPropPlacer), or the old baked ones in City.Buildings.StreetCorners. Each lens is a part named
 -- Signal<Phase><Colour>: Phase EW = traffic on the east-west streets, NS = north-south.
 -- Every client runs the same cycle from the server clock, so all players see the same lights.
 local RunService = game:GetService("RunService")
@@ -43,17 +43,52 @@ local function state(t: number): (string, string)
 end
 
 local city = workspace:WaitForChild("City", 30)
-local buildings = city and city:WaitForChild("Buildings", 30)
-local corners = buildings and buildings:WaitForChild("StreetCorners", 30)
-if not corners then
+if not city then
 	return
 end
--- the mesh may still be loading (CityBuildings / LiveSync): rescan when parts arrive
-scan(corners)
-corners.DescendantAdded:Connect(function(d)
-	if d:IsA("BasePart") and d.Name:match("^Signal") then
-		table.clear(lenses)
-		scan(corners)
+-- Lenses live in the baked StreetCorners mesh (old signals) and/or the City Prop signal models
+-- in City.TrafficSignals (Server/CityPropPlacer). Both may still be loading: rescan when lens
+-- parts arrive.
+local roots: { Instance } = {}
+local function rescan()
+	table.clear(lenses)
+	for _, r in roots do
+		if r.Parent then
+			scan(r)
+		end
+	end
+end
+local function watch(root: Instance)
+	table.insert(roots, root)
+	root.DescendantAdded:Connect(function(d)
+		if d:IsA("BasePart") and d.Name:match("^Signal") then
+			rescan()
+		end
+	end)
+	rescan()
+end
+local buildings = city:FindFirstChild("Buildings")
+local corners = buildings and buildings:FindFirstChild("StreetCorners")
+if corners then
+	watch(corners)
+end
+local signals = city:FindFirstChild("TrafficSignals")
+if signals then
+	watch(signals)
+end
+city.ChildAdded:Connect(function(c)
+	if c.Name == "TrafficSignals" or c.Name == "Buildings" then
+		task.defer(function()
+			local b = city:FindFirstChild("Buildings")
+			local sc = b and b:FindFirstChild("StreetCorners")
+			if sc and not table.find(roots, sc) then
+				watch(sc)
+			end
+			local ts = city:FindFirstChild("TrafficSignals")
+			if ts and not table.find(roots, ts) then
+				watch(ts)
+			end
+		end)
 	end
 end)
 

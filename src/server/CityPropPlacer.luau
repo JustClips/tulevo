@@ -1,13 +1,17 @@
--- Puts the City Prop street lamps (Shared/CityPropIds) into the world on every street light spot
--- of the city (Server/CityPropLayout, from tools/city_props.py), in workspace.City.StreetLamps.
--- Each model is turned so its arm reaches over the road and its pole stands on the plinth left
--- in the street mesh. Its glowing part gets the attribute PropLight (CityBuildings adds the light).
+-- Puts the City Prop street lamps and traffic signals (Shared/CityPropIds) into the world on the
+-- old lamp and signal spots (Server/CityPropLayout, from tools/city_props.py), in
+-- workspace.City.StreetLamps and workspace.City.TrafficSignals. Each model is turned so its arm
+-- reaches over the road and its pole stands on the plinth left in the street mesh. A lamp's
+-- glowing part gets the attribute PropLight (CityBuildings adds the light). A signal's lenses are
+-- renamed Signal<EW|NS><Red|Amber|Green> so Client/TrafficSignals cycles them.
+-- Signals are only placed once StreetCorners has been re-baked without the old mast-arm signals
+-- (build_street.py signal()); while the old lenses are still in it they are skipped.
 --
 -- Edit mode (so the lamps are in the place itself, not only in Play): paste in the Studio
 -- command bar, then save / publish the place:
 --   require(game.ServerScriptService.Server.CityPropPlacer).place(true)
 -- This also deletes the old baked lamp parts from the street meshes. Run it again after changing
--- STREET_LAMP or LAMP_TURN: it rebuilds the folder. LiveSync leaves the folder alone (it only
+-- STREET_LAMP, LAMP_TURN, SIGNAL_MODEL etc: it rebuilds the folders. LiveSync leaves the folder alone (it only
 -- removes what it made itself). If the folder is missing at run time, CityBuildings places the
 -- lamps then.
 local InsertService = game:GetService("InsertService")
@@ -32,6 +36,12 @@ M.STREET_LAMP = {
 M.LAMP_TURN = {} :: { [string]: number }
 -- Extra size for a lamp model that comes out too big or small, e.g. { StreetLight3 = 1.3 }.
 M.LAMP_SCALE = {} :: { [string]: number }
+
+-- Which signal model stands on every signal corner (any signal key of Shared/CityPropIds), plus
+-- an extra turn (degrees) and size like the lamps have.
+M.SIGNAL_MODEL = "IntersectionTrafficLight2Long"
+M.SIGNAL_TURN = 0
+M.SIGNAL_SCALE = 1
 
 local PLINTH_TOP = 0.22 -- plinth top above the sidewalk point
 local LIGHT_NAMES = { "bulb", "lens", "light", "glow", "emit", "glass" }
@@ -144,9 +154,8 @@ function M.removeOldLamps(city: Instance): number
 	return n
 end
 
--- Places every lamp in a fresh City.StreetLamps folder and returns it. With editMode, also
--- removes the old baked lamps (in Play, CityBuildings already does that).
-function M.place(editMode: boolean?): Folder?
+-- Places every lamp in a fresh City.StreetLamps folder and returns it.
+function M.placeLamps(): Folder?
 	local city = workspace:FindFirstChild("City")
 	if not city then
 		warn("[CityProps] workspace.City not found")
@@ -156,16 +165,13 @@ function M.place(editMode: boolean?): Folder?
 	if old then
 		old:Destroy()
 	end
-	if editMode then
-		print(`[CityProps] removed {M.removeOldLamps(city)} old lamp parts`)
-	end
 	local folder = Instance.new("Folder")
 	folder.Name = "StreetLamps"
 	local protos = {}
 	local placed = 0
 	for street, spots in PropLayout do
 		local key = M.STREET_LAMP[street]
-		if not key then
+		if street == "Signals" or not key then
 			continue
 		end
 		if protos[key] == nil then
@@ -197,6 +203,135 @@ function M.place(editMode: boolean?): Folder?
 	folder.Parent = city
 	print(`[CityProps] {placed} street lamps placed`)
 	return folder
+end
+
+-- which signal colour a part is: by name, else by colour for parts that look like a lens
+local COLOUR_NAMES = {
+	{ "Red", { "red", "stop" } },
+	{ "Amber", { "amber", "yellow", "orange", "caution" } },
+	{ "Green", { "green", "go" } },
+}
+local LENS_NAMES = { "lens", "light", "bulb", "lamp", "glow", "led", "signal" }
+local function lensColour(p: BasePart): string?
+	local n = p.Name:lower()
+	local looksLens = p.Material == Enum.Material.Neon
+	for _, k in LENS_NAMES do
+		if n:find(k, 1, true) then
+			looksLens = true
+		end
+	end
+	if looksLens then
+		for _, c in COLOUR_NAMES do
+			for _, k in c[2] do
+				if n:find(k, 1, true) then
+					return c[1]
+				end
+			end
+		end
+		local h, s, v = p.Color:ToHSV()
+		if s > 0.45 and v > 0.25 and math.max(p.Size.X, p.Size.Y, p.Size.Z) < 4 then
+			if h < 0.04 or h > 0.93 then
+				return "Red"
+			elseif h < 0.17 then
+				return "Amber"
+			elseif h > 0.22 and h < 0.5 then
+				return "Green"
+			end
+		end
+	end
+	return nil
+end
+
+-- True while StreetCorners still has the old baked signal lenses (not re-baked yet).
+local function oldSignalsBaked(city: Instance): boolean
+	local buildings = city:FindFirstChild("Buildings")
+	local corners = buildings and buildings:FindFirstChild("StreetCorners")
+	if not corners then
+		return false
+	end
+	for _, d in corners:GetDescendants() do
+		if d:IsA("BasePart") and d.Name:match("^Signal%u%u%a+$") then
+			return true
+		end
+	end
+	return false
+end
+
+-- Places a signal on every signal corner in a fresh City.TrafficSignals folder and returns it.
+-- Skipped (nil) while the old baked signals are still in StreetCorners.
+function M.placeSignals(): Folder?
+	local city = workspace:FindFirstChild("City")
+	if not city then
+		return nil
+	end
+	if oldSignalsBaked(city) then
+		print("[CityProps] StreetCorners still has the old signals: re-bake it first, signals skipped")
+		return nil
+	end
+	local spots = PropLayout.Signals
+	if not spots then
+		return nil
+	end
+	local old = city:FindFirstChild("TrafficSignals")
+	if old then
+		old:Destroy()
+	end
+	local key = M.SIGNAL_MODEL
+	if M.SIGNAL_SCALE ~= 1 then
+		M.LAMP_SCALE[key] = M.SIGNAL_SCALE
+	end
+	local proto, foot, dir = prototype(key)
+	if not proto then
+		return nil
+	end
+	local lenses = 0
+	for _, d in proto:GetDescendants() do
+		if d:IsA("BasePart") then
+			d:SetAttribute("PropLight", nil)
+			local c = lensColour(d)
+			if c then
+				d:SetAttribute("LensColour", c)
+				lenses += 1
+			end
+		end
+	end
+	if lenses == 0 then
+		warn(`[CityProps] {key}: found no red/amber/green lens parts, the signals won't change colour`)
+	end
+	local folder = Instance.new("Folder")
+	folder.Name = "TrafficSignals"
+	local base = CFrame.lookAt(Vector3.zero, dir)
+	local turn = CFrame.Angles(0, math.rad(M.SIGNAL_TURN or 0), 0)
+	for i, s in spots do
+		-- the arm reaches over the lanes to the left of the traffic the heads face: (dz, -dx)
+		local arm = Vector3.new(s[5], 0, -s[4])
+		local rot = CFrame.lookAt(Vector3.zero, arm) * base:Inverse()
+		local sig = proto:Clone()
+		sig.Name = `Signal{s[7]}{i}`
+		sig:PivotTo(CFrame.new(s[1], s[2] + PLINTH_TOP, s[3]) * turn * rot * CFrame.new(-foot))
+		sig.ModelStreamingMode = Enum.ModelStreamingMode.Persistent
+		for _, d in sig:GetDescendants() do
+			local c = d:IsA("BasePart") and d:GetAttribute("LensColour")
+			if c then
+				d.Name = `Signal{s[7]}{c}`
+			end
+		end
+		sig.Parent = folder
+	end
+	proto:Destroy()
+	folder.Parent = city
+	print(`[CityProps] {#spots} traffic signals placed ({lenses} lens parts each)`)
+	return folder
+end
+
+-- Command bar entry: lamps + signals, and with editMode the old baked lamps are removed.
+function M.place(editMode: boolean?)
+	local city = workspace:FindFirstChild("City")
+	if editMode and city then
+		print(`[CityProps] removed {M.removeOldLamps(city)} old lamp parts`)
+	end
+	M.placeLamps()
+	M.placeSignals()
 end
 
 return M
