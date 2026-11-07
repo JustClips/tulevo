@@ -102,6 +102,10 @@ def stall_lines_y(x0, x1, y0, n, w, stop_at_x):
 stall_lines_x(DX0, 3, 2.8 * M, -15 * M, -10.2 * M)        # west of the steps
 stall_lines_x(1.4 * M, 2, 2.8 * M, -15 * M, -10.2 * M)     # east of the steps
 stall_lines_y(14 * M, 19 * M, -8 * M, 7, 2.8 * M, 19 * M)  # east column, nose to the east kerb
+stall_lines_x(-12 * M, 12, 2.8 * M, 18.4 * M, 23.6 * M)     # back row along the fence
+for k in range(7):                                          # shade trees in a strip behind the annex
+    K.shrub(-10 * M + k * 2.6 * M, 13.2 * M, 0.16 * M, rng.uniform(0.45, 0.6) * M, rng)
+K.boxr("Pave", -11 * M, 6 * M, 12.6 * M, 13.8 * M, 0, 0.16 * M)
 for i in range(18):
     x = -LX + 3 * M + i * 2.4 * M
     K.boxr("LotLine", x, x + 0.9 * M, -20.1 * M, -19.9 * M, 0, 0.012 * M)
@@ -196,7 +200,7 @@ for x in (-11 * M, 3 * M):
     K.cyl("Dark", (x + 1.1 * M, 0.8 * M, 4.82 * M), 0.5 * M, 0.04 * M, segs=14)
 
 # ---------------------------------------------------------------- kitchen annex + back yard
-KX0, KX1, KY0, KY1 = -12 * M, 6 * M, DY1, 10 * M
+KX0, KX1, KY0, KY1 = -12 * M, 6 * M, DY1 - 0.3 * M, 10 * M      # starts inside the diner (no shared wall face)
 K.boxr("Kitchen", KX0, KX1, KY0, KY1, -0.3 * M, 3.3 * M)
 K.boxr("Pave", KX0 - 0.1 * M, KX1 + 0.1 * M, KY0, KY1 + 0.1 * M, 3.3 * M, 3.45 * M)          # coping
 K.boxr("Roof", KX0 + 0.1 * M, KX1 - 0.1 * M, KY0 + 0.1 * M, KY1 - 0.1 * M, 3.3 * M, 3.38 * M)

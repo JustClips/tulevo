@@ -134,14 +134,22 @@ VAULT_N_LINE = AVE_Z - ROAD_W / 2 - SIDE_W        # -172
 VAULT_S_LINE = AVE_Z + ROAD_W / 2 + SIDE_W        # -92
 BUILDINGS += [
     ("HalvorsenBuilding", "BrickBlock_S", (-230, 0.6, VAULT_N_LINE - BRICK_HALF_D), {}),
-    ("CalderBuilding", "BrickBlock_S", (-560, 0.6, VAULT_N_LINE - BRICK_HALF_D),
+    ("CalderBuilding", "BrickBlock_S", (550, 0.6, VAULT_N_LINE - BRICK_HALF_D),
      {"Brick": "Brown", "Storefronts": "B", "ShopSigns": "B"}),
     ("PikeBuilding", "BrickBlock_S", (232, 0.6, VAULT_N_LINE - BRICK_HALF_D),
      {"Brick": "Tan", "Storefronts": "B", "ShopSigns": "B"}),
     ("FennBuilding", "BrickBlock", (560, 0.6, VAULT_S_LINE + BRICK_HALF_D), {"Brick": "Brown"}),
     # Blue Comet Diner: 46 x 50 m lot (origin = lot centre, z 0 = lot surface), entrance drive at its west end
     ("BlueCometDiner", "Diner", (413, 0.3, VAULT_S_LINE + 90)),
+    # Hotel Solana: 46 x 48 m lot north of Vault Avenue (turned to face it), drives at both ends
+    ("HotelSolana", "Hotel_S", (380, 0.3, VAULT_N_LINE - 86.4)),
 ]
+
+# Ironwood Arms gun shop + indoor range (thread "Build GTA-style gun shop"; art/blender/gunshop):
+# 28 x 26 m lot (origin = lot centre) on lot D west of the Palmview Motel, front on Vault Avenue's
+# south sidewalk. Server/GunShop finds it by name (clerk, buy prompt, shop camera).
+GUNSHOP_D = 26 * 3.6
+BUILDINGS.append(("IronwoodArms", "GunShop", (-480, 0.3, VAULT_S_LINE + GUNSHOP_D / 2)))
 
 # ---------------------------------------------------------------- street furniture
 # (thread "Fill city with buildings and street props"): street lights, trees, bins, benches,

@@ -613,7 +613,9 @@ def diner_steel():
     g = np.asarray(scan("Metal029", size=512).convert("L"), np.float32)
     g = (g - g.mean()) * 0.35
     x = np.arange(512)[None, :]
-    flute = 18 * np.cos(x / 512 * 2 * math.pi * 16)
+    # 4 broad flutes per metre: finer ribs shimmered (moire) in game at a distance
+    ph = (x / 512 * 4) % 1.0
+    flute = 16 * np.cos(ph * 2 * math.pi) + 10 * (np.abs(ph - 0.5) < 0.03)
     v = np.clip(168 + g + flute, 0, 255)
     rgb = np.stack([v * 0.98, v, v * 1.02], -1)
     rough = Image.fromarray(np.clip(70 + g * 0.5, 0, 255).astype(np.uint8)).convert("RGB")
@@ -696,7 +698,90 @@ def diner():
         shutil.copyfile(os.path.join(est, f"Asphalt_{k}.png"), os.path.join(OUT, f"LotAsphalt_{k}.png"))
 
 
-STEPS = {"street": street, "brick": brick_building, "diner": diner}
+# ================================================================= Hotel Solana
+def hotel_lobby(w=2048, h=512):
+    """Through the lobby glass: marble floor, walnut wall panels, reception desk, chandeliers,
+    lounge chairs, potted palms, brass elevator doors."""
+    r = random.Random(31)
+    im = Image.new("RGB", (w, h), (120, 80, 52))
+    d = ImageDraw.Draw(im)
+    for x in range(0, w, 128):                                                       # walnut panels
+        d.rectangle((x + 4, 30, x + 124, int(h * 0.66)), fill=(132, 88, 58), outline=(98, 64, 40), width=3)
+        for k in range(8):
+            yy = 40 + k * 34
+            d.line((x + 10, yy, x + 118, yy + r.randint(-2, 2)), fill=(124, 82, 54), width=2)
+    for x in (300, 1650):                                                              # brass elevator doors
+        d.rectangle((x, 80, x + 200, int(h * 0.66)), fill=(196, 160, 90), outline=(150, 118, 60), width=6)
+        d.line((x + 100, 80, x + 100, int(h * 0.66)), fill=(140, 110, 60), width=4)
+        d.rectangle((x + 70, 50, x + 130, 70), fill=(40, 30, 24))
+    d.rectangle((850, 230, 1250, int(h * 0.66)), fill=(70, 46, 32))                   # reception desk
+    d.rectangle((840, 220, 1260, 238), fill=(220, 214, 200))
+    d.rectangle((850, 250, 1250, 256), fill=(200, 168, 96))
+    d.rectangle((930, 60, 1170, 150), fill=(30, 24, 20), outline=(200, 168, 96), width=4)   # clock plaque, no text
+    d.ellipse((1015, 70, 1085, 140), fill=(236, 228, 210), outline=(200, 168, 96), width=3)
+    d.line((1050, 105, 1050, 80), fill=(30, 24, 20), width=3); d.line((1050, 105, 1068, 112), fill=(30, 24, 20), width=3)
+    fy = int(h * 0.66)                                                                 # marble floor
+    for y in range(fy, h, 28):
+        for x in range(0, w, 56):
+            c = (232, 228, 220) if ((x // 56) + (y // 28)) % 2 else (212, 206, 196)
+            d.rectangle((x, y, x + 55, y + 27), fill=c)
+    d.rectangle((600, fy + 30, 1500, h - 10), fill=(140, 30, 40))                      # rug
+    d.rectangle((620, fy + 40, 1480, h - 20), outline=(210, 170, 90), width=4)
+    for x in range(220, w, 520):                                                       # chandeliers
+        d.line((x, 0, x, 60), fill=(150, 120, 70), width=3)
+        for k in range(-3, 4):
+            d.ellipse((x + k * 22 - 8, 70 + abs(k) * 6, x + k * 22 + 8, 86 + abs(k) * 6), fill=(255, 238, 190))
+        d.arc((x - 80, 30, x + 80, 110), 0, 180, fill=(200, 168, 96), width=4)
+    for x in (120, 760, 1340, 1900):                                                   # lounge chairs
+        for dx in (0, 120):
+            d.rounded_rectangle((x + dx, fy - 40, x + dx + 90, fy + 50), 12, fill=(36, 70, 72))
+            d.rectangle((x + dx + 6, fy + 10, x + dx + 84, fy + 50), fill=(46, 88, 90))
+        d.ellipse((x + 92, fy + 20, x + 118, fy + 40), fill=(200, 168, 96))
+    for x in (40, 640, 1560, 2000):                                                    # potted palms
+        d.rectangle((x - 20, fy + 20, x + 20, fy + 80), fill=(190, 180, 160))
+        for k in range(9):
+            a = math.radians(200 + k * 17)
+            d.line((x, fy + 20, x + math.cos(a) * 90, fy + 20 + math.sin(a) * 140), fill=(50, 110, 50), width=10)
+    im = im.filter(ImageFilter.GaussianBlur(0.8))
+    return glass_over(im, 32, amount=0.32)
+
+
+def hotel_signs():
+    """HotelSigns atlas 1024: x 0-255 vertical blade HOTEL; right side rows: 0-255 SOLANA roof
+    sign, 256-447 canopy fascia, 448-639 VALET, 640-1023 monument plaque."""
+    W = 1024
+    im = Image.new("RGB", (W, W), (24, 52, 56))
+    d = ImageDraw.Draw(im)
+    d.rectangle((0, 0, 255, W), fill=(150, 26, 34))
+    d.rectangle((10, 10, 245, W - 11), outline=(246, 226, 180), width=8)
+    for i, ch in enumerate("HOTEL"):
+        fit_text(d, (128, 110 + i * 200), ch, FONT_B, 200, 170, (255, 244, 214))
+    d.rectangle((256, 0, W, 255), fill=(22, 60, 64))
+    d.rectangle((266, 10, W - 11, 245), outline=(240, 214, 150), width=8)
+    fit_text(d, (640, 128), "SOLANA", "/usr/share/fonts/truetype/crosextra/Caladea-Bold.ttf", 680, 190, (250, 236, 200))
+    d.rectangle((256, 256, W, 447), fill=(20, 22, 24))
+    d.rectangle((262, 262, W - 7, 441), outline=(200, 168, 96), width=6)
+    fit_text(d, (640, 352), "HOTEL  SOLANA", "/usr/share/fonts/truetype/crosextra/Caladea-Bold.ttf", 700, 120, (220, 190, 120))
+    d.rectangle((256, 448, W, 639), fill=(240, 236, 226))
+    d.rectangle((262, 454, W - 7, 633), outline=(150, 26, 34), width=8)
+    fit_text(d, (640, 520), "VALET PARKING", FONT_B, 680, 80, (150, 26, 34))
+    fit_text(d, (640, 590), "GUEST DROP-OFF", FONT_B, 600, 44, (40, 40, 44))
+    d.rectangle((256, 640, W, W), fill=(206, 196, 176))
+    d.rectangle((270, 654, W - 15, W - 15), outline=(150, 130, 96), width=6)
+    fit_text(d, (640, 780), "HOTEL SOLANA", "/usr/share/fonts/truetype/crosextra/Caladea-Bold.ttf", 680, 110, (60, 50, 40))
+    fit_text(d, (640, 900), "EST. 1928", "/usr/share/fonts/truetype/crosextra/Caladea-Bold.ttf", 400, 70, (120, 96, 60))
+    save("HotelSigns", im, Image.new("RGB", (W, W), (90, 90, 90)))
+
+
+def hotel():
+    real("HotelStucco", "Plaster001", 1024, tint=(228, 208, 178), gain=1.05)
+    real("Pavers", "Tiles107", 512, tint=(178, 162, 142))
+    paint("HotelTeal", (34, 84, 88), grain="PaintedMetal012", strength=0.25)
+    save("HotelLobby", hotel_lobby(), Image.new("RGB", (2048, 512), (30, 30, 30)))
+    hotel_signs()
+
+
+STEPS = {"street": street, "brick": brick_building, "diner": diner, "hotel": hotel}
 
 if __name__ == "__main__":
     fetch()

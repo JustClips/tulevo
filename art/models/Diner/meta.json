@@ -17,7 +17,7 @@
    ]
   },
   "Pave": {
-   "tris": 512,
+   "tris": 668,
    "min": [
     -82.8,
     -90.0,
@@ -43,7 +43,7 @@
    ]
   },
   "LotLine": {
-   "tris": 409,
+   "tris": 565,
    "min": [
     -72.0,
     -86.4,
@@ -51,8 +51,21 @@
    ],
    "max": [
     78.12,
-    41.98,
+    84.96,
     0.04
+   ]
+  },
+  "Shrub": {
+   "tris": 460,
+   "min": [
+    -80.4,
+    -84.51,
+    0.22
+   ],
+   "max": [
+    70.56,
+    49.46,
+    4.83
    ]
   },
   "Tile": {
@@ -241,7 +254,7 @@
    "tris": 12,
    "min": [
     -43.2,
-    7.2,
+    6.12,
     -1.08
    ],
    "max": [
@@ -287,19 +300,6 @@
     -53.28,
     69.84,
     5.04
-   ]
-  },
-  "Shrub": {
-   "tris": 320,
-   "min": [
-    -80.55,
-    -84.51,
-    0.2
-   ],
-   "max": [
-    70.62,
-    43.35,
-    4.83
    ]
   },
   "Lamp2": {
@@ -352,6 +352,7 @@
   "Pave": "Plinth_Color.png",
   "Dark": "Dark_Color.png",
   "LotLine": "LotLine_Color.png",
+  "Shrub": "Shrub_Color.png",
   "Tile": "DinerTile_Color.png",
   "Chrome": "Chrome_Color.png",
   "Steel": "DinerSteel_Color.png",
@@ -370,7 +371,6 @@
   "Sconce": "Sconce_Color.png",
   "Pipe": "Pipe_Color.png",
   "Dumpster": "Dumpster_Color.png",
-  "Shrub": "Shrub_Color.png",
   "Lamp2": "Light_Color.png",
   "Lamp3": "Light_Color.png",
   "Soil": "Soil_Color.png"

@@ -370,6 +370,31 @@ local Config = {
 		CloseTime = 0.55,
 		SoundVolume = 0.6, -- open / close sound (0 = off)
 	},
+
+	-- Gun shop (Server/GunShop + Client/GunShop, docs/gunshop.md): Ironwood Arms on Vault Avenue
+	-- (art/blender/gunshop). Walk up to the counter, E opens a GTA-style buy menu. Items are the
+	-- normal inventory items (Shared/Items: weapons, ammo, armor, kits). A weapon is only for sale
+	-- once it has a model (Shared.ModelIds), otherwise it shows "Out of stock".
+	GunShop = {
+		Building = "IronwoodArms", -- City.Buildings model name (tools/build_city_map.py)
+		Name = "Ironwood Arms",
+		UseDistance = 7, -- studs from the till for the E prompt
+		LeaveDistance = 14, -- the menu closes if you move further than this from the till
+		PayFromBank = true, -- cash first, the rest from the bank (GTA pays by card)
+		-- Category, item Id, price per purchase, Count = how many one purchase gives
+		Stock = {
+			{ Category = "Rifles", Id = "CarbineRifle", Price = 2400 },
+			{ Category = "Shotguns", Id = "Shotgun", Price = 1350 },
+			{ Category = "SMGs", Id = "SMG", Price = 1800 },
+			{ Category = "Pistols", Id = "Pistol", Price = 650 },
+			{ Category = "Melee", Id = "Bat", Price = 60 },
+			{ Category = "Ammo", Id = "RifleAmmo", Price = 60, Count = 30 },
+			{ Category = "Ammo", Id = "RifleAmmo", Price = 180, Count = 90 },
+			{ Category = "Armor", Id = "ArmorVest", Price = 500 },
+			{ Category = "Health", Id = "FirstAidKit", Price = 150 },
+		},
+		Categories = { "Rifles", "Shotguns", "SMGs", "Pistols", "Melee", "Ammo", "Armor", "Health" },
+	},
 }
 
 return Config
