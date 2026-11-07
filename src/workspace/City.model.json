@@ -4239,6 +4239,118 @@
    }
   },
   {
+   "name": "WestGreenN",
+   "className": "Part",
+   "properties": {
+    "Anchored": true,
+    "Size": [
+     1110,
+     0.15,
+     678.0
+    ],
+    "Color": "#4E6A33",
+    "Material": "Grass",
+    "TopSurface": "Smooth",
+    "BottomSurface": "Smooth",
+    "CFrame": {
+     "position": [
+      -1195.0,
+      0.075,
+      -493.0
+     ],
+     "orientation": [
+      0,
+      0,
+      0
+     ]
+    }
+   }
+  },
+  {
+   "name": "WestGreenS",
+   "className": "Part",
+   "properties": {
+    "Anchored": true,
+    "Size": [
+     1110,
+     0.15,
+     678.0
+    ],
+    "Color": "#4E6A33",
+    "Material": "Grass",
+    "TopSurface": "Smooth",
+    "BottomSurface": "Smooth",
+    "CFrame": {
+     "position": [
+      -1195.0,
+      0.075,
+      229.0
+     ],
+     "orientation": [
+      0,
+      0,
+      0
+     ]
+    }
+   }
+  },
+  {
+   "name": "WestGreenFarN",
+   "className": "Part",
+   "properties": {
+    "Anchored": true,
+    "Size": [
+     710,
+     0.15,
+     518
+    ],
+    "Color": "#4E6A33",
+    "Material": "Grass",
+    "TopSurface": "Smooth",
+    "BottomSurface": "Smooth",
+    "CFrame": {
+     "position": [
+      -995.0,
+      0.075,
+      -1091.0
+     ],
+     "orientation": [
+      0,
+      0,
+      0
+     ]
+    }
+   }
+  },
+  {
+   "name": "WestGreenFarS",
+   "className": "Part",
+   "properties": {
+    "Anchored": true,
+    "Size": [
+     710,
+     0.15,
+     782
+    ],
+    "Color": "#4E6A33",
+    "Material": "Grass",
+    "TopSurface": "Smooth",
+    "BottomSurface": "Smooth",
+    "CFrame": {
+     "position": [
+      -995.0,
+      0.075,
+      959.0
+     ],
+     "orientation": [
+      0,
+      0,
+      0
+     ]
+    }
+   }
+  },
+  {
    "name": "HollisPlaza",
    "className": "Part",
    "properties": {
@@ -140551,6 +140663,82 @@
       },
       "CityModel": "ParkProps",
       "LiveSyncTextures": "{\"Bark\":76755781017336,\"Bench\":139177732485514,\"Bin\":115233517563061,\"BinLiner\":93272992342514,\"DecoPrint\":92326837133607,\"Iron\":93272992342514,\"Leaf\":114674898966960,\"LeafB\":114674898966960,\"LeafC\":114674898966960,\"LeafCard\":138772268247559,\"LeafCardB\":138772268247559,\"LeafCardC\":138772268247559}"
+     }
+    },
+    {
+     "name": "WestTreesN",
+     "className": "Model",
+     "tags": [
+      "Building"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 122781399135554,
+      "LiveSyncBoxCenter": {
+       "Vector3": [
+        -1178.33,
+        15.49,
+        -379.025
+       ]
+      },
+      "CityModel": "WestTreesN",
+      "LiveSyncTextures": "{\"Bark\":76755781017336,\"Leaf\":114674898966960,\"LeafB\":114674898966960,\"LeafC\":114674898966960,\"LeafCard\":138772268247559,\"LeafCardB\":138772268247559,\"LeafCardC\":138772268247559,\"LeafCardD\":138772268247559,\"LeafCardE\":138772268247559,\"LeafCardF\":138772268247559,\"LeafD\":114674898966960,\"LeafE\":114674898966960,\"LeafF\":114674898966960}"
+     }
+    },
+    {
+     "name": "WestTreesN2",
+     "className": "Model",
+     "tags": [
+      "Building"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 76614789822987,
+      "LiveSyncBoxCenter": {
+       "Vector3": [
+        -1161.7,
+        15.375,
+        -559.075
+       ]
+      },
+      "CityModel": "WestTreesN2",
+      "LiveSyncTextures": "{\"Bark\":76755781017336,\"Leaf\":114674898966960,\"LeafB\":114674898966960,\"LeafC\":114674898966960,\"LeafCard\":138772268247559,\"LeafCardB\":138772268247559,\"LeafCardC\":138772268247559,\"LeafCardD\":138772268247559,\"LeafD\":114674898966960}"
+     }
+    },
+    {
+     "name": "WestTreesS",
+     "className": "Model",
+     "tags": [
+      "Building"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 92185220404121,
+      "LiveSyncBoxCenter": {
+       "Vector3": [
+        -1165.94,
+        15.21,
+        121.785
+       ]
+      },
+      "CityModel": "WestTreesS",
+      "LiveSyncTextures": "{\"Bark\":76755781017336,\"Leaf\":114674898966960,\"LeafB\":114674898966960,\"LeafC\":114674898966960,\"LeafCard\":138772268247559,\"LeafCardB\":138772268247559,\"LeafCardC\":138772268247559,\"LeafCardD\":138772268247559,\"LeafCardE\":138772268247559,\"LeafCardF\":138772268247559,\"LeafD\":114674898966960,\"LeafE\":114674898966960,\"LeafF\":114674898966960}"
+     }
+    },
+    {
+     "name": "WestTreesS2",
+     "className": "Model",
+     "tags": [
+      "Building"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 79942600256124,
+      "LiveSyncBoxCenter": {
+       "Vector3": [
+        -1171.72,
+        15.55,
+        283.195
+       ]
+      },
+      "CityModel": "WestTreesS2",
+      "LiveSyncTextures": "{\"Bark\":76755781017336,\"Leaf\":114674898966960,\"LeafB\":114674898966960,\"LeafC\":114674898966960,\"LeafCard\":138772268247559,\"LeafCardB\":138772268247559,\"LeafCardC\":138772268247559}"
      }
     },
     {
