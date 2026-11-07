@@ -167,16 +167,21 @@ EST_X1 = EST_X0 + 4 * EST_LOT_W
 EST_WAY_X = EST_X1 + SIDE_W + ROAD_W / 2              # Bellmont Way centre
 EST_END = EST_WAY_X + ROAD_W / 2                      # east end of the two drives
 EST_ROWS = [
-    # lot centre z, facing, models west -> east, wall paints
-    (AVE_Z - ROAD_W / 2 - SIDE_W - EST_LOT_D / 2, "S", ("Casa", "Modern", "Villa", "Hacienda"), ("Ivory", "Charcoal", "Sage", "Sand")),
-    (AVE_Z + ROAD_W / 2 + SIDE_W + EST_LOT_D / 2, "N", ("Villa", "Hacienda", "Casa", "Modern"), ("Stone", "Blush", "White", "Slate")),
-    (BACK_Z + ROAD_W / 2 + SIDE_W + EST_LOT_D / 2, "N", ("Modern", "Casa", "Hacienda", "Villa"), ("White", "Sand", "Ivory", "Ivory")),
+    # lot centre z, facing, (model, wall paint, roof) west -> east; neighbours never share a style
+    (AVE_Z - ROAD_W / 2 - SIDE_W - EST_LOT_D / 2, "S", (("Colonial", "White", "Slate"), ("Modern", "Charcoal", None),
+                                                         ("Tower", "Blush", "Clay"), ("Casa", "Ivory", "Barrel"))),
+    (AVE_Z + ROAD_W / 2 + SIDE_W + EST_LOT_D / 2, "N", (("Ranch", "Stone", "Brown"), ("Cubist", "White", None),
+                                                         ("Hacienda", "Sand", "Clay"), ("Villa", "Sage", "Slate"))),
+    (BACK_Z + ROAD_W / 2 + SIDE_W + EST_LOT_D / 2, "N", (("Colonial", "Sage", "Brown"), ("Tower", "Ivory", "Barrel"),
+                                                         ("Modern", "White", None), ("Casa", "Blush", "Slate"))),
 ]
-for r, (z, face, models, paints) in enumerate(EST_ROWS):
-    for i, (model, paint) in enumerate(zip(models, paints)):
+for r, (z, face, lots) in enumerate(EST_ROWS):
+    for i, (model, paint, roof) in enumerate(lots):
         key = model if face == "N" else f"{model}_S"
-        BUILDINGS.append((f"Bellmont{model}{r}{i}", key, (EST_X0 + (i + 0.5) * EST_LOT_W, 0.3, z),
-                          {"Render" if model == "Modern" else "Walls": paint}))
+        look = {"Render" if model == "Modern" else "Walls": paint}
+        if roof:
+            look["Roof"] = roof
+        BUILDINGS.append((f"Bellmont{model}{r}{i}", key, (EST_X0 + (i + 0.5) * EST_LOT_W, 0.3, z), look))
 
 # Tulevo Police Department (thread "Build rich suburbs district"): 32 x 50.8 m lot south of Back
 # Street, east of The Marlowe; front (-Z) on the Back Street sidewalk, east edge at x = 640.

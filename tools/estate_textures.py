@@ -32,7 +32,7 @@ save = saver(OUT)
 ACG = "https://ambientcg.com/get?file={}_1K-PNG.zip"
 SCANS = ("Plaster001", "PaintedPlaster017", "RoofingTiles014A", "RoofingTiles015A", "RoofingTiles007", "Concrete034",
          "PavingStones037", "PavingStones128", "Tiles098", "Grass004", "Bricks085", "Bricks076A", "Wood066",
-         "WoodFloor051", "Tiles036", "Travertine009", "Gravel020", "Marble016")
+         "WoodFloor051", "Tiles036", "Travertine009", "Gravel020", "Marble016", "RoofingTiles003")
 
 
 def fetch():
@@ -102,6 +102,7 @@ def surfaces():
     save("RoofClay", baked("RoofingTiles014A", (1.02, 0.95, 0.9), light=0.6, gain=1.05, sat=0.85), 190)
     save("RoofBrown", baked("RoofingTiles015A", (1.10, 0.92, 0.82), light=0.6, gain=1.1, sat=0.9), 190)
     save("RoofBarrel", baked("RoofingTiles007", (1.0, 0.95, 0.92), light=0.55, gain=1.1, sat=0.75), 195)
+    save("RoofSlate", baked("RoofingTiles003", (1.0, 1.0, 1.04), light=0.6, gain=1.25, sat=0.6), 185)
     save("RoofFlat", baked("Concrete034", (0.78, 0.78, 0.80), light=0.3, gain=0.95), 230)
     save("Concrete", baked("Concrete034", (1.0, 1.0, 0.99), light=0.3, gain=1.05), 210)
     save("Pavers", baked("PavingStones037", (1.12, 0.98, 0.84), light=0.45, gain=1.0, sat=0.5), 200)   # warm herringbone
@@ -314,7 +315,8 @@ def mats():
     for name, (k, c) in {"Trim": ("paint", (238, 234, 224)), "Iron": ("paint", (22, 22, 24)), "Bronze": ("metal", (120, 92, 58)),
                          "Steel": ("metal", (176, 178, 180)), "Alu": ("paint", (34, 35, 38)), "Teak": ("wood", (128, 84, 52)),
                          "Cushion": ("plastic", (228, 222, 210)), "Soil": ("gravel", (58, 42, 30)), "Bark": ("wood", (72, 56, 42)),
-                         "Pot": ("paint", (184, 108, 72)), "Rubber": ("rubber", (28, 28, 30))}.items():
+                         "Pot": ("paint", (184, 108, 72)), "Rubber": ("rubber", (28, 28, 30)),
+                         "Shutter": ("paint", (38, 58, 52)), "Column": ("paint", (240, 238, 232))}.items():
         save(name, surface(k, c, seed=500 + len(name)), 200)
 
 

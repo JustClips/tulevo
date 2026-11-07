@@ -3143,5 +3143,20 @@
   "id": 98527413172063,
   "file": "art/models/Hotel_S/tex/HotelTeal_Color.png",
   "state": "Approved"
+ },
+ "8229edbd0810331982c0e7ee5b0d2e2757cc28ae9f41781ed436123287f3a6dd": {
+  "id": 84691307905209,
+  "file": "art/models/Casa/tex/RoofSlate_Color.png",
+  "state": "Approved"
+ },
+ "8f733b3241ee79c4d8d82f7dee5f9a0565f2a6731e05d94f944e11c872142d52": {
+  "id": 75933936959589,
+  "file": "art/models/Colonial/tex/Column_Color.png",
+  "state": "Approved"
+ },
+ "df0a836a675ba6f519ede66e5cb85c107f1a9572412d47d588870043052e7436": {
+  "id": 97794172638732,
+  "file": "art/models/Colonial/tex/Shutter_Color.png",
+  "state": "Approved"
  }
 }

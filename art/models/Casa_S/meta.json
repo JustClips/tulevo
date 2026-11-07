@@ -730,6 +730,12 @@
    "Stone": "WallStone_Color.png",
    "Blush": "WallBlush_Color.png",
    "Slate": "WallSlate_Color.png"
+  },
+  "Roof": {
+   "Clay": "RoofClay_Color.png",
+   "Brown": "RoofBrown_Color.png",
+   "Barrel": "RoofBarrel_Color.png",
+   "Slate": "RoofSlate_Color.png"
   }
  }
 }

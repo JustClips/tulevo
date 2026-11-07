@@ -1,0 +1,515 @@
+{
+ "name": "Ranch",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Lawn": {
+   "tris": 12,
+   "min": [
+    -64.8,
+    -72.0,
+    -0.3
+   ],
+   "max": [
+    64.8,
+    72.0,
+    0.0
+   ]
+  },
+  "HedgeBox": {
+   "tris": 48,
+   "min": [
+    -64.44,
+    -69.12,
+    0.0
+   ],
+   "max": [
+    64.44,
+    70.2,
+    7.2
+   ]
+  },
+  "StoneWall": {
+   "tris": 256,
+   "min": [
+    -64.44,
+    -69.84,
+    0.0
+   ],
+   "max": [
+    64.44,
+    71.64,
+    26.28
+   ]
+  },
+  "Stone": {
+   "tris": 228,
+   "min": [
+    -64.62,
+    -23.76,
+    0.0
+   ],
+   "max": [
+    64.62,
+    71.82,
+    26.82
+   ]
+  },
+  "Walls": {
+   "tris": 36,
+   "min": [
+    -54.0,
+    -36.0,
+    3.96
+   ],
+   "max": [
+    59.4,
+    28.8,
+    21.96
+   ]
+  },
+  "Roof": {
+   "tris": 20,
+   "min": [
+    -56.88,
+    -38.16,
+    12.42
+   ],
+   "max": [
+    61.56,
+    31.68,
+    24.16
+   ]
+  },
+  "Trim": {
+   "tris": 164,
+   "min": [
+    -57.1,
+    -38.38,
+    11.77
+   ],
+   "max": [
+    61.78,
+    31.9,
+    22.18
+   ]
+  },
+  "Alu": {
+   "tris": 84,
+   "min": [
+    -56.88,
+    -38.88,
+    3.24
+   ],
+   "max": [
+    61.56,
+    68.04,
+    13.9
+   ]
+  },
+  "Patio": {
+   "tris": 72,
+   "min": [
+    -43.2,
+    -18.0,
+    -0.18
+   ],
+   "max": [
+    39.6,
+    69.48,
+    3.24
+   ]
+  },
+  "Teak": {
+   "tris": 672,
+   "min": [
+    -63.72,
+    -70.92,
+    0.0
+   ],
+   "max": [
+    27.72,
+    70.2,
+    12.42
+   ]
+  },
+  "FrontDoor": {
+   "tris": 2,
+   "min": [
+    -9.36,
+    -7.24,
+    1.44
+   ],
+   "max": [
+    -2.16,
+    -7.24,
+    10.8
+   ]
+  },
+  "Sconce": {
+   "tris": 24,
+   "min": [
+    -11.16,
+    -7.81,
+    8.06
+   ],
+   "max": [
+    -0.36,
+    -7.16,
+    9.22
+   ]
+  },
+  "GlassB": {
+   "tris": 10,
+   "min": [
+    -54.03,
+    -7.23,
+    3.96
+   ],
+   "max": [
+    25.23,
+    25.14,
+    10.8
+   ]
+  },
+  "Frame": {
+   "tris": 1296,
+   "min": [
+    -54.5,
+    -7.7,
+    2.99
+   ],
+   "max": [
+    59.9,
+    29.3,
+    11.41
+   ]
+  },
+  "Sill": {
+   "tris": 432,
+   "min": [
+    -54.86,
+    -8.06,
+    2.74
+   ],
+   "max": [
+    60.26,
+    29.66,
+    11.84
+   ]
+  },
+  "Shutter": {
+   "tris": 720,
+   "min": [
+    -54.11,
+    -7.38,
+    4.03
+   ],
+   "max": [
+    23.15,
+    -7.16,
+    10.73
+   ]
+  },
+  "GlassF": {
+   "tris": 6,
+   "min": [
+    -38.7,
+    -7.23,
+    3.24
+   ],
+   "max": [
+    25.23,
+    28.83,
+    11.16
+   ]
+  },
+  "GlassA": {
+   "tris": 8,
+   "min": [
+    -50.28,
+    -7.23,
+    3.24
+   ],
+   "max": [
+    59.43,
+    28.83,
+    11.16
+   ]
+  },
+  "GlassC": {
+   "tris": 4,
+   "min": [
+    -54.03,
+    -3.54,
+    3.24
+   ],
+   "max": [
+    -31.32,
+    28.83,
+    11.16
+   ]
+  },
+  "GlassD": {
+   "tris": 6,
+   "min": [
+    -10.68,
+    20.46,
+    3.24
+   ],
+   "max": [
+    25.23,
+    28.83,
+    11.16
+   ]
+  },
+  "GlassE": {
+   "tris": 2,
+   "min": [
+    2.52,
+    28.83,
+    3.24
+   ],
+   "max": [
+    8.28,
+    28.83,
+    11.16
+   ]
+  },
+  "GarageWood": {
+   "tris": 6,
+   "min": [
+    28.98,
+    -36.04,
+    0.07
+   ],
+   "max": [
+    55.98,
+    -36.04,
+    8.35
+   ]
+  },
+  "Pavers": {
+   "tris": 12,
+   "min": [
+    27.36,
+    -72.0,
+    -0.18
+   ],
+   "max": [
+    61.2,
+    -36.0,
+    0.18
+   ]
+  },
+  "Travert": {
+   "tris": 12,
+   "min": [
+    -8.64,
+    -70.92,
+    -0.18
+   ],
+   "max": [
+    -2.88,
+    -20.88,
+    0.18
+   ]
+  },
+  "Bark": {
+   "tris": 324,
+   "min": [
+    -50.96,
+    -60.37,
+    0.0
+   ],
+   "max": [
+    56.49,
+    60.49,
+    22.78
+   ]
+  },
+  "LeafB": {
+   "tris": 1400,
+   "min": [
+    -55.19,
+    -63.34,
+    0.05
+   ],
+   "max": [
+    60.39,
+    61.62,
+    31.32
+   ]
+  },
+  "Leaf": {
+   "tris": 2160,
+   "min": [
+    -57.17,
+    -64.23,
+    12.92
+   ],
+   "max": [
+    59.32,
+    65.91,
+    32.46
+   ]
+  },
+  "Soil": {
+   "tris": 76,
+   "min": [
+    -49.61,
+    -23.33,
+    -0.07
+   ],
+   "max": [
+    21.17,
+    58.68,
+    1.87
+   ]
+  },
+  "Shrub": {
+   "tris": 160,
+   "min": [
+    -39.5,
+    -22.97,
+    0.05
+   ],
+   "max": [
+    17.95,
+    -21.0,
+    1.71
+   ]
+  },
+  "HouseNumbers": {
+   "tris": 2,
+   "min": [
+    -12.64,
+    -69.96,
+    2.16
+   ],
+   "max": [
+    -11.12,
+    -69.96,
+    3.67
+   ]
+  },
+  "PoolTile": {
+   "tris": 60,
+   "min": [
+    -21.6,
+    49.68,
+    0.0
+   ],
+   "max": [
+    28.8,
+    62.64,
+    3.06
+   ]
+  },
+  "FxPool": {
+   "tris": 2,
+   "min": [
+    -21.6,
+    49.68,
+    2.7
+   ],
+   "max": [
+    28.8,
+    62.64,
+    2.7
+   ]
+  },
+  "Light": {
+   "tris": 84,
+   "min": [
+    -21.42,
+    52.56,
+    1.44
+   ],
+   "max": [
+    -21.35,
+    59.76,
+    2.16
+   ]
+  },
+  "Steel": {
+   "tris": 100,
+   "min": [
+    8.91,
+    62.26,
+    1.08
+   ],
+   "max": [
+    26.18,
+    67.07,
+    11.88
+   ]
+  },
+  "Cushion": {
+   "tris": 72,
+   "min": [
+    -17.35,
+    61.92,
+    4.46
+   ],
+   "max": [
+    13.79,
+    72.0,
+    11.97
+   ]
+  }
+ },
+ "lamps": [],
+ "textures": {
+  "Lawn": "Lawn_Color.png",
+  "HedgeBox": "HedgeBox_Color.png",
+  "StoneWall": "StoneWall_Color.png",
+  "Stone": "Stone_Color.png",
+  "Walls": "WallStone_Color.png",
+  "Roof": "RoofBrown_Color.png",
+  "Trim": "Trim_Color.png",
+  "Alu": "Alu_Color.png",
+  "Patio": "Patio_Color.png",
+  "Teak": "Teak_Color.png",
+  "FrontDoor": "FrontDoor_Color.png",
+  "Sconce": "Sconce_Color.png",
+  "GlassB": "GlassB_Color.png",
+  "Frame": "Frame_Color.png",
+  "Sill": "Sill_Color.png",
+  "Shutter": "Shutter_Color.png",
+  "GlassF": "GlassF_Color.png",
+  "GlassA": "GlassA_Color.png",
+  "GlassC": "GlassC_Color.png",
+  "GlassD": "GlassD_Color.png",
+  "GlassE": "GlassE_Color.png",
+  "GarageWood": "GarageWood_Color.png",
+  "Pavers": "Pavers_Color.png",
+  "Travert": "Travert_Color.png",
+  "Bark": "Bark_Color.png",
+  "LeafB": "LeafB_Color.png",
+  "Leaf": "Leaf_Color.png",
+  "Soil": "Soil_Color.png",
+  "Shrub": "HedgeBox_Color.png",
+  "HouseNumbers": "HouseNumbers_Color.png",
+  "PoolTile": "PoolTile_Color.png",
+  "FxPool": "FxPool_Color.png",
+  "Light": "Light_Color.png",
+  "Steel": "Steel_Color.png",
+  "Cushion": "Cushion_Color.png"
+ },
+ "variants": {
+  "Walls": {
+   "Stone": "WallStone_Color.png",
+   "Sand": "WallSand_Color.png",
+   "White": "WallWhite_Color.png",
+   "Sage": "WallSage_Color.png",
+   "Slate": "WallSlate_Color.png"
+  },
+  "Roof": {
+   "Clay": "RoofClay_Color.png",
+   "Brown": "RoofBrown_Color.png",
+   "Barrel": "RoofBarrel_Color.png",
+   "Slate": "RoofSlate_Color.png"
+  }
+ }
+}

@@ -206,5 +206,29 @@
  "Hotel_S": {
   "id": 94774574140378,
   "sha": "0f22f2ea02ebabfdc8e70e846537eeb174f9d872138d2811c87ebeac44942852"
+ },
+ "Colonial": {
+  "id": 112241532032247,
+  "sha": "32c22e02474edff298bd27ec8975ad58cd585fa943800ed69ad0bf7497238e2b"
+ },
+ "Colonial_S": {
+  "id": 130415805320924,
+  "sha": "9d495e70cdc99c8b2d72abf2f32ec6ea892795a4eea27af8a75780eb3643b47e"
+ },
+ "Cubist": {
+  "id": 78852975763829,
+  "sha": "542d5d11b8d082b5f7db47c8fa1e1ff2056a74d48629e1ded5a3687dda0e0a8c"
+ },
+ "Ranch": {
+  "id": 85332198684437,
+  "sha": "f8c4bde3f2b4121e3e4b350f0e40ff653aed5f23b70bc5d8ab2eaa51de40ac19"
+ },
+ "Tower": {
+  "id": 135012753304514,
+  "sha": "d21495b86df0ab5355e2fbe6720837594530f26b1c3ddfea3d42371f7dc967e8"
+ },
+ "Tower_S": {
+  "id": 132947289779505,
+  "sha": "bc0262c6613a96be4955b483214ce6553bdc8808faa2c0dd60e0c06bf583e8d1"
  }
 }
