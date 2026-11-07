@@ -330,7 +330,8 @@ def to_aabb(c, R, s):
 def merge_thin(aabbs):
     """Thin boxes in one plane next to each other (fence pickets + rails, gate bars) -> one slab."""
     changed = True
-    boxes = [list(b) for b in aabbs]
+    # 4th field: plan area the merged pieces really cover (for the flat-slab check below)
+    boxes = [list(b) + [float((b[1] - b[0])[0] * (b[1] - b[0])[2])] for b in aabbs]
     while changed:
         changed = False
         out = []
@@ -338,11 +339,11 @@ def merge_thin(aabbs):
         for i in range(len(boxes)):
             if used[i]:
                 continue
-            lo, hi, mat = boxes[i]
+            lo, hi, mat, cov = boxes[i]
             for j in range(i + 1, len(boxes)):
                 if used[j]:
                     continue
-                lo2, hi2, mat2 = boxes[j]
+                lo2, hi2, mat2, cov2 = boxes[j]
                 if mat2 != mat:
                     continue
                 ulo, uhi = np.minimum(lo, lo2), np.maximum(hi, hi2)
@@ -350,6 +351,11 @@ def merge_thin(aabbs):
                 thin_ax = int(np.argmin(us))
                 if us[thin_ax] > 0.6:
                     continue
+                if thin_ax == 1:
+                    # flat slabs (wall caps, kerbs) meeting at a corner: the union would be a floor
+                    # over the whole area they frame (players floated on Lindell Park's wall caps)
+                    if us[0] * us[2] - (cov + cov2) > min(0.15 * (cov + cov2) + 4.0, 60.0):
+                        continue
                 gap = np.maximum(np.maximum(lo, lo2) - np.minimum(hi, hi2), 0)
                 if gap.max() > 0.8:
                     continue
@@ -357,11 +363,12 @@ def merge_thin(aabbs):
                 if gap[1] > 0.05:
                     continue
                 lo, hi = ulo, uhi
+                cov += cov2
                 used[j] = True
                 changed = True
-            out.append([lo, hi, mat])
+            out.append([lo, hi, mat, cov])
         boxes = out
-    return [tuple(b) for b in boxes]
+    return [tuple(b[:3]) for b in boxes]
 
 
 def drop_contained(items, tol=0.15):
