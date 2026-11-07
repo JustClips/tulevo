@@ -216,6 +216,11 @@ return {
 		Stone = 113294833293056,
 		TowerSign = 122902209943948,
 	},
+	BikeChain = {
+		InnerPlates = 72676075818041,
+		OuterPlatesL = 107264596098557,
+		OuterPlatesR = 107264596098557,
+	},
 	BikeExhaust = {
 		Collector = 137575000581354,
 		Headers = 126436819415341,
@@ -223,6 +228,12 @@ return {
 		LinkPipe = 90998333556805,
 		PreSilencer = 90998333556805,
 		Silencer = 71705674422805,
+	},
+	BikeSeats = {
+		PillionSides = 71723247189049,
+		PillionTop = 132896753986179,
+		RiderSides = 108209244813534,
+		RiderTop = 98430763625062,
 	},
 	BikeWheelFront = {
 		RotorL = 74660046985828,

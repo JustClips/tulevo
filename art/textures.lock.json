@@ -3714,6 +3714,36 @@
   "file": "art/models/FuelStation/tex/MartStucco_Color.png",
   "state": "Approved"
  },
+ "f0f3df81f83650d3dc4ed3191c6399f5c8ea3dc9431c903ae2a8d69a2f8e5dee": {
+  "id": 72676075818041,
+  "file": "art/models/BikeChain/tex/InnerPlate_Color.png",
+  "state": "Approved"
+ },
+ "1f1f37c6276315094d0bb2622db901cbde928b637166072ccea26486c510fade": {
+  "id": 107264596098557,
+  "file": "art/models/BikeChain/tex/OuterPlate_Color.png",
+  "state": "Approved"
+ },
+ "e16e075359973f5991030f58bb67539081d3176e44adb8366c6c5dd076f6457f": {
+  "id": 71723247189049,
+  "file": "art/models/BikeSeats/tex/PillionSide_Color.png",
+  "state": "Approved"
+ },
+ "23fb98f5d3590f01b2aab58caf055c825d2f415711a6f3d262a042ebb5d959df": {
+  "id": 132896753986179,
+  "file": "art/models/BikeSeats/tex/PillionTop_Color.png",
+  "state": "Approved"
+ },
+ "e2daf813b460c951243501446811776abd3e067227b51e8e1f10804991c7923a": {
+  "id": 108209244813534,
+  "file": "art/models/BikeSeats/tex/RiderSide_Color.png",
+  "state": "Approved"
+ },
+ "671ca14afb0459fc3e856344c2fbb146034d1b6e2e47ac6599f4aea6f17bd788": {
+  "id": 98430763625062,
+  "file": "art/models/BikeSeats/tex/RiderTop_Color.png",
+  "state": "Approved"
+ },
  "b354d9fc8950b12455656e73eeca4ad1baecc0bbe74f3f86d6fcd4616271b26a": {
   "id": 91050708956119,
   "file": "art/models/CarWash/tex/BrushBlue_Color.png",
