@@ -1,0 +1,22 @@
+{
+ "Asphalt": "art/models/AutoShop_S/tex/LotAsphalt_Color.png",
+ "AutoSigns": "art/models/AutoShop_S/tex/AutoSigns_Color.png",
+ "Brick": "art/models/AutoShop_S/tex/KitchenBrick_Color.png",
+ "Chest": "art/models/AutoShop_S/tex/HydrantRed_Color.png",
+ "Dark": "art/models/AutoShop_S/tex/Dark_Color.png",
+ "Frame": "art/models/AutoShop_S/tex/Frame_Color.png",
+ "Lamp1": "art/models/AutoShop_S/tex/Light_Color.png",
+ "Lamp2": "art/models/AutoShop_S/tex/Light_Color.png",
+ "Lift": "art/models/AutoShop_S/tex/Lift_Color.png",
+ "LotLine": "art/models/AutoShop_S/tex/LotLine_Color.png",
+ "Metal": "art/models/AutoShop_S/tex/GarageMetal_Color.png",
+ "Pave": "art/models/AutoShop_S/tex/Plinth_Color.png",
+ "Pipe": "art/models/AutoShop_S/tex/Pipe_Color.png",
+ "RollDoor": "art/models/AutoShop_S/tex/RollDoor_Color.png",
+ "Roof": "art/models/AutoShop_S/tex/RoofTar_Color.png",
+ "Sconce": "art/models/AutoShop_S/tex/Sconce_Color.png",
+ "Steel": "art/models/AutoShop_S/tex/FireSteel_Color.png",
+ "StorefrontsD": "art/models/AutoShop_S/tex/StorefrontsD_Color.png",
+ "Trim": "art/models/AutoShop_S/tex/MallTrim_Color.png",
+ "Tyre": "art/models/AutoShop_S/tex/Tyre_Color.png"
+}

@@ -3488,5 +3488,30 @@
   "id": 94182178124933,
   "file": "art/models/StripMall/tex/MallTrim_Color.png",
   "state": "Approved"
+ },
+ "5a9e58b59706253b6a80acea7bc9c6839d846c798679f87b93d65721001f94e0": {
+  "id": 140541394140938,
+  "file": "art/models/AutoShop_S/tex/AutoSigns_Color.png",
+  "state": "Approved"
+ },
+ "65803c026eb9242d2e75e0d9a371d03d6ae3dc87d3555ec45692341896de5235": {
+  "id": 100231730274407,
+  "file": "art/models/AutoShop_S/tex/Lift_Color.png",
+  "state": "Approved"
+ },
+ "71b71f923cab2baf3bf3c1c9cba8b46f4f2ebbce862f8da999b640e5d7a88eab": {
+  "id": 136062203408059,
+  "file": "art/models/AutoShop_S/tex/GarageMetal_Color.png",
+  "state": "Approved"
+ },
+ "647cf4623a385a0dbf67ef56b01ed2a8a5a6ca92406825ec662a815436fd44ac": {
+  "id": 118409379741097,
+  "file": "art/models/AutoShop_S/tex/RollDoor_Color.png",
+  "state": "Approved"
+ },
+ "dc4aac2b24d72bbcf9c0b0b6a8817d7f62bd594e74ff87aac1bd689cd3fdb20f": {
+  "id": 137589204839450,
+  "file": "art/models/AutoShop_S/tex/Tyre_Color.png",
+  "state": "Approved"
  }
 }

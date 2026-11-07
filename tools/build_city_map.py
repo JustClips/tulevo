@@ -139,12 +139,16 @@ BUILDINGS += [
     ("PikeBuilding", "BrickBlock_S", (232, 0.6, VAULT_N_LINE - BRICK_HALF_D),
      {"Brick": "Tan", "Storefronts": "B", "ShopSigns": "B"}),
     ("FennBuilding", "BrickBlock", (560, 0.6, VAULT_S_LINE + BRICK_HALF_D), {"Brick": "Brown"}),
+    # behind Crestline Tower, facing Back Street (north sidewalk line z 92)
+    ("OrtegaBuilding", "BrickBlock_S", (245, 0.6, BACK_Z - ROAD_W / 2 - SIDE_W - BRICK_HALF_D), {"Brick": "Tan"}),
     # Blue Comet Diner: 46 x 50 m lot (origin = lot centre, z 0 = lot surface), entrance drive at its west end
     ("BlueCometDiner", "Diner", (413, 0.3, VAULT_S_LINE + 90)),
     # Hotel Solana: 46 x 48 m lot north of Vault Avenue (turned to face it), drives at both ends
     ("HotelSolana", "Hotel_S", (380, 0.3, VAULT_N_LINE - 86.4)),
     # Westgate Plaza strip mall: 76 x 50 m lot south of Back Street, facing it, drives at both ends
     ("WestgatePlaza", "StripMall", (-495, 0.3, BACK_Z + ROAD_W / 2 + SIDE_W + 90)),
+    # Delgado Auto Repair: 40 x 28 m lot behind the Fenn Building, facing Back Street
+    ("DelgadoAuto", "AutoShop_S", (568, 0.3, BACK_Z - ROAD_W / 2 - SIDE_W - 50.4)),
     # Lindell Park + skate park (built in world coordinates, like the street models)
     ("LindellPark", "Park", (0, 0, 0)),
     ("LindellParkProps", "ParkProps", (0, 0, 0)),

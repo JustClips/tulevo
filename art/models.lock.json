@@ -196,8 +196,8 @@
   "sha": "2f3d2cf5a438ef6d7ec26ce4cb26c83baa28c82bed84dcdd43a4a400e426bdde"
  },
  "StreetBackStreet": {
-  "id": 108951161702678,
-  "sha": "632164050b683f5b94a2ef92dd9e2c7bb50d9b5fe27955a5e355d012dc9c89f2"
+  "id": 93973484665106,
+  "sha": "cd71eb5eb22e402f5a206a664317680d34730dc67bf5f701ef8e2b0c59ff7e2a"
  },
  "StreetCorners": {
   "id": 88898703377960,
@@ -246,5 +246,9 @@
  "StripMall": {
   "id": 92123005210365,
   "sha": "2d7dfcffc65884dfa73be89985dafa8623c65bd737e4f15de4d146024408241e"
+ },
+ "AutoShop_S": {
+  "id": 104273959297936,
+  "sha": "12db409ee9787ee23e5a1f7172426537df9cf4adbb7ecb4e60d52c958a16ab5a"
  }
 }

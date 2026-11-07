@@ -1,0 +1,300 @@
+{
+ "name": "AutoShop_S",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Asphalt": {
+   "tris": 12,
+   "min": [
+    -72.0,
+    -50.4,
+    -1.8
+   ],
+   "max": [
+    72.0,
+    50.4,
+    0.0
+   ]
+  },
+  "Pave": {
+   "tris": 152,
+   "min": [
+    -72.0,
+    -50.4,
+    -1.08
+   ],
+   "max": [
+    72.0,
+    50.4,
+    2.16
+   ]
+  },
+  "LotLine": {
+   "tris": 60,
+   "min": [
+    -67.9,
+    5.4,
+    0.0
+   ],
+   "max": [
+    -28.58,
+    25.2,
+    0.04
+   ]
+  },
+  "Tyre": {
+   "tris": 1188,
+   "min": [
+    -67.82,
+    -40.1,
+    0.0
+   ],
+   "max": [
+    66.28,
+    40.82,
+    12.38
+   ]
+  },
+  "Metal": {
+   "tris": 96,
+   "min": [
+    -25.2,
+    -46.8,
+    0.0
+   ],
+   "max": [
+    68.4,
+    3.6,
+    21.6
+   ]
+  },
+  "Roof": {
+   "tris": 24,
+   "min": [
+    -66.6,
+    -46.8,
+    16.56
+   ],
+   "max": [
+    68.4,
+    3.6,
+    22.5
+   ]
+  },
+  "Trim": {
+   "tris": 144,
+   "min": [
+    -66.78,
+    -46.98,
+    0.0
+   ],
+   "max": [
+    68.58,
+    4.03,
+    23.4
+   ]
+  },
+  "RollDoor": {
+   "tris": 100,
+   "min": [
+    -1.8,
+    0.65,
+    0.29
+   ],
+   "max": [
+    62.82,
+    3.24,
+    16.56
+   ]
+  },
+  "Lift": {
+   "tris": 216,
+   "min": [
+    22.5,
+    -24.05,
+    0.29
+   ],
+   "max": [
+    62.1,
+    -16.99,
+    14.22
+   ]
+  },
+  "Chest": {
+   "tris": 24,
+   "min": [
+    22.68,
+    -45.65,
+    0.29
+   ],
+   "max": [
+    50.04,
+    -43.2,
+    4.32
+   ]
+  },
+  "Steel": {
+   "tris": 468,
+   "min": [
+    -70.92,
+    -49.86,
+    0.0
+   ],
+   "max": [
+    70.92,
+    46.8,
+    34.66
+   ]
+  },
+  "Lamp1": {
+   "tris": 12,
+   "min": [
+    53.1,
+    -19.8,
+    21.31
+   ],
+   "max": [
+    54.9,
+    -9.0,
+    21.53
+   ]
+  },
+  "Lamp2": {
+   "tris": 12,
+   "min": [
+    29.7,
+    -19.8,
+    21.31
+   ],
+   "max": [
+    31.5,
+    -9.0,
+    21.53
+   ]
+  },
+  "AutoSigns": {
+   "tris": 8,
+   "min": [
+    -66.78,
+    -10.55,
+    11.52
+   ],
+   "max": [
+    43.56,
+    46.8,
+    32.76
+   ]
+  },
+  "Sconce": {
+   "tris": 36,
+   "min": [
+    13.86,
+    5.67,
+    34.06
+   ],
+   "max": [
+    36.54,
+    6.57,
+    34.34
+   ]
+  },
+  "Brick": {
+   "tris": 48,
+   "min": [
+    -66.6,
+    -46.8,
+    -1.08
+   ],
+   "max": [
+    -25.2,
+    -10.8,
+    16.56
+   ]
+  },
+  "StorefrontsD": {
+   "tris": 2,
+   "min": [
+    -64.8,
+    -11.81,
+    1.08
+   ],
+   "max": [
+    -27.0,
+    -11.81,
+    10.8
+   ]
+  },
+  "Frame": {
+   "tris": 60,
+   "min": [
+    -64.8,
+    -11.84,
+    0.9
+   ],
+   "max": [
+    -27.0,
+    -11.52,
+    11.09
+   ]
+  },
+  "Dark": {
+   "tris": 12,
+   "min": [
+    -66.96,
+    45.43,
+    19.44
+   ],
+   "max": [
+    -48.24,
+    46.73,
+    28.8
+   ]
+  },
+  "Pipe": {
+   "tris": 140,
+   "min": [
+    -24.0,
+    -47.4,
+    0.0
+   ],
+   "max": [
+    -23.52,
+    -46.92,
+    22.32
+   ]
+  }
+ },
+ "lamps": [
+  "Lamp1",
+  "Lamp2"
+ ],
+ "textures": {
+  "Asphalt": "LotAsphalt_Color.png",
+  "Pave": "Plinth_Color.png",
+  "LotLine": "LotLine_Color.png",
+  "Tyre": "Tyre_Color.png",
+  "Metal": "GarageMetal_Color.png",
+  "Roof": "RoofTar_Color.png",
+  "Trim": "MallTrim_Color.png",
+  "RollDoor": "RollDoor_Color.png",
+  "Lift": "Lift_Color.png",
+  "Chest": "HydrantRed_Color.png",
+  "Steel": "FireSteel_Color.png",
+  "Lamp1": "Light_Color.png",
+  "Lamp2": "Light_Color.png",
+  "AutoSigns": "AutoSigns_Color.png",
+  "Sconce": "Sconce_Color.png",
+  "Brick": "KitchenBrick_Color.png",
+  "StorefrontsD": "StorefrontsD_Color.png",
+  "Frame": "Frame_Color.png",
+  "Dark": "Dark_Color.png",
+  "Pipe": "Pipe_Color.png"
+ },
+ "driveways": [
+  [
+   68.4,
+   -25.2,
+   "S"
+  ]
+ ]
+}
