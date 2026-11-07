@@ -5,15 +5,16 @@
 -- Then parts are anchored, kept streamed in so the skyline shows from anywhere, and
 -- named parts get their Roblox look:
 --   Light*     glowing strips -> Neon, no texture
---   Lamp*      canopy lamps -> Neon + a SurfaceLight shining down + a soft light-shaft Beam
+--   Lamp*      canopy lamps -> Neon + a SurfaceLight shining down
 --   ShopLamp   strip over a shop front -> Neon + a SurfaceLight shining down
 --   PriceFace  printed price sign -> a small glow so it reads at night
 --   Neon<Colour> (NeonPink, NeonCyan, NeonRed) coloured neon tubes / beacons + a coloured glow
 --   Sconce     small porch lights -> warm Neon
 --   StreetLamp<n>  street light lenses (art/blender/cityfill) -> Neon + a wide SurfaceLight
---              without shadows (there are ~150 of them) + a faint light shaft at night
+--              without shadows (there are ~150 of them). No light-shaft beams: from a distance
+--              they read as pale slabs floating over the city at night
 --   Signal<EW|NS><Red|Amber|Green>  traffic signal lenses, cycled by Client/TrafficSignals
--- Lamps get brighter and the light shafts show up as the in-game clock goes into night.
+-- Lamps get brighter as the in-game clock goes into night.
 local InsertService = game:GetService("InsertService")
 local Lighting = game:GetService("Lighting")
 local PhysicsService = game:GetService("PhysicsService")
@@ -92,7 +93,7 @@ local DECO = {
 	FridgeDoors = true,
 	Tag = true,
 }
-local lamps = {} -- { light = SurfaceLight, beam = Beam?, day = number, night = number }
+local lamps = {} -- { light = SurfaceLight, day = number, night = number }
 
 local function hasParts(model: Model): boolean
 	return model:FindFirstChildWhichIsA("BasePart", true) ~= nil
@@ -173,34 +174,6 @@ local function downLight(part: BasePart, range: number, day: number, night: numb
 	light.Parent = part
 	table.insert(lamps, { light = light, day = day, night = night })
 	return light
-end
-
--- Light shaft: a camera-facing beam from the lamp to the ground, widening as it falls.
-local function lightShaft(part: BasePart, model: Model)
-	local params = RaycastParams.new()
-	params.FilterDescendantsInstances = { model }
-	params.FilterType = Enum.RaycastFilterType.Exclude
-	local from = part.Position - Vector3.new(0, part.Size.Y / 2 + 0.05, 0)
-	local hit = workspace:Raycast(from, Vector3.new(0, -60, 0), params)
-	local groundY = if hit then hit.Position.Y else from.Y - 18
-	local a0 = Instance.new("Attachment")
-	a0.WorldPosition = from
-	a0.Parent = part
-	local a1 = Instance.new("Attachment")
-	a1.WorldPosition = Vector3.new(from.X, groundY + 0.2, from.Z)
-	a1.Parent = part
-	local beam = Instance.new("Beam")
-	beam.Attachment0, beam.Attachment1 = a0, a1
-	beam.Width0 = math.max(part.Size.X, part.Size.Z)
-	beam.Width1 = beam.Width0 * 2.4
-	beam.FaceCamera = true
-	beam.LightEmission = 1
-	beam.LightInfluence = 0
-	beam.Color = ColorSequence.new(LAMP_COLOR)
-	beam.Transparency = NumberSequence.new(1)
-	beam.Segments = 1
-	beam.Parent = part
-	lamps[#lamps].beam = beam
 end
 
 -- Colour textures uploaded as separate Images (tools/upload_textures.py): the model's
@@ -409,7 +382,6 @@ local function style(model: Model)
 				local light = downLight(d, 34, 0, 2.2)
 				light.Shadows = false
 				light.Angle = 150
-				lightShaft(d, model)
 			elseif d.Name:match("^Signal%u%u%a+$") then
 				-- traffic signal lens: Client/TrafficSignals lights it by phase
 				for _, c in d:GetChildren() do
@@ -425,7 +397,6 @@ local function style(model: Model)
 			elseif d.Name:match("^Lamp%d") then
 				neon(d)
 				downLight(d, 26, 0.6, 3)
-				lightShaft(d, model)
 			elseif d.Name == "ShopLamp" then
 				neon(d)
 				downLight(d, 16, 0.4, 2)
@@ -489,11 +460,5 @@ RunService.Heartbeat:Connect(function()
 	last = n
 	for _, l in lamps do
 		l.light.Brightness = l.day + (l.night - l.day) * n
-		if l.beam then
-			l.beam.Transparency = NumberSequence.new({
-				NumberSequenceKeypoint.new(0, 1 - 0.22 * n),
-				NumberSequenceKeypoint.new(1, 1),
-			})
-		end
 	end
 end)
