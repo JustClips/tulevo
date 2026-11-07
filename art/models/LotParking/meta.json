@@ -1,0 +1,327 @@
+{
+ "name": "LotParking",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Asphalt": {
+   "tris": 24,
+   "min": [
+    369.5,
+    -92.0,
+    -1.2
+   ],
+   "max": [
+    530.4,
+    92.0,
+    0.3
+   ]
+  },
+  "Pave": {
+   "tris": 756,
+   "min": [
+    369.5,
+    -92.0,
+    0.3
+   ],
+   "max": [
+    530.4,
+    92.0,
+    1.9
+   ]
+  },
+  "LotLine": {
+   "tris": 880,
+   "min": [
+    370.5,
+    -86.0,
+    0.3
+   ],
+   "max": [
+    526.6,
+    91.2,
+    0.34
+   ]
+  },
+  "Soil": {
+   "tris": 12,
+   "min": [
+    429.5,
+    67.0,
+    0.3
+   ],
+   "max": [
+    529.4,
+    91.0,
+    0.75
+   ]
+  },
+  "Shrub": {
+   "tris": 280,
+   "min": [
+    431.78,
+    68.72,
+    0.24
+   ],
+   "max": [
+    528.28,
+    80.9,
+    5.31
+   ]
+  },
+  "Dark": {
+   "tris": 308,
+   "min": [
+    369.8,
+    -86.4,
+    0.3
+   ],
+   "max": [
+    503.2,
+    86.4,
+    26.8
+   ]
+  },
+  "Lamp1": {
+   "tris": 12,
+   "min": [
+    374.6,
+    -53.5,
+    26.12
+   ],
+   "max": [
+    376.6,
+    -52.5,
+    26.28
+   ]
+  },
+  "Lamp2": {
+   "tris": 12,
+   "min": [
+    369.4,
+    -53.5,
+    26.12
+   ],
+   "max": [
+    371.4,
+    -52.5,
+    26.28
+   ]
+  },
+  "Lamp3": {
+   "tris": 12,
+   "min": [
+    374.6,
+    0.5,
+    26.12
+   ],
+   "max": [
+    376.6,
+    1.5,
+    26.28
+   ]
+  },
+  "Lamp4": {
+   "tris": 12,
+   "min": [
+    369.4,
+    0.5,
+    26.12
+   ],
+   "max": [
+    371.4,
+    1.5,
+    26.28
+   ]
+  },
+  "Lamp5": {
+   "tris": 12,
+   "min": [
+    374.6,
+    54.5,
+    26.12
+   ],
+   "max": [
+    376.6,
+    55.5,
+    26.28
+   ]
+  },
+  "Lamp6": {
+   "tris": 12,
+   "min": [
+    369.4,
+    54.5,
+    26.12
+   ],
+   "max": [
+    371.4,
+    55.5,
+    26.28
+   ]
+  },
+  "Lamp7": {
+   "tris": 12,
+   "min": [
+    501.6,
+    75.5,
+    26.12
+   ],
+   "max": [
+    503.6,
+    76.5,
+    26.28
+   ]
+  },
+  "Lamp8": {
+   "tris": 12,
+   "min": [
+    496.4,
+    75.5,
+    26.12
+   ],
+   "max": [
+    498.4,
+    76.5,
+    26.28
+   ]
+  },
+  "Lamp9": {
+   "tris": 12,
+   "min": [
+    461.6,
+    75.5,
+    26.12
+   ],
+   "max": [
+    463.6,
+    76.5,
+    26.28
+   ]
+  },
+  "Lamp10": {
+   "tris": 12,
+   "min": [
+    456.4,
+    75.5,
+    26.12
+   ],
+   "max": [
+    458.4,
+    76.5,
+    26.28
+   ]
+  },
+  "AcBody": {
+   "tris": 24,
+   "min": [
+    377.5,
+    -86.35,
+    0.6
+   ],
+   "max": [
+    421.5,
+    86.35,
+    5.5
+   ]
+  },
+  "Yellow": {
+   "tris": 312,
+   "min": [
+    377.48,
+    -86.37,
+    0.8
+   ],
+   "max": [
+    429.33,
+    86.37,
+    5.9
+   ]
+  },
+  "Steel": {
+   "tris": 56,
+   "min": [
+    374.35,
+    -86.15,
+    0.3
+   ],
+   "max": [
+    424.65,
+    86.15,
+    10.3
+   ]
+  },
+  "LotSigns": {
+   "tris": 8,
+   "min": [
+    372.3,
+    -86.08,
+    6.3
+   ],
+   "max": [
+    426.7,
+    86.08,
+    10.7
+   ]
+  },
+  "Bin": {
+   "tris": 132,
+   "min": [
+    371.5,
+    -87.0,
+    0.3
+   ],
+   "max": [
+    471.0,
+    81.0,
+    3.5
+   ]
+  }
+ },
+ "lamps": [
+  "Lamp1",
+  "Lamp2",
+  "Lamp3",
+  "Lamp4",
+  "Lamp5",
+  "Lamp6",
+  "Lamp7",
+  "Lamp8",
+  "Lamp9",
+  "Lamp10"
+ ],
+ "textures": {
+  "Asphalt": "LotAsphalt_Color.png",
+  "Pave": "Plinth_Color.png",
+  "LotLine": "LotLine_Color.png",
+  "Soil": "Soil_Color.png",
+  "Shrub": "Shrub_Color.png",
+  "Dark": "Dark_Color.png",
+  "Lamp1": "Light_Color.png",
+  "Lamp2": "Light_Color.png",
+  "Lamp3": "Light_Color.png",
+  "Lamp4": "Light_Color.png",
+  "Lamp5": "Light_Color.png",
+  "Lamp6": "Light_Color.png",
+  "Lamp7": "Light_Color.png",
+  "Lamp8": "Light_Color.png",
+  "Lamp9": "Light_Color.png",
+  "Lamp10": "Light_Color.png",
+  "AcBody": "HvacGrey_Color.png",
+  "Yellow": "Yellow_Color.png",
+  "Steel": "Steel_Color.png",
+  "LotSigns": "LotSigns_Color.png",
+  "Bin": "BinGreen_Color.png"
+ },
+ "driveways": [
+  [
+   418.0,
+   381.0,
+   "N"
+  ],
+  [
+   418.0,
+   381.0,
+   "S"
+  ]
+ ]
+}

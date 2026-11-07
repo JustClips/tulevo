@@ -82,7 +82,8 @@ def building_clears():
             for d in meta.get("driveways", []):
                 # d = [blender x0, x1, "road side" N|S|E|W of the model]; Roblox x = at.x - blender x
                 x0, x1 = sorted((x - d[0], x - d[1]))
-                road = nearest_ew(z)
+                # the drive is on the street on that side of the lot (a lot through the block has both)
+                road = nearest_ew(z + (90 if d[2] == "S" else -90))
                 out.append((road, side_of(road, x, z), x0 - 3, x1 + 3))
     return out
 

@@ -113,6 +113,8 @@ K.mat("Light", color=(1.0, 0.95, 0.85), emit=4.0)
 K.mat("FxPool", sheet="FxPool", explicit=True, rough=0.05)
 K.mat("FxFall", sheet="FxFall", explicit=True, alpha=True, rough=0.05)
 K.mat("FxRipple", sheet="FxRipple", explicit=True, alpha=True, rough=0.05)
+K.mat("PoolWater", color=(0.09, 0.33, 0.42), rough=0.08)                   # solid water body under the caustics
+K.mat("FxJet", sheet="FxFall", explicit=True, alpha=True, rough=0.05)
 K.mat("Steel", color=(0.62, 0.63, 0.64), rough=0.3, metal=1.0)
 
 # ---------------------------------------------------------------- ground, edge wall, fence
@@ -180,10 +182,10 @@ sign(107, V1 - 5.95, 21.4, 4.8, 4.5, (0, 0, 1, 0.498))
 # ---------------------------------------------------------------- paths + fountain plaza (park half, u < 0)
 FX, FV = -90.0, 5.0
 # walks: herringbone pavers 0.12 proud of the lawn; the plaza sits higher again (no shared tops)
-B("Pavers", -95, -85, 30, V1 - 0.6, 0, 0.12)                                           # entrance walk to the plaza
+B("Pavers", -98.2, -81.8, 30, V1, 0, 0.12)                                             # entrance walk: full gate width, up to the sidewalk
 B("Pavers", U0 + 2, -52, FV - 5, FV + 5, 0, 0.12)                                       # east-west promenade
 B("Pavers", -52, 6.0, FV - 5, FV + 5, 0, 0.12)                                        # (stops at the skate pad)
-B("Pavers", 70, 92, 108.0, V1 - 0.6, 0, 0.12)                                           # skate park entrance walk
+B("Pavers", 71.8, 90.2, 108.0, V1, 0, 0.12)                                           # skate park entrance walk
 B("Pavers", -95, -85, V0 + 2, -30, 0, 0.12)                                             # north walk
 C("Plinth", FX, FV, 0.06, 38.6, 0.28, segs=48)                                          # plaza kerb ring (top 0.20)
 C("PlazaStone", FX, FV, 0.13, 37.8, 0.26, segs=48)                                      # plaza slabs (top 0.26)
@@ -191,16 +193,20 @@ C("PlazaStone", FX, FV, 0.13, 37.8, 0.26, segs=48)                              
 C("FountainStone", FX, FV, 0.45, 16.0, 0.7, segs=40)                                   # basin floor
 ring("FountainStone", FX, FV, 0.1, 2.5, 15.6, 17.0, segs=40)                            # basin wall
 ring("FountainStone", FX, FV, 2.5, 3.0, 15.3, 17.6, segs=40)                            # sitting cap
-disc("FxPool", FX, FV, 15.62, 2.0, segs=40, scale=10.0)                                 # basin water
+C("PoolWater", FX, FV, 1.7, 15.62, 0.5, segs=40)                                       # basin water body (top 1.95)
+disc("FxPool", FX, FV, 15.62, 2.0, segs=40, scale=10.0)                                 # basin water surface
 C("FountainStone", FX, FV, 4.2, 2.2, 4.6, segs=20)
 C("FountainStone", FX, FV, 6.2, 7.0, 0.7, segs=32, r2=4.2)
-disc("FxPool", FX, FV, 6.5, 6.6, segs=32, scale=5.0)
+C("PoolWater", FX, FV, 6.58, 6.45, 0.04, segs=32)
+disc("FxPool", FX, FV, 6.5, 6.64, segs=32, scale=5.0)
 C("FountainStone", FX, FV, 8.2, 1.3, 3.4, segs=16)
 C("FountainStone", FX, FV, 9.9, 3.6, 0.55, segs=24, r2=2.0)
-disc("FxPool", FX, FV, 3.3, 10.22, segs=24, scale=3.0)
+C("PoolWater", FX, FV, 10.2, 3.25, 0.04, segs=24)
+disc("FxPool", FX, FV, 3.3, 10.26, segs=24, scale=3.0)
 sheet_rev("FxFall", FX, FV, 7.05, 6.6, 7.7, 2.02, segs=40, urep=12, vrep=2.0)            # curtain off the big bowl
 sheet_rev("FxFall", FX, FV, 3.65, 10.22, 4.1, 6.62, segs=24, urep=7, vrep=1.6)           # off the top bowl
-sheet_rev("FxFall", FX, FV, 0.12, 13.4, 0.05, 10.22, segs=8, urep=1, vrep=1.0)           # jet
+sheet_rev("FxJet", FX, FV, 0.15, 16.5, 0.55, 10.22, segs=12, urep=2, vrep=2.0)           # centre jet
+sheet_rev("FxJet", FX, FV, 0.9, 16.2, 0.25, 16.5, segs=12, urep=2, vrep=0.4)            # its crown
 sheet_rev("FxRipple", FX, FV, 7.6, 2.04, 10.5, 2.04, segs=40, urep=10, vrep=1.0, both=False)
 sheet_rev("FxRipple", FX, FV, 4.0, 6.64, 5.6, 6.64, segs=24, urep=6, vrep=1.0, both=False)
 
@@ -265,7 +271,7 @@ for (u, v) in ((-40, 60), (-52, 90), (-150, -50), (-120, -80), (-40, -70)):
         B("IronBlack", u + du - 0.1, u + du + 0.1, v - 3.2, v + 3.2, 1.35, 1.5)
 
 # ---------------------------------------------------------------- park lamps along the walks
-LAMPS = [(-100, 110), (-80, 70), (-100, 40), (-140, 13), (-50, 13), (-10, -3), (40, 13), (66, 40), (96, 100), (-80, -60),
+LAMPS = [(-102, 110), (-78, 70), (-102, 40), (-140, 13), (-50, 13), (-10, -3), (96, 118), (-80, -60),
          (-100, -110)]
 for (u, v) in LAMPS:
     C("IronBlack", u, v, 0.5, 0.7, 1.0, segs=10, r2=0.5)
@@ -413,10 +419,10 @@ for k in range(8):
         continue
     u, v = FX + math.cos(a) * 33, FV + math.sin(a) * 33
     props.append(prop("Bench", u, v, -math.cos(a), -math.sin(a), seed=k))
-for (u, v, fu, fv) in ((-80, 50, -1, 0), (-80, 95, -1, 0), (-100, 120, 1, 0), (-120, 0, 0, 1), (-40, 0, 0, 1), (20, 0, 0, 1),
-                       (75, 60, 1, 0), (-100, -60, 1, 0)):
+for (u, v, fu, fv) in ((-78, 50, -1, 0), (-78, 95, -1, 0), (-102, 120, 1, 0), (-120, 0, 0, 1), (-40, 0, 0, 1),
+                       (-100, -60, 1, 0)):                                       # none on the skate pad (u 6..160)
     props.append(prop("Bench", u, v, fu, fv))
-for (u, v) in ((-104, V1 - 8), (66, V1 - 8), (-78, 30), (-20, -8), (96, 30), (-105, -40)):
+for (u, v) in ((-104, V1 - 8), (66, V1 - 8), (-78, 30), (-20, -8), (-105, -40)):
     props.append(prop("Bin", u, v, 0, 1))
 S.build(props)
 

@@ -43,7 +43,7 @@
    ]
   },
   "IronBlack": {
-   "tris": 2220,
+   "tris": 1980,
    "min": [
     344.5,
     -423.3,
@@ -110,13 +110,13 @@
   "Pavers": {
    "tris": 72,
    "min": [
-    371.0,
+    372.8,
     -444.0,
     0.3
    ],
    "max": [
     638.0,
-    -172.6,
+    -172.0,
     0.42
    ]
   },
@@ -146,6 +146,19 @@
     10.47
    ]
   },
+  "PoolWater": {
+   "tris": 372,
+   "min": [
+    537.38,
+    -322.62,
+    1.75
+   ],
+   "max": [
+    568.62,
+    -291.38,
+    10.52
+   ]
+  },
   "FxPool": {
    "tris": 96,
    "min": [
@@ -156,11 +169,11 @@
    "max": [
     568.62,
     -291.38,
-    10.52
+    10.56
    ]
   },
   "FxFall": {
-   "tris": 288,
+   "tris": 256,
    "min": [
     545.3,
     -314.7,
@@ -169,7 +182,20 @@
    "max": [
     560.7,
     -299.3,
-    13.7
+    10.52
+   ]
+  },
+  "FxJet": {
+   "tris": 96,
+   "min": [
+    552.1,
+    -307.9,
+    10.52
+   ],
+   "max": [
+    553.9,
+    -306.1,
+    16.8
    ]
   },
   "FxRipple": {
@@ -264,7 +290,7 @@
    ]
   },
   "LightLantern": {
-   "tris": 308,
+   "tris": 252,
    "min": [
     366.05,
     -422.95,
@@ -272,19 +298,19 @@
    ],
    "max": [
     603.95,
-    -201.05,
+    -193.05,
     15.45
    ]
   },
   "Lamp1": {
    "tris": 12,
    "min": [
-    562.5,
+    564.5,
     -202.5,
     13.2
    ],
    "max": [
-    563.5,
+    565.5,
     -201.5,
     13.3
    ]
@@ -292,12 +318,12 @@
   "Lamp2": {
    "tris": 12,
    "min": [
-    542.5,
+    540.5,
     -242.5,
     13.2
    ],
    "max": [
-    543.5,
+    541.5,
     -241.5,
     13.3
    ]
@@ -305,12 +331,12 @@
   "Lamp3": {
    "tris": 12,
    "min": [
-    562.5,
+    564.5,
     -272.5,
     13.2
    ],
    "max": [
-    563.5,
+    565.5,
     -271.5,
     13.3
    ]
@@ -357,43 +383,17 @@
   "Lamp7": {
    "tris": 12,
    "min": [
-    422.5,
-    -299.5,
-    13.2
-   ],
-   "max": [
-    423.5,
-    -298.5,
-    13.3
-   ]
-  },
-  "Lamp8": {
-   "tris": 12,
-   "min": [
-    396.5,
-    -272.5,
-    13.2
-   ],
-   "max": [
-    397.5,
-    -271.5,
-    13.3
-   ]
-  },
-  "Lamp9": {
-   "tris": 12,
-   "min": [
     366.5,
-    -212.5,
+    -194.5,
     13.2
    ],
    "max": [
     367.5,
-    -211.5,
+    -193.5,
     13.3
    ]
   },
-  "Lamp10": {
+  "Lamp8": {
    "tris": 12,
    "min": [
     542.5,
@@ -406,7 +406,7 @@
     13.3
    ]
   },
-  "Lamp11": {
+  "Lamp9": {
    "tris": 12,
    "min": [
     562.5,
@@ -432,7 +432,7 @@
     11.42
    ]
   },
-  "Lamp12": {
+  "Lamp10": {
    "tris": 12,
    "min": [
     455.6,
@@ -445,7 +445,7 @@
     21.88
    ]
   },
-  "Lamp13": {
+  "Lamp11": {
    "tris": 12,
    "min": [
     452.8,
@@ -458,7 +458,7 @@
     21.88
    ]
   },
-  "Lamp14": {
+  "Lamp12": {
    "tris": 12,
    "min": [
     305.6,
@@ -471,7 +471,7 @@
     21.88
    ]
   },
-  "Lamp15": {
+  "Lamp13": {
    "tris": 12,
    "min": [
     302.8,
@@ -484,7 +484,7 @@
     21.88
    ]
   },
-  "Lamp16": {
+  "Lamp14": {
    "tris": 12,
    "min": [
     455.6,
@@ -497,7 +497,7 @@
     21.88
    ]
   },
-  "Lamp17": {
+  "Lamp15": {
    "tris": 12,
    "min": [
     452.8,
@@ -510,7 +510,7 @@
     21.88
    ]
   },
-  "Lamp18": {
+  "Lamp16": {
    "tris": 12,
    "min": [
     305.6,
@@ -523,7 +523,7 @@
     21.88
    ]
   },
-  "Lamp19": {
+  "Lamp17": {
    "tris": 12,
    "min": [
     302.8,
@@ -554,9 +554,7 @@
   "Lamp14",
   "Lamp15",
   "Lamp16",
-  "Lamp17",
-  "Lamp18",
-  "Lamp19"
+  "Lamp17"
  ],
  "textures": {
   "Lawn": "ParkLawn_Color.png",
@@ -570,8 +568,10 @@
   "Pavers": "ParkPavers_Color.png",
   "PlazaStone": "PlazaStone_Color.png",
   "FountainStone": "FountainStone_Color.png",
+  "PoolWater": "PoolWater_Color.png",
   "FxPool": "FxPool_Color.png",
   "FxFall": "FxFall_Color.png",
+  "FxJet": "FxFall_Color.png",
   "FxRipple": "FxRipple_Color.png",
   "MatBark": "ParkMulch_Color.png",
   "PlayBlue": "PlayBlue_Color.png",
@@ -589,16 +589,14 @@
   "Lamp7": "Light_Color.png",
   "Lamp8": "Light_Color.png",
   "Lamp9": "Light_Color.png",
+  "SkateConcrete": "SkateCrete_Color.png",
   "Lamp10": "Light_Color.png",
   "Lamp11": "Light_Color.png",
-  "SkateConcrete": "SkateCrete_Color.png",
   "Lamp12": "Light_Color.png",
   "Lamp13": "Light_Color.png",
   "Lamp14": "Light_Color.png",
   "Lamp15": "Light_Color.png",
   "Lamp16": "Light_Color.png",
-  "Lamp17": "Light_Color.png",
-  "Lamp18": "Light_Color.png",
-  "Lamp19": "Light_Color.png"
+  "Lamp17": "Light_Color.png"
  }
 }

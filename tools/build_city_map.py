@@ -155,6 +155,10 @@ BUILDINGS += [
     # Lindell Park + skate park (built in world coordinates, like the street models)
     ("LindellPark", "Park", (0, 0, 0)),
     ("LindellParkProps", "ParkProps", (0, 0, 0)),
+    # Sundial Fuel on the lot west of Ironwood Arms (through the block, Vault Ave to Back St) and the
+    # public parking lot east of and behind the gun shop (world coordinates)
+    ("SundialFuel", "FuelStation", (-585.04, 0.3, 0)),
+    ("IronwoodParking", "LotParking", (0, 0, 0)),
     # trees on the grass west of the city (art/blender/cityfill/build_outskirts.py, world coordinates)
     ("WestTreesN", "WestTreesN", (0, 0, 0)),
     ("WestTreesN2", "WestTreesN2", (0, 0, 0)),

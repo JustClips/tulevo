@@ -4,45 +4,32 @@
  "scale": 1,
  "parts": {
   "Plinth": {
-   "tris": 276,
+   "tris": 264,
    "min": [
     -628.99,
     106.72,
     0.56
    ],
    "max": [
-    628.99,
+    588.19,
     157.28,
     1.19
    ]
   },
   "Pole": {
-   "tris": 10128,
+   "tris": 9656,
    "min": [
     -628.72,
     97.44,
     0.6
    ],
    "max": [
-    628.72,
+    587.92,
     166.56,
     33.43
    ]
   },
   "StreetLamp1": {
-   "tris": 12,
-   "min": [
-    627.53,
-    116.37,
-    32.46
-   ],
-   "max": [
-    628.47,
-    118.38,
-    32.6
-   ]
-  },
-  "StreetLamp2": {
    "tris": 12,
    "min": [
     539.93,
@@ -55,7 +42,7 @@
     32.6
    ]
   },
-  "StreetLamp3": {
+  "StreetLamp2": {
    "tris": 12,
    "min": [
     446.33,
@@ -68,7 +55,7 @@
     32.6
    ]
   },
-  "StreetLamp4": {
+  "StreetLamp3": {
    "tris": 12,
    "min": [
     352.73,
@@ -81,7 +68,7 @@
     32.6
    ]
   },
-  "StreetLamp5": {
+  "StreetLamp4": {
    "tris": 12,
    "min": [
     259.13,
@@ -94,7 +81,7 @@
     32.6
    ]
   },
-  "StreetLamp6": {
+  "StreetLamp5": {
    "tris": 12,
    "min": [
     171.53,
@@ -115,7 +102,7 @@
     0.6
    ],
    "max": [
-    620.72,
+    590.72,
     156.81,
     3.01
    ]
@@ -128,78 +115,78 @@
     0.8
    ],
    "max": [
-    620.86,
+    590.86,
     156.7,
     3.62
    ]
   },
   "Grate": {
-   "tris": 26,
+   "tris": 22,
    "min": [
     -542.74,
     104.86,
     0.63
    ],
    "max": [
-    586.54,
+    542.74,
     159.14,
     0.63
    ]
   },
   "Iron": {
-   "tris": 2268,
+   "tris": 2136,
    "min": [
     -611.96,
     98.66,
     0.59
    ],
    "max": [
-    586.65,
+    581.96,
     165.34,
     5.71
    ]
   },
   "Bark": {
-   "tris": 2600,
+   "tris": 2200,
    "min": [
-    -547.01,
-    100.46,
+    -546.05,
+    100.45,
     0.6
    ],
    "max": [
-    591.02,
-    163.46,
+    546.3,
+    163.33,
     18.51
    ]
   },
   "Leaf": {
    "tris": 640,
    "min": [
-    -316.31,
+    -407.5,
     98.99,
-    11.53
+    11.0
    ],
    "max": [
-    592.36,
-    115.09,
+    547.13,
+    163.3,
     26.15
    ]
   },
   "LeafCard": {
    "tris": 1920,
    "min": [
-    -321.63,
+    -413.11,
     94.17,
     11.5
    ],
    "max": [
-    596.86,
-    120.52,
-    30.69
+    552.63,
+    168.65,
+    30.02
    ]
   },
   "Bin": {
-   "tris": 8568,
+   "tris": 7344,
    "min": [
     -621.22,
     106.58,
@@ -212,7 +199,7 @@
    ]
   },
   "BinLiner": {
-   "tris": 616,
+   "tris": 528,
    "min": [
     -620.94,
     106.86,
@@ -225,7 +212,7 @@
    ]
   },
   "DecoPrint": {
-   "tris": 358,
+   "tris": 322,
    "min": [
     -620.76,
     98.52,
@@ -237,41 +224,28 @@
     10.72
    ]
   },
-  "MetalNewsA": {
-   "tris": 120,
-   "min": [
-    -612.0,
-    107.04,
-    2.04
-   ],
-   "max": [
-    578.92,
-    156.96,
-    4.63
-   ]
-  },
-  "MetalNewsB": {
-   "tris": 96,
-   "min": [
-    -52.0,
-    107.04,
-    2.04
-   ],
-   "max": [
-    580.97,
-    156.96,
-    4.63
-   ]
-  },
   "MetalNewsR": {
-   "tris": 120,
+   "tris": 96,
    "min": [
     -609.95,
     107.04,
     2.04
    ],
    "max": [
-    583.02,
+    579.95,
+    156.96,
+    4.63
+   ]
+  },
+  "MetalNewsA": {
+   "tris": 144,
+   "min": [
+    -612.0,
+    107.04,
+    2.04
+   ],
+   "max": [
+    582.0,
     156.96,
     4.63
    ]
@@ -290,7 +264,7 @@
    ]
   },
   "PoleGalv": {
-   "tris": 2448,
+   "tris": 2392,
    "min": [
     -604.16,
     106.65,
@@ -303,7 +277,7 @@
    ]
   },
   "MetalMeter": {
-   "tris": 1632,
+   "tris": 1584,
    "min": [
     -418.36,
     107.84,
@@ -323,12 +297,12 @@
     0.6
    ],
    "max": [
-    407.99,
+    428.99,
     157.1,
     5.03
    ]
   },
-  "StreetLamp7": {
+  "StreetLamp6": {
    "tris": 12,
    "min": [
     67.53,
@@ -341,7 +315,7 @@
     32.6
    ]
   },
-  "StreetLamp8": {
+  "StreetLamp7": {
    "tris": 12,
    "min": [
     -68.47,
@@ -352,6 +326,19 @@
     -67.53,
     118.38,
     32.6
+   ]
+  },
+  "MetalNewsB": {
+   "tris": 72,
+   "min": [
+    -189.95,
+    107.04,
+    2.04
+   ],
+   "max": [
+    49.95,
+    156.96,
+    4.63
    ]
   },
   "ClearGlassBus": {
@@ -393,7 +380,7 @@
     10.03
    ]
   },
-  "StreetLamp9": {
+  "StreetLamp8": {
    "tris": 12,
    "min": [
     -172.47,
@@ -406,7 +393,7 @@
     32.6
    ]
   },
-  "StreetLamp10": {
+  "StreetLamp9": {
    "tris": 12,
    "min": [
     -266.07,
@@ -419,7 +406,7 @@
     32.6
    ]
   },
-  "StreetLamp11": {
+  "StreetLamp10": {
    "tris": 12,
    "min": [
     -353.67,
@@ -432,7 +419,7 @@
     32.6
    ]
   },
-  "StreetLamp12": {
+  "StreetLamp11": {
    "tris": 12,
    "min": [
     -447.27,
@@ -445,7 +432,7 @@
     32.6
    ]
   },
-  "StreetLamp13": {
+  "StreetLamp12": {
    "tris": 12,
    "min": [
     -628.47,
@@ -456,32 +443,6 @@
     -627.53,
     118.38,
     32.6
-   ]
-  },
-  "LeafB": {
-   "tris": 400,
-   "min": [
-    -547.9,
-    100.85,
-    11.84
-   ],
-   "max": [
-    547.0,
-    165.22,
-    25.89
-   ]
-  },
-  "LeafCardB": {
-   "tris": 1200,
-   "min": [
-    -552.1,
-    95.44,
-    11.85
-   ],
-   "max": [
-    551.99,
-    169.62,
-    29.12
    ]
   },
   "MetalCab": {
@@ -497,7 +458,7 @@
     6.07
    ]
   },
-  "StreetLamp14": {
+  "StreetLamp13": {
    "tris": 12,
    "min": [
     586.73,
@@ -510,7 +471,7 @@
     32.6
    ]
   },
-  "StreetLamp15": {
+  "StreetLamp14": {
    "tris": 12,
    "min": [
     493.13,
@@ -523,7 +484,7 @@
     32.6
    ]
   },
-  "StreetLamp16": {
+  "StreetLamp15": {
    "tris": 12,
    "min": [
     399.53,
@@ -536,7 +497,33 @@
     32.6
    ]
   },
-  "StreetLamp17": {
+  "LeafB": {
+   "tris": 240,
+   "min": [
+    -547.24,
+    149.96,
+    11.87
+   ],
+   "max": [
+    453.8,
+    164.95,
+    23.14
+   ]
+  },
+  "LeafCardB": {
+   "tris": 720,
+   "min": [
+    -551.37,
+    144.03,
+    11.85
+   ],
+   "max": [
+    458.05,
+    169.33,
+    27.73
+   ]
+  },
+  "StreetLamp16": {
    "tris": 12,
    "min": [
     -0.47,
@@ -549,7 +536,7 @@
     32.6
    ]
   },
-  "StreetLamp18": {
+  "StreetLamp17": {
    "tris": 12,
    "min": [
     -213.27,
@@ -562,7 +549,7 @@
     32.6
    ]
   },
-  "StreetLamp19": {
+  "StreetLamp18": {
    "tris": 12,
    "min": [
     -306.87,
@@ -575,7 +562,7 @@
     32.6
    ]
   },
-  "StreetLamp20": {
+  "StreetLamp19": {
    "tris": 12,
    "min": [
     -494.07,
@@ -588,7 +575,7 @@
     32.6
    ]
   },
-  "StreetLamp21": {
+  "StreetLamp20": {
    "tris": 12,
    "min": [
     -587.67,
@@ -622,8 +609,7 @@
   "StreetLamp17",
   "StreetLamp18",
   "StreetLamp19",
-  "StreetLamp20",
-  "StreetLamp21"
+  "StreetLamp20"
  ],
  "textures": {
   "Plinth": "Plinth_Color.png",
@@ -633,7 +619,6 @@
   "StreetLamp3": "Light_Color.png",
   "StreetLamp4": "Light_Color.png",
   "StreetLamp5": "Light_Color.png",
-  "StreetLamp6": "Light_Color.png",
   "MetalRed": "HydrantRed_Color.png",
   "MetalYellow": "SafetyYellow_Color.png",
   "Grate": "Grate_Color.png",
@@ -644,57 +629,37 @@
   "Bin": "BinGreen_Color.png",
   "BinLiner": "IronBlack_Color.png",
   "DecoPrint": "DecoPrint_Color.png",
-  "MetalNewsA": "NewsAmber_Color.png",
-  "MetalNewsB": "NewsBlue_Color.png",
   "MetalNewsR": "NewsRed_Color.png",
+  "MetalNewsA": "NewsAmber_Color.png",
   "Bench": "BenchWood_Color.png",
   "PoleGalv": "PoleGalv_Color.png",
   "MetalMeter": "SignalBody_Color.png",
   "Mailbox": "MailBlue_Color.png",
+  "StreetLamp6": "Light_Color.png",
   "StreetLamp7": "Light_Color.png",
-  "StreetLamp8": "Light_Color.png",
+  "MetalNewsB": "NewsBlue_Color.png",
   "ClearGlassBus": "ShelterGlass_Color.png",
   "MetalAdFrame": "SignalBody_Color.png",
   "ClearGlassBusRoof": "ShelterGlass_Color.png",
+  "StreetLamp8": "Light_Color.png",
   "StreetLamp9": "Light_Color.png",
   "StreetLamp10": "Light_Color.png",
   "StreetLamp11": "Light_Color.png",
   "StreetLamp12": "Light_Color.png",
-  "StreetLamp13": "Light_Color.png",
-  "LeafB": "Leaves_Color.png",
-  "LeafCardB": "LeafCard_Color.png",
   "MetalCab": "CabGrey_Color.png",
+  "StreetLamp13": "Light_Color.png",
   "StreetLamp14": "Light_Color.png",
   "StreetLamp15": "Light_Color.png",
+  "LeafB": "Leaves_Color.png",
+  "LeafCardB": "LeafCard_Color.png",
   "StreetLamp16": "Light_Color.png",
   "StreetLamp17": "Light_Color.png",
   "StreetLamp18": "Light_Color.png",
   "StreetLamp19": "Light_Color.png",
-  "StreetLamp20": "Light_Color.png",
-  "StreetLamp21": "Light_Color.png"
+  "StreetLamp20": "Light_Color.png"
  },
  "collider_boxes": [
   [
-   628.0,
-   107.8,
-   1.896,
-   1.8,
-   1.8,
-   2.592,
-   3.14159,
-   "Metal"
-  ],
-  [
-   628.0,
-   107.8,
-   17.376,
-   0.792,
-   0.792,
-   28.368,
-   3.14159,
-   "Metal"
-  ],
-  [
    540.4,
    107.8,
    1.896,
@@ -795,7 +760,7 @@
    "Metal"
   ],
   [
-   620.0,
+   590.0,
    107.8,
    2.112,
    1.296,
@@ -805,7 +770,17 @@
    "Metal"
   ],
   [
-   584.2,
+   493.6,
+   107.2,
+   4.472,
+   1.224,
+   1.224,
+   7.743,
+   3.14159,
+   "Wood"
+  ],
+  [
+   306.4,
    107.2,
    4.541,
    1.224,
@@ -815,7 +790,7 @@
    "Wood"
   ],
   [
-   493.6,
+   215.8,
    107.2,
    4.749,
    1.224,
@@ -823,46 +798,6 @@
    8.298,
    3.14159,
    "Wood"
-  ],
-  [
-   400.0,
-   107.2,
-   5.207,
-   1.224,
-   1.224,
-   9.213,
-   3.14159,
-   "Wood"
-  ],
-  [
-   306.4,
-   107.2,
-   5.049,
-   1.224,
-   1.224,
-   8.898,
-   3.14159,
-   "Wood"
-  ],
-  [
-   215.8,
-   107.2,
-   4.381,
-   1.224,
-   1.224,
-   7.562,
-   3.14159,
-   "Wood"
-  ],
-  [
-   615.0,
-   107.8,
-   2.58,
-   2.376,
-   2.376,
-   3.96,
-   3.14159,
-   "Metal"
   ],
   [
    180.0,
@@ -875,20 +810,10 @@
    "Metal"
   ],
   [
-   390.0,
-   107.8,
-   2.58,
-   2.376,
-   2.376,
-   3.96,
-   3.14159,
-   "Metal"
-  ],
-  [
    190.0,
    107.8,
    2.616,
-   6.156,
+   4.104,
    1.656,
    4.032,
    0.0,
@@ -933,16 +858,6 @@
    1.296,
    3.14159,
    "Wood"
-  ],
-  [
-   382.0,
-   108.2,
-   3.3,
-   0.504,
-   0.504,
-   5.4,
-   3.14159,
-   "Metal"
   ],
   [
    360.0,
@@ -1035,7 +950,7 @@
    "Metal"
   ],
   [
-   407.0,
+   428.0,
    107.8,
    2.832,
    1.98,
@@ -1107,10 +1022,10 @@
   [
    0.0,
    107.2,
-   5.27,
+   4.381,
    1.224,
    1.224,
-   9.34,
+   7.562,
    3.14159,
    "Wood"
   ],
@@ -1148,7 +1063,7 @@
    -50.0,
    107.8,
    2.616,
-   4.104,
+   6.156,
    1.656,
    4.032,
    0.0,
@@ -1407,30 +1322,30 @@
   [
    -218.8,
    107.2,
-   5.08,
+   5.27,
    1.224,
    1.224,
-   8.959,
+   9.34,
    3.14159,
    "Wood"
   ],
   [
    -309.4,
    107.2,
-   4.265,
+   4.864,
    1.224,
    1.224,
-   7.329,
+   8.527,
    3.14159,
    "Wood"
   ],
   [
    -400.0,
    107.2,
-   4.902,
+   4.351,
    1.224,
    1.224,
-   8.604,
+   7.501,
    3.14159,
    "Wood"
   ],
@@ -1737,20 +1652,20 @@
   [
    540.4,
    156.8,
-   5.142,
+   4.265,
    1.224,
    1.224,
-   9.084,
+   7.329,
    0.0,
    "Wood"
   ],
   [
    446.8,
    156.8,
-   5.104,
+   4.902,
    1.224,
    1.224,
-   9.008,
+   8.604,
    0.0,
    "Wood"
   ],
@@ -1768,7 +1683,7 @@
    580.0,
    156.2,
    2.616,
-   6.156,
+   4.104,
    1.656,
    4.032,
    3.14159,
@@ -2067,20 +1982,20 @@
   [
    -259.6,
    156.8,
-   5.247,
+   4.567,
    1.224,
    1.224,
-   9.294,
+   7.935,
    0.0,
    "Wood"
   ],
   [
    -540.4,
    156.8,
-   5.03,
+   5.091,
    1.224,
    1.224,
-   8.86,
+   8.981,
    0.0,
    "Wood"
   ],

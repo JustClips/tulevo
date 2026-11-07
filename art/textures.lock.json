@@ -3583,5 +3583,55 @@
   "id": 86246615574970,
   "file": "art/models/Park/tex/ParkWall_Color.png",
   "state": "Approved"
+ },
+ "afbb4309b40e8a754be1dc6b12b461a0e053ae94cbf598367307ae91dabe03b8": {
+  "id": 124069885456381,
+  "file": "art/models/FuelStation/tex/FuelWhite_Color.png",
+  "state": "Approved"
+ },
+ "67171382f130e959927e66caaf2785764faf09b0f029470d2635dde9a6c246b8": {
+  "id": 101344376526968,
+  "file": "art/models/FuelStation/tex/Chrome_Color.png",
+  "state": "Approved"
+ },
+ "537a43da03aeab94a0cce35a29219f432d52eae44b4632af30480cb342240c26": {
+  "id": 107367288591555,
+  "file": "art/models/FuelStation/tex/FuelSigns_Color.png",
+  "state": "Approved"
+ },
+ "732ca53047d6625450befdea824128c633c6907e26d3ab6328ea78fc297adc31": {
+  "id": 83942162735231,
+  "file": "art/models/FuelStation/tex/Hose_Color.png",
+  "state": "Approved"
+ },
+ "94a006e36a10362bd921f8880846c8be4812ffa3ddde085ccfc04631b3de857f": {
+  "id": 82422861575034,
+  "file": "art/models/FuelStation/tex/MartInterior_Color.png",
+  "state": "Approved"
+ },
+ "17428e0940687a3fdb8638c5e885ae5cf9a47675ff7b57762d782e6477a95a1b": {
+  "id": 77894066294898,
+  "file": "art/models/FuelStation/tex/FuelOrange_Color.png",
+  "state": "Approved"
+ },
+ "ed82e0cbb9d732b9f6d3543a6607c2b4fda5d4ca012b4df51c4999e7612321cf": {
+  "id": 116776719918367,
+  "file": "art/models/FuelStation/tex/PumpRed_Color.png",
+  "state": "Approved"
+ },
+ "be43521b0b1997f634d998b12d4d3f64acf89372dc19a511ec8cecd60cd8eba9": {
+  "id": 101006346108299,
+  "file": "art/models/FuelStation/tex/FuelStucco_Color.png",
+  "state": "Approved"
+ },
+ "4afdbeaa902fde41c93e67dba41bcf35b2429b20d633b2cd7ba080e986ec2c0b": {
+  "id": 85149160180106,
+  "file": "art/models/LotParking/tex/LotSigns_Color.png",
+  "state": "Approved"
+ },
+ "90c1f3b3ea97c4143c26f19e288dc18b4147f9554bbf62c3933d21ec584cf7df": {
+  "id": 134401985287008,
+  "file": "art/models/Park/tex/PoolWater_Color.png",
+  "state": "Approved"
  }
 }
