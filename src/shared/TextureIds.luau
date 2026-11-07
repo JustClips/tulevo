@@ -194,6 +194,12 @@ return {
 		Stone = 113294833293056,
 		TowerSign = 122902209943948,
 	},
+	BikeWheelFront = {
+		Tyre = 73904040711860,
+	},
+	BikeWheelRear = {
+		Tyre = 110579561593305,
+	},
 	BrickBlock = {
 		AcBody = 120948343130427,
 		Awnings = 82012101086862,

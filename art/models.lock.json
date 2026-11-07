@@ -246,5 +246,13 @@
  "StripMall": {
   "id": 92123005210365,
   "sha": "2d7dfcffc65884dfa73be89985dafa8623c65bd737e4f15de4d146024408241e"
+ },
+ "BikeWheelFront": {
+  "id": 137806042989216,
+  "sha": "fb3200ac96a08240d8941b4bd41303e2df92c00603340bcb3d59c69d979a3f45"
+ },
+ "BikeWheelRear": {
+  "id": 126696083404115,
+  "sha": "5c16bcbe2b065e01e39cb2db24f0c129abb7330c57accaf117edc959d650c48a"
  }
 }

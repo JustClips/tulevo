@@ -5,6 +5,13 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 
 local ModelIds = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("ModelIds"))
+local TextureIds = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("TextureIds"))
+
+-- Superbike wheel paint (part name -> look); the tyres get their colour map from TextureIds.
+local BIKE_WHEEL_LOOKS = {
+	Tyre = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic },
+	Rim = { Color = Color3.fromRGB(24, 24, 26), Material = Enum.Material.SmoothPlastic, Reflectance = 0.06 },
+}
 
 -- Blender meters -> studs. Roblox characters are about 5 studs tall, so real sizes x3.6.
 local SCALE = 3.6
@@ -19,6 +26,9 @@ local SHOWCASE = {
 	{ Name = "FirstAidKit", Offset = Vector3.new(3.2, 2.6, -7) },
 	-- Realistic human test (static posed mesh, built in studs). Stands on the floor, faces the spawn.
 	{ Name = "Human", Offset = Vector3.new(9, 0, 6), Scale = 1, Stand = true, Yaw = 225 },
+	-- Superbike wheels (art/blender/superbike/wheels.py), built in studs.
+	{ Name = "BikeWheelFront", Offset = Vector3.new(-9, 2.6, 2), Scale = 1, Looks = BIKE_WHEEL_LOOKS },
+	{ Name = "BikeWheelRear", Offset = Vector3.new(-9, 2.6, 6), Scale = 1, Looks = BIKE_WHEEL_LOOKS },
 }
 
 local function findSpawn(): BasePart?
@@ -61,6 +71,20 @@ for _, item in SHOWCASE do
 			d.CastShadow = true
 		elseif d:IsA("Script") or d:IsA("LocalScript") then
 			d:Destroy()
+		end
+	end
+	local textures = TextureIds[item.Name]
+	for _, d in model:GetDescendants() do
+		if d:IsA("MeshPart") then
+			local look = item.Looks and item.Looks[d.Name]
+			if look then
+				d.Color = look.Color
+				d.Material = look.Material
+				d.Reflectance = look.Reflectance or 0
+			end
+			if textures and textures[d.Name] then
+				d.TextureID = `rbxassetid://{textures[d.Name]}`
+			end
 		end
 	end
 	model:ScaleTo(item.Scale or SCALE)
