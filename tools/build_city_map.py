@@ -143,6 +143,9 @@ BUILDINGS += [
     ("BlueCometDiner", "Diner", (413, 0.3, VAULT_S_LINE + 90)),
     # Hotel Solana: 46 x 48 m lot north of Vault Avenue (turned to face it), drives at both ends
     ("HotelSolana", "Hotel_S", (380, 0.3, VAULT_N_LINE - 86.4)),
+    # Lindell Park + skate park (built in world coordinates, like the street models)
+    ("LindellPark", "Park", (0, 0, 0)),
+    ("LindellParkProps", "ParkProps", (0, 0, 0)),
 ]
 
 # ---------------------------------------------------------------- street furniture

@@ -3143,5 +3143,45 @@
   "id": 98527413172063,
   "file": "art/models/Hotel_S/tex/HotelTeal_Color.png",
   "state": "Approved"
+ },
+ "24e62f368fe301f02381b06e8b137f93ea37d49bc2bf071ce40bab625602b510": {
+  "id": 132180745133204,
+  "file": "art/models/Park/tex/ParkSigns_Color.png",
+  "state": "Approved"
+ },
+ "0863c0efe878bced83389bbb31a9f87c38e70575e8e531c2b860c26da7ea2e0f": {
+  "id": 86563754251200,
+  "file": "art/models/Park/tex/PlayBlue_Color.png",
+  "state": "Approved"
+ },
+ "aa9b04418a57962c6c299010ac0c05be04e8b27410d83abb84938ddee36b37b0": {
+  "id": 128096551381033,
+  "file": "art/models/Park/tex/PlayGreen_Color.png",
+  "state": "Approved"
+ },
+ "4934cbb882ed8650baff2304028881eba9e9500dc5f1d181e24e6889e2c01197": {
+  "id": 133676813884739,
+  "file": "art/models/Park/tex/PlayRed_Color.png",
+  "state": "Approved"
+ },
+ "77d71d4797ecc243d25895c96baf383ca22975689ef707046548be4578234f69": {
+  "id": 128478696493565,
+  "file": "art/models/Park/tex/PlayYellow_Color.png",
+  "state": "Approved"
+ },
+ "321168b8340432cf98333c5aa1af49faed7ac420ad7bf21c1bb7d23b5b9a286a": {
+  "id": 129513683893502,
+  "file": "art/models/Park/tex/SkateConcrete_Color.png",
+  "state": "Approved"
+ },
+ "6f1e7ade0ccc2194ba196cd081c3beaca32949b5b9033b79bcb128d69d9b6002": {
+  "id": 115560263077404,
+  "file": "art/models/Park/tex/Steel_Color.png",
+  "state": "Approved"
+ },
+ "44d61288f3bdc8ba5355aa561eb8847dee7a2a32304c43280b2190570c83a6c2": {
+  "id": 139494179392597,
+  "file": "art/models/Park/tex/Water_Color.png",
+  "state": "Reviewing"
  }
 }
