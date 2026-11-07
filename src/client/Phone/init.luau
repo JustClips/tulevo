@@ -133,12 +133,12 @@ local function closeApp(animate: boolean)
 		homeScale.Scale = was
 		Motion.homeBack(homeScale, false)
 		page.Interactable = false
-		Motion.zoomOut(page, rect, parts.screenSize).Completed:Connect(function()
-			page:Destroy()
+		Motion.zoomOut(page, rect, parts.screenSize, app).Completed:Connect(function()
+			Motion.discard(page)
 		end)
 	else
 		homeScale.Scale = 1
-		page:Destroy()
+		Motion.discard(page)
 	end
 end
 
@@ -172,26 +172,6 @@ function Phone.openApp(id: string)
 		ZIndex = 20,
 	}, { Frame.corner(Theme.ScreenRadius) })
 	Frame.new("UIScale", { Name = "Zoom", Parent = page })
-	-- app colour + icon on top while it zooms open (Motion fades it out)
-	local splash = Frame.new("Frame", {
-		Name = "Splash",
-		Parent = page,
-		Size = UDim2.fromScale(1, 1),
-		BackgroundColor3 = app.Color or C.Page,
-		BorderSizePixel = 0,
-		ZIndex = 30,
-	}, { Frame.corner(Theme.ScreenRadius) })
-	if app.Icon then
-		Frame.new("ImageLabel", {
-			Parent = splash,
-			BackgroundTransparency = 1,
-			AnchorPoint = Vector2.new(0.5, 0.5),
-			Position = UDim2.fromScale(0.5, 0.5),
-			Size = UDim2.fromOffset(110, 110),
-			Image = app.Icon,
-			ZIndex = 31,
-		})
-	end
 	-- title under the status bar
 	Frame.new("TextLabel", {
 		Name = "Title",
@@ -214,8 +194,8 @@ function Phone.openApp(id: string)
 	end
 	homePage.Interactable = false
 	Motion.homeBack(homeScale, true)
-	Motion.zoomIn(page, iconRect(app), parts.screenSize).Completed:Connect(function()
-		if currentPage == page then
+	Motion.zoomIn(page, iconRect(app), parts.screenSize, app).Completed:Connect(function(state)
+		if state == Enum.PlaybackState.Completed and currentPage == page then
 			homePage.Visible = false -- fully covered; also keeps gamepad selection off it
 		end
 	end)
