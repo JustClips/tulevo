@@ -3582,12 +3582,12 @@
  "3e566af1b370bf0bf571af23ee6a8d058df53832f8768c55bec34aa56a8a68be": {
   "id": 131889519408424,
   "file": "art/models/BikeExhaust/tex/Carbon_Color.png",
-  "state": "Reviewing"
+  "state": "Approved"
  },
  "f2e85a342d37caa4726ed029fd5b6aea7df95e2b8fe0e8336f505f992219529e": {
   "id": 90998333556805,
   "file": "art/models/BikeExhaust/tex/Steel_Color.png",
-  "state": "Reviewing"
+  "state": "Approved"
  },
  "11c9c3f021f57cda7ad4bf54a001c55dc3d8adbe1d68b60524939c134cc9baeb": {
   "id": 71705674422805,
@@ -3722,6 +3722,26 @@
  "1f1f37c6276315094d0bb2622db901cbde928b637166072ccea26486c510fade": {
   "id": 107264596098557,
   "file": "art/models/BikeChain/tex/OuterPlate_Color.png",
-  "state": "Reviewing"
+  "state": "Approved"
+ },
+ "e16e075359973f5991030f58bb67539081d3176e44adb8366c6c5dd076f6457f": {
+  "id": 71723247189049,
+  "file": "art/models/BikeSeats/tex/PillionSide_Color.png",
+  "state": "Approved"
+ },
+ "23fb98f5d3590f01b2aab58caf055c825d2f415711a6f3d262a042ebb5d959df": {
+  "id": 132896753986179,
+  "file": "art/models/BikeSeats/tex/PillionTop_Color.png",
+  "state": "Approved"
+ },
+ "e2daf813b460c951243501446811776abd3e067227b51e8e1f10804991c7923a": {
+  "id": 108209244813534,
+  "file": "art/models/BikeSeats/tex/RiderSide_Color.png",
+  "state": "Approved"
+ },
+ "671ca14afb0459fc3e856344c2fbb146034d1b6e2e47ac6599f4aea6f17bd788": {
+  "id": 98430763625062,
+  "file": "art/models/BikeSeats/tex/RiderTop_Color.png",
+  "state": "Approved"
  }
 }

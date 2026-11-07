@@ -1,0 +1,115 @@
+{
+ "units": "studs (x3.6 baked in, use Scale 1)",
+ "axes": "Blender: +X = bike's LEFT, -Y = front, +Z = up; origin = ground between the axles (bike layout).",
+ "parts": {
+  "RiderTop": {
+   "tris": 11088
+  },
+  "RiderSides": {
+   "tris": 8352
+  },
+  "RiderPiping": {
+   "tris": 5568
+  },
+  "RiderBase": {
+   "tris": 1608
+  },
+  "PillionTop": {
+   "tris": 6888
+  },
+  "PillionSides": {
+   "tris": 5952
+  },
+  "PillionPiping": {
+   "tris": 3968
+  },
+  "PillionBase": {
+   "tris": 1208
+  },
+  "SeatLatch": {
+   "tris": 280
+  }
+ },
+ "looks": {
+  "RiderTop": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.02
+  },
+  "RiderSides": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.02
+  },
+  "RiderPiping": {
+   "Color": [
+    30,
+    30,
+    32
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.03
+  },
+  "RiderBase": {
+   "Color": [
+    20,
+    20,
+    22
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "PillionTop": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.02
+  },
+  "PillionSides": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.02
+  },
+  "PillionPiping": {
+   "Color": [
+    30,
+    30,
+    32
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.03
+  },
+  "PillionBase": {
+   "Color": [
+    20,
+    20,
+    22
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "SeatLatch": {
+   "Color": [
+    160,
+    162,
+    168
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.12
+  }
+ },
+ "total_tris": 44912
+}

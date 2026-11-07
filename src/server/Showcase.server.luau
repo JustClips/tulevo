@@ -45,6 +45,19 @@ local BIKE_CHAIN_LOOKS = {
 	SprocketNut = { Color = Color3.fromRGB(160, 162, 168), Material = Enum.Material.SmoothPlastic, Reflectance = 0.12 },
 }
 
+-- Superbike seats: leather colour maps (grain, perforated pleats, stitching) come from TextureIds.
+local BIKE_SEAT_LOOKS = {
+	RiderTop = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.02 },
+	RiderSides = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.02 },
+	PillionTop = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.02 },
+	PillionSides = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.02 },
+	RiderPiping = { Color = Color3.fromRGB(30, 30, 32), Material = Enum.Material.SmoothPlastic, Reflectance = 0.03 },
+	PillionPiping = { Color = Color3.fromRGB(30, 30, 32), Material = Enum.Material.SmoothPlastic, Reflectance = 0.03 },
+	RiderBase = { Color = Color3.fromRGB(20, 20, 22), Material = Enum.Material.SmoothPlastic },
+	PillionBase = { Color = Color3.fromRGB(20, 20, 22), Material = Enum.Material.SmoothPlastic },
+	SeatLatch = { Color = Color3.fromRGB(160, 162, 168), Material = Enum.Material.SmoothPlastic, Reflectance = 0.12 },
+}
+
 -- Blender meters -> studs. Roblox characters are about 5 studs tall, so real sizes x3.6.
 local SCALE = 3.6
 
@@ -65,6 +78,8 @@ local SHOWCASE = {
 	{ Name = "BikeExhaust", Offset = Vector3.new(-9, 2.8, 10.5), Scale = 1, Looks = BIKE_EXHAUST_LOOKS },
 	-- Superbike drive chain, 116 links + front sprocket (art/blender/superbike/chain.py), built in studs.
 	{ Name = "BikeChain", Offset = Vector3.new(-9, 2.6, 14.5), Scale = 1, Looks = BIKE_CHAIN_LOOKS },
+	-- Superbike rider + passenger seats (art/blender/superbike/seats.py), built in studs.
+	{ Name = "BikeSeats", Offset = Vector3.new(-9, 2.6, 18.5), Scale = 1, Looks = BIKE_SEAT_LOOKS },
 }
 
 local function findSpawn(): BasePart?

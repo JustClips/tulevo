@@ -8,6 +8,7 @@ return {
 	BankTower = 122789663490592,
 	BikeChain = 130124843334043,
 	BikeExhaust = 124854023168206,
+	BikeSeats = 138068057732783,
 	BikeWheelFront = 85892057854962,
 	BikeWheelRear = 136326750020444,
 	BrickBlock = 115052555208165,
