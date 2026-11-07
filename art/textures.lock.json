@@ -3793,5 +3793,60 @@
   "id": 81929055992778,
   "file": "art/models/EastsideGarage/tex/StoreOrange_Color.png",
   "state": "Approved"
+ },
+ "28b1f3b4a832a07eeb6895d680ee8c5d9e9ef6067bced3668f9a07bbd9802f64": {
+  "id": 87941087363483,
+  "file": "art/models/FireStation/tex/Crop_Color.png",
+  "state": "Approved"
+ },
+ "6b5e8cbf0d10996a9c640bdd82d0b1a386d225a7daa86734913612e1fe00de36": {
+  "id": 81658000488101,
+  "file": "art/models/FireStation/tex/FireDoor_Color.png",
+  "state": "Approved"
+ },
+ "724f412ff73c9d672d6e5acd41578bbbbe3851c5f5414b4cde8b7732c8feadf8": {
+  "id": 102222466461534,
+  "file": "art/models/FireStation/tex/FireRed_Color.png",
+  "state": "Approved"
+ },
+ "669514986ad3cb2d810614e537d872693ce315e628ea4bfe2f28b41994741cf3": {
+  "id": 77840848717357,
+  "file": "art/models/FireStation/tex/FireSigns_Color.png",
+  "state": "Approved"
+ },
+ "fde736248383d3ec309f381e908bc7d6ab35eb93d5008014d6903e7ecd686919": {
+  "id": 109132864524787,
+  "file": "art/models/FireStation/tex/Roof_Color.png",
+  "state": "Approved"
+ },
+ "8b4764b1c77d17e9ed6460cc4d586c5369aa16464e0f22c8dc9193c275280d1f": {
+  "id": 112864538974145,
+  "file": "art/models/RecCenter/tex/CourtBlue_Color.png",
+  "state": "Approved"
+ },
+ "7886502780d9645d6235b4312f497b498aec7347a62dd87a9a755b51cf47ad9d": {
+  "id": 110175899505887,
+  "file": "art/models/RecCenter/tex/CourtGreen_Color.png",
+  "state": "Approved"
+ },
+ "c8f7033e70b4211b2295bf668acb3eb26ca5f62a680cc84b1b33c2512a8f378b": {
+  "id": 73429297620018,
+  "file": "art/models/RecCenter/tex/RecNavy_Color.png",
+  "state": "Approved"
+ },
+ "5e6f4e96be5ec4b2b30ae3391af456ae34a4676293b4bd4e55162373f9962df2": {
+  "id": 107100795982427,
+  "file": "art/models/RecCenter/tex/RecOrange_Color.png",
+  "state": "Approved"
+ },
+ "c1d20cb6f0c02237d8f5f534eb4e5f371ed195489cd442be3ebb11364f7387f8": {
+  "id": 120040950981497,
+  "file": "art/models/RecCenter/tex/RecSigns_Color.png",
+  "state": "Approved"
+ },
+ "cc6b1238564e30948044b91f727538d43e160329a9bb635d517adcd5f9c62190": {
+  "id": 124855083180828,
+  "file": "art/models/RecCenter/tex/Rim_Color.png",
+  "state": "Approved"
  }
 }

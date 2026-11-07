@@ -1,0 +1,493 @@
+{
+ "name": "RecCenter",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Asphalt": {
+   "tris": 36,
+   "min": [
+    -639.8,
+    -359.2,
+    -0.9
+   ],
+   "max": [
+    -463.2,
+    -172.2,
+    0.3
+   ]
+  },
+  "Pave": {
+   "tris": 36,
+   "min": [
+    -639.8,
+    -359.2,
+    0.3
+   ],
+   "max": [
+    -463.2,
+    -172.2,
+    0.9
+   ]
+  },
+  "Steel": {
+   "tris": 288,
+   "min": [
+    -638.38,
+    -342.8,
+    0.3
+   ],
+   "max": [
+    -464.45,
+    -174.85,
+    25.3
+   ]
+  },
+  "Dark": {
+   "tris": 72,
+   "min": [
+    -639.9,
+    -343.1,
+    4.3
+   ],
+   "max": [
+    -462.3,
+    -175.0,
+    26.5
+   ]
+  },
+  "RecSigns": {
+   "tris": 8,
+   "min": [
+    -639.8,
+    -263.96,
+    4.3
+   ],
+   "max": [
+    -462.4,
+    -175.2,
+    20.0
+   ]
+  },
+  "Block": {
+   "tris": 60,
+   "min": [
+    -527.0,
+    -352.0,
+    0.3
+   ],
+   "max": [
+    -467.0,
+    -264.0,
+    25.9
+   ]
+  },
+  "RoofTar": {
+   "tris": 12,
+   "min": [
+    -526.6,
+    -351.6,
+    24.3
+   ],
+   "max": [
+    -467.4,
+    -264.4,
+    24.4
+   ]
+  },
+  "Cap": {
+   "tris": 48,
+   "min": [
+    -610.0,
+    -352.2,
+    0.3
+   ],
+   "max": [
+    -466.8,
+    -263.8,
+    26.3
+   ]
+  },
+  "RecNavy": {
+   "tris": 36,
+   "min": [
+    -527.1,
+    -352.1,
+    0.3
+   ],
+   "max": [
+    -466.9,
+    -259.0,
+    20.3
+   ]
+  },
+  "RecOrange": {
+   "tris": 36,
+   "min": [
+    -635.0,
+    -352.1,
+    0.6
+   ],
+   "max": [
+    -466.9,
+    -263.9,
+    21.7
+   ]
+  },
+  "GlassBlock": {
+   "tris": 36,
+   "min": [
+    -527.04,
+    -352.04,
+    13.3
+   ],
+   "max": [
+    -466.96,
+    -270.0,
+    18.3
+   ]
+  },
+  "GlassC": {
+   "tris": 2,
+   "min": [
+    -487.2,
+    -263.97,
+    2.3
+   ],
+   "max": [
+    -479.8,
+    -263.97,
+    10.8
+   ]
+  },
+  "Frame": {
+   "tris": 240,
+   "min": [
+    -514.45,
+    -264.0,
+    2.05
+   ],
+   "max": [
+    -479.55,
+    -263.6,
+    11.05
+   ]
+  },
+  "Sill": {
+   "tris": 96,
+   "min": [
+    -514.88,
+    -264.0,
+    1.8
+   ],
+   "max": [
+    -479.12,
+    -263.24,
+    11.48
+   ]
+  },
+  "GlassF": {
+   "tris": 4,
+   "min": [
+    -514.2,
+    -263.97,
+    2.3
+   ],
+   "max": [
+    -488.8,
+    -263.97,
+    10.8
+   ]
+  },
+  "GlassB": {
+   "tris": 2,
+   "min": [
+    -505.2,
+    -263.97,
+    2.3
+   ],
+   "max": [
+    -497.8,
+    -263.97,
+    10.8
+   ]
+  },
+  "Lamp1": {
+   "tris": 12,
+   "min": [
+    -488.0,
+    -262.0,
+    11.4
+   ],
+   "max": [
+    -486.0,
+    -261.0,
+    11.5
+   ]
+  },
+  "Lamp2": {
+   "tris": 12,
+   "min": [
+    -508.0,
+    -262.0,
+    11.4
+   ],
+   "max": [
+    -506.0,
+    -261.0,
+    11.5
+   ]
+  },
+  "AcBody": {
+   "tris": 24,
+   "min": [
+    -516.5,
+    -302.0,
+    24.4
+   ],
+   "max": [
+    -477.5,
+    -298.0,
+    26.2
+   ]
+  },
+  "CourtGreen": {
+   "tris": 12,
+   "min": [
+    -639.0,
+    -344.0,
+    0.3
+   ],
+   "max": [
+    -531.0,
+    -282.0,
+    0.55
+   ]
+  },
+  "CourtBlue": {
+   "tris": 12,
+   "min": [
+    -635.0,
+    -340.0,
+    0.55
+   ],
+   "max": [
+    -535.0,
+    -286.0,
+    0.6
+   ]
+  },
+  "LotLine": {
+   "tris": 708,
+   "min": [
+    -635.0,
+    -357.6,
+    0.3
+   ],
+   "max": [
+    -534.8,
+    -257.0,
+    0.82
+   ]
+  },
+  "Board": {
+   "tris": 24,
+   "min": [
+    -633.8,
+    -316.0,
+    10.3
+   ],
+   "max": [
+    -536.2,
+    -310.0,
+    13.9
+   ]
+  },
+  "Rim": {
+   "tris": 264,
+   "min": [
+    -633.58,
+    -314.03,
+    10.2
+   ],
+   "max": [
+    -536.42,
+    -311.97,
+    10.4
+   ]
+  },
+  "Bench": {
+   "tris": 36,
+   "min": [
+    -609.8,
+    -280.7,
+    1.3
+   ],
+   "max": [
+    -560.2,
+    -274.7,
+    4.0
+   ]
+  },
+  "Lamp3": {
+   "tris": 12,
+   "min": [
+    -534.3,
+    -342.95,
+    25.2
+   ],
+   "max": [
+    -531.7,
+    -342.05,
+    25.3
+   ]
+  },
+  "Lamp4": {
+   "tris": 12,
+   "min": [
+    -638.3,
+    -342.95,
+    25.2
+   ],
+   "max": [
+    -635.7,
+    -342.05,
+    25.3
+   ]
+  },
+  "Lamp5": {
+   "tris": 12,
+   "min": [
+    -534.3,
+    -283.95,
+    25.2
+   ],
+   "max": [
+    -531.7,
+    -283.05,
+    25.3
+   ]
+  },
+  "Lamp6": {
+   "tris": 12,
+   "min": [
+    -638.3,
+    -283.95,
+    25.2
+   ],
+   "max": [
+    -635.7,
+    -283.05,
+    25.3
+   ]
+  },
+  "Soil": {
+   "tris": 12,
+   "min": [
+    -466.1,
+    -351.7,
+    0.3
+   ],
+   "max": [
+    -463.9,
+    -264.3,
+    0.95
+   ]
+  },
+  "Shrub": {
+   "tris": 100,
+   "min": [
+    -466.77,
+    -347.62,
+    0.64
+   ],
+   "max": [
+    -463.28,
+    -268.49,
+    3.76
+   ]
+  },
+  "Trunk": {
+   "tris": 840,
+   "min": [
+    -639.24,
+    -263.22,
+    0.3
+   ],
+   "max": [
+    -529.24,
+    -260.84,
+    28.29
+   ]
+  },
+  "Palm": {
+   "tris": 1232,
+   "min": [
+    -653.28,
+    -277.34,
+    23.14
+   ],
+   "max": [
+    -514.94,
+    -247.38,
+    28.35
+   ]
+  },
+  "Bin": {
+   "tris": 88,
+   "min": [
+    -532.0,
+    -353.0,
+    0.3
+   ],
+   "max": [
+    -529.0,
+    -269.0,
+    3.5
+   ]
+  }
+ },
+ "lamps": [
+  "Lamp1",
+  "Lamp2",
+  "Lamp3",
+  "Lamp4",
+  "Lamp5",
+  "Lamp6"
+ ],
+ "textures": {
+  "Asphalt": "LotAsphalt_Color.png",
+  "Pave": "Plinth_Color.png",
+  "Steel": "Steel_Color.png",
+  "Dark": "Dark_Color.png",
+  "RecSigns": "RecSigns_Color.png",
+  "Block": "MallStucco_Color.png",
+  "RoofTar": "RoofTar_Color.png",
+  "Cap": "ParkCap_Color.png",
+  "RecNavy": "RecNavy_Color.png",
+  "RecOrange": "RecOrange_Color.png",
+  "GlassBlock": "GlassBlock_Color.png",
+  "GlassC": "GlassC_Color.png",
+  "Frame": "Frame_Color.png",
+  "Sill": "Sill_Color.png",
+  "GlassF": "GlassF_Color.png",
+  "GlassB": "GlassB_Color.png",
+  "Lamp1": "Light_Color.png",
+  "Lamp2": "Light_Color.png",
+  "AcBody": "HvacGrey_Color.png",
+  "CourtGreen": "CourtGreen_Color.png",
+  "CourtBlue": "CourtBlue_Color.png",
+  "LotLine": "LotLine_Color.png",
+  "Board": "Board_Color.png",
+  "Rim": "Rim_Color.png",
+  "Bench": "BenchWood_Color.png",
+  "Lamp3": "Light_Color.png",
+  "Lamp4": "Light_Color.png",
+  "Lamp5": "Light_Color.png",
+  "Lamp6": "Light_Color.png",
+  "Soil": "Soil_Color.png",
+  "Shrub": "Shrub_Color.png",
+  "Trunk": "Trunk_Color.png",
+  "Palm": "Palm_Color.png",
+  "Bin": "BinGreen_Color.png"
+ }
+}

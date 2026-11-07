@@ -170,6 +170,12 @@ BUILDINGS += [
     ("PalmviewAnnex", "MotelAnnex", (0, 0, 0)),
     ("EastsideParking", "EastsideGarage", (0, 0, 0)),
     ("BubbleBayWash", "CarWash", (0, 0, 0)),
+    # fire station on the lot behind the Halvorsen building + community garden behind the spawn plaza,
+    # Eastside Rec Center behind the Calder building, tree groves on the grass north of Bellmont Hills
+    ("FireStation3", "FireStation", (0, 0, 0)),
+    ("EastsideRec", "RecCenter", (0, 0, 0)),
+    ("EastTrees", "EastTrees", (0, 0, 0)),
+    ("EastTrees2", "EastTrees2", (0, 0, 0)),
 ]
 
 # ---------------------------------------------------------------- filler houses (2026-11-07 Dev: "gaps")
@@ -181,11 +187,12 @@ FILL_ROWS = [
     # (street z, side: -1 north of it (faces south, *_S) / +1 south of it, first lot x, direction, lots)
     (NORTH_Z, -1, -172, -1, ("HouseC", "SideYard", "HouseA", "HouseD", "SideYard", "HouseB", "HouseA", "SideYard", "HouseD",
                              "SideYard")),
-    (NORTH_Z, -1, -86.4, 1, ("HouseA", "HouseD", "HouseB")),
-    (NORTH_Z, 1, -86.4, 1, ("HouseD", "HouseA", "HouseB")),
+    # middle blocks: between the cross streets' inner sidewalks (x -80..80)
+    (NORTH_Z, -1, -75.6, 1, ("HouseA", "SideYard", "HouseC")),
+    (NORTH_Z, 1, -75.6, 1, ("HouseC", "SideYard", "HouseB")),
     (NORTH_Z, 1, -160.6, -1, ("HouseA", "HouseC")),
-    (SOUTH_Z, -1, -86.4, 1, ("HouseB", "HouseD", "HouseA")),
-    (SOUTH_Z, 1, -86.4, 1, ("HouseA", "HouseB", "HouseD")),
+    (SOUTH_Z, -1, -75.6, 1, ("HouseD", "SideYard", "HouseC")),
+    (SOUTH_Z, 1, -75.6, 1, ("HouseC", "HouseA", "SideYard")),
 ]
 _n = 0
 for sz, side, x0, d, lots in FILL_ROWS:

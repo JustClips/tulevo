@@ -47,6 +47,9 @@ CLEAR = [
     ("BackStreet", "S", -362, -331),        # Bubble Bay Car Wash entry lane
     ("WestStreet", "W", 316, 358),          # car wash vacuum lot exit
     ("BackStreet", "S", 328, 353),          # side drive between Meridian Plaza and The Marlowe
+    ("WestStreet", "W", -352, -288),        # fire station apron (bay doors)
+    ("VaultAvenue", "N", 460, 488),         # Eastside Rec Center drives either side of the Calder building
+    ("VaultAvenue", "N", 612, 642),
 ]
 # bus stops: (road, side, u)
 BUS = [("VaultAvenue", "S", 430), ("VaultAvenue", "N", -430), ("BackStreet", "N", 250),

@@ -1229,7 +1229,62 @@ def wash():
     paint("BrushRed", (210, 50, 60), strength=0.6)
 
 
-STEPS = {"street": street, "brick": brick_building, "diner": diner, "hotel": hotel, "park": park, "mall": mall, "auto": auto, "fuel": fuel, "garage": garage, "wash": wash}
+def fire():
+    """Fire station 3 (lot behind the Halvorsen building) + community garden sign."""
+    RED, WHT = (178, 28, 30), (250, 250, 250)
+    im = Image.new("RGB", (1024, 512), RED)
+    d = ImageDraw.Draw(im)
+    d.rectangle((0, 0, 1024, 256), fill=(250, 248, 240))
+    d.rectangle((10, 10, 1014, 246), outline=RED, width=10)
+    fit_text(d, (512, 105), "TULEVO FIRE DEPT", FONT_B, 900, 120, RED)
+    fit_text(d, (512, 200), "STATION 3", FONT_B, 600, 64, (40, 40, 44))
+    d.rectangle((0, 256, 512, 512), fill=WHT)
+    d.rectangle((10, 266, 502, 502), outline=RED, width=10)
+    fit_text(d, (256, 340), "FIRE LANE", FONT_B, 440, 80, RED)
+    fit_text(d, (256, 440), "NO PARKING", FONT_B, 440, 70, (30, 30, 30))
+    d.rectangle((512, 256, 1024, 512), fill=(40, 100, 52))
+    d.rectangle((522, 266, 1014, 502), outline=(240, 236, 210), width=8)
+    fit_text(d, (768, 340), "COMMUNITY", FONT_B, 440, 80, (240, 236, 210))
+    fit_text(d, (768, 440), "GARDEN", FONT_B, 440, 80, (240, 236, 210))
+    save("FireSigns", im, 120)
+    # red sectional bay door with a row of windows
+    v = np.asarray(Image.open(os.path.join(OUT, "RollDoor_Color.png")).convert("L").resize((512, 512)), np.float32) / 255
+    col = np.stack([v * 190, v * 34, v * 34], -1)
+    door = Image.fromarray(np.clip(col, 0, 255).astype(np.uint8))
+    dd = ImageDraw.Draw(door)
+    for k in range(4):
+        x0 = 24 + k * 122
+        dd.rectangle((x0, 150, x0 + 108, 220), fill=(225, 225, 225))
+        dd.rectangle((x0 + 8, 158, x0 + 100, 212), fill=(40, 52, 64))
+    save("FireDoor", door, 140)
+    paint("FireRed", (178, 28, 30))
+
+
+def rec():
+    """Eastside Rec Center (lot behind the Calder building) + court paints."""
+    NAVY, ORG, WHT = (20, 40, 90), (240, 120, 30), (250, 250, 250)
+    im = Image.new("RGB", (1024, 512), NAVY)
+    d = ImageDraw.Draw(im)
+    d.rectangle((0, 0, 1024, 256), fill=NAVY)
+    d.rectangle((10, 10, 1014, 246), outline=ORG, width=10)
+    fit_text(d, (512, 105), "EASTSIDE REC CENTER", FONT_B, 900, 110, WHT)
+    fit_text(d, (512, 200), "GYM  ·  COURTS  ·  YOUTH LEAGUE", FONT_B, 760, 52, (255, 200, 150))
+    d.rectangle((0, 256, 512, 512), fill=ORG)
+    d.rectangle((10, 266, 502, 502), outline=WHT, width=8)
+    fit_text(d, (256, 345), "OPEN", FONT_B, 440, 90, WHT)
+    fit_text(d, (256, 445), "6AM - 10PM", FONT_B, 440, 70, WHT)
+    d.rectangle((512, 256, 1024, 512), fill=WHT)
+    d.rectangle((522, 266, 1014, 502), outline=NAVY, width=8)
+    fit_text(d, (768, 345), "PUBLIC", FONT_B, 440, 80, NAVY)
+    fit_text(d, (768, 445), "PARKING", FONT_B, 440, 80, NAVY)
+    save("RecSigns", im, 120)
+    paint("CourtBlue", (40, 90, 150), strength=0.25)
+    paint("CourtGreen", (50, 120, 80), strength=0.25)
+    paint("RecNavy", (20, 40, 90))
+    paint("RecOrange", (240, 120, 30))
+
+
+STEPS = {"street": street, "brick": brick_building, "diner": diner, "hotel": hotel, "park": park, "mall": mall, "auto": auto, "fuel": fuel, "garage": garage, "wash": wash, "fire": fire, "rec": rec}
 
 if __name__ == "__main__":
     fetch()

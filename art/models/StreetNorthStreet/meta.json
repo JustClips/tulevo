@@ -4,7 +4,7 @@
  "scale": 1,
  "parts": {
   "Plinth": {
-   "tris": 240,
+   "tris": 252,
    "min": [
     -628.99,
     -497.79,
@@ -17,7 +17,7 @@
    ]
   },
   "Pole": {
-   "tris": 9440,
+   "tris": 9912,
    "min": [
     -628.72,
     -497.52,
@@ -188,6 +188,19 @@
   "StreetLamp7": {
    "tris": 12,
    "min": [
+    -74.47,
+    -488.23,
+    32.46
+   ],
+   "max": [
+    -73.53,
+    -486.22,
+    32.6
+   ]
+  },
+  "StreetLamp8": {
+   "tris": 12,
+   "min": [
     -166.47,
     -488.23,
     32.46
@@ -198,7 +211,7 @@
     32.6
    ]
   },
-  "StreetLamp8": {
+  "StreetLamp9": {
    "tris": 12,
    "min": [
     -278.97,
@@ -211,7 +224,7 @@
     32.6
    ]
   },
-  "StreetLamp9": {
+  "StreetLamp10": {
    "tris": 12,
    "min": [
     -397.47,
@@ -224,7 +237,7 @@
     32.6
    ]
   },
-  "StreetLamp10": {
+  "StreetLamp11": {
    "tris": 12,
    "min": [
     -503.97,
@@ -237,7 +250,7 @@
     32.6
    ]
   },
-  "StreetLamp11": {
+  "StreetLamp12": {
    "tris": 12,
    "min": [
     -628.47,
@@ -250,7 +263,7 @@
     32.6
    ]
   },
-  "StreetLamp12": {
+  "StreetLamp13": {
    "tris": 12,
    "min": [
     574.28,
@@ -263,7 +276,7 @@
     32.6
    ]
   },
-  "StreetLamp13": {
+  "StreetLamp14": {
    "tris": 12,
    "min": [
     455.78,
@@ -276,7 +289,7 @@
     32.6
    ]
   },
-  "StreetLamp14": {
+  "StreetLamp15": {
    "tris": 12,
    "min": [
     337.28,
@@ -289,7 +302,7 @@
     32.6
    ]
   },
-  "StreetLamp15": {
+  "StreetLamp16": {
    "tris": 12,
    "min": [
     224.78,
@@ -302,7 +315,7 @@
     32.6
    ]
   },
-  "StreetLamp16": {
+  "StreetLamp17": {
    "tris": 12,
    "min": [
     -0.47,
@@ -315,7 +328,7 @@
     32.6
    ]
   },
-  "StreetLamp17": {
+  "StreetLamp18": {
    "tris": 12,
    "min": [
     -219.72,
@@ -328,7 +341,7 @@
     32.6
    ]
   },
-  "StreetLamp18": {
+  "StreetLamp19": {
    "tris": 12,
    "min": [
     -338.22,
@@ -341,7 +354,7 @@
     32.6
    ]
   },
-  "StreetLamp19": {
+  "StreetLamp20": {
    "tris": 12,
    "min": [
     -468.72,
@@ -354,7 +367,7 @@
     32.6
    ]
   },
-  "StreetLamp20": {
+  "StreetLamp21": {
    "tris": 12,
    "min": [
     -569.22,
@@ -388,7 +401,8 @@
   "StreetLamp17",
   "StreetLamp18",
   "StreetLamp19",
-  "StreetLamp20"
+  "StreetLamp20",
+  "StreetLamp21"
  ],
  "textures": {
   "Plinth": "Plinth_Color.png",
@@ -418,7 +432,8 @@
   "StreetLamp17": "Light_Color.png",
   "StreetLamp18": "Light_Color.png",
   "StreetLamp19": "Light_Color.png",
-  "StreetLamp20": "Light_Color.png"
+  "StreetLamp20": "Light_Color.png",
+  "StreetLamp21": "Light_Color.png"
  },
  "collider_boxes": [
   [
@@ -572,6 +587,26 @@
    "Metal"
   ],
   [
+   -74.0,
+   -496.8,
+   1.896,
+   1.8,
+   1.8,
+   2.592,
+   3.14159,
+   "Metal"
+  ],
+  [
+   -74.0,
+   -496.8,
+   17.376,
+   0.792,
+   0.792,
+   28.368,
+   3.14159,
+   "Metal"
+  ],
+  [
    66.0,
    -496.8,
    2.112,
@@ -592,7 +627,7 @@
    "Metal"
   ],
   [
-   -50.0,
+   -40.0,
    -496.8,
    5.28,
    0.36,
@@ -872,7 +907,7 @@
    "Metal"
   ],
   [
-   50.0,
+   40.0,
    -463.2,
    5.28,
    0.36,
