@@ -175,6 +175,13 @@ class Street:
                 bm.faces.new([a[i], a[j], b[j], b[i]])
 
     def light(self, p):
+        """Street light spot: only the concrete plinth is baked now. The lamp itself is a Roblox
+        "City Prop - Lamp" model placed on it at run time (Server/CityProps, 2026-11-07). The old
+        baked lamps are kept below as light_old for reference."""
+        self.box("Plinth", (0, 0, 0.03 * M - 0.02), (0.6 * M, 0.6 * M, 0.06 * M + 0.04))
+        self.col((0, 0, 0.1 * M), (0.6 * M, 0.6 * M, 0.2 * M), "Concrete")
+
+    def light_old(self, p):
         """Street light (original designs, 2026-11-07 "Replace street lights"). Downtown streets get
         a dark davit pole with a slim LED head, the rest a galvanized pole with a cobra head."""
         self.n_lamp += 1

@@ -51,6 +51,8 @@ local function isDoorPart(name: string): boolean
 end
 
 local LAMP_COLOR = Color3.fromRGB(255, 244, 222)
+-- parts of the old baked street lamps, removed at load (see style)
+local OLD_LAMP_PARTS = { PoleLamp = true, MetalLampHead = true, MetalLampCap = true }
 local NEON = {
 	NeonPink = Color3.fromRGB(255, 70, 170),
 	NeonCyan = Color3.fromRGB(60, 235, 255),
@@ -319,6 +321,15 @@ local function style(model: Model)
 	local exact = buildCollision(model)
 	local noCollide = model:GetAttribute("MeshNoCollide") == true
 	local walkIn = not exact and model:FindFirstChild("WallF1", true) ~= nil
+	if model.Name:match("^Street") then
+		-- old baked street lamps (only in street meshes uploaded before 2026-11-07): the City Prop
+		-- lamp models at the end of this script stand on their plinths instead
+		for _, d in model:GetDescendants() do
+			if d:IsA("BasePart") and (OLD_LAMP_PARTS[d.Name] or d.Name:match("^StreetLamp%d")) then
+				d:Destroy()
+			end
+		end
+	end
 	for _, d in model:GetDescendants() do
 		if d:IsA("Script") or d:IsA("LocalScript") then
 			d:Destroy()
@@ -461,4 +472,150 @@ RunService.Heartbeat:Connect(function()
 	for _, l in lamps do
 		l.light.Brightness = l.day + (l.night - l.day) * n
 	end
+end)
+
+-- City Prop street lamps (2026-11-07): Roblox models (Shared/CityPropIds) on every street light
+-- spot of the city (Server/CityPropLayout, from tools/city_props.py). Each model is turned so its
+-- arm reaches over the road and its pole stands on the plinth left in the street mesh; its glowing
+-- parts get the same night light as the old baked lamps.
+local CityPropIds = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("CityPropIds")) :: any
+local PropLayout = require(script.Parent:WaitForChild("CityPropLayout")) :: any
+
+-- Which lamp model stands on each street. Change freely: any key of Shared/CityPropIds.
+local STREET_LAMP = {
+	StreetVaultAvenue = "LampA",
+	StreetBackStreet = "LampB",
+	StreetNorthStreet = "LampC",
+	StreetSouthStreet = "LampD",
+	StreetWestStreet = "LampE",
+	StreetEastStreet = "LampF",
+}
+-- Extra turn in degrees for a lamp model that ends up facing the wrong way, e.g. { LampC = 180 }.
+local LAMP_TURN: { [string]: number } = {}
+local PLINTH_TOP = 0.22 -- plinth top above the sidewalk point
+local LIGHT_NAMES = { "bulb", "lens", "light", "glow", "emit", "glass" }
+
+-- world AABB of a part
+local function extents(p: BasePart): (Vector3, Vector3)
+	local cf, s = p.CFrame, p.Size / 2
+	local e = Vector3.new(
+		math.abs(cf.RightVector.X) * s.X + math.abs(cf.UpVector.X) * s.Y + math.abs(cf.LookVector.X) * s.Z,
+		math.abs(cf.RightVector.Y) * s.X + math.abs(cf.UpVector.Y) * s.Y + math.abs(cf.LookVector.Y) * s.Z,
+		math.abs(cf.RightVector.Z) * s.X + math.abs(cf.UpVector.Z) * s.Y + math.abs(cf.LookVector.Z) * s.Z
+	)
+	return cf.Position - e, cf.Position + e
+end
+
+-- how much a part looks like the lamp's glowing bit: Neon first, then by name; 0 = not at all
+local function lightScore(p: BasePart): number
+	if p.Material == Enum.Material.Neon then
+		return 100
+	end
+	local n = p.Name:lower()
+	for i, k in LIGHT_NAMES do
+		if n:find(k, 1, true) then
+			return 50 - i
+		end
+	end
+	return 0
+end
+
+-- Loads one lamp model at the origin and works out where its pole stands and which way its arm
+-- reaches. Returns the model, the pole foot (model space) and the arm direction.
+local function prototype(key: string): (Model?, Vector3?, Vector3?)
+	local id = CityPropIds[key]
+	if not id then
+		warn(`[CityProps] no id for {key}`)
+		return nil
+	end
+	local ok, res = pcall(InsertService.LoadAsset, InsertService, id)
+	if not ok then
+		warn(`[CityProps] {key} ({id}) failed to load: {res}`)
+		return nil
+	end
+	local inner = res:FindFirstChildWhichIsA("Model")
+	local m: Model = if inner and #res:GetChildren() == 1 then inner else res
+	m.Name = key
+	m.Parent = nil
+	for _, d in m:GetDescendants() do
+		if d:IsA("Script") or d:IsA("LocalScript") or d:IsA("ModuleScript") then
+			d:Destroy()
+		elseif d:IsA("BasePart") then
+			d.Anchored = true
+			d.CanTouch = false
+		end
+	end
+	m:PivotTo(CFrame.new())
+	local box, size = m:GetBoundingBox()
+	-- pole: the tallest, slimmest part
+	local pole, best = nil, 0
+	local glow, glowScore, top, topY = nil, 0, nil, -math.huge
+	for _, d in m:GetDescendants() do
+		if d:IsA("BasePart") then
+			local lo, hi = extents(d)
+			local h, w = hi.Y - lo.Y, math.max(hi.X - lo.X, hi.Z - lo.Z, 0.05)
+			if h > size.Y * 0.4 and h / w > best then
+				pole, best = (lo + hi) / 2, h / w
+			end
+			local sc = lightScore(d)
+			if sc > glowScore then
+				glow, glowScore = d, sc
+			end
+			if hi.Y > topY then
+				top, topY = d, hi.Y
+			end
+		end
+	end
+	-- one light per lamp: its glowing part, or the part highest up if nothing looks like one
+	local lit = glow or top
+	if lit then
+		lit:SetAttribute("PropLight", true)
+	end
+	local foot = Vector3.new((pole or box.Position).X, box.Y - size.Y / 2, (pole or box.Position).Z)
+	local reach = Vector3.new(box.X - foot.X, 0, box.Z - foot.Z)
+	local dir = if reach.Magnitude > 0.5 then reach.Unit else Vector3.new(0, 0, -1)
+	return m, foot, dir
+end
+
+task.spawn(function()
+	local folder = Instance.new("Folder")
+	folder.Name = "StreetLamps"
+	folder.Parent = city
+	local protos = {}
+	local placed = 0
+	for street, spots in PropLayout do
+		local key = STREET_LAMP[street]
+		if not key then
+			continue
+		end
+		if protos[key] == nil then
+			local m, foot, dir = prototype(key)
+			protos[key] = if m then { model = m, foot = foot, dir = dir } else false
+		end
+		local proto = protos[key]
+		if not proto then
+			continue
+		end
+		local base = CFrame.lookAt(Vector3.zero, proto.dir)
+		local turn = CFrame.Angles(0, math.rad(LAMP_TURN[key] or 0), 0)
+		for i, s in spots do
+			local road = Vector3.new(s[4], 0, s[5])
+			local rot = CFrame.lookAt(Vector3.zero, road) * base:Inverse()
+			local lamp = proto.model:Clone()
+			lamp.Name = `{street}Lamp{i}`
+			lamp:PivotTo(CFrame.new(s[1], s[2] + PLINTH_TOP, s[3]) * turn * rot * CFrame.new(-proto.foot))
+			lamp.ModelStreamingMode = Enum.ModelStreamingMode.Persistent
+			for _, d in lamp:GetDescendants() do
+				if d:IsA("BasePart") and d:GetAttribute("PropLight") then
+					local light = downLight(d, 34, 0, 2.2)
+					light.Shadows = false
+					light.Angle = 150
+					light.Brightness = 2.2 * math.max(last, 0)
+				end
+			end
+			lamp.Parent = folder
+			placed += 1
+		end
+	end
+	print(`[CityProps] {placed} street lamps placed`)
 end)
