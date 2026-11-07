@@ -155,6 +155,10 @@ BUILDINGS += [
     # Lindell Park + skate park (built in world coordinates, like the street models)
     ("LindellPark", "Park", (0, 0, 0)),
     ("LindellParkProps", "ParkProps", (0, 0, 0)),
+    # Sundial Fuel on the lot west of Ironwood Arms (through the block, Vault Ave to Back St) and the
+    # public parking lot east of and behind the gun shop (world coordinates)
+    ("SundialFuel", "FuelStation", (-585.04, 0.3, 0)),
+    ("IronwoodParking", "LotParking", (0, 0, 0)),
     # trees on the grass west of the city (art/blender/cityfill/build_outskirts.py, world coordinates)
     ("WestTreesN", "WestTreesN", (0, 0, 0)),
     ("WestTreesN2", "WestTreesN2", (0, 0, 0)),
@@ -327,6 +331,14 @@ for name, x0, x1, z0, z1 in (
         ("WestGreenFarN", -1350, -EXTENT, -1350, -832),
         ("WestGreenFarS", -1350, -EXTENT, 568, 1350)):
     children.append(part(name, (x1 - x0, 0.15, z1 - z0), ((x0 + x1) / 2, 0.075, (z0 + z1) / 2), "#4E6A33", "Grass"))
+
+# gap between the Ortega brick block, Crestline plaza and the Blue Comet lot (Dev 2026-11-07: "shouldnt
+# asphalt be here"): a sidewalk along the building's east wall and asphalt up to the diner lot
+for name, x0, x1, z0, z1, top, col, mat in (
+        ("OrtegaSideWalk", 309.6, 316, 8.4, BACK_Z - ROAD_W / 2 - SIDE_W, 0.6, SIDEWALK, "Concrete"),
+        ("OrtegaSideLot", 316, 330.2, 8.4, BACK_Z - ROAD_W / 2 - SIDE_W, 0.3, ASPHALT, "Asphalt"),
+        ("CrestlineLotEdge", 320, 330.2, AVE_Z + ROAD_W / 2 + SIDE_W, 8.4, 0.3, ASPHALT, "Asphalt")):
+    children.append(part(name, (x1 - x0, top, z1 - z0), ((x0 + x1) / 2, top / 2, (z0 + z1) / 2), col, mat))
 
 for name, x0, x1, z0, z1 in PLAZAS:
     children.append(part(name, (x1 - x0, kerb, z1 - z0), ((x0 + x1) / 2, kerb / 2, (z0 + z1) / 2), "#A3A39D", "Pavement"))

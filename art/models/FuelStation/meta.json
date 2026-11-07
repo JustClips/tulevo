@@ -1,0 +1,470 @@
+{
+ "name": "FuelStation",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Asphalt": {
+   "tris": 12,
+   "min": [
+    -54.54,
+    -91.8,
+    -1.8
+   ],
+   "max": [
+    54.54,
+    91.8,
+    0.0
+   ]
+  },
+  "Pave": {
+   "tris": 192,
+   "min": [
+    -54.54,
+    -91.8,
+    0.0
+   ],
+   "max": [
+    54.54,
+    91.8,
+    1.8
+   ]
+  },
+  "Soil": {
+   "tris": 24,
+   "min": [
+    -53.46,
+    -87.12,
+    0.0
+   ],
+   "max": [
+    -46.26,
+    87.12,
+    0.58
+   ]
+  },
+  "Shrub": {
+   "tris": 140,
+   "min": [
+    -51.74,
+    -85.21,
+    0.25
+   ],
+   "max": [
+    -47.74,
+    71.86,
+    3.48
+   ]
+  },
+  "LotLine": {
+   "tris": 110,
+   "min": [
+    -12.6,
+    -79.92,
+    0.0
+   ],
+   "max": [
+    32.22,
+    79.92,
+    0.04
+   ]
+  },
+  "Canopy": {
+   "tris": 108,
+   "min": [
+    -5.4,
+    -32.4,
+    0.14
+   ],
+   "max": [
+    45.0,
+    32.4,
+    21.24
+   ]
+  },
+  "Orange": {
+   "tris": 84,
+   "min": [
+    -51.3,
+    -32.58,
+    3.6
+   ],
+   "max": [
+    45.18,
+    36.72,
+    21.67
+   ]
+  },
+  "FuelSigns": {
+   "tris": 30,
+   "min": [
+    -14.69,
+    -88.2,
+    3.24
+   ],
+   "max": [
+    45.07,
+    32.47,
+    21.24
+   ]
+  },
+  "Lamp1": {
+   "tris": 12,
+   "min": [
+    31.68,
+    -18.9,
+    17.68
+   ],
+   "max": [
+    36.72,
+    -17.1,
+    17.96
+   ]
+  },
+  "Lamp2": {
+   "tris": 12,
+   "min": [
+    31.68,
+    -0.9,
+    17.68
+   ],
+   "max": [
+    36.72,
+    0.9,
+    17.96
+   ]
+  },
+  "Lamp3": {
+   "tris": 12,
+   "min": [
+    31.68,
+    17.1,
+    17.68
+   ],
+   "max": [
+    36.72,
+    18.9,
+    17.96
+   ]
+  },
+  "Lamp4": {
+   "tris": 12,
+   "min": [
+    17.28,
+    -18.9,
+    17.68
+   ],
+   "max": [
+    22.32,
+    -17.1,
+    17.96
+   ]
+  },
+  "Lamp5": {
+   "tris": 12,
+   "min": [
+    17.28,
+    -0.9,
+    17.68
+   ],
+   "max": [
+    22.32,
+    0.9,
+    17.96
+   ]
+  },
+  "Lamp6": {
+   "tris": 12,
+   "min": [
+    17.28,
+    17.1,
+    17.68
+   ],
+   "max": [
+    22.32,
+    18.9,
+    17.96
+   ]
+  },
+  "Lamp7": {
+   "tris": 12,
+   "min": [
+    2.88,
+    -18.9,
+    17.68
+   ],
+   "max": [
+    7.92,
+    -17.1,
+    17.96
+   ]
+  },
+  "Lamp8": {
+   "tris": 12,
+   "min": [
+    2.88,
+    -0.9,
+    17.68
+   ],
+   "max": [
+    7.92,
+    0.9,
+    17.96
+   ]
+  },
+  "Lamp9": {
+   "tris": 12,
+   "min": [
+    2.88,
+    17.1,
+    17.68
+   ],
+   "max": [
+    7.92,
+    18.9,
+    17.96
+   ]
+  },
+  "Yellow": {
+   "tris": 112,
+   "min": [
+    8.57,
+    -20.23,
+    0.36
+   ],
+   "max": [
+    31.03,
+    20.23,
+    3.96
+   ]
+  },
+  "PumpRed": {
+   "tris": 60,
+   "min": [
+    -15.84,
+    -11.34,
+    0.54
+   ],
+   "max": [
+    31.68,
+    39.6,
+    7.2
+   ]
+  },
+  "Dark": {
+   "tris": 608,
+   "min": [
+    -51.26,
+    -88.38,
+    0.0
+   ],
+   "max": [
+    51.66,
+    72.9,
+    29.52
+   ]
+  },
+  "Hose": {
+   "tris": 528,
+   "min": [
+    -14.81,
+    -10.6,
+    0.66
+   ],
+   "max": [
+    32.88,
+    38.61,
+    6.14
+   ]
+  },
+  "Bin": {
+   "tris": 132,
+   "min": [
+    -16.49,
+    -31.97,
+    0.54
+   ],
+   "max": [
+    31.61,
+    1.01,
+    4.14
+   ]
+  },
+  "Stucco": {
+   "tris": 24,
+   "min": [
+    -51.12,
+    -28.8,
+    0.54
+   ],
+   "max": [
+    -14.94,
+    36.0,
+    20.16
+   ]
+  },
+  "Roof": {
+   "tris": 12,
+   "min": [
+    -50.22,
+    -27.9,
+    16.2
+   ],
+   "max": [
+    -20.7,
+    35.1,
+    16.92
+   ]
+  },
+  "AcBody": {
+   "tris": 24,
+   "min": [
+    -36.36,
+    -14.4,
+    16.92
+   ],
+   "max": [
+    -30.6,
+    20.88,
+    20.88
+   ]
+  },
+  "MartInterior": {
+   "tris": 2,
+   "min": [
+    -19.73,
+    -25.2,
+    1.8
+   ],
+   "max": [
+    -19.73,
+    32.4,
+    10.8
+   ]
+  },
+  "Chrome": {
+   "tris": 108,
+   "min": [
+    -19.8,
+    -25.38,
+    1.62
+   ],
+   "max": [
+    -19.51,
+    32.58,
+    11.02
+   ]
+  },
+  "Lamp10": {
+   "tris": 12,
+   "min": [
+    48.96,
+    42.48,
+    28.48
+   ],
+   "max": [
+    51.48,
+    43.92,
+    28.76
+   ]
+  },
+  "Lamp11": {
+   "tris": 12,
+   "min": [
+    48.96,
+    -51.12,
+    28.48
+   ],
+   "max": [
+    51.48,
+    -49.68,
+    28.76
+   ]
+  },
+  "Lamp12": {
+   "tris": 12,
+   "min": [
+    -43.2,
+    -72.72,
+    28.48
+   ],
+   "max": [
+    -40.68,
+    -71.28,
+    28.76
+   ]
+  },
+  "Lamp13": {
+   "tris": 12,
+   "min": [
+    -43.2,
+    71.28,
+    28.48
+   ],
+   "max": [
+    -40.68,
+    72.72,
+    28.76
+   ]
+  }
+ },
+ "lamps": [
+  "Lamp1",
+  "Lamp2",
+  "Lamp3",
+  "Lamp4",
+  "Lamp5",
+  "Lamp6",
+  "Lamp7",
+  "Lamp8",
+  "Lamp9",
+  "Lamp10",
+  "Lamp11",
+  "Lamp12",
+  "Lamp13"
+ ],
+ "textures": {
+  "Asphalt": "LotAsphalt_Color.png",
+  "Pave": "Plinth_Color.png",
+  "Soil": "Soil_Color.png",
+  "Shrub": "Shrub_Color.png",
+  "LotLine": "LotLine_Color.png",
+  "Canopy": "FuelWhite_Color.png",
+  "Orange": "FuelOrange_Color.png",
+  "FuelSigns": "FuelSigns_Color.png",
+  "Lamp1": "Light_Color.png",
+  "Lamp2": "Light_Color.png",
+  "Lamp3": "Light_Color.png",
+  "Lamp4": "Light_Color.png",
+  "Lamp5": "Light_Color.png",
+  "Lamp6": "Light_Color.png",
+  "Lamp7": "Light_Color.png",
+  "Lamp8": "Light_Color.png",
+  "Lamp9": "Light_Color.png",
+  "Yellow": "Yellow_Color.png",
+  "PumpRed": "PumpRed_Color.png",
+  "Dark": "Dark_Color.png",
+  "Hose": "Hose_Color.png",
+  "Bin": "BinGreen_Color.png",
+  "Stucco": "FuelStucco_Color.png",
+  "Roof": "RoofTar_Color.png",
+  "AcBody": "HvacGrey_Color.png",
+  "MartInterior": "MartInterior_Color.png",
+  "Chrome": "Chrome_Color.png",
+  "Lamp10": "Light_Color.png",
+  "Lamp11": "Light_Color.png",
+  "Lamp12": "Light_Color.png",
+  "Lamp13": "Light_Color.png"
+ },
+ "driveways": [
+  [
+   46.800000000000004,
+   12.6,
+   "N"
+  ],
+  [
+   46.800000000000004,
+   12.6,
+   "S"
+  ]
+ ]
+}

@@ -278,5 +278,13 @@
  "BikeExhaust": {
   "id": 124854023168206,
   "sha": "3c2e03ca367e583dbde94b8e1a4d874cee04bfcbbf3ec228c6a1dcd371f59d59"
+ },
+ "FuelStation": {
+  "id": 140433855316372,
+  "sha": "263e1066c3350b24c458dd3d167c439569ee7aeb038675eb922bd1f711e190f6"
+ },
+ "LotParking": {
+  "id": 75806650743981,
+  "sha": "713bbe7c1ee3139629652160f63e6474534f32e935e28deb1d42c93c530f489d"
  }
 }

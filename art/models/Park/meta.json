@@ -42,56 +42,30 @@
     8.3
    ]
   },
-  "Lamp1": {
-   "tris": 12,
+  "IronBlack": {
+   "tris": 1980,
    "min": [
-    562.2,
-    -174.2,
-    8.4
+    344.5,
+    -423.3,
+    0.21
    ],
    "max": [
-    563.8,
+    616.1,
     -172.6,
-    9.4
+    16.1
    ]
   },
-  "Lamp2": {
-   "tris": 12,
+  "LightPier": {
+   "tris": 112,
    "min": [
-    542.2,
-    -174.2,
-    8.4
+    370.45,
+    -173.95,
+    8.6
    ],
    "max": [
-    543.8,
-    -172.6,
-    9.4
-   ]
-  },
-  "Lamp3": {
-   "tris": 12,
-   "min": [
-    392.2,
-    -174.2,
-    8.4
-   ],
-   "max": [
-    393.8,
-    -172.6,
-    9.4
-   ]
-  },
-  "Lamp4": {
-   "tris": 12,
-   "min": [
-    370.2,
-    -174.2,
-    8.4
-   ],
-   "max": [
-    371.8,
-    -172.6,
-    9.4
+    563.55,
+    -172.85,
+    10.0
    ]
   },
   "BenchWood": {
@@ -133,29 +107,16 @@
     22.9
    ]
   },
-  "IronBlack": {
-   "tris": 1996,
-   "min": [
-    345.0,
-    -423.3,
-    0.21
-   ],
-   "max": [
-    616.1,
-    -177.1,
-    16.1
-   ]
-  },
   "Pavers": {
    "tris": 72,
    "min": [
-    371.0,
+    372.8,
     -444.0,
     0.3
    ],
    "max": [
     638.0,
-    -172.6,
+    -172.0,
     0.42
    ]
   },
@@ -185,6 +146,19 @@
     10.47
    ]
   },
+  "PoolWater": {
+   "tris": 372,
+   "min": [
+    537.38,
+    -322.62,
+    1.75
+   ],
+   "max": [
+    568.62,
+    -291.38,
+    10.52
+   ]
+  },
   "FxPool": {
    "tris": 96,
    "min": [
@@ -195,11 +169,11 @@
    "max": [
     568.62,
     -291.38,
-    10.52
+    10.56
    ]
   },
   "FxFall": {
-   "tris": 288,
+   "tris": 256,
    "min": [
     545.3,
     -314.7,
@@ -208,7 +182,20 @@
    "max": [
     560.7,
     -299.3,
-    13.7
+    10.52
+   ]
+  },
+  "FxJet": {
+   "tris": 96,
+   "min": [
+    552.1,
+    -307.9,
+    10.52
+   ],
+   "max": [
+    553.9,
+    -306.1,
+    16.8
    ]
   },
   "FxRipple": {
@@ -303,7 +290,7 @@
    ]
   },
   "LightLantern": {
-   "tris": 308,
+   "tris": 252,
    "min": [
     366.05,
     -422.95,
@@ -311,50 +298,50 @@
    ],
    "max": [
     603.95,
-    -201.05,
+    -193.05,
     15.45
    ]
   },
-  "Lamp5": {
+  "Lamp1": {
    "tris": 12,
    "min": [
-    562.5,
+    564.5,
     -202.5,
     13.2
    ],
    "max": [
-    563.5,
+    565.5,
     -201.5,
     13.3
    ]
   },
-  "Lamp6": {
+  "Lamp2": {
    "tris": 12,
    "min": [
-    542.5,
+    540.5,
     -242.5,
     13.2
    ],
    "max": [
-    543.5,
+    541.5,
     -241.5,
     13.3
    ]
   },
-  "Lamp7": {
+  "Lamp3": {
    "tris": 12,
    "min": [
-    562.5,
+    564.5,
     -272.5,
     13.2
    ],
    "max": [
-    563.5,
+    565.5,
     -271.5,
     13.3
    ]
   },
-  "Lamp8": {
+  "Lamp4": {
    "tris": 12,
    "min": [
     602.5,
@@ -367,7 +354,7 @@
     13.3
    ]
   },
-  "Lamp9": {
+  "Lamp5": {
    "tris": 12,
    "min": [
     512.5,
@@ -380,7 +367,7 @@
     13.3
    ]
   },
-  "Lamp10": {
+  "Lamp6": {
    "tris": 12,
    "min": [
     472.5,
@@ -393,46 +380,20 @@
     13.3
    ]
   },
-  "Lamp11": {
-   "tris": 12,
-   "min": [
-    422.5,
-    -299.5,
-    13.2
-   ],
-   "max": [
-    423.5,
-    -298.5,
-    13.3
-   ]
-  },
-  "Lamp12": {
-   "tris": 12,
-   "min": [
-    396.5,
-    -272.5,
-    13.2
-   ],
-   "max": [
-    397.5,
-    -271.5,
-    13.3
-   ]
-  },
-  "Lamp13": {
+  "Lamp7": {
    "tris": 12,
    "min": [
     366.5,
-    -212.5,
+    -194.5,
     13.2
    ],
    "max": [
     367.5,
-    -211.5,
+    -193.5,
     13.3
    ]
   },
-  "Lamp14": {
+  "Lamp8": {
    "tris": 12,
    "min": [
     542.5,
@@ -445,7 +406,7 @@
     13.3
    ]
   },
-  "Lamp15": {
+  "Lamp9": {
    "tris": 12,
    "min": [
     562.5,
@@ -471,7 +432,7 @@
     11.42
    ]
   },
-  "Lamp16": {
+  "Lamp10": {
    "tris": 12,
    "min": [
     455.6,
@@ -484,7 +445,7 @@
     21.88
    ]
   },
-  "Lamp17": {
+  "Lamp11": {
    "tris": 12,
    "min": [
     452.8,
@@ -497,7 +458,7 @@
     21.88
    ]
   },
-  "Lamp18": {
+  "Lamp12": {
    "tris": 12,
    "min": [
     305.6,
@@ -510,7 +471,7 @@
     21.88
    ]
   },
-  "Lamp19": {
+  "Lamp13": {
    "tris": 12,
    "min": [
     302.8,
@@ -523,7 +484,7 @@
     21.88
    ]
   },
-  "Lamp20": {
+  "Lamp14": {
    "tris": 12,
    "min": [
     455.6,
@@ -536,7 +497,7 @@
     21.88
    ]
   },
-  "Lamp21": {
+  "Lamp15": {
    "tris": 12,
    "min": [
     452.8,
@@ -549,7 +510,7 @@
     21.88
    ]
   },
-  "Lamp22": {
+  "Lamp16": {
    "tris": 12,
    "min": [
     305.6,
@@ -562,7 +523,7 @@
     21.88
    ]
   },
-  "Lamp23": {
+  "Lamp17": {
    "tris": 12,
    "min": [
     302.8,
@@ -593,31 +554,24 @@
   "Lamp14",
   "Lamp15",
   "Lamp16",
-  "Lamp17",
-  "Lamp18",
-  "Lamp19",
-  "Lamp20",
-  "Lamp21",
-  "Lamp22",
-  "Lamp23"
+  "Lamp17"
  ],
  "textures": {
   "Lawn": "ParkLawn_Color.png",
   "StoneTrim": "ParkWall_Color.png",
   "Plinth": "ParkCap_Color.png",
-  "Lamp1": "Light_Color.png",
-  "Lamp2": "Light_Color.png",
-  "Lamp3": "Light_Color.png",
-  "Lamp4": "Light_Color.png",
+  "IronBlack": "IronBlack_Color.png",
+  "LightPier": "Light_Color.png",
   "BenchWood": "BenchWood_Color.png",
   "ParkSigns": "ParkSigns_Color.png",
   "PoleGalv": "PoleGalv_Color.png",
-  "IronBlack": "IronBlack_Color.png",
   "Pavers": "ParkPavers_Color.png",
   "PlazaStone": "PlazaStone_Color.png",
   "FountainStone": "FountainStone_Color.png",
+  "PoolWater": "PoolWater_Color.png",
   "FxPool": "FxPool_Color.png",
   "FxFall": "FxFall_Color.png",
+  "FxJet": "FxFall_Color.png",
   "FxRipple": "FxRipple_Color.png",
   "MatBark": "ParkMulch_Color.png",
   "PlayBlue": "PlayBlue_Color.png",
@@ -626,25 +580,23 @@
   "PlayRed": "PlayRed_Color.png",
   "Steel": "Steel_Color.png",
   "LightLantern": "Light_Color.png",
+  "Lamp1": "Light_Color.png",
+  "Lamp2": "Light_Color.png",
+  "Lamp3": "Light_Color.png",
+  "Lamp4": "Light_Color.png",
   "Lamp5": "Light_Color.png",
   "Lamp6": "Light_Color.png",
   "Lamp7": "Light_Color.png",
   "Lamp8": "Light_Color.png",
   "Lamp9": "Light_Color.png",
+  "SkateConcrete": "SkateCrete_Color.png",
   "Lamp10": "Light_Color.png",
   "Lamp11": "Light_Color.png",
   "Lamp12": "Light_Color.png",
   "Lamp13": "Light_Color.png",
   "Lamp14": "Light_Color.png",
   "Lamp15": "Light_Color.png",
-  "SkateConcrete": "SkateCrete_Color.png",
   "Lamp16": "Light_Color.png",
-  "Lamp17": "Light_Color.png",
-  "Lamp18": "Light_Color.png",
-  "Lamp19": "Light_Color.png",
-  "Lamp20": "Light_Color.png",
-  "Lamp21": "Light_Color.png",
-  "Lamp22": "Light_Color.png",
-  "Lamp23": "Light_Color.png"
+  "Lamp17": "Light_Color.png"
  }
 }

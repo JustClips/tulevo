@@ -358,7 +358,8 @@ def shop_interior(kind, seed, w=1024, h=480):
     wall = {"barber": (214, 206, 190), "donut": (246, 222, 196), "pharmacy": (232, 236, 236), "noodle": (176, 48, 40),
             "cafe": (120, 88, 64), "phone": (228, 230, 234), "tailor": (200, 186, 160), "books": (90, 70, 52),
             "pizza": (200, 150, 100), "pets": (210, 230, 220), "games": (34, 30, 52), "nails": (244, 214, 222),
-            "dental": (226, 238, 242), "tax": (214, 214, 206), "shoes": (180, 150, 120), "florist": (232, 240, 226)}[kind]
+            "dental": (226, 238, 242), "tax": (214, 214, 206), "shoes": (180, 150, 120), "florist": (232, 240, 226),
+            "mart": (236, 234, 228)}[kind]
     im = Image.new("RGB", (w, h), wall)
     d = ImageDraw.Draw(im)
     d.rectangle((0, int(h * 0.78), w, h), fill=(150, 140, 128) if kind != "noodle" else (90, 70, 60))      # floor
@@ -367,7 +368,29 @@ def shop_interior(kind, seed, w=1024, h=480):
     # ceiling lights
     for x in range(80, w, 220):
         d.rectangle((x, 6, x + 120, 16), fill=(255, 250, 230))
-    if kind == "barber":
+    if kind == "mart":
+        for k in range(4):                                                                   # soda coolers on the back wall
+            x = 40 + k * 120
+            d.rectangle((x, 60, x + 110, 360), fill=(40, 44, 50))
+            d.rectangle((x + 8, 68, x + 102, 352), fill=(150, 190, 210))
+            for row in range(5):
+                y = 90 + row * 52
+                d.rectangle((x + 10, y + 34, x + 100, y + 38), fill=(200, 200, 205))
+                for j in range(6):
+                    c = r.choice([(200, 30, 30), (30, 90, 200), (40, 160, 70), (240, 180, 40), (240, 240, 240)])
+                    d.rectangle((x + 14 + j * 14, y + 6, x + 24 + j * 14, y + 34), fill=c)
+        for row in range(3):                                                                 # snack aisle
+            y = 220 + row * 50
+            d.rectangle((540, y + 40, 960, y + 46), fill=(170, 170, 176))
+            xx = 546
+            while xx < 950:
+                bw = r.randint(16, 30)
+                d.rectangle((xx, y + 40 - r.randint(18, 36), xx + bw, y + 40),
+                            fill=r.choice([(230, 120, 30), (220, 40, 40), (250, 210, 60), (60, 120, 200), (120, 60, 160)]))
+                xx += bw + 3
+        d.rectangle((540, 80, 820, 170), fill=(232, 120, 30))                                # back-wall banner
+        fit_text(d, (680, 125), "COFFEE · SNACKS", FONT_B, 250, 40, (255, 255, 255))
+    elif kind == "barber":
         for i in range(3):
             x = 90 + i * 260
             d.rectangle((x, 110, x + 150, 250), fill=(190, 210, 220), outline=(80, 70, 60), width=6)       # mirror
@@ -886,22 +909,37 @@ def park():
     real("ParkPavers", "PavingStones081", 1024)                                 # herringbone walks
     real("PlazaStone", "PavingStones128", 1024)                                 # fountain plaza slabs
     real("FountainStone", "Travertine009", 1024, tint=(222, 212, 192), gain=1.0)  # basin, column, bowls
-    real("ParkWall", "Concrete025", 1024)                                       # exposed-aggregate wall
-    real("ParkCap", "Concrete016", 512, tint=(200, 198, 192), gain=1.15)        # wall caps, kerbs
+    real("ParkWall", "Concrete025", 1024, tint=(150, 148, 142), gain=0.85)                                       # exposed-aggregate wall
+    real("ParkCap", "Concrete016", 512, tint=(150, 148, 142), gain=0.9)        # wall caps, kerbs
     real("ParkLawn", "Grass004", 1024)
     real("ParkMulch", "WoodChips001", 1024, tint=(132, 96, 66), gain=1.0)
-    # skate concrete: smooth, light, even (GTA-style), faint trowel cloud + saw-cut joints on the tile edge
+    # skate concrete: mid-grey poured concrete (Dev 2026-11-07: the light version glared white in game):
+    # trowel cloud, fine grain, soft dark stains, wheel scuffs, saw-cut joints on the tile edge
     S_ = 1024
     gl = scan("Concrete042A", size=S_).convert("L")
-    g = np.asarray(gl.filter(ImageFilter.GaussianBlur(6)), np.float32)
-    v = 160 + (g - g.mean()) * 0.2
+    g = np.asarray(gl.filter(ImageFilter.GaussianBlur(4)), np.float32)
+    v = 112 + (g - g.mean()) * 0.55
     fine = np.asarray(gl, np.float32)
-    v += (fine - np.asarray(gl.filter(ImageFilter.GaussianBlur(3)), np.float32)) * 0.25
-    yy, xx = np.mgrid[0:S_, 0:S_]
+    v += (fine - np.asarray(gl.filter(ImageFilter.GaussianBlur(3)), np.float32)) * 0.6
+    rs = np.random.default_rng(11)
+    yy, xx = np.mgrid[0:S_, 0:S_].astype(np.float32)
+    for _ in range(9):                                                          # soft stains (wrap round: tiles)
+        cx, cy, rad, amp = rs.uniform(0, S_), rs.uniform(0, S_), rs.uniform(40, 140), rs.uniform(8, 18)
+        dx = np.minimum(abs(xx - cx), S_ - abs(xx - cx))
+        dy = np.minimum(abs(yy - cy), S_ - abs(yy - cy))
+        v -= amp * np.exp(-(dx * dx + dy * dy) / (2 * rad * rad))
+    sc = Image.new("L", (S_, S_), 0)
+    d = ImageDraw.Draw(sc)
+    for _ in range(40):                                                         # wheel scuffs: long thin dark arcs
+        cx, cy, R_ = rs.uniform(0, S_), rs.uniform(0, S_), rs.uniform(150, 600)
+        a0 = rs.uniform(0, 360)
+        d.arc((cx - R_, cy - R_, cx + R_, cy + R_), a0, a0 + rs.uniform(8, 25), fill=int(rs.uniform(60, 140)), width=2)
+    scuff = np.asarray(sc.filter(ImageFilter.GaussianBlur(1.2)), np.float32) / 255
+    v -= scuff * 22
     joint = (np.minimum(xx, S_ - 1 - xx) < 3) | (np.minimum(yy, S_ - 1 - yy) < 3)
-    v = np.where(joint, v - 45, v)
-    col = np.stack([v * 1.01, v, v * 0.97], -1)
-    r = np.where(joint, 200, 150 + (g - g.mean()) * 0.2)
+    v = np.where(joint, v - 35, v)
+    col = np.stack([v * 1.0, v * 0.99, v * 0.96], -1)
+    r = np.where(joint, 235, 205 + (g - g.mean()) * 0.3 - scuff * 30)
     save("SkateCrete", Image.fromarray(np.clip(col, 0, 255).astype(np.uint8)),
          Image.fromarray(np.clip(r, 0, 255).astype(np.uint8)))
     for n, c in (("PlayRed", (200, 50, 40)), ("PlayBlue", (40, 100, 190)), ("PlayYellow", (236, 186, 40)),
@@ -957,7 +995,69 @@ def auto():
     save("AutoSigns", im, Image.new("RGB", (W, H), (110, 110, 110)))
 
 
-STEPS = {"street": street, "brick": brick_building, "diner": diner, "hotel": hotel, "park": park, "mall": mall, "auto": auto}
+# ================================================================= Sundial Fuel gas station
+def fuel():
+    real("FuelStucco", "PaintedPlaster017", 1024, tint=(214, 200, 176), gain=0.95)
+    paint("FuelWhite", (226, 228, 228), grain="PaintedMetal012", strength=0.2)
+    paint("FuelOrange", (226, 112, 28), grain="PaintedMetal012", strength=0.2)
+    paint("PumpRed", (186, 40, 34), grain="PaintedMetal012", strength=0.25)
+    save("MartInterior", shop_interior("mart", 77).resize((1024, 512)), 30)
+    W = 1024
+    im = Image.new("RGB", (W, W), (30, 30, 34))
+    d = ImageDraw.Draw(im)
+    ORG, WHT, DK = (232, 116, 26), (250, 250, 248), (26, 28, 32)
+
+    def sun(cx, cy, r):
+        for k in range(12):
+            a_ = k / 12 * math.tau
+            d.line((cx + math.cos(a_) * r * 1.2, cy + math.sin(a_) * r * 1.2, cx + math.cos(a_) * r * 1.7,
+                    cy + math.sin(a_) * r * 1.7), fill=(255, 210, 60), width=max(2, int(r * 0.18)))
+        d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=(255, 200, 40))
+    # A: canopy fascia (0..1024 x 0..256)
+    d.rectangle((0, 0, W, 256), fill=WHT)
+    d.rectangle((0, 196, W, 236), fill=ORG)
+    d.rectangle((0, 236, W, 256), fill=(200, 40, 34))
+    sun(150, 98, 54)
+    fit_text(d, (590, 104), "SUNDIAL", FONT_B, 700, 150, ORG)
+    # B: pylon (0..512 x 256..1024): logo head + three LED price rows
+    d.rectangle((0, 256, 512, 1024), fill=DK)
+    d.rectangle((10, 266, 502, 520), fill=WHT)
+    sun(256, 350, 50)
+    fit_text(d, (256, 466), "SUNDIAL", FONT_B, 440, 90, ORG)
+    for i, (grade, price) in enumerate((("UNLEADED", "3.49"), ("PLUS", "3.79"), ("DIESEL", "3.99"))):
+        y0 = 540 + i * 160
+        d.rectangle((14, y0, 498, y0 + 146), fill=(12, 12, 14), outline=(90, 90, 96), width=4)
+        fit_text(d, (256, y0 + 30), grade, FONT_B, 440, 36, WHT)
+        fit_text(d, (236, y0 + 96), price, FONT_B, 360, 84, (255, 70, 50))
+        fit_text(d, (440, y0 + 76), "9", FONT_B, 40, 36, (255, 70, 50))
+    # C: kiosk sign (512..1024 x 256..512)
+    d.rectangle((512, 256, 1024, 512), fill=ORG)
+    d.rectangle((522, 266, 1014, 502), outline=WHT, width=6)
+    fit_text(d, (768, 350), "SUNDIAL MART", FONT_B, 460, 96, WHT)
+    fit_text(d, (768, 450), "SNACKS · COFFEE · TIRE AIR", FONT_B, 460, 40, (255, 240, 210))
+    # D: pump face (512..1024 x 512..1024)
+    d.rectangle((512, 512, 1024, 1024), fill=(196, 44, 36))
+    d.rectangle((512, 512, 1024, 600), fill=WHT)
+    fit_text(d, (768, 556), "SUNDIAL", FONT_B, 420, 64, ORG)
+    d.rectangle((572, 630, 964, 800), fill=(20, 22, 26), outline=(160, 160, 166), width=6)       # display
+    for k, t in enumerate(("$  24.80", "GAL  7.106")):
+        fit_text(d, (768, 680 + k * 70), t, FONT_B, 360, 46, (120, 240, 140))
+    for k, (g, c) in enumerate((("87", (60, 60, 64)), ("89", (60, 60, 64)), ("93", (60, 60, 64)))):
+        x = 600 + k * 130
+        d.rectangle((x, 840, x + 100, 940), fill=c, outline=WHT, width=4)
+        fit_text(d, (x + 50, 890), g, FONT_B, 80, 50, WHT)
+    save("FuelSigns", im, 120)
+    # public parking signs (Westgate lot by Ironwood Arms): blue P panel + rates panel
+    im = Image.new("RGB", (512, 512), (24, 70, 160))
+    d = ImageDraw.Draw(im)
+    d.rectangle((8, 8, 503, 503), outline=(250, 250, 250), width=8)
+    fit_text(d, (256, 190), "P", FONT_B, 300, 300, (255, 255, 255))
+    fit_text(d, (256, 380), "PUBLIC PARKING", FONT_B, 440, 52, (255, 255, 255))
+    fit_text(d, (256, 450), "$2 / HOUR  ·  PAY AT MACHINE", FONT_B, 440, 28, (220, 230, 255))
+    save("LotSigns", im, 120)
+
+
+STEPS = {"street": street, "brick": brick_building, "diner": diner, "hotel": hotel, "park": park, "mall": mall, "auto": auto, "fuel": fuel}
 
 if __name__ == "__main__":
     fetch()
