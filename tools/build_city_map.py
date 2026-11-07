@@ -122,6 +122,28 @@ ARMY_AT = (-650 - 68 * ARMY_M, 0.15, AVE_Z)          # model origin; front edge 
 ARMY_APRON_X = ARMY_AT[0] + 52 * ARMY_M + 1.0       # model asphalt starts 52 m in front (+1 stud overlap)
 BUILDINGS.append(("FortHalden", "ArmyBase_E", ARMY_AT))
 
+# ---------------------------------------------------------------- Bellmont Hills (rich suburb)
+# (thread "Build rich suburbs district"; art/blender/estate/build_estate.py). East of the city:
+# Vault Avenue carries on east as Bellmont Drive, Back Street as Crestview Road, and Bellmont Way
+# joins them at the far end so the GPS has a loop. Three rows of four 36 x 40 m mansion lots:
+# north of Bellmont Drive (facing south, *_S builds), south of it, and south of Crestview Road.
+EST_LOT_W, EST_LOT_D = 36 * 3.6, 40 * 3.6
+EST_X0 = EXTENT + 22                                 # first lot edge, just past the city's last kerb
+EST_X1 = EST_X0 + 4 * EST_LOT_W
+EST_WAY_X = EST_X1 + SIDE_W + ROAD_W / 2              # Bellmont Way centre
+EST_END = EST_WAY_X + ROAD_W / 2                      # east end of the two drives
+EST_ROWS = [
+    # lot centre z, facing, models west -> east, wall paints
+    (AVE_Z - ROAD_W / 2 - SIDE_W - EST_LOT_D / 2, "S", ("Casa", "Modern", "Villa", "Hacienda"), ("Ivory", "Charcoal", "Sage", "Sand")),
+    (AVE_Z + ROAD_W / 2 + SIDE_W + EST_LOT_D / 2, "N", ("Villa", "Hacienda", "Casa", "Modern"), ("Stone", "Blush", "White", "Slate")),
+    (BACK_Z + ROAD_W / 2 + SIDE_W + EST_LOT_D / 2, "N", ("Modern", "Casa", "Hacienda", "Villa"), ("White", "Sand", "Ivory", "Ivory")),
+]
+for r, (z, face, models, paints) in enumerate(EST_ROWS):
+    for i, (model, paint) in enumerate(zip(models, paints)):
+        key = model if face == "N" else f"{model}_S"
+        BUILDINGS.append((f"Bellmont{model}{r}{i}", key, (EST_X0 + (i + 0.5) * EST_LOT_W, 0.3, z),
+                          {"Render" if model == "Modern" else "Walls": paint}))
+
 # paved plazas under the towers, from the kerb to behind the building: name, x0, x1, z0, z1
 PLAZAS = [
     ("HollisPlaza", -70, 70, BACK_Z + 22 + 18, 310),
@@ -143,7 +165,7 @@ def part(name, size, pos, color, material="Concrete", tags=None, rot=0, classNam
 
 children = []
 # base ground (big, so the edge of the world is far away)
-children.append(part("Ground", (2400, 2, 2400), (0, -1, 0), GROUND, "Concrete"))
+children.append(part("Ground", (2700, 2, 2700), (0, -1, 0), GROUND, "Concrete"))
 
 # roads: E-W avenue + back street + the two outer residential streets, N-S cross streets;
 # slightly different heights avoid z-fighting
@@ -154,6 +176,10 @@ roads = [
     ("SouthStreet", (2 * EXTENT, 0.2, RES_W), (0, 0.1, SOUTH_Z)),
     ("WestStreet", (ROAD_W, 0.2, 2 * EXTENT), (-BLOCK_X, 0.104, 0)),
     ("EastStreet", (ROAD_W, 0.2, 2 * EXTENT), (BLOCK_X, 0.104, 0)),
+    # Bellmont Hills: the avenue and the back street carried on east, joined at the far end
+    ("BellmontDrive", (EST_END - EXTENT, 0.2, ROAD_W), ((EXTENT + EST_END) / 2, 0.1, AVE_Z)),
+    ("CrestviewRoad", (EST_END - EXTENT, 0.2, ROAD_W), ((EXTENT + EST_END) / 2, 0.1, BACK_Z)),
+    ("BellmontWay", (ROAD_W, 0.2, BACK_Z - AVE_Z + ROAD_W), (EST_WAY_X, 0.104, 0)),
 ]
 SIDEWALK_W = {"NorthStreet": RES_SIDE, "SouthStreet": RES_SIDE}   # others: SIDE_W
 for name, size, pos in roads:
@@ -169,8 +195,12 @@ def crossings(size, pos):
     """[(centre, half width)] of the roads crossing this one, along its own axis."""
     along_x = size[0] > size[2]
     out = []
+    lo = (pos[0] if along_x else pos[2]) - max(size[0], size[2]) / 2
+    hi = lo + max(size[0], size[2])
     for _, s2, p2 in roads:
         if (s2[0] > s2[2]) == along_x:
+            continue
+        if not lo <= (p2[0] if along_x else p2[2]) <= hi:     # crosses the line further along, not this road
             continue
         if along_x and abs(pos[2] - p2[2]) <= s2[2] / 2:
             out.append((p2[0], s2[0] / 2))
@@ -183,7 +213,8 @@ def spans(size, pos):
     along_x = size[0] > size[2]
     lo = (pos[0] if along_x else pos[2]) - max(size[0], size[2]) / 2
     edges = [lo] + [e for c, h in crossings(size, pos) for e in (c - h, c + h)] + [lo + max(size[0], size[2])]
-    return [(edges[i], edges[i + 1]) for i in range(0, len(edges), 2)]
+    edges = [min(max(e, lo), lo + max(size[0], size[2])) for e in edges]
+    return [(edges[i], edges[i + 1]) for i in range(0, len(edges), 2) if edges[i + 1] - edges[i] > 1]
 
 
 for name, size, pos in roads:
@@ -210,6 +241,14 @@ roads.append(FORT_ROAD)
 inner_x = BLOCK_X - R - SIDE_W
 inner_z0, inner_z1 = AVE_Z + R + SIDE_W, BACK_Z - R - SIDE_W
 children.append(part("BankPlaza", (2 * inner_x, kerb, inner_z1 - inner_z0), (0, kerb / 2, (inner_z0 + inner_z1) / 2), "#A3A39D", "Pavement"))
+
+# Bellmont Hills grass: green verges round the lots (top 0.15: under the lots, kerbs and roads)
+for name, x0, x1, z0, z1 in (
+        ("BellmontGreenN", EXTENT, EST_END + 60, -700, AVE_Z - ROAD_W / 2 - SIDE_W),
+        ("BellmontGreenMid", EXTENT + 2, EST_WAY_X - ROAD_W / 2 - SIDE_W, AVE_Z + ROAD_W / 2 + SIDE_W, BACK_Z - ROAD_W / 2 - SIDE_W),
+        ("BellmontGreenS", EXTENT, EST_END + 60, BACK_Z + ROAD_W / 2 + SIDE_W, 700),
+        ("BellmontGreenE", EST_WAY_X + ROAD_W / 2 + SIDE_W, EST_END + 60, AVE_Z - ROAD_W / 2 - SIDE_W, BACK_Z + ROAD_W / 2 + SIDE_W)):
+    children.append(part(name, (x1 - x0, 0.15, z1 - z0), ((x0 + x1) / 2, 0.075, (z0 + z1) / 2), "#4E6A33", "Grass"))
 
 for name, x0, x1, z0, z1 in PLAZAS:
     children.append(part(name, (x1 - x0, kerb, z1 - z0), ((x0 + x1) / 2, kerb / 2, (z0 + z1) / 2), "#A3A39D", "Pavement"))

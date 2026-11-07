@@ -122,5 +122,37 @@
  "ArmyBase_E": {
   "id": 82559827773204,
   "sha": "219307f635912a243851c178cf667ab215803eef66ee18e84dd33aba28eaaed8"
+ },
+ "Casa": {
+  "id": 134513610273042,
+  "sha": "7d5ed8b7e096d4fd3d4917c6742afd67a72a3abbc1786aa24232b14fbc757a3c"
+ },
+ "Casa_S": {
+  "id": 105157263707277,
+  "sha": "8507744a8080608d1bdda80f7862c989693741c02f7d6ddb1352096659841326"
+ },
+ "Hacienda": {
+  "id": 139694432307917,
+  "sha": "bbc92b63f07ab8f4b93a5478017312cbf458b32f65575f0be7df01a525b540f1"
+ },
+ "Hacienda_S": {
+  "id": 91270519105997,
+  "sha": "607ba0e70581f34d34d8b5d14f06bef0b07421011d165eafac3c7d3c630f165d"
+ },
+ "Modern": {
+  "id": 96316268862867,
+  "sha": "cde4f82f07d74f3bb61856d74f4609c20bc0efdbdd1eee4c5455d9b8492462b3"
+ },
+ "Modern_S": {
+  "id": 77659574193441,
+  "sha": "7724b579f2bc7be43c5468ab1a354aa553ddc854fb4ad4ab6ae97e1baef0b978"
+ },
+ "Villa": {
+  "id": 70673747357732,
+  "sha": "f4bb117612d3bb880a64d0dee57d43dd3a2e49f2d962c35d77925b2250d35510"
+ },
+ "Villa_S": {
+  "id": 86561201753724,
+  "sha": "9fabe4343a1f83199035477d2c7e951f1ea9496c9d7b34268ce05eab5894e3f5"
  }
 }

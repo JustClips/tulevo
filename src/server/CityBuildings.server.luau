@@ -32,6 +32,8 @@ local ALPHA = {
 	CamoNet = true,
 	Slide1Mesh = true,
 	Slide2Mesh = true,
+	-- Bellmont Hills mansions
+	Ivy = true,
 }
 -- Small decor parts that should not collide.
 local DECO = {
@@ -195,6 +197,9 @@ local PLANTS = {
 	FlowerR = true,
 	FlowerY = true,
 	FlowerW = true,
+	-- Bellmont Hills mansions (clipped HedgeBox hedges stay solid)
+	Blossom = true,
+	Ivy = true,
 }
 
 local function solidInWalkIn(name: string): boolean
