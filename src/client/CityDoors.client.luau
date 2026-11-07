@@ -7,14 +7,16 @@
 	door, the Fort Halden gates). Every <Kind><N>* part moves together except <Kind><N>Pivot,
 	whose bounding-box centre is the hinge / axis:
 	  Swing  hinged door or gate: turns about the vertical line through the Pivot, up to 85 deg,
-	         away from whoever walks up (either way). You push it open with a hand
-	         (Tulevo_DoorPush / Tulevo_DoorPushLeft from art/anim/door_push.py).
+	         away from you (either way). It only opens when you walk into it from in front: your
+	         hand comes up and pushes it (Tulevo_DoorPush / Tulevo_DoorPushLeft from
+	         art/anim/door_push.py). Walking past it along the wall does nothing.
 	  Slide  sliding gate: moves along its long horizontal side by its own length toward the Pivot.
 	  Lift   boom barrier: the arm swings up 85 deg about the horizontal axis at the Pivot.
 	A building attribute Lock_<Kind><N> = true keeps that door shut.
 
 	Every client runs its own doors from where all characters are (nothing is sent to the server):
-	a door opens when someone comes near and closes HOLD seconds after the last one leaves. While a
+	sliding gates and barriers open when someone comes near, swing doors when someone walks into
+	them; each closes HOLD seconds after the last one leaves. While a
 	door is open its parts stop colliding here. Door parts keep their own mesh collision (no
 	CityColliders boxes, Server/CityBuildings); on the server they stay shut.
 ]]
@@ -26,7 +28,7 @@ local RunService = game:GetService("RunService")
 
 local WeaponState = require(script.Parent:WaitForChild("Weapons"):WaitForChild("State"))
 
-local RANGE = { Swing = 5.5, Slide = 9, Lift = 16 } -- studs from the closed door
+local RANGE = { Slide = 9, Lift = 16 } -- studs from the closed gate / arm
 local LOOKAHEAD = 0.35 -- seconds of walking counted toward the range (opens a bit early when running)
 local OPEN_TIME = { Swing = 0.45, Lift = 1.6 } -- seconds; Slide goes by speed
 local CLOSE_TIME = { Swing = 0.8, Lift = 1.8 }
@@ -34,12 +36,14 @@ local SLIDE_SPEED = 13 -- studs per second
 local HOLD = 1.2 -- seconds open after nobody is near
 local SWING_ANGLE = math.rad(85)
 local LIFT_ANGLE = math.rad(85)
--- You walking up to a closed swing door you face: it stays shut until your hand gets there.
-local PUSH_FACING = 0.35 -- facing it this much (dot of look and the way to the door)
-local PUSH_NEAR = 2.4 -- the hand goes out from this close standing still...
-local PUSH_LEAD = 0.3 -- ...or this many seconds of walking toward it before reaching it
+-- Swing doors: someone in front of the door (not off to the side), walking into it and facing
+-- it, pushes it open once they're close enough for the hand to reach.
+local PUSH_REACH = 1.8 -- studs from the door: the hand touches it
+local PUSH_LEAD = 0.25 -- seconds of walking into it counted on top (the hand goes out early)
+local PUSH_MAX = 3.6 -- never from further than this
 local PUSH_CONTACT = 0.18 -- seconds into the push clip the hand meets the door (door_push.py)
-local SCAN_EVERY = 0.1
+local KEEP = 3 -- an open swing door stays open while someone is this close to its doorway
+local SCAN_EVERY = 0.05
 
 type Door = {
 	model: Model,
@@ -53,6 +57,8 @@ type Door = {
 	b: Vector3,
 	center: Vector3,
 	normal: Vector3, -- Swing: horizontal, perpendicular to the leaf
+	u: Vector3, -- Swing / Lift: hinge -> tip, horizontal unit
+	len: number, -- Swing / Lift: hinge -> tip length
 	axis: Vector3, -- Lift: rotation axis
 	shift: Vector3, -- Slide: full-open offset
 	duration: { open: number, close: number },
@@ -141,6 +147,8 @@ local function build(model: Model, key: string, kind: string, parts: { BasePart 
 		b = center,
 		center = center,
 		normal = Vector3.zero,
+		u = Vector3.xAxis,
+		len = 0,
 		axis = Vector3.xAxis,
 		shift = Vector3.zero,
 		duration = { open = OPEN_TIME[kind] or 1, close = CLOSE_TIME[kind] or 1 },
@@ -174,6 +182,8 @@ local function build(model: Model, key: string, kind: string, parts: { BasePart 
 		end
 		door.a = hinge
 		door.b = hinge + u.Unit * reach
+		door.u = u.Unit
+		door.len = reach
 		door.normal = Vector3.yAxis:Cross(u.Unit)
 		door.axis = u.Unit:Cross(Vector3.yAxis)
 	else
@@ -287,6 +297,7 @@ local function push(): boolean
 	if not track then
 		local ok, t = pcall(animator.LoadAnimation, animator, clip)
 		if not ok then
+			warn(`[CityDoors] could not load {name}: {t}`)
 			return false
 		end
 		track = t
@@ -369,36 +380,36 @@ local function place(door: Door)
 end
 
 local nextScan = 0
-type Root = { pos: Vector3, vel: Vector3, look: Vector3, isMe: boolean }
+-- intent: where they're trying to go (yours: the stick / WASD; others: their velocity / 16)
+type Root = { pos: Vector3, vel: Vector3, look: Vector3, intent: Vector3, isMe: boolean }
 local roots: { Root } = {}
-local me: Root? = nil
 
 local function gather()
 	table.clear(roots)
-	me = nil
 	for _, plr in Players:GetPlayers() do
 		local char = plr.Character
 		local root = char and (char.PrimaryPart or char:FindFirstChild("HumanoidRootPart"))
 		if root and root:IsA("BasePart") then
+			local vel = root.AssemblyLinearVelocity
+			local hum = char:FindFirstChildOfClass("Humanoid")
+			local intent = if plr == player and hum then flat(hum.MoveDirection) else flat(vel) / 16
 			local r = {
 				pos = root.Position,
-				vel = root.AssemblyLinearVelocity,
+				vel = vel,
 				look = root.CFrame.LookVector,
+				intent = intent,
 				isMe = plr == player,
 			}
 			table.insert(roots, r)
-			if r.isMe then
-				me = r
-			end
 		end
 	end
 end
 
 -- nearest character to a door, counting LOOKAHEAD seconds of their walking
-local function nearest(door: Door, skipMe: boolean): (number, Root?)
+local function nearest(door: Door): (number, Root?)
 	local best, who = math.huge, nil
 	for _, r in roots do
-		if (skipMe and r.isMe) or math.abs(r.pos.Y - door.center.Y) > 14 then
+		if math.abs(r.pos.Y - door.center.Y) > 14 then
 			continue
 		end
 		local d = math.min((closest(r.pos, door.a, door.b)), (closest(r.pos + flat(r.vel) * LOOKAHEAD, door.a, door.b)))
@@ -409,31 +420,77 @@ local function nearest(door: Door, skipMe: boolean): (number, Root?)
 	return best, who
 end
 
+-- Is r pushing this (closed) swing door? Returns how far from the door they are when they are.
+local function pushing(door: Door, r: Root): number?
+	if math.abs(r.pos.Y - door.center.Y) > 6 then
+		return nil
+	end
+	local rel = flat(r.pos - door.hinge)
+	local along = rel:Dot(door.u) / door.len -- 0 at the hinge, 1 at the far edge
+	local side = rel:Dot(door.normal)
+	local dist = math.abs(side)
+	if along < -0.1 or along > 1.1 or dist > PUSH_MAX then
+		return nil -- off to the side of the doorway, or too far
+	end
+	local into = door.normal * (if side > 0 then -1 else 1)
+	local look = flat(r.look)
+	if r.intent:Dot(into) < 0.45 or look.Magnitude < 0.1 or look.Unit:Dot(into) < 0.2 then
+		return nil -- not walking into it / facing away
+	end
+	local speed = math.max(0, flat(r.vel):Dot(into))
+	if dist > math.min(PUSH_MAX, PUSH_REACH + speed * PUSH_LEAD) then
+		return nil
+	end
+	return dist
+end
+
+-- someone in the doorway or where the open leaf swings: keep an open swing door open
+local function inDoorway(door: Door, r: Root): boolean
+	if math.abs(r.pos.Y - door.center.Y) > 6 then
+		return false
+	end
+	return (closest(r.pos, door.a, door.b)) < KEEP or flat(r.pos - door.hinge).Magnitude < door.len + 0.5
+end
+
 -- swing doors open away from whoever opens them
 local function awayFrom(door: Door, r: Root)
 	door.dir = if (r.pos - door.hinge):Dot(door.normal) > 0 then -1 else 1
 end
 
--- The local player walking up to a closed swing door they face: it waits for their hand. Returns
--- "push" when the hand goes out now, "wait" while they're still walking up, nil otherwise.
-local function walkUp(door: Door, now: number): string?
-	local r = me
-	if not r or door.kind ~= "Swing" or door.want or door.t >= 0.02 or WeaponState.InVehicle then
-		return nil
+local function swing(door: Door, now: number)
+	local closed = not door.want and door.t < 0.3
+	if closed then
+		for _, r in roots do
+			local dist = pushing(door, r)
+			if not dist then
+				continue
+			end
+			door.want = true
+			door.lastNear = now
+			if door.t < 0.02 then
+				awayFrom(door, r)
+			end
+			door.openAt = now
+			if r.isMe and now - lastPush > 0.5 and push() then
+				lastPush = now
+				-- the leaf starts moving when the hand gets there (sooner if running into it)
+				local speed = math.max(1, flat(r.vel).Magnitude)
+				door.openAt = now + math.min(PUSH_CONTACT, math.max(0, (dist - 1.1) / speed))
+			end
+			return
+		end
+		return
 	end
-	if math.abs(r.pos.Y - door.center.Y) > 6 then
-		return nil
+	for _, r in roots do
+		if inDoorway(door, r) then
+			door.want = true
+			door.lastNear = now
+			return
+		end
 	end
-	local d, q = closest(r.pos, door.a, door.b)
-	local to, look = flat(q - r.pos), flat(r.look)
-	if d > RANGE.Swing + 1 or to.Magnitude < 0.2 or look.Magnitude < 0.1 or look.Unit:Dot(to.Unit) < PUSH_FACING then
-		return nil
+	if door.want and now - door.lastNear > HOLD then
+		door.want = false
 	end
-	local toward = math.max(0, flat(r.vel):Dot(to.Unit))
-	if d < math.max(PUSH_NEAR, 1.6 + toward * PUSH_LEAD) and now - lastPush > 0.6 then
-		return "push"
-	end
-	return "wait"
 end
 
 local function scan(now: number)
@@ -451,25 +508,14 @@ local function scan(now: number)
 			door.want = false
 			continue
 		end
-		local walk = walkUp(door, now)
-		if walk == "push" and me then
-			door.want = true
-			door.lastNear = now
-			awayFrom(door, me)
-			lastPush = now
-			door.openAt = now + (if push() then PUSH_CONTACT else 0)
+		if door.kind == "Swing" then
+			swing(door, now)
 			continue
 		end
-		local best, who = nearest(door, walk == "wait")
+		local best, who = nearest(door)
 		if who and best < RANGE[door.kind] then
 			door.lastNear = now
-			if not door.want then
-				door.want = true
-				if door.kind == "Swing" and door.t < 0.02 then
-					awayFrom(door, who)
-					door.openAt = now
-				end
-			end
+			door.want = true
 		elseif door.want and now - door.lastNear > HOLD then
 			door.want = false
 		end
