@@ -381,7 +381,7 @@
    ]
   },
   "Frame": {
-   "tris": 264,
+   "tris": 228,
    "min": [
     -32.26,
     -19.33,
@@ -420,7 +420,7 @@
    ]
   },
   "Pole": {
-   "tris": 604,
+   "tris": 592,
    "min": [
     -43.83,
     -47.59,
@@ -523,17 +523,82 @@
     6.08
    ]
   },
-  "ClearGlass3": {
-   "tris": 12,
+  "Swing1Frame": {
+   "tris": 48,
    "min": [
     -19.08,
-    -9.9,
-    1.08
+    -4.23,
+    0.07
    ],
    "max": [
-    -18.94,
-    -5.22,
-    8.64
+    -14.04,
+    -4.05,
+    9.22
+   ]
+  },
+  "Swing1Kick": {
+   "tris": 24,
+   "min": [
+    -19.01,
+    -4.27,
+    0.14
+   ],
+   "max": [
+    -14.11,
+    -4.01,
+    0.94
+   ]
+  },
+  "Swing1Glass": {
+   "tris": 12,
+   "min": [
+    -18.76,
+    -4.16,
+    0.97
+   ],
+   "max": [
+    -14.36,
+    -4.12,
+    8.82
+   ]
+  },
+  "Swing1Bar": {
+   "tris": 104,
+   "min": [
+    -18.43,
+    -4.55,
+    3.53
+   ],
+   "max": [
+    -14.69,
+    -3.73,
+    3.67
+   ]
+  },
+  "Swing1Sign": {
+   "tris": 2,
+   "min": [
+    -17.46,
+    -4.04,
+    5.4
+   ],
+   "max": [
+    -15.66,
+    -4.04,
+    6.48
+   ]
+  },
+  "Swing1Pivot": {
+   "tris": 56,
+   "min": [
+    -19.01,
+    -4.25,
+    0.0
+   ],
+   "max": [
+    -18.79,
+    -4.03,
+    9.31
    ]
   },
   "DecoPaint": {
@@ -1245,7 +1310,12 @@
   "PosterOpen": "PosterOpen_Color.png",
   "NeonRed": "NeonRed_Color.png",
   "Meter": "Meter_Color.png",
-  "ClearGlass3": "Glass_Color.png",
+  "Swing1Frame": "Frame_Color.png",
+  "Swing1Kick": "MatPole_Color.png",
+  "Swing1Glass": "Glass_Color.png",
+  "Swing1Bar": "MatPole_Color.png",
+  "Swing1Sign": "Swing1Sign_Color.png",
+  "Swing1Pivot": "MatPole_Color.png",
   "DecoPaint": "MatDecoPaint_Color.png",
   "DecoSkirt": "MatDecoSkirt_Color.png",
   "Cooler1": "MatPole_Color.png",

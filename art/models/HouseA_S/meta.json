@@ -82,7 +82,7 @@
    ]
   },
   "Iron": {
-   "tris": 2340,
+   "tris": 2364,
    "min": [
     -28.85,
     -36.09,
@@ -300,6 +300,45 @@
     3.78,
     38.7,
     16.56
+   ]
+  },
+  "Swing1Leaf": {
+   "tris": 288,
+   "min": [
+    10.5,
+    45.27,
+    0.22
+   ],
+   "max": [
+    15.12,
+    45.45,
+    5.26
+   ]
+  },
+  "Swing1Latch": {
+   "tris": 12,
+   "min": [
+    14.8,
+    45.14,
+    3.42
+   ],
+   "max": [
+    15.01,
+    45.58,
+    3.78
+   ]
+  },
+  "Swing1Pivot": {
+   "tris": 56,
+   "min": [
+    10.4,
+    45.26,
+    0.61
+   ],
+   "max": [
+    10.6,
+    45.46,
+    4.07
    ]
   },
   "Block": {
@@ -653,6 +692,9 @@
   "Tag": "Tag_Color.png",
   "Pole": "MatPole_Color.png",
   "Plastic": "MatPlastic_Color.png",
+  "Swing1Leaf": "MatIron_Color.png",
+  "Swing1Latch": "MatIron_Color.png",
+  "Swing1Pivot": "MatIron_Color.png",
   "Block": "MatBlock_Color.png",
   "Wood": "MatWood_Color.png",
   "Mailbox": "MatMailbox_Color.png",

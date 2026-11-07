@@ -23,7 +23,7 @@ Part names drive the game side (src/server/CityBuildings.server.luau): Lamp<n> l
 Light* glow, NeonRed beacon, Sconce door lights, ChainLink / RazorWire / CamoNet see-through,
 Leaf* (pine foliage) never collides, Deco* thin dressing does not collide.
 """
-import math, os, random, sys
+import json, math, os, random, sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 from kit import Kit, M, args, model_name  # noqa: E402
 from mathutils import Vector  # noqa: E402
@@ -63,6 +63,13 @@ K.facade_mats(frame=(0.20, 0.21, 0.22), sill=(0.70, 0.70, 0.68))
 # ---------------------------------------------------------------- helpers (metres in, studs out)
 def box(part, x0, x1, y0, y1, z0, z1, mat=None):
     K.boxr(part, m(x0), m(x1), m(y0), m(y1), m(z0), m(z1), mat=mat)
+
+
+COLS = []   # invisible box colliders (metres, unturned): the meshes themselves never collide in game
+
+
+def col(name, x0, x1, y0, y1, z0, z1):
+    COLS.append((name, min(x0, x1), max(x0, x1), min(y0, y1), max(y0, y1), z0, z1))
 
 
 def boxc(part, c, s, rz=0.0, mat=None):
@@ -141,17 +148,19 @@ GATE_HW = 10.0                                         # half width of the fence
 Z_GRASS, Z_DIRT, Z_ASPH, Z_PAINT, Z_WALK = 0.0, 0.03, 0.06, 0.075, 0.16
 
 # ground: grass everywhere except the approach corridor in front of the gate (the city road runs there)
-box("Grass", GX0, GX1, FY0 - 2, GY1, Z_GRASS - 0.3, Z_GRASS)
-box("Grass", GX0, -ROAD_HW, GY0, FY0 - 2, Z_GRASS - 0.3, Z_GRASS)
-box("Grass", ROAD_HW, GX1, GY0, FY0 - 2, Z_GRASS - 0.3, Z_GRASS)
+for gx0, gx1, gy0, gy1 in ((GX0, GX1, FY0 - 2, GY1), (GX0, -ROAD_HW, GY0, FY0 - 2), (ROAD_HW, GX1, GY0, FY0 - 2)):
+    box("Grass", gx0, gx1, gy0, gy1, Z_GRASS - 0.3, Z_GRASS)
+    col("Floor", gx0, gx1, gy0, gy1, Z_GRASS - 1.0, Z_GRASS)
 
 # asphalt: gate apron + entry road, the main core, and the motor pool lot
 ASPH = [(-ROAD_HW, ROAD_HW, FY0 - 2, -32), (-20, 52, -32, 8), (-56, 52, 8, 50), (-23.5, -20, -32, 8)]
 for x0, x1, y0, y1 in ASPH:
     box("Asphalt", x0, x1, y0, y1, Z_ASPH - 0.3, Z_ASPH)
+    col("Floor", x0, x1, y0, y1, Z_ASPH - 1.0, Z_ASPH)
 # the gate lanes widen out under the canopy
 for s_ in (-1, 1):
     box("Asphalt", min(s_ * ROAD_HW, s_ * (GATE_HW - 0.2)), max(s_ * ROAD_HW, s_ * (GATE_HW - 0.2)), FY0 - 6, FY0 + 6, Z_ASPH - 0.3, Z_ASPH)
+    col("Floor", s_ * ROAD_HW, s_ * (GATE_HW - 0.2), FY0 - 6, FY0 + 6, Z_ASPH - 1.0, Z_ASPH)
 
 
 # ---------------------------------------------------------------- perimeter fence
@@ -183,6 +192,7 @@ def fence_run(a, b, h=POST_H, step=3.0, wire=True, coil=True, gaps=()):
         if inside((p0 + p1) / 2):
             continue
         panel("ChainLink", (p0.x, p0.y), (p1.x, p1.y), 0.05, h - 0.05, tile=0.6)
+        col("Fence", p0.x - 0.06, p1.x + 0.06, p0.y - 0.06, p1.y + 0.06, 0, h + (0.5 if wire else 0.1))
         for z in (h - 0.05, 0.12):
             rod("FenceSteel", (p0.x, p0.y, z), (p1.x, p1.y, z), 0.025, segs=5, mat="Steel")
         if wire:
@@ -253,6 +263,7 @@ def gate():
     for x in (-GATE_HW - 0.6, GATE_HW + 0.6):
         for y in (y0 + 0.6, y1 - 0.6):
             box("Concrete", x - 0.4, x + 0.4, y - 0.4, y + 0.4, Z_ASPH, z0)
+            col("Column", x - 0.5, x + 0.5, y - 0.5, y + 0.5, 0, z0)
             box("ConcreteDark", x - 0.5, x + 0.5, y - 0.5, y + 0.5, Z_ASPH, 0.5)
     # under-canopy lights (two rows)
     for x in (-6.5, -2.5, 2.5, 6.5):
@@ -261,12 +272,15 @@ def gate():
     # side walls joining the canopy to the fence (concrete, 2.4 m) with sandbag tops
     for s_ in (-1, 1):
         box("Concrete", min(s_ * (GATE_HW + 0.3), s_ * (GATE_HW + 0.9)), max(s_ * (GATE_HW + 0.3), s_ * (GATE_HW + 0.9)), y0 + 0.2, FY0 + 9, Z_GRASS, 2.4)
+        col("Wall", s_ * (GATE_HW + 0.25), s_ * (GATE_HW + 0.95), y0 + 0.15, FY0 + 9.05, 0, 2.5)
         box("ConcreteDark", min(s_ * (GATE_HW + 0.25), s_ * (GATE_HW + 0.95)), max(s_ * (GATE_HW + 0.25), s_ * (GATE_HW + 0.95)), y0 + 0.15, FY0 + 9.05, 2.4, 2.5)
     # centre island + guard booth
     box("ConcreteDark", -1.3, 1.3, y0 - 3.0, y1 + 1.0, Z_ASPH - 0.05, Z_WALK + 0.06)
     box("PaintYellow", -1.32, 1.32, y0 - 3.02, y0 - 2.6, Z_ASPH, Z_WALK + 0.07)          # painted nose
     bx0, bx1, by0, by1, bz = -1.05, 1.05, FY0 - 1.6, FY0 + 1.6, Z_WALK + 0.06
     H = 2.7
+    col("Island", -1.3, 1.3, y0 - 3.0, y1 + 1.0, 0, Z_WALK + 0.06)
+    col("Booth", bx0 - 0.05, bx1 + 0.05, by0 - 0.05, by1 + 0.05, 0, bz + H + 0.22)
     box("Concrete", bx0, bx1, by0, by1, bz, bz + 0.9)                                    # solid lower wall
     for c in ((bx0, by0), (bx1, by0), (bx0, by1), (bx1, by1)):                           # corner posts
         box("DarkSteel", c[0] - 0.06, c[0] + 0.06, c[1] - 0.06, c[1] + 0.06, bz + 0.9, bz + H)
@@ -290,6 +304,7 @@ def gate():
         px, py = s_ * 1.0, FY0 - 2.8 * s_
         P = f"Lift{n}"
         box("BoomWhite", px - 0.22, px + 0.22, py - 0.22, py + 0.22, Z_WALK, Z_WALK + 0.85)
+        col("Post", px - 0.24, px + 0.24, py - 0.24, py + 0.24, 0, Z_WALK + 0.9)
         box("BoomRed", px - 0.24, px + 0.24, py - 0.24, py + 0.24, Z_WALK + 0.85, Z_WALK + 0.9)
         hz = Z_WALK + 1.05
         box(P + "Pivot", px - 0.16, px + 0.16, py - 0.16, py + 0.16, hz - 0.15, hz + 0.15, mat="DarkSteel")
@@ -326,6 +341,9 @@ def gate():
         for k in range(4):
             jersey(s_ * (ROAD_HW + 0.7), FY0 - 3.5 - k * 3.2, math.pi / 2)
     sandbag_post(-GATE_HW - 6.0, FY0 - 4.5, 3.2, 2.4)
+    for s_ in (-1, 1):
+        col("Barrier", s_ * (ROAD_HW + 0.4), s_ * (ROAD_HW + 1.0), FY0 - 3.5 - 3 * 3.2 - 1.5, FY0 - 3.5 + 1.5, 0, Z_ASPH + 0.81)
+        col("Hesco", s_ * (GATE_HW + 1.5), s_ * (GATE_HW + 2.0 + 4 * 1.1 + 0.5), FY0 - 1.5, FY0 - 0.5, 0, 1.24)
     # hesco barrier walls either side of the canopy, outside the fence
     for s_ in (-1, 1):
         for k in range(5):
@@ -362,6 +380,7 @@ def hesco(x, y, s=1.0):
 
 def sandbags(x0, y0, x1, y1, rows=4, z0=Z_GRASS):
     """Sandbag wall from (x0,y0) to (x1,y1): staggered pillow bags."""
+    col("Sandbags", x0 - 0.2, x1 + 0.2, y0 - 0.2, y1 + 0.2, 0, z0 + rows * 0.152)
     a, b = Vector((x0, y0)), Vector((x1, y1))
     L = (b - a).length
     d = (b - a) / L
@@ -400,6 +419,7 @@ def building(cx, cy, w, d, plate, floors=2, front=-1, stairs=True, porch=True, p
     box("Concrete", x0 - 1.6, x1 + 1.6, y0 - 1.6, y1 + 1.6, Z_ASPH - 0.1, Z_WALK)
     box("ConcreteDark", x0 - 0.05, x1 + 0.05, y0 - 0.05, y1 + 0.05, Z_WALK, 0.6)
     box(part, x0, x1, y0, y1, 0.6, top)
+    col("Building", x0 - 0.06, x1 + 0.06, y0 - 0.06, y1 + 0.06, 0, top + 0.55)
     for f in range(1, floors):                                       # floor band
         box("DarkSteel", x0 - 0.06, x1 + 0.06, y0 - 0.06, y1 + 0.06, f * fh + 0.25, f * fh + 0.45)
     # roof: slab, parapet coping, HVAC units, hatch, vent stacks, antenna
@@ -495,6 +515,7 @@ def tower(cx, cy):
     and a one-storey annex at its foot."""
     import bmesh
     shaft_h, r0, r1 = 26.0, 3.4, 2.5
+    col("Tower", cx - 2.9, cx + 2.9, cy - 2.9, cy + 2.9, 0, shaft_h + 5.5)
     cyl("Concrete", (cx, cy, shaft_h / 2), r0, shaft_h, segs=8, r2=r1)
     # vertical pilasters (the ribbed look of the reference tower)
     for i in range(8):
@@ -542,6 +563,7 @@ def tower(cx, cy):
     ax0, ax1, ay0, ay1 = cx - 4.5, cx + 4.5, cy - r0 - 4.2, cy - r0 + 0.5
     box("Concrete", ax0 - 1.2, ax1 + 1.2, ay0 - 1.4, ay1 + 1.2, Z_GRASS - 0.1, Z_WALK)
     box("Concrete", ax0, ax1, ay0, ay1, Z_WALK, 3.6)
+    col("Building", ax0, ax1, ay0, ay1, 0, 3.75)
     box("Roof", ax0 - 0.2, ax1 + 0.2, ay0 - 0.2, ay1 + 0.2, 3.6, 3.75)
     for k in (-0.46, 0.46):
         K.face_y("Door", m(cx + k), m(ay0 - 0.02), m(Z_WALK), m(0.9), m(2.15), facing=-1)
@@ -555,6 +577,7 @@ def tower(cx, cy):
 # ---------------------------------------------------------------- training yard
 def training_yard(x0, x1, y0, y1):
     box("Dirt", x0, x1, y0, y1, Z_DIRT - 0.2, Z_DIRT)
+    col("Floor", x0, x1, y0, y1, Z_DIRT - 1.0, Z_DIRT)
     # low chain-link fence round it with a gap on the +x side (door to the core)
     gap = ((y0 + y1) / 2 - 2.5 - y0, (y0 + y1) / 2 + 2.5 - y0)
     fence_run((x0, y0), (x1, y0), h=2.2, step=3.0, wire=False, coil=False)
@@ -579,6 +602,7 @@ def training_yard(x0, x1, y0, y1):
     # climbing wall (planks on a frame) with a back platform
     wx, wy = x0 + 18, y1 - 6
     box("Planks", wx - 2, wx + 2, wy - 0.1, wy + 0.1, Z_DIRT, 2.6)
+    col("Wall", wx - 2.1, wx + 2.1, wy - 0.1, wy + 1.4, 0, 2.6)
     for k in (-2, 2):
         box("Planks", wx + k - 0.08, wx + k + 0.08, wy - 0.1, wy + 1.4, Z_DIRT, 2.6)
     box("Planks", wx - 2, wx + 2, wy + 0.1, wy + 1.4, 1.4, 1.5)
@@ -611,6 +635,7 @@ def training_yard(x0, x1, y0, y1):
         rod("DecoWire", (cx_ + i * 2, cy_, 0.6), (cx_ + i * 2, cy_ + 3, 0.6), 0.008, segs=3, mat="DarkSteel")
     # bleachers (4 tiers of planks on a steel frame) facing the yard
     bx0, by0 = x1 - 3.2, y1 - 14
+    col("Bleachers", bx0, bx0 + 2.8, by0, by0 + 9, 0, 1.0)
     for t in range(4):
         z = 0.45 + t * 0.45
         box("Planks", bx0 + t * 0.7, bx0 + t * 0.7 + 0.55, by0, by0 + 9, z - 0.06, z)
@@ -622,6 +647,7 @@ def training_yard(x0, x1, y0, y1):
     # instructor hut (olive siding) + sandbag wall
     hx, hy = x1 - 4, y0 + 4
     box("SidingOlive", hx - 2.2, hx + 2.2, hy - 1.8, hy + 1.8, Z_DIRT, 2.8)
+    col("Building", hx - 2.2, hx + 2.2, hy - 1.8, hy + 1.8, 0, 2.95)
     box("DarkSteel", hx - 2.5, hx + 2.5, hy - 2.1, hy + 2.1, 2.8, 2.95)
     K.face_x("Door", m(hx - 2.22), m(hy), m(Z_DIRT), m(0.9), m(2.1), facing=-1)
     K.window3d("y", m(hy - 1.8), -1, m(hx), m(1.1), m(1.2), m(1.0), glass="GlassB", depth=m(0.08), fw=m(0.05), mull=1, head=False)
@@ -636,6 +662,7 @@ def motor_pool(x0, x1, y0, y1):
         x = x0 + i * (x1 - x0) / n
         for y in (y0, y1):
             box("DarkSteel", x - 0.15, x + 0.15, y - 0.15, y + 0.15, Z_ASPH, h)
+            col("Column", x - 0.15, x + 0.15, y - 0.15, y + 0.15, 0, h)
         rod("DarkSteel", (x, y0, h), (x, y1, h + 0.6), 0.12, segs=6)
     # pitched corrugated roof (one slope, a bit of fall to the front)
     q = [(x0 - 0.6, y0 - 0.8, h + 0.08), (x1 + 0.6, y0 - 0.8, h + 0.08), (x1 + 0.6, y1 + 0.8, h + 0.7), (x0 - 0.6, y1 + 0.8, h + 0.7)]
@@ -643,6 +670,9 @@ def motor_pool(x0, x1, y0, y1):
     K.quad("ShedRoof", [tuple(m(v) for v in p) for p in q[::-1]], mat="SidingOlive")
     # back wall + roll doors in a side store
     box("SidingOlive", x0, x1, y1 - 0.1, y1 + 0.1, Z_ASPH, h)
+    col("Wall", x0, x1, y1 - 0.1, y1 + 0.1, 0, h)
+    col("Drums", x0 + 0.7, x0 + 1.3 + 9 * 0.75, y1 - 1.1, y1 - 0.5, 0, Z_ASPH + 0.92)
+    col("Crates", x1 - 2 - 5 * 1.4 - 0.6, x1 - 1.4, y1 - 1.6, y1 - 0.4, 0, Z_ASPH + 1.5)
     K.face_y("PlateMotorpool", m((x0 + x1) / 2), m(y0 - 0.9), m(h - 0.85), m(3.2), m(0.7), facing=-1)
     for i in range(n):
         x = x0 + (i + 0.5) * (x1 - x0) / n
@@ -675,6 +705,7 @@ def watchtower(x, y):
     for dx in (-1.2, 1.2):
         for dy in (-1.2, 1.2):
             rod("DarkSteel", (x + dx * 1.15, y + dy * 1.15, Z_GRASS), (x + dx, y + dy, h), 0.08, segs=6)
+            col("Leg", x + dx * 1.1 - 0.15, x + dx * 1.1 + 0.15, y + dy * 1.1 - 0.15, y + dy * 1.1 + 0.15, 0, h)
             cyl("ConcreteDark", (x + dx * 1.15, y + dy * 1.15, 0.12), 0.25, 0.24, segs=8)
     for z in (2.0, 4.0):
         for (a, b) in (((-1, -1), (1, -1)), ((1, -1), (1, 1)), ((1, 1), (-1, 1)), ((-1, 1), (-1, -1))):
@@ -699,6 +730,7 @@ def watchtower(x, y):
 
 def street_lamp(x, y, rz):
     cyl("Steel", (x, y, 3.8), 0.09, 7.6, segs=8, r2=None)
+    col("Pole", x - 0.15, x + 0.15, y - 0.15, y + 0.15, 0, 7.6)
     cyl("ConcreteDark", (x, y, 0.2), 0.3, 0.4, segs=8)
     dx, dy = math.cos(rz), math.sin(rz)
     rod("Steel", (x, y, 7.4), (x + dx * 1.6, y + dy * 1.6, 7.6), 0.05, segs=6)
@@ -708,6 +740,7 @@ def street_lamp(x, y, rz):
 
 def flagpole(x, y):
     cyl("Steel", (x, y, 6.0), 0.07, 12.0, segs=8, r2=None)
+    col("Pole", x - 0.12, x + 0.12, y - 0.12, y + 0.12, 0, 12.0)
     cyl("Steel", (x, y, 12.05), 0.12, 0.1, segs=8)
     box("Concrete", x - 1.2, x + 1.2, y - 1.2, y + 1.2, Z_ASPH, Z_WALK + 0.15)
     # flag waving in +x
@@ -736,6 +769,8 @@ def pine(x, y, h, rng_):
     PINE_N[0] += 1
     leaf = ("Leaf", "LeafB", "LeafC", "LeafD", "LeafE", "LeafF")[PINE_N[0] % 6]
     cyl("Trunk", (x, y, h * 0.32), 0.09 * h / 4 + 0.12, h * 0.64, segs=7, r2=0.06, mat="Bark")
+    tr = 0.09 * h / 4 + 0.08
+    col("Trunk", x - tr, x + tr, y - tr, y + tr, 0, h * 0.5)
     tiers = rng_.randint(9, 12)
     bm = K.bm(leaf, "Needles")
     base_r = h * rng_.uniform(0.19, 0.24)
@@ -818,6 +853,25 @@ print("pines", len(PINES))
 
 K.finish(keep_normals=("Leaf", "LeafB", "LeafC", "LeafD", "LeafE", "LeafF", "ChainLink", "RazorWire", "CamoNet", "Flag", "ShedRoof", "TowerGlassA"), face=A["face"])
 meta = K.export()
+
+
+def roblox_box(c):
+    """Blender metres (unturned) -> Roblox studs offset from the model origin, for the --face turn."""
+    name, x0, x1, y0, y1, z0, z1 = c
+    turn = {"N": 0, "S": math.pi, "E": -math.pi / 2, "W": math.pi / 2}[A["face"]]
+    cs, sn = round(math.cos(turn)), round(math.sin(turn))
+    xs, ys = [], []
+    for x, y in ((x0, y0), (x1, y1)):
+        tx, ty = x * cs - y * sn, x * sn + y * cs
+        xs.append(-tx * M)          # Blender (x, y, z) -> Roblox (-x, z, y)
+        ys.append(ty * M)
+    return {"name": name, "pos": [round((xs[0] + xs[1]) / 2, 3), round((z0 + z1) / 2 * M, 3), round((ys[0] + ys[1]) / 2, 3)],
+            "size": [round(abs(xs[1] - xs[0]), 3), round((z1 - z0) * M, 3), round(abs(ys[1] - ys[0]), 3)]}
+
+
+meta["colliders"] = [roblox_box(c) for c in COLS]
+json.dump(meta, open(os.path.join(A["out"], "meta.json"), "w"), indent=1)
+print("colliders", len(COLS))
 
 # ---------------------------------------------------------------- renders
 if A["render"]:

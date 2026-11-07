@@ -120,7 +120,7 @@ for gang, (sz, x0, d, paints) in GANGS.items():
 ARMY_M = 3.6
 ARMY_AT = (-650 - 68 * ARMY_M, 0.15, AVE_Z)          # model origin; front edge is 68 m in front of it
 ARMY_APRON_X = ARMY_AT[0] + 52 * ARMY_M + 1.0       # model asphalt starts 52 m in front (+1 stud overlap)
-BUILDINGS.append(("FortHalden", "ArmyBase_E", ARMY_AT))
+BUILDINGS.append(("FortHalden", "ArmyBase_E", ARMY_AT, {}, {"MeshNoCollide": True}))
 
 # ---------------------------------------------------------------- Bellmont Hills (rich suburb)
 # (thread "Build rich suburbs district"; art/blender/estate/build_estate.py). East of the city:
@@ -319,7 +319,9 @@ def textures_attr(model, variants=None):
 
 lock = json.load(open(os.path.join(ROOT, "art", "models.lock.json")))
 buildings = []
-for name, model, at, *variants in BUILDINGS:
+for name, model, at, *rest in BUILDINGS:
+    variants = rest[:1] if rest and rest[0] else []
+    extra = rest[1] if len(rest) > 1 else {}
     meta = json.load(open(os.path.join(ROOT, "art", "models", model, "meta.json")))
     lo = [min(p["min"][i] for p in meta["parts"].values()) for i in range(3)]
     hi = [max(p["max"][i] for p in meta["parts"].values()) for i in range(3)]
@@ -328,8 +330,16 @@ for name, model, at, *variants in BUILDINGS:
     center = [round(at[0] - c[0], 3), round(at[1] + c[2], 3), round(at[2] + c[1], 3)]
     buildings.append({"name": name, "className": "Model", "tags": ["Building"], "attributes": {
         "LiveSyncAsset": lock[model]["id"], "LiveSyncBoxCenter": {"Vector3": center}, "CityModel": model,
-        **textures_attr(model, variants[0] if variants else None)}})
+        **textures_attr(model, variants[0] if variants else None), **extra}})
 children.append({"name": "Buildings", "className": "Folder", "children": buildings})
+
+# Fort Halden collision: the army base meshes never collide in game (MeshNoCollide; merged meshes
+# made invisible walls), so these invisible boxes from build_army.py (meta "colliders") do instead
+_army = json.load(open(os.path.join(ROOT, "art", "models", "ArmyBase_E", "meta.json")))
+children.append({"name": "FortHaldenColliders", "className": "Folder", "children": [
+    part(f"{c['name']}{i + 1}", c["size"], [ARMY_AT[k] + c["pos"][k] for k in range(3)], "#808080", "SmoothPlastic",
+         Transparency=1, CastShadow=False, CanTouch=False)
+    for i, c in enumerate(_army["colliders"])]})
 
 json.dump({"className": "Folder", "children": children}, open(OUT, "w"), indent=1)
 print(f"wrote {OUT}: {len(children)} parts + {len(lines)} lines")

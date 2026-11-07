@@ -44,7 +44,7 @@ for name, sheet, tile in (("Lawn", "Lawn", (3 * M, 3 * M)), ("Concrete", "Concre
     K.mat(name, sheet=sheet, tile=tile)
 for name in ("BusSign", "Timetable", "BusDisplay", "BusFascia", "BinLabel", "MeterFace", "FridgeDoors", "ShelfGoodsA", "ShelfGoodsB", "CandyRack", "IceFront", "Register", "Coffee", "AtmFace", "FreezerTop",
              "PosterSoda", "PosterSnack", "PosterCoffee", "PosterOpen", "AcGrille", "NewsFace", "BarWindow", "SecurityDoor", "GarageDoor", "StoreFront", "StoreSign", "StoreDoor", "Backboard",
-             "WelcomeSign", "ShelterAd", "RouteMap"):
+             "WelcomeSign", "ShelterAd", "RouteMap", "Swing1Sign"):
     K.mat(name, sheet=name, explicit=True)
 K.mat("CourtPaint", sheet="CourtPaint", explicit=True)
 K.mat("Tag", sheet="Tag", explicit=True, alpha=True)
@@ -75,10 +75,11 @@ for name, col in (("Agave", (0.32, 0.45, 0.38)), ("Grass", (0.36, 0.42, 0.20)), 
 K.mat("DecoPaint", color=(0.90, 0.88, 0.80), rough=0.8)
 K.mat("DecoSkirt", color=(0.22, 0.20, 0.19), rough=0.6)
 K.mat("Counter", color=(0.55, 0.36, 0.23), rough=0.4)
+K.mat("Ledge", color=(0.62, 0.57, 0.50), rough=0.9)
 # realistic surface sheets (tools/hood_textures.py SURF: Mat<Name>) replace the flat colours
 SURF_TILE = {"Foundation": (1.6 * M, 0.8 * M), "Block": (0.8 * M, 0.4 * M), "Flat": (2 * M, 2 * M), "Stone": (1.5 * M, 1.5 * M),
              "Wood": (1.2 * M, 1.2 * M), "Picket": (0.6 * M, 0.6 * M), "Bark": (0.6 * M, 0.6 * M), "Soil": (1 * M, 1 * M),
-             "DecoPaint": (2.5 * M, 2.5 * M), "Counter": (1.2 * M, 1.2 * M)}
+             "DecoPaint": (2.5 * M, 2.5 * M), "Counter": (1.2 * M, 1.2 * M), "Ledge": (1.0 * M, 1.0 * M)}
 for _name in list(K.mats):
     if os.path.exists(os.path.join(TEX, f"Mat{_name}_Color.png")):
         K.mat(_name, sheet=f"Mat{_name}", tile=SURF_TILE.get(_name, (1.5 * M, 1.5 * M)), rough=0.6)
@@ -163,11 +164,16 @@ def chain_fence(x0, y0, x1, y1, h=3.6 * M, post=3 * M):
 
 
 def bench(x, y, rz, w=1.8 * M):
-    piece("Wood", x, y, rz, 0, 0, 0.45 * M, (w, 0.45 * M, 0.06 * M))
-    piece("Wood", x, y, rz, 0, 0.24 * M, 0.75 * M, (w, 0.06 * M, 0.35 * M))
+    """Park bench: slatted seat and backrest on cast-iron frames. The frames sit behind the
+    backrest and inside the seat's depth, so no two faces share a plane (that flickered)."""
+    for k in range(3):                                               # seat slats with small gaps
+        piece("Wood", x, y, rz, 0, -0.15 * M + k * 0.15 * M, 0.45 * M, (w, 0.13 * M, 0.05 * M))
+    for k in range(2):                                               # backrest boards
+        piece("Wood", x, y, rz, 0, 0.24 * M, 0.66 * M + k * 0.17 * M, (w, 0.05 * M, 0.15 * M))
     for dx in (-w / 2 + 0.15 * M, w / 2 - 0.15 * M):
-        piece("Iron", x, y, rz, dx, 0, 0.22 * M, (0.08 * M, 0.45 * M, 0.44 * M))
-        piece("Iron", x, y, rz, dx, 0.24 * M, 0.6 * M, (0.08 * M, 0.06 * M, 0.75 * M))
+        piece("Iron", x, y, rz, dx, 0, 0.21 * M, (0.07 * M, 0.38 * M, 0.42 * M))       # leg frame under the seat
+        piece("Iron", x, y, rz, dx, 0.295 * M, 0.58 * M, (0.07 * M, 0.05 * M, 0.82 * M))  # back post behind the boards
+        piece("Iron", x, y, rz, dx, 0.12 * M, 0.415 * M, (0.07 * M, 0.36 * M, 0.025 * M))  # seat bearer
 
 
 def lamp_post(x, y, h=6.5 * M, arm=(0, 1)):
@@ -333,6 +339,56 @@ def picket_fence(x0, y0, x1, y1, h=1.0 * M, gaps=()):
             K.box("Picket", (p.x, p.y, h / 2 + 0.05 * M), (0.12 * M, 0.12 * M, h + 0.1 * M), rz=rz)
 
 
+def swing_gate(n, x0, x1, y, h, style="iron", hinge="right", post=None):
+    """Openable gate leaf across an opening along x at y (x0 < x1), hinged on the right (x1) or
+    left (x0). In game Client/CityDoors swings Swing<n>* parts about Swing<n>Pivot when someone
+    walks up. Hinge barrels are bolted to a fixed bracket on the post face (post = the post's
+    face x), so the leaf never floats."""
+    hx = x1 - 0.05 * M if hinge == "right" else x0 + 0.05 * M
+    far = x0 + 0.02 * M if hinge == "right" else x1 - 0.02 * M
+    lo, hi = min(hx, far), max(hx, far)
+    leaf, mat = f"Swing{n}Leaf", {"iron": "Iron", "picket": "Picket", "wood": "Wood"}[style]
+    z0, z1 = 0.06 * M, h
+    if style == "iron":
+        for xs in (lo, hi - 0.05 * M):                               # stiles
+            K.boxr(leaf, xs, xs + 0.05 * M, y - 0.025 * M, y + 0.025 * M, z0, z1, mat=mat)
+        for z in (z0, (z0 + z1) * 0.45, z1 - 0.05 * M):              # rails
+            K.boxr(leaf, lo + 0.05 * M, hi - 0.05 * M, y - 0.02 * M, y + 0.02 * M, z, z + 0.05 * M, mat=mat)
+        nb = max(2, int((hi - lo) / (0.12 * M)))
+        for k in range(1, nb):                                       # bars with spear tips
+            bx = lo + k * (hi - lo) / nb
+            K.boxr(leaf, bx - 0.012 * M, bx + 0.012 * M, y - 0.012 * M, y + 0.012 * M, z0 + 0.05 * M, z1 + 0.08 * M, mat=mat)
+            K.cyl(leaf, (bx, y, z1 + 0.12 * M), 0.025 * M, 0.08 * M, segs=4, r2=0.002 * M, mat=mat)
+        K.boxr(leaf, lo + 0.1 * M, hi - 0.1 * M, y - 0.015 * M, y + 0.015 * M, z0 + 0.12 * M, z0 + 0.15 * M, mat=mat)
+    elif style == "picket":
+        for z in (0.25 * M, z1 - 0.25 * M):
+            K.boxr(leaf, lo, hi, y - 0.035 * M, y - 0.005 * M, z, z + 0.08 * M, mat=mat)
+        K.cyl_along(leaf, (lo + 0.05 * M, y - 0.02 * M, 0.3 * M), (hi - 0.05 * M, y - 0.02 * M, z1 - 0.22 * M), 0.025 * M, segs=4, mat=mat)
+        nb = max(3, int((hi - lo) / (0.14 * M)))
+        for k in range(nb):
+            bx = lo + (k + 0.5) * (hi - lo) / nb
+            K.boxr(leaf, bx - 0.045 * M, bx + 0.045 * M, y + 0.005 * M, y + 0.035 * M, z0, z1, mat=mat)
+            K.boxr(leaf, bx - 0.03 * M, bx + 0.03 * M, y + 0.005 * M, y + 0.035 * M, z1, z1 + 0.05 * M, mat=mat)
+    else:                                                            # board gate with a Z brace
+        nb = max(3, int((hi - lo) / (0.15 * M)))
+        for k in range(nb):
+            bx = lo + (k + 0.5) * (hi - lo) / nb
+            K.boxr(leaf, bx - 0.07 * M, bx + 0.07 * M, y - 0.012 * M, y + 0.012 * M, z0, z1, mat=mat)
+        for z in (0.3 * M, z1 - 0.3 * M):
+            K.boxr(leaf, lo + 0.03 * M, hi - 0.03 * M, y + 0.012 * M, y + 0.045 * M, z - 0.05 * M, z + 0.05 * M, mat=mat)
+        K.cyl_along(leaf, (lo + 0.1 * M, y + 0.03 * M, 0.35 * M), (hi - 0.1 * M, y + 0.03 * M, z1 - 0.35 * M), 0.03 * M, segs=4, mat=mat)
+    # latch on the free stile, hinge barrels on the axis, brackets from the post face to the barrels
+    lx = far + (0.06 * M if hinge == "right" else -0.06 * M)
+    K.boxr(f"Swing{n}Latch", lx - 0.03 * M, lx + 0.03 * M, y - 0.06 * M, y + 0.06 * M, 0.95 * M, 1.05 * M, mat="Iron")
+    pin = f"Swing{n}Pivot"
+    for z in (0.25 * M, z1 - 0.25 * M):
+        K.cyl(pin, (hx, y, z), 0.028 * M, 0.16 * M, segs=8, mat="Iron")
+    px = post if post is not None else (x1 if hinge == "right" else x0)
+    for z in (0.25 * M, z1 - 0.25 * M):
+        a, b = sorted((px, hx))
+        K.boxr("Iron", a, b, y - 0.012 * M, y + 0.012 * M, z - 0.04 * M, z + 0.04 * M)
+
+
 def wood_fence(x0, y0, x1, y1, h=1.8 * M):
     """Tall board fence (back and side yards)."""
     a, b = Vector((x0, y0, 0)), Vector((x1, y1, 0))
@@ -387,15 +443,16 @@ def gable(part, x0, x1, y0, y1, z, rh, over=0.45 * M, wall="Walls"):
     K.boxr("Trim", rx0, rx1, cy - 0.1 * M, cy + 0.1 * M, z + rh - 0.02 * M, z + rh + 0.08 * M)   # ridge cap
 
 
-def lathe(part, prof, segs=32, mat=None):
-    """Surface of revolution round the Z axis at (0, 0): prof = [(r, z), ...] from the axis to the axis."""
+def lathe(part, prof, segs=32, mat=None, c=(0.0, 0.0)):
+    """Surface of revolution round the Z axis at c: prof = [(r, z), ...] from the axis to the axis."""
     bm = K.bm(part, mat)
     rings = []
+    cx, cy = c
     for r, z in prof:
         if r <= 1e-6:
-            rings.append([bm.verts.new((0, 0, z))])
+            rings.append([bm.verts.new((cx, cy, z))])
         else:
-            rings.append([bm.verts.new((r * math.cos(i / segs * math.tau), r * math.sin(i / segs * math.tau), z)) for i in range(segs)])
+            rings.append([bm.verts.new((cx + r * math.cos(i / segs * math.tau), cy + r * math.sin(i / segs * math.tau), z)) for i in range(segs)])
     for a, b in zip(rings, rings[1:]):
         for i in range(segs):
             j = (i + 1) % segs
@@ -537,6 +594,13 @@ def house_a():
     # fences, gate gaps for the walk and the driveway
     iron_fence(-LW / 2 + 0.1, -12.6 * M, LW / 2 - 0.1, -12.6 * M, gaps=((0.24, 0.32), (0.76, 0.99)))
     iron_fence(-LW / 2 + 0.15, -12.6 * M, -LW / 2 + 0.15, Y0, h=1.2 * M)
+    # walk gate in the first gap, hung between the gap's end posts (same maths as iron_fence)
+    fl = LW - 0.2
+    fn = int(fl / (0.16 * M))
+    t0 = max(i for i in range(fn + 1) if i / fn < 0.24) / fn
+    t1 = min(i for i in range(fn + 1) if i / fn > 0.32) / fn
+    ga, gb = -LW / 2 + 0.1 + fl * t0 + 0.15, -LW / 2 + 0.1 + fl * t1 - 0.15
+    swing_gate(1, ga + 0.02, gb - 0.02, -12.6 * M, 1.3 * M, "iron", hinge="right", post=gb)
     K.boxr("Block", -LW / 2, -LW / 2 + 0.2 * M, Y0, LD / 2, 0, 1.8 * M)              # block wall round the back yard
     K.boxr("Block", -LW / 2, LW / 2, LD / 2 - 0.2 * M, LD / 2, 0, 1.8 * M)
     K.boxr("Block", LW / 2 - 0.2 * M, LW / 2, Y1 + 0.5 * M, LD / 2, 0, 1.8 * M)
@@ -674,8 +738,10 @@ def house_c():
     K.boxr("Lawn", -LW / 2, LW / 2, -LD / 2, LD / 2, -0.3, 0)
     K.boxr("Foundation", X0 - 0.1, X1 + 0.1, Y0 - 0.1, Y1 + 0.1, 0, FZ)
     K.boxr("Walls", X0, X1, Y0, Y1, FZ, TOP)
-    K.boxr("Stone", X0 - 0.06 * M, X1 + 0.06 * M, Y0 - 0.06 * M, Y0 + 0.2 * M, FZ, FZ + 0.8 * M)   # stone wainscot (front)
-    K.boxr("Stone", X0 - 0.08 * M, X1 + 0.08 * M, Y0 - 0.08 * M, Y0 + 0.2 * M, FZ + 0.8 * M, FZ + 0.88 * M)
+    # ledgestone wainscot along the front with a cast-stone cap, open at the front door
+    for (a0, a1) in ((X0 - 0.06 * M, -2.08 * M), (-0.92 * M, X1 + 0.06 * M)):
+        K.boxr("Ledge", a0, a1, Y0 - 0.06 * M, Y0 + 0.2 * M, FZ, FZ + 0.8 * M)
+        K.boxr("Stone", a0 - 0.02 * M, a1 + 0.02 * M, Y0 - 0.09 * M, Y0 + 0.2 * M, FZ + 0.8 * M, FZ + 0.87 * M)
     gable("Roof", X0, X1, Y0, Y1, TOP, 1.9 * M)
     # chimney on the west gable end
     K.boxr("Block", X0 - 0.9 * M, X0 + 0.1, -1.2 * M, 0.2 * M, 0, TOP + 2.4 * M)
@@ -731,6 +797,9 @@ def house_c():
     # front yard: walk, picket fence with gates, beds, shade tree, mailbox
     K.boxr("Concrete", -2.1 * M, -0.9 * M, -12.6 * M, Y0 - 2.0 * M, 0, 0.04)
     picket_fence(-LW / 2 + 0.1, -12.6 * M, X1 - 0.1 * M, -12.6 * M, gaps=((0.6, 0.72),))
+    pa, pl = -LW / 2 + 0.1, (X1 - 0.1 * M) - (-LW / 2 + 0.1)
+    swing_gate(1, pa + pl * 0.6 + 0.06 * M + 0.02, pa + pl * 0.72 - 0.06 * M - 0.02, -12.6 * M, 0.95 * M, "picket",
+               hinge="left", post=pa + pl * 0.6 + 0.06 * M)
     flower_bed(-8.6 * M, -3.0 * M, Y0 - 1.3 * M, Y0 - 0.4 * M)
     tree(-6.0 * M, -9.4 * M, h=8.5 * M, spread=3.8 * M)
     mailbox(-3.0 * M, -12.2 * M)
@@ -807,20 +876,35 @@ def house_d():
     for gx in (G0, G1):                               # piers a bit proud of the wall + cap (no shared faces)
         K.boxr("Walls", gx - 0.28 * M, gx + 0.28 * M, WY - 0.28 * M, WY + 0.28 * M, 0, 1.6 * M)
         K.boxr("Tiles", gx - 0.34 * M, gx + 0.34 * M, WY - 0.34 * M, WY + 0.34 * M, 1.6 * M, 1.72 * M)
-    # iron gate leaf standing open inward against the right pier
-    hx = G1 - 0.3 * M
-    for k in range(9):
-        K.box("Iron", (hx - 0.03 * M, WY + 0.35 * M + k * 0.13 * M, 0.65 * M), (0.04 * M, 0.04 * M, 1.1 * M))
-    for z in (0.15 * M, 0.65 * M, 1.15 * M):
-        K.boxr("Iron", hx - 0.06 * M, hx, WY + 0.3 * M, WY + 1.4 * M, z - 0.03 * M, z + 0.03 * M)
+    # iron gate between the piers, hung on the right pier (opens when someone walks up, Swing1)
+    swing_gate(1, G0 + 0.28 * M, G1 - 0.28 * M, WY, 1.3 * M, "iron", hinge="right", post=G1 - 0.28 * M)
     K.boxr("Walls", -LW / 2 + 0.12, -LW / 2 + 0.42 * M, WY + 0.15 * M + 0.01, Y0, 0, 1.12 * M)
     K.boxr("Walls", 1.26 * M, 1.56 * M, WY + 0.15 * M + 0.01, Y0 - 2.6 * M, 0, 1.12 * M)
     tag(WY - 0.15 * M, "y", -5.8 * M, 0.15 * M, 2.2 * M, 0.85 * M, -1)
     K.boxr("Stone", -3.3 * M, -2.1 * M, WY - 0.3 * M, Y0 - 2.4 * M, 0, 0.05)          # path
-    K.cyl("Stone", (-4.8 * M, -8.0 * M, 0.3 * M), 0.9 * M, 0.6 * M, segs=16)          # little fountain
-    K.cyl("Water", (-4.8 * M, -8.0 * M, 0.615 * M), 0.78 * M, 0.02 * M, segs=16)    # just above the rim top
-    K.cyl("Stone", (-4.8 * M, -8.0 * M, 0.9 * M), 0.12 * M, 0.7 * M, segs=8)
-    K.cyl("Stone", (-4.8 * M, -8.0 * M, 1.25 * M), 0.35 * M, 0.1 * M, segs=12)
+    # courtyard fountain: hollow cast-stone basin, carved column with a bowl, water spilling over
+    # the lip into the basin (FxPool / FxFall / FxRipple: flipbook-animated in game, FountainFx)
+    fc = (-4.8 * M, -8.0 * M)
+    m_ = M
+    lathe("Stone", [(r * m_, z * m_) for r, z in ((0, 0), (0.98, 0), (0.98, 0.08), (0.94, 0.12), (0.94, 0.5), (1.02, 0.53), (1.02, 0.6),
+                                                  (0.98, 0.64), (0.82, 0.64), (0.79, 0.6), (0.79, 0.18), (0, 0.18))], segs=36, c=fc)
+    lathe("Kerb", [(r * m_, z * m_) for r, z in ((0, 0.0), (1.0, 0.0), (1.0, 0.07), (0, 0.07))][::-1], segs=36, c=fc)      # plinth
+    lathe("Stone", [(r * m_, z * m_) for r, z in ((0, 0.18), (0.17, 0.18), (0.17, 0.26), (0.12, 0.32), (0.09, 0.62), (0.1, 0.72),
+                                                  (0.13, 0.8), (0.22, 0.9), (0.42, 0.98), (0.5, 1.04), (0.49, 1.09), (0.42, 1.1),
+                                                  (0.2, 1.04), (0.08, 1.03), (0.06, 1.12), (0.08, 1.2), (0.05, 1.27), (0, 1.29))], segs=28, c=fc)
+    lathe("Kerb", [(r * m_, z * m_) for r, z in ((0, 0.44), (0.105, 0.44), (0.105, 0.48), (0, 0.48))][::-1], segs=20, c=fc)  # carved band
+    disc("FxPool", fc[0], fc[1], 0.785 * M, 0.5 * M, segs=36, scale=0.9)
+    disc("FxPool", fc[0], fc[1], 0.29 * M, 1.07 * M, segs=24, scale=0.4)
+    sheet_rev("FxFall", fc[0], fc[1], 0.505 * M, 1.075 * M, 0.6 * M, 0.505 * M, segs=28, urep=5, vrep=1.2)
+    sheet_rev("FxFall", fc[0], fc[1], 0.02 * M, 1.29 * M, 0.012 * M, 1.62 * M, segs=6, urep=1, vrep=0.6)          # little jet
+    sheet_rev("FxRipple", fc[0], fc[1], 0.56 * M, 0.505 * M, 0.78 * M, 0.505 * M, segs=36, urep=5, vrep=1.0, both=False)
+    sheet_rev("FxRipple", fc[0], fc[1], 0.07 * M, 1.075 * M, 0.28 * M, 1.075 * M, segs=24, urep=3, vrep=1.0, both=False)
+    for i in range(3):                                                # small spouts from the bowl
+        a = i / 3 * math.tau + 0.4
+        pts = [(fc[0] + math.cos(a) * (0.12 + 0.35 * t) * M, fc[1] + math.sin(a) * (0.12 + 0.35 * t) * M,
+                (1.22 + 0.15 * t - 0.6 * t * t) * M) for t in (0, 0.33, 0.66, 1.0)]
+        for p0, p1 in zip(pts, pts[1:]):
+            K.cyl_along("FxJet", p0, p1, 0.012 * M, segs=5)
     for (px, py) in ((-0.2 * M, -7.0 * M), (0.6 * M, -9.5 * M), (-6.8 * M, -5.6 * M)):
         K.cyl("Tiles", (px, py, 0.3 * M), 0.3 * M, 0.6 * M, segs=10, r2=0.38 * M)
         K.shrub(px, py, 0.55 * M, 0.35 * M, rng)
@@ -830,11 +914,10 @@ def house_d():
     K.boxr("Concrete", 2.2 * M, 7.6 * M, -LD / 2, Y0 + 1.0 * M, 0, 0.04)
     for gx in (X1 + 0.1 * M, LW / 2 - 0.35 * M):
         K.boxr("Walls", gx, gx + 0.35 * M, Y0 + 1.0 * M, Y0 + 1.35 * M, 0, 2.0 * M)
-    gx0, gx1 = X1 + 0.45 * M, LW / 2 - 0.35 * M
-    for k in range(int((gx1 - gx0) / (0.16 * M))):
-        x = gx0 + (k + 0.5) * 0.16 * M
-        K.box("Wood", (x, Y0 + 1.17 * M, 0.95 * M), (0.14 * M, 0.05 * M, 1.7 * M))
-    K.boxr("Iron", gx0, gx1, Y0 + 1.1 * M, Y0 + 1.14 * M, 1.5 * M, 1.58 * M)
+    gx0, gx1 = X1 + 0.45 * M, LW / 2 - 0.35 * M                       # double board gate (Swing2 + Swing3)
+    gm = (gx0 + gx1) / 2
+    swing_gate(2, gx0, gm, Y0 + 1.175 * M, 1.7 * M, "wood", hinge="left", post=gx0)
+    swing_gate(3, gm, gx1, Y0 + 1.175 * M, 1.7 * M, "wood", hinge="right", post=gx1)
     mailbox(1.9 * M, -12.2 * M)
     # back yard: block walls, string lights posts, grill, lounge chairs
     K.boxr("Block", -LW / 2, -LW / 2 + 0.2 * M, Y0, LD / 2, 0, 1.8 * M)
@@ -864,9 +947,15 @@ def side_yard():
     K.boxr("Stone", -1.6 * M, -0.8 * M, -11.8 * M, 1.0 * M, 0, 0.05)              # stepping path
     wood_fence(-LW / 2 + 0.1, 1.0 * M, -1.9 * M, 1.0 * M)
     wood_fence(-0.5 * M, 1.0 * M, LW / 2 - 0.1, 1.0 * M)
-    for k in range(9):                                               # side gate (ajar)
-        K.box("Wood", (-1.85 * M + 0.07 * M, 1.05 * M + k * 0.15 * M, 0.9 * M), (0.025 * M, 0.14 * M, 1.7 * M))
+    swing_gate(1, -1.9 * M + 0.05 * M + 0.02, -0.5 * M - 0.05 * M - 0.02, 1.0 * M, 1.75 * M, "wood", hinge="left",
+               post=-1.9 * M + 0.05 * M)
     wood_fence(-LW / 2 + 0.1, LD / 2 - 0.1, LW / 2 - 0.1, LD / 2 - 0.1)
+    # lot sides: low picket fence along the front garden, tall board fence round the back garden,
+    # so the yard is closed off from the neighbours' driveways
+    for sx in (-1, 1):
+        x = sx * (LW / 2 - 0.15)
+        picket_fence(x, -12.0 * M, x, 0.85 * M)
+        wood_fence(x, 1.0 * M, x, LD / 2 - 0.2)
     # small garden shed + compost bin + flowers in the back
     K.boxr("Wood", -2.4 * M, 1.4 * M, 8.5 * M, 11.5 * M, 0, 2.1 * M)
     gable("Roof", -2.4 * M, 1.4 * M, 8.5 * M, 11.5 * M, 2.1 * M, 0.7 * M, over=0.2 * M, wall="Wood")
@@ -950,18 +1039,34 @@ def store():
     for (cx, cz, w, h) in ((7.8 * M, 2.65 * M, 1.0 * M, 0.05 * M), (7.8 * M, 1.55 * M, 1.0 * M, 0.05 * M),
                            (7.3 * M, 2.1 * M, 0.05 * M, 1.1 * M), (8.3 * M, 2.1 * M, 0.05 * M, 1.1 * M)):
         K.box("NeonRed", (cx, Y0 + 0.22 * M, cz), (w, 0.04 * M, h))
-    # ---- door: aluminium frame, glass door swung open inward, push bar, threshold, mat
+    # ---- door: aluminium frame + a closed glass shop door on floor/top pivots. In game it swings
+    # open (both ways) when someone walks up, with a hand push (Swing1*, Client/CityDoors).
     for x in (DOOR[0], DOOR[1]):
         K.boxr("Frame", x - 0.08 * M, x + 0.08 * M, Y0 - 0.02, YI + 0.02, 0, DOOR[2])
     K.boxr("Frame", DOOR[0] - 0.08 * M, DOOR[1] + 0.08 * M, Y0 - 0.02, YI + 0.02, DOOR[2], DOOR[2] + 0.15 * M)
     K.boxr("Meter", DOOR[0], DOOR[1], Y0, YI, 0, 0.03)
-    dx, dy = DOOR[1] - 0.08 * M, YI + 0.05 * M                     # hinge on the right, door open 90 deg
-    K.boxr("Frame", dx - 0.08 * M, dx, dy, dy + 0.12 * M, 0.02, DOOR[2] - 0.05 * M)        # hinge stile
-    K.boxr("ClearGlass3", dx - 0.06 * M, dx - 0.02 * M, dy + 0.1 * M, dy + 1.4 * M, 0.3 * M, DOOR[2] - 0.2 * M, mat="Glass")
-    for z in (0.08 * M, DOOR[2] - 0.12 * M):
-        K.boxr("Frame", dx - 0.08 * M, dx, dy, dy + 1.5 * M, z - 0.06 * M, z + 0.06 * M)
-    K.boxr("Frame", dx - 0.08 * M, dx, dy + 1.38 * M, dy + 1.5 * M, 0.02, DOOR[2] - 0.05 * M)
-    K.boxr("Pole", dx - 0.2 * M, dx - 0.08 * M, dy + 0.3 * M, dy + 1.2 * M, 1.0 * M, 1.06 * M)  # push bar
+    DY = Y0 + T / 2                                                  # leaf centre plane (mid wall)
+    hx = DOOR[1] - 0.08 * M - 0.07 * M                               # hinge axis, inside the right jamb
+    lx0, lx1 = DOOR[0] + 0.08 * M + 0.02 * M, hx + 0.05 * M          # leaf edges (gaps to both jambs)
+    lz0, lz1 = 0.02 * M, DOOR[2] - 0.04 * M
+    t2 = 0.025 * M
+    for (a, b) in ((lx0, lx0 + 0.1 * M), (lx1 - 0.1 * M, lx1)):                       # stiles
+        K.boxr("Swing1Frame", a, b, DY - t2, DY + t2, lz0, lz1, mat="Frame")
+    K.boxr("Swing1Frame", lx0 + 0.1 * M, lx1 - 0.1 * M, DY - t2, DY + t2, lz1 - 0.12 * M, lz1, mat="Frame")     # top rail
+    K.boxr("Swing1Frame", lx0 + 0.1 * M, lx1 - 0.1 * M, DY - t2, DY + t2, lz0, lz0 + 0.26 * M, mat="Frame")    # bottom rail
+    for sgn in (-1, 1):                                                                  # brushed kick plates
+        K.boxr("Swing1Kick", lx0 + 0.02 * M, lx1 - 0.02 * M, DY + sgn * t2 - (0.012 * M if sgn < 0 else 0),
+               DY + sgn * t2 + (0.012 * M if sgn > 0 else 0), lz0 + 0.02 * M, lz0 + 0.24 * M, mat="Pole")
+    K.boxr("Swing1Glass", lx0 + 0.09 * M, lx1 - 0.09 * M, DY - 0.006 * M, DY + 0.006 * M, lz0 + 0.25 * M, lz1 - 0.11 * M, mat="Glass")
+    for sgn in (-1, 1):                                                                  # push bars both sides
+        by = DY + sgn * (t2 + 0.07 * M)
+        K.cyl_along("Swing1Bar", (lx0 + 0.18 * M, by, 1.0 * M), (lx1 - 0.18 * M, by, 1.0 * M), 0.02 * M, segs=8, mat="Pole")
+        for bx in (lx0 + 0.25 * M, lx1 - 0.25 * M):
+            K.boxr("Swing1Bar", bx - 0.02 * M, bx + 0.02 * M, min(by, DY + sgn * t2), max(by, DY + sgn * t2), 0.98 * M, 1.02 * M, mat="Pole")
+    K.face_y("Swing1Sign", (lx0 + lx1) / 2, DY - t2 - 0.003 * M, 1.5 * M, 0.5 * M, 0.3 * M)              # hours decal
+    for z in (0.0, lz1 + 0.005 * M):                                                    # floor + top pivots
+        K.cyl("Swing1Pivot", (hx, DY, z + 0.01 * M), 0.03 * M, 0.02 * M, segs=8, mat="Pole")
+    K.boxr("Frame", DOOR[0], DOOR[1], YI + 0.02, YI + 0.1 * M, DOOR[2] - 0.12 * M, DOOR[2] - 0.02 * M)  # closer box (inside)
     K.box("Dark", (DOOR[0] + 0.8 * M, YI + 0.8 * M, 0.05), (1.3 * M, 0.9 * M, 0.02))            # door mat
     K.box("Dark", (DOOR[0] + 0.8 * M, Y0 - 0.6 * M, 0.2 * M), (1.3 * M, 0.9 * M, 0.02))
     K.box("Sconce", (DOOR[0] + 0.8 * M, Y0 - 0.12 * M, DOOR[2] + 0.4 * M), (0.5 * M, 0.2 * M, 0.15 * M))
@@ -1193,7 +1298,7 @@ def court():
 def spawn_plaza():
     W, D = 44 * M, 40 * M
     K.boxr("Pave", -W / 2, W / 2, -D / 2, D / 2, -0.6, 0)
-    K.boxr("Kerb", -W / 2, W / 2, -D / 2, -D / 2 + 0.3 * M, 0, 0.03)
+    K.boxr("Kerb", -W / 2, W / 2, -D / 2, -D / 2 + 0.3 * M, -0.02, 0.04 * M)        # thick enough not to flicker
     # fountain: granite basin (lathed: floor, inner wall, wide coping, outer wall), mosaic floor,
     # two-tier bowl column. Water = FxPool surfaces + FxFall sheets + FxRipple rings (animated in game)
     R0 = 4.2 * M
@@ -1236,7 +1341,7 @@ def spawn_plaza():
         rr = 7.2 * M
         bench(math.cos(a) * rr, math.sin(a) * rr, a + math.pi / 2)
     # paving ring + paths
-    K.cyl("Stone", (0, 0, 0.005), 8.6 * M, 0.02, segs=40)
+    K.cyl("Stone", (0, 0, (0.03 * M - 0.02) / 2), 8.6 * M, 0.03 * M + 0.02, segs=40)   # ring inlay 0.03M proud
     # planters with palms in the corners + shrub beds
     for sx in (-1, 1):
         for sy in (-1, 1):
