@@ -3038,5 +3038,40 @@
   "id": 85451412680391,
   "file": "art/models/Diner/tex/DinerTile_Color.png",
   "state": "Approved"
+ },
+ "243b1b3170957ad62033897fa5f27951ea314930be8a8671fbc09cc615c481af": {
+  "id": 131229656670711,
+  "file": "art/models/Store/tex/AisleSign_Color.png",
+  "state": "Approved"
+ },
+ "b8880b4530e1b7ea7b26c48f6278e3914a75473baaf6537296ae2fa5ea14dd23": {
+  "id": 100364196987285,
+  "file": "art/models/Store/tex/CoffeeBadge_Color.png",
+  "state": "Approved"
+ },
+ "9569f352be919a35653e9279c869d22db877a5e7a9c3e0dca761dcda7226a0bd": {
+  "id": 79283351052475,
+  "file": "art/models/Store/tex/CoffeeLiquid_Color.png",
+  "state": "Approved"
+ },
+ "515f34302b4594115116a7a186ecff2322db104978ae93ae1221ed2ad22554d3": {
+  "id": 119051783591261,
+  "file": "art/models/Store/tex/ShelfMetal_Color.png",
+  "state": "Approved"
+ },
+ "a5c35513689f7632206e74f532bf265a4c3c7c18a32f6a098846fe2f184c3ff8": {
+  "id": 101454024549512,
+  "file": "art/models/Store/tex/Goods_Color.png",
+  "state": "Reviewing"
+ },
+ "7e79a15619a1cded5abb7d7051f66ba6010b607b7cd7e95d5741f3f1d66f2441": {
+  "id": 127754913454939,
+  "file": "art/models/Store/tex/PriceStrip_Color.png",
+  "state": "Approved"
+ },
+ "6c069ad19e24a1551ba5bb6ddf03253200ee0d8cd80a149a22170543b715be4a": {
+  "id": 76835102990803,
+  "file": "art/models/Store/tex/Steel_Color.png",
+  "state": "Approved"
  }
 }
