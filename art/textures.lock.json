@@ -3763,5 +3763,170 @@
   "id": 121239802701787,
   "file": "art/models/BikeFairings/tex/SidePanel_Color.png",
   "state": "Approved"
+ },
+ "b354d9fc8950b12455656e73eeca4ad1baecc0bbe74f3f86d6fcd4616271b26a": {
+  "id": 91050708956119,
+  "file": "art/models/CarWash/tex/BrushBlue_Color.png",
+  "state": "Approved"
+ },
+ "24ea4f93e2890ecb4b77aaa04d12ecd776e6a5e1cefa8750bf33e5a04c4769f5": {
+  "id": 70546495064707,
+  "file": "art/models/CarWash/tex/BrushRed_Color.png",
+  "state": "Approved"
+ },
+ "dee95d3679a7f0efccce161737195040cf8f12e039d8c4016b90a66297edb88f": {
+  "id": 100094139936240,
+  "file": "art/models/CarWash/tex/WashNavy_Color.png",
+  "state": "Approved"
+ },
+ "7dfd0b045708f945733be4c23e88dbefd331489a2089ca20bf9f44515e650546": {
+  "id": 78571367916834,
+  "file": "art/models/CarWash/tex/WashSigns_Color.png",
+  "state": "Approved"
+ },
+ "cb4cbc4507d75e10e6cba44441dce10bcaf16ed5cb8afb3ae1debe6cd3253056": {
+  "id": 73029525160988,
+  "file": "art/models/CarWash/tex/WashTeal_Color.png",
+  "state": "Approved"
+ },
+ "d629fe983242afd198af2ab2c378d2f7baf866bce6eb9900ec7c0afb1d62aa5a": {
+  "id": 87734240657607,
+  "file": "art/models/EastsideGarage/tex/DoorGrey_Color.png",
+  "state": "Approved"
+ },
+ "d6b7eb05f42965b48bdc87aeb8c0b7de31ab38eb6808030b182d6b2c3e5b330c": {
+  "id": 97951121250761,
+  "file": "art/models/EastsideGarage/tex/GarageBlue_Color.png",
+  "state": "Approved"
+ },
+ "9ac8a5754971c468794f6b73a6557554ed55c3e748614cb56bd2656f942b9a8e": {
+  "id": 129627494190856,
+  "file": "art/models/EastsideGarage/tex/GarageSigns_Color.png",
+  "state": "Approved"
+ },
+ "21eba61dd0e0ba35ab4b909e3bb6cc8fe5871a5c51032a28b5e5e8fa61a38c9a": {
+  "id": 84614740203505,
+  "file": "art/models/EastsideGarage/tex/StoreDoor_Color.png",
+  "state": "Approved"
+ },
+ "58fdf830f3be2ffce80147721676be271d75304767574f3f33e4a5f10422afba": {
+  "id": 81929055992778,
+  "file": "art/models/EastsideGarage/tex/StoreOrange_Color.png",
+  "state": "Approved"
+ },
+ "28b1f3b4a832a07eeb6895d680ee8c5d9e9ef6067bced3668f9a07bbd9802f64": {
+  "id": 87941087363483,
+  "file": "art/models/FireStation/tex/Crop_Color.png",
+  "state": "Approved"
+ },
+ "6b5e8cbf0d10996a9c640bdd82d0b1a386d225a7daa86734913612e1fe00de36": {
+  "id": 81658000488101,
+  "file": "art/models/FireStation/tex/FireDoor_Color.png",
+  "state": "Approved"
+ },
+ "724f412ff73c9d672d6e5acd41578bbbbe3851c5f5414b4cde8b7732c8feadf8": {
+  "id": 102222466461534,
+  "file": "art/models/FireStation/tex/FireRed_Color.png",
+  "state": "Approved"
+ },
+ "669514986ad3cb2d810614e537d872693ce315e628ea4bfe2f28b41994741cf3": {
+  "id": 77840848717357,
+  "file": "art/models/FireStation/tex/FireSigns_Color.png",
+  "state": "Approved"
+ },
+ "fde736248383d3ec309f381e908bc7d6ab35eb93d5008014d6903e7ecd686919": {
+  "id": 109132864524787,
+  "file": "art/models/FireStation/tex/Roof_Color.png",
+  "state": "Approved"
+ },
+ "8b4764b1c77d17e9ed6460cc4d586c5369aa16464e0f22c8dc9193c275280d1f": {
+  "id": 112864538974145,
+  "file": "art/models/RecCenter/tex/CourtBlue_Color.png",
+  "state": "Approved"
+ },
+ "7886502780d9645d6235b4312f497b498aec7347a62dd87a9a755b51cf47ad9d": {
+  "id": 110175899505887,
+  "file": "art/models/RecCenter/tex/CourtGreen_Color.png",
+  "state": "Approved"
+ },
+ "c8f7033e70b4211b2295bf668acb3eb26ca5f62a680cc84b1b33c2512a8f378b": {
+  "id": 73429297620018,
+  "file": "art/models/RecCenter/tex/RecNavy_Color.png",
+  "state": "Approved"
+ },
+ "5e6f4e96be5ec4b2b30ae3391af456ae34a4676293b4bd4e55162373f9962df2": {
+  "id": 107100795982427,
+  "file": "art/models/RecCenter/tex/RecOrange_Color.png",
+  "state": "Approved"
+ },
+ "c1d20cb6f0c02237d8f5f534eb4e5f371ed195489cd442be3ebb11364f7387f8": {
+  "id": 120040950981497,
+  "file": "art/models/RecCenter/tex/RecSigns_Color.png",
+  "state": "Approved"
+ },
+ "cc6b1238564e30948044b91f727538d43e160329a9bb635d517adcd5f9c62190": {
+  "id": 124855083180828,
+  "file": "art/models/RecCenter/tex/Rim_Color.png",
+  "state": "Approved"
+ },
+ "b9f87e0765f2732fea1397b5812c542daed612355168b8aa6713b60d5e9ed694": {
+  "id": 74989844898727,
+  "file": "art/models/Clinic/tex/ClinicSigns_Color.png",
+  "state": "Approved"
+ },
+ "920897ea9ad5321a7d880b82e3ac086952e020666717a80ba50e3ba7de217ded": {
+  "id": 109104886994940,
+  "file": "art/models/Clinic/tex/ClinicTeal_Color.png",
+  "state": "Approved"
+ },
+ "c8470815009f11d836dc1dc38656032d4802471442d7f8ecbca3411add9921c8": {
+  "id": 125373095150752,
+  "file": "art/models/FireStation/tex/Brass_Color.png",
+  "state": "Approved"
+ },
+ "8a3adfaa9b93effb00faa244031f36ed94b247a1a8ba9bbedc51a40235f35646": {
+  "id": 135468817303925,
+  "file": "art/models/FireStation/tex/FireBrick_Color.png",
+  "state": "Approved"
+ },
+ "3c23de89e34cfa92b36cfedb0debfe9fffacfea5479ebea51094832d32457658": {
+  "id": 74948642511598,
+  "file": "art/models/FireStation/tex/CabGlass_Color.png",
+  "state": "Approved"
+ },
+ "cfe42da151c33f40df15386c35e65acbeb78c7e9a06b4323ca8de0aab33c9ea7": {
+  "id": 115191530548111,
+  "file": "art/models/FireStation/tex/DoorRail_Color.png",
+  "state": "Approved"
+ },
+ "16e642389c059971f56e6b7a57bb5c252e4fe0cb2dd886d4f691f1c2a3cebd0d": {
+  "id": 100633398667093,
+  "file": "art/models/FireStation/tex/FireDecals_Color.png",
+  "state": "Approved"
+ },
+ "d866178f0cf5831ba0d5fa884c6c97e8a60ee85ca542a761b26b6116d1a24e8e": {
+  "id": 82173047757604,
+  "file": "art/models/FireStation/tex/Hose_Color.png",
+  "state": "Approved"
+ },
+ "18052ab7865cadd6a718216aae37cdd0d736be03fa576f07da5865cd00091cf5": {
+  "id": 129587970796058,
+  "file": "art/models/FireStation/tex/LightBar_Color.png",
+  "state": "Approved"
+ },
+ "35b85491aee034b3f4fb1413ed1c27b43ac0d2c5074ca7fb213d36c0e32595fe": {
+  "id": 121468327357431,
+  "file": "art/models/FireStation/tex/LightHead_Color.png",
+  "state": "Approved"
+ },
+ "721fef2627a5540ce19815ff21a4407b1a13902cd662cfefc4a33d9f3386f39c": {
+  "id": 112371082459904,
+  "file": "art/models/FireStation/tex/Locker_Color.png",
+  "state": "Approved"
+ },
+ "93fb97b84fb1aa9615de4f112b68b6a5111d81c8f2f5bfb71e7289f6eb011e48": {
+  "id": 117663143319358,
+  "file": "art/models/FireStation/tex/TruckRed_Color.png",
+  "state": "Approved"
  }
 }

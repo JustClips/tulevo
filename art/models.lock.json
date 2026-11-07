@@ -160,8 +160,8 @@
   "sha": "8b85c3f902bf797c83cfaa71a0bdb76a923183517fbe7e78886416b4075784b3"
  },
  "Park": {
-  "id": 126196202092536,
-  "sha": "bf1fe71327f393c62143624dad02bfe656ad7d6575a81b3f7c01e5baeb1718f4"
+  "id": 115107090175747,
+  "sha": "9f40d4739fcd1f65bd5f727617995798a1b5fe12d173da5834caa607672e0a80"
  },
  "ParkProps": {
   "id": 116117921384636,
@@ -196,32 +196,32 @@
   "sha": "2f3d2cf5a438ef6d7ec26ce4cb26c83baa28c82bed84dcdd43a4a400e426bdde"
  },
  "StreetBackStreet": {
-  "id": 139746442218802,
-  "sha": "586199a0115d87f7dee2180e8b88affbdd72ed3d5acee0730e8003ab2160cc66"
+  "id": 136950207560339,
+  "sha": "84ab1b550084ca1956da9524ba48628955715ed4f6fc095c555bf595006802f4"
  },
  "StreetCorners": {
   "id": 88898703377960,
   "sha": "40b0e0cdfe13cc5fdc887b3ccac7e415d3ce071be807d8af3288f16e488d4389"
  },
  "StreetEastStreet": {
-  "id": 125257446626124,
-  "sha": "6be9df17f2332f07f4067fa7fd9be171ceb70b0ceea883903ac5e81ef93d21d0"
+  "id": 122801760550258,
+  "sha": "75581cb0d2bbf5020963ac1058ce5e6c44d1315e64f7d8d544b1761fae21e8aa"
  },
  "StreetNorthStreet": {
-  "id": 79657871224424,
-  "sha": "78d6d221831fcf8f381bea7a2c8bbeeabbfae2fa0a891cb03f58b23ee3fa1ee1"
+  "id": 88913151300607,
+  "sha": "7b61dc056525e94b97b6bd15391d4cd0c9de6a375eeff7d3d4af31c5f29ede6e"
  },
  "StreetSouthStreet": {
-  "id": 96013241140570,
-  "sha": "9875ab5a40514e52475c33fa10ed98a1c9809de9aa135b1c12a61b84f390159a"
+  "id": 129642230247458,
+  "sha": "8928813ab89e856083082f48ba7e4360cbbc2a5072fe40c57a7296addc042794"
  },
  "StreetVaultAvenue": {
-  "id": 93045013290458,
-  "sha": "2532549481c15d4a209725f1ed2c92b1fea186b333c31a022cfd3e6fe0d55a9f"
+  "id": 70384362448160,
+  "sha": "1c1a76579fa97328a908358530f30e107e7eddbe74840b5a294b64224a458459"
  },
  "StreetWestStreet": {
-  "id": 102767779206063,
-  "sha": "d6765dd228219ac7af34ac7e29b32ef7044613bd0c1701ee34fb885d38a3ed0a"
+  "id": 138753539676706,
+  "sha": "fab891ee895536040600f56cd8e3c8e234e241d03874d89d8b0030c8c909ce47"
  },
  "Tower": {
   "id": 135012753304514,
@@ -298,5 +298,37 @@
  "BikeFairings": {
   "id": 133566964196742,
   "sha": "f31a5775113f8487f6ef56e3cda60bfb063e81a4f295d1141d739229028ab003"
+ },
+ "CarWash": {
+  "id": 107483949789482,
+  "sha": "3f1154c586c44a2d118e3d39dd3b583ab44e3681a982ba0bed8d449c867ad97a"
+ },
+ "EastsideGarage": {
+  "id": 96116982736658,
+  "sha": "4e7007381215cfdd22fb3fc916d6da7ad8cfad563f6bd3f17faac97422ff55fd"
+ },
+ "MotelAnnex": {
+  "id": 71092881139492,
+  "sha": "6b8427434f67f3408098dbd4ea930a366cb0c41ff7f140bb9c007d09ea86fd76"
+ },
+ "EastTrees": {
+  "id": 86799814051401,
+  "sha": "7609b0097cbf00edade97632950f575eccd4b30d331ae2b43d6c88959ced745f"
+ },
+ "EastTrees2": {
+  "id": 123267493353177,
+  "sha": "a78d06c05168729cdb79a1a48f307626f652abd339e53c6cad8c0cfe04b6e0a8"
+ },
+ "FireStation": {
+  "id": 137738261061375,
+  "sha": "03cc16990ca3b88d373ec1e202522b0957cce659ef9256ea13f082b26fc33b91"
+ },
+ "RecCenter": {
+  "id": 84347859346632,
+  "sha": "44f44eaca2f51cabe7d915ae137f38f246262a6d0b8dca06571d7a6da5bda192"
+ },
+ "Clinic": {
+  "id": 105308037500972,
+  "sha": "c8d6dbea56a58ec3f95ac0c86995afffc0f4d3e5ae356abb663cc9a5cac82ce6"
  }
 }

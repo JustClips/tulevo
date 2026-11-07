@@ -1,0 +1,410 @@
+{
+ "name": "CarWash",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Asphalt": {
+   "tris": 24,
+   "min": [
+    160.2,
+    172.2,
+    -0.9
+   ],
+   "max": [
+    358.0,
+    359.2,
+    0.3
+   ]
+  },
+  "Pave": {
+   "tris": 288,
+   "min": [
+    160.2,
+    172.2,
+    0.3
+   ],
+   "max": [
+    358.0,
+    359.2,
+    0.9
+   ]
+  },
+  "Block": {
+   "tris": 120,
+   "min": [
+    334.85,
+    213.4,
+    0.3
+   ],
+   "max": [
+    356.15,
+    300.6,
+    18.15
+   ]
+  },
+  "GlassBlock": {
+   "tris": 24,
+   "min": [
+    334.96,
+    220.0,
+    9.3
+   ],
+   "max": [
+    356.04,
+    294.0,
+    12.3
+   ]
+  },
+  "RoofTar": {
+   "tris": 12,
+   "min": [
+    335.3,
+    214.3,
+    16.3
+   ],
+   "max": [
+    355.7,
+    299.7,
+    16.4
+   ]
+  },
+  "Deck": {
+   "tris": 12,
+   "min": [
+    336.2,
+    214.0,
+    0.3
+   ],
+   "max": [
+    354.8,
+    300.0,
+    0.4
+   ]
+  },
+  "WashTeal": {
+   "tris": 344,
+   "min": [
+    165.0,
+    198.0,
+    0.7
+   ],
+   "max": [
+    356.1,
+    358.2,
+    17.7
+   ]
+  },
+  "WashNavy": {
+   "tris": 404,
+   "min": [
+    164.9,
+    214.0,
+    0.3
+   ],
+   "max": [
+    356.6,
+    357.55,
+    15.9
+   ]
+  },
+  "WashSigns": {
+   "tris": 20,
+   "min": [
+    184.3,
+    193.06,
+    2.9
+   ],
+   "max": [
+    356.64,
+    339.56,
+    15.9
+   ]
+  },
+  "Steel": {
+   "tris": 520,
+   "min": [
+    165.6,
+    192.88,
+    0.3
+   ],
+   "max": [
+    354.8,
+    358.2,
+    14.9
+   ]
+  },
+  "Dark": {
+   "tris": 276,
+   "min": [
+    335.2,
+    193.12,
+    0.4
+   ],
+   "max": [
+    356.0,
+    298.0,
+    10.3
+   ]
+  },
+  "Hazard": {
+   "tris": 12,
+   "min": [
+    336.2,
+    210.0,
+    0.3
+   ],
+   "max": [
+    354.8,
+    212.0,
+    0.32
+   ]
+  },
+  "BrushBlue": {
+   "tris": 180,
+   "min": [
+    337.0,
+    237.6,
+    1.4
+   ],
+   "max": [
+    354.0,
+    274.0,
+    11.8
+   ]
+  },
+  "BrushRed": {
+   "tris": 120,
+   "min": [
+    337.0,
+    253.6,
+    1.4
+   ],
+   "max": [
+    354.0,
+    258.4,
+    10.4
+   ]
+  },
+  "Lamp1": {
+   "tris": 12,
+   "min": [
+    342.5,
+    229.4,
+    14.68
+   ],
+   "max": [
+    348.5,
+    230.6,
+    14.82
+   ]
+  },
+  "Lamp2": {
+   "tris": 12,
+   "min": [
+    342.5,
+    259.4,
+    14.68
+   ],
+   "max": [
+    348.5,
+    260.6,
+    14.82
+   ]
+  },
+  "Lamp3": {
+   "tris": 12,
+   "min": [
+    342.5,
+    289.4,
+    14.68
+   ],
+   "max": [
+    348.5,
+    290.6,
+    14.82
+   ]
+  },
+  "AcBody": {
+   "tris": 36,
+   "min": [
+    336.5,
+    198.1,
+    1.2
+   ],
+   "max": [
+    347.5,
+    279.5,
+    18.2
+   ]
+  },
+  "Yellow": {
+   "tris": 72,
+   "min": [
+    336.87,
+    188.25,
+    0.9
+   ],
+   "max": [
+    337.53,
+    205.75,
+    4.1
+   ]
+  },
+  "LotLine": {
+   "tris": 273,
+   "min": [
+    165.8,
+    178.0,
+    0.3
+   ],
+   "max": [
+    347.6,
+    357.0,
+    0.32
+   ]
+  },
+  "Soil": {
+   "tris": 24,
+   "min": [
+    334.6,
+    172.2,
+    0.3
+   ],
+   "max": [
+    355.8,
+    357.6,
+    0.92
+   ]
+  },
+  "Hose": {
+   "tris": 840,
+   "min": [
+    162.7,
+    355.27,
+    4.21
+   ],
+   "max": [
+    333.3,
+    357.02,
+    6.3
+   ]
+  },
+  "Lamp4": {
+   "tris": 12,
+   "min": [
+    307.0,
+    347.8,
+    12.07
+   ],
+   "max": [
+    312.0,
+    348.8,
+    12.22
+   ]
+  },
+  "Lamp5": {
+   "tris": 12,
+   "min": [
+    266.0,
+    347.8,
+    12.07
+   ],
+   "max": [
+    271.0,
+    348.8,
+    12.22
+   ]
+  },
+  "Lamp6": {
+   "tris": 12,
+   "min": [
+    225.0,
+    347.8,
+    12.07
+   ],
+   "max": [
+    230.0,
+    348.8,
+    12.22
+   ]
+  },
+  "Lamp7": {
+   "tris": 12,
+   "min": [
+    184.0,
+    347.8,
+    12.07
+   ],
+   "max": [
+    189.0,
+    348.8,
+    12.22
+   ]
+  },
+  "Bin": {
+   "tris": 88,
+   "min": [
+    167.0,
+    335.0,
+    0.3
+   ],
+   "max": [
+    332.2,
+    357.0,
+    3.5
+   ]
+  },
+  "Shrub": {
+   "tris": 100,
+   "min": [
+    333.94,
+    342.64,
+    0.49
+   ],
+   "max": [
+    355.14,
+    353.55,
+    4.77
+   ]
+  }
+ },
+ "lamps": [
+  "Lamp1",
+  "Lamp2",
+  "Lamp3",
+  "Lamp4",
+  "Lamp5",
+  "Lamp6",
+  "Lamp7"
+ ],
+ "textures": {
+  "Asphalt": "LotAsphalt_Color.png",
+  "Pave": "Plinth_Color.png",
+  "Block": "MallStucco_Color.png",
+  "GlassBlock": "GlassBlock_Color.png",
+  "RoofTar": "RoofTar_Color.png",
+  "Deck": "ForeCrete_Color.png",
+  "WashTeal": "WashTeal_Color.png",
+  "WashNavy": "WashNavy_Color.png",
+  "WashSigns": "WashSigns_Color.png",
+  "Steel": "Steel_Color.png",
+  "Dark": "Dark_Color.png",
+  "Hazard": "Hazard_Color.png",
+  "BrushBlue": "BrushBlue_Color.png",
+  "BrushRed": "BrushRed_Color.png",
+  "Lamp1": "Light_Color.png",
+  "Lamp2": "Light_Color.png",
+  "Lamp3": "Light_Color.png",
+  "AcBody": "HvacGrey_Color.png",
+  "Yellow": "Yellow_Color.png",
+  "LotLine": "LotLine_Color.png",
+  "Soil": "Soil_Color.png",
+  "Hose": "Hose_Color.png",
+  "Lamp4": "Light_Color.png",
+  "Lamp5": "Light_Color.png",
+  "Lamp6": "Light_Color.png",
+  "Lamp7": "Light_Color.png",
+  "Bin": "BinGreen_Color.png",
+  "Shrub": "Shrub_Color.png"
+ }
+}

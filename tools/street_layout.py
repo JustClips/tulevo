@@ -43,6 +43,14 @@ CLEAR = [
     ("BackStreet", "S", 545, 575),          # police station drives (Bellmont thread, 2026-11-07)
     ("BackStreet", "S", 600, 630),
     ("VaultAvenue", "N", -84, 84),          # main spawn plaza (it has its own lamps, bus stop, benches)
+    ("EastStreet", "E", 310, 345),          # Eastside Parking garage entrance (2026-11-07)
+    ("BackStreet", "S", -362, -331),        # Bubble Bay Car Wash entry lane
+    ("WestStreet", "W", 316, 358),          # car wash vacuum lot exit
+    ("BackStreet", "S", 328, 353),          # side drive between Meridian Plaza and The Marlowe
+    ("WestStreet", "W", -352, -288),        # fire station apron (bay doors)
+    ("VaultAvenue", "N", 460, 488),         # Eastside Rec Center drives either side of the Calder building
+    ("VaultAvenue", "N", 612, 642),
+    ("EastStreet", "E", -344, -322),        # Eastside Clinic drive
 ]
 # bus stops: (road, side, u)
 BUS = [("VaultAvenue", "S", 430), ("VaultAvenue", "N", -430), ("BackStreet", "N", 250),

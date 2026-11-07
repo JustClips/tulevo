@@ -164,7 +164,52 @@ BUILDINGS += [
     ("WestTreesN2", "WestTreesN2", (0, 0, 0)),
     ("WestTreesS", "WestTreesS", (0, 0, 0)),
     ("WestTreesS2", "WestTreesS2", (0, 0, 0)),
+    # 2026-11-07 Dev: fill the empty gaps (world coordinates): Palmview Motel annex wing on the strip
+    # behind the motel along Back St, Eastside Parking garage + self storage on the lot off East St
+    # behind Meridian Plaza, Bubble Bay Car Wash between Kestrel gas and Westgate Plaza
+    ("PalmviewAnnex", "MotelAnnex", (0, 0, 0)),
+    ("EastsideParking", "EastsideGarage", (0, 0, 0)),
+    ("BubbleBayWash", "CarWash", (0, 0, 0)),
+    # fire station on the lot behind the Halvorsen building + community garden behind the spawn plaza,
+    # Eastside Rec Center behind the Calder building, tree groves on the grass north of Bellmont Hills
+    ("FireStation3", "FireStation", (0, 0, 0)),
+    ("EastsideRec", "RecCenter", (0, 0, 0)),
+    ("EastsideClinic", "Clinic", (0, 0, 0)),              # East St lot by Hotel Solana (2026-11-07)
+    ("EastTrees", "EastTrees", (0, 0, 0)),
+    ("EastTrees2", "EastTrees2", (0, 0, 0)),
 ]
+
+# ---------------------------------------------------------------- filler houses (2026-11-07 Dev: "gaps")
+# neutral (no gang) house rows on the street fronts the hoods left empty, and a side yard on the end
+# of each hood row that stopped short of the city edge
+NEUTRAL = ("Cream", "Sky", "Sand", "Peach", "Sage", "Butter", "Tan", "Blush")
+_HOOD_EDGE = RES_W / 2 + RES_SIDE + LOT_D / 2
+FILL_ROWS = [
+    # (street z, side: -1 north of it (faces south, *_S) / +1 south of it, first lot x, direction, lots)
+    (NORTH_Z, -1, -172, -1, ("HouseC", "SideYard", "HouseA", "HouseD", "SideYard", "HouseB", "HouseA", "SideYard", "HouseD",
+                             "SideYard")),
+    # middle blocks: between the cross streets' inner sidewalks (x -80..80)
+    (NORTH_Z, -1, -75.6, 1, ("HouseA", "SideYard", "HouseC")),
+    (NORTH_Z, 1, -75.6, 1, ("HouseC", "SideYard", "HouseB")),
+    (NORTH_Z, 1, -160.6, -1, ("HouseA", "HouseC")),
+    (SOUTH_Z, -1, -75.6, 1, ("HouseD", "SideYard", "HouseC")),
+    (SOUTH_Z, 1, -75.6, 1, ("HouseC", "HouseA", "SideYard")),
+]
+_n = 0
+for sz, side, x0, d, lots in FILL_ROWS:
+    x, z = x0, sz + side * _HOOD_EDGE
+    for model in lots:
+        w = LOT_W[model]
+        cx = x + d * w / 2
+        x += d * w
+        key = model if side > 0 else f"{model}_S"
+        _n += 1
+        if model == "SideYard":
+            BUILDINGS.append((f"FillYard{_n}", key, (cx, 0.3, z)))
+        else:
+            BUILDINGS.append((f"FillHouse{_n}", key, (cx, 0.3, z), {"Walls": NEUTRAL[_n % len(NEUTRAL)]}))
+for i, (cx, sz) in enumerate(((622.4, NORTH_Z), (622.4, SOUTH_Z), (-622.4, SOUTH_Z))):
+    BUILDINGS.append((f"FillYardEnd{i}", "SideYard_S", (cx, 0.3, sz - _HOOD_EDGE)))
 
 # Ironwood Arms gun shop + indoor range (thread "Build GTA-style gun shop"; art/blender/gunshop):
 # 28 x 26 m lot (origin = lot centre) on lot D west of the Palmview Motel, front on Vault Avenue's
@@ -337,7 +382,9 @@ for name, x0, x1, z0, z1 in (
 for name, x0, x1, z0, z1, top, col, mat in (
         ("OrtegaSideWalk", 309.6, 316, 8.4, BACK_Z - ROAD_W / 2 - SIDE_W, 0.6, SIDEWALK, "Concrete"),
         ("OrtegaSideLot", 316, 330.2, 8.4, BACK_Z - ROAD_W / 2 - SIDE_W, 0.3, ASPHALT, "Asphalt"),
-        ("CrestlineLotEdge", 320, 330.2, AVE_Z + ROAD_W / 2 + SIDE_W, 8.4, 0.3, ASPHALT, "Asphalt")):
+        ("CrestlineLotEdge", 320, 330.2, AVE_Z + ROAD_W / 2 + SIDE_W, 8.4, 0.3, ASPHALT, "Asphalt"),
+        # gap between Meridian Plaza and The Marlowe: a side drive from Back St to the self storage lot
+        ("MarloweSideLot", 330.2, 350.6, BACK_Z + ROAD_W / 2 + SIDE_W, 270.2, 0.3, ASPHALT, "Asphalt")):
     children.append(part(name, (x1 - x0, top, z1 - z0), ((x0 + x1) / 2, top / 2, (z0 + z1) / 2), col, mat))
 
 for name, x0, x1, z0, z1 in PLAZAS:

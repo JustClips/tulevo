@@ -1130,7 +1130,264 @@ def fuel():
     save("LotSigns", im, 120)
 
 
-STEPS = {"street": street, "brick": brick_building, "diner": diner, "hotel": hotel, "park": park, "mall": mall, "auto": auto, "fuel": fuel}
+def garage():
+    """Eastside Parking garage + Eastside Self Storage (lot on East St behind Meridian Plaza)."""
+    BLU, WHT = (24, 70, 160), (250, 250, 250)
+    im = Image.new("RGB", (1024, 1024), BLU)
+    d = ImageDraw.Draw(im)
+    # A: vertical blade sign (0..256 x 0..1024), letters stacked
+    d.rectangle((0, 0, 256, 1024), fill=BLU)
+    d.rectangle((10, 10, 246, 1014), outline=WHT, width=8)
+    fit_text(d, (128, 120), "P", FONT_B, 200, 190, WHT)
+    d.rectangle((40, 232, 216, 240), fill=WHT)
+    for k, ch in enumerate("PARKING"):
+        fit_text(d, (128, 300 + k * 104), ch, FONT_B, 150, 92, WHT)
+    # B: fascia (256..1024 x 0..256)
+    d.rectangle((256, 0, 1024, 256), fill=BLU)
+    d.rectangle((266, 10, 1014, 246), outline=WHT, width=6)
+    fit_text(d, (640, 100), "EASTSIDE PARKING", FONT_B, 700, 110, WHT)
+    fit_text(d, (640, 200), "OPEN 24 HOURS  ·  $3 / HOUR", FONT_B, 640, 46, (220, 230, 255))
+    # C: ENTER (256..640 x 256..512) and CLEARANCE (640..1024 x 256..512)
+    d.rectangle((256, 256, 640, 512), fill=(30, 130, 60))
+    d.rectangle((266, 266, 630, 502), outline=WHT, width=6)
+    fit_text(d, (448, 340), "ENTER", FONT_B, 330, 100, WHT)
+    d.polygon([(330, 430), (520, 430), (520, 405), (575, 450), (520, 495), (520, 470), (330, 470)], fill=WHT)
+    d.rectangle((640, 256, 1024, 512), fill=(240, 196, 30))
+    d.rectangle((650, 266, 1014, 502), outline=(20, 20, 20), width=8)
+    fit_text(d, (832, 340), "CLEARANCE", FONT_B, 330, 70, (20, 20, 20))
+    fit_text(d, (832, 430), "2.2 m", FONT_B, 330, 100, (20, 20, 20))
+    # D: level plates (256..1024 x 512..768), three cells
+    for k, t in enumerate(("LEVEL 1", "LEVEL 2", "ROOF")):
+        x0 = 256 + k * 256
+        d.rectangle((x0, 512, x0 + 256, 768), fill=(250, 250, 246))
+        d.rectangle((x0 + 8, 520, x0 + 248, 760), outline=BLU, width=10)
+        fit_text(d, (x0 + 128, 600), str(k + 1) if k < 2 else "R", FONT_B, 150, 120, BLU)
+        fit_text(d, (x0 + 128, 710), t, FONT_B, 210, 44, BLU)
+    # E: storage sign (256..1024 x 768..1024)
+    ORG = (232, 112, 28)
+    d.rectangle((256, 768, 1024, 1024), fill=ORG)
+    d.rectangle((266, 778, 1014, 1014), outline=WHT, width=6)
+    fit_text(d, (640, 860), "EASTSIDE SELF STORAGE", FONT_B, 700, 90, WHT)
+    fit_text(d, (640, 960), "UNITS AVAILABLE  ·  GATE CODE ACCESS", FONT_B, 640, 40, (255, 240, 220))
+    save("GarageSigns", im, 120)
+    # orange storage roll-up door (the auto shop's door ribs, painted)
+    v = np.asarray(Image.open(os.path.join(OUT, "RollDoor_Color.png")).convert("L"), np.float32) / 255
+    col = np.stack([v * 236, v * 120, v * 40], -1)
+    save("StoreDoor", Image.fromarray(np.clip(col, 0, 255).astype(np.uint8)), 150)
+    paint("StoreOrange", (226, 110, 34))
+    paint("GarageBlue", (24, 70, 160))
+
+
+def wash():
+    """Bubble Bay Car Wash (strip between Kestrel gas and Westgate Plaza)."""
+    TEAL, NAVY, WHT = (22, 160, 190), (16, 44, 96), (250, 250, 250)
+    im = Image.new("RGB", (1024, 1024), TEAL)
+    d = ImageDraw.Draw(im)
+    rnd = np.random.default_rng(5)
+
+    def bubbles(box, n):
+        x0, y0, x1, y1 = box
+        for _ in range(n):
+            r = int(rnd.integers(8, 26))
+            cx, cy = int(rnd.integers(x0 + r, x1 - r)), int(rnd.integers(y0 + r, y1 - r))
+            d.ellipse((cx - r, cy - r, cx + r, cy + r), outline=(200, 240, 250), width=4)
+    # A: banner (0..1024 x 0..256)
+    d.rectangle((0, 0, 1024, 256), fill=NAVY)
+    bubbles((0, 0, 1024, 256), 26)
+    d.rectangle((10, 10, 1014, 246), outline=WHT, width=8)
+    fit_text(d, (512, 110), "BUBBLE BAY", FONT_B, 900, 130, WHT)
+    fit_text(d, (512, 205), "CAR WASH  ·  OPEN 7 DAYS", FONT_B, 760, 50, (140, 225, 245))
+    # B: menu board (0..512 x 256..768)
+    d.rectangle((0, 256, 512, 768), fill=(250, 250, 246))
+    d.rectangle((0, 256, 512, 360), fill=NAVY)
+    fit_text(d, (256, 308), "WASH MENU", FONT_B, 440, 70, WHT)
+    for k, (t, pr, c) in enumerate((("BASIC", "$8", (60, 150, 80)), ("DELUXE", "$12", (30, 120, 200)), ("ULTIMATE", "$16", (200, 60, 60)))):
+        y = 390 + k * 120
+        d.rectangle((24, y, 488, y + 100), fill=c)
+        fit_text(d, (190, y + 50), t, FONT_B, 300, 56, WHT)
+        fit_text(d, (420, y + 50), pr, FONT_B, 120, 64, WHT)
+    # C: ENTER (512..1024 x 256..512)
+    d.rectangle((512, 256, 1024, 512), fill=(30, 130, 60))
+    d.rectangle((522, 266, 1014, 502), outline=WHT, width=6)
+    fit_text(d, (768, 340), "ENTER WASH", FONT_B, 440, 90, WHT)
+    d.polygon([(650, 430), (840, 430), (840, 405), (895, 450), (840, 495), (840, 470), (650, 470)], fill=WHT)
+    # D: FREE VACUUMS (512..1024 x 512..768)
+    d.rectangle((512, 512, 1024, 768), fill=TEAL)
+    bubbles((512, 512, 1024, 768), 14)
+    d.rectangle((522, 522, 1014, 758), outline=WHT, width=6)
+    fit_text(d, (768, 600), "FREE", FONT_B, 440, 90, WHT)
+    fit_text(d, (768, 695), "VACUUMS", FONT_B, 440, 90, WHT)
+    # E: exit banner (0..1024 x 768..1024)
+    d.rectangle((0, 768, 1024, 1024), fill=NAVY)
+    d.rectangle((10, 778, 1014, 1014), outline=WHT, width=6)
+    fit_text(d, (512, 870), "THANK YOU!", FONT_B, 800, 110, WHT)
+    fit_text(d, (512, 970), "DRIVE SLOW  ·  COME BACK SOON", FONT_B, 760, 46, (140, 225, 245))
+    save("WashSigns", im, 120)
+    paint("WashTeal", (22, 160, 190))
+    paint("WashNavy", (16, 44, 96))
+    paint("BrushBlue", (40, 90, 210), strength=0.6)
+    paint("BrushRed", (210, 50, 60), strength=0.6)
+
+
+def fire():
+    """Fire station 3 (lot behind the Halvorsen building) + community garden sign."""
+    RED, WHT = (178, 28, 30), (250, 250, 250)
+    im = Image.new("RGB", (1024, 512), RED)
+    d = ImageDraw.Draw(im)
+    d.rectangle((0, 0, 1024, 256), fill=(250, 248, 240))
+    d.rectangle((10, 10, 1014, 246), outline=RED, width=10)
+    fit_text(d, (512, 105), "TULEVO FIRE DEPT", FONT_B, 900, 120, RED)
+    fit_text(d, (512, 200), "STATION 3", FONT_B, 600, 64, (40, 40, 44))
+    d.rectangle((0, 256, 512, 512), fill=WHT)
+    d.rectangle((10, 266, 502, 502), outline=RED, width=10)
+    fit_text(d, (256, 340), "FIRE LANE", FONT_B, 440, 80, RED)
+    fit_text(d, (256, 440), "NO PARKING", FONT_B, 440, 70, (30, 30, 30))
+    d.rectangle((512, 256, 1024, 512), fill=(40, 100, 52))
+    d.rectangle((522, 266, 1014, 502), outline=(240, 236, 210), width=8)
+    fit_text(d, (768, 340), "COMMUNITY", FONT_B, 440, 80, (240, 236, 210))
+    fit_text(d, (768, 440), "GARDEN", FONT_B, 440, 80, (240, 236, 210))
+    save("FireSigns", im, 120)
+    # red sectional bay door with a row of windows
+    v = np.asarray(Image.open(os.path.join(OUT, "RollDoor_Color.png")).convert("L").resize((512, 512)), np.float32) / 255
+    col = np.stack([v * 190, v * 34, v * 34], -1)
+    door = Image.fromarray(np.clip(col, 0, 255).astype(np.uint8))
+    dd = ImageDraw.Draw(door)
+    for k in range(4):
+        x0 = 24 + k * 122
+        dd.rectangle((x0, 150, x0 + 108, 220), fill=(225, 225, 225))
+        dd.rectangle((x0 + 8, 158, x0 + 100, 212), fill=(40, 52, 64))
+    save("FireDoor", door, 140)
+    paint("FireRed", (178, 28, 30))
+    paint("TruckRed", (196, 22, 24), strength=0.15, rough=Image.new("L", (256, 256), 70))
+    real("FireBrick", "Bricks094", 1024, tint=(150, 52, 40), gain=0.95)
+    fire_decals()
+
+
+def fire_decals():
+    """FireDecals atlas (1024 square, v = 1 - y/1024): truck livery band, door emblem, station plaque,
+    bay plates, keep-clear plate, flag, memorial plaque, pump gauge. Made-up dept marks, no real logos."""
+    RED, WHT, GOLD, NAVY, INK = (196, 22, 24), (250, 250, 250), (232, 186, 60), (24, 36, 70), (34, 34, 38)
+    im = Image.new("RGB", (1024, 1024), (120, 120, 124))
+    d = ImageDraw.Draw(im)
+    # y 0..96 livery band (body side above the lockers)
+    d.rectangle((0, 0, 1024, 96), fill=RED)
+    d.rectangle((0, 8, 1024, 14), fill=GOLD)
+    d.rectangle((0, 82, 1024, 88), fill=GOLD)
+    fit_text(d, (512, 48), "TULEVO FIRE DEPT", FONT_B, 900, 62, WHT)
+
+    def emblem(cx, cy, r):
+        d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=GOLD)
+        d.ellipse((cx - r + 12, cy - r + 12, cx + r - 12, cy + r - 12), fill=RED)
+        d.ellipse((cx - r + 20, cy - r + 20, cx + r - 20, cy + r - 20), outline=WHT, width=4)
+        # simple flame
+        f = [(cx, cy - r * 0.62), (cx + r * 0.30, cy - r * 0.05), (cx + r * 0.16, cy - r * 0.18), (cx + r * 0.34, cy + r * 0.32),
+             (cx, cy + r * 0.52), (cx - r * 0.34, cy + r * 0.32), (cx - r * 0.18, cy - r * 0.12), (cx - r * 0.06, cy + r * 0.02)]
+        d.polygon(f, fill=GOLD)
+        fit_text(d, (cx, cy + r * 0.20), "3", FONT_B, r, int(r * 0.62), RED)
+    # y 96..352 emblem (0..256) + station plaque (256..1024)
+    d.rectangle((0, 96, 256, 352), fill=RED)
+    emblem(128, 224, 118)
+    d.rectangle((256, 96, 1024, 352), fill=(236, 230, 214))
+    d.rectangle((266, 106, 1014, 342), outline=RED, width=10)
+    fit_text(d, (640, 190), "STATION 3", FONT_B, 700, 110, RED)
+    fit_text(d, (640, 290), "EST. 1962", FONT_B, 500, 56, INK)
+    # y 352..480 + 480..608 bay plates, keep-clear plate (each 512 x 128)
+    for (x0, y0), text, bg, fg in (((0, 352), "ENGINE 3", INK, WHT), ((512, 352), "LADDER 3", INK, WHT),
+                                   ((0, 480), "RESCUE 3", INK, WHT), ((512, 480), "KEEP CLEAR", WHT, RED)):
+        d.rectangle((x0, y0, x0 + 512, y0 + 128), fill=bg)
+        d.rectangle((x0 + 8, y0 + 8, x0 + 504, y0 + 120), outline=GOLD if bg == INK else RED, width=6)
+        fit_text(d, (x0 + 256, y0 + 66), text, FONT_B, 440, 84, fg)
+    # y 608..864 flag (0..512); memorial plaque (512..1024)
+    d.rectangle((0, 608, 512, 864), fill=NAVY)                      # made-up city flag: navy, gold star, red base
+    d.rectangle((0, 800, 512, 812), fill=WHT)
+    d.rectangle((0, 812, 512, 864), fill=RED)
+    d.polygon([(0, 608), (150, 608), (0, 760)], fill=(36, 110, 150))
+    cx, cy, r1, r2 = 256, 704, 70, 28
+    pts = [(cx + (r1 if i % 2 == 0 else r2) * math.sin(i * math.pi / 5), cy - (r1 if i % 2 == 0 else r2) * math.cos(i * math.pi / 5))
+           for i in range(10)]
+    d.polygon(pts, fill=GOLD)
+    d.rectangle((512, 608, 1024, 864), fill=(150, 112, 52))
+    d.rectangle((524, 620, 1012, 852), outline=(232, 200, 120), width=8)
+    fit_text(d, (768, 690), "IN HONOR OF", FONT_B, 440, 56, (250, 236, 200))
+    fit_text(d, (768, 770), "ALL WHO SERVED", FONT_B, 440, 56, (250, 236, 200))
+    # y 864..1024 pump gauge (0..160)
+    d.rectangle((0, 864, 160, 1024), fill=(30, 30, 32))
+    d.ellipse((6, 870, 154, 1018), fill=WHT, outline=(180, 180, 184), width=6)
+    for i in range(11):
+        a = math.radians(-135 + i * 27)
+        d.line((80 + 52 * math.sin(a), 944 - 52 * math.cos(a), 80 + 64 * math.sin(a), 944 - 64 * math.cos(a)), fill=INK, width=4)
+    d.line((80, 944, 80 + 50 * math.sin(0.6), 944 - 50 * math.cos(0.6)), fill=RED, width=6)
+    d.ellipse((72, 936, 88, 952), fill=INK)
+    save("FireDecals", im, 110)
+
+
+def rec():
+    """Eastside Rec Center (lot behind the Calder building) + court paints."""
+    NAVY, ORG, WHT = (20, 40, 90), (240, 120, 30), (250, 250, 250)
+    im = Image.new("RGB", (1024, 512), NAVY)
+    d = ImageDraw.Draw(im)
+    d.rectangle((0, 0, 1024, 256), fill=NAVY)
+    d.rectangle((10, 10, 1014, 246), outline=ORG, width=10)
+    fit_text(d, (512, 105), "EASTSIDE REC CENTER", FONT_B, 900, 110, WHT)
+    fit_text(d, (512, 200), "GYM  ·  COURTS  ·  YOUTH LEAGUE", FONT_B, 760, 52, (255, 200, 150))
+    d.rectangle((0, 256, 512, 512), fill=ORG)
+    d.rectangle((10, 266, 502, 502), outline=WHT, width=8)
+    fit_text(d, (256, 345), "OPEN", FONT_B, 440, 90, WHT)
+    fit_text(d, (256, 445), "6AM - 10PM", FONT_B, 440, 70, WHT)
+    d.rectangle((512, 256, 1024, 512), fill=WHT)
+    d.rectangle((522, 266, 1014, 502), outline=NAVY, width=8)
+    fit_text(d, (768, 345), "PUBLIC", FONT_B, 440, 80, NAVY)
+    fit_text(d, (768, 445), "PARKING", FONT_B, 440, 80, NAVY)
+    save("RecSigns", im, 120)
+    paint("CourtBlue", (40, 90, 150), strength=0.25)
+    paint("CourtGreen", (50, 120, 80), strength=0.25)
+    paint("RecNavy", (20, 40, 90))
+    paint("RecOrange", (240, 120, 30))
+
+
+def clinic():
+    """Eastside Clinic (lot on East St between the Pike building and the Vipers court). Plain white
+    plus on teal as the medical mark (no red cross emblem, no real hospital names)."""
+    TEAL, WHT, RED, INK = (18, 120, 128), (250, 250, 250), (196, 30, 32), (30, 34, 40)
+    im = Image.new("RGB", (1024, 1024), TEAL)
+    d = ImageDraw.Draw(im)
+
+    def plus(cx, cy, r, col):
+        t = r * 0.36
+        d.rectangle((cx - t, cy - r, cx + t, cy + r), fill=col)
+        d.rectangle((cx - r, cy - t, cx + r, cy + t), fill=col)
+    # y 0..256 banner
+    d.rectangle((10, 10, 1014, 246), outline=WHT, width=8)
+    d.rectangle((34, 34, 222, 222), fill=WHT)
+    plus(128, 128, 76, TEAL)
+    fit_text(d, (620, 105), "EASTSIDE CLINIC", FONT_B, 740, 110, WHT)
+    fit_text(d, (620, 196), "URGENT CARE  ·  FAMILY MEDICINE", FONT_B, 740, 44, (200, 240, 240))
+    # y 256..512: EMERGENCY (0..512), pylon panel (512..1024)
+    d.rectangle((0, 256, 512, 512), fill=RED)
+    d.rectangle((10, 266, 502, 502), outline=WHT, width=8)
+    fit_text(d, (256, 384), "EMERGENCY", FONT_B, 450, 100, WHT)
+    d.rectangle((512, 256, 1024, 512), fill=WHT)
+    d.rectangle((522, 266, 1014, 502), outline=TEAL, width=8)
+    plus(600, 384, 54, TEAL)
+    fit_text(d, (820, 350), "EASTSIDE", FONT_B, 330, 74, TEAL)
+    fit_text(d, (820, 440), "CLINIC", FONT_B, 330, 74, INK)
+    # y 512..1024: helipad (0..512), patient parking (512..1024, 512..768), cross tile (512..1024, 768..1024)
+    d.rectangle((0, 512, 512, 1024), fill=(70, 74, 78))
+    d.ellipse((24, 536, 488, 1000), outline=(240, 200, 40), width=22)
+    d.rectangle((150, 640, 200, 896), fill=WHT)
+    d.rectangle((312, 640, 362, 896), fill=WHT)
+    d.rectangle((150, 744, 362, 792), fill=WHT)
+    d.rectangle((512, 512, 1024, 768), fill=WHT)
+    d.rectangle((522, 522, 1014, 758), outline=TEAL, width=8)
+    fit_text(d, (768, 600), "PATIENT", FONT_B, 440, 80, TEAL)
+    fit_text(d, (768, 690), "PARKING", FONT_B, 440, 80, INK)
+    d.rectangle((512, 768, 1024, 1024), fill=TEAL)
+    plus(768, 896, 100, WHT)
+    save("ClinicSigns", im, 120)
+    paint("ClinicTeal", TEAL)
+
+
+STEPS = {"street": street, "brick": brick_building, "diner": diner, "hotel": hotel, "park": park, "mall": mall, "auto": auto, "fuel": fuel, "garage": garage, "wash": wash, "fire": fire, "rec": rec, "clinic": clinic}
 
 if __name__ == "__main__":
     fetch()
