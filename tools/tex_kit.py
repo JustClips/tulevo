@@ -226,3 +226,55 @@ def glass_set(save, prefix="Glass", n=6, seed=900, kinds=("home",), size=(256, 2
     for i in range(n):
         save(f"{prefix}{chr(65 + i)}", glass_pane(*size, seed + i, kinds[i % len(kinds)]), 25)
     save(f"{prefix}Frost", glass_pane(*size, seed + 99, "bath"), 80)
+
+
+def surface(kind, base, seed=1, size=256):
+    """Tileable realistic surface sheet: wood, laminate, metal (brushed), paint, plastic, granite,
+    block (CMU), rubber, gravel, drywall. base = (r, g, b)."""
+    import numpy as np
+    w = h = size
+    b = np.array(base, np.float32)
+    big = np.asarray(_wrap_noise(w, h, 48, seed, 10), np.float32) / 255 - 0.5
+    mid = np.asarray(_wrap_noise(w, h, 8, seed + 1, 2), np.float32) / 255 - 0.5
+    fine = np.asarray(_wrap_noise(w, h, 1, seed + 2, 0.5), np.float32) / 255 - 0.5
+    y, x = np.mgrid[0:h, 0:w] / size
+    if kind in ("wood", "laminate"):
+        n = 10 if kind == "wood" else 22
+        warp = big * 0.8 + mid * 0.15
+        g = np.sin(2 * np.pi * (n * y + warp * 3)) * 0.5 + 0.5
+        g = g ** 3
+        k = (g * -22 + big * 14 + fine * (10 if kind == "wood" else 5))[..., None]
+        img = b + k * np.array([1.0, 0.85, 0.7])
+        if kind == "wood":                                  # plank seams
+            for yy in range(0, h, h // 4):
+                img[yy:yy + 2] *= 0.55
+    elif kind == "metal":
+        streak = np.asarray(_wrap_noise(w, h, 1, seed + 3, 0.4).resize((w, h)), np.float32) / 255 - 0.5
+        streak = np.repeat(streak.mean(axis=1, keepdims=True), w, axis=1) * 0.6 + fine * 0.4
+        img = b + (streak * 26 + big * 10)[..., None]
+    elif kind == "paint":
+        img = b + (big * 10 + mid * 6 + fine * 6)[..., None]
+    elif kind == "plastic":
+        img = b + (big * 8 + fine * 5)[..., None]
+    elif kind == "granite":
+        img = b + (big * 14 + mid * 18 + fine * 40)[..., None]
+        rr = np.random.default_rng(seed)
+        dots = rr.random((h, w)) < 0.05
+        img[dots] = img[dots] * 0.45
+        light = rr.random((h, w)) < 0.03
+        img[light] = np.minimum(255, img[light] * 1.3)
+    elif kind == "block":
+        img = b + (big * 12 + mid * 10 + fine * 26)[..., None]
+        joint = (np.abs((y * 2) % 1.0) < 0.025) | (np.abs(((x + (np.floor(y * 2) % 2) * 0.5) * 1) % 1.0) < 0.012)
+        img[joint] = img[joint] * 0.62
+    elif kind == "rubber":
+        bumps = (np.sin(2 * np.pi * 24 * x) * np.sin(2 * np.pi * 24 * y)) * 0.5
+        img = b + (bumps * 10 + fine * 8 + big * 6)[..., None]
+    elif kind == "gravel":
+        rr = np.random.default_rng(seed)
+        img = b + (big * 10 + mid * 30 + fine * 50)[..., None]
+        sp = rr.random((h, w)) < 0.12
+        img[sp] = img[sp] * rr.uniform(0.6, 1.35, (sp.sum(), 1))
+    else:   # drywall / default
+        img = b + (big * 6 + fine * 4)[..., None]
+    return Image.fromarray(np.clip(img, 0, 255).astype(np.uint8), "RGB")

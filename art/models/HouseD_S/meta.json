@@ -38,7 +38,7 @@
    ],
    "max": [
     28.7,
-    42.3,
+    42.41,
     16.9
    ]
   },
@@ -51,7 +51,7 @@
    ],
    "max": [
     28.88,
-    42.48,
+    42.62,
     16.92
    ]
   },
@@ -77,7 +77,7 @@
    ],
    "max": [
     27.0,
-    41.4,
+    42.48,
     4.68
    ]
   },
@@ -147,9 +147,9 @@
    ]
   },
   "WinIron": {
-   "tris": 1548,
+   "tris": 1536,
    "min": [
-    -18.79,
+    -18.61,
     -24.01,
     3.78
    ],
@@ -224,56 +224,69 @@
     9.54
    ]
   },
-  "Dark": {
-   "tris": 24,
+  "AcGrille": {
+   "tris": 2,
    "min": [
-    -20.3,
-    -32.31,
-    2.52
+    -20.28,
+    5.9,
+    7.81
    ],
    "max": [
-    -4.68,
-    8.28,
-    9.29
+    -20.28,
+    8.5,
+    9.47
    ]
   },
   "Iron": {
-   "tris": 180,
+   "tris": 324,
    "min": [
     -27.54,
     -31.68,
     0.0
    ],
    "max": [
-    10.77,
-    41.55,
-    7.67
-   ]
-  },
-  "Meter": {
-   "tris": 12,
-   "min": [
-    -18.72,
-    -4.41,
-    3.6
-   ],
-   "max": [
-    -18.0,
-    -2.79,
-    5.76
+    6.7,
+    40.32,
+    9.36
    ]
   },
   "Pipe": {
-   "tris": 84,
+   "tris": 108,
    "min": [
-    24.24,
-    15.24,
+    -19.84,
+    -3.71,
     0.0
    ],
    "max": [
     24.72,
     15.72,
     11.88
+   ]
+  },
+  "Meter": {
+   "tris": 12,
+   "min": [
+    -18.58,
+    -4.36,
+    3.64
+   ],
+   "max": [
+    -18.0,
+    -2.84,
+    5.72
+   ]
+  },
+  "MeterFace": {
+   "tris": 2,
+   "min": [
+    -18.58,
+    -4.32,
+    3.67
+   ],
+   "max": [
+    -18.58,
+    -2.88,
+    5.65
    ]
   },
   "Tag": {
@@ -419,6 +432,19 @@
     6.48
    ]
   },
+  "Dark": {
+   "tris": 12,
+   "min": [
+    -8.28,
+    -32.31,
+    2.52
+   ],
+   "max": [
+    -4.68,
+    -30.33,
+    3.6
+   ]
+  },
   "Bark": {
    "tris": 88,
    "min": [
@@ -462,11 +488,11 @@
  "lamps": [],
  "textures": {
   "Lawn": "Lawn_Color.png",
-  "Foundation": "Foundation_Color.png",
+  "Foundation": "MatFoundation_Color.png",
   "Walls": "WallCream_Color.png",
   "Tiles": "ClayTile_Color.png",
-  "Trim": "Trim_Color.png",
-  "Stone": "Stone_Color.png",
+  "Trim": "MatTrim_Color.png",
+  "Stone": "MatStone_Color.png",
   "Sconce": "Sconce_Color.png",
   "SecurityDoor": "SecurityDoor_Color.png",
   "GlassB": "GlassB_Color.png",
@@ -474,26 +500,28 @@
   "Sill": "Sill_Color.png",
   "WinIron": "WinIron_Color.png",
   "GlassE": "GlassE_Color.png",
-  "Shutter": "Shutter_Color.png",
+  "Shutter": "MatShutter_Color.png",
   "GlassF": "GlassF_Color.png",
   "GlassD": "GlassD_Color.png",
-  "AcBody": "AcBody_Color.png",
-  "Dark": "Dark_Color.png",
-  "Iron": "Iron_Color.png",
-  "Meter": "Meter_Color.png",
+  "AcBody": "MatAcBody_Color.png",
+  "AcGrille": "AcGrille_Color.png",
+  "Iron": "MatIron_Color.png",
   "Pipe": "Pipe_Color.png",
+  "Meter": "Meter_Color.png",
+  "MeterFace": "MeterFace_Color.png",
   "Tag": "Tag_Color.png",
   "Water": "Water_Color.png",
   "Shrub": "Shrub_Color.png",
-  "Soil": "Soil_Color.png",
+  "Soil": "MatSoil_Color.png",
   "Trunk": "Trunk_Color.png",
   "Palm": "Palm_Color.png",
   "Concrete": "Concrete_Color.png",
-  "Wood": "Wood_Color.png",
-  "Mailbox": "Mailbox_Color.png",
-  "Red": "Red_Color.png",
-  "Block": "Block_Color.png",
-  "Bark": "Bark_Color.png",
+  "Wood": "MatWood_Color.png",
+  "Mailbox": "MatMailbox_Color.png",
+  "Red": "MatRed_Color.png",
+  "Block": "MatBlock_Color.png",
+  "Dark": "MatDark_Color.png",
+  "Bark": "MatBark_Color.png",
   "LeafB": "LeafB_Color.png",
   "Leaf": "Leaf_Color.png"
  },

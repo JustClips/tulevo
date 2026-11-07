@@ -42,13 +42,18 @@ for name, sheet, tile in (("Lawn", "Lawn", (3 * M, 3 * M)), ("Concrete", "Concre
                           ("Ceiling", "Ceiling", (2.4 * M, 2.4 * M)), ("Water", "Water", (3 * M, 3 * M)),
                           ("Tiles", "ClayTile", (2 * M, 2 * M))):
     K.mat(name, sheet=sheet, tile=tile)
-for name in ("FridgeDoors", "ShelfGoodsA", "ShelfGoodsB", "CandyRack", "IceFront", "Register", "Coffee", "AtmFace", "FreezerTop",
+for name in ("BusSign", "Timetable", "BusDisplay", "BusFascia", "BinLabel", "MeterFace", "FridgeDoors", "ShelfGoodsA", "ShelfGoodsB", "CandyRack", "IceFront", "Register", "Coffee", "AtmFace", "FreezerTop",
              "PosterSoda", "PosterSnack", "PosterCoffee", "PosterOpen", "AcGrille", "NewsFace", "BarWindow", "SecurityDoor", "GarageDoor", "StoreFront", "StoreSign", "StoreDoor", "Backboard",
              "WelcomeSign", "ShelterAd", "RouteMap"):
     K.mat(name, sheet=name, explicit=True)
 K.mat("CourtPaint", sheet="CourtPaint", explicit=True)
 K.mat("Tag", sheet="Tag", explicit=True, alpha=True)
 K.mat("ChainLink", sheet="ChainLink", explicit=True, alpha=True, metal=0.6, rough=0.4)
+# fountain water: flipbook-animated in game (Client/FountainFx swaps the TextureID frames)
+K.mat("FxPool", sheet="FxPool", explicit=True, rough=0.05)
+K.mat("FxFall", sheet="FxFall", explicit=True, alpha=True, rough=0.05)
+K.mat("FxRipple", sheet="FxRipple", explicit=True, alpha=True, rough=0.05)
+K.mat("FxJet", color=(0.80, 0.90, 0.95), rough=0.05)
 for name, col, rough, metal, emit in (
         ("Trim", (0.93, 0.92, 0.88), 0.6, 0, 0), ("Iron", (0.03, 0.03, 0.035), 0.45, 0.6, 0), ("Foundation", (0.55, 0.54, 0.51), 0.9, 0, 0),
         ("Flat", (0.30, 0.30, 0.29), 0.95, 0, 0), ("AcBody", (0.80, 0.79, 0.75), 0.6, 0.2, 0), ("Dark", (0.06, 0.06, 0.07), 0.5, 0.2, 0),
@@ -59,16 +64,24 @@ for name, col, rough, metal, emit in (
         ("Stone", (0.80, 0.77, 0.70), 0.8, 0, 0), ("Glass", (0.45, 0.58, 0.62), 0.1, 0.3, 0), ("IceBox", (0.94, 0.95, 0.97), 0.4, 0.2, 0),
         ("IceBlue", (0.10, 0.40, 0.80), 0.5, 0, 0), ("Red", (0.70, 0.08, 0.08), 0.5, 0.1, 0), ("Dumpster", (0.10, 0.30, 0.16), 0.6, 0.3, 0),
         ("Light", (1.0, 0.95, 0.85), 0.5, 0, 4.0), ("NeonRed", (1.0, 0.15, 0.12), 0.5, 0, 6.0), ("Sconce", (1.0, 0.92, 0.75), 0.5, 0, 3.0), ("NeonCyan", (0.2, 0.95, 1.0), 0.5, 0, 6.0),
-        ("Shrub", (0.12, 0.30, 0.10), 0.85, 0, 0), ("Palm", (0.13, 0.29, 0.09), 0.7, 0, 0), ("Trunk", (0.40, 0.31, 0.22), 0.95, 0, 0),
+        ("Shrub", (0.12, 0.29, 0.10), 0.85, 0, 0), ("Palm", (0.13, 0.29, 0.09), 0.7, 0, 0), ("Trunk", (0.40, 0.31, 0.22), 0.95, 0, 0),
         ("Soil", (0.18, 0.12, 0.08), 1.0, 0, 0), ("Kerb", (0.62, 0.62, 0.60), 0.9, 0, 0), ("Flag", (0.85, 0.85, 0.82), 0.8, 0, 0),
         ("Tile", (0.16, 0.42, 0.55), 0.3, 0, 0), ("Plastic", (0.92, 0.92, 0.90), 0.5, 0, 0)):
     K.mat(name, color=col, rough=rough, metal=metal, emit=emit)
-for name, col in (("Shutter", (0.16, 0.24, 0.22)), ("Leaf", (0.11, 0.24, 0.08)), ("LeafB", (0.17, 0.30, 0.10)),
+for name, col in (("Agave", (0.32, 0.45, 0.38)), ("Grass", (0.36, 0.42, 0.20)), ("Shutter", (0.16, 0.24, 0.22)), ("Leaf", (0.11, 0.24, 0.08)), ("LeafB", (0.17, 0.30, 0.10)),
                   ("Bark", (0.25, 0.19, 0.14)), ("FlowerR", (0.75, 0.10, 0.15)), ("FlowerY", (0.95, 0.75, 0.15)),
                   ("FlowerW", (0.92, 0.90, 0.88)), ("Picket", (0.92, 0.91, 0.87)), ("Hedge", (0.09, 0.20, 0.07))):
     K.mat(name, color=col, rough=0.8)
 K.mat("DecoPaint", color=(0.90, 0.88, 0.80), rough=0.8)
 K.mat("DecoSkirt", color=(0.22, 0.20, 0.19), rough=0.6)
+K.mat("Counter", color=(0.55, 0.36, 0.23), rough=0.4)
+# realistic surface sheets (tools/hood_textures.py SURF: Mat<Name>) replace the flat colours
+SURF_TILE = {"Foundation": (1.6 * M, 0.8 * M), "Block": (0.8 * M, 0.4 * M), "Flat": (2 * M, 2 * M), "Stone": (1.5 * M, 1.5 * M),
+             "Wood": (1.2 * M, 1.2 * M), "Picket": (0.6 * M, 0.6 * M), "Bark": (0.6 * M, 0.6 * M), "Soil": (1 * M, 1 * M),
+             "DecoPaint": (2.5 * M, 2.5 * M), "Counter": (1.2 * M, 1.2 * M)}
+for _name in list(K.mats):
+    if os.path.exists(os.path.join(TEX, f"Mat{_name}_Color.png")):
+        K.mat(_name, sheet=f"Mat{_name}", tile=SURF_TILE.get(_name, (1.5 * M, 1.5 * M)), rough=0.6)
 K.facade_mats()
 _g = K.mats["Glass"]["mat"]          # see-through shop glass in the renders (in game: ClearGlass* parts, CityBuildings)
 _g.node_tree.nodes['Principled BSDF'].inputs['Alpha'].default_value = 0.18
@@ -166,20 +179,58 @@ def lamp_post(x, y, h=6.5 * M, arm=(0, 1)):
     K.lamp((ex, ey, h - 0.24 * M), (0.48 * M, 0.48 * M, 0.08 * M))
 
 
+def frustum(part, cx, cy, z0, z1, w0, d0, w1, d1, mat=None):
+    """Box that tapers from w0 x d0 at z0 to w1 x d1 at z1 (closed)."""
+    bm = K.bm(part, mat)
+    lo = [bm.verts.new((cx + sx * w0 / 2, cy + sy * d0 / 2, z0)) for sx, sy in ((-1, -1), (1, -1), (1, 1), (-1, 1))]
+    hi = [bm.verts.new((cx + sx * w1 / 2, cy + sy * d1 / 2, z1)) for sx, sy in ((-1, -1), (1, -1), (1, 1), (-1, 1))]
+    bm.faces.new(lo[::-1]); bm.faces.new(hi)
+    for i in range(4):
+        j = (i + 1) % 4
+        bm.faces.new([lo[i], lo[j], hi[j], hi[i]])
+
+
 def bins(x, y, n=2):
+    """Wheelie bins facing the street (-Y): tapered body, ribs, overhanging lid with hinge and
+    handle at the back, axle + two wheels, city sticker on the front."""
     for i in range(n):
         bx = x + i * 0.8 * M
         part = ("BinGreen", "BinGrey", "BinBlue")[i % 3]
-        K.box(part, (bx, y, 0.5 * M), (0.65 * M, 0.7 * M, 1.0 * M))
-        K.box(part, (bx, y + 0.02 * M, 1.04 * M), (0.7 * M, 0.78 * M, 0.08 * M))
-        K.cyl("Dark", (bx - 0.3 * M, y + 0.32 * M, 0.1 * M), 0.1 * M, 0.08 * M, segs=8, axis='X')
-        K.cyl("Dark", (bx + 0.3 * M, y + 0.32 * M, 0.1 * M), 0.1 * M, 0.08 * M, segs=8, axis='X')
+        frustum(part, bx, y, 0.12 * M, 1.0 * M, 0.56 * M, 0.6 * M, 0.64 * M, 0.72 * M)
+        for k in (-1, 1):                                            # corner ribs
+            K.boxr(part, bx + k * 0.3 * M - 0.02 * M, bx + k * 0.3 * M + 0.02 * M, y - 0.37 * M, y - 0.31 * M, 0.2 * M, 0.98 * M)
+        K.boxr(part, bx - 0.33 * M, bx + 0.33 * M, y - 0.38 * M, y - 0.34 * M, 0.9 * M, 0.97 * M)   # top rim
+        K.boxr(part, bx - 0.34 * M, bx + 0.34 * M, y - 0.42 * M, y + 0.36 * M, 1.0 * M, 1.06 * M)  # lid
+        K.boxr(part, bx - 0.3 * M, bx + 0.3 * M, y - 0.44 * M, y - 0.4 * M, 0.96 * M, 1.06 * M)   # lid lip
+        K.cyl("Dark", (bx, y + 0.37 * M, 1.02 * M), 0.03 * M, 0.6 * M, segs=6, axis='X')          # hinge
+        K.cyl("Dark", (bx, y + 0.42 * M, 0.92 * M), 0.025 * M, 0.5 * M, segs=6, axis='X')         # handle
+        K.cyl("Iron", (bx, y + 0.3 * M, 0.12 * M), 0.02 * M, 0.66 * M, segs=6, axis='X')          # axle
+        for wx in (-0.31 * M, 0.31 * M):
+            K.cyl("Dark", (bx + wx, y + 0.3 * M, 0.12 * M), 0.12 * M, 0.06 * M, segs=12, axis='X')
+            K.cyl("Plastic", (bx + wx * 1.12, y + 0.3 * M, 0.12 * M), 0.05 * M, 0.01 * M, segs=8, axis='X')
+        K.face_y("BinLabel", bx, y - 0.335 * M - 0.035 * M, 0.55 * M, 0.34 * M, 0.21 * M)
+
+
+def meter(ax, plane, facing, a, z):
+    """Electric meter cabinet with a printed dial face, conduit down into the ground."""
+    K._wbox("Meter", ax, plane, facing, a, 0, 0.08 * M, z, 0.42 * M, 0.16 * M, 0.58 * M)
+    if ax == "y":
+        K.face_y("MeterFace", a, plane + facing * 0.161 * M, z - 0.28 * M, 0.4 * M, 0.55 * M, facing=facing)
+    else:
+        K.face_x("MeterFace", plane + facing * 0.161 * M, a, z - 0.28 * M, 0.4 * M, 0.55 * M, facing=facing)
+    K._wbox("Pipe", ax, plane, facing, a, 0, 0.06 * M, (z - 0.29 * M) / 2, 0.06 * M, 0.06 * M, z - 0.29 * M)
 
 
 def ac_unit_x(x, y, z, facing):
+    """Through-wall A/C: cabinet, printed grille front, side louvres, brackets, drip line."""
     K.box("AcBody", (x + facing * 0.32 * M, y, z), (0.62 * M, 0.75 * M, 0.5 * M))
-    K.box("Dark", (x + facing * 0.635 * M, y, z), (0.02, 0.6 * M, 0.36 * M))
-    K.box("Iron", (x + facing * 0.3 * M, y, z - 0.3 * M), (0.55 * M, 0.06 * M, 0.06 * M))
+    K.face_x("AcGrille", x + facing * 0.632 * M, y, z - 0.23 * M, 0.72 * M, 0.46 * M, facing=facing)
+    for k in range(5):
+        for sy in (-1, 1):
+            K.box("Iron", (x + facing * (0.2 + k * 0.08) * M, y + sy * 0.378 * M, z + 0.05 * M), (0.04 * M, 0.01 * M, 0.3 * M))
+    for sy in (-0.28, 0.28):
+        K.cyl_along("Iron", (x, y + sy * M, z - 0.55 * M), (x + facing * 0.55 * M, y + sy * M, z - 0.26 * M), 0.02 * M, segs=4)
+    K.cyl_along("Pipe", (x + facing * 0.5 * M, y + 0.3 * M, z - 0.25 * M), (x + facing * 0.5 * M, y + 0.3 * M, 0.02), 0.012 * M, segs=4)
 
 
 def dish(x, y, z, facing=-1):
@@ -336,6 +387,98 @@ def gable(part, x0, x1, y0, y1, z, rh, over=0.45 * M, wall="Walls"):
     K.boxr("Trim", rx0, rx1, cy - 0.1 * M, cy + 0.1 * M, z + rh - 0.02 * M, z + rh + 0.08 * M)   # ridge cap
 
 
+def lathe(part, prof, segs=32, mat=None):
+    """Surface of revolution round the Z axis at (0, 0): prof = [(r, z), ...] from the axis to the axis."""
+    bm = K.bm(part, mat)
+    rings = []
+    for r, z in prof:
+        if r <= 1e-6:
+            rings.append([bm.verts.new((0, 0, z))])
+        else:
+            rings.append([bm.verts.new((r * math.cos(i / segs * math.tau), r * math.sin(i / segs * math.tau), z)) for i in range(segs)])
+    for a, b in zip(rings, rings[1:]):
+        for i in range(segs):
+            j = (i + 1) % segs
+            if len(a) == 1:
+                bm.faces.new([a[0], b[i], b[j]])
+            elif len(b) == 1:
+                bm.faces.new([a[i], b[0], a[j]])
+            else:
+                bm.faces.new([a[i], b[i], b[j], a[j]])
+
+
+def sheet_rev(part, cx, cy, r0, z0, r1, z1, segs=32, urep=6, vrep=1.0, both=True):
+    """Open cone/annulus sheet (explicit UVs: u round, v from edge 0 to edge 1) for water FX."""
+    for side in ((1, -1) if both else (1,)):
+        for i in range(segs):
+            a0, a1 = i / segs * math.tau, (i + 1) / segs * math.tau
+            p = [(cx + r0 * math.cos(a0), cy + r0 * math.sin(a0), z0), (cx + r0 * math.cos(a1), cy + r0 * math.sin(a1), z0),
+                 (cx + r1 * math.cos(a1), cy + r1 * math.sin(a1), z1), (cx + r1 * math.cos(a0), cy + r1 * math.sin(a0), z1)]
+            uv = [(i / segs * urep, 0), ((i + 1) / segs * urep, 0), ((i + 1) / segs * urep, vrep), (i / segs * urep, vrep)]
+            if side < 0:
+                p, uv = p[::-1], uv[::-1]
+            K.quad(part, p, uv)
+
+
+def disc(part, cx, cy, r, z, segs=32, scale=1.0):
+    """Flat explicit-UV disc facing up (water surfaces); UVs tile every `scale` studs... in metres."""
+    for i in range(segs):
+        a0, a1 = i / segs * math.tau, (i + 1) / segs * math.tau
+        p = [(cx, cy, z), (cx + r * math.cos(a0), cy + r * math.sin(a0), z), (cx + r * math.cos(a1), cy + r * math.sin(a1), z)]
+        uv = [((q[0] - cx) / (scale * M), (q[1] - cy) / (scale * M)) for q in p]
+        bm = K.bm(part)
+        uvl = bm.loops.layers.uv.active
+        f = bm.faces.new([bm.verts.new(q) for q in p])
+        for l, t in zip(f.loops, uv):
+            l[uvl].uv = t
+
+
+def agave(x, y, z, s=0.6 * M, n=14):
+    """Spiky succulent rosette."""
+    for i in range(n):
+        a = i / n * math.tau + rng.uniform(-0.2, 0.2)
+        tilt = rng.uniform(0.35, 1.0)
+        tip = (x + math.cos(a) * s * tilt, y + math.sin(a) * s * tilt, z + s * (1.1 - tilt * 0.6))
+        K.cyl_along("Agave", (x, y, z + 0.02 * M), tip, 0.035 * M * (1.2 - tilt * 0.4), segs=3)
+
+
+def grass_clump(x, y, z, h=0.7 * M, n=26):
+    for i in range(n):
+        a = rng.uniform(0, math.tau)
+        r = rng.uniform(0.05, 0.35) * h
+        K.cyl_along("Grass", (x + math.cos(a) * 0.04 * M, y + math.sin(a) * 0.04 * M, z),
+                    (x + math.cos(a) * r, y + math.sin(a) * r, z + h * rng.uniform(0.6, 1.0)), 0.008 * M, segs=3)
+
+
+def plaza_planter(x, y, w, d, h=0.65 * M, palm=True):
+    """Granite-clad raised planter with an overhanging coping, mulch, and layered planting."""
+    K.boxr("Stone", x - w / 2, x + w / 2, y - d / 2, y + d / 2, 0, h - 0.08 * M)
+    c = 0.06 * M
+    for (a0, a1, b0, b1) in ((x - w / 2 - c, x + w / 2 + c, y - d / 2 - c, y - d / 2 + 0.22 * M),
+                             (x - w / 2 - c, x + w / 2 + c, y + d / 2 - 0.22 * M, y + d / 2 + c),
+                             (x - w / 2 - c, x - w / 2 + 0.22 * M, y - d / 2 + 0.22 * M, y + d / 2 - 0.22 * M),
+                             (x + w / 2 - 0.22 * M, x + w / 2 + c, y - d / 2 + 0.22 * M, y + d / 2 - 0.22 * M)):
+        K.boxr("Kerb", a0, a1, b0, b1, h - 0.08 * M, h + 0.02 * M)           # coping (seat height)
+    K.boxr("Soil", x - w / 2 + 0.22 * M, x + w / 2 - 0.22 * M, y - d / 2 + 0.22 * M, y + d / 2 - 0.22 * M, h - 0.08 * M, h - 0.04 * M)
+    top = h - 0.04 * M
+    if palm:
+        K.palm(x, y, top, rng.uniform(6.5, 8.5) * M, (rng.uniform(-0.5, 0.5), rng.uniform(-0.5, 0.5)), rng)
+    nx, ny = max(1, int(w / (1.1 * M))), max(1, int(d / (1.1 * M)))
+    for i in range(nx):
+        for j in range(ny):
+            px = x - w / 2 + 0.5 * M + (i + 0.5) * (w - 1.0 * M) / nx
+            py = y - d / 2 + 0.5 * M + (j + 0.5) * (d - 1.0 * M) / ny
+            if palm and abs(px - x) < 0.6 * M and abs(py - y) < 0.6 * M:
+                continue
+            k = (i + j) % 3
+            if k == 0:
+                agave(px, py, top, s=0.45 * M)
+            elif k == 1:
+                grass_clump(px, py, top)
+            else:
+                K.shrub(px, py, top, 0.32 * M, rng, part="Leaf", subdiv=2)
+
+
 # ---------------------------------------------------------------- HouseA: bungalow
 def house_a():
     LW, LD = 16 * M, 26 * M
@@ -407,7 +550,7 @@ def house_a():
     shutters(front, 1.6 * M, 1.2 * M, 1.8 * M, 1.4 * M)
     gutter(rx0, rx1, ry0 + 0.05 * M, rz)
     gutter(rx0, rx1, ry1 - 0.05 * M, rz)
-    K.meter_box("x", X1, 1, 1.0 * M, 1.3 * M)
+    meter("x", X1, 1, 1.0 * M, 1.3 * M)
     K.downpipe(X1 + 0.1 * M, Y0 + 0.1 * M, 0, TOP)
     tree(1.5 * M, -9.0 * M, h=7.0 * M)
     K.boxr("Wood", -7.6 * M, -6.8 * M, 9.5 * M, 12.6 * M, 0, 2.0 * M)                 # back yard tool shed
@@ -505,7 +648,7 @@ def house_b():
     flower_bed(-1.8 * M, 1.3 * M, Y0 - 1.1 * M, Y0 - 0.3 * M)
     for a in (-4.8 * M, -1.5 * M):
         shutters(f, a, FZ + FH + 0.8 * M, 1.5 * M, 1.3 * M)
-    K.meter_box("x", X0, -1, 0.5 * M, 1.3 * M)
+    meter("x", X0, -1, 0.5 * M, 1.3 * M)
     K.downpipe(X0 + 0.12 * M, Y0 - 0.1 * M, 0, TOP)
     for (a0, a1) in ((X1 + 0.1, GX1 - 0.1),):
         gutter(a0, a1, Y0 - 0.05 * M, GH + 0.05 * M)
@@ -568,7 +711,7 @@ def house_c():
     for (gx, gy) in ((X0 - 0.4 * M, Y0 - 0.4 * M), (X1 + 0.4 * M, Y1 + 0.4 * M)):
         K.downpipe(gx, gy, 0, TOP - 0.2 * M)
     ac_unit_x(X0, 3.0 * M, 0.4 * M, -1)
-    K.meter_box("x", X1, 1, -3.5 * M, 1.3 * M)
+    meter("x", X1, 1, -3.5 * M, 1.3 * M)
     tag(X0, "x", -4.6 * M, 1.4 * M, 1.6 * M, 0.8 * M, -1)
     # carport: posts, flat roof, oil-stained pad, bins, workbench
     CX0, CX1, CY0, CY1 = X1, X1 + 5.6 * M, Y0 - 0.4 * M, Y1 - 1.0 * M
@@ -653,21 +796,27 @@ def house_d():
         for x, fc in ((X0, -1), (X1, 1)):
             K.cyl("Tiles", (x + fc * 0.02, 0.6 * M + (k - 1) * 0.35 * M, TOP + 0.5 * M), 0.08 * M, 0.3 * M, segs=8, axis='X')
     ac_unit_x(X1, -2.0 * M, 2.4 * M, 1)
-    K.meter_box("x", X1, 1, 1.0 * M, 1.3 * M)
+    meter("x", X1, 1, 1.0 * M, 1.3 * M)
     K.downpipe(X0 - 0.3 * M, Y0 - 0.3 * M, 0, TOP - 0.1 * M)
     # front courtyard wall (stucco, tile cap) with an iron gate, fountain, pots, palms
     WY = -11.5 * M
-    for (a0, a1) in ((-LW / 2 + 0.1, -3.2 * M), (-1.9 * M, 1.6 * M)):
+    G0, G1 = -3.9 * M, -1.5 * M                      # gate piers (centres): wide, open entrance
+    for (a0, a1) in ((-LW / 2 + 0.1, G0), (G1, 1.58 * M)):
         K.boxr("Walls", a0, a1, WY - 0.15 * M, WY + 0.15 * M, 0, 1.15 * M)
-        K.boxr("Tiles", a0 - 0.05 * M, a1 + 0.05 * M, WY - 0.25 * M, WY + 0.25 * M, 1.15 * M, 1.27 * M)
-    for gx in (-3.2 * M, -1.9 * M):
-        K.boxr("Walls", gx - 0.25 * M, gx + 0.25 * M, WY - 0.25 * M, WY + 0.25 * M, 0, 1.6 * M)
-        K.boxr("Tiles", gx - 0.3 * M, gx + 0.3 * M, WY - 0.3 * M, WY + 0.3 * M, 1.6 * M, 1.72 * M)
-    iron_fence(-2.95 * M, WY, -2.15 * M, WY, h=1.2 * M, step=0.12 * M)
-    K.boxr("Walls", -LW / 2 + 0.1, -LW / 2 + 0.4 * M, WY, Y0, 0, 1.15 * M)
-    K.boxr("Walls", 1.3 * M, 1.6 * M, WY, Y0 - 2.6 * M, 0, 1.15 * M)
+        K.boxr("Tiles", a0 - 0.05 * M, a1 + 0.05 * M, WY - 0.22 * M, WY + 0.22 * M, 1.15 * M, 1.27 * M)
+    for gx in (G0, G1):                               # piers a bit proud of the wall + cap (no shared faces)
+        K.boxr("Walls", gx - 0.28 * M, gx + 0.28 * M, WY - 0.28 * M, WY + 0.28 * M, 0, 1.6 * M)
+        K.boxr("Tiles", gx - 0.34 * M, gx + 0.34 * M, WY - 0.34 * M, WY + 0.34 * M, 1.6 * M, 1.72 * M)
+    # iron gate leaf standing open inward against the right pier
+    hx = G1 - 0.3 * M
+    for k in range(9):
+        K.box("Iron", (hx - 0.03 * M, WY + 0.35 * M + k * 0.13 * M, 0.65 * M), (0.04 * M, 0.04 * M, 1.1 * M))
+    for z in (0.15 * M, 0.65 * M, 1.15 * M):
+        K.boxr("Iron", hx - 0.06 * M, hx, WY + 0.3 * M, WY + 1.4 * M, z - 0.03 * M, z + 0.03 * M)
+    K.boxr("Walls", -LW / 2 + 0.12, -LW / 2 + 0.42 * M, WY + 0.15 * M + 0.01, Y0, 0, 1.12 * M)
+    K.boxr("Walls", 1.26 * M, 1.56 * M, WY + 0.15 * M + 0.01, Y0 - 2.6 * M, 0, 1.12 * M)
     tag(WY - 0.15 * M, "y", -5.8 * M, 0.15 * M, 2.2 * M, 0.85 * M, -1)
-    K.boxr("Stone", -3.0 * M, -2.1 * M, WY, Y0 - 2.4 * M, 0, 0.05)                   # path
+    K.boxr("Stone", -3.3 * M, -2.1 * M, WY - 0.3 * M, Y0 - 2.4 * M, 0, 0.05)          # path
     K.cyl("Stone", (-4.8 * M, -8.0 * M, 0.3 * M), 0.9 * M, 0.6 * M, segs=16)          # little fountain
     K.cyl("Water", (-4.8 * M, -8.0 * M, 0.615 * M), 0.78 * M, 0.02 * M, segs=16)    # just above the rim top
     K.cyl("Stone", (-4.8 * M, -8.0 * M, 0.9 * M), 0.12 * M, 0.7 * M, segs=8)
@@ -850,8 +999,8 @@ def store():
             K.face_y("CandyRack", gx, ey + fc * 0.02, 0.2 * M, 0.95 * M, 1.4 * M, facing=fc)
         K.box("Yellow", (gx, y0 - 0.03, gh + 0.2 * M), (0.9 * M, 0.04 * M, 0.3 * M))       # aisle sign
     # counter (L shape) with register, candy rack behind, cig-free back wall shelves with snacks
-    K.boxr("Counter1", 6.4 * M, 10.0 * M, 3.4 * M, 4.2 * M, 0, 1.05 * M, mat="Wood")
-    K.boxr("Counter2", 6.4 * M, 7.2 * M, 4.2 * M, 6.4 * M, 0, 1.05 * M, mat="Wood")
+    K.boxr("Counter1", 6.4 * M, 10.0 * M, 3.4 * M, 4.2 * M, 0, 1.05 * M, mat="Counter")
+    K.boxr("Counter2", 6.4 * M, 7.2 * M, 4.2 * M, 6.4 * M, 0, 1.05 * M, mat="Counter")
     K.boxr("Stone", 6.35 * M, 10.05 * M, 3.35 * M, 4.25 * M, 1.05 * M, 1.1 * M)
     K.boxr("Stone", 6.35 * M, 7.25 * M, 4.25 * M, 6.45 * M, 1.05 * M, 1.1 * M)
     K.box("Dark", (8.6 * M, 3.8 * M, 1.25 * M), (0.6 * M, 0.45 * M, 0.3 * M))                    # register
@@ -862,7 +1011,7 @@ def store():
     K.box("Dark", (10.2 * M, 6.0 * M, 2.9 * M), (0.6 * M, 0.9 * M, 0.55 * M))                    # CCTV monitor
     K.face_x("Register", 9.88 * M, 6.0 * M, 2.7 * M, 0.7 * M, 0.42 * M, facing=-1)
     # coffee station + freezer chest + ATM + trash + mop bucket + wet floor sign
-    K.boxr("Counter3", X1 - T - 0.8 * M, X1 - T, 7.6 * M, 10.6 * M, 0, 0.95 * M, mat="Wood")
+    K.boxr("Counter3", X1 - T - 0.8 * M, X1 - T, 7.6 * M, 10.6 * M, 0, 0.95 * M, mat="Counter")
     K.face_x("Coffee", X1 - T - 0.85 * M, 9.1 * M, 0.95 * M, 1.0 * M, 1.5 * M, facing=-1)
     K.box("Dark", (X1 - T - 0.4 * M, 9.1 * M, 1.7 * M), (0.8 * M, 1.0 * M, 1.5 * M))
     for i in range(3):
@@ -928,8 +1077,8 @@ def store():
     K.window3d("x", X0, -1, 4.5 * M, 1.6 * M, 1.6 * M, 1.2 * M, bars=True)
     for (dx_, dy_) in ((X0 - 0.12 * M, Y1 - 0.4 * M), (X1 + 0.12 * M, Y1 - 0.4 * M)):
         K.downpipe(dx_, dy_, 0, H + 0.6 * M)
-    K.meter_box("y", Y1, 1, -6 * M, 1.4 * M)
-    K.meter_box("y", Y1, 1, -5.2 * M, 1.4 * M)
+    meter("y", Y1, 1, -6 * M, 1.4 * M)
+    meter("y", Y1, 1, -5.2 * M, 1.4 * M)
     for k in range(10):                                                                          # roof ladder at the back
         K.boxr("Pole", -2.4 * M, -1.6 * M, Y1 + 0.15 * M, Y1 + 0.2 * M, 0.6 * M + k * 0.42 * M, 0.64 * M + k * 0.42 * M)
     for lx in (-2.4 * M, -1.6 * M):
@@ -1045,23 +1194,40 @@ def spawn_plaza():
     W, D = 44 * M, 40 * M
     K.boxr("Pave", -W / 2, W / 2, -D / 2, D / 2, -0.6, 0)
     K.boxr("Kerb", -W / 2, W / 2, -D / 2, -D / 2 + 0.3 * M, 0, 0.03)
-    # fountain: ring wall, floor, water, tiered column
+    # fountain: granite basin (lathed: floor, inner wall, wide coping, outer wall), mosaic floor,
+    # two-tier bowl column. Water = FxPool surfaces + FxFall sheets + FxRipple rings (animated in game)
     R0 = 4.2 * M
-    K.cyl("Stone", (0, 0, 0.1 * M), R0 + 0.3 * M, 0.2 * M, segs=32)
-    seg = 28
-    for i in range(seg):
-        a = (i + 0.5) / seg * math.tau
-        K.box("Stone", (math.cos(a) * R0, math.sin(a) * R0, 0.45 * M), (0.55 * M, 2 * math.pi * R0 / seg + 0.05 * M, 0.9 * M), rz=a)
-        K.box("Stone", (math.cos(a) * R0, math.sin(a) * R0, 0.93 * M), (0.75 * M, 2 * math.pi * R0 / seg + 0.08 * M, 0.08 * M), rz=a)
-    K.cyl("Tile", (0, 0, 0.25 * M), R0 - 0.2 * M, 0.1 * M, segs=32)
-    K.cyl("Water", (0, 0, 0.7 * M), R0 - 0.26 * M, 0.04, segs=32)
-    K.cyl("Stone", (0, 0, 1.5 * M), 0.45 * M, 2.0 * M, segs=16)
-    K.cyl("Stone", (0, 0, 2.2 * M), 1.8 * M, 0.35 * M, segs=24, r2=0.6 * M)
-    K.cyl("Water", (0, 0, 2.39 * M), 1.6 * M, 0.04, segs=24)
-    K.cyl("Stone", (0, 0, 2.9 * M), 0.25 * M, 1.0 * M, segs=12)
-    K.cyl("Stone", (0, 0, 3.45 * M), 0.9 * M, 0.25 * M, segs=20, r2=0.3 * M)
-    K.cyl("Water", (0, 0, 3.6 * M), 0.8 * M, 0.04, segs=20)
-    K.cyl("Stone", (0, 0, 3.85 * M), 0.12 * M, 0.5 * M, segs=8)
+    lathe("Stone", [(0, 0), (R0 + 0.35 * M, 0), (R0 + 0.35 * M, 0.78 * M), (R0 + 0.48 * M, 0.8 * M), (R0 + 0.48 * M, 0.95 * M),
+                    (R0 + 0.42 * M, 1.0 * M), (R0 - 0.2 * M, 1.0 * M), (R0 - 0.26 * M, 0.95 * M), (R0 - 0.26 * M, 0.26 * M), (0, 0.26 * M)], segs=48)
+    lathe("Tile", [(0, 0.262 * M), (R0 - 0.27 * M, 0.262 * M), (R0 - 0.27 * M, 0.3 * M), (0, 0.3 * M)][::-1], segs=48)
+    m = M
+    prof = [(0, 0.3), (0.62, 0.3), (0.62, 0.45), (0.5, 0.55), (0.42, 0.7), (0.38, 1.2), (0.42, 1.45), (0.55, 1.62), (0.7, 1.75),
+            (1.2, 1.93), (1.7, 2.08), (1.95, 2.2), (2.02, 2.3), (1.98, 2.36), (1.88, 2.36), (1.65, 2.22), (1.1, 2.12), (0.4, 2.08),
+            (0.3, 2.25), (0.25, 2.7), (0.3, 3.0), (0.42, 3.12), (0.8, 3.26), (1.05, 3.36), (1.08, 3.42), (1.0, 3.46), (0.75, 3.38),
+            (0.3, 3.32), (0.2, 3.5), (0.16, 3.72), (0.09, 3.8), (0, 3.82)]
+    lathe("Stone", [(r * m, z * m) for r, z in prof], segs=40)
+    for zz, rr in ((0.3, 0.64), (1.75, 0.72)):                       # carved bands
+        lathe("Kerb", [(0, zz * m), (rr * m, zz * m), (rr * m, zz * m + 0.06 * m), (0, zz * m + 0.06 * m)][::-1], segs=40)
+    # water surfaces (just below each rim, inside the stone, never coplanar)
+    disc("FxPool", 0, 0, R0 - 0.27 * M, 0.8 * M, segs=48, scale=2.0)
+    disc("FxPool", 0, 0, 1.78 * M, 2.3 * M, segs=40, scale=1.2)
+    disc("FxPool", 0, 0, 0.9 * M, 3.4 * M, segs=32, scale=0.8)
+    # falling sheets off each lip + a crown jet at the top
+    sheet_rev("FxFall", 0, 0, 2.03 * M, 2.3 * M, 2.25 * M, 0.81 * M, segs=40, urep=10, vrep=2.0)
+    sheet_rev("FxFall", 0, 0, 1.09 * M, 3.4 * M, 1.22 * M, 2.31 * M, segs=32, urep=6, vrep=1.5)
+    sheet_rev("FxFall", 0, 0, 0.05 * M, 3.82 * M, 0.025 * M, 4.7 * M, segs=8, urep=1, vrep=0.8)       # thin jet up
+    for i in range(6):                                                                                # arcing spouts
+        a = i / 6 * math.tau
+        pts = [(math.cos(a) * (0.1 + 0.55 * t) * M, math.sin(a) * (0.1 + 0.55 * t) * M, (3.75 + 0.5 * t - 0.85 * t * t) * M) for t in (0, 0.25, 0.5, 0.75, 1.0)]
+        for p0, p1 in zip(pts, pts[1:]):
+            K.cyl_along("FxJet", p0, p1, 0.02 * M, segs=5)
+    # impact ripples where the sheets land
+    sheet_rev("FxRipple", 0, 0, 2.2 * M, 0.805 * M, 3.3 * M, 0.805 * M, segs=48, urep=8, vrep=1.0, both=False)
+    sheet_rev("FxRipple", 0, 0, 1.18 * M, 2.305 * M, 1.7 * M, 2.305 * M, segs=40, urep=6, vrep=1.0, both=False)
+    sheet_rev("FxRipple", 0, 0, 0.6 * M, 3.405 * M, 0.88 * M, 3.405 * M, segs=32, urep=4, vrep=1.0, both=False)
+    for i in range(8):                                                 # underwater uplights in the basin floor
+        a = i / 8 * math.tau
+        K.cyl("Light", (math.cos(a) * 3.2 * M, math.sin(a) * 3.2 * M, 0.31 * M), 0.12 * M, 0.02 * M, segs=10)
     # benches ring
     for i in range(10):
         a = i / 10 * math.tau + math.pi / 10
@@ -1074,10 +1240,10 @@ def spawn_plaza():
     # planters with palms in the corners + shrub beds
     for sx in (-1, 1):
         for sy in (-1, 1):
-            planter(sx * 16 * M, sy * 14 * M, 3.2 * M, 3.2 * M, palm=True)
-        planter(sx * 16 * M, 0, 2.4 * M, 6 * M, palm=False)
+            plaza_planter(sx * 16 * M, sy * 14 * M, 3.2 * M, 3.2 * M, palm=True)
+        plaza_planter(sx * 16 * M, 0, 2.4 * M, 6 * M, palm=False)
     for sx in (-1, 1):
-        planter(sx * 8 * M, 16.5 * M, 6 * M, 2 * M, palm=False)
+        plaza_planter(sx * 8 * M, 16.5 * M, 6 * M, 2 * M, palm=False)
     # WELCOME monument (left of centre, faces the avenue) + uplights
     mx, my = -11 * M, -16.5 * M
     K.boxr("Stone", mx - 4.6 * M, mx + 4.6 * M, my - 0.4 * M, my + 0.4 * M, 0, 2.7 * M)
@@ -1089,22 +1255,65 @@ def spawn_plaza():
     K.boxr("Soil", mx - 4.6 * M, mx + 4.6 * M, my - 1.5 * M, my - 0.4 * M, 0, 0.06 * M)
     for i in range(6):
         K.shrub(mx + (i - 2.5) * 1.5 * M, my - 0.9 * M, 0, 0.35 * M, rng)
-    # bus shelter (right of centre on the kerb)
+    # bus shelter (right of centre on the kerb): pad + tactile strip, steel frame, glass back and
+    # end, lit ad box, glass roof with printed fascia, perforated bench with dividers, lean rail,
+    # LED arrivals board, stop flag with timetable, litter bin
     sx0, sy0 = 11 * M, -18.3 * M
-    K.boxr("Pole", sx0 - 3 * M, sx0 + 3 * M, sy0 + 0.3 * M, sy0 + 1.9 * M, 2.6 * M, 2.72 * M)
-    for px in (sx0 - 2.9 * M, sx0 + 2.9 * M):
-        K.boxr("Pole", px - 0.06 * M, px + 0.06 * M, sy0 + 1.7 * M, sy0 + 1.82 * M, 0, 2.6 * M)
-        K.boxr("Pole", px - 0.06 * M, px + 0.06 * M, sy0 + 0.4 * M, sy0 + 0.52 * M, 0, 2.6 * M)
-    K.boxr("Glass", sx0 - 2.9 * M, sx0 + 1.6 * M, sy0 + 1.74 * M, sy0 + 1.78 * M, 0.3 * M, 2.5 * M)
-    K.boxr("Pole", sx0 + 1.6 * M, sx0 + 2.9 * M, sy0 + 1.7 * M, sy0 + 1.82 * M, 0.2 * M, 2.4 * M)
-    K.face_y("ShelterAd", sx0 + 2.25 * M, sy0 + 1.68 * M, 0.35 * M, 1.2 * M, 2.0 * M)
-    K.face_y("ShelterAd", sx0 + 2.25 * M, sy0 + 1.84 * M, 0.35 * M, 1.2 * M, 2.0 * M, facing=1)
-    K.boxr("Wood", sx0 - 2.4 * M, sx0 + 1.2 * M, sy0 + 1.2 * M, sy0 + 1.6 * M, 0.45 * M, 0.52 * M)
-    for bx in (sx0 - 2.2 * M, sx0 + 1.0 * M):
-        K.box("Iron", (bx, sy0 + 1.4 * M, 0.22 * M), (0.08 * M, 0.35 * M, 0.45 * M))
-    K.box("Light", (sx0, sy0 + 1.1 * M, 2.58 * M), (4.5 * M, 0.15 * M, 0.04 * M))
-    K.cyl("Pole", (sx0 - 4 * M, sy0 + 0.2 * M, 1.5 * M), 0.05 * M, 3.0 * M, segs=6)       # bus stop sign
-    K.box("BinBlue", (sx0 - 4 * M, sy0 + 0.17 * M, 2.7 * M), (0.6 * M, 0.04 * M, 0.6 * M))
+    K.boxr("Concrete", sx0 - 3.6 * M, sx0 + 3.6 * M, sy0 - 0.1 * M, sy0 + 2.4 * M, 0, 0.03 * M)
+    for k in range(18):
+        K.boxr("Yellow", sx0 - 3.4 * M + k * 0.38 * M, sx0 - 3.1 * M + k * 0.38 * M, sy0 - 0.05 * M, sy0 + 0.5 * M, 0.03 * M, 0.045 * M)
+    BY = sy0 + 1.8 * M                                                   # back plane
+    for px in (sx0 - 3 * M, sx0 - 0.9 * M, sx0 + 1.4 * M, sx0 + 3 * M):
+        K.boxr("Pole", px - 0.06 * M, px + 0.06 * M, BY - 0.06 * M, BY + 0.06 * M, 0.03 * M, 2.75 * M)
+    for px in (sx0 - 3 * M, sx0 + 3 * M):                                 # roof arms, sloping to the kerb
+        K.cyl_along("Pole", (px, BY, 2.75 * M), (px, sy0 + 0.1 * M, 2.6 * M), 0.05 * M, segs=6)
+    for yy, zz in ((BY, 2.75 * M), (sy0 + 0.1 * M, 2.6 * M), ((BY + sy0 + 0.1 * M) / 2, 2.675 * M)):
+        K.cyl_along("Pole", (sx0 - 3.05 * M, yy, zz), (sx0 + 3.05 * M, yy, zz), 0.04 * M, segs=6)
+    K.quad("ClearGlassRoof", [(sx0 - 3 * M, sy0 + 0.1 * M, 2.65 * M), (sx0 + 3 * M, sy0 + 0.1 * M, 2.65 * M),
+                              (sx0 + 3 * M, BY, 2.8 * M), (sx0 - 3 * M, BY, 2.8 * M)], mat="Glass")
+    K.quad("ClearGlassRoof", [(sx0 - 3 * M, BY, 2.78 * M), (sx0 + 3 * M, BY, 2.78 * M),
+                              (sx0 + 3 * M, sy0 + 0.1 * M, 2.63 * M), (sx0 - 3 * M, sy0 + 0.1 * M, 2.63 * M)], mat="Glass")
+    K.face_y("BusFascia", sx0, sy0 + 0.04 * M, 2.42 * M, 6.1 * M, 0.3 * M)
+    K.boxr("Dark", sx0 - 3.05 * M, sx0 + 3.05 * M, sy0 + 0.05 * M, sy0 + 0.1 * M, 2.4 * M, 2.74 * M)
+    for (a0, a1) in ((sx0 - 2.94 * M, sx0 - 0.96 * M), (sx0 - 0.84 * M, sx0 + 1.34 * M)):
+        K.boxr("ClearGlassBus", a0, a1, BY - 0.01 * M, BY + 0.01 * M, 0.25 * M, 2.6 * M, mat="Glass")
+        K.boxr("Pole", a0, a1, BY - 0.04 * M, BY + 0.04 * M, 0.2 * M, 0.26 * M)
+        K.boxr("Pole", a0, a1, BY - 0.04 * M, BY + 0.04 * M, 2.6 * M, 2.66 * M)
+        for k in range(1, 4):                                          # frosted dot band at eye level
+            K.boxr("Paint", a0 + 0.05 * M, a1 - 0.05 * M, BY - 0.015 * M, BY - 0.012 * M, 1.3 * M + k * 0.06 * M, 1.32 * M + k * 0.06 * M)
+    K.boxr("ClearGlassBus", sx0 - 3.01 * M, sx0 - 2.99 * M, sy0 + 0.6 * M, BY - 0.06 * M, 0.25 * M, 2.6 * M, mat="Glass")
+    K.boxr("Pole", sx0 - 3.04 * M, sx0 - 2.96 * M, sy0 + 0.55 * M, sy0 + 0.6 * M, 0.03 * M, 2.7 * M)
+    # ad box at the right end, lit both sides
+    K.boxr("Dark", sx0 + 1.45 * M, sx0 + 2.95 * M, BY - 0.12 * M, BY + 0.12 * M, 0.2 * M, 2.5 * M)
+    K.face_y("ShelterAd", sx0 + 2.2 * M, BY - 0.125 * M, 0.35 * M, 1.3 * M, 2.0 * M)
+    K.face_y("ShelterAd", sx0 + 2.2 * M, BY + 0.125 * M, 0.35 * M, 1.3 * M, 2.0 * M, facing=1)
+    for zz in (0.27 * M, 2.43 * M):
+        K.box("Light", (sx0 + 2.2 * M, BY, zz), (1.4 * M, 0.26 * M, 0.04 * M))
+    # bench: perforated steel seat, three armrests, legs; lean rail
+    K.boxr("Pole", sx0 - 2.7 * M, sx0 + 1.1 * M, BY - 0.5 * M, BY - 0.1 * M, 0.44 * M, 0.48 * M)
+    for k in range(40):
+        K.boxr("Dark", sx0 - 2.65 * M + k * 0.094 * M, sx0 - 2.63 * M + k * 0.094 * M, BY - 0.46 * M, BY - 0.14 * M, 0.481 * M, 0.483 * M)
+    for ax_ in (sx0 - 2.6 * M, sx0 - 0.8 * M, sx0 + 1.0 * M):
+        K.boxr("Pole", ax_ - 0.03 * M, ax_ + 0.03 * M, BY - 0.45 * M, BY - 0.12 * M, 0.48 * M, 0.7 * M)
+        K.boxr("Pole", ax_ - 0.03 * M, ax_ + 0.03 * M, BY - 0.4 * M, BY - 0.2 * M, 0.03 * M, 0.44 * M)
+    K.cyl_along("Pole", (sx0 - 0.9 * M, BY - 0.08 * M, 0.9 * M), (sx0 + 1.4 * M, BY - 0.08 * M, 0.9 * M), 0.04 * M, segs=8)
+    # LED arrivals board hanging under the roof
+    K.boxr("Dark", sx0 - 1.0 * M, sx0 + 0.6 * M, sy0 + 0.9 * M, sy0 + 1.0 * M, 2.15 * M, 2.45 * M)
+    K.face_y("BusDisplay", sx0 - 0.2 * M, sy0 + 0.895 * M, 2.17 * M, 1.5 * M, 0.26 * M)
+    for hx in (sx0 - 0.9 * M, sx0 + 0.5 * M):
+        K.cyl("Pole", (hx, sy0 + 0.95 * M, 2.56 * M), 0.015 * M, 0.22 * M, segs=4)
+    # stop flag + timetable
+    fx_ = sx0 - 4.1 * M
+    K.cyl("Pole", (fx_, sy0 + 0.25 * M, 1.6 * M), 0.05 * M, 3.2 * M, segs=8)
+    K.boxr("Pole", fx_ - 0.42 * M, fx_ + 0.42 * M, sy0 + 0.2 * M, sy0 + 0.3 * M, 2.0 * M, 3.05 * M)
+    K.face_y("BusSign", fx_, sy0 + 0.195 * M, 2.02 * M, 0.8 * M, 1.0 * M)
+    K.face_y("BusSign", fx_, sy0 + 0.305 * M, 2.02 * M, 0.8 * M, 1.0 * M, facing=1)
+    K.boxr("Dark", fx_ - 0.3 * M, fx_ + 0.3 * M, sy0 + 0.19 * M, sy0 + 0.3 * M, 0.95 * M, 1.85 * M)
+    K.face_y("Timetable", fx_, sy0 + 0.185 * M, 1.0 * M, 0.55 * M, 0.8 * M)
+    # round litter bin
+    K.cyl("Dark", (sx0 + 3.5 * M, sy0 + 1.3 * M, 0.45 * M), 0.28 * M, 0.9 * M, segs=16)
+    K.cyl("Pole", (sx0 + 3.5 * M, sy0 + 1.3 * M, 0.93 * M), 0.31 * M, 0.08 * M, segs=16)
+    K.cyl("Dark", (sx0 + 3.5 * M, sy0 + 1.3 * M, 0.98 * M), 0.18 * M, 0.04 * M, segs=12)
     # route map kiosk
     kx, ky = 4.5 * M, -14 * M
     K.box("Dark", (kx, ky, 1.1 * M), (1.5 * M, 0.35 * M, 2.2 * M))
@@ -1114,7 +1323,7 @@ def spawn_plaza():
     # bollards along the kerb, lamps, flagpoles at the back, bins
     for i in range(-10, 11):
         bx = i * 2 * M
-        if abs(bx - sx0) < 3.5 * M or abs(bx - mx) < 5.2 * M:
+        if abs(bx - sx0) < 4.8 * M or abs(bx - mx) < 5.2 * M:
             continue
         K.cyl("Pole", (bx, -D / 2 + 0.8 * M, 0.5 * M), 0.12 * M, 1.0 * M, segs=10)
         K.cyl("Trim", (bx, -D / 2 + 0.8 * M, 0.85 * M), 0.13 * M, 0.08 * M, segs=10)
@@ -1135,7 +1344,8 @@ def spawn_plaza():
         a = i / 8 * math.tau
         ln = (1.7 if i % 2 == 0 else 1.0) * M
         K.box("Yellow", (math.cos(a) * ln / 2, -11 * M + math.sin(a) * ln / 2, 0.04), (ln, 0.22 * M, 0.03), rz=a)
-    return [("01_front", (0, -46 * M, 10 * M), (0, 0, 2 * M), 24), ("02_aerial", (30 * M, -36 * M, 34 * M), (0, 0, 0), 26),
+    return [("04_fountain", (9 * M, -11 * M, 3.2 * M), (0, 0, 2.0 * M), 30), ("05_bus", (17 * M, -26 * M, 2.4 * M), (11 * M, -17 * M, 1.4 * M), 26),
+            ("01_front", (0, -46 * M, 10 * M), (0, 0, 2 * M), 24), ("02_aerial", (30 * M, -36 * M, 34 * M), (0, 0, 0), 26),
             ("03_monument", (-6 * M, -28 * M, 2.5 * M), (-11 * M, -16.5 * M, 1.6 * M), 26)]
 
 

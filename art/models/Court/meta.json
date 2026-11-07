@@ -147,7 +147,7 @@
    ]
   },
   "Iron": {
-   "tris": 240,
+   "tris": 280,
    "min": [
     -53.37,
     -39.6,
@@ -160,23 +160,23 @@
    ]
   },
   "BinGreen": {
-   "tris": 24,
+   "tris": 72,
    "min": [
-    31.14,
-    -41.65,
-    0.0
+    31.18,
+    -41.9,
+    0.43
    ],
    "max": [
-    33.66,
-    -38.84,
-    3.89
+    33.62,
+    -39.02,
+    3.82
    ]
   },
   "Dark": {
-   "tris": 248,
+   "tris": 392,
    "min": [
     -50.04,
-    -39.53,
+    -39.67,
     0.0
    ],
    "max": [
@@ -185,17 +185,43 @@
     25.2
    ]
   },
-  "BinGrey": {
-   "tris": 24,
+  "Plastic": {
+   "tris": 112,
    "min": [
-    34.02,
-    -41.65,
-    0.0
+    31.13,
+    -39.42,
+    0.25
    ],
    "max": [
-    36.54,
-    -38.84,
-    3.89
+    36.55,
+    -39.06,
+    0.61
+   ]
+  },
+  "BinLabel": {
+   "tris": 4,
+   "min": [
+    31.79,
+    -41.65,
+    1.98
+   ],
+   "max": [
+    35.89,
+    -41.65,
+    2.74
+   ]
+  },
+  "BinGrey": {
+   "tris": 72,
+   "min": [
+    34.06,
+    -41.9,
+    0.43
+   ],
+   "max": [
+    36.5,
+    -39.02,
+    3.82
    ]
   },
   "Lamp1": {
@@ -286,19 +312,21 @@
  "textures": {
   "Asphalt": "Asphalt_Color.png",
   "CourtPaint": "CourtPaint_Color.png",
-  "Pole": "Pole_Color.png",
+  "Pole": "MatPole_Color.png",
   "Backboard": "Backboard_Color.png",
   "Rim": "Rim_Color.png",
   "Net": "Net_Color.png",
   "ChainLink": "ChainLink_Color.png",
-  "Block": "Block_Color.png",
-  "Stone": "Stone_Color.png",
+  "Block": "MatBlock_Color.png",
+  "Stone": "MatStone_Color.png",
   "Tag": "Tag_Color.png",
-  "Wood": "Wood_Color.png",
-  "Iron": "Iron_Color.png",
-  "BinGreen": "BinGreen_Color.png",
-  "Dark": "Dark_Color.png",
-  "BinGrey": "BinGrey_Color.png",
+  "Wood": "MatWood_Color.png",
+  "Iron": "MatIron_Color.png",
+  "BinGreen": "MatBinGreen_Color.png",
+  "Dark": "MatDark_Color.png",
+  "Plastic": "MatPlastic_Color.png",
+  "BinLabel": "BinLabel_Color.png",
+  "BinGrey": "MatBinGrey_Color.png",
   "Lamp1": "Light_Color.png",
   "Lamp2": "Light_Color.png",
   "Lamp3": "Light_Color.png",

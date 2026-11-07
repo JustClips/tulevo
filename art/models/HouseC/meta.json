@@ -95,9 +95,9 @@
    ]
   },
   "Dark": {
-   "tris": 172,
+   "tris": 304,
    "min": [
-    -34.7,
+    -34.56,
     -6.48,
     0.0
    ],
@@ -151,11 +151,11 @@
    "min": [
     -8.82,
     -18.18,
-    3.6
+    3.64
    ],
    "max": [
-    9.72,
-    -11.79,
+    9.58,
+    -11.84,
     8.73
    ]
   },
@@ -199,14 +199,14 @@
    ]
   },
   "WinIron": {
-   "tris": 1404,
+   "tris": 1392,
    "min": [
     -33.01,
     -18.61,
     4.5
    ],
    "max": [
-    9.79,
+    9.61,
     16.81,
     10.26
    ]
@@ -342,9 +342,9 @@
    ]
   },
   "Pipe": {
-   "tris": 168,
+   "tris": 192,
    "min": [
-    -34.08,
+    -34.24,
     -19.68,
     0.0
    ],
@@ -367,17 +367,43 @@
     2.34
    ]
   },
-  "Iron": {
-   "tris": 60,
+  "AcGrille": {
+   "tris": 2,
    "min": [
-    -34.47,
-    10.69,
-    0.25
+    -34.68,
+    9.5,
+    0.61
    ],
    "max": [
-    -20.84,
+    -34.68,
+    12.1,
+    2.27
+   ]
+  },
+  "Iron": {
+   "tris": 232,
+   "min": [
+    -34.41,
+    9.42,
+    -0.6
+   ],
+   "max": [
+    15.23,
     37.84,
     7.92
+   ]
+  },
+  "MeterFace": {
+   "tris": 2,
+   "min": [
+    9.58,
+    -13.32,
+    3.67
+   ],
+   "max": [
+    9.58,
+    -11.88,
+    5.65
    ]
   },
   "Tag": {
@@ -407,29 +433,55 @@
    ]
   },
   "BinGreen": {
-   "tris": 24,
+   "tris": 72,
    "min": [
-    9.9,
-    9.11,
-    0.0
+    9.94,
+    8.86,
+    0.43
    ],
    "max": [
-    12.42,
-    11.92,
-    3.89
+    12.38,
+    11.74,
+    3.82
+   ]
+  },
+  "Plastic": {
+   "tris": 220,
+   "min": [
+    -13.05,
+    11.34,
+    0.25
+   ],
+   "max": [
+    15.31,
+    26.37,
+    2.68
+   ]
+  },
+  "BinLabel": {
+   "tris": 4,
+   "min": [
+    10.55,
+    9.11,
+    1.98
+   ],
+   "max": [
+    14.65,
+    9.11,
+    2.74
    ]
   },
   "BinGrey": {
-   "tris": 24,
+   "tris": 72,
    "min": [
-    12.78,
-    9.11,
-    0.0
+    12.82,
+    8.86,
+    0.43
    ],
    "max": [
-    15.3,
-    11.92,
-    3.89
+    15.26,
+    11.74,
+    3.82
    ]
   },
   "Picket": {
@@ -549,19 +601,6 @@
     8.19
    ]
   },
-  "Plastic": {
-   "tris": 108,
-   "min": [
-    -13.05,
-    18.27,
-    1.4
-   ],
-   "max": [
-    -4.95,
-    26.37,
-    2.68
-   ]
-  },
   "Pole": {
    "tris": 120,
    "min": [
@@ -579,13 +618,13 @@
  "lamps": [],
  "textures": {
   "Lawn": "Lawn_Color.png",
-  "Foundation": "Foundation_Color.png",
+  "Foundation": "MatFoundation_Color.png",
   "Walls": "WallCream_Color.png",
-  "Stone": "Stone_Color.png",
+  "Stone": "MatStone_Color.png",
   "Roof": "Shingles_Color.png",
-  "Trim": "Trim_Color.png",
-  "Block": "Block_Color.png",
-  "Dark": "Dark_Color.png",
+  "Trim": "MatTrim_Color.png",
+  "Block": "MatBlock_Color.png",
+  "Dark": "MatDark_Color.png",
   "SecurityDoor": "SecurityDoor_Color.png",
   "Concrete": "Concrete_Color.png",
   "Sconce": "Sconce_Color.png",
@@ -594,9 +633,9 @@
   "Frame": "Frame_Color.png",
   "Sill": "Sill_Color.png",
   "WinIron": "WinIron_Color.png",
-  "Shutter": "Shutter_Color.png",
+  "Shutter": "MatShutter_Color.png",
   "GlassB": "GlassB_Color.png",
-  "Wood": "Wood_Color.png",
+  "Wood": "MatWood_Color.png",
   "FlowerR": "FlowerR_Color.png",
   "Hedge": "Hedge_Color.png",
   "FlowerY": "FlowerY_Color.png",
@@ -605,23 +644,26 @@
   "GlassA": "GlassA_Color.png",
   "GlassC": "GlassC_Color.png",
   "Pipe": "Pipe_Color.png",
-  "AcBody": "AcBody_Color.png",
-  "Iron": "Iron_Color.png",
+  "AcBody": "MatAcBody_Color.png",
+  "AcGrille": "AcGrille_Color.png",
+  "Iron": "MatIron_Color.png",
+  "MeterFace": "MeterFace_Color.png",
   "Tag": "Tag_Color.png",
-  "Flat": "Flat_Color.png",
-  "BinGreen": "BinGreen_Color.png",
-  "BinGrey": "BinGrey_Color.png",
-  "Picket": "Picket_Color.png",
-  "Soil": "Soil_Color.png",
+  "Flat": "MatFlat_Color.png",
+  "BinGreen": "MatBinGreen_Color.png",
+  "Plastic": "MatPlastic_Color.png",
+  "BinLabel": "BinLabel_Color.png",
+  "BinGrey": "MatBinGrey_Color.png",
+  "Picket": "MatPicket_Color.png",
+  "Soil": "MatSoil_Color.png",
   "Shrub": "Shrub_Color.png",
   "FlowerW": "FlowerW_Color.png",
-  "Bark": "Bark_Color.png",
+  "Bark": "MatBark_Color.png",
   "LeafB": "LeafB_Color.png",
   "Leaf": "Leaf_Color.png",
-  "Mailbox": "Mailbox_Color.png",
-  "Red": "Red_Color.png",
-  "Plastic": "Plastic_Color.png",
-  "Pole": "Pole_Color.png"
+  "Mailbox": "MatMailbox_Color.png",
+  "Red": "MatRed_Color.png",
+  "Pole": "MatPole_Color.png"
  },
  "variants": {
   "Walls": {

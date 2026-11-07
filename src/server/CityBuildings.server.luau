@@ -22,7 +22,7 @@ local NEON = {
 	NeonRed = Color3.fromRGB(255, 40, 30),
 }
 -- Textures with see-through pixels (chain-link fence, graffiti decals).
-local ALPHA = { ChainLink = true, Tag = true }
+local ALPHA = { ChainLink = true, Tag = true, FxFall = true, FxRipple = true }
 -- Small decor parts that should not collide.
 local DECO = {
 	Frame = true,
@@ -206,6 +206,17 @@ local function style(model: Model)
 			end
 			if PLANTS[d.Name] or (walkIn and not solidInWalkIn(d.Name)) then
 				d.CanCollide = false
+			end
+			if d.Name:match("^Fx") then
+				-- fountain water (Client/FountainFx animates it): walk through, no shadows
+				d.CanCollide = false
+				d.CanQuery = false
+				d.CastShadow = false
+				if d.Name == "FxJet" then
+					d.Transparency = 0.45
+				elseif d.Name == "FxPool" then
+					d.Transparency = 0.12
+				end
 			end
 			if ALPHA[d.Name] then
 				-- A texture's transparent pixels only cut through when the part itself is

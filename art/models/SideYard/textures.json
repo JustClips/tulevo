@@ -1,6 +1,6 @@
 {
- "Bark": "art/models/SideYard/tex/Bark_Color.png",
- "Dark": "art/models/SideYard/tex/Dark_Color.png",
+ "Bark": "art/models/SideYard/tex/MatBark_Color.png",
+ "Dark": "art/models/SideYard/tex/MatDark_Color.png",
  "FlowerR": "art/models/SideYard/tex/FlowerR_Color.png",
  "FlowerW": "art/models/SideYard/tex/FlowerW_Color.png",
  "FlowerY": "art/models/SideYard/tex/FlowerY_Color.png",
@@ -11,8 +11,8 @@
  "Roof": "art/models/SideYard/tex/Shingles_Color.png",
  "SecurityDoor": "art/models/SideYard/tex/SecurityDoor_Color.png",
  "Shrub": "art/models/SideYard/tex/Shrub_Color.png",
- "Soil": "art/models/SideYard/tex/Soil_Color.png",
- "Stone": "art/models/SideYard/tex/Stone_Color.png",
- "Trim": "art/models/SideYard/tex/Trim_Color.png",
- "Wood": "art/models/SideYard/tex/Wood_Color.png"
+ "Soil": "art/models/SideYard/tex/MatSoil_Color.png",
+ "Stone": "art/models/SideYard/tex/MatStone_Color.png",
+ "Trim": "art/models/SideYard/tex/MatTrim_Color.png",
+ "Wood": "art/models/SideYard/tex/MatWood_Color.png"
 }

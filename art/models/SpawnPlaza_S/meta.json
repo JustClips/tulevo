@@ -17,20 +17,20 @@
    ]
   },
   "Kerb": {
-   "tris": 12,
+   "tris": 716,
    "min": [
     -79.2,
-    70.92,
+    -63.22,
     0.0
    ],
    "max": [
     79.2,
     72.0,
-    0.03
+    6.52
    ]
   },
   "Stone": {
-   "tris": 1496,
+   "tris": 3568,
    "min": [
     -63.36,
     -69.12,
@@ -39,111 +39,189 @@
    "max": [
     63.36,
     60.84,
-    14.76
+    13.75
    ]
   },
   "Tile": {
-   "tris": 124,
+   "tris": 192,
    "min": [
-    -14.4,
-    -14.4,
-    0.72
+    -14.15,
+    -14.15,
+    0.94
    ],
    "max": [
-    14.4,
-    14.4,
+    14.15,
+    14.15,
     1.08
    ]
   },
-  "Water": {
-   "tris": 292,
+  "FxPool": {
+   "tris": 120,
    "min": [
-    -14.18,
-    -14.18,
-    2.5
+    -14.15,
+    -14.15,
+    2.88
    ],
    "max": [
-    14.18,
-    14.18,
-    12.98
+    14.15,
+    14.15,
+    12.24
+   ]
+  },
+  "FxFall": {
+   "tris": 320,
+   "min": [
+    -8.1,
+    -8.1,
+    2.92
+   ],
+   "max": [
+    8.1,
+    8.1,
+    16.92
+   ]
+  },
+  "FxJet": {
+   "tris": 384,
+   "min": [
+    -2.4,
+    -2.08,
+    12.21
+   ],
+   "max": [
+    2.4,
+    2.08,
+    13.83
+   ]
+  },
+  "FxRipple": {
+   "tris": 240,
+   "min": [
+    -11.88,
+    -11.88,
+    2.9
+   ],
+   "max": [
+    11.88,
+    11.88,
+    12.26
+   ]
+  },
+  "Light": {
+   "tris": 372,
+   "min": [
+    -50.04,
+    -11.95,
+    0.0
+   ],
+   "max": [
+    51.12,
+    64.17,
+    8.82
    ]
   },
   "Wood": {
-   "tris": 204,
+   "tris": 192,
    "min": [
-    -43.92,
+    -26.42,
     -23.53,
     1.51
    ],
    "max": [
     26.42,
-    61.56,
+    23.53,
     3.33
    ]
   },
   "Iron": {
-   "tris": 408,
+   "tris": 384,
    "min": [
-    -43.34,
+    -26.3,
     -23.3,
-    -0.02
+    0.0
    ],
    "max": [
     26.3,
-    61.47,
+    23.3,
     3.51
    ]
   },
   "Soil": {
    "tris": 108,
    "min": [
-    -62.82,
-    -62.46,
+    -62.57,
+    -62.21,
     0.0
    ],
    "max": [
-    62.82,
+    62.57,
     64.8,
-    2.19
+    2.2
    ]
   },
   "Trunk": {
    "tris": 1680,
    "min": [
-    -59.53,
-    -52.69,
-    2.16
+    -58.85,
+    -51.81,
+    2.19
    ],
    "max": [
     58.35,
     51.15,
-    31.66
+    31.7
    ]
   },
   "Palm": {
    "tris": 2464,
    "min": [
-    -73.76,
-    -66.92,
-    23.41
+    -71.23,
+    -66.02,
+    23.67
    ],
    "max": [
     71.73,
-    63.36,
-    31.73
+    65.37,
+    31.76
    ]
   },
-  "Shrub": {
-   "tris": 360,
+  "Agave": {
+   "tris": 1120,
    "min": [
-    -61.91,
-    -61.16,
-    -0.19
+    -60.2,
+    -60.73,
+    2.22
    ],
    "max": [
-    61.49,
-    63.86,
-    4.59
+    60.42,
+    8.71,
+    3.68
+   ]
+  },
+  "Grass": {
+   "tris": 2496,
+   "min": [
+    -59.67,
+    -60.21,
+    2.19
+   ],
+   "max": [
+    59.69,
+    8.0,
+    4.72
+   ]
+  },
+  "Leaf": {
+   "tris": 640,
+   "min": [
+    -60.03,
+    -60.64,
+    2.02
+   ],
+   "max": [
+    59.98,
+    4.78,
+    3.75
    ]
   },
   "Trim": {
@@ -172,21 +250,47 @@
     8.82
    ]
   },
-  "Light": {
-   "tris": 72,
+  "Shrub": {
+   "tris": 120,
    "min": [
-    -47.7,
-    49.77,
+    24.95,
+    61.47,
+    -0.19
+   ],
+   "max": [
+    54.12,
+    63.87,
+    1.7
+   ]
+  },
+  "Concrete": {
+   "tris": 12,
+   "min": [
+    -52.56,
+    57.24,
     0.0
    ],
    "max": [
-    51.12,
-    64.17,
-    9.36
+    -26.64,
+    66.24,
+    0.11
+   ]
+  },
+  "Yellow": {
+   "tris": 312,
+   "min": [
+    -51.7,
+    33.48,
+    0.02
+   ],
+   "max": [
+    6.12,
+    66.06,
+    0.16
    ]
   },
   "Pole": {
-   "tris": 980,
+   "tris": 1332,
    "min": [
     -72.63,
     -66.85,
@@ -198,47 +302,34 @@
     36.0
    ]
   },
-  "Glass": {
-   "tris": 12,
-   "min": [
-    -45.36,
-    59.47,
-    1.08
-   ],
-   "max": [
-    -29.16,
-    59.62,
-    9.0
-   ]
-  },
-  "ShelterAd": {
+  "ClearGlassRoof": {
    "tris": 4,
    "min": [
-    -49.86,
-    59.26,
-    1.26
+    -50.4,
+    59.4,
+    9.47
    ],
    "max": [
-    -45.54,
-    59.83,
-    8.46
+    -28.8,
+    65.52,
+    10.08
    ]
   },
-  "BinBlue": {
-   "tris": 12,
+  "BusFascia": {
+   "tris": 2,
    "min": [
-    -26.28,
-    65.2,
-    8.64
+    -50.58,
+    65.74,
+    8.71
    ],
    "max": [
-    -24.12,
-    65.34,
-    10.8
+    -28.62,
+    65.74,
+    9.79
    ]
   },
   "Dark": {
-   "tris": 84,
+   "tris": 716,
    "min": [
     -73.08,
     -39.6,
@@ -246,8 +337,86 @@
    ],
    "max": [
     73.08,
-    51.03,
+    65.7,
     23.4
+   ]
+  },
+  "ClearGlassBus": {
+   "tris": 36,
+   "min": [
+    -44.42,
+    59.36,
+    0.9
+   ],
+   "max": [
+    -28.76,
+    63.72,
+    9.36
+   ]
+  },
+  "Paint": {
+   "tris": 196,
+   "min": [
+    -44.24,
+    31.68,
+    0.0
+   ],
+   "max": [
+    7.92,
+    59.45,
+    5.4
+   ]
+  },
+  "ShelterAd": {
+   "tris": 4,
+   "min": [
+    -49.86,
+    58.95,
+    1.26
+   ],
+   "max": [
+    -45.18,
+    59.85,
+    8.46
+   ]
+  },
+  "BusDisplay": {
+   "tris": 2,
+   "min": [
+    -41.58,
+    62.66,
+    7.81
+   ],
+   "max": [
+    -36.18,
+    62.66,
+    8.75
+   ]
+  },
+  "BusSign": {
+   "tris": 4,
+   "min": [
+    -26.28,
+    64.78,
+    7.27
+   ],
+   "max": [
+    -23.4,
+    65.18,
+    10.87
+   ]
+  },
+  "Timetable": {
+   "tris": 2,
+   "min": [
+    -25.83,
+    65.21,
+    3.6
+   ],
+   "max": [
+    -23.85,
+    65.21,
+    6.48
    ]
   },
   "RouteMap": {
@@ -392,32 +561,6 @@
     37.08,
     3.6
    ]
-  },
-  "Paint": {
-   "tris": 124,
-   "min": [
-    -7.92,
-    31.68,
-    0.0
-   ],
-   "max": [
-    7.92,
-    47.52,
-    0.02
-   ]
-  },
-  "Yellow": {
-   "tris": 96,
-   "min": [
-    -6.12,
-    33.48,
-    0.02
-   ],
-   "max": [
-    6.12,
-    45.72,
-    0.05
-   ]
   }
  },
  "lamps": [
@@ -430,24 +573,37 @@
  ],
  "textures": {
   "Pave": "PlazaPave_Color.png",
-  "Kerb": "Kerb_Color.png",
-  "Stone": "Stone_Color.png",
+  "Kerb": "MatKerb_Color.png",
+  "Stone": "MatStone_Color.png",
   "Tile": "Tile_Color.png",
-  "Water": "Water_Color.png",
-  "Wood": "Wood_Color.png",
-  "Iron": "Iron_Color.png",
-  "Soil": "Soil_Color.png",
+  "FxPool": "FxPool_Color.png",
+  "FxFall": "FxFall_Color.png",
+  "FxJet": "FxJet_Color.png",
+  "FxRipple": "FxRipple_Color.png",
+  "Light": "Light_Color.png",
+  "Wood": "MatWood_Color.png",
+  "Iron": "MatIron_Color.png",
+  "Soil": "MatSoil_Color.png",
   "Trunk": "Trunk_Color.png",
   "Palm": "Palm_Color.png",
-  "Shrub": "Shrub_Color.png",
-  "Trim": "Trim_Color.png",
+  "Agave": "Agave_Color.png",
+  "Grass": "Grass_Color.png",
+  "Leaf": "Leaf_Color.png",
+  "Trim": "MatTrim_Color.png",
   "WelcomeSign": "WelcomeSign_Color.png",
-  "Light": "Light_Color.png",
-  "Pole": "Pole_Color.png",
-  "Glass": "Glass_Color.png",
+  "Shrub": "Shrub_Color.png",
+  "Concrete": "Concrete_Color.png",
+  "Yellow": "MatYellow_Color.png",
+  "Pole": "MatPole_Color.png",
+  "ClearGlassRoof": "Glass_Color.png",
+  "BusFascia": "BusFascia_Color.png",
+  "Dark": "MatDark_Color.png",
+  "ClearGlassBus": "Glass_Color.png",
+  "Paint": "MatPaint_Color.png",
   "ShelterAd": "ShelterAd_Color.png",
-  "BinBlue": "BinBlue_Color.png",
-  "Dark": "Dark_Color.png",
+  "BusDisplay": "BusDisplay_Color.png",
+  "BusSign": "BusSign_Color.png",
+  "Timetable": "Timetable_Color.png",
   "RouteMap": "RouteMap_Color.png",
   "Lamp1": "Light_Color.png",
   "Lamp2": "Light_Color.png",
@@ -457,9 +613,7 @@
   "Lamp6": "Light_Color.png",
   "Flag": "Flag_Color.png",
   "IceBlue": "IceBlue_Color.png",
-  "Red": "Red_Color.png",
-  "BinGrey": "BinGrey_Color.png",
-  "Paint": "Paint_Color.png",
-  "Yellow": "Yellow_Color.png"
+  "Red": "MatRed_Color.png",
+  "BinGrey": "MatBinGrey_Color.png"
  }
 }

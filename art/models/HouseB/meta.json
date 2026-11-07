@@ -82,7 +82,7 @@
    ]
   },
   "Iron": {
-   "tris": 1848,
+   "tris": 2020,
    "min": [
     -28.65,
     -45.51,
@@ -91,7 +91,7 @@
    "max": [
     26.28,
     25.2,
-    16.31
+    18.0
    ]
   },
   "SecurityDoor": {
@@ -173,9 +173,9 @@
    ]
   },
   "WinIron": {
-   "tris": 996,
+   "tris": 984,
    "min": [
-    -24.19,
+    -24.01,
     -4.21,
     4.14
    ],
@@ -263,11 +263,37 @@
     25.2
    ]
   },
-  "Dark": {
-   "tris": 212,
+  "AcGrille": {
+   "tris": 2,
    "min": [
-    -25.7,
-    -37.01,
+    -25.68,
+    10.94,
+    16.45
+   ],
+   "max": [
+    -25.68,
+    13.54,
+    18.11
+   ]
+  },
+  "Pipe": {
+   "tris": 164,
+   "min": [
+    -25.24,
+    -4.2,
+    0.0
+   ],
+   "max": [
+    -22.73,
+    13.36,
+    22.32
+   ]
+  },
+  "Dark": {
+   "tris": 344,
+   "min": [
+    -15.84,
+    -37.15,
     0.0
    ],
    "max": [
@@ -290,14 +316,14 @@
    ]
   },
   "Plastic": {
-   "tris": 60,
+   "tris": 172,
    "min": [
     -21.6,
-    0.14,
-    25.74
+    -36.9,
+    0.25
    ],
    "max": [
-    -18.72,
+    12.43,
     0.43,
     28.62
    ]
@@ -381,29 +407,42 @@
    ]
   },
   "BinGreen": {
-   "tris": 24,
+   "tris": 72,
    "min": [
-    7.02,
-    -39.13,
-    0.0
+    7.06,
+    -39.38,
+    0.43
    ],
    "max": [
-    9.54,
-    -36.32,
-    3.89
+    9.5,
+    -36.5,
+    3.82
+   ]
+  },
+  "BinLabel": {
+   "tris": 4,
+   "min": [
+    7.67,
+    -39.13,
+    1.98
+   ],
+   "max": [
+    11.77,
+    -39.13,
+    2.74
    ]
   },
   "BinGrey": {
-   "tris": 24,
+   "tris": 72,
    "min": [
-    9.9,
-    -39.13,
-    0.0
+    9.94,
+    -39.38,
+    0.43
    ],
    "max": [
-    12.42,
-    -36.32,
-    3.89
+    12.38,
+    -36.5,
+    3.82
    ]
   },
   "Trunk": {
@@ -565,27 +604,27 @@
   "Meter": {
    "tris": 12,
    "min": [
-    -24.12,
-    0.99,
-    3.6
+    -23.98,
+    1.04,
+    3.64
    ],
    "max": [
     -23.4,
-    2.61,
-    5.76
+    2.56,
+    5.72
    ]
   },
-  "Pipe": {
-   "tris": 140,
+  "MeterFace": {
+   "tris": 2,
    "min": [
-    -23.21,
-    -4.2,
-    0.0
+    -23.98,
+    1.08,
+    3.67
    ],
    "max": [
-    -22.73,
-    -3.72,
-    22.32
+    -23.98,
+    2.52,
+    5.65
    ]
   },
   "Backboard": {
@@ -619,11 +658,11 @@
  "textures": {
   "Lawn": "Lawn_Color.png",
   "Concrete": "Concrete_Color.png",
-  "Foundation": "Foundation_Color.png",
+  "Foundation": "MatFoundation_Color.png",
   "Walls": "WallCream_Color.png",
-  "Flat": "Flat_Color.png",
-  "Trim": "Trim_Color.png",
-  "Iron": "Iron_Color.png",
+  "Flat": "MatFlat_Color.png",
+  "Trim": "MatTrim_Color.png",
+  "Iron": "MatIron_Color.png",
   "SecurityDoor": "SecurityDoor_Color.png",
   "Sconce": "Sconce_Color.png",
   "GarageDoor": "GarageDoor_Color.png",
@@ -636,32 +675,35 @@
   "GlassC": "GlassC_Color.png",
   "GlassA": "GlassA_Color.png",
   "GlassF": "GlassF_Color.png",
-  "AcBody": "AcBody_Color.png",
-  "Dark": "Dark_Color.png",
-  "Pole": "Pole_Color.png",
-  "Plastic": "Plastic_Color.png",
+  "AcBody": "MatAcBody_Color.png",
+  "AcGrille": "AcGrille_Color.png",
+  "Pipe": "Pipe_Color.png",
+  "Dark": "MatDark_Color.png",
+  "Pole": "MatPole_Color.png",
+  "Plastic": "MatPlastic_Color.png",
   "Tag": "Tag_Color.png",
-  "Block": "Block_Color.png",
-  "Stone": "Stone_Color.png",
-  "Wood": "Wood_Color.png",
-  "Mailbox": "Mailbox_Color.png",
-  "Red": "Red_Color.png",
-  "BinGreen": "BinGreen_Color.png",
-  "BinGrey": "BinGrey_Color.png",
+  "Block": "MatBlock_Color.png",
+  "Stone": "MatStone_Color.png",
+  "Wood": "MatWood_Color.png",
+  "Mailbox": "MatMailbox_Color.png",
+  "Red": "MatRed_Color.png",
+  "BinGreen": "MatBinGreen_Color.png",
+  "BinLabel": "BinLabel_Color.png",
+  "BinGrey": "MatBinGrey_Color.png",
   "Trunk": "Trunk_Color.png",
   "Palm": "Palm_Color.png",
-  "Bark": "Bark_Color.png",
+  "Bark": "MatBark_Color.png",
   "LeafB": "LeafB_Color.png",
   "Leaf": "Leaf_Color.png",
-  "Soil": "Soil_Color.png",
+  "Soil": "MatSoil_Color.png",
   "Hedge": "Hedge_Color.png",
   "Shrub": "Shrub_Color.png",
   "FlowerY": "FlowerY_Color.png",
   "FlowerW": "FlowerW_Color.png",
   "FlowerR": "FlowerR_Color.png",
-  "Shutter": "Shutter_Color.png",
+  "Shutter": "MatShutter_Color.png",
   "Meter": "Meter_Color.png",
-  "Pipe": "Pipe_Color.png",
+  "MeterFace": "MeterFace_Color.png",
   "Backboard": "Backboard_Color.png",
   "Rim": "Rim_Color.png"
  },

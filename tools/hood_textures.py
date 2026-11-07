@@ -14,7 +14,7 @@ import sys
 from PIL import Image, ImageDraw, ImageFilter
 
 sys.path.insert(0, os.path.dirname(__file__))
-from tex_kit import FONT_B, FONT_R, fit_text, font, glass_set, grime, noise_tile, saver, scratches, stucco, text_c  # noqa: E402
+from tex_kit import FONT_B, FONT_R, fit_text, font, glass_set, grime, noise_tile, saver, scratches, stucco, surface, text_c  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 OUT = os.path.join(ROOT, "art", "blender", "hood", "tex")
@@ -559,8 +559,112 @@ def rr_c(i):
     return ((240, 120, 160), (250, 220, 120), (140, 90, 60), (120, 200, 230), (250, 250, 240), (160, 220, 120))[i % 6]
 
 
+
+def bin_label():
+    """White sticker for wheelie bins: recycle-style chasing arrows + collection day text."""
+    W, H = 256, 160
+    im = Image.new("RGB", (W, H), (236, 236, 230))
+    d = ImageDraw.Draw(im)
+    d.rectangle([2, 2, W - 3, H - 3], outline=(40, 40, 40), width=3)
+    cx, cy, R = 70, 80, 44
+    for k in range(3):                      # three chasing arrows
+        a0 = k * 120 + 10
+        d.arc([cx - R, cy - R, cx + R, cy + R], a0, a0 + 95, fill=(30, 30, 30), width=12)
+        a = math.radians(a0 + 95)
+        tip = (cx + R * math.cos(a), cy + R * math.sin(a))
+        d.polygon([(tip[0] + 14 * math.cos(a + 2.0), tip[1] + 14 * math.sin(a + 2.0)),
+                   (tip[0] + 14 * math.cos(a - 1.2), tip[1] + 14 * math.sin(a - 1.2)),
+                   (tip[0] + 16 * math.cos(a + 0.4 + math.pi / 2), tip[1] + 16 * math.sin(a + 0.4 + math.pi / 2))], fill=(30, 30, 30))
+    f = font(FONT_B, 22)
+    d.text((130, 44), "CITY OF", font=font(FONT_R, 18), fill=(40, 40, 40))
+    d.text((130, 66), "TULEVO", font=f, fill=(20, 20, 20))
+    d.text((130, 100), "PICKUP: TUE", font=font(FONT_R, 16), fill=(60, 60, 60))
+    save("BinLabel", grime(im, 0.25, 71), 180)
+
+
+def meter_face():
+    """Electric meter cabinet front: glass dome dial, digits, seal tag."""
+    W, H = 160, 220
+    im = Image.new("RGB", (W, H), (150, 154, 156))
+    d = ImageDraw.Draw(im)
+    d.rectangle([6, 6, W - 7, H - 7], outline=(110, 112, 114), width=4)
+    d.ellipse([22, 30, W - 22, 30 + W - 44], fill=(208, 214, 210), outline=(70, 72, 74), width=5)
+    d.rectangle([48, 70, W - 48, 92], fill=(30, 30, 30))
+    for i, ch in enumerate("04718"):
+        d.text((52 + i * 12, 72), ch, font=font(FONT_B, 16), fill=(230, 230, 220))
+    d.text((W // 2 - 18, 104), "kWh", font=font(FONT_R, 14), fill=(40, 40, 40))
+    d.rectangle([W // 2 - 20, 170, W // 2 + 20, 196], fill=(190, 40, 30))
+    save("MeterFace", grime(scratches(im, 30, 9), 0.25, 72), 160)
+
+
+
+def bus_textures():
+    """Bus stop print: stop flag (double-sided), timetable case, LED arrivals board, fascia band."""
+    W, H = 256, 320
+    im = Image.new("RGB", (W, H), (240, 240, 236))
+    d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, W, 90], fill=(20, 70, 150))
+    text_c(d, (W // 2, 45), "BUS", font(FONT_B, 64), (255, 255, 255))
+    d.rectangle([0, 90, W, 100], fill=(240, 190, 30))
+    text_c(d, (W // 2, 128), "TULEVO TRANSIT", font(FONT_B, 22), (20, 40, 80))
+    for i, rt in enumerate(("12", "40", "7")):
+        x = 30 + i * 74
+        d.rectangle([x, 160, x + 60, 220], fill=(20, 70, 150))
+        text_c(d, (x + 30, 190), rt, font(FONT_B, 34), (255, 255, 255))
+    text_c(d, (W // 2, 250), "STOP 214", font(FONT_B, 26), (30, 30, 30))
+    text_c(d, (W // 2, 285), "VAULT AVE", font(FONT_R, 20), (60, 60, 60))
+    save("BusSign", grime(im, 0.15, 80), 170)
+    # timetable behind glass
+    W, H = 200, 300
+    im = Image.new("RGB", (W, H), (246, 246, 240))
+    d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, W, 34], fill=(20, 70, 150))
+    text_c(d, (W // 2, 17), "TIMETABLE", font(FONT_B, 20), (255, 255, 255))
+    r_ = random.Random(81)
+    for row in range(14):
+        y = 46 + row * 17
+        d.text((10, y), f"{6 + row:02d}", font=font(FONT_B, 13), fill=(30, 30, 30))
+        d.text((40, y), "  ".join(f"{m:02d}" for m in sorted(r_.sample(range(0, 60, 5), 4))), font=font(FONT_R, 13), fill=(70, 70, 70))
+    save("Timetable", grime(im, 0.12, 82), 150)
+    # LED arrivals board
+    W, H = 320, 80
+    im = Image.new("RGB", (W, H), (12, 12, 12))
+    d = ImageDraw.Draw(im)
+    amber = (255, 170, 40)
+    d.text((10, 8), "12  DOWNTOWN", font=font(FONT_B, 20), fill=amber)
+    d.text((250, 8), "3 min", font=font(FONT_B, 20), fill=amber)
+    d.text((10, 44), "40  HARBOR", font=font(FONT_B, 20), fill=amber)
+    d.text((250, 44), "11 min", font=font(FONT_B, 20), fill=amber)
+    save("BusDisplay", im, 120)
+    # roof fascia band
+    W, H = 512, 48
+    im = Image.new("RGB", (W, H), (30, 36, 44))
+    d = ImageDraw.Draw(im)
+    d.rectangle([0, H - 6, W, H], fill=(240, 190, 30))
+    text_c(d, (W // 2, 21), "TULEVO TRANSIT  ·  STOP 214", font(FONT_B, 24), (240, 240, 240))
+    save("BusFascia", grime(im, 0.1, 83), 150)
+
+
 walls()
-for fn in (shop_floor, ceiling, fridge_doors, candy_rack, faces, bar_window, security_door, garage_door, shingles, clay_tile, lawn, concrete, asphalt, backboard, store_front, store_sign,
+
+
+# realistic surface sheets for parts that used to be flat colours (art/blender/hood/build_hood.py SURF)
+SURF = {
+    "Wood": ("wood", (120, 82, 52)), "Trim": ("paint", (236, 234, 226)), "Iron": ("paint", (20, 20, 22)),
+    "Foundation": ("block", (150, 148, 140)), "Flat": ("gravel", (88, 86, 82)), "AcBody": ("paint", (204, 202, 192)),
+    "Dark": ("rubber", (26, 26, 28)), "BinGreen": ("plastic", (32, 72, 40)), "BinGrey": ("plastic", (60, 62, 64)),
+    "BinBlue": ("plastic", (30, 58, 120)), "Mailbox": ("metal", (210, 210, 205)), "Pole": ("metal", (150, 152, 155)),
+    "Paint": ("paint", (238, 238, 230)), "Yellow": ("paint", (236, 180, 30)), "Block": ("block", (162, 160, 152)),
+    "Stone": ("granite", (198, 192, 180)), "Kerb": ("granite", (162, 160, 156)), "Plastic": ("plastic", (232, 232, 226)),
+    "Red": ("paint", (170, 30, 30)), "Dumpster": ("paint", (30, 76, 44)), "IceBox": ("plastic", (238, 240, 244)),
+    "Picket": ("paint", (234, 232, 224)), "Shutter": ("paint", (40, 62, 56)), "Bark": ("wood", (70, 52, 38)),
+    "Counter": ("laminate", (142, 92, 58)), "DecoPaint": ("drywall", (232, 226, 210)), "DecoSkirt": ("rubber", (56, 52, 50)),
+    "Soil": ("gravel", (58, 40, 28)), "WheelStop": ("granite", (190, 188, 180)),
+}
+for i, (n, (k, c)) in enumerate(SURF.items()):
+    save(f"Mat{n}", surface(k, c, seed=300 + i), 200)
+
+for fn in (bus_textures, bin_label, meter_face, shop_floor, ceiling, fridge_doors, candy_rack, faces, bar_window, security_door, garage_door, shingles, clay_tile, lawn, concrete, asphalt, backboard, store_front, store_sign,
            store_door, plaza_pave, welcome_sign, shelter_ad, route_map, water, chain_link):
     fn()
 shelf_goods("ShelfGoodsA", 61)

@@ -67,6 +67,7 @@ def main():
     sources = [(m, os.path.join(base, m, "textures.json")) for m in sorted(os.listdir(base))]
     sources.append(("Weather", os.path.join(ROOT, "art", "weather", "textures.json")))  # rain + sky
     sources.append(("WeaponFx", os.path.join(ROOT, "art", "weapons", "fx", "textures.json")))  # muzzle flash, tracer
+    sources.append(("Fountain", os.path.join(ROOT, "art", "fx", "fountain", "textures.json")))  # fountain water flipbooks
     sources.append(("Road", os.path.join(ROOT, "art", "road", "textures.json")))  # street asphalt (tools/road_textures.py)
     for model, mp in sources:
         if not os.path.exists(mp):
