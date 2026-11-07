@@ -2963,5 +2963,80 @@
   "id": 128712462698011,
   "file": "art/models/BrickBlock/tex/TankWood_Color.png",
   "state": "Approved"
+ },
+ "7a3855ab9c4c871bc3e3d7c9c44ff2f41c9e4daa884e4fce35a4bafd20620f7c": {
+  "id": 118369495684002,
+  "file": "art/models/Diner/tex/DinerBlue_Color.png",
+  "state": "Approved"
+ },
+ "2bd3391914d272cbe1e26db414782b431b6d8bd22ca8e2a9ceb859e23106b0a3": {
+  "id": 76832152491432,
+  "file": "art/models/Diner/tex/Chrome_Color.png",
+  "state": "Approved"
+ },
+ "e9648293e89cb58a39dfc5bb0e7a774e24efc1603cdee6acae0b7e290bc8ef30": {
+  "id": 97430012540930,
+  "file": "art/models/Diner/tex/DinerDoor_Color.png",
+  "state": "Approved"
+ },
+ "f6c6d5946a68f3ba675e63f767a892182cde263e067ae54002a1699fc65530d6": {
+  "id": 74442604942985,
+  "file": "art/models/Diner/tex/DinerInterior_Color.png",
+  "state": "Approved"
+ },
+ "282ff29a67a59ed6077839ca158c22ba6e559a16b22368ec2614347c7cbde140": {
+  "id": 98282204065095,
+  "file": "art/models/Diner/tex/DinerSigns_Color.png",
+  "state": "Approved"
+ },
+ "1a59108cf5639913096d6132e3216dd11707cf61e9326dd361bfe71a2eaa0263": {
+  "id": 123362529477565,
+  "file": "art/models/Diner/tex/Dumpster_Color.png",
+  "state": "Approved"
+ },
+ "1f0f3ad0891cf5527a5cbd3c253b76c14e3cbaf1ffd6212b4910435542e122df": {
+  "id": 135483201420317,
+  "file": "art/models/Diner/tex/GlassBlock_Color.png",
+  "state": "Approved"
+ },
+ "6de221c2757007ccf2df62fec5f463cdfc94a96f2cfdb3e1f0ccf59a6ffeda69": {
+  "id": 123963470532612,
+  "file": "art/models/Diner/tex/KitchenBrick_Color.png",
+  "state": "Approved"
+ },
+ "768d8b05b5f3ddde89e5cda9cb75f2e680adf0ecf669d06548cd965a03fa5971": {
+  "id": 81786615341353,
+  "file": "art/models/Diner/tex/NeonCyan_Color.png",
+  "state": "Approved"
+ },
+ "9bbcc8c047e4ee5a269ad0b68ed90eefbfa9c1db8d307a6051d40d67376be376": {
+  "id": 122981445995790,
+  "file": "art/models/Diner/tex/NeonRed_Color.png",
+  "state": "Approved"
+ },
+ "b14ae47f22ff6b01c9267346f202bbfcc99eda24e40ed4bfa18062bed53f2323": {
+  "id": 98955935343642,
+  "file": "art/models/Diner/tex/DinerRed_Color.png",
+  "state": "Approved"
+ },
+ "9dd33d75cf9693c16a51c72b3c1e2d5ece2031031be6a70e68847abdabc7eb1b": {
+  "id": 109436001280397,
+  "file": "art/models/Diner/tex/Shrub_Color.png",
+  "state": "Approved"
+ },
+ "d84bb8a933d2e28721bda8fc0c00165cae3d4253d5587b42067be76edb1f4569": {
+  "id": 94611611453435,
+  "file": "art/models/Diner/tex/Soil_Color.png",
+  "state": "Approved"
+ },
+ "26e60b64a2b80038c32af598ff1115a8c731ddc13de440f3ec3d990c37176e54": {
+  "id": 74721063551022,
+  "file": "art/models/Diner/tex/DinerSteel_Color.png",
+  "state": "Approved"
+ },
+ "283110c84d4dd048c0124b27d77464c98839e48d4b93212c1885792d06278023": {
+  "id": 85451412680391,
+  "file": "art/models/Diner/tex/DinerTile_Color.png",
+  "state": "Approved"
  }
 }

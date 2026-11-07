@@ -1,0 +1,385 @@
+{
+ "name": "Diner",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Asphalt": {
+   "tris": 12,
+   "min": [
+    -82.8,
+    -90.0,
+    -1.8
+   ],
+   "max": [
+    82.8,
+    90.0,
+    0.0
+   ]
+  },
+  "Pave": {
+   "tris": 512,
+   "min": [
+    -82.8,
+    -90.0,
+    0.0
+   ],
+   "max": [
+    82.8,
+    90.0,
+    12.42
+   ]
+  },
+  "Dark": {
+   "tris": 532,
+   "min": [
+    -79.42,
+    -83.52,
+    -0.0
+   ],
+   "max": [
+    79.42,
+    89.64,
+    31.68
+   ]
+  },
+  "LotLine": {
+   "tris": 409,
+   "min": [
+    -72.0,
+    -86.4,
+    0.0
+   ],
+   "max": [
+    78.12,
+    41.98,
+    0.04
+   ]
+  },
+  "Tile": {
+   "tris": 24,
+   "min": [
+    -50.4,
+    -36.0,
+    -1.08
+   ],
+   "max": [
+    28.8,
+    7.2,
+    3.24
+   ]
+  },
+  "Chrome": {
+   "tris": 444,
+   "min": [
+    -50.54,
+    -39.84,
+    0.9
+   ],
+   "max": [
+    28.94,
+    7.2,
+    12.53
+   ]
+  },
+  "Steel": {
+   "tris": 748,
+   "min": [
+    -51.12,
+    -83.45,
+    0.0
+   ],
+   "max": [
+    73.37,
+    29.88,
+    33.12
+   ]
+  },
+  "Blue": {
+   "tris": 24,
+   "min": [
+    -50.4,
+    -39.24,
+    9.9
+   ],
+   "max": [
+    28.8,
+    7.2,
+    12.42
+   ]
+  },
+  "NeonCyan": {
+   "tris": 108,
+   "min": [
+    -49.68,
+    -83.81,
+    11.52
+   ],
+   "max": [
+    76.5,
+    -28.91,
+    31.86
+   ]
+  },
+  "DinerInterior": {
+   "tris": 8,
+   "min": [
+    -49.93,
+    -28.33,
+    4.5
+   ],
+   "max": [
+    28.33,
+    1.8,
+    9.9
+   ]
+  },
+  "Roof": {
+   "tris": 24,
+   "min": [
+    -50.04,
+    -28.44,
+    11.88
+   ],
+   "max": [
+    28.44,
+    35.64,
+    13.5
+   ]
+  },
+  "GlassBlock": {
+   "tris": 24,
+   "min": [
+    -10.8,
+    -36.0,
+    3.24
+   ],
+   "max": [
+    3.6,
+    -28.08,
+    11.16
+   ]
+  },
+  "DinerDoor": {
+   "tris": 2,
+   "min": [
+    -9.54,
+    -36.07,
+    3.24
+   ],
+   "max": [
+    2.34,
+    -36.07,
+    10.44
+   ]
+  },
+  "Lamp1": {
+   "tris": 12,
+   "min": [
+    -5.76,
+    -38.52,
+    10.98
+   ],
+   "max": [
+    -1.44,
+    -36.72,
+    11.12
+   ]
+  },
+  "Red": {
+   "tris": 12,
+   "min": [
+    -32.4,
+    -24.48,
+    14.4
+   ],
+   "max": [
+    18.0,
+    -24.12,
+    20.16
+   ]
+  },
+  "DinerSigns": {
+   "tris": 10,
+   "min": [
+    -32.22,
+    -83.59,
+    14.04
+   ],
+   "max": [
+    75.96,
+    -24.55,
+    31.32
+   ]
+  },
+  "NeonRed": {
+   "tris": 48,
+   "min": [
+    -32.47,
+    -24.84,
+    14.33
+   ],
+   "max": [
+    18.07,
+    -24.62,
+    20.23
+   ]
+  },
+  "AcBody": {
+   "tris": 36,
+   "min": [
+    -39.6,
+    0.0,
+    12.17
+   ],
+   "max": [
+    18.72,
+    28.8,
+    17.28
+   ]
+  },
+  "Kitchen": {
+   "tris": 12,
+   "min": [
+    -43.2,
+    7.2,
+    -1.08
+   ],
+   "max": [
+    21.6,
+    36.0,
+    11.88
+   ]
+  },
+  "Sconce": {
+   "tris": 12,
+   "min": [
+    -12.33,
+    36.07,
+    9.18
+   ],
+   "max": [
+    -11.43,
+    36.79,
+    9.9
+   ]
+  },
+  "Pipe": {
+   "tris": 84,
+   "min": [
+    20.28,
+    36.12,
+    0.0
+   ],
+   "max": [
+    20.76,
+    36.6,
+    12.24
+   ]
+  },
+  "Dumpster": {
+   "tris": 12,
+   "min": [
+    -69.12,
+    59.04,
+    0.54
+   ],
+   "max": [
+    -53.28,
+    69.84,
+    5.04
+   ]
+  },
+  "Shrub": {
+   "tris": 320,
+   "min": [
+    -80.55,
+    -84.51,
+    0.2
+   ],
+   "max": [
+    70.62,
+    43.35,
+    4.83
+   ]
+  },
+  "Lamp2": {
+   "tris": 12,
+   "min": [
+    -17.64,
+    -74.61,
+    26.68
+   ],
+   "max": [
+    -14.04,
+    -72.99,
+    26.82
+   ]
+  },
+  "Lamp3": {
+   "tris": 12,
+   "min": [
+    39.96,
+    27.99,
+    26.68
+   ],
+   "max": [
+    43.56,
+    29.61,
+    26.82
+   ]
+  },
+  "Soil": {
+   "tris": 36,
+   "min": [
+    -81.72,
+    -36.0,
+    0.0
+   ],
+   "max": [
+    35.57,
+    43.2,
+    2.23
+   ]
+  }
+ },
+ "lamps": [
+  "Lamp1",
+  "Lamp2",
+  "Lamp3"
+ ],
+ "textures": {
+  "Asphalt": "LotAsphalt_Color.png",
+  "Pave": "Plinth_Color.png",
+  "Dark": "Dark_Color.png",
+  "LotLine": "LotLine_Color.png",
+  "Tile": "DinerTile_Color.png",
+  "Chrome": "Chrome_Color.png",
+  "Steel": "DinerSteel_Color.png",
+  "Blue": "DinerBlue_Color.png",
+  "NeonCyan": "NeonCyan_Color.png",
+  "DinerInterior": "DinerInterior_Color.png",
+  "Roof": "RoofTar_Color.png",
+  "GlassBlock": "GlassBlock_Color.png",
+  "DinerDoor": "DinerDoor_Color.png",
+  "Lamp1": "Light_Color.png",
+  "Red": "DinerRed_Color.png",
+  "DinerSigns": "DinerSigns_Color.png",
+  "NeonRed": "NeonRed_Color.png",
+  "AcBody": "HvacGrey_Color.png",
+  "Kitchen": "KitchenBrick_Color.png",
+  "Sconce": "Sconce_Color.png",
+  "Pipe": "Pipe_Color.png",
+  "Dumpster": "Dumpster_Color.png",
+  "Shrub": "Shrub_Color.png",
+  "Lamp2": "Light_Color.png",
+  "Lamp3": "Light_Color.png",
+  "Soil": "Soil_Color.png"
+ },
+ "driveways": [
+  [
+   -79.2,
+   -54.0,
+   "N"
+  ]
+ ]
+}

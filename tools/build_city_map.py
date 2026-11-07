@@ -136,6 +136,8 @@ BUILDINGS += [
     ("PikeBuilding", "BrickBlock_S", (232, 0.6, VAULT_N_LINE - BRICK_HALF_D),
      {"Brick": "Tan", "Storefronts": "B", "ShopSigns": "B"}),
     ("FennBuilding", "BrickBlock", (560, 0.6, VAULT_S_LINE + BRICK_HALF_D), {"Brick": "Brown"}),
+    # Blue Comet Diner: 46 x 50 m lot (origin = lot centre, z 0 = lot surface), entrance drive at its west end
+    ("BlueCometDiner", "Diner", (413, 0.3, VAULT_S_LINE + 90)),
 ]
 
 # ---------------------------------------------------------------- street furniture

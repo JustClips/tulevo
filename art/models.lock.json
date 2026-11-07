@@ -176,8 +176,8 @@
   "sha": "9875ab5a40514e52475c33fa10ed98a1c9809de9aa135b1c12a61b84f390159a"
  },
  "StreetVaultAvenue": {
-  "id": 88485123040841,
-  "sha": "97c8410febcb3b1d0119323f6bc0a7a3e44126bd813848b24b0c1b3b13fd4455"
+  "id": 137836226256329,
+  "sha": "6223f4ef5c99e79a963e3b0f25947f722d5fb7d15d6fee3521f73842dead1d28"
  },
  "StreetWestStreet": {
   "id": 102767779206063,
@@ -194,5 +194,9 @@
  "BrickBlock_S": {
   "id": 73159478556043,
   "sha": "76d7f79a7aca071cf5b27fa895af11b06f7274ec85fd8a2dcecb9848c48e26a7"
+ },
+ "Diner": {
+  "id": 135497784909875,
+  "sha": "12af44a6a3ba0571807321340aeb971bc872365044032dbb601a68e7f7ddc66d"
  }
 }

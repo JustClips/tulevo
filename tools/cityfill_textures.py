@@ -13,10 +13,12 @@ Content rules: no alcohol, no gambling, no real brands, no URLs, no credit text,
 """
 import io
 import json
+import math
 import os
 import random
 import sys
 import urllib.request
+import shutil
 import zipfile
 
 import numpy as np
@@ -325,10 +327,6 @@ def street():
     grate(); glass(); leaves(); leaf_card(); atlas()
 
 
-if __name__ == "__main__":
-    fetch()
-    street()
-    brick_building()
 
 
 # ================================================================= buildings
@@ -553,3 +551,154 @@ def brick_building():
     paint("HvacGrey", (168, 170, 166), grain="PaintedMetal012", strength=0.3)
     glass_set(lambda n, c, r=None: save(n, c, r), prefix="Glass", n=6, seed=940, kinds=("home",), size=(256, 256))
     shop_sets(); awnings(); lobby_door(); ghost_sign()
+
+
+# ================================================================= Blue Comet Diner
+def diner_interior(w=2048, h=512):
+    """Through the diner's ribbon windows: red booths + tables at the glass, pendant lamps, the
+    counter with stools behind, pie case, menu boards, checker floor."""
+    r = random.Random(77)
+    im = Image.new("RGB", (w, h), (238, 228, 206))
+    d = ImageDraw.Draw(im)
+    d.rectangle((0, int(h * 0.50), w, int(h * 0.72)), fill=(46, 96, 168))           # blue enamel wainscot
+    for x in range(0, w, 6):
+        d.line((x, int(h * 0.50), x, int(h * 0.72)), fill=(52, 104, 176))
+    d.rectangle((0, int(h * 0.50) - 6, w, int(h * 0.50)), fill=(205, 208, 210))      # chrome rail
+    cs = 24                                                                            # checker floor
+    for y in range(int(h * 0.72), h, cs):
+        for x in range(0, w, cs):
+            if ((x // cs) + (y // cs)) % 2 == 0:
+                d.rectangle((x, y, x + cs - 1, y + cs - 1), fill=(30, 30, 32))
+            else:
+                d.rectangle((x, y, x + cs - 1, y + cs - 1), fill=(226, 222, 212))
+    # back counter: menu boards, pie case, coffee machines
+    for i, x in enumerate(range(80, w - 80, 380)):
+        d.rectangle((x, 40, x + 300, 150), fill=(30, 34, 36))
+        d.rectangle((x + 6, 46, x + 294, 144), outline=(200, 190, 160), width=2)
+        for k in range(4):
+            yy = 64 + k * 20
+            d.line((x + 20, yy, x + 20 + r.randint(120, 200), yy), fill=(236, 226, 200), width=4)
+            d.line((x + 250, yy, x + 280, yy), fill=(236, 200, 90), width=4)
+    d.rectangle((0, 200, w, 228), fill=(200, 202, 204))                               # counter top (chrome)
+    d.rectangle((0, 228, w, int(h * 0.50) - 6), fill=(180, 40, 44))                    # counter front
+    for x in range(0, w, 14):
+        d.line((x, 232, x, int(h * 0.50) - 8), fill=(166, 34, 38))
+    for x in range(140, w, 520):                                                      # pie case
+        d.rectangle((x, 150, x + 160, 200), fill=(210, 226, 232), outline=(170, 176, 180), width=3)
+        for k in range(4):
+            d.ellipse((x + 10 + k * 38, 170, x + 40 + k * 38, 194), fill=(214, 168, 96))
+    for x in range(60, w, 110):                                                      # stools
+        d.rectangle((x - 3, int(h * 0.50) - 6, x + 3, int(h * 0.64)), fill=(190, 192, 194))
+        d.ellipse((x - 26, int(h * 0.50) - 26, x + 26, int(h * 0.50) - 4), fill=(196, 36, 40), outline=(220, 222, 224), width=3)
+    # booths at the window: red vinyl backs + white tables
+    for x in range(0, w, 256):
+        for bx in (x + 10, x + 170):
+            d.rounded_rectangle((bx, int(h * 0.58), bx + 76, h - 10), 14, fill=(184, 30, 36))
+            for k in range(4):
+                d.line((bx + 8 + k * 18, int(h * 0.60), bx + 8 + k * 18, h - 16), fill=(160, 24, 30), width=3)
+        d.rectangle((x + 92, int(h * 0.72), x + 164, int(h * 0.75)), fill=(236, 234, 228))
+        d.rectangle((x + 124, int(h * 0.75), x + 132, h), fill=(170, 172, 174))
+        d.ellipse((x + 104, int(h * 0.70), x + 118, int(h * 0.72) + 2), fill=(240, 240, 236))
+        d.rectangle((x + 140, int(h * 0.69), x + 148, int(h * 0.72)), fill=(200, 60, 50))
+    for x in range(128, w, 256):                                                      # pendant lamps
+        d.line((x, 0, x, 120), fill=(60, 60, 60), width=2)
+        d.pieslice((x - 34, 104, x + 34, 150), 180, 360, fill=(208, 48, 44))
+        d.ellipse((x - 12, 120, x + 12, 136), fill=(255, 244, 200))
+    im = im.filter(ImageFilter.GaussianBlur(0.8))
+    return glass_over(im, 78, amount=0.30)
+
+
+def diner_steel():
+    """Fluted stainless panel: brushed grain with vertical flutes (tiles every 1 m)."""
+    g = np.asarray(scan("Metal029", size=512).convert("L"), np.float32)
+    g = (g - g.mean()) * 0.35
+    x = np.arange(512)[None, :]
+    flute = 18 * np.cos(x / 512 * 2 * math.pi * 16)
+    v = np.clip(168 + g + flute, 0, 255)
+    rgb = np.stack([v * 0.98, v, v * 1.02], -1)
+    rough = Image.fromarray(np.clip(70 + g * 0.5, 0, 255).astype(np.uint8)).convert("RGB")
+    save("DinerSteel", Image.fromarray(np.clip(rgb, 0, 255).astype(np.uint8)), rough)
+
+
+def diner_signs():
+    """DinerSigns atlas 1024x1024: rows 0-511 pylon face, 512-767 OPEN 24 HOURS, 768-1023 roof DINER."""
+    W = 1024
+    im = Image.new("RGB", (W, W), (18, 30, 62))
+    d = ImageDraw.Draw(im)
+    r = random.Random(5)
+    # pylon face: night-blue panel, stars, comet swoosh, script name, DINER plate
+    for _ in range(70):
+        x, y = r.randint(10, W - 10), r.randint(10, 500)
+        s = r.choice((2, 2, 3, 4))
+        d.ellipse((x - s, y - s, x + s, y + s), fill=(250, 236, 170))
+    d.rectangle((6, 6, W - 7, 505), outline=(232, 236, 240), width=10)
+    for k in range(12):
+        d.arc((-420 + k * 6, 80 + k * 4, 900 - k * 6, 560 + k * 4), 200, 300, fill=(255, 196 - k * 6, 60), width=6)
+    d.polygon([(860, 70), (884, 128), (946, 132), (898, 170), (914, 232), (860, 196), (806, 232), (822, 170),
+               (774, 132), (836, 128)], fill=(255, 220, 90))
+    fit_text(d, (W // 2 - 30, 200), "Blue Comet", "/usr/share/fonts/truetype/crosextra/Caladea-BoldItalic.ttf",
+             760, 190, (120, 200, 255))
+    d.rectangle((150, 330, W - 150, 470), fill=(214, 40, 44), outline=(250, 250, 250), width=6)
+    fit_text(d, (W // 2, 402), "DINER", FONT_B, 640, 120, (255, 252, 240))
+    # OPEN 24 HOURS
+    d.rectangle((0, 512, W, 767), fill=(240, 236, 226))
+    d.rectangle((10, 522, W - 11, 757), outline=(214, 40, 44), width=10)
+    fit_text(d, (W // 2, 600), "OPEN 24 HOURS", FONT_B, 900, 110, (214, 40, 44))
+    fit_text(d, (W // 2, 700), "BREAKFAST ALL DAY  ·  BURGERS  ·  SHAKES  ·  PIE", FONT_B, 900, 44, (30, 50, 110))
+    # roof DINER letters (white on red, chrome edge)
+    d.rectangle((0, 768, W, W), fill=(200, 34, 38))
+    d.rectangle((8, 776, W - 9, W - 9), outline=(226, 230, 234), width=8)
+    fit_text(d, (W // 2, 900), "BLUE COMET DINER", FONT_B, 940, 150, (255, 250, 236))
+    rough = Image.new("RGB", (W, W), (90, 90, 90))
+    save("DinerSigns", im, rough)
+
+
+def glass_block():
+    """Glass block wall at the entrance vestibule: 8x8 frosted blocks with mortar lines."""
+    S = 256
+    im = Image.new("RGB", (S, S), (196, 200, 198))
+    d = ImageDraw.Draw(im)
+    c = S // 4
+    for i in range(4):
+        for j in range(4):
+            x, y = i * c, j * c
+            d.rectangle((x + 4, y + 4, x + c - 4, y + c - 4), fill=(178, 210, 222))
+            d.rectangle((x + 12, y + 12, x + c - 12, y + c - 12), fill=(196, 224, 232))
+            d.line((x + 8, y + c // 2, x + c - 8, y + c // 2), fill=(214, 234, 240), width=2)
+    save("GlassBlock", im.filter(ImageFilter.GaussianBlur(1.2)), Image.new("RGB", (S, S), (40, 40, 40)))
+
+
+def diner_door():
+    """Chrome-framed glass double door with push bars (explicit UVs)."""
+    W, H = 512, 768
+    inside = diner_interior().crop((900, 0, 1300, 512)).resize((W, H))
+    im = Image.new("RGB", (W, H), (190, 194, 198))
+    im.paste(inside.crop((40, 60, W - 40, H - 60)), (40, 60))
+    d = ImageDraw.Draw(im)
+    d.rectangle((W // 2 - 8, 0, W // 2 + 8, H), fill=(196, 200, 204))
+    for x in (60, W // 2 + 30):
+        d.rectangle((x, H // 2 - 12, x + W // 2 - 90, H // 2 + 12), fill=(220, 222, 226), outline=(150, 152, 156), width=2)
+    d.rectangle((40, 60, W - 40, H - 60), outline=(150, 154, 158), width=6)
+    save("DinerDoor", im)
+
+
+def diner():
+    diner_steel()
+    paint("DinerBlue", (40, 92, 170), grain="PaintedMetal012", strength=0.25)
+    paint("DinerRed", (196, 34, 40), grain="PaintedMetal012", strength=0.25)
+    real("DinerTile", "Tiles107", 512, tint=(70, 96, 150), gain=1.05)
+    real("KitchenBrick", "Bricks097", 1024, tint=(196, 186, 170), gain=1.1)
+    save("DinerInterior", diner_interior(), Image.new("RGB", (2048, 512), (30, 30, 30)))
+    diner_signs(); glass_block(); diner_door()
+    # lot asphalt: the CC0 scan the Bellmont estates use (already checked for text)
+    est = os.path.join(ROOT, "art", "blender", "estate", "tex")
+    for k in ("Color", "Roughness"):
+        shutil.copyfile(os.path.join(est, f"Asphalt_{k}.png"), os.path.join(OUT, f"LotAsphalt_{k}.png"))
+
+
+STEPS = {"street": street, "brick": brick_building, "diner": diner}
+
+if __name__ == "__main__":
+    fetch()
+    for step in (sys.argv[1:] or list(STEPS)):
+        STEPS[step]()
