@@ -58,6 +58,24 @@ local BIKE_SEAT_LOOKS = {
 	SeatLatch = { Color = Color3.fromRGB(160, 162, 168), Material = Enum.Material.SmoothPlastic, Reflectance = 0.12 },
 }
 
+local BIKE_FAIRING_LOOKS = {
+	FairingNose = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.04 },
+	SidePanel = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.04 },
+	InnerPanel = { Color = Color3.fromRGB(26, 27, 30), Material = Enum.Material.SmoothPlastic },
+	HeadlightHousing = { Color = Color3.fromRGB(34, 35, 39), Material = Enum.Material.SmoothPlastic, Reflectance = 0.2 },
+	HeadlightLens = { Color = Color3.fromRGB(225, 230, 238), Material = Enum.Material.Glass, Transparency = 0.7 },
+	HeadlightDRL = { Color = Color3.fromRGB(235, 242, 255), Material = Enum.Material.Neon },
+	Projector = { Color = Color3.fromRGB(176, 179, 186), Material = Enum.Material.SmoothPlastic, Reflectance = 0.35 },
+	ProjectorLens = { Color = Color3.fromRGB(20, 24, 34), Material = Enum.Material.Glass, Reflectance = 0.2 },
+	IntakeDuct = { Color = Color3.fromRGB(14, 14, 15), Material = Enum.Material.SmoothPlastic },
+	IntakeGrille = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic },
+	Screen = { Color = Color3.fromRGB(70, 74, 84), Material = Enum.Material.Glass, Transparency = 0.45 },
+	BellyPan = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.04 },
+	GillDucts = { Color = Color3.fromRGB(14, 14, 15), Material = Enum.Material.SmoothPlastic },
+	Fasteners = { Color = Color3.fromRGB(44, 45, 48), Material = Enum.Material.SmoothPlastic, Reflectance = 0.1 },
+	MirrorBlanks = { Color = Color3.fromRGB(22, 22, 24), Material = Enum.Material.SmoothPlastic },
+}
+
 -- Blender meters -> studs. Roblox characters are about 5 studs tall, so real sizes x3.6.
 local SCALE = 3.6
 
@@ -80,6 +98,7 @@ local SHOWCASE = {
 	{ Name = "BikeChain", Offset = Vector3.new(-9, 2.6, 14.5), Scale = 1, Looks = BIKE_CHAIN_LOOKS },
 	-- Superbike rider + passenger seats (art/blender/superbike/seats.py), built in studs.
 	{ Name = "BikeSeats", Offset = Vector3.new(-9, 2.6, 18.5), Scale = 1, Looks = BIKE_SEAT_LOOKS },
+	{ Name = "BikeFairings", Offset = Vector3.new(-9, 3.0, 23.5), Scale = 1, Looks = BIKE_FAIRING_LOOKS },
 }
 
 local function findSpawn(): BasePart?
@@ -133,6 +152,7 @@ for _, item in SHOWCASE do
 				d.Color = look.Color
 				d.Material = look.Material
 				d.Reflectance = look.Reflectance or 0
+				d.Transparency = look.Transparency or 0
 			end
 			if textures and textures[d.Name] then
 				d.TextureID = `rbxassetid://{textures[d.Name]}`

@@ -3743,5 +3743,25 @@
   "id": 98430763625062,
   "file": "art/models/BikeSeats/tex/RiderTop_Color.png",
   "state": "Approved"
+ },
+ "ad72a4a0d97df99df2d4375ee875b58422b13ec894730193c18c7a00b6ce0976": {
+  "id": 93776363335875,
+  "file": "art/models/BikeFairings/tex/BellyPan_Color.png",
+  "state": "Approved"
+ },
+ "706722aa71cf36ab5a51ea41c4c1a398734fa10ccb32a8c35a5172d12c813d7a": {
+  "id": 133595450209723,
+  "file": "art/models/BikeFairings/tex/FairingNose_Color.png",
+  "state": "Approved"
+ },
+ "7e6d3faba192eb11c71ac1f5ba8494f1040ef82231a2cbe3c875e3496300aa8c": {
+  "id": 79728644260796,
+  "file": "art/models/BikeFairings/tex/IntakeGrille_Color.png",
+  "state": "Approved"
+ },
+ "ed21efda46dc4016dd507eda9430bbb583733ef33efae27e5b1ab3f83f202028": {
+  "id": 121239802701787,
+  "file": "art/models/BikeFairings/tex/SidePanel_Color.png",
+  "state": "Approved"
  }
 }

@@ -229,6 +229,13 @@ return {
 		PreSilencer = 90998333556805,
 		Silencer = 71705674422805,
 	},
+	BikeFairings = {
+		BellyPan = 93776363335875,
+		FairingNose = 133595450209723,
+		IntakeGrille = 79728644260796,
+		SidePanelL = 121239802701787,
+		SidePanelR = 121239802701787,
+	},
 	BikeSeats = {
 		PillionSides = 71723247189049,
 		PillionTop = 132896753986179,

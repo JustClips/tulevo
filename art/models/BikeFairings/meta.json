@@ -1,0 +1,208 @@
+{
+ "units": "studs (x3.6 baked in, use Scale 1)",
+ "axes": "Blender: +X = bike's LEFT, -Y = front, +Z = up; origin = ground between the axles (bike layout).",
+ "credit": "Shapes fitted to 'BMW S 1000 RR - HSLU Midterm 3DMOD4RT' by noe_auf (Sketchfab, CC-BY-4.0). Graphics are our own.",
+ "parts": {
+  "FairingNose": {
+   "tris": 9276
+  },
+  "SidePanelL": {
+   "tris": 6684
+  },
+  "SidePanelR": {
+   "tris": 6680
+  },
+  "InnerPanelL": {
+   "tris": 1928
+  },
+  "InnerPanelR": {
+   "tris": 1948
+  },
+  "HeadlightHousing": {
+   "tris": 1872
+  },
+  "HeadlightLens": {
+   "tris": 1434
+  },
+  "HeadlightDRL": {
+   "tris": 2280
+  },
+  "Projector": {
+   "tris": 1120
+  },
+  "ProjectorLens": {
+   "tris": 896
+  },
+  "IntakeDuct": {
+   "tris": 1200
+  },
+  "IntakeGrille": {
+   "tris": 148
+  },
+  "Screen": {
+   "tris": 4820
+  },
+  "BellyPan": {
+   "tris": 12284
+  },
+  "GillDucts": {
+   "tris": 1468
+  },
+  "Fasteners": {
+   "tris": 2496
+  },
+  "MirrorBlanks": {
+   "tris": 428
+  }
+ },
+ "looks": {
+  "FairingNose": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.04
+  },
+  "SidePanelL": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.04
+  },
+  "SidePanelR": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.04
+  },
+  "InnerPanelL": {
+   "Color": [
+    26,
+    27,
+    30
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "InnerPanelR": {
+   "Color": [
+    26,
+    27,
+    30
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "HeadlightHousing": {
+   "Color": [
+    34,
+    35,
+    39
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.2
+  },
+  "HeadlightLens": {
+   "Color": [
+    225,
+    230,
+    238
+   ],
+   "Material": "Glass",
+   "Transparency": 0.7
+  },
+  "HeadlightDRL": {
+   "Color": [
+    235,
+    242,
+    255
+   ],
+   "Material": "Neon"
+  },
+  "Projector": {
+   "Color": [
+    176,
+    179,
+    186
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.35
+  },
+  "ProjectorLens": {
+   "Color": [
+    20,
+    24,
+    34
+   ],
+   "Material": "Glass",
+   "Reflectance": 0.2
+  },
+  "IntakeDuct": {
+   "Color": [
+    14,
+    14,
+    15
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "IntakeGrille": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.0
+  },
+  "Screen": {
+   "Color": [
+    70,
+    74,
+    84
+   ],
+   "Material": "Glass",
+   "Transparency": 0.45
+  },
+  "BellyPan": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.04
+  },
+  "GillDucts": {
+   "Color": [
+    14,
+    14,
+    15
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "Fasteners": {
+   "Color": [
+    44,
+    45,
+    48
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.1
+  },
+  "MirrorBlanks": {
+   "Color": [
+    22,
+    22,
+    24
+   ],
+   "Material": "SmoothPlastic"
+  }
+ },
+ "total_tris": 56962
+}

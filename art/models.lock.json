@@ -294,5 +294,9 @@
  "BikeSeats": {
   "id": 138068057732783,
   "sha": "fbba0c9771bb1b4b08479ac785b41638e381241be2dee6ab069062f04830633f"
+ },
+ "BikeFairings": {
+  "id": 133566964196742,
+  "sha": "f31a5775113f8487f6ef56e3cda60bfb063e81a4f295d1141d739229028ab003"
  }
 }

@@ -10,7 +10,7 @@ import bpy
 from mathutils import Vector
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
-NAMES = {"front": "BikeWheelFront", "rear": "BikeWheelRear", "bike": "Superbike", "exhaust": "BikeExhaust", "chain": "BikeChain", "seats": "BikeSeats"}
+NAMES = {"front": "BikeWheelFront", "rear": "BikeWheelRear", "bike": "Superbike", "exhaust": "BikeExhaust", "chain": "BikeChain", "seats": "BikeSeats", "fairings": "BikeFairings"}
 
 
 # camera shots per part: (tag, camera, target, lens). Parts sit in bike coordinates.
@@ -21,6 +21,8 @@ VIEWS = {
               ("rearwrap", (0.30, 0.98, 0.50), (0.085, 0.76, 0.40), 55), ("front", (0.26, -0.10, 0.50), (0.085, 0.07, 0.36), 60)],
     "seats": [("q34", (0.78, -0.42, 1.30), (0.0, 0.28, 0.87), 42), ("side", (1.25, 0.30, 0.98), (0.0, 0.30, 0.89), 42),
               ("close", (0.30, -0.05, 1.03), (0.02, 0.17, 0.835), 50), ("rear", (-0.60, 1.08, 0.78), (0.0, 0.42, 0.88), 40)],
+    "fairings": [("q34", (1.55, -2.05, 1.25), (0.0, -0.42, 0.66), 42), ("side", (2.45, -0.30, 0.78), (0.0, -0.30, 0.66), 40),
+                 ("face", (0.42, -1.75, 0.92), (0.0, -0.70, 0.80), 48), ("rq", (-1.55, -1.55, 0.55), (0.0, -0.38, 0.55), 42)],
 }
 
 
@@ -58,7 +60,7 @@ def main(key):
     sc.view_settings.view_transform = 'AgX'
     sc.view_settings.look = 'AgX - Medium High Contrast'
     # stand the wheel on a floor (tyre touches the ground)
-    r = 0.0 if key in ("bike", "exhaust", "chain", "seats") else max(max(abs(v.co.z) for v in o.data.vertices) for o in sc.objects if o.type == 'MESH')
+    r = 0.0 if key in ("bike", "exhaust", "chain", "seats", "fairings") else max(max(abs(v.co.z) for v in o.data.vertices) for o in sc.objects if o.type == 'MESH')
     bpy.ops.mesh.primitive_plane_add(size=20, location=(0, 0, -r))
     fl = bpy.context.active_object
     m = bpy.data.materials.new("Floor")
