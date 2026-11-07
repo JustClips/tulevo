@@ -9,6 +9,11 @@
 	Getting in: the "Drive" prompt at the driver's door (F, gamepad Y, tap on phones).
 	Getting out: client fires VehicleRemotes.Exit (F / Y / phone Exit button).
 
+	Motorbikes (Def.Kind == "Bike") run Vehicles/BikePhysics. Their rider sits HRP_ABOVE_SEAT
+	studs over the seat point (the rider clips in art/anim/bike.py are posed from there), is
+	massless and in collision group "Rider" (leaning into turns never drags the rider on the road),
+	and gets off on the left at Def.ExitOffset, where the Dismount clip ends.
+
 	While driving, the driver's client owns the car (network owner) and runs Shared.Vehicles
 	.Physics itself, so steering has no lag. Parked cars are simulated here.
 	The model attribute "DriverId" (UserId) says who is driving, for every client.
@@ -21,6 +26,8 @@ local RunService = game:GetService("RunService")
 local Shared = ReplicatedStorage:WaitForChild("Shared")
 local Vehicles = require(Shared:WaitForChild("Vehicles"))
 local Physics = require(Shared:WaitForChild("Vehicles"):WaitForChild("Physics"))
+local BikePhysics = require(Shared:WaitForChild("Vehicles"):WaitForChild("BikePhysics"))
+local PhysicsService = game:GetService("PhysicsService")
 local Builder = require(script.Parent:WaitForChild("Builder"))
 local Config = require(Shared:WaitForChild("Config"))
 local Guard = require(script.Parent.Parent:WaitForChild("Guard"))
@@ -49,8 +56,62 @@ type Car = {
 	lastPos: Vector3?, -- speed check while driven: where it was at the last check
 	goodPos: Vector3?, -- and the last spot that passed
 	strikes: number,
+	rider: { [BasePart]: { Massless: boolean, Group: string } }?, -- bikes: the rider's parts as they were
 }
 local cars: { [Model]: Car } = {}
+
+local HRP_ABOVE_SEAT = 1.0 -- bikes: HumanoidRootPart centre above the seat point (art/anim/bike.py)
+local RIDER_GROUP = "Rider"
+pcall(function()
+	PhysicsService:RegisterCollisionGroup(RIDER_GROUP)
+end)
+
+-- A bike rider touches nothing (their bike's chassis does the colliding).
+local function riderGroup(): string
+	for _, g in PhysicsService:GetRegisteredCollisionGroups() do
+		if PhysicsService:CollisionGroupsAreCollidable(RIDER_GROUP, g.name) then
+			PhysicsService:CollisionGroupSetCollidable(RIDER_GROUP, g.name, false)
+		end
+	end
+	return RIDER_GROUP
+end
+
+local function releaseRider(car: Car)
+	local saved = car.rider
+	car.rider = nil
+	if not saved then
+		return
+	end
+	for p, was in saved do
+		if p.Parent then
+			p.Massless = was.Massless
+			p.CollisionGroup = was.Group
+		end
+	end
+end
+
+-- Bike: put the rider where the clips expect them and take them out of the physics.
+local function seatRider(car: Car, humanoid: Humanoid)
+	local w = (car.seat:FindFirstChild("SeatWeld") or car.seat:WaitForChild("SeatWeld", 1)) :: Weld?
+	if car.seat.Occupant ~= humanoid then
+		return -- got out while waiting
+	end
+	if w then
+		w.C0 = CFrame.new(0, car.seat.Size.Y / 2, 0)
+		w.C1 = CFrame.new(0, -HRP_ABOVE_SEAT, 0)
+	end
+	releaseRider(car)
+	local saved = {}
+	local group = riderGroup()
+	for _, d in (humanoid.Parent :: Model):GetDescendants() do
+		if d:IsA("BasePart") then
+			saved[d] = { Massless = d.Massless, Group = d.CollisionGroup }
+			d.Massless = true
+			d.CollisionGroup = group
+		end
+	end
+	car.rider = saved
+end
 
 local PARKED = { Throttle = 0, Steer = 0, Handbrake = false } -- Physics holds a stopped car still
 
@@ -87,6 +148,13 @@ local function onOccupant(car: Car)
 	end
 	car.allowed = humanoid
 	car.lastPos, car.goodPos, car.strikes = nil, nil, 0
+	if car.def.Kind == "Bike" then
+		if humanoid then
+			task.spawn(seatRider, car, humanoid)
+		else
+			releaseRider(car)
+		end
+	end
 	car.driver = player
 	car.model:SetAttribute("DriverId", player and player.UserId or nil)
 	car.prompt.Enabled = player == nil
@@ -126,6 +194,7 @@ local function enter(car: Car, player: Player)
 end
 
 -- Where the driver stands after getting out: beside their door, else the other side, else on top.
+-- Bikes: Def.ExitOffset (upright, whatever the bike's lean), or mirrored to the right.
 local function exitSpot(car: Car): CFrame
 	local chassis = car.model.PrimaryPart :: BasePart
 	local cf = chassis.CFrame
@@ -134,8 +203,18 @@ local function exitSpot(car: Car): CFrame
 	local flat = Vector3.new(cf.LookVector.X, 0, cf.LookVector.Z)
 	flat = if flat.Magnitude > 0.1 then flat.Unit else Vector3.new(0, 0, -1)
 	local params = Physics.rayParams(car.model)
+	local offset = car.def.ExitOffset
 	for _, side in { car.def.ExitSide, -car.def.ExitSide } do
-		local spot = (cf * CFrame.new(side * (s.X / 2 + 2), 0, car.def.DriverSeat.Z)).Position
+		local spot
+		if offset then
+			local level = CFrame.lookAt(cf.Position, cf.Position + flat)
+			spot = (level * Vector3.new(offset.X * side * car.def.ExitSide, offset.Y, offset.Z))
+			if not workspace:Raycast(seatPos, spot - seatPos, params) then
+				return CFrame.lookAt(spot, spot + flat)
+			end
+			continue
+		end
+		spot = (cf * CFrame.new(side * (s.X / 2 + 2), 0, car.def.DriverSeat.Z)).Position
 		spot = Vector3.new(spot.X, math.max(spot.Y, seatPos.Y) + 1.5, spot.Z)
 		if not workspace:Raycast(seatPos, spot - seatPos, params) then
 			return CFrame.lookAt(spot, spot + flat)
@@ -180,7 +259,7 @@ function VehicleService.spawn(id: string, cframe: CFrame): Model
 	local car: Car = {
 		model = model,
 		def = def,
-		rig = Physics.new(model, def),
+		rig = (if def.Kind == "Bike" then BikePhysics else Physics).new(model, def),
 		seat = model:FindFirstChild("DriverSeat") :: VehicleSeat,
 		prompt = model.PrimaryPart:FindFirstChild("DoorPrompt"):FindFirstChild("Drive") :: ProximityPrompt,
 		driver = nil,
@@ -188,6 +267,7 @@ function VehicleService.spawn(id: string, cframe: CFrame): Model
 		lastPos = nil,
 		goodPos = nil,
 		strikes = 0,
+		rider = nil,
 	}
 	cars[model] = car
 	setOwner(car, nil)
@@ -199,6 +279,7 @@ function VehicleService.spawn(id: string, cframe: CFrame): Model
 		onOccupant(car)
 	end)
 	model.Destroying:Connect(function()
+		releaseRider(car)
 		cars[model] = nil
 	end)
 	return model

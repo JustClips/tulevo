@@ -14,6 +14,8 @@
 		                   moves them up/down, steers and spins them)
 		  Body             visual parts (massless, no collision)
 
+	Motorbikes (Def.Kind == "Bike") are built by Vehicles/BikeBuilder instead.
+
 	Cars with a real model (Def.Model + Def.Rig) instead get, from the uploaded mesh:
 		  Wheels/Wheel_<FL|...>, Wheels/Caliper_<FL|...>   "Mount" welds as above
 		  BodyRoot         invisible part on a Weld "Lean" to Chassis (the client tilts it)
@@ -353,6 +355,9 @@ local function realBody(def, chassis: BasePart, model: Model): boolean
 end
 
 function Builder.build(def): Model
+	if def.Kind == "Bike" then
+		return require(script.Parent:WaitForChild("BikeBuilder")).build(def)
+	end
 	local model = Instance.new("Model")
 	model.Name = def.Name
 	model:SetAttribute("VehicleId", def.Id)

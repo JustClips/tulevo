@@ -3947,16 +3947,16 @@
  "34ee8f072ad5db5db5c215b4f7e4c720286b8838a4d0f07dbc050d70a4badf8a": {
   "id": 98566394167108,
   "file": "art/models/BikeTank/tex/AirboxCover_Color.png",
-  "state": "Reviewing"
+  "state": "Approved"
  },
  "bd0837d849b427d0b96d128a545784c8e36c5bdec1dd272b2b5325604fed69c8": {
   "id": 92350611696148,
   "file": "art/models/BikeTank/tex/KneePad_Color.png",
-  "state": "Reviewing"
+  "state": "Approved"
  },
  "ff6cb5adfb647d637a553c8d8cdf97add928b97e066935c2e6deee3abbf30052": {
   "id": 129781678661120,
   "file": "art/models/BikeTank/tex/TankTop_Color.png",
-  "state": "Reviewing"
+  "state": "Approved"
  }
 }

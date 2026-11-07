@@ -19,6 +19,7 @@ car is just a data file.
 | `src/client/Vehicles/Input.luau` | Driving controls |
 | `src/client/Vehicles/Wheels.luau` | Wheel visuals on every car (suspension travel, steering, spin) |
 | `src/client/Vehicles/Cockpit.luau` | Real models: steering wheel, pedals, body lean, driver's legs |
+| `src/client/Vehicles/Bike.luau` | Motorbikes (see below) |
 | `src/client/Movement/Moves/Seated.luau` | Sitting beats every on-foot move |
 
 Who simulates: the driver's client owns the car while driving (no input lag), the server
@@ -61,6 +62,32 @@ the axles); `Rig.Scale` studs per meter, `Rig.Ground` = chassis-space height of 
 
 Hypercar ("Veloce H9", `art/blender/hypercar`): open-top mid-engine two-seater, about 43k
 triangles over 17 parts (Body 17k, the biggest).
+
+## Motorbikes
+
+A Def with `Kind = "Bike"` (see `Defs/Superbike.luau`, the "Vento RR") is a motorbike. Same
+spawning, prompt ("Ride", on the left), speed checks and controls as the cars, but:
+
+| Where | What |
+|---|---|
+| `src/shared/Vehicles/BikePhysics.luau` | Two ray wheels on the centre line (rear drive, both brake), an AlignOrientation (`Chassis/Upright`) rolls the chassis back to the ground's up so it never falls over. Steering is capped by the lean limit: at speed a turn never needs more sideways grip than Gravity x tan(`Lean.Max`). |
+| `src/shared/Vehicles/BikeRig.luau` | Hinge points in chassis space (steering axis, axles, swingarm pivot, side stand, seat) from `Def.Rig` |
+| `src/server/Vehicles/BikeBuilder.luau` | Builds the bike from the uploaded `BikeRide` model: groups from `Rig.Groups` ride on invisible hinge parts (`SteerRoot`, `ForkRoot`, `FrontHub`, `SwingRoot`, `RearHub`, `StandRoot`); the seat is on `BodyRoot`, so the rider leans with the bike. Paints parts from `ModelLooks` / `TextureIds`. |
+| `src/client/Vehicles/Bike.luau` | Every bike in view: lean into turns (from speed x turn rate), bars + forks turn about the rake axis, forks slide and the swingarm swings with the suspension, wheels spin, a parked bike drops its side stand and rests on it. Your rider: Mount clip, then a weighted blend of Ride / Stop / Tuck / SteerLeft / SteerRight / LeanLeft / LeanRight, Dismount before the Exit remote. |
+
+The rider: `VehicleService` sets the SeatWeld so the HumanoidRootPart is 1 stud over the seat point
+(the clips are posed from there), makes the rider massless and puts them in collision group
+`Rider` (collides with nothing) until they get off. Getting off (F / Y) plays Dismount (the bike
+holds still) and then fires Exit; the server stands you at `Def.ExitOffset`, where the clip ends.
+Above walking pace F gets you off at once.
+
+Rider clips: `python3 art/anim/bike.py` (writes `art/out/anims/Tulevo_Bike*.rbxmx`), then
+`python3 tools/upload_anims.py`. `S` and `STEER_LOCK` there must match the Def's `Rig.Scale` and
+`Steering.MaxAngle`. The blocky rig's arms only reach about 1.5 studs, so the rider sits forward with
+the chest down (a sport-bike crouch), and the legs can't reach the ground, so the feet stay on the pegs.
+
+Model: `art/blender/superbike/assemble.py --lite` (about 159k triangles; the full `Superbike` is
+for the Showcase), uploaded by `tools/upload_models.py`.
 
 ## Ideas for later
 

@@ -12,6 +12,7 @@ return {
 	BikeExhaust = 124854023168206,
 	BikeFairings = 133566964196742,
 	BikeFront = 111796888097980,
+	BikeRide = 89247660128708,
 	BikeSeats = 95677759109304,
 	BikeTail = 95829778210858,
 	BikeTank = 75104495778356,

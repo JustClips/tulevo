@@ -24,7 +24,8 @@ for _, entry in Config.Vehicles.TestCars do
 	local hit = workspace:Raycast(at + Vector3.new(0, 60, 0), Vector3.new(0, -200, 0), params)
 	local groundY = if hit then hit.Position.Y else at.Y
 	-- drop it from just above ride height; the suspension settles it
-	local height = def.Wheels.Radius + def.Suspension.Length * 0.5 - def.Wheels.FL.Y + 0.5
+	local mount = def.Wheels.FL or def.Wheels.F -- cars: front-left wheel, bikes: front wheel
+	local height = def.Wheels.Radius + def.Suspension.Length * 0.5 - mount.Y + 0.5
 	local pos = Vector3.new(at.X, groundY + height, at.Z)
 	VehicleService.spawn(entry.Id, CFrame.new(pos) * CFrame.Angles(0, math.rad(entry.Yaw or 0), 0))
 	print(`[Vehicles] {entry.Id} parked near the spawn`)

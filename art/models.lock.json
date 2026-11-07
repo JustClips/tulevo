@@ -354,5 +354,9 @@
  "Superbike": {
   "id": 78748827130963,
   "sha": "2df1d6f48f8b363be8a37a31c4ca3e54eb91118e82f26627c511906aeb39f062"
+ },
+ "BikeRide": {
+  "id": 89247660128708,
+  "sha": "74a7106567cbeab044b38a8d9ce00df7307d70a88a510b5285536ef0cc7327f1"
  }
 }

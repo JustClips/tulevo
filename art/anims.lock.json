@@ -1,4 +1,40 @@
 {
+ "Tulevo_BikeDismount": {
+  "id": 136535866256374,
+  "sha": "385870a4b765eac51916fbf090d9a8ec30727d45e5b6976358aa6c9d89faf1f5"
+ },
+ "Tulevo_BikeLeanLeft": {
+  "id": 74326331906460,
+  "sha": "6b7c86694f97d2ecadca0819f9480bcfd81898635d40c0d2850a1429fc0ccb45"
+ },
+ "Tulevo_BikeLeanRight": {
+  "id": 113503199150332,
+  "sha": "8a767ba8149d963b2a67425fda11609c51e2a4c3c2b91849f3ff015389fec521"
+ },
+ "Tulevo_BikeMount": {
+  "id": 119630671120293,
+  "sha": "b31da59982dcecd5a54933c8053aff85cbf1c21233424fa38fe6a139145901ec"
+ },
+ "Tulevo_BikeRide": {
+  "id": 130459302589021,
+  "sha": "81e1c2ed324d49cfd0a4a16ad417a7d8db4a329a68a63c4b7e3bf9ec9a17e543"
+ },
+ "Tulevo_BikeSteerLeft": {
+  "id": 90560609166021,
+  "sha": "868fd894d7d8f4a72a5d1999985814e46f299551cea5087de04d565cf37e8698"
+ },
+ "Tulevo_BikeSteerRight": {
+  "id": 132365047447214,
+  "sha": "40f55f0a844ac6546415cd35e8d99f62f0dae92e3b80122e21a2a038ad4412f5"
+ },
+ "Tulevo_BikeStop": {
+  "id": 70910686429441,
+  "sha": "e836d378ebd75d973c4d0a3857bda6105e2f72c5008417c9fb78f4728ae285a1"
+ },
+ "Tulevo_BikeTuck": {
+  "id": 94094053245042,
+  "sha": "6a60428c9977dd47f5dc18a499a776ee3845fd45f2d871454028bbb84679cb3f"
+ },
  "Tulevo_CrouchIdle": {
   "id": 106911361115207,
   "sha": "4ad320fe5657ca8b64643352813dc32d193a848f4229d34c9ade23a54e9a28f1"

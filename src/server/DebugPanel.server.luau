@@ -166,7 +166,8 @@ local function spawnCar(player: Player, id: any): (boolean, string)
 	local at = root.Position + look * 14
 	local ground = groundBelow(at.X, at.Z, { character :: Model })
 	local groundY = if ground then ground.Y else root.Position.Y - 3
-	local height = def.Wheels.Radius + def.Suspension.Length * 0.5 - def.Wheels.FL.Y + 0.5
+	local mount = def.Wheels.FL or def.Wheels.F -- bikes have one front wheel
+	local height = def.Wheels.Radius + def.Suspension.Length * 0.5 - mount.Y + 0.5
 	local pos = Vector3.new(at.X, groundY + height, at.Z)
 	-- side-on to the player, so you walk up to the driver's door
 	local cf = CFrame.lookAt(pos, pos + Vector3.new(-look.Z, 0, look.X))

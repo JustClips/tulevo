@@ -212,6 +212,7 @@ local Config = {
 			-- spawn plaza: between the spawn and the avenue, clear of the kiosk and lamps
 			{ Id = "Sedan", Offset = Vector3.new(9, 0, 16), Yaw = 0 },
 			{ Id = "Hypercar", Offset = Vector3.new(-9, 0, 16), Yaw = 0 },
+			{ Id = "Superbike", Offset = Vector3.new(0, 0, 18), Yaw = 0 }, -- between the two cars
 		},
 	},
 
