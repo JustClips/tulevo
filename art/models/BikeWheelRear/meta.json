@@ -5,9 +5,15 @@
  "spin": [
   "Tyre",
   "Rim",
-  "Valve"
+  "Valve",
+  "Rotor",
+  "Sprocket"
  ],
- "static": [],
+ "static": [
+  "Caliper",
+  "Bracket",
+  "Pad"
+ ],
  "parts": {
   "Tyre": {
    "tris": 19488,
@@ -23,14 +29,14 @@
    ]
   },
   "Rim": {
-   "tris": 16612,
+   "tris": 17764,
    "bbox_min_m": [
     -0.0829,
     -0.2337,
     -0.2337
    ],
    "bbox_max_m": [
-    0.0829,
+    0.0835,
     0.2337,
     0.2337
    ]
@@ -46,6 +52,71 @@
     0.0053,
     -0.0893,
     0.1693
+   ]
+  },
+  "Rotor": {
+   "tris": 8568,
+   "bbox_min_m": [
+    -0.0745,
+    -0.11,
+    -0.11
+   ],
+   "bbox_max_m": [
+    -0.0695,
+    0.11,
+    0.11
+   ]
+  },
+  "Caliper": {
+   "tris": 1996,
+   "bbox_min_m": [
+    -0.0995,
+    -0.1171,
+    -0.1046
+   ],
+   "bbox_max_m": [
+    -0.0445,
+    -0.041,
+    -0.0234
+   ]
+  },
+  "Bracket": {
+   "tris": 5760,
+   "bbox_min_m": [
+    -0.1,
+    -0.1044,
+    -0.0873
+   ],
+   "bbox_max_m": [
+    -0.094,
+    0.0295,
+    0.0295
+   ]
+  },
+  "Pad": {
+   "tris": 408,
+   "bbox_min_m": [
+    -0.078,
+    -0.1013,
+    -0.0889
+   ],
+   "bbox_max_m": [
+    -0.066,
+    -0.0479,
+    -0.0299
+   ]
+  },
+  "Sprocket": {
+   "tris": 10460,
+   "bbox_min_m": [
+    0.082,
+    -0.1188,
+    -0.1187
+   ],
+   "bbox_max_m": [
+    0.0935,
+    0.1185,
+    0.1187
    ]
   }
  },
@@ -75,6 +146,50 @@
    ],
    "Material": "SmoothPlastic",
    "Reflectance": 0.2
+  },
+  "Rotor": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.12
+  },
+  "Caliper": {
+   "Color": [
+    32,
+    74,
+    168
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.05
+  },
+  "Bracket": {
+   "Color": [
+    56,
+    58,
+    62
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.05
+  },
+  "Pad": {
+   "Color": [
+    46,
+    43,
+    40
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "Sprocket": {
+   "Color": [
+    38,
+    38,
+    40
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.06
   }
  },
  "tyre": "190/55 ZR17",
@@ -82,5 +197,5 @@
  "disc": "220 mm",
  "sprocket": "45T 525",
  "radius_m": 0.3204,
- "total_tris": 36460
+ "total_tris": 64804
 }

@@ -72,6 +72,10 @@ def main(key):
     os.makedirs(tmp, exist_ok=True)
     shots = [("side", (1.9, -0.25, 0.05), (0, 0, 0), 50), ("q34", (1.25, -1.35, 0.35), (0, 0, -0.02), 50),
              ("tread", (0.35, -1.25, 0.55), (0, -0.12, 0.05), 55), ("close", (-0.55, -0.42, 0.40), (0.0, -0.10, 0.14), 55)]
+    # brake close-ups: front caliper sits behind the axle (+Y), rear one forward-down on the right (-X)
+    brake = {"front": [("brake", (0.55, 0.55, 0.22), (0.05, 0.13, 0.04), 50), ("brakeR", (-0.55, 0.50, 0.25), (-0.05, 0.12, 0.04), 50)],
+             "rear": [("brake", (-0.55, -0.50, -0.05), (-0.06, -0.08, -0.05), 50), ("sprocket", (0.62, -0.35, 0.20), (0.06, -0.03, 0.0), 50)]}[key]
+    shots = [shots[1], shots[2]] + brake
     paths = []
     for tag, loc, tgt, lens in shots:
         p = os.path.join(tmp, f"{tag}.png")

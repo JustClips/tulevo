@@ -12,6 +12,12 @@ local BIKE_WHEEL_LOOKS = {
 	Tyre = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic },
 	Rim = { Color = Color3.fromRGB(24, 24, 26), Material = Enum.Material.SmoothPlastic, Reflectance = 0.06 },
 	Valve = { Color = Color3.fromRGB(168, 170, 176), Material = Enum.Material.SmoothPlastic, Reflectance = 0.2 },
+	Rotor = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.12 },
+	Carrier = { Color = Color3.fromRGB(62, 64, 68), Material = Enum.Material.SmoothPlastic, Reflectance = 0.08 },
+	Caliper = { Color = Color3.fromRGB(32, 74, 168), Material = Enum.Material.SmoothPlastic, Reflectance = 0.05 },
+	Pad = { Color = Color3.fromRGB(46, 43, 40), Material = Enum.Material.SmoothPlastic },
+	Bracket = { Color = Color3.fromRGB(56, 58, 62), Material = Enum.Material.SmoothPlastic, Reflectance = 0.05 },
+	Sprocket = { Color = Color3.fromRGB(38, 38, 40), Material = Enum.Material.SmoothPlastic, Reflectance = 0.06 },
 }
 
 -- Blender meters -> studs. Roblox characters are about 5 studs tall, so real sizes x3.6.
@@ -77,7 +83,8 @@ for _, item in SHOWCASE do
 	local textures = TextureIds[item.Name]
 	for _, d in model:GetDescendants() do
 		if d:IsA("MeshPart") then
-			local look = item.Looks and item.Looks[d.Name]
+			-- front-wheel parts come in pairs (RotorL / RotorR ...): look them up without the side letter
+			local look = item.Looks and (item.Looks[d.Name] or item.Looks[(string.gsub(d.Name, "[LR]$", ""))])
 			if look then
 				d.Color = look.Color
 				d.Material = look.Material

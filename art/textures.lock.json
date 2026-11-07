@@ -3563,5 +3563,10 @@
   "id": 71484964186058,
   "file": "art/models/Park/tex/ParkWall_Color.png",
   "state": "Approved"
+ },
+ "be2f0a11cac87fdb207f79eab379679a6dd02390eeaa7737b56d0fcb1ee87b71": {
+  "id": 74660046985828,
+  "file": "art/models/BikeWheelFront/tex/Rotor_Color.png",
+  "state": "Approved"
  }
 }

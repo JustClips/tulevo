@@ -1,3 +1,5 @@
 {
- "Tyre": "art/models/BikeWheelFront/tex/Tyre_Color.png"
+ "Tyre": "art/models/BikeWheelFront/tex/Tyre_Color.png",
+ "RotorL": "art/models/BikeWheelFront/tex/Rotor_Color.png",
+ "RotorR": "art/models/BikeWheelFront/tex/Rotor_Color.png"
 }

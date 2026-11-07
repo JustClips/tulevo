@@ -27,7 +27,7 @@ import geo as G  # noqa: E402
 ROOT = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 MODELS = os.path.join(ROOT, "art", "models")
 STUDS = 3.6
-BRAKES = "--brakes" in sys.argv   # Dev wants tyres + rims only for now (2026-11-07)
+BRAKES = "--no-brakes" not in sys.argv   # discs, calipers and pads (Dev asked for brakes 2026-11-07)
 R17 = 0.4318 / 2          # 17 in bead seat radius
 rad = math.radians
 
@@ -145,7 +145,7 @@ def front_disc(side):
     rotor = rotor_ring(f"Rotor{'L' if side > 0 else 'R'}", xc, 0.1155, 0.160, 0.005, holes)
     planar_uv(rotor, 0.165)
     # carrier: 10-arm spider out to the floating buttons
-    n = 600
+    n = 240
     outer, inner = [], []
     for i in range(n):
         a = 2 * math.pi * i / n
@@ -206,6 +206,17 @@ def caliper(name, xc, side, ang, r_in, r_out, span, half_w, pistons, lugs):
     return parts
 
 
+def pads(name, xc, ang, r0, r1, span):
+    """Brake pad pair: steel backing plate + friction block each side of the disc, in the caliper slot."""
+    obs = []
+    for sgn in (1, -1):
+        # friction block 0.0027..0.0047 from the disc centre, backing plate 0.0047..0.0060 (wider)
+        prof = [(0.0027, r0 + 0.002), (0.0047, r0 + 0.002), (0.0047, r0), (0.0060, r0), (0.0060, r1), (0.0047, r1), (0.0047, r1 - 0.002), (0.0027, r1 - 0.002)]
+        prof = [(xc + sgn * dx, r) for dx, r in prof]
+        obs.append(G.lathe("pad", prof, seg=12, closed=True, a0=ang - span, a1=ang + span, uv=False, caps=True))
+    return G.join(obs, name)
+
+
 def front_caliper(side):
     xc = side * 0.068
     ang = rad(18)
@@ -256,7 +267,8 @@ def front_wheel():
     if BRAKES:
         for side in (1, -1):
             rotor, carrier = front_disc(side)
-            obs += [rotor, carrier, front_caliper(side)]
+            obs += [rotor, carrier, front_caliper(side),
+                    pads(f"Pad{'L' if side > 0 else 'R'}", side * 0.068, rad(18), 0.1205, 0.1585, rad(19))]
     return obs, marks
 
 
@@ -264,7 +276,7 @@ def sprocket(xc, teeth=45, pitch=0.015875, roller=0.01016):
     Rp = pitch / (2 * math.sin(math.pi / teeth))
     rr = roller / 2 + 0.0002
     tip = Rp + 0.0062
-    n = teeth * 24
+    n = teeth * 10
     outer, inner = [], []
     for i in range(n):
         a = 2 * math.pi * i / n
@@ -330,8 +342,8 @@ def rear_caliper(xc, side):
     x0, x1 = xc + side * (hw - 0.002), xc + side * (hw + 0.004)
     br = G.plate("bracket", outer, inner, min(x0, x1), max(x0, x1))
     G.bevel(br, 0.001, 2, 40)
-    parts.append(br)
-    return G.join(parts, "Caliper")
+    br.name = br.data.name = "Bracket"
+    return G.join(parts, "Caliper"), br
 
 
 def rear_wheel():
@@ -349,9 +361,10 @@ def rear_wheel():
     tyre, marks = build_tyre("Tyre", 0.190, 0.3204, rim_half)
     xd = -0.072
     rotor = rear_disc(xd)
-    cal = rear_caliper(xd, -1)
+    cal, bracket = rear_caliper(xd, -1)
+    pad = pads("Pad", xd, rad(180 + 38), 0.0835, 0.1085, rad(17))
     spr, Rp = sprocket(0.085)
-    return [tyre, rim, valve(), rotor, cal, spr], marks
+    return [tyre, rim, valve(), rotor, cal, bracket, pad, spr], marks
 
 
 # ------------------------------------------------------------------ textures (procedural, no text anywhere)
@@ -431,6 +444,8 @@ LOOKS = {
     "Rotor": {"tex": "Rotor", "rough": 0.32, "metal": 1.0, "roblox": {"Color": [255, 255, 255], "Material": "SmoothPlastic", "Reflectance": 0.12}},
     "Carrier": {"color": (0.06, 0.062, 0.066), "rough": 0.4, "metal": 1.0, "roblox": {"Color": [62, 64, 68], "Material": "SmoothPlastic", "Reflectance": 0.08}},
     "Caliper": {"color": (0.02, 0.09, 0.42), "rough": 0.3, "metal": 0.6, "roblox": {"Color": [32, 74, 168], "Material": "SmoothPlastic", "Reflectance": 0.05}},
+    "Bracket": {"color": (0.05, 0.052, 0.055), "rough": 0.45, "metal": 1.0, "roblox": {"Color": [56, 58, 62], "Material": "SmoothPlastic", "Reflectance": 0.05}},
+    "Pad": {"color": (0.035, 0.032, 0.03), "rough": 0.85, "metal": 0.0, "roblox": {"Color": [46, 43, 40], "Material": "SmoothPlastic"}},
     "Sprocket": {"color": (0.025, 0.025, 0.027), "rough": 0.42, "metal": 1.0, "roblox": {"Color": [38, 38, 40], "Material": "SmoothPlastic", "Reflectance": 0.06}},
 }
 
@@ -486,7 +501,7 @@ def export(name, obs, marks, extra):
         ob.data.materials.append(material(k, tp))
         if tp:
             texmap[ob.name] = os.path.relpath(tp, ROOT).replace(os.sep, "/")
-        (meta["static"] if k == "Caliper" else meta["spin"]).append(ob.name)
+        (meta["static"] if k in ("Caliper", "Pad", "Bracket") else meta["spin"]).append(ob.name)
         meta["looks"][ob.name] = LOOKS[k]["roblox"]
         mn = [min(v.co[i] for v in ob.data.vertices) for i in range(3)]
         mx = [max(v.co[i] for v in ob.data.vertices) for i in range(3)]

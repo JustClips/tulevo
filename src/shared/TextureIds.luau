@@ -217,9 +217,12 @@ return {
 		TowerSign = 122902209943948,
 	},
 	BikeWheelFront = {
+		RotorL = 74660046985828,
+		RotorR = 74660046985828,
 		Tyre = 73904040711860,
 	},
 	BikeWheelRear = {
+		Rotor = 74660046985828,
 		Tyre = 110579561593305,
 	},
 	BrickBlock = {

@@ -212,7 +212,7 @@ def bevel(ob, width=0.0007, segs=2, angle=40):
     m.limit_method = 'ANGLE'
     m.angle_limit = math.radians(angle)
     m.harden_normals = False
-    m.clamp_overlap = True
+    m.use_clamp_overlap = True
     apply(ob)
 
 

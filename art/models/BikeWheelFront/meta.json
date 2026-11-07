@@ -5,9 +5,18 @@
  "spin": [
   "Tyre",
   "Rim",
-  "Valve"
+  "Valve",
+  "RotorL",
+  "CarrierL",
+  "RotorR",
+  "CarrierR"
  ],
- "static": [],
+ "static": [
+  "CaliperL",
+  "PadL",
+  "CaliperR",
+  "PadR"
+ ],
  "parts": {
   "Tyre": {
    "tris": 19488,
@@ -47,6 +56,110 @@
     -0.0893,
     0.1693
    ]
+  },
+  "RotorL": {
+   "tris": 6480,
+   "bbox_min_m": [
+    0.0655,
+    -0.16,
+    -0.16
+   ],
+   "bbox_max_m": [
+    0.0705,
+    0.16,
+    0.16
+   ]
+  },
+  "CarrierL": {
+   "tris": 9272,
+   "bbox_min_m": [
+    0.0635,
+    -0.1244,
+    -0.1234
+   ],
+   "bbox_max_m": [
+    0.0735,
+    0.1244,
+    0.1234
+   ]
+  },
+  "CaliperL": {
+   "tris": 2812,
+   "bbox_min_m": [
+    0.0335,
+    0.0854,
+    -0.0156
+   ],
+   "bbox_max_m": [
+    0.1025,
+    0.1982,
+    0.1273
+   ]
+  },
+  "PadL": {
+   "tris": 408,
+   "bbox_min_m": [
+    0.062,
+    0.0962,
+    -0.0028
+   ],
+   "bbox_max_m": [
+    0.074,
+    0.1585,
+    0.0954
+   ]
+  },
+  "RotorR": {
+   "tris": 6480,
+   "bbox_min_m": [
+    -0.0705,
+    -0.16,
+    -0.16
+   ],
+   "bbox_max_m": [
+    -0.0655,
+    0.16,
+    0.16
+   ]
+  },
+  "CarrierR": {
+   "tris": 9272,
+   "bbox_min_m": [
+    -0.0735,
+    -0.1244,
+    -0.1234
+   ],
+   "bbox_max_m": [
+    -0.0635,
+    0.1244,
+    0.1234
+   ]
+  },
+  "CaliperR": {
+   "tris": 2812,
+   "bbox_min_m": [
+    -0.1025,
+    0.0854,
+    -0.0156
+   ],
+   "bbox_max_m": [
+    -0.0335,
+    0.1982,
+    0.1273
+   ]
+  },
+  "PadR": {
+   "tris": 408,
+   "bbox_min_m": [
+    -0.074,
+    0.0962,
+    -0.0028
+   ],
+   "bbox_max_m": [
+    -0.062,
+    0.1585,
+    0.0954
+   ]
   }
  },
  "looks": {
@@ -75,11 +188,81 @@
    ],
    "Material": "SmoothPlastic",
    "Reflectance": 0.2
+  },
+  "RotorL": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.12
+  },
+  "CarrierL": {
+   "Color": [
+    62,
+    64,
+    68
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.08
+  },
+  "CaliperL": {
+   "Color": [
+    32,
+    74,
+    168
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.05
+  },
+  "PadL": {
+   "Color": [
+    46,
+    43,
+    40
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "RotorR": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.12
+  },
+  "CarrierR": {
+   "Color": [
+    62,
+    64,
+    68
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.08
+  },
+  "CaliperR": {
+   "Color": [
+    32,
+    74,
+    168
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.05
+  },
+  "PadR": {
+   "Color": [
+    46,
+    43,
+    40
+   ],
+   "Material": "SmoothPlastic"
   }
  },
  "tyre": "120/70 ZR17",
  "rim": "3.50x17",
  "discs": "2x 320 mm floating",
  "radius_m": 0.2999,
- "total_tris": 36588
+ "total_tris": 74532
 }
