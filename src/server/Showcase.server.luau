@@ -20,6 +20,20 @@ local BIKE_WHEEL_LOOKS = {
 	Sprocket = { Color = Color3.fromRGB(38, 38, 40), Material = Enum.Material.SmoothPlastic, Reflectance = 0.06 },
 }
 
+-- Superbike exhaust paint; the pipes, silencer and carbon shield get colour maps from TextureIds.
+local BIKE_EXHAUST_LOOKS = {
+	Headers = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.1 },
+	Collector = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.1 },
+	PreSilencer = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.08 },
+	LinkPipe = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.1 },
+	Silencer = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.12 },
+	HeatShield = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.05 },
+	EndCap = { Color = Color3.fromRGB(30, 30, 33), Material = Enum.Material.SmoothPlastic },
+	Hardware = { Color = Color3.fromRGB(165, 168, 174), Material = Enum.Material.SmoothPlastic, Reflectance = 0.15 },
+	Valve = { Color = Color3.fromRGB(38, 38, 42), Material = Enum.Material.SmoothPlastic },
+	Sensors = { Color = Color3.fromRGB(110, 110, 116), Material = Enum.Material.SmoothPlastic },
+}
+
 -- Blender meters -> studs. Roblox characters are about 5 studs tall, so real sizes x3.6.
 local SCALE = 3.6
 
@@ -36,6 +50,8 @@ local SHOWCASE = {
 	-- Superbike wheels (art/blender/superbike/wheels.py), built in studs.
 	{ Name = "BikeWheelFront", Offset = Vector3.new(-9, 2.6, 2), Scale = 1, Looks = BIKE_WHEEL_LOOKS },
 	{ Name = "BikeWheelRear", Offset = Vector3.new(-9, 2.6, 6), Scale = 1, Looks = BIKE_WHEEL_LOOKS },
+	-- Superbike exhaust (art/blender/superbike/exhaust.py), headers to silencer, built in studs.
+	{ Name = "BikeExhaust", Offset = Vector3.new(-9, 2.8, 10.5), Scale = 1, Looks = BIKE_EXHAUST_LOOKS },
 }
 
 local function findSpawn(): BasePart?
