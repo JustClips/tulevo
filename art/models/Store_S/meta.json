@@ -329,7 +329,7 @@
    ]
   },
   "Dark": {
-   "tris": 788,
+   "tris": 2744,
    "min": [
     -46.26,
     -44.8,
@@ -420,7 +420,7 @@
    ]
   },
   "Pole": {
-   "tris": 592,
+   "tris": 568,
    "min": [
     -43.83,
     -47.59,
@@ -498,10 +498,10 @@
    ]
   },
   "NeonRed": {
-   "tris": 48,
+   "tris": 104,
    "min": [
-    -29.97,
-    -4.46,
+    -36.28,
+    -33.15,
     5.49
    ],
    "max": [
@@ -693,94 +693,94 @@
    ]
   },
   "Gondola1": {
-   "tris": 12,
+   "tris": 336,
    "min": [
     27.0,
-    -34.56,
+    -35.86,
     0.0
    ],
    "max": [
     30.6,
-    -12.96,
-    6.12
+    -11.66,
+    6.41
    ]
   },
-  "ShelfGoodsB": {
+  "PriceStrip": {
+   "tris": 624,
+   "min": [
+    -37.24,
+    -35.9,
+    0.22
+   ],
+   "max": [
+    30.64,
+    -11.62,
+    9.57
+   ]
+  },
+  "Goods": {
+   "tris": 6312,
+   "min": [
+    -38.3,
+    -35.75,
+    0.44
+   ],
+   "max": [
+    30.49,
+    -11.77,
+    10.55
+   ]
+  },
+  "ShelfMetal": {
+   "tris": 120,
+   "min": [
+    2.52,
+    -13.59,
+    6.3
+   ],
+   "max": [
+    30.6,
+    -13.41,
+    9.5
+   ]
+  },
+  "AisleSign": {
    "tris": 12,
    "min": [
-    2.45,
-    -34.56,
-    0.54
-   ],
-   "max": [
-    30.67,
-    -12.96,
-    6.12
-   ]
-  },
-  "ShelfGoodsA": {
-   "tris": 12,
-   "min": [
-    2.45,
-    -34.56,
-    0.54
-   ],
-   "max": [
-    30.67,
-    -12.96,
-    6.12
-   ]
-  },
-  "CandyRack": {
-   "tris": 14,
-   "min": [
-    -38.5,
-    -34.58,
-    0.72
-   ],
-   "max": [
-    30.51,
-    -12.6,
-    12.6
-   ]
-  },
-  "Yellow": {
-   "tris": 648,
-   "min": [
-    -32.83,
-    -40.5,
-    0.0
-   ],
-   "max": [
-    30.42,
     2.59,
-    7.38
+    -13.59,
+    8.42
+   ],
+   "max": [
+    30.53,
+    -13.41,
+    9.43
    ]
   },
   "Gondola2": {
-   "tris": 12,
+   "tris": 336,
    "min": [
     14.76,
-    -34.56,
+    -35.86,
     0.0
    ],
    "max": [
     18.36,
-    -12.96,
-    6.12
+    -11.66,
+    6.41
    ]
   },
   "Gondola3": {
-   "tris": 12,
+   "tris": 336,
    "min": [
     2.52,
-    -34.56,
+    -35.86,
     0.0
    ],
    "max": [
     6.12,
-    -12.96,
-    6.12
+    -11.66,
+    6.41
    ]
   },
   "Counter1": {
@@ -810,10 +810,10 @@
    ]
   },
   "Stone": {
-   "tris": 48,
+   "tris": 60,
    "min": [
     -46.08,
-    -23.22,
+    -38.34,
     0.0
    ],
    "max": [
@@ -825,18 +825,18 @@
   "Register": {
    "tris": 6,
    "min": [
-    -35.57,
-    -22.86,
+    -35.78,
+    -26.5,
     3.96
    ],
    "max": [
     27.16,
     -2.12,
-    11.23
+    11.2
    ]
   },
   "Wood": {
-   "tris": 24,
+   "tris": 84,
    "min": [
     -38.52,
     -40.01,
@@ -846,6 +846,19 @@
     -1.75,
     -12.6,
     5.41
+   ]
+  },
+  "WallShelf": {
+   "tris": 48,
+   "min": [
+    -38.52,
+    -23.22,
+    4.68
+   ],
+   "max": [
+    -37.23,
+    -12.78,
+    11.16
    ]
   },
   "Counter3": {
@@ -861,21 +874,73 @@
     3.42
    ]
   },
-  "Coffee": {
-   "tris": 2,
+  "Steel": {
+   "tris": 268,
    "min": [
-    -35.46,
-    -34.56,
-    3.42
+    -38.45,
+    -37.98,
+    1.98
    ],
    "max": [
-    -35.46,
+    -35.5,
     -30.96,
-    8.82
+    6.44
+   ]
+  },
+  "CoffeeBadge": {
+   "tris": 2,
+   "min": [
+    -36.27,
+    -34.09,
+    5.94
+   ],
+   "max": [
+    -36.27,
+    -31.07,
+    6.41
+   ]
+  },
+  "ClearGlassPot": {
+   "tris": 720,
+   "min": [
+    -37.77,
+    -33.7,
+    3.89
+   ],
+   "max": [
+    -36.75,
+    -31.46,
+    7.24
+   ]
+  },
+  "CoffeeLiquid": {
+   "tris": 360,
+   "min": [
+    -37.75,
+    -33.68,
+    3.91
+   ],
+   "max": [
+    -36.77,
+    -31.48,
+    6.83
+   ]
+  },
+  "Red": {
+   "tris": 100,
+   "min": [
+    -37.74,
+    -37.16,
+    1.71
+   ],
+   "max": [
+    -31.68,
+    -0.9,
+    4.61
    ]
   },
   "Plastic": {
-   "tris": 220,
+   "tris": 1984,
    "min": [
     -38.48,
     -44.46,
@@ -885,6 +950,45 @@
     46.27,
     -1.8,
     11.84
+   ]
+  },
+  "FlowerR": {
+   "tris": 12,
+   "min": [
+    -36.14,
+    -37.94,
+    3.67
+   ],
+   "max": [
+    -36.02,
+    -37.3,
+    3.92
+   ]
+  },
+  "Yellow": {
+   "tris": 656,
+   "min": [
+    -36.31,
+    -40.5,
+    0.0
+   ],
+   "max": [
+    23.83,
+    2.59,
+    4.61
+   ]
+  },
+  "IceBlue": {
+   "tris": 12,
+   "min": [
+    -36.47,
+    -37.94,
+    3.67
+   ],
+   "max": [
+    -36.34,
+    -37.3,
+    3.92
    ]
   },
   "Freezer": {
@@ -1067,19 +1171,6 @@
     -29.34,
     -0.97,
     4.14
-   ]
-  },
-  "Red": {
-   "tris": 24,
-   "min": [
-    -33.84,
-    -2.7,
-    1.71
-   ],
-   "max": [
-    -31.68,
-    -0.9,
-    4.61
    ]
   },
   "Tag": {
@@ -1323,21 +1414,29 @@
   "Light": "Light_Color.png",
   "Cooler2": "MatPole_Color.png",
   "Cooler3": "MatPole_Color.png",
-  "Gondola1": "MatPlastic_Color.png",
-  "ShelfGoodsB": "ShelfGoodsB_Color.png",
-  "ShelfGoodsA": "ShelfGoodsA_Color.png",
-  "CandyRack": "CandyRack_Color.png",
-  "Yellow": "MatYellow_Color.png",
-  "Gondola2": "MatPlastic_Color.png",
-  "Gondola3": "MatPlastic_Color.png",
+  "Gondola1": "ShelfMetal_Color.png",
+  "PriceStrip": "PriceStrip_Color.png",
+  "Goods": "Goods_Color.png",
+  "ShelfMetal": "ShelfMetal_Color.png",
+  "AisleSign": "AisleSign_Color.png",
+  "Gondola2": "ShelfMetal_Color.png",
+  "Gondola3": "ShelfMetal_Color.png",
   "Counter1": "MatCounter_Color.png",
   "Counter2": "MatCounter_Color.png",
   "Stone": "MatStone_Color.png",
   "Register": "Register_Color.png",
   "Wood": "MatWood_Color.png",
+  "WallShelf": "ShelfMetal_Color.png",
   "Counter3": "MatCounter_Color.png",
-  "Coffee": "Coffee_Color.png",
+  "Steel": "Steel_Color.png",
+  "CoffeeBadge": "CoffeeBadge_Color.png",
+  "ClearGlassPot": "Glass_Color.png",
+  "CoffeeLiquid": "CoffeeLiquid_Color.png",
+  "Red": "MatRed_Color.png",
   "Plastic": "MatPlastic_Color.png",
+  "FlowerR": "FlowerR_Color.png",
+  "Yellow": "MatYellow_Color.png",
+  "IceBlue": "IceBlue_Color.png",
   "Freezer": "MatPlastic_Color.png",
   "FreezerTop": "FreezerTop_Color.png",
   "Atm": "MatDark_Color.png",
@@ -1352,7 +1451,6 @@
   "AcGrille": "AcGrille_Color.png",
   "BinBlue": "MatBinBlue_Color.png",
   "NewsFace": "NewsFace_Color.png",
-  "Red": "MatRed_Color.png",
   "Tag": "Tag_Color.png",
   "GlassE": "GlassE_Color.png",
   "Pipe": "Pipe_Color.png",

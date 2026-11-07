@@ -44,7 +44,7 @@ for name, sheet, tile in (("Lawn", "Lawn", (3 * M, 3 * M)), ("Concrete", "Concre
     K.mat(name, sheet=sheet, tile=tile)
 for name in ("BusSign", "Timetable", "BusDisplay", "BusFascia", "BinLabel", "MeterFace", "FridgeDoors", "ShelfGoodsA", "ShelfGoodsB", "CandyRack", "IceFront", "Register", "Coffee", "AtmFace", "FreezerTop",
              "PosterSoda", "PosterSnack", "PosterCoffee", "PosterOpen", "AcGrille", "NewsFace", "BarWindow", "SecurityDoor", "GarageDoor", "StoreFront", "StoreSign", "StoreDoor", "Backboard",
-             "WelcomeSign", "ShelterAd", "RouteMap", "Swing1Sign"):
+             "WelcomeSign", "ShelterAd", "RouteMap", "Swing1Sign", "Goods", "AisleSign", "CoffeeBadge"):
     K.mat(name, sheet=name, explicit=True)
 K.mat("CourtPaint", sheet="CourtPaint", explicit=True)
 K.mat("Tag", sheet="Tag", explicit=True, alpha=True)
@@ -76,6 +76,10 @@ K.mat("DecoPaint", color=(0.90, 0.88, 0.80), rough=0.8)
 K.mat("DecoSkirt", color=(0.22, 0.20, 0.19), rough=0.6)
 K.mat("Counter", color=(0.55, 0.36, 0.23), rough=0.4)
 K.mat("Ledge", color=(0.62, 0.57, 0.50), rough=0.9)
+K.mat("ShelfMetal", color=(0.82, 0.83, 0.84), rough=0.35, metal=0.5)
+K.mat("Steel", color=(0.70, 0.71, 0.72), rough=0.28, metal=0.9)
+K.mat("CoffeeLiquid", color=(0.12, 0.06, 0.03), rough=0.08)
+K.mat("PriceStrip", sheet="PriceStrip", tile=(1.0 * M, 0.065 * M), rough=0.4)
 # realistic surface sheets (tools/hood_textures.py SURF: Mat<Name>) replace the flat colours
 SURF_TILE = {"Foundation": (1.6 * M, 0.8 * M), "Block": (0.8 * M, 0.4 * M), "Flat": (2 * M, 2 * M), "Stone": (1.5 * M, 1.5 * M),
              "Wood": (1.2 * M, 1.2 * M), "Picket": (0.6 * M, 0.6 * M), "Bark": (0.6 * M, 0.6 * M), "Soil": (1 * M, 1 * M),
@@ -443,6 +447,35 @@ def gable(part, x0, x1, y0, y1, z, rh, over=0.45 * M, wall="Walls"):
     K.boxr("Trim", rx0, rx1, cy - 0.1 * M, cy + 0.1 * M, z + rh - 0.02 * M, z + rh + 0.08 * M)   # ridge cap
 
 
+def shed(x0, x1, y0, y1):
+    """Closed wooden garden shed on a concrete pad: plank walls with white corner boards, a gable
+    roof (ridge along X), double braced doors on the front (-Y) and a small side window (+X)."""
+    K.boxr("Concrete", x0 - 0.08 * M, x1 + 0.12 * M, y0 - 0.2 * M, y1 + 0.08 * M, 0, 0.08 * M)
+    K.boxr("Wood", x0, x1, y0, y1, 0.08 * M, 2.0 * M)
+    gable("Roof", x0, x1, y0, y1, 2.0 * M, 0.55 * M, over=0.18 * M, wall="Wood")
+    for cx_ in (x0, x1):                                                          # corner boards
+        for cy_ in (y0, y1):
+            K.boxr("Trim", cx_ - 0.035 * M, cx_ + 0.035 * M, cy_ - 0.035 * M, cy_ + 0.035 * M, 0.08 * M, 2.0 * M)
+    mx = (x0 + x1) / 2
+    for lx0, lx1 in ((mx - 0.6 * M, mx - 0.01 * M), (mx + 0.01 * M, mx + 0.6 * M)):   # braced double doors
+        K.boxr("Wood", lx0, lx1, y0 - 0.04 * M, y0, 0.12 * M, 1.85 * M)
+        for z0_, z1_ in ((0.12 * M, 0.22 * M), (0.94 * M, 1.04 * M), (1.75 * M, 1.85 * M)):
+            K.boxr("Trim", lx0, lx1, y0 - 0.065 * M, y0 - 0.04 * M, z0_, z1_)
+        for sx_ in (lx0, lx1 - 0.1 * M):
+            K.boxr("Trim", sx_, sx_ + 0.1 * M, y0 - 0.065 * M, y0 - 0.04 * M, 0.12 * M, 1.85 * M)
+        for za, zb in ((0.22 * M, 0.94 * M), (1.04 * M, 1.75 * M)):
+            K.cyl_along("Trim", (lx0 + 0.1 * M, y0 - 0.052 * M, za), (lx1 - 0.1 * M, y0 - 0.052 * M, zb), 0.03 * M, segs=4)
+    K.boxr("Iron", mx - 0.12 * M, mx - 0.04 * M, y0 - 0.085 * M, y0 - 0.065 * M, 0.95 * M, 1.03 * M)   # hasp + handles
+    K.boxr("Iron", mx + 0.04 * M, mx + 0.12 * M, y0 - 0.085 * M, y0 - 0.065 * M, 0.95 * M, 1.03 * M)
+    K.boxr("Trim", mx - 0.68 * M, mx + 0.68 * M, y0 - 0.06 * M, y0, 1.85 * M, 1.95 * M)                # door head
+    wy0, wy1 = (y0 + y1) / 2 - 0.35 * M, (y0 + y1) / 2 + 0.35 * M                                    # side window
+    K.boxr("Glass", x1, x1 + 0.012 * M, wy0, wy1, 1.15 * M, 1.6 * M)
+    for a0, a1, b0, b1 in ((wy0 - 0.06 * M, wy1 + 0.06 * M, 1.09 * M, 1.15 * M), (wy0 - 0.06 * M, wy1 + 0.06 * M, 1.6 * M, 1.66 * M),
+                           (wy0 - 0.06 * M, wy0, 1.15 * M, 1.6 * M), (wy1, wy1 + 0.06 * M, 1.15 * M, 1.6 * M),
+                           ((wy0 + wy1) / 2 - 0.015 * M, (wy0 + wy1) / 2 + 0.015 * M, 1.15 * M, 1.6 * M)):
+        K.boxr("Trim", x1, x1 + 0.04 * M, a0, a1, b0, b1)
+
+
 def lathe(part, prof, segs=32, mat=None, c=(0.0, 0.0)):
     """Surface of revolution round the Z axis at c: prof = [(r, z), ...] from the axis to the axis."""
     bm = K.bm(part, mat)
@@ -462,6 +495,108 @@ def lathe(part, prof, segs=32, mat=None, c=(0.0, 0.0)):
                 bm.faces.new([a[i], b[0], a[j]])
             else:
                 bm.faces.new([a[i], b[i], b[j], a[j]])
+
+
+# ---------------------------------------------------------------- 3D shop goods
+# Goods sheet (tools/hood_textures.py goods_atlas): 8 x 4 tiles of 128 px, in GOODS order; each
+# tile's 10 px border is its base colour, which the boxes' sides and tops sample.
+GOODS_KIND = ["cereal"] * 4 + ["box"] * 4 + ["bag"] * 6 + ["candy"] * 4 + ["grocery"] * 8 + ["house"] * 6
+KIND_SIZE = {"cereal": (0.2, 0.3), "box": (0.22, 0.19), "bag": (0.24, 0.3), "candy": (0.12, 0.15),
+             "grocery": (0.15, 0.21), "house": (0.25, 0.28)}           # width, height in metres
+
+
+def _tile_uv(i, inset=0.0):
+    tx, ty = i % 8, i // 8
+    u0, u1 = tx / 8 + inset / 1024, (tx + 1) / 8 - inset / 1024
+    v0, v1 = 1 - (ty + 1) / 4 + inset / 512, 1 - ty / 4 - inset / 512
+    return u0, v0, u1, v1
+
+
+def _uvquad(bm, pts, uvs, out):
+    """One quad with explicit UVs, wound so its normal points along out (explicit materials are
+    not re-oriented by Kit.finish)."""
+    from mathutils import Vector
+    pts = [Vector(p) for p in pts]
+    if (pts[1] - pts[0]).cross(pts[2] - pts[0]).dot(Vector(out)) < 0:
+        pts, uvs = pts[::-1], list(uvs)[::-1]
+    uv = bm.loops.layers.uv.active
+    f = bm.faces.new([bm.verts.new(p) for p in pts])
+    for l, t in zip(f.loops, uvs):
+        l[uv].uv = t
+
+
+def product(i, c, front, w, d, h):
+    """A boxed / bagged product standing on a shelf: c = (x, y, z) middle of its front-bottom edge
+    line... of its footprint, front = unit (fx, fy) toward the aisle. Front shows tile i; sides and
+    top its base colour; back and bottom are never seen and left out."""
+    from mathutils import Vector
+    bm = K.bm("Goods")
+    f = Vector((front[0], front[1], 0))
+    a = Vector((-f.x, -f.y, 0)).cross(Vector((0, 0, 1)))      # the viewer's right
+    base, up = Vector(c), Vector((0, 0, h))
+    FL, FR = base + f * d / 2 - a * w / 2, base + f * d / 2 + a * w / 2
+    BL, BR = base - f * d / 2 - a * w / 2, base - f * d / 2 + a * w / 2
+    u0, v0, u1, v1 = _tile_uv(i)
+    su0, sv0 = u0 + 2 / 1024, v0 + 2 / 512
+    side = [(su0, sv0), (su0 + 5 / 1024, sv0), (su0 + 5 / 1024, sv0 + 5 / 512), (su0, sv0 + 5 / 512)]
+    _uvquad(bm, [FL, FR, FR + up, FL + up], [(u0, v0), (u1, v0), (u1, v1), (u0, v1)], f)
+    _uvquad(bm, [FL + up, FR + up, BR + up, BL + up], side, (0, 0, 1))
+    _uvquad(bm, [BL, FL, FL + up, BL + up], side, -a)
+    _uvquad(bm, [FR, BR, BR + up, FR + up], side, a)
+
+
+def stock(p0, along, length, front, z, kinds, rng, depth=0.34 * M, hmax=0.34 * M):
+    """Fill a shelf with rows of products: p0 = front edge start point (x, y), along = unit direction
+    the shelf runs, front = unit direction to the aisle. Groups of 2-5 facings of one product."""
+    pool = [i for i, k in enumerate(GOODS_KIND) if k in kinds]
+    s = 0.03 * M
+    while True:
+        i = rng.choice(pool)
+        w, h = (v * M for v in KIND_SIZE[GOODS_KIND[i]])
+        h = min(h, hmax)
+        for _ in range(rng.randint(2, 5)):
+            if s + w > length - 0.03 * M:
+                return
+            if rng.random() > 0.05:                                    # now and then one sold out
+                cx = p0[0] + along[0] * (s + w / 2) - front[0] * (depth / 2 + 0.03 * M)
+                cy = p0[1] + along[1] * (s + w / 2) - front[1] * (depth / 2 + 0.03 * M)
+                product(i, (cx, cy, z + 0.003), front, w - 0.012 * M, depth, h * rng.uniform(0.96, 1.0))
+            s += w
+        s += 0.012 * M
+
+
+def shelving(part, x0, x1, y0, y1, levels, top, front, kinds, rng, back=True):
+    """Wall / end-cap shelving facing front ((+-1, 0) or (0, +-1)) inside the box x0..x1, y0..y1:
+    back panel, side uprights, shelves with price strips at each level and goods on them."""
+    fx, fy = front
+    if back:                                                      # back panel against the wall / gondola
+        if fx:
+            bx = x0 if fx > 0 else x1 - 0.03 * M
+            K.boxr(part, bx, bx + 0.03 * M, y0, y1, levels[0], top, mat="ShelfMetal")
+        else:
+            by = y0 if fy > 0 else y1 - 0.03 * M
+            K.boxr(part, x0, x1, by, by + 0.03 * M, levels[0], top, mat="ShelfMetal")
+    for k, z in enumerate(levels):
+        if k:                                                     # shelf board + price strip on its nose
+            K.boxr(part, x0 + 0.01, x1 - 0.01, y0 + 0.01, y1 - 0.01, z - 0.025 * M, z, mat="ShelfMetal")
+        if fx:
+            nx = x1 if fx > 0 else x0
+            K.boxr("PriceStrip", nx - 0.004 * M if fx > 0 else nx - 0.012 * M, nx + 0.012 * M if fx > 0 else nx + 0.004 * M,
+                   y0 + 0.01, y1 - 0.01, z - 0.06 * M, z + 0.008 * M)
+        else:
+            ny = y1 if fy > 0 else y0
+            K.boxr("PriceStrip", x0 + 0.01, x1 - 0.01, ny - 0.004 * M if fy > 0 else ny - 0.012 * M,
+                   ny + 0.012 * M if fy > 0 else ny + 0.004 * M, z - 0.06 * M, z + 0.008 * M)
+        nxt = levels[k + 1] if k + 1 < len(levels) else top
+        hmax = min(0.34 * M, nxt - z - 0.05 * M)
+        if fx:
+            depth = (x1 - x0) - 0.09 * M
+            p0 = ((x1 if fx > 0 else x0), (y0 if fx > 0 else y1))
+            stock(p0, (0, 1 if fx > 0 else -1), y1 - y0, front, z, kinds, rng, depth=depth, hmax=hmax)
+        else:
+            depth = (y1 - y0) - 0.09 * M
+            p0 = ((x1 if fy < 0 else x0), (y1 if fy > 0 else y0))
+            stock(p0, (-1 if fy < 0 else 1, 0), x1 - x0, front, z, kinds, rng, depth=depth, hmax=hmax)
 
 
 def sheet_rev(part, cx, cy, r0, z0, r1, z1, segs=32, urep=6, vrep=1.0, both=True):
@@ -617,8 +752,7 @@ def house_a():
     meter("x", X1, 1, 1.0 * M, 1.3 * M)
     K.downpipe(X1 + 0.1 * M, Y0 + 0.1 * M, 0, TOP)
     tree(1.5 * M, -9.0 * M, h=7.0 * M)
-    K.boxr("Wood", -7.6 * M, -6.8 * M, 9.5 * M, 12.6 * M, 0, 2.0 * M)                 # back yard tool shed
-    gable("Roof", -7.6 * M, -6.8 * M, 9.5 * M, 12.6 * M, 2.0 * M, 0.5 * M, over=0.15 * M, wall="Wood")
+    shed(-7.55 * M, -5.05 * M, 10.4 * M, 12.6 * M)                                      # back yard tool shed
     # back yard: plastic chairs, bbq, clothesline
     for cx in (-0.8 * M, 0.8 * M):
         K.box("Plastic", (cx, Y1 + 1.8 * M, 0.4 * M), (0.5 * M, 0.5 * M, 0.06 * M))
@@ -967,6 +1101,93 @@ def side_yard():
     return [("01_front", (8 * M, -26 * M, 5 * M), (0, -2 * M, 3 * M), 26), ("02_aerial", (14 * M, -20 * M, 18 * M), (0, 0, 0), 28)]
 
 
+def coffee_station(W, ya, yb):
+    """Self-serve coffee bar against the wall at x = W (facing -X), y ya..yb: cabinet with doors and
+    a stone top, a twin-pot brewer (stainless body, brew funnels, warmer plates, glass carafes with
+    coffee in them, a spare pot on the top warmer), two pump pots, paper cup and lid stacks, a
+    sugar caddy with stir sticks and a napkin dispenser."""
+    K.boxr("Counter3", W - 0.8 * M, W, ya, yb, 0, 0.95 * M, mat="Counter")
+    K.boxr("Stone", W - 0.85 * M, W, ya - 0.05 * M, yb + 0.05 * M, 0.95 * M, 0.99 * M)            # counter top
+    for dy in (ya + 0.04 * M, (ya + yb) / 2, yb - 0.04 * M):                                       # door seams + handles
+        K.boxr("Dark", W - 0.812 * M, W - 0.8 * M, dy - 0.008 * M, dy + 0.008 * M, 0.06 * M, 0.9 * M)
+    for hy in ((ya + yb) / 2 - 0.12 * M, (ya + yb) / 2 + 0.12 * M):
+        K.boxr("Steel", W - 0.84 * M, W - 0.812 * M, hy - 0.015 * M, hy + 0.015 * M, 0.55 * M, 0.8 * M)
+    K.boxr("Dark", W - 0.79 * M, W, ya + 0.02 * M, yb - 0.02 * M, 0, 0.06 * M)                    # toe kick
+    S = 0.99 * M
+    cy = ya + 1.45 * M
+    by0, by1 = cy - 0.45 * M, cy + 0.45 * M
+    # brewer
+    for fx in (W - 0.55 * M, W - 0.08 * M):
+        for fy in (by0 + 0.05 * M, by1 - 0.05 * M):
+            K.cyl("Dark", (fx, fy, S + 0.01 * M), 0.03 * M, 0.02 * M, segs=8)                     # feet
+    K.boxr("Steel", W - 0.6 * M, W - 0.02 * M, by0, by1, S + 0.02 * M, S + 0.08 * M)               # base with warmers
+    K.boxr("Steel", W - 0.32 * M, W - 0.02 * M, by0, by1, S + 0.08 * M, S + 0.56 * M)              # back tower
+    K.boxr("Steel", W - 0.62 * M, W - 0.02 * M, by0, by1, S + 0.56 * M, S + 0.8 * M)               # canopy
+    K.boxr("Dark", W - 0.63 * M, W - 0.01 * M, by0 - 0.01 * M, by1 + 0.01 * M, S + 0.8 * M, S + 0.82 * M)   # top cap
+    K.face_x("CoffeeBadge", W - 0.624 * M, cy, S + 0.66 * M, 0.84 * M, 0.13 * M, facing=-1)
+    for k, bz in enumerate((by0 + 0.12 * M, by0 + 0.2 * M, by1 - 0.2 * M, by1 - 0.12 * M)):       # buttons + lamps
+        K.cyl("Dark", (W - 0.628 * M, bz, S + 0.6 * M), 0.016 * M, 0.012 * M, segs=10, axis='X')
+    for lz in (by0 + 0.3 * M, by1 - 0.3 * M):
+        K.cyl("NeonRed", (W - 0.626 * M, lz, S + 0.6 * M), 0.008 * M, 0.008 * M, segs=8, axis='X')
+    for fy in (cy - 0.22 * M, cy + 0.22 * M):
+        fxc = W - 0.4 * M
+        lathe("Dark", [(0, S + 0.43 * M), (0.05 * M, S + 0.43 * M), (0.12 * M, S + 0.52 * M), (0.13 * M, S + 0.555 * M), (0, S + 0.555 * M)],
+              segs=20, c=(fxc, fy))                                                                 # brew funnel
+        K.boxr("Dark", W - 0.66 * M, W - 0.52 * M, fy - 0.018 * M, fy + 0.018 * M, S + 0.5 * M, S + 0.54 * M)   # funnel handle
+        K.cyl("Dark", (fxc, fy, S + 0.085 * M), 0.1 * M, 0.012 * M, segs=20)                       # warmer plate
+        carafe(fxc, fy, S + 0.091 * M, 0.75 if fy < cy else 0.4)
+    K.cyl("Dark", (W - 0.3 * M, cy, S + 0.826 * M), 0.1 * M, 0.012 * M, segs=20)                  # top warmer
+    carafe(W - 0.3 * M, cy, S + 0.832 * M, 0.55)
+    # pump pots
+    for k, py in enumerate((yb - 0.62 * M, yb - 0.36 * M)):
+        px = W - 0.3 * M
+        K.cyl("Steel", (px, py, S + 0.17 * M), 0.08 * M, 0.34 * M, segs=20)
+        K.cyl("Red" if k else "Dark", (px, py, S + 0.2 * M), 0.082 * M, 0.05 * M, segs=20)         # decaf / regular band
+        lathe("Dark", [(0, S + 0.34 * M), (0.08 * M, S + 0.34 * M), (0.07 * M, S + 0.4 * M), (0.03 * M, S + 0.42 * M), (0, S + 0.43 * M)],
+              segs=16, c=(px, py))
+        K.cyl_along("Dark", (px - 0.03 * M, py, S + 0.38 * M), (px - 0.13 * M, py, S + 0.37 * M), 0.012 * M, segs=6)  # spout
+        K.boxr("Dark", px - 0.05 * M, px + 0.05 * M, py - 0.03 * M, py + 0.03 * M, S + 0.43 * M, S + 0.45 * M)        # pump lever
+    # paper cups (ridged stacks), lid stacks
+    for k, (cyy, hh, rr) in enumerate(((ya + 0.25 * M, 0.34, 0.045), (ya + 0.42 * M, 0.28, 0.052), (ya + 0.6 * M, 0.22, 0.04))):
+        prof = [(0, S)]
+        n = int(hh / 0.03)
+        for j in range(n + 1):
+            z = S + j * 0.03 * M
+            prof += [(rr * M * 0.82, z), (rr * M, z + 0.004 * M)] if j < n else [(rr * M, z)]
+        prof += [(0, S + n * 0.03 * M)]
+        lathe("Plastic", prof[::-1], segs=16, c=(W - 0.55 * M, cyy))
+    for k, cyy in enumerate((ya + 0.25 * M, ya + 0.45 * M)):
+        K.cyl("Dark", (W - 0.3 * M, cyy, S + 0.08 * M), 0.055 * M, 0.16 * M, segs=16)
+    # sugar caddy with packets + stir sticks, napkin dispenser
+    K.boxr("Dark", W - 0.75 * M, W - 0.55 * M, yb - 0.25 * M, yb - 0.05 * M, S, S + 0.07 * M)
+    for k, mat in enumerate(("Plastic", "FlowerR", "Yellow", "IceBlue")):
+        K.boxr(mat, W - 0.74 * M + k * 0.045 * M, W - 0.705 * M + k * 0.045 * M, yb - 0.24 * M, yb - 0.06 * M, S + 0.03 * M, S + 0.1 * M)
+    K.cyl("Steel", (W - 0.65 * M, yb - 0.38 * M, S + 0.06 * M), 0.035 * M, 0.12 * M, segs=12)
+    for k in range(5):
+        a = k / 5 * math.tau
+        K.cyl_along("Wood", (W - 0.65 * M + math.cos(a) * 0.012 * M, yb - 0.38 * M + math.sin(a) * 0.012 * M, S + 0.05 * M),
+                    (W - 0.65 * M + math.cos(a) * 0.02 * M, yb - 0.38 * M + math.sin(a) * 0.02 * M, S + 0.2 * M), 0.004 * M, segs=4)
+    K.boxr("Steel", W - 0.22 * M, W - 0.02 * M, yb - 0.25 * M, yb - 0.05 * M, S, S + 0.2 * M)
+    K.boxr("Plastic", W - 0.225 * M, W - 0.2 * M, yb - 0.21 * M, yb - 0.09 * M, S + 0.05 * M, S + 0.17 * M)
+
+
+def carafe(x, y, z, fill):
+    """Glass coffee pot (ClearGlass* = see-through in game) with coffee to fill (0..1), black
+    collar, lid and handle."""
+    m = M
+    lathe("ClearGlassPot", [(0, z), (0.075 * m, z), (0.088 * m, z + 0.025 * m), (0.092 * m, z + 0.08 * m), (0.084 * m, z + 0.13 * m),
+                            (0.058 * m, z + 0.17 * m), (0.054 * m, z + 0.19 * m), (0, z + 0.19 * m)], segs=20, mat="Glass", c=(x, y))
+    top = z + (0.02 + 0.1 * fill) * m
+    lathe("CoffeeLiquid", [(0, z + 0.006 * m), (0.07 * m, z + 0.006 * m), (0.082 * m, z + 0.025 * m), (0.085 * m, top), (0, top)],
+          segs=20, c=(x, y))
+    K.cyl("Dark", (x, y, z + 0.2 * m), 0.06 * m, 0.04 * m, segs=20)                       # collar
+    K.cyl("Dark", (x, y, z + 0.225 * m), 0.045 * m, 0.012 * m, segs=16)                   # lid knob
+    for a, b in (((x - 0.06 * m, y, z + 0.2 * m), (x - 0.13 * m, y, z + 0.19 * m)),
+                 ((x - 0.13 * m, y, z + 0.19 * m), (x - 0.13 * m, y, z + 0.08 * m)),
+                 ((x - 0.13 * m, y, z + 0.08 * m), (x - 0.09 * m, y, z + 0.06 * m))):
+        K.cyl_along("Dark", a, b, 0.012 * m, segs=6)
+
+
 # ---------------------------------------------------------------- Store
 def store():
     """Walk-in corner market. Every wall piece, shelf and counter is its own part (own convex
@@ -1091,18 +1312,39 @@ def store():
         K.boxr(f"Cooler{i + 1}", cx - 1.55 * M, cx + 1.55 * M, Y1 - T - 0.9 * M, Y1 - T, 0, 2.5 * M, mat="Pole")
         K.face_y("FridgeDoors", cx, Y1 - T - 0.92 * M, 0.15 * M, 3.0 * M, 2.2 * M)
         K.box("Light", (cx, Y1 - T - 0.93 * M, 2.42 * M), (3.0 * M, 0.04 * M, 0.08 * M))
-    # three gondola aisles (front-back), goods on both long sides, end caps
+    # three gondola aisles (front-back): real shelving, both long sides and both end caps stocked with
+    # modelled products (Goods), an aisle sign on a post at the front end
+    shop = random.Random(23)
+    LEVELS = (0.12 * M, 0.5 * M, 0.88 * M, 1.26 * M)
+    AISLE_GOODS = (("bag", "box"), ("cereal", "grocery"), ("candy", "box", "house"))
     for g, gx in enumerate((-8.0 * M, -4.6 * M, -1.2 * M)):
         y0, y1, gh = 3.6 * M, 9.6 * M, 1.7 * M
-        K.boxr(f"Gondola{g + 1}", gx - 0.5 * M, gx + 0.5 * M, y0, y1, 0, gh, mat="Plastic")
-        K.boxr("Pole", gx - 0.55 * M, gx + 0.55 * M, y0 - 0.05, y1 + 0.05, 0, 0.15 * M)
+        part = f"Gondola{g + 1}"
+        K.boxr(part, gx - 0.5 * M, gx + 0.5 * M, y0, y1, 0, LEVELS[0], mat="ShelfMetal")          # base deck + kick
+        K.boxr("Dark", gx - 0.505 * M, gx + 0.505 * M, y0 + 0.02 * M, y1 - 0.02 * M, 0, 0.08 * M)  # black kick plate
+        K.boxr(part, gx - 0.03 * M, gx + 0.03 * M, y0, y1, LEVELS[0], gh + 0.05 * M, mat="ShelfMetal")  # pegboard spine
+        for k in range(6):                                                                       # uprights
+            uy = y0 + k * (y1 - y0) / 5
+            K.boxr(part, gx - 0.045 * M, gx + 0.045 * M, uy - 0.025 * M, uy + 0.025 * M, LEVELS[0], gh + 0.08 * M, mat="ShelfMetal")
         for side in (-1, 1):
-            for k in range(2):
-                K.face_x("ShelfGoodsA" if (g + k + (side > 0)) % 2 else "ShelfGoodsB", gx + side * 0.52 * M,
-                         y0 + (k + 0.5) * 3.0 * M, 0.15 * M, 3.0 * M, 1.55 * M, facing=side)
-        for (ey, fc) in ((y0, -1), (y1, 1)):                              # end caps with candy
-            K.face_y("CandyRack", gx, ey + fc * 0.02, 0.2 * M, 0.95 * M, 1.4 * M, facing=fc)
-        K.box("Yellow", (gx, y0 - 0.03, gh + 0.2 * M), (0.9 * M, 0.04 * M, 0.3 * M))       # aisle sign
+            xa, xb = (gx + 0.03 * M, gx + 0.5 * M) if side > 0 else (gx - 0.5 * M, gx - 0.03 * M)
+            shelving(part, xa, xb, y0 + 0.03 * M, y1 - 0.03 * M, LEVELS, gh, (side, 0), AISLE_GOODS[g], shop, back=False)
+        for (ey, fc) in ((y0, -1), (y1, 1)):                                                     # end caps
+            ya, yb = (ey - 0.36 * M, ey) if fc < 0 else (ey, ey + 0.36 * M)
+            K.boxr(part, gx - 0.5 * M, gx + 0.5 * M, ya, yb, 0, LEVELS[0], mat="ShelfMetal")
+            K.boxr("Dark", gx - 0.48 * M, gx + 0.48 * M, ya - 0.005 * M if fc < 0 else ya, yb if fc < 0 else yb + 0.005 * M,
+                   0, 0.08 * M)
+            for sx in (-1, 1):                                                                   # end-cap side panels
+                K.boxr(part, gx + sx * 0.5 * M - (0.03 * M if sx > 0 else 0), gx + sx * 0.5 * M + (0 if sx > 0 else 0.03 * M),
+                       ya, yb, LEVELS[0], gh, mat="ShelfMetal")
+            shelving(part, gx - 0.47 * M, gx + 0.47 * M, ya, yb, LEVELS, gh, (0, fc), ("candy", "bag"), shop)
+        # aisle sign: post rising from the spine at the front end, two-sided printed board
+        sy = y0 + 0.15 * M
+        K.cyl("ShelfMetal", (gx, sy, gh + 0.4 * M), 0.025 * M, 0.7 * M, segs=8)
+        K.boxr("ShelfMetal", gx - 0.5 * M, gx + 0.5 * M, sy - 0.02 * M, sy + 0.02 * M, gh + 0.62 * M, gh + 0.94 * M)
+        row = ((0, 1 - (g + 1) / 3), (1, 1 - (g + 1) / 3), (1, 1 - g / 3), (0, 1 - g / 3))
+        K.face_y("AisleSign", gx, sy - 0.024 * M, gh + 0.64 * M, 0.96 * M, 0.28 * M, facing=-1, uvs=row)
+        K.face_y("AisleSign", gx, sy + 0.024 * M, gh + 0.64 * M, 0.96 * M, 0.28 * M, facing=1, uvs=row)
     # counter (L shape) with register, candy rack behind, cig-free back wall shelves with snacks
     K.boxr("Counter1", 6.4 * M, 10.0 * M, 3.4 * M, 4.2 * M, 0, 1.05 * M, mat="Counter")
     K.boxr("Counter2", 6.4 * M, 7.2 * M, 4.2 * M, 6.4 * M, 0, 1.05 * M, mat="Counter")
@@ -1111,16 +1353,15 @@ def store():
     K.box("Dark", (8.6 * M, 3.8 * M, 1.25 * M), (0.6 * M, 0.45 * M, 0.3 * M))                    # register
     K.face_y("Register", 8.6 * M, 3.8 * M - 0.23 * M - 0.01, 1.1 * M, 0.45 * M, 0.45 * M, facing=-1)
     K.box("Dark", (7.9 * M, 3.8 * M, 1.2 * M), (0.35 * M, 0.3 * M, 0.2 * M))                     # card reader
-    K.face_x("CandyRack", X1 - T - 0.02, 5.0 * M, 1.1 * M, 3.0 * M, 2.4 * M, facing=-1)
     K.boxr("Wood", 9.6 * M, X1 - T, 3.5 * M, 6.5 * M, 0, 1.0 * M)
-    K.box("Dark", (10.2 * M, 6.0 * M, 2.9 * M), (0.6 * M, 0.9 * M, 0.55 * M))                    # CCTV monitor
-    K.face_x("Register", 9.88 * M, 6.0 * M, 2.7 * M, 0.7 * M, 0.42 * M, facing=-1)
+    # wall shelving behind the counter: candy, snacks, household
+    shelving("WallShelf", X1 - T - 0.36 * M, X1 - T, 3.55 * M, 6.45 * M, (1.3 * M, 1.75 * M, 2.2 * M, 2.65 * M), 3.1 * M,
+             (-1, 0), ("candy", "grocery", "house"), shop)
+    K.boxr("Dark", 9.95 * M, 10.5 * M, 6.6 * M, 7.4 * M, 2.65 * M, 3.15 * M)                    # CCTV monitor on a bracket
+    K.face_x("Register", 9.94 * M, 7.0 * M, 2.69 * M, 0.72 * M, 0.42 * M, facing=-1)
+    K.boxr("Pole", 10.5 * M, X1 - T, 6.95 * M, 7.05 * M, 2.85 * M, 2.95 * M)
     # coffee station + freezer chest + ATM + trash + mop bucket + wet floor sign
-    K.boxr("Counter3", X1 - T - 0.8 * M, X1 - T, 7.6 * M, 10.6 * M, 0, 0.95 * M, mat="Counter")
-    K.face_x("Coffee", X1 - T - 0.85 * M, 9.1 * M, 0.95 * M, 1.0 * M, 1.5 * M, facing=-1)
-    K.box("Dark", (X1 - T - 0.4 * M, 9.1 * M, 1.7 * M), (0.8 * M, 1.0 * M, 1.5 * M))
-    for i in range(3):
-        K.cyl("Plastic", (X1 - T - 0.4 * M, 8.0 * M + i * 0.12 * M, 1.1 * M), 0.05 * M, 0.3 * M, segs=8)
+    coffee_station(X1 - T, 7.6 * M, 10.6 * M)
     K.boxr("Freezer", 2.0 * M, 4.6 * M, 8.0 * M, 9.0 * M, 0, 0.85 * M, mat="Plastic")
     K.quad("FreezerTop", [(2.05 * M, 8.05 * M, 0.86 * M), (4.55 * M, 8.05 * M, 0.86 * M), (4.55 * M, 8.95 * M, 0.86 * M), (2.05 * M, 8.95 * M, 0.86 * M)])
     K.boxr("Atm", 2.3 * M, 3.2 * M, YI, YI + 0.7 * M, 0, 1.8 * M, mat="Dark")
@@ -1128,8 +1369,16 @@ def store():
     K.cyl("BinGrey", (6.0 * M, YI + 0.4 * M, 0.45 * M), 0.3 * M, 0.9 * M, segs=12)
     K.cyl("Yellow", (0.5 * M, 11.0 * M, 0.2 * M), 0.25 * M, 0.4 * M, segs=10)                 # mop bucket
     K.cyl_along("Wood", (0.5 * M, 11.0 * M, 0.3 * M), (0.6 * M, 11.1 * M, 1.5 * M), 0.02 * M, segs=4)
-    for s_ in (-1, 1):                                                                            # wet floor sign
-        K.box("Yellow", (2.2 * M, 6.8 * M + s_ * 0.12 * M, 0.35 * M), (0.35 * M, 0.03 * M, 0.7 * M))
+    for s_ in (-1, 1):                                                                            # wet floor sign (A-frame)
+        K.cyl_along("Yellow", (2.2 * M - 0.17 * M, 6.8 * M + s_ * 0.2 * M, 0.02 * M), (2.2 * M - 0.17 * M, 6.8 * M + s_ * 0.02 * M, 0.7 * M), 0.02 * M, segs=4)
+        K.cyl_along("Yellow", (2.2 * M + 0.17 * M, 6.8 * M + s_ * 0.2 * M, 0.02 * M), (2.2 * M + 0.17 * M, 6.8 * M + s_ * 0.02 * M, 0.7 * M), 0.02 * M, segs=4)
+        bm = K.bm("Yellow")
+        _uvquad(bm, [(2.2 * M - 0.16 * M, 6.8 * M + s_ * 0.19 * M, 0.04 * M), (2.2 * M + 0.16 * M, 6.8 * M + s_ * 0.19 * M, 0.04 * M),
+                     (2.2 * M + 0.16 * M, 6.8 * M + s_ * 0.03 * M, 0.68 * M), (2.2 * M - 0.16 * M, 6.8 * M + s_ * 0.03 * M, 0.68 * M)],
+                [(0, 0), (1, 0), (1, 1), (0, 1)], (0, s_, 0.25))
+        _uvquad(bm, [(2.2 * M - 0.16 * M, 6.8 * M + s_ * 0.185 * M, 0.04 * M), (2.2 * M + 0.16 * M, 6.8 * M + s_ * 0.185 * M, 0.04 * M),
+                     (2.2 * M + 0.16 * M, 6.8 * M + s_ * 0.025 * M, 0.68 * M), (2.2 * M - 0.16 * M, 6.8 * M + s_ * 0.025 * M, 0.68 * M)],
+                [(0, 0), (1, 0), (1, 1), (0, 1)], (0, -s_, -0.25))
     # back room door, ceiling lights, a dome camera and a mirror
     K.face_y("SecurityDoor", 6 * M, Y1 - T - 0.02, 0, 1.0 * M, 2.1 * M, facing=-1)
     K.face_y("SecurityDoor", 6 * M, Y1 + 0.04, 0, 1.05 * M, 2.2 * M, facing=1)
@@ -1464,6 +1713,8 @@ if VARIANTS:
         for fn in opts.values():
             shutil.copyfile(os.path.join(TEX, fn), os.path.join(K.tex, fn))
     json.dump(meta, open(os.path.join(A["out"], "meta.json"), "w"), indent=1)
+if os.environ.get("HOOD_SHOTS"):           # close-up check shots: [[name, eye, target, lens], ...] in metres
+    shots = [(n, tuple(v * M for v in e), tuple(v * M for v in t), ln) for n, e, t, ln in json.loads(os.environ["HOOD_SHOTS"])]
 if A["render"] and A["face"] == "N":
     K.render_setup(A["samples"], A["res"])
     for name, loc, target, lens in shots:

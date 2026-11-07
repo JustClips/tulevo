@@ -98,6 +98,27 @@ local function hasParts(model: Model): boolean
 	return model:FindFirstChildWhichIsA("BasePart", true) ~= nil
 end
 
+-- Centre of the box round every part's own box, the same box tools/build_city_map.py takes from
+-- the GLB. (Model:GetBoundingBox comes out smaller than the meshes for thin parts such as palm
+-- fronds, so lots with palms sat about a stud off and their back walls didn't line up.)
+local function partsCenter(model: Model): Vector3
+	local lo, hi = Vector3.one * math.huge, -Vector3.one * math.huge
+	for _, d in model:GetDescendants() do
+		if d:IsA("BasePart") then
+			local cf, s = d.CFrame, d.Size / 2
+			local x, y, z = cf.XVector, cf.YVector, cf.ZVector
+			local e = Vector3.new(
+				math.abs(x.X) * s.X + math.abs(y.X) * s.Y + math.abs(z.X) * s.Z,
+				math.abs(x.Y) * s.X + math.abs(y.Y) * s.Y + math.abs(z.Y) * s.Z,
+				math.abs(x.Z) * s.X + math.abs(y.Z) * s.Y + math.abs(z.Z) * s.Z
+			)
+			lo = lo:Min(cf.Position - e)
+			hi = hi:Max(cf.Position + e)
+		end
+	end
+	return if lo.X < math.huge then (lo + hi) / 2 else model:GetPivot().Position
+end
+
 local function load(model: Model)
 	local id = tonumber(model:GetAttribute("LiveSyncAsset"))
 	if not id then
@@ -122,8 +143,7 @@ local function load(model: Model)
 	container:Destroy()
 	local center = model:GetAttribute("LiveSyncBoxCenter")
 	if typeof(center) == "Vector3" then
-		local box = model:GetBoundingBox()
-		model:PivotTo(CFrame.new(center) * box:ToObjectSpace(model:GetPivot()))
+		model:PivotTo(model:GetPivot() + (center - partsCenter(model)))
 	end
 end
 
@@ -346,6 +366,14 @@ local function style(model: Model)
 				-- (Client/CityDoors) keep their own
 				d.CanCollide = false
 				d.CanTouch = false
+			end
+			if d.Name:match("^Spot%u") then
+				-- marker (gun shop: SpotBuy / SpotClerk / SpotCam, read by Server/GunShop): invisible
+				d.Transparency = 1
+				d.CanCollide = false
+				d.CanQuery = false
+				d.CanTouch = false
+				d.CastShadow = false
 			end
 			if d.Name:match("^Fx") then
 				-- fountain water (Client/FountainFx animates it): walk through, no shadows

@@ -310,6 +310,155 @@ def door_decal():
     save("Swing1Sign", grime(im, 0.08, 23, streaks=False), 120)
 
 
+# made-up product brands for the 3D shelf goods (no real brands, no alcohol / tobacco / lotto)
+# name, base colour, text colour, accent, kind  (kind picks the front art)
+GOODS = [
+    ("SUNNY OATS", (236, 178, 40), (120, 40, 20), (250, 245, 230), "cereal"),
+    ("HONEY CRISP", (210, 120, 30), (255, 244, 210), (250, 220, 90), "cereal"),
+    ("BERRY LOOPS", (120, 50, 150), (255, 230, 90), (230, 60, 110), "cereal"),
+    ("CHOCO STARS", (90, 50, 30), (250, 210, 120), (240, 240, 230), "cereal"),
+    ("SALTY SQUARES", (200, 40, 40), (255, 250, 240), (240, 200, 120), "box"),
+    ("CHOC CHIP", (30, 70, 150), (255, 255, 255), (130, 80, 40), "box"),
+    ("GOLD WAFERS", (240, 210, 120), (110, 60, 20), (200, 140, 50), "box"),
+    ("FIG BARS", (120, 160, 70), (255, 250, 230), (110, 60, 90), "box"),
+    ("ZAP CHIPS", (230, 40, 40), (255, 230, 60), (255, 200, 80), "bag"),
+    ("TORTILLA", (240, 140, 20), (40, 30, 20), (250, 220, 120), "bag"),
+    ("CHEESE CURLS", (250, 120, 20), (255, 255, 255), (250, 200, 60), "bag"),
+    ("BBQ CRISPS", (110, 40, 30), (250, 200, 80), (220, 120, 50), "bag"),
+    ("PRETZEL TWIST", (30, 110, 170), (255, 255, 255), (190, 120, 60), "bag"),
+    ("POPCORN", (250, 245, 230), (210, 30, 30), (250, 210, 80), "bag"),
+    ("GUMMY BEARS", (240, 70, 140), (255, 255, 255), (120, 220, 90), "candy"),
+    ("MINT DROPS", (40, 170, 140), (255, 255, 255), (220, 250, 240), "candy"),
+    ("CHOCO BAR", (70, 40, 25), (240, 200, 120), (200, 40, 40), "candy"),
+    ("SOUR BELTS", (250, 220, 40), (30, 120, 60), (240, 70, 60), "candy"),
+    ("SPAGHETTI", (30, 60, 140), (255, 255, 255), (240, 210, 140), "grocery"),
+    ("WHITE RICE", (245, 245, 240), (30, 90, 60), (210, 40, 40), "grocery"),
+    ("MAC + CHEESE", (40, 100, 200), (255, 220, 40), (250, 160, 30), "grocery"),
+    ("PANCAKE MIX", (190, 40, 50), (255, 245, 220), (240, 190, 90), "grocery"),
+    ("TOMATO SOUP", (220, 40, 30), (255, 255, 255), (240, 220, 200), "grocery"),
+    ("BAKED BEANS", (60, 120, 60), (255, 240, 200), (170, 90, 40), "grocery"),
+    ("GROUND COFFEE", (40, 30, 26), (230, 190, 120), (160, 90, 40), "grocery"),
+    ("TEA BAGS", (30, 110, 70), (250, 240, 210), (220, 190, 80), "grocery"),
+    ("PAPER TOWELS", (230, 236, 245), (30, 70, 160), (120, 180, 230), "house"),
+    ("TISSUES", (150, 200, 230), (255, 255, 255), (240, 160, 190), "house"),
+    ("DISH SOAP", (60, 180, 80), (255, 255, 255), (250, 240, 90), "house"),
+    ("BATTERIES", (20, 20, 22), (250, 200, 30), (230, 120, 20), "house"),
+    ("CAT FOOD", (230, 110, 40), (255, 255, 255), (60, 40, 30), "house"),
+    ("FOIL WRAP", (180, 186, 192), (30, 50, 120), (120, 130, 140), "house"),
+]
+GOODS_TILE = 128
+GOODS_BORDER = 10        # solid base colour round each tile: the boxes' sides and tops sample it
+
+
+def goods_atlas():
+    """Goods: product fronts, 8 x 4 tiles of 128 px (build_hood.py GOODS_SIZE matches the order)."""
+    T, B = GOODS_TILE, GOODS_BORDER
+    im = Image.new("RGB", (T * 8, T * 4))
+    d = ImageDraw.Draw(im)
+    rr = random.Random(5)
+    for i, (name, base, txt, acc, kind) in enumerate(GOODS):
+        x0, y0 = (i % 8) * T, (i // 8) * T
+        d.rectangle([x0, y0, x0 + T - 1, y0 + T - 1], fill=base)
+        cx = x0 + T // 2
+        dark = tuple(max(0, c - 40) for c in base)
+        if kind == "cereal":
+            d.ellipse([cx - 30, y0 + 58, cx + 30, y0 + 100], fill=(245, 245, 240))           # bowl
+            d.chord([cx - 34, y0 + 70, cx + 34, y0 + 118], 0, 180, fill=acc)
+            for _ in range(9):
+                px, py = cx + rr.randint(-24, 24), y0 + rr.randint(62, 80)
+                d.ellipse([px - 4, py - 3, px + 4, py + 3], fill=dark)
+            d.rectangle([x0 + B, y0 + B, x0 + T - B - 1, y0 + 46], fill=dark)
+            fit_text(d, (cx, y0 + 30), name, FONT_B, T - 2 * B - 6, 22, txt)
+        elif kind == "bag":
+            d.polygon([(x0 + B, y0 + B), (x0 + T - B, y0 + B), (x0 + T - B - 6, y0 + T - B), (x0 + B + 6, y0 + T - B)], fill=dark)
+            for k in range(6):                                                                  # crimped top
+                d.line([(x0 + B + 4 + k * 18, y0 + B), (x0 + B + 4 + k * 18, y0 + B + 8)], fill=base, width=2)
+            d.ellipse([cx - 28, y0 + 60, cx + 28, y0 + 104], fill=acc)
+            for _ in range(5):
+                px, py = cx + rr.randint(-18, 18), y0 + rr.randint(70, 94)
+                d.polygon([(px, py - 6), (px + 7, py + 4), (px - 7, py + 4)], fill=base)
+            fit_text(d, (cx, y0 + 38), name, FONT_B, T - 2 * B - 10, 22, txt)
+        elif kind == "candy":
+            d.rounded_rectangle([x0 + B + 4, y0 + 50, x0 + T - B - 4, y0 + 100], 10, fill=acc)
+            for k in range(4):
+                px = x0 + B + 18 + k * 24
+                d.ellipse([px - 7, y0 + 66, px + 7, y0 + 82], fill=base)
+            fit_text(d, (cx, y0 + 30), name, FONT_B, T - 2 * B - 6, 22, txt)
+        elif kind == "grocery":
+            d.rectangle([x0 + B, y0 + 52, x0 + T - B - 1, y0 + 98], fill=acc)
+            d.ellipse([cx - 18, y0 + 58, cx + 18, y0 + 92], fill=dark)
+            fit_text(d, (cx, y0 + 30), name, FONT_B, T - 2 * B - 6, 20, txt)
+        elif kind == "house":
+            for k in range(3):
+                d.line([(x0 + B, y0 + 60 + k * 12), (x0 + T - B, y0 + 52 + k * 12)], fill=acc, width=5)
+            fit_text(d, (cx, y0 + 34), name, FONT_B, T - 2 * B - 6, 20, txt)
+        else:                                                                                   # box (crackers / cookies)
+            d.rectangle([x0 + B, y0 + 56, x0 + T - B - 1, y0 + 100], fill=dark)
+            for k in range(3):
+                px = x0 + B + 22 + k * 30
+                d.rectangle([px - 10, y0 + 66, px + 10, y0 + 88], fill=acc)
+            fit_text(d, (cx, y0 + 32), name, FONT_B, T - 2 * B - 6, 22, txt)
+        text_c(d, (cx, y0 + T - B - 9), "NET WT 12 OZ" if kind != "house" else "VALUE PACK", font(FONT_R, 9), txt)
+        d.rectangle([x0 + T - B - 16, y0 + T - B - 22, x0 + T - B - 2, y0 + T - B - 2], fill=(250, 250, 250))  # barcode spot
+        for k in range(6):
+            d.line([(x0 + T - B - 14 + k * 2, y0 + T - B - 20), (x0 + T - B - 14 + k * 2, y0 + T - B - 6)], fill=(20, 20, 20))
+        d.rectangle([x0, y0, x0 + T - 1, y0 + T - 1], outline=base, width=B - 2)               # clean border for the sides
+    save("Goods", im, 150)
+
+
+AISLES = ("1   CHIPS + SNACKS", "2   CEREAL + GROCERY", "3   CANDY + COOKIES")
+
+
+def aisle_sign():
+    """AisleSign: three hanging aisle boards, one per 64 px row (build_hood.py maps each row)."""
+    W, R = 512, 64
+    im = Image.new("RGB", (W, R * 3), (24, 52, 110))
+    d = ImageDraw.Draw(im)
+    for i, label in enumerate(AISLES):
+        y = i * R
+        d.rectangle([0, y, W - 1, y + R - 1], fill=(24, 52, 110))
+        d.rectangle([3, y + 3, W - 4, y + R - 4], outline=(240, 240, 240), width=2)
+        d.rectangle([10, y + 9, 56, y + R - 10], fill=(250, 200, 30))
+        num, words = label.split("   ")
+        text_c(d, (33, y + R // 2), num, font(FONT_B, 34), (24, 52, 110))
+        fit_text(d, (290, y + R // 2), words, FONT_B, 400, 34, (250, 250, 250))
+    save("AisleSign", im, 140)
+
+
+def coffee_badge():
+    """CoffeeBadge: the printed strip on the brewer's canopy."""
+    im = Image.new("RGB", (512, 128), (60, 30, 20))
+    d = ImageDraw.Draw(im)
+    d.rectangle([4, 4, 507, 123], outline=(200, 150, 90), width=3)
+    text_c(d, (256, 52), "FRESH COFFEE", font(FONT_B, 54), (246, 232, 206))
+    text_c(d, (256, 100), "HOT  -  BREWED ALL DAY", font(FONT_B, 22), (240, 150, 60))
+    save("CoffeeBadge", grime(im, 0.06, 41, streaks=False), 120)
+
+
+def price_strip():
+    """PriceStrip: the shelf-edge label rail, 1 m across. World-mapped (the rail's height is not
+    lined up with the sheet), so every column is one colour top to bottom: white rail, yellow and
+    white price tags with thin dark print lines."""
+    W, H = 512, 16
+    im = Image.new("RGB", (W, H), (244, 244, 240))
+    d = ImageDraw.Draw(im)
+    rr = random.Random(77)
+    x = 14
+    while x < W - 50:
+        w = rr.randint(34, 44)
+        col = (250, 214, 40) if rr.random() < 0.7 else (252, 252, 252)
+        d.rectangle([x, 0, x + w, H], fill=col)
+        d.line([(x, 0), (x, H)], fill=(170, 170, 160))
+        d.line([(x + w, 0), (x + w, H)], fill=(170, 170, 160))
+        px = x + 5
+        for _ in range(rr.randint(3, 5)):                       # price digits read as dark strokes
+            px += rr.randint(3, 6)
+            if px < x + w - 4:
+                d.line([(px, 0), (px, H)], fill=(30, 30, 30), width=rr.choice((1, 2)))
+        x += w + rr.randint(40, 80)
+    save("PriceStrip", im, 120)
+
+
 def plaza_pave():
     """Plaza paving, 4 m x 4 m per sheet: 50 x 25 cm granite pavers in running bond, three mixed
     grey-beige tones, sanded joints with a bevel, speckle, worn centres, gum spots and stains.
@@ -761,7 +910,7 @@ for i, (n, (k, c)) in enumerate(SURF.items()):
     save(f"Mat{n}", surface(k, c, seed=300 + i), 200)
 
 for fn in (bus_textures, bin_label, meter_face, shop_floor, ceiling, fridge_doors, candy_rack, faces, bar_window, security_door, garage_door, shingles, clay_tile, lawn, concrete, asphalt, backboard, store_front, store_sign,
-           store_door, door_decal, plaza_pave, ledgestone, welcome_sign, shelter_ad, route_map, water, chain_link):
+           store_door, door_decal, plaza_pave, ledgestone, goods_atlas, aisle_sign, coffee_badge, price_strip, welcome_sign, shelter_ad, route_map, water, chain_link):
     fn()
 shelf_goods("ShelfGoodsA", 61)
 shelf_goods("ShelfGoodsB", 62)

@@ -42,11 +42,15 @@ SKIP_EXACT = {"Frame", "Sill", "WinIron", "Pipe", "Meter", "CandyRack", "FridgeD
               "Grass", "MeterFace", "BinLabel", "Timetable", "BusDisplay", "AcGrille", "Register", "AtmFace",
               "Coffee", "FreezerTop", "IceFront", "NewsFace",
               "Blossom", "Ivy", "HouseNumbers",   # Bellmont Hills plants + number plates
-              "GhostSign", "ShopSigns", "LotLine", "DinerSigns", "DinerInterior", "FrameB", "HotelSigns", "HotelLobby", "ParkSigns"}   # city-fill flat printed panels, paint
+              "GhostSign", "ShopSigns", "LotLine", "DinerSigns", "DinerInterior", "FrameB", "HotelSigns", "HotelLobby",   # city-fill flat printed panels, paint
+              "ParkSigns",
+              "Goods", "PriceStrip", "AisleSign", "CoffeeBadge", "CoffeeLiquid"}   # store shelf stock, rails, signs (shelves collide)
 SKIP_PREFIX = ("Light", "Lamp", "Neon", "Fx", "Poster", "ShelfGoods", "Deco", "Swing", "Slide", "Lift", "Flower",
                "Tag",
                # street furniture (art/blender/cityfill): lit lenses, signal lenses, canopies, tree grates
-               "StreetLamp", "Signal", "Leaf", "Grate")
+               "StreetLamp", "Signal", "Leaf", "Grate",
+               # gun shop markers (Server/GunShop)
+               "Spot")
 # Roblox material per part name (footsteps, bullet impacts); first match wins
 MATERIALS = [
     (r"^(Lawn|Turf|Grass)", "Grass"),
