@@ -223,6 +223,21 @@ def build_rim(name, rim_half, hub_prof, t_hub, t_rim):
     return G.join([barrel, hub] + spokes, name)
 
 
+def valve(ang=rad(126), tilt=rad(-14)):
+    """Tyre valve stem through the drop centre, between two spokes, cap pointing at the hub.
+    Tilted a little toward the bike's right (-X) so it can be seen from the side."""
+    prof = [(0.157, 0.0), (0.157, 0.0046), (0.1585, 0.0053), (0.1715, 0.0053), (0.1715, 0.0036), (0.1855, 0.0036),
+            (0.1855, 0.0064), (0.1895, 0.0064), (0.1895, 0.0046), (R17 - 0.010, 0.0046), (R17 - 0.010, 0.0)]
+    ob = G.lathe("Valve", prof, seg=20, uv=False)
+    from mathutils import Matrix
+    base_r = R17 - 0.0135                     # inside the drop-centre wall
+    radial = G.polar(1.0, ang)
+    d = (radial * math.cos(tilt) - Vector((math.sin(tilt), 0, 0))).normalized()   # cap leans to -X
+    q = d.to_track_quat('X', 'Z')
+    ob.data.transform(Matrix.Translation(G.polar(base_r, ang)) @ q.to_matrix().to_4x4() @ Matrix.Translation((-base_r, 0, 0)))
+    return ob
+
+
 def build_tyre(name, W, Ro, rim_half):
     prof, marks = tyre_profile(W, Ro, rim_half)
     ob = G.lathe(name, prof, seg=168, closed=False)
@@ -237,7 +252,7 @@ def front_wheel():
            (-0.050, 0.041), (-0.057, 0.050), (-0.0655, 0.050), (-0.0675, 0.047)]
     rim = build_rim("Rim", rim_half, hub, 0.042, 0.022)
     tyre, marks = build_tyre("Tyre", 0.120, 0.2999, rim_half)
-    obs = [tyre, rim]
+    obs = [tyre, rim, valve()]
     if BRAKES:
         for side in (1, -1):
             rotor, carrier = front_disc(side)
@@ -326,7 +341,7 @@ def rear_wheel():
     rim = build_rim("Rim", rim_half, hub, 0.052, 0.026)
     if not BRAKES:
         tyre, marks = build_tyre("Tyre", 0.190, 0.3204, rim_half)
-        return [tyre, rim], marks
+        return [tyre, rim, valve()], marks
     # cush-drive carrier on the left (+X), part of the rim colour
     cush = G.lathe("cush", [(0.055, 0.0135), (0.0835, 0.0135), (0.0835, 0.052), (0.0805, 0.0575), (0.074, 0.060),
                             (0.066, 0.060), (0.058, 0.054), (0.055, 0.050)], seg=72, uv=False)
@@ -336,7 +351,7 @@ def rear_wheel():
     rotor = rear_disc(xd)
     cal = rear_caliper(xd, -1)
     spr, Rp = sprocket(0.085)
-    return [tyre, rim, rotor, cal, spr], marks
+    return [tyre, rim, valve(), rotor, cal, spr], marks
 
 
 # ------------------------------------------------------------------ textures (procedural, no text anywhere)
@@ -412,6 +427,7 @@ def save_png(path, rgb):
 LOOKS = {
     "Tyre": {"tex": "Tyre", "rough": 0.72, "metal": 0.0, "roblox": {"Color": [255, 255, 255], "Material": "SmoothPlastic"}},
     "Rim": {"color": (0.010, 0.010, 0.011), "rough": 0.3, "metal": 0.0, "coat": 1.0, "roblox": {"Color": [24, 24, 26], "Material": "SmoothPlastic", "Reflectance": 0.06}},
+    "Valve": {"color": (0.55, 0.56, 0.58), "rough": 0.25, "metal": 1.0, "roblox": {"Color": [168, 170, 176], "Material": "SmoothPlastic", "Reflectance": 0.2}},
     "Rotor": {"tex": "Rotor", "rough": 0.32, "metal": 1.0, "roblox": {"Color": [255, 255, 255], "Material": "SmoothPlastic", "Reflectance": 0.12}},
     "Carrier": {"color": (0.06, 0.062, 0.066), "rough": 0.4, "metal": 1.0, "roblox": {"Color": [62, 64, 68], "Material": "SmoothPlastic", "Reflectance": 0.08}},
     "Caliper": {"color": (0.02, 0.09, 0.42), "rough": 0.3, "metal": 0.6, "roblox": {"Color": [32, 74, 168], "Material": "SmoothPlastic", "Reflectance": 0.05}},

@@ -11,6 +11,7 @@ local TextureIds = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild
 local BIKE_WHEEL_LOOKS = {
 	Tyre = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic },
 	Rim = { Color = Color3.fromRGB(24, 24, 26), Material = Enum.Material.SmoothPlastic, Reflectance = 0.06 },
+	Valve = { Color = Color3.fromRGB(168, 170, 176), Material = Enum.Material.SmoothPlastic, Reflectance = 0.2 },
 }
 
 -- Blender meters -> studs. Roblox characters are about 5 studs tall, so real sizes x3.6.

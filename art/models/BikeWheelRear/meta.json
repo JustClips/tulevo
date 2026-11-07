@@ -4,7 +4,8 @@
  "origin": "hub centre",
  "spin": [
   "Tyre",
-  "Rim"
+  "Rim",
+  "Valve"
  ],
  "static": [],
  "parts": {
@@ -33,6 +34,19 @@
     0.2337,
     0.2337
    ]
+  },
+  "Valve": {
+   "tris": 360,
+   "bbox_min_m": [
+    -0.0158,
+    -0.1247,
+    0.1253
+   ],
+   "bbox_max_m": [
+    0.0053,
+    -0.0893,
+    0.1693
+   ]
   }
  },
  "looks": {
@@ -52,6 +66,15 @@
    ],
    "Material": "SmoothPlastic",
    "Reflectance": 0.06
+  },
+  "Valve": {
+   "Color": [
+    168,
+    170,
+    176
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.2
   }
  },
  "tyre": "190/55 ZR17",
@@ -59,5 +82,5 @@
  "disc": "220 mm",
  "sprocket": "45T 525",
  "radius_m": 0.3204,
- "total_tris": 36100
+ "total_tris": 36460
 }
