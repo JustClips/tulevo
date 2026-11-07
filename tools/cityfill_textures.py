@@ -911,7 +911,29 @@ def mall():
     save("MallPylon", im, Image.new("RGB", (W, H), (110, 110, 110)))
 
 
-STEPS = {"street": street, "brick": brick_building, "diner": diner, "hotel": hotel, "park": park, "mall": mall}
+# ================================================================= Delgado Auto Repair
+def auto():
+    real("GarageMetal", "CorrugatedSteel005", 1024, tint=(176, 182, 186), gain=1.05)
+    S_ = 512                                                                   # roll-up door: 8 broad ribs per tile (2 m)
+    g = np.asarray(scan("PaintedMetal012", size=S_).convert("L"), np.float32)
+    y = np.arange(S_)[:, None]
+    ph = (y / S_ * 8) % 1.0
+    v = 196 + (g - g.mean()) * 0.3 + 14 * np.cos(ph * 2 * math.pi) - 30 * (np.abs(ph - 0.97) < 0.03)
+    save("RollDoor", Image.fromarray(np.clip(np.stack([v * 0.97, v, v * 1.03], -1), 0, 255).astype(np.uint8)))
+    W, H = 1024, 512
+    im = Image.new("RGB", (W, H), (200, 30, 34))
+    d = ImageDraw.Draw(im)
+    d.rectangle((8, 8, W - 9, 247), outline=(255, 255, 255), width=8)
+    fit_text(d, (W // 2, 92), "DELGADO", FONT_B, 900, 110, (255, 255, 255))
+    fit_text(d, (W // 2, 196), "AUTO REPAIR", FONT_B, 700, 70, (255, 230, 120))
+    d.rectangle((0, 256, W, H), fill=(28, 30, 34))
+    d.rectangle((8, 264, W - 9, H - 9), outline=(255, 230, 120), width=6)
+    fit_text(d, (W // 2, 330), "TIRES  ·  BRAKES  ·  OIL CHANGE", FONT_B, 920, 70, (255, 255, 255))
+    fit_text(d, (W // 2, 430), "ALIGNMENT  ·  SMOG CHECK  ·  A/C", FONT_B, 920, 60, (255, 230, 120))
+    save("AutoSigns", im, Image.new("RGB", (W, H), (110, 110, 110)))
+
+
+STEPS = {"street": street, "brick": brick_building, "diner": diner, "hotel": hotel, "park": park, "mall": mall, "auto": auto}
 
 if __name__ == "__main__":
     fetch()

@@ -119,9 +119,12 @@ for gang, (sz, x0, d, paints) in GANGS.items():
 # (thread "Build realistic army base"; art/blender/army/build_army.py, built with --face E so
 # the gate faces the city). West of the city, on the line of Vault Avenue: FortRoad carries the
 # avenue on from its west end (x = -EXTENT) to the gate apron, where the model's own asphalt
-# starts (a step higher, so nothing is coplanar). Model ground front edge sits at x = -650.
+# starts (a step higher, so nothing is coplanar).
 ARMY_M = 3.6
-ARMY_AT = (-650 - 68 * ARMY_M, 0.15, AVE_Z)          # model origin; front edge is 68 m in front of it
+# 2026-11-07 Dev: away from the civilians, out at the edge of the map. The base stands on its own
+# ground slab (FortGround, west of the city Ground) at the end of a long country road.
+ARMY_FRONT_X = -1750                                 # model ground front edge
+ARMY_AT = (ARMY_FRONT_X - 68 * ARMY_M, 0.15, AVE_Z)  # model origin; front edge is 68 m in front of it
 ARMY_APRON_X = ARMY_AT[0] + 52 * ARMY_M + 1.0       # model asphalt starts 52 m in front (+1 stud overlap)
 BUILDINGS.append(("FortHalden", "ArmyBase_E", ARMY_AT, {}, {"MeshNoCollide": True}))
 
@@ -139,12 +142,16 @@ BUILDINGS += [
     ("PikeBuilding", "BrickBlock_S", (232, 0.6, VAULT_N_LINE - BRICK_HALF_D),
      {"Brick": "Tan", "Storefronts": "B", "ShopSigns": "B"}),
     ("FennBuilding", "BrickBlock", (560, 0.6, VAULT_S_LINE + BRICK_HALF_D), {"Brick": "Brown"}),
+    # behind Crestline Tower, facing Back Street (north sidewalk line z 92)
+    ("OrtegaBuilding", "BrickBlock_S", (245, 0.6, BACK_Z - ROAD_W / 2 - SIDE_W - BRICK_HALF_D), {"Brick": "Tan"}),
     # Blue Comet Diner: 46 x 50 m lot (origin = lot centre, z 0 = lot surface), entrance drive at its west end
     ("BlueCometDiner", "Diner", (413, 0.3, VAULT_S_LINE + 90)),
     # Hotel Solana: 46 x 48 m lot north of Vault Avenue (turned to face it), drives at both ends
     ("HotelSolana", "Hotel_S", (380, 0.3, VAULT_N_LINE - 86.4)),
     # Westgate Plaza strip mall: 76 x 50 m lot south of Back Street, facing it, drives at both ends
     ("WestgatePlaza", "StripMall", (-495, 0.3, BACK_Z + ROAD_W / 2 + SIDE_W + 90)),
+    # Delgado Auto Repair: 40 x 28 m lot behind the Fenn Building, facing Back Street
+    ("DelgadoAuto", "AutoShop_S", (568, 0.3, BACK_Z - ROAD_W / 2 - SIDE_W - 50.4)),
     # Lindell Park + skate park (built in world coordinates, like the street models)
     ("LindellPark", "Park", (0, 0, 0)),
     ("LindellParkProps", "ParkProps", (0, 0, 0)),
@@ -221,6 +228,8 @@ def part(name, size, pos, color, material="Concrete", tags=None, rot=0, classNam
 children = []
 # base ground (big, so the edge of the world is far away)
 children.append(part("Ground", (2700, 2, 2700), (0, -1, 0), GROUND, "Concrete"))
+# Fort Halden's own country ground west of the city plate (abuts it at x = -1350, no overlap)
+children.append(part("Ground", (1100, 2, 1400), (-1350 - 550, -1, AVE_Z), GROUND, "Concrete"))
 
 # roads: E-W avenue + back street + the two outer residential streets, N-S cross streets;
 # slightly different heights avoid z-fighting
