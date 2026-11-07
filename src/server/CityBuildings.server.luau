@@ -479,15 +479,6 @@ if not buildings then
 	warn("[City] workspace.City.Buildings not found")
 	return
 end
-for _, model in buildings:GetChildren() do
-	if model:IsA("Model") and model:GetAttribute("LiveSyncAsset") then
-		if not hasParts(model) then
-			load(model)
-		end
-		style(model)
-		print(`[City] {model.Name} ready`)
-	end
-end
 
 -- Day/night: 0 by day, 1 at night, fading over an hour at dusk and dawn.
 local function nightness(clock: number): number
@@ -639,4 +630,17 @@ task.spawn(function()
 		print(`[CityProps] {n} {folderName} ready`)
 	end
 end)
+
+-- Buildings after the props have started: the props are a handful of small models (each loaded
+-- once, then cloned), so the street lamps and signals show within seconds instead of after the
+-- ~130 building meshes.
+for _, model in buildings:GetChildren() do
+	if model:IsA("Model") and model:GetAttribute("LiveSyncAsset") then
+		if not hasParts(model) then
+			load(model)
+		end
+		style(model)
+		print(`[City] {model.Name} ready`)
+	end
+end
 
