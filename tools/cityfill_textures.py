@@ -1130,7 +1130,106 @@ def fuel():
     save("LotSigns", im, 120)
 
 
-STEPS = {"street": street, "brick": brick_building, "diner": diner, "hotel": hotel, "park": park, "mall": mall, "auto": auto, "fuel": fuel}
+def garage():
+    """Eastside Parking garage + Eastside Self Storage (lot on East St behind Meridian Plaza)."""
+    BLU, WHT = (24, 70, 160), (250, 250, 250)
+    im = Image.new("RGB", (1024, 1024), BLU)
+    d = ImageDraw.Draw(im)
+    # A: vertical blade sign (0..256 x 0..1024), letters stacked
+    d.rectangle((0, 0, 256, 1024), fill=BLU)
+    d.rectangle((10, 10, 246, 1014), outline=WHT, width=8)
+    fit_text(d, (128, 120), "P", FONT_B, 200, 190, WHT)
+    d.rectangle((40, 232, 216, 240), fill=WHT)
+    for k, ch in enumerate("PARKING"):
+        fit_text(d, (128, 300 + k * 104), ch, FONT_B, 150, 92, WHT)
+    # B: fascia (256..1024 x 0..256)
+    d.rectangle((256, 0, 1024, 256), fill=BLU)
+    d.rectangle((266, 10, 1014, 246), outline=WHT, width=6)
+    fit_text(d, (640, 100), "EASTSIDE PARKING", FONT_B, 700, 110, WHT)
+    fit_text(d, (640, 200), "OPEN 24 HOURS  ·  $3 / HOUR", FONT_B, 640, 46, (220, 230, 255))
+    # C: ENTER (256..640 x 256..512) and CLEARANCE (640..1024 x 256..512)
+    d.rectangle((256, 256, 640, 512), fill=(30, 130, 60))
+    d.rectangle((266, 266, 630, 502), outline=WHT, width=6)
+    fit_text(d, (448, 340), "ENTER", FONT_B, 330, 100, WHT)
+    d.polygon([(330, 430), (520, 430), (520, 405), (575, 450), (520, 495), (520, 470), (330, 470)], fill=WHT)
+    d.rectangle((640, 256, 1024, 512), fill=(240, 196, 30))
+    d.rectangle((650, 266, 1014, 502), outline=(20, 20, 20), width=8)
+    fit_text(d, (832, 340), "CLEARANCE", FONT_B, 330, 70, (20, 20, 20))
+    fit_text(d, (832, 430), "2.2 m", FONT_B, 330, 100, (20, 20, 20))
+    # D: level plates (256..1024 x 512..768), three cells
+    for k, t in enumerate(("LEVEL 1", "LEVEL 2", "ROOF")):
+        x0 = 256 + k * 256
+        d.rectangle((x0, 512, x0 + 256, 768), fill=(250, 250, 246))
+        d.rectangle((x0 + 8, 520, x0 + 248, 760), outline=BLU, width=10)
+        fit_text(d, (x0 + 128, 600), str(k + 1) if k < 2 else "R", FONT_B, 150, 120, BLU)
+        fit_text(d, (x0 + 128, 710), t, FONT_B, 210, 44, BLU)
+    # E: storage sign (256..1024 x 768..1024)
+    ORG = (232, 112, 28)
+    d.rectangle((256, 768, 1024, 1024), fill=ORG)
+    d.rectangle((266, 778, 1014, 1014), outline=WHT, width=6)
+    fit_text(d, (640, 860), "EASTSIDE SELF STORAGE", FONT_B, 700, 90, WHT)
+    fit_text(d, (640, 960), "UNITS AVAILABLE  ·  GATE CODE ACCESS", FONT_B, 640, 40, (255, 240, 220))
+    save("GarageSigns", im, 120)
+    # orange storage roll-up door (the auto shop's door ribs, painted)
+    v = np.asarray(Image.open(os.path.join(OUT, "RollDoor_Color.png")).convert("L"), np.float32) / 255
+    col = np.stack([v * 236, v * 120, v * 40], -1)
+    save("StoreDoor", Image.fromarray(np.clip(col, 0, 255).astype(np.uint8)), 150)
+    paint("StoreOrange", (226, 110, 34))
+    paint("GarageBlue", (24, 70, 160))
+
+
+def wash():
+    """Bubble Bay Car Wash (strip between Kestrel gas and Westgate Plaza)."""
+    TEAL, NAVY, WHT = (22, 160, 190), (16, 44, 96), (250, 250, 250)
+    im = Image.new("RGB", (1024, 1024), TEAL)
+    d = ImageDraw.Draw(im)
+    rnd = np.random.default_rng(5)
+
+    def bubbles(box, n):
+        x0, y0, x1, y1 = box
+        for _ in range(n):
+            r = int(rnd.integers(8, 26))
+            cx, cy = int(rnd.integers(x0 + r, x1 - r)), int(rnd.integers(y0 + r, y1 - r))
+            d.ellipse((cx - r, cy - r, cx + r, cy + r), outline=(200, 240, 250), width=4)
+    # A: banner (0..1024 x 0..256)
+    d.rectangle((0, 0, 1024, 256), fill=NAVY)
+    bubbles((0, 0, 1024, 256), 26)
+    d.rectangle((10, 10, 1014, 246), outline=WHT, width=8)
+    fit_text(d, (512, 110), "BUBBLE BAY", FONT_B, 900, 130, WHT)
+    fit_text(d, (512, 205), "CAR WASH  ·  OPEN 7 DAYS", FONT_B, 760, 50, (140, 225, 245))
+    # B: menu board (0..512 x 256..768)
+    d.rectangle((0, 256, 512, 768), fill=(250, 250, 246))
+    d.rectangle((0, 256, 512, 360), fill=NAVY)
+    fit_text(d, (256, 308), "WASH MENU", FONT_B, 440, 70, WHT)
+    for k, (t, pr, c) in enumerate((("BASIC", "$8", (60, 150, 80)), ("DELUXE", "$12", (30, 120, 200)), ("ULTIMATE", "$16", (200, 60, 60)))):
+        y = 390 + k * 120
+        d.rectangle((24, y, 488, y + 100), fill=c)
+        fit_text(d, (190, y + 50), t, FONT_B, 300, 56, WHT)
+        fit_text(d, (420, y + 50), pr, FONT_B, 120, 64, WHT)
+    # C: ENTER (512..1024 x 256..512)
+    d.rectangle((512, 256, 1024, 512), fill=(30, 130, 60))
+    d.rectangle((522, 266, 1014, 502), outline=WHT, width=6)
+    fit_text(d, (768, 340), "ENTER WASH", FONT_B, 440, 90, WHT)
+    d.polygon([(650, 430), (840, 430), (840, 405), (895, 450), (840, 495), (840, 470), (650, 470)], fill=WHT)
+    # D: FREE VACUUMS (512..1024 x 512..768)
+    d.rectangle((512, 512, 1024, 768), fill=TEAL)
+    bubbles((512, 512, 1024, 768), 14)
+    d.rectangle((522, 522, 1014, 758), outline=WHT, width=6)
+    fit_text(d, (768, 600), "FREE", FONT_B, 440, 90, WHT)
+    fit_text(d, (768, 695), "VACUUMS", FONT_B, 440, 90, WHT)
+    # E: exit banner (0..1024 x 768..1024)
+    d.rectangle((0, 768, 1024, 1024), fill=NAVY)
+    d.rectangle((10, 778, 1014, 1014), outline=WHT, width=6)
+    fit_text(d, (512, 870), "THANK YOU!", FONT_B, 800, 110, WHT)
+    fit_text(d, (512, 970), "DRIVE SLOW  ·  COME BACK SOON", FONT_B, 760, 46, (140, 225, 245))
+    save("WashSigns", im, 120)
+    paint("WashTeal", (22, 160, 190))
+    paint("WashNavy", (16, 44, 96))
+    paint("BrushBlue", (40, 90, 210), strength=0.6)
+    paint("BrushRed", (210, 50, 60), strength=0.6)
+
+
+STEPS = {"street": street, "brick": brick_building, "diner": diner, "hotel": hotel, "park": park, "mall": mall, "auto": auto, "fuel": fuel, "garage": garage, "wash": wash}
 
 if __name__ == "__main__":
     fetch()

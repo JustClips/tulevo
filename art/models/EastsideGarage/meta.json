@@ -1,0 +1,633 @@
+{
+ "name": "EastsideGarage",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Deck": {
+   "tris": 108,
+   "min": [
+    -330.0,
+    280.2,
+    -0.9
+   ],
+   "max": [
+    -160.2,
+    359.2,
+    21.9
+   ]
+  },
+  "Asphalt": {
+   "tris": 12,
+   "min": [
+    -523.0,
+    270.2,
+    -0.9
+   ],
+   "max": [
+    -330.0,
+    359.2,
+    0.3
+   ]
+  },
+  "Cap": {
+   "tris": 552,
+   "min": [
+    -522.8,
+    270.8,
+    0.3
+   ],
+   "max": [
+    -162.5,
+    358.8,
+    33.05
+   ]
+  },
+  "Wall": {
+   "tris": 228,
+   "min": [
+    -330.0,
+    283.0,
+    0.3
+   ],
+   "max": [
+    -163.0,
+    357.0,
+    25.5
+   ]
+  },
+  "Hazard": {
+   "tris": 36,
+   "min": [
+    -196.4,
+    285.0,
+    0.3
+   ],
+   "max": [
+    -164.4,
+    338.0,
+    11.12
+   ]
+  },
+  "GarageBlue": {
+   "tris": 120,
+   "min": [
+    -330.08,
+    282.92,
+    5.9
+   ],
+   "max": [
+    -162.35,
+    357.08,
+    32.7
+   ]
+  },
+  "LotLine": {
+   "tris": 1404,
+   "min": [
+    -327.8,
+    298.3,
+    0.3
+   ],
+   "max": [
+    -172.0,
+    355.8,
+    21.91
+   ]
+  },
+  "Lamp1": {
+   "tris": 12,
+   "min": [
+    -193.0,
+    326.9,
+    9.9
+   ],
+   "max": [
+    -187.0,
+    328.1,
+    10.05
+   ]
+  },
+  "Dark": {
+   "tris": 600,
+   "min": [
+    -512.9,
+    314.5,
+    0.3
+   ],
+   "max": [
+    -161.3,
+    356.75,
+    40.3
+   ]
+  },
+  "Lamp2": {
+   "tris": 12,
+   "min": [
+    -233.0,
+    326.9,
+    9.9
+   ],
+   "max": [
+    -227.0,
+    328.1,
+    10.05
+   ]
+  },
+  "Lamp3": {
+   "tris": 12,
+   "min": [
+    -273.0,
+    326.9,
+    9.9
+   ],
+   "max": [
+    -267.0,
+    328.1,
+    10.05
+   ]
+  },
+  "Lamp4": {
+   "tris": 12,
+   "min": [
+    -313.0,
+    326.9,
+    9.9
+   ],
+   "max": [
+    -307.0,
+    328.1,
+    10.05
+   ]
+  },
+  "Lamp5": {
+   "tris": 12,
+   "min": [
+    -193.0,
+    326.9,
+    20.7
+   ],
+   "max": [
+    -187.0,
+    328.1,
+    20.86
+   ]
+  },
+  "Lamp6": {
+   "tris": 12,
+   "min": [
+    -233.0,
+    326.9,
+    20.7
+   ],
+   "max": [
+    -227.0,
+    328.1,
+    20.86
+   ]
+  },
+  "Lamp7": {
+   "tris": 12,
+   "min": [
+    -273.0,
+    326.9,
+    20.7
+   ],
+   "max": [
+    -267.0,
+    328.1,
+    20.86
+   ]
+  },
+  "Lamp8": {
+   "tris": 12,
+   "min": [
+    -313.0,
+    326.9,
+    20.7
+   ],
+   "max": [
+    -307.0,
+    328.1,
+    20.86
+   ]
+  },
+  "Steel": {
+   "tris": 124,
+   "min": [
+    -300.3,
+    317.92,
+    0.3
+   ],
+   "max": [
+    -161.25,
+    356.8,
+    39.8
+   ]
+  },
+  "Lamp9": {
+   "tris": 12,
+   "min": [
+    -220.4,
+    356.0,
+    39.62
+   ],
+   "max": [
+    -218.4,
+    357.0,
+    39.78
+   ]
+  },
+  "Lamp10": {
+   "tris": 12,
+   "min": [
+    -225.6,
+    356.0,
+    39.62
+   ],
+   "max": [
+    -223.6,
+    357.0,
+    39.78
+   ]
+  },
+  "Lamp11": {
+   "tris": 12,
+   "min": [
+    -298.4,
+    356.0,
+    39.62
+   ],
+   "max": [
+    -296.4,
+    357.0,
+    39.78
+   ]
+  },
+  "Lamp12": {
+   "tris": 12,
+   "min": [
+    -303.6,
+    356.0,
+    39.62
+   ],
+   "max": [
+    -301.6,
+    357.0,
+    39.78
+   ]
+  },
+  "Block": {
+   "tris": 168,
+   "min": [
+    -522.6,
+    271.0,
+    0.3
+   ],
+   "max": [
+    -162.7,
+    358.6,
+    32.7
+   ]
+  },
+  "StoreOrange": {
+   "tris": 912,
+   "min": [
+    -520.1,
+    294.4,
+    0.8
+   ],
+   "max": [
+    -162.6,
+    357.6,
+    32.3
+   ]
+  },
+  "DoorGrey": {
+   "tris": 36,
+   "min": [
+    -172.0,
+    339.28,
+    0.3
+   ],
+   "max": [
+    -168.0,
+    339.4,
+    29.3
+   ]
+  },
+  "GarageSigns": {
+   "tris": 26,
+   "min": [
+    -334.74,
+    310.25,
+    3.3
+   ],
+   "max": [
+    -161.26,
+    351.6,
+    32.3
+   ]
+  },
+  "AcBody": {
+   "tris": 84,
+   "min": [
+    -491.5,
+    303.0,
+    0.6
+   ],
+   "max": [
+    -164.5,
+    350.5,
+    14.2
+   ]
+  },
+  "Yellow": {
+   "tris": 24,
+   "min": [
+    -336.86,
+    335.44,
+    4.5
+   ],
+   "max": [
+    -164.48,
+    339.22,
+    5.7
+   ]
+  },
+  "RoofTar": {
+   "tris": 24,
+   "min": [
+    -519.7,
+    294.8,
+    12.3
+   ],
+   "max": [
+    -340.3,
+    357.2,
+    12.4
+   ]
+  },
+  "Pave": {
+   "tris": 72,
+   "min": [
+    -520.2,
+    272.0,
+    0.3
+   ],
+   "max": [
+    -339.8,
+    357.7,
+    0.9
+   ]
+  },
+  "StoreDoor": {
+   "tris": 48,
+   "min": [
+    -517.2,
+    314.53,
+    0.8
+   ],
+   "max": [
+    -342.8,
+    340.47,
+    9.4
+   ]
+  },
+  "Lamp13": {
+   "tris": 12,
+   "min": [
+    -370.5,
+    339.95,
+    10.21
+   ],
+   "max": [
+    -369.5,
+    340.45,
+    10.29
+   ]
+  },
+  "Lamp14": {
+   "tris": 12,
+   "min": [
+    -415.5,
+    339.95,
+    10.21
+   ],
+   "max": [
+    -414.5,
+    340.45,
+    10.29
+   ]
+  },
+  "Lamp15": {
+   "tris": 12,
+   "min": [
+    -460.5,
+    339.95,
+    10.21
+   ],
+   "max": [
+    -459.5,
+    340.45,
+    10.29
+   ]
+  },
+  "Lamp16": {
+   "tris": 12,
+   "min": [
+    -505.5,
+    339.95,
+    10.21
+   ],
+   "max": [
+    -504.5,
+    340.45,
+    10.29
+   ]
+  },
+  "Lamp17": {
+   "tris": 12,
+   "min": [
+    -370.5,
+    314.55,
+    10.21
+   ],
+   "max": [
+    -369.5,
+    315.05,
+    10.29
+   ]
+  },
+  "Lamp18": {
+   "tris": 12,
+   "min": [
+    -415.5,
+    314.55,
+    10.21
+   ],
+   "max": [
+    -414.5,
+    315.05,
+    10.29
+   ]
+  },
+  "Lamp19": {
+   "tris": 12,
+   "min": [
+    -460.5,
+    314.55,
+    10.21
+   ],
+   "max": [
+    -459.5,
+    315.05,
+    10.29
+   ]
+  },
+  "Lamp20": {
+   "tris": 12,
+   "min": [
+    -505.5,
+    314.55,
+    10.21
+   ],
+   "max": [
+    -504.5,
+    315.05,
+    10.29
+   ]
+  },
+  "Bin": {
+   "tris": 88,
+   "min": [
+    -517.0,
+    336.0,
+    0.3
+   ],
+   "max": [
+    -511.0,
+    338.0,
+    3.5
+   ]
+  },
+  "Soil": {
+   "tris": 12,
+   "min": [
+    -519.0,
+    273.0,
+    0.3
+   ],
+   "max": [
+    -341.0,
+    292.4,
+    0.8
+   ]
+  },
+  "Trunk": {
+   "tris": 2520,
+   "min": [
+    -507.49,
+    279.63,
+    0.8
+   ],
+   "max": [
+    -353.68,
+    286.31,
+    34.08
+   ]
+  },
+  "Palm": {
+   "tris": 3696,
+   "min": [
+    -521.19,
+    265.43,
+    24.77
+   ],
+   "max": [
+    -340.51,
+    299.88,
+    34.07
+   ]
+  },
+  "Shrub": {
+   "tris": 340,
+   "min": [
+    -516.28,
+    274.09,
+    0.33
+   ],
+   "max": [
+    -343.74,
+    289.71,
+    5.02
+   ]
+  }
+ },
+ "lamps": [
+  "Lamp1",
+  "Lamp2",
+  "Lamp3",
+  "Lamp4",
+  "Lamp5",
+  "Lamp6",
+  "Lamp7",
+  "Lamp8",
+  "Lamp9",
+  "Lamp10",
+  "Lamp11",
+  "Lamp12",
+  "Lamp13",
+  "Lamp14",
+  "Lamp15",
+  "Lamp16",
+  "Lamp17",
+  "Lamp18",
+  "Lamp19",
+  "Lamp20"
+ ],
+ "textures": {
+  "Deck": "ForeCrete_Color.png",
+  "Asphalt": "LotAsphalt_Color.png",
+  "Cap": "ParkCap_Color.png",
+  "Wall": "ParkWall_Color.png",
+  "Hazard": "Hazard_Color.png",
+  "GarageBlue": "GarageBlue_Color.png",
+  "LotLine": "LotLine_Color.png",
+  "Lamp1": "Light_Color.png",
+  "Dark": "Dark_Color.png",
+  "Lamp2": "Light_Color.png",
+  "Lamp3": "Light_Color.png",
+  "Lamp4": "Light_Color.png",
+  "Lamp5": "Light_Color.png",
+  "Lamp6": "Light_Color.png",
+  "Lamp7": "Light_Color.png",
+  "Lamp8": "Light_Color.png",
+  "Steel": "Steel_Color.png",
+  "Lamp9": "Light_Color.png",
+  "Lamp10": "Light_Color.png",
+  "Lamp11": "Light_Color.png",
+  "Lamp12": "Light_Color.png",
+  "Block": "MallStucco_Color.png",
+  "StoreOrange": "StoreOrange_Color.png",
+  "DoorGrey": "DoorGrey_Color.png",
+  "GarageSigns": "GarageSigns_Color.png",
+  "AcBody": "HvacGrey_Color.png",
+  "Yellow": "Yellow_Color.png",
+  "RoofTar": "RoofTar_Color.png",
+  "Pave": "Plinth_Color.png",
+  "StoreDoor": "StoreDoor_Color.png",
+  "Lamp13": "Light_Color.png",
+  "Lamp14": "Light_Color.png",
+  "Lamp15": "Light_Color.png",
+  "Lamp16": "Light_Color.png",
+  "Lamp17": "Light_Color.png",
+  "Lamp18": "Light_Color.png",
+  "Lamp19": "Light_Color.png",
+  "Lamp20": "Light_Color.png",
+  "Bin": "BinGreen_Color.png",
+  "Soil": "Soil_Color.png",
+  "Trunk": "Trunk_Color.png",
+  "Palm": "Palm_Color.png",
+  "Shrub": "Shrub_Color.png"
+ }
+}

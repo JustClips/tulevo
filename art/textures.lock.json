@@ -3582,12 +3582,12 @@
  "3e566af1b370bf0bf571af23ee6a8d058df53832f8768c55bec34aa56a8a68be": {
   "id": 131889519408424,
   "file": "art/models/BikeExhaust/tex/Carbon_Color.png",
-  "state": "Reviewing"
+  "state": "Approved"
  },
  "f2e85a342d37caa4726ed029fd5b6aea7df95e2b8fe0e8336f505f992219529e": {
   "id": 90998333556805,
   "file": "art/models/BikeExhaust/tex/Steel_Color.png",
-  "state": "Reviewing"
+  "state": "Approved"
  },
  "11c9c3f021f57cda7ad4bf54a001c55dc3d8adbe1d68b60524939c134cc9baeb": {
   "id": 71705674422805,
@@ -3712,6 +3712,56 @@
  "31a1609f0f239c1e27cfc6084558c087f783686d9180aa07a98473e179c6df82": {
   "id": 135847781004191,
   "file": "art/models/FuelStation/tex/MartStucco_Color.png",
+  "state": "Approved"
+ },
+ "b354d9fc8950b12455656e73eeca4ad1baecc0bbe74f3f86d6fcd4616271b26a": {
+  "id": 91050708956119,
+  "file": "art/models/CarWash/tex/BrushBlue_Color.png",
+  "state": "Approved"
+ },
+ "24ea4f93e2890ecb4b77aaa04d12ecd776e6a5e1cefa8750bf33e5a04c4769f5": {
+  "id": 70546495064707,
+  "file": "art/models/CarWash/tex/BrushRed_Color.png",
+  "state": "Approved"
+ },
+ "dee95d3679a7f0efccce161737195040cf8f12e039d8c4016b90a66297edb88f": {
+  "id": 100094139936240,
+  "file": "art/models/CarWash/tex/WashNavy_Color.png",
+  "state": "Approved"
+ },
+ "7dfd0b045708f945733be4c23e88dbefd331489a2089ca20bf9f44515e650546": {
+  "id": 78571367916834,
+  "file": "art/models/CarWash/tex/WashSigns_Color.png",
+  "state": "Approved"
+ },
+ "cb4cbc4507d75e10e6cba44441dce10bcaf16ed5cb8afb3ae1debe6cd3253056": {
+  "id": 73029525160988,
+  "file": "art/models/CarWash/tex/WashTeal_Color.png",
+  "state": "Approved"
+ },
+ "d629fe983242afd198af2ab2c378d2f7baf866bce6eb9900ec7c0afb1d62aa5a": {
+  "id": 87734240657607,
+  "file": "art/models/EastsideGarage/tex/DoorGrey_Color.png",
+  "state": "Approved"
+ },
+ "d6b7eb05f42965b48bdc87aeb8c0b7de31ab38eb6808030b182d6b2c3e5b330c": {
+  "id": 97951121250761,
+  "file": "art/models/EastsideGarage/tex/GarageBlue_Color.png",
+  "state": "Approved"
+ },
+ "9ac8a5754971c468794f6b73a6557554ed55c3e748614cb56bd2656f942b9a8e": {
+  "id": 129627494190856,
+  "file": "art/models/EastsideGarage/tex/GarageSigns_Color.png",
+  "state": "Approved"
+ },
+ "21eba61dd0e0ba35ab4b909e3bb6cc8fe5871a5c51032a28b5e5e8fa61a38c9a": {
+  "id": 84614740203505,
+  "file": "art/models/EastsideGarage/tex/StoreDoor_Color.png",
+  "state": "Approved"
+ },
+ "58fdf830f3be2ffce80147721676be271d75304767574f3f33e4a5f10422afba": {
+  "id": 81929055992778,
+  "file": "art/models/EastsideGarage/tex/StoreOrange_Color.png",
   "state": "Approved"
  }
 }

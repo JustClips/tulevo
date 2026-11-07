@@ -1,0 +1,520 @@
+{
+ "name": "MotelAnnex",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Concrete": {
+   "tris": 300,
+   "min": [
+    160.4,
+    67.3,
+    -0.9
+   ],
+   "max": [
+    369.3,
+    92.0,
+    11.82
+   ]
+  },
+  "Stucco": {
+   "tris": 110,
+   "min": [
+    165.4,
+    70.0,
+    0.3
+   ],
+   "max": [
+    367.0,
+    92.48,
+    28.74
+   ]
+  },
+  "Roof": {
+   "tris": 12,
+   "min": [
+    165.7,
+    70.3,
+    26.58
+   ],
+   "max": [
+    366.7,
+    85.3,
+    26.68
+   ]
+  },
+  "Coping": {
+   "tris": 96,
+   "min": [
+    164.92,
+    69.52,
+    11.41
+   ],
+   "max": [
+    367.48,
+    92.48,
+    29.0
+   ]
+  },
+  "Trim": {
+   "tris": 48,
+   "min": [
+    164.94,
+    69.54,
+    10.92
+   ],
+   "max": [
+    367.46,
+    91.86,
+    26.34
+   ]
+  },
+  "Units": {
+   "tris": 48,
+   "min": [
+    186.64,
+    75.28,
+    26.58
+   ],
+   "max": [
+    348.64,
+    80.32,
+    30.18
+   ]
+  },
+  "Dark": {
+   "tris": 232,
+   "min": [
+    188.13,
+    76.0,
+    0.3
+   ],
+   "max": [
+    347.15,
+    88.51,
+    30.27
+   ]
+  },
+  "RoofTile": {
+   "tris": 2,
+   "min": [
+    165.4,
+    85.6,
+    24.42
+   ],
+   "max": [
+    367.0,
+    92.48,
+    28.74
+   ]
+  },
+  "Post": {
+   "tris": 168,
+   "min": [
+    165.4,
+    90.32,
+    0.3
+   ],
+   "max": [
+    366.96,
+    91.46,
+    23.34
+   ]
+  },
+  "GlassA": {
+   "tris": 26,
+   "min": [
+    166.53,
+    69.97,
+    3.9
+   ],
+   "max": [
+    367.03,
+    85.66,
+    20.82
+   ]
+  },
+  "Frame": {
+   "tris": 5640,
+   "min": [
+    165.04,
+    67.83,
+    0.3
+   ],
+   "max": [
+    367.36,
+    85.99,
+    22.12
+   ]
+  },
+  "Sill": {
+   "tris": 2088,
+   "min": [
+    164.68,
+    67.4,
+    3.4
+   ],
+   "max": [
+    367.72,
+    86.35,
+    21.5
+   ]
+  },
+  "GlassC": {
+   "tris": 24,
+   "min": [
+    165.37,
+    68.08,
+    3.9
+   ],
+   "max": [
+    367.03,
+    85.66,
+    20.82
+   ]
+  },
+  "RoomFront": {
+   "tris": 42,
+   "min": [
+    165.4,
+    85.63,
+    0.3
+   ],
+   "max": [
+    338.2,
+    85.63,
+    23.34
+   ]
+  },
+  "GlassD": {
+   "tris": 22,
+   "min": [
+    181.89,
+    68.08,
+    3.9
+   ],
+   "max": [
+    367.03,
+    85.66,
+    20.64
+   ]
+  },
+  "Sconce": {
+   "tris": 252,
+   "min": [
+    178.61,
+    85.63,
+    7.86
+   ],
+   "max": [
+    337.66,
+    86.06,
+    20.46
+   ]
+  },
+  "AcBody": {
+   "tris": 252,
+   "min": [
+    167.63,
+    85.63,
+    1.78
+   ],
+   "max": [
+    329.63,
+    86.71,
+    14.81
+   ]
+  },
+  "AcUnit": {
+   "tris": 42,
+   "min": [
+    167.7,
+    86.72,
+    1.81
+   ],
+   "max": [
+    329.56,
+    86.72,
+    14.77
+   ]
+  },
+  "GlassE": {
+   "tris": 16,
+   "min": [
+    165.37,
+    68.08,
+    3.9
+   ],
+   "max": [
+    288.25,
+    85.66,
+    20.1
+   ]
+  },
+  "GlassF": {
+   "tris": 10,
+   "min": [
+    181.89,
+    69.97,
+    3.9
+   ],
+   "max": [
+    245.05,
+    85.66,
+    20.64
+   ]
+  },
+  "GlassB": {
+   "tris": 20,
+   "min": [
+    165.37,
+    68.08,
+    3.9
+   ],
+   "max": [
+    367.03,
+    85.66,
+    20.64
+   ]
+  },
+  "BackWall": {
+   "tris": 2,
+   "min": [
+    194.2,
+    85.63,
+    0.3
+   ],
+   "max": [
+    208.6,
+    85.63,
+    11.82
+   ]
+  },
+  "IceSign": {
+   "tris": 2,
+   "min": [
+    197.08,
+    85.66,
+    8.58
+   ],
+   "max": [
+    205.72,
+    85.66,
+    10.74
+   ]
+  },
+  "Soda": {
+   "tris": 2,
+   "min": [
+    202.55,
+    88.52,
+    0.37
+   ],
+   "max": [
+    206.01,
+    88.52,
+    7.0
+   ]
+  },
+  "IceMachine": {
+   "tris": 2,
+   "min": [
+    196.79,
+    88.52,
+    0.37
+   ],
+   "max": [
+    200.25,
+    88.52,
+    7.0
+   ]
+  },
+  "OfficeGlass": {
+   "tris": 2,
+   "min": [
+    168.28,
+    85.63,
+    0.3
+   ],
+   "max": [
+    191.32,
+    85.63,
+    11.1
+   ]
+  },
+  "OfficeSign": {
+   "tris": 2,
+   "min": [
+    165.7,
+    91.89,
+    10.92
+   ],
+   "max": [
+    193.9,
+    91.89,
+    15.67
+   ]
+  },
+  "Lamp1": {
+   "tris": 12,
+   "min": [
+    316.6,
+    87.78,
+    10.83
+   ],
+   "max": [
+    325.24,
+    89.22,
+    10.87
+   ]
+  },
+  "Lamp2": {
+   "tris": 12,
+   "min": [
+    282.04,
+    87.78,
+    10.83
+   ],
+   "max": [
+    290.68,
+    89.22,
+    10.87
+   ]
+  },
+  "Lamp3": {
+   "tris": 12,
+   "min": [
+    247.48,
+    87.78,
+    10.83
+   ],
+   "max": [
+    256.12,
+    89.22,
+    10.87
+   ]
+  },
+  "Lamp4": {
+   "tris": 12,
+   "min": [
+    212.92,
+    87.78,
+    10.83
+   ],
+   "max": [
+    221.56,
+    89.22,
+    10.87
+   ]
+  },
+  "Lamp5": {
+   "tris": 12,
+   "min": [
+    178.36,
+    87.78,
+    10.83
+   ],
+   "max": [
+    187.0,
+    89.22,
+    10.87
+   ]
+  },
+  "GlassFrost": {
+   "tris": 56,
+   "min": [
+    174.71,
+    69.97,
+    6.6
+   ],
+   "max": [
+    364.61,
+    69.97,
+    20.28
+   ]
+  },
+  "WinIron": {
+   "tris": 3036,
+   "min": [
+    164.79,
+    67.9,
+    3.72
+   ],
+   "max": [
+    367.61,
+    84.82,
+    8.76
+   ]
+  },
+  "Pipe": {
+   "tris": 840,
+   "min": [
+    179.56,
+    69.47,
+    0.3
+   ],
+   "max": [
+    352.84,
+    69.95,
+    28.74
+   ]
+  },
+  "Meter": {
+   "tris": 12,
+   "min": [
+    272.59,
+    69.28,
+    3.54
+   ],
+   "max": [
+    274.21,
+    70.0,
+    5.7
+   ]
+  }
+ },
+ "lamps": [
+  "Lamp1",
+  "Lamp2",
+  "Lamp3",
+  "Lamp4",
+  "Lamp5"
+ ],
+ "textures": {
+  "Concrete": "Concrete_Color.png",
+  "Stucco": "Stucco_Color.png",
+  "Roof": "Roof_Color.png",
+  "Coping": "Coping_Color.png",
+  "Trim": "Trim_Color.png",
+  "Units": "Units_Color.png",
+  "Dark": "Dark_Color.png",
+  "RoofTile": "RoofTile_Color.png",
+  "Post": "Post_Color.png",
+  "GlassA": "GlassA_Color.png",
+  "Frame": "Frame_Color.png",
+  "Sill": "Sill_Color.png",
+  "GlassC": "GlassC_Color.png",
+  "RoomFront": "RoomFront_Color.png",
+  "GlassD": "GlassD_Color.png",
+  "Sconce": "Sconce_Color.png",
+  "AcBody": "AcBody_Color.png",
+  "AcUnit": "AcUnit_Color.png",
+  "GlassE": "GlassE_Color.png",
+  "GlassF": "GlassF_Color.png",
+  "GlassB": "GlassB_Color.png",
+  "BackWall": "BackWall_Color.png",
+  "IceSign": "IceSign_Color.png",
+  "Soda": "Soda_Color.png",
+  "IceMachine": "IceMachine_Color.png",
+  "OfficeGlass": "OfficeGlass_Color.png",
+  "OfficeSign": "OfficeSign_Color.png",
+  "Lamp1": "Light_Color.png",
+  "Lamp2": "Light_Color.png",
+  "Lamp3": "Light_Color.png",
+  "Lamp4": "Light_Color.png",
+  "Lamp5": "Light_Color.png",
+  "GlassFrost": "GlassFrost_Color.png",
+  "WinIron": "WinIron_Color.png",
+  "Pipe": "Pipe_Color.png",
+  "Meter": "Meter_Color.png"
+ }
+}
