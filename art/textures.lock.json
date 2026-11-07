@@ -2803,5 +2803,15 @@
   "id": 125404463799650,
   "file": "art/models/StreetVaultAvenue/tex/Trunk_Color.png",
   "state": "Approved"
+ },
+ "ea8d5ee5aa051a1c9ddf309aff25aaa14750d540b377fe1cb6291798d23c9d89": {
+  "id": 71050774128426,
+  "file": "art/models/StreetBackStreet/tex/SignalBody_Color.png",
+  "state": "Reviewing"
+ },
+ "795c03045c50a56c08b5ef6d9b859132dcdb881b805978c99a2610e2b97a281f": {
+  "id": 74084674557679,
+  "file": "art/models/StreetCorners/tex/SignalYellow_Color.png",
+  "state": "Approved"
  }
 }

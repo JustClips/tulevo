@@ -317,7 +317,8 @@ def street():
     paint("NewsBlue", (24, 70, 140), grain="PaintedMetal012", strength=0.3)
     paint("NewsRed", (170, 30, 30), grain="PaintedMetal012", strength=0.3)
     paint("NewsAmber", (225, 160, 20), grain="PaintedMetal012", strength=0.3)
-    paint("SignalBody", (40, 42, 38), grain="Metal029", strength=0.5)
+    paint("SignalBody", (58, 60, 58), grain="Metal029", strength=0.5)
+    paint("SignalYellow", (214, 168, 34), grain="PaintedMetal012", strength=0.35)
     real("BenchWood", "Planks023A", 512, tint=(150, 104, 66), gain=1.15)
     real("Plinth", "Concrete034", 512)
     real("Bark", "WoodSiding008", 256, tint=(90, 72, 56))
@@ -327,3 +328,219 @@ def street():
 if __name__ == "__main__":
     fetch()
     street()
+    brick_building()
+
+
+# ================================================================= buildings
+def glass_over(im, seed, amount=0.38):
+    """Sky reflection, a glint and edge grime over a drawn interior (shop windows)."""
+    r = random.Random(seed)
+    w, h = im.size
+    base = np.asarray(im.convert("RGB"), np.float32)
+    ys = np.linspace(0, 1, h)[:, None]
+    sky = np.stack([190 - 70 * ys, 214 - 70 * ys, 232 - 60 * ys], -1) * np.ones((1, w, 1))
+    a = np.ones((h, w, 1)) * (amount * (1 - 0.5 * ys))[..., None]
+    out = base * (1 - a) + sky * a
+    gl = Image.new("L", (w, h), 0)
+    gd = ImageDraw.Draw(gl)
+    for _ in range(2):
+        g = r.uniform(0.1, 0.9)
+        gd.polygon([(w * g, 0), (w * (g + 0.08), 0), (w * (g - 0.12), h), (w * (g - 0.2), h)], fill=34)
+    gl = np.asarray(gl.filter(ImageFilter.GaussianBlur(3)), np.float32)[..., None] / 255
+    out = out * (1 - gl) + 255 * gl
+    return Image.fromarray(np.clip(out, 0, 255).astype(np.uint8))
+
+
+def shop_interior(kind, seed, w=1024, h=480):
+    """What you see through a shop window: back wall, floor, fittings, people-free, door at the right."""
+    r = random.Random(seed)
+    wall = {"barber": (214, 206, 190), "donut": (246, 222, 196), "pharmacy": (232, 236, 236), "noodle": (176, 48, 40),
+            "cafe": (120, 88, 64), "phone": (228, 230, 234), "tailor": (200, 186, 160), "books": (90, 70, 52)}[kind]
+    im = Image.new("RGB", (w, h), wall)
+    d = ImageDraw.Draw(im)
+    d.rectangle((0, int(h * 0.78), w, h), fill=(150, 140, 128) if kind != "noodle" else (90, 70, 60))      # floor
+    for x in range(0, w, 64):
+        d.line((x, int(h * 0.78), x - 40, h), fill=(130, 120, 110), width=2)
+    # ceiling lights
+    for x in range(80, w, 220):
+        d.rectangle((x, 6, x + 120, 16), fill=(255, 250, 230))
+    if kind == "barber":
+        for i in range(3):
+            x = 90 + i * 260
+            d.rectangle((x, 110, x + 150, 250), fill=(190, 210, 220), outline=(80, 70, 60), width=6)       # mirror
+            d.rectangle((x + 30, 270, x + 120, 330), fill=(30, 30, 34))                                       # chair back
+            d.rectangle((x + 20, 330, x + 130, 370), fill=(150, 30, 30))
+            d.rectangle((x + 65, 370, x + 85, 400), fill=(160, 160, 165))
+        for y in range(40, 420, 28):                                                                         # pole stripes
+            d.polygon([(w - 70, y), (w - 40, y + 14), (w - 40, y + 28), (w - 70, y + 14)], fill=(200, 30, 30))
+        d.rectangle((w - 70, 40, w - 40, 420), outline=(240, 240, 240), width=4)
+    elif kind == "donut":
+        d.rectangle((60, 260, 760, 380), fill=(220, 220, 214))                                               # display case
+        d.rectangle((70, 270, 750, 330), fill=(200, 226, 236))
+        for i in range(16):
+            x = 90 + i * 40
+            c = r.choice([(214, 160, 90), (240, 150, 190), (120, 70, 40), (250, 240, 220)])
+            d.ellipse((x, 290, x + 30, 318), fill=c); d.ellipse((x + 11, 300, x + 19, 308), fill=(200, 226, 236))
+        d.rectangle((120, 60, 700, 180), fill=(60, 40, 30))                                                  # menu board
+        for k in range(5):
+            d.line((150, 85 + k * 20, 400 + r.randint(0, 200), 85 + k * 20), fill=(240, 220, 180), width=4)
+    elif kind == "pharmacy":
+        for row in range(4):                                                                                 # shelves
+            y = 120 + row * 70
+            d.rectangle((40, y + 50, 780, y + 56), fill=(170, 170, 176))
+            x = 46
+            while x < 770:
+                bw = r.randint(14, 30)
+                d.rectangle((x, y + 50 - r.randint(20, 46), x + bw, y + 50), fill=r.choice([(40, 120, 200), (230, 230, 236), (220, 80, 60), (90, 170, 90), (240, 190, 60)]))
+                x += bw + 3
+        d.rectangle((830, 60, 930, 160), fill=(30, 150, 80))                                                 # green cross sign
+        d.rectangle((865, 75, 895, 145), fill=(240, 255, 240)); d.rectangle((845, 95, 915, 125), fill=(240, 255, 240))
+    elif kind == "noodle":
+        for i in range(4):                                                                                   # tables + stools
+            x = 70 + i * 190
+            d.rectangle((x, 300, x + 120, 312), fill=(60, 36, 24)); d.rectangle((x + 54, 312, x + 66, 372), fill=(40, 30, 24))
+            for sx in (x - 10, x + 110):
+                d.ellipse((sx, 330, sx + 30, 342), fill=(200, 40, 30)); d.rectangle((sx + 12, 342, sx + 18, 374), fill=(40, 40, 40))
+        for i in range(5):                                                                                   # paper lanterns
+            x = 90 + i * 170
+            d.line((x + 25, 0, x + 25, 50), fill=(30, 30, 30), width=2)
+            d.ellipse((x, 50, x + 50, 110), fill=(250, 200, 80)); d.ellipse((x + 6, 56, x + 44, 104), fill=(255, 226, 120))
+    elif kind == "cafe":
+        d.rectangle((60, 250, 700, 380), fill=(70, 50, 38))                                                  # counter
+        d.rectangle((120, 190, 220, 250), fill=(180, 180, 186))                                              # espresso machine
+        for i in range(6):
+            d.rectangle((300 + i * 60, 220, 330 + i * 60, 250), fill=(240, 240, 236))                         # cups
+        for k in range(4):
+            d.rectangle((60 + k * 160, 70, 180 + k * 160, 150), fill=(50, 40, 34))                           # menu
+            for j in range(3):
+                d.line((70 + k * 160, 90 + j * 18, 160 + k * 160, 90 + j * 18), fill=(230, 220, 200), width=3)
+    elif kind == "phone":
+        for i in range(3):
+            x = 60 + i * 260
+            d.rectangle((x, 280, x + 200, 380), fill=(240, 240, 244))                                         # display tables
+            for k in range(5):
+                d.rounded_rectangle((x + 10 + k * 38, 250, x + 36 + k * 38, 300), 4, fill=(20, 20, 24))
+        d.rectangle((60, 60, 760, 200), fill=(40, 120, 220))
+    elif kind == "tailor":
+        for i in range(4):
+            x = 80 + i * 180
+            d.ellipse((x + 40, 110, x + 80, 150), fill=(60, 50, 40))
+            d.polygon([(x + 20, 160), (x + 100, 160), (x + 90, 330), (x + 30, 330)], fill=r.choice([(40, 50, 80), (90, 30, 30), (60, 60, 60), (120, 100, 70)]))
+            d.rectangle((x + 56, 330, x + 64, 390), fill=(40, 40, 40))
+    elif kind == "books":
+        for row in range(5):
+            y = 70 + row * 62
+            d.rectangle((40, y + 52, 800, y + 58), fill=(60, 40, 28))
+            x = 44
+            while x < 790:
+                bw = r.randint(8, 18)
+                d.rectangle((x, y + 52 - r.randint(30, 50), x + bw, y + 52), fill=r.choice([(140, 40, 30), (40, 70, 120), (200, 180, 120), (60, 100, 60), (220, 220, 210)]))
+                x += bw + 1
+    # door on the right: frame, push bar, OPEN sign
+    dx0 = w - 230 if kind != "barber" else w - 330
+    d.rectangle((dx0, 40, dx0 + 190, h), outline=(70, 72, 76), width=12)
+    d.rectangle((dx0 + 20, int(h * 0.55), dx0 + 170, int(h * 0.55) + 12), fill=(190, 190, 196))
+    d.rounded_rectangle((dx0 + 40, 110, dx0 + 150, 160), 8, fill=(20, 20, 20))
+    fit_text(d, (dx0 + 95, 136), "OPEN", FONT_B, 96, 34, (255, 60, 70))
+    fit_text(d, (dx0 + 95, 200), "7 DAYS", FONT_B, 120, 18, (250, 250, 250))
+    return glass_over(im, seed)
+
+
+SHOPS = {   # set: (sign text, sign colours, interior kind)
+    "A": [("QUICK CUTS", (20, 30, 60), (245, 245, 245), "barber"), ("GOLDEN CRUST DONUTS", (240, 196, 60), (90, 40, 20), "donut"),
+          ("CORNER PHARMACY", (245, 245, 240), (20, 120, 70), "pharmacy"), ("JADE NOODLE HOUSE", (150, 24, 24), (250, 220, 120), "noodle")],
+    "B": [("BEAN THERE CAFE", (60, 40, 30), (240, 220, 190), "cafe"), ("CELL CITY REPAIR", (30, 110, 210), (250, 250, 250), "phone"),
+          ("MORALES TAILORING", (30, 30, 30), (220, 190, 120), "tailor"), ("SECOND CHAPTER BOOKS", (30, 70, 50), (240, 230, 200), "books")],
+}
+
+
+def shop_sets():
+    for key, shops in SHOPS.items():
+        fronts = Image.new("RGB", (1024, 1024))
+        signs = Image.new("RGB", (1024, 512))
+        sd = ImageDraw.Draw(signs)
+        for i, (text, bg, fg, kind) in enumerate(shops):
+            fronts.paste(shop_interior(kind, 400 + i + (10 if key == "B" else 0), 512, 480).resize((512, 512)), ((i % 2) * 512, (i // 2) * 512))
+            y0 = i * 128
+            sd.rectangle((0, y0, 1024, y0 + 128), fill=bg)
+            sd.rectangle((10, y0 + 10, 1014, y0 + 118), outline=fg, width=4)
+            fit_text(sd, (512, y0 + 66), text, FONT_B, 940, 78, fg)
+        save(f"Storefronts{key}", fronts, 30)
+        save(f"ShopSigns{key}", signs.filter(ImageFilter.GaussianBlur(0.5)), 140)
+
+
+def awnings():
+    """4 striped / plain canvas awnings side by side (UV quarter each)."""
+    W, H = 1024, 256
+    im = Image.new("RGB", (W, H))
+    d = ImageDraw.Draw(im)
+    specs = [((170, 30, 30), (240, 236, 226)), ((24, 90, 60), (236, 228, 200)), ((26, 40, 80), None), ((120, 30, 44), None)]
+    for i, (a, b) in enumerate(specs):
+        x0 = i * 256
+        if b:
+            for k in range(8):
+                d.rectangle((x0 + k * 32, 0, x0 + k * 32 + 16, H), fill=a)
+                d.rectangle((x0 + k * 32 + 16, 0, x0 + k * 32 + 32, H), fill=b)
+        else:
+            d.rectangle((x0, 0, x0 + 256, H), fill=a)
+            d.rectangle((x0, H - 30, x0 + 256, H - 26), fill=(230, 220, 200))
+    g = np.asarray(scan("Plaster001", size=W).convert("L").resize((W, H)), np.float32) / 255
+    arr = np.asarray(im, np.float32) * (0.82 + 0.3 * (g[..., None] / g.mean() - 1) + 0.18)
+    save("Awnings", Image.fromarray(np.clip(arr, 0, 255).astype(np.uint8)), 200)
+
+
+def lobby_door():
+    w, h = 512, 768
+    im = Image.new("RGB", (w, h), (40, 34, 30))
+    d = ImageDraw.Draw(im)
+    inner = shop_interior("tailor", 77, 400, 600)
+    inner = Image.new("RGB", (400, 600), (180, 150, 110))
+    di = ImageDraw.Draw(inner)
+    di.rectangle((0, 470, 400, 600), fill=(120, 96, 70))
+    for k in range(6):                                                # mailboxes on the lobby wall
+        for j in range(3):
+            di.rectangle((40 + k * 52, 200 + j * 50, 84 + k * 52, 240 + j * 50), fill=(170, 150, 90), outline=(90, 70, 40), width=3)
+    di.rectangle((150, 20, 250, 40), fill=(255, 240, 210))
+    im.paste(glass_over(inner, 5, 0.3), (56, 120))
+    d.rectangle((56, 120, 456, 720), outline=(70, 56, 30), width=14)
+    d.line((256, 120, 256, 720), fill=(70, 56, 30), width=12)
+    for x in (226, 286):
+        d.rectangle((x - 6, 380, x + 6, 470), fill=(200, 170, 80))
+    d.rectangle((56, 20, 456, 110), fill=(30, 26, 22))
+    fit_text(d, (256, 66), "1425", FONT_B, 300, 64, (220, 190, 110))
+    save("LobbyDoor", im, 90)
+
+
+def ghost_sign():
+    """Faded painted wall ad on the side brick (original wording)."""
+    W, H = 1024, 512
+    base = scan("Bricks085", size=1024).crop((0, 0, 1024, 512))
+    over = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    d = ImageDraw.Draw(over)
+    d.rectangle((30, 30, W - 30, H - 30), fill=(230, 224, 200, 120))
+    d.rectangle((50, 50, W - 50, H - 50), outline=(40, 60, 90, 150), width=10)
+    fit_text(d, (W / 2, 150), "HALVORSEN & SONS", FONT_B, W - 140, 110, (40, 60, 90, 170))
+    fit_text(d, (W / 2, 290), "FINE FURNITURE", FONT_B, W - 200, 96, (150, 40, 30, 160))
+    fit_text(d, (W / 2, 400), "EST. 1931", FONT_B, 400, 60, (40, 60, 90, 150))
+    # weathering: knock out paint where the brick noise is dark
+    g = np.asarray(base.convert("L"), np.float32)
+    keep = (g > np.percentile(g, 30)).astype(np.float32)
+    keep = np.asarray(Image.fromarray((keep * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(1.2)), np.float32) / 255
+    a = np.asarray(over.getchannel("A"), np.float32) * keep
+    over.putalpha(Image.fromarray(a.astype(np.uint8)))
+    out = Image.alpha_composite(base.convert("RGBA"), over).convert("RGB")
+    save("GhostSign", out, scan("Bricks085", "Roughness", 1024).crop((0, 0, 1024, 512)))
+
+
+def brick_building():
+    from tex_kit import glass_set
+    real("BrickRed", "Bricks085", 1024)
+    real("BrickBrown", "Bricks094", 1024)
+    real("BrickTan", "Bricks101", 1024, tint=(196, 160, 120), gain=1.1)
+    real("StoneTrim", "Concrete034", 512, tint=(214, 206, 188))
+    real("RoofTar", "Concrete044D", 512, tint=(70, 70, 72), gain=0.8)
+    real("TankWood", "Planks037A", 512) if os.path.exists(os.path.join(SRC, "Planks037A_Color.png")) else real("TankWood", "Planks023A", 512)
+    paint("FireSteel", (34, 36, 34), grain="Metal029", strength=0.6)
+    paint("HvacGrey", (168, 170, 166), grain="PaintedMetal012", strength=0.3)
+    glass_set(lambda n, c, r=None: save(n, c, r), prefix="Glass", n=6, seed=940, kinds=("home",), size=(256, 256))
+    shop_sets(); awnings(); lobby_door(); ghost_sign()

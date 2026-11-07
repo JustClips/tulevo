@@ -16,21 +16,34 @@
     0.82
    ]
   },
-  "Pole": {
-   "tris": 2880,
+  "PoleGalv": {
+   "tris": 6672,
    "min": [
-    -145.39,
-    -157.39,
-    0.82
+    -147.48,
+    -499.88,
+    0.6
    ],
    "max": [
-    145.39,
-    157.39,
-    25.9
+    147.48,
+    499.88,
+    26.09
+   ]
+  },
+  "MetalSignalHead": {
+   "tris": 6336,
+   "min": [
+    -145.24,
+    -157.24,
+    9.71
+   ],
+   "max": [
+    145.24,
+    157.24,
+    21.91
    ]
   },
   "MetalSignal": {
-   "tris": 6336,
+   "tris": 576,
    "min": [
     -145.25,
     -157.25,
@@ -46,12 +59,12 @@
    "tris": 1056,
    "min": [
     -144.02,
-    -155.77,
+    -155.23,
     12.88
    ],
    "max": [
     144.02,
-    155.77,
+    155.23,
     21.12
    ]
   },
@@ -59,12 +72,12 @@
    "tris": 1056,
    "min": [
     -144.02,
-    -155.77,
+    -155.23,
     11.69
    ],
    "max": [
     144.02,
-    155.77,
+    155.23,
     19.93
    ]
   },
@@ -72,26 +85,13 @@
    "tris": 1056,
    "min": [
     -144.02,
-    -155.77,
+    -155.23,
     10.5
    ],
    "max": [
     144.02,
-    155.77,
+    155.23,
     18.74
-   ]
-  },
-  "PoleGalv": {
-   "tris": 1168,
-   "min": [
-    -147.48,
-    -499.88,
-    0.6
-   ],
-   "max": [
-    147.48,
-    499.88,
-    26.09
    ]
   },
   "DecoPrint": {
@@ -110,12 +110,12 @@
   "SignalNSRed": {
    "tris": 1056,
    "min": [
-    -143.77,
+    -143.23,
     -156.02,
     12.88
    ],
    "max": [
-    143.77,
+    143.23,
     156.02,
     21.12
    ]
@@ -123,12 +123,12 @@
   "SignalNSAmber": {
    "tris": 1056,
    "min": [
-    -143.77,
+    -143.23,
     -156.02,
     11.69
    ],
    "max": [
-    143.77,
+    143.23,
     156.02,
     19.93
    ]
@@ -136,12 +136,12 @@
   "SignalNSGreen": {
    "tris": 1056,
    "min": [
-    -143.77,
+    -143.23,
     -156.02,
     10.5
    ],
    "max": [
-    143.77,
+    143.23,
     156.02,
     18.74
    ]
@@ -150,12 +150,12 @@
  "lamps": [],
  "textures": {
   "Plinth": "Plinth_Color.png",
-  "Pole": "PoleSteel_Color.png",
+  "PoleGalv": "PoleGalv_Color.png",
+  "MetalSignalHead": "SignalYellow_Color.png",
   "MetalSignal": "SignalBody_Color.png",
   "SignalEWRed": "LensRed_Color.png",
   "SignalEWAmber": "LensAmber_Color.png",
   "SignalEWGreen": "LensGreen_Color.png",
-  "PoleGalv": "PoleGalv_Color.png",
   "DecoPrint": "DecoPrint_Color.png",
   "SignalNSRed": "LensRed_Color.png",
   "SignalNSAmber": "LensAmber_Color.png",

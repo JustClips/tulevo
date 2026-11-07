@@ -40,6 +40,8 @@ CLEAR = [
     ("WestStreet", "W", 160, 330),          # Kestrel gas station side entry
     ("VaultAvenue", "S", -232, -150),       # Palmview Motel driveway
     ("BackStreet", "S", 360, 472),          # The Marlowe garage
+    ("BackStreet", "S", 545, 575),          # police station drives (Bellmont thread, 2026-11-07)
+    ("BackStreet", "S", 600, 630),
     ("VaultAvenue", "N", -84, 84),          # main spawn plaza (it has its own lamps, bus stop, benches)
 ]
 # bus stops: (road, side, u)

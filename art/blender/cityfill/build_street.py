@@ -64,6 +64,7 @@ class Street:
                                 ("MailBlue", "MailBlue", (1 * M, 1 * M)), ("CabGrey", "CabGrey", (1 * M, 1 * M)),
                                 ("NewsBlue", "NewsBlue", (1 * M, 1 * M)), ("NewsRed", "NewsRed", (1 * M, 1 * M)),
                                 ("NewsAmber", "NewsAmber", (1 * M, 1 * M)), ("SignalBody", "SignalBody", (1 * M, 1 * M)),
+                                ("SignalYellow", "SignalYellow", (1 * M, 1 * M)),
                                 ("BenchWood", "BenchWood", (1.2 * M, 1.2 * M)), ("Plinth", "Plinth", (1.5 * M, 1.5 * M)),
                                 ("Bark", "Bark", (0.8 * M, 0.8 * M)), ("Leaves", "Leaves", (1.6 * M, 1.6 * M)),
                                 ("ShelterGlass", "ShelterGlass", (1.5 * M, 2.4 * M))):
@@ -265,9 +266,21 @@ class Street:
         self.cyl("Bin", (0, 0, H - 0.02 * M), R + 0.04 * M, 0.06 * M, segs=16, mat="BinGreen")    # rim
         self.cyl("Bin", (0, 0, H + 0.08 * M), R + 0.02 * M, 0.14 * M, segs=16, r2=0.12 * M, mat="BinGreen")  # dome lid
         self.cyl("Bin", (0, 0, H + 0.17 * M), 0.12 * M, 0.04 * M, segs=12, mat="BinGreen")
-        # label band on the sidewalk side (local +Y faces the buildings)
-        self.box("Bin", (0, R + 0.035 * M, 0.55 * M), (0.42 * M, 0.02 * M, 0.14 * M), mat="BinGreen")
-        self.printed("BinLabel", 0, R + 0.047 * M, 0.49 * M, 0.4 * M, 0.11 * M, facing=1)
+        # label wrapped round the slats on the sidewalk side (local +Y faces the buildings):
+        # a curved strip of facets lying on the slats, so nothing stands off the bin
+        x0, y0, x1, y1 = ATLAS["BinLabel"]
+        n_f, span = 8, math.radians(80)
+        self.cyl("Bin", (0, 0, 0.545 * M), R + 0.015 * M, 0.15 * M, segs=18, mat="BinGreen")      # solid label band
+        rl = R + 0.03 * M
+        for k in range(n_f):
+            a0 = math.pi / 2 + span / 2 - k * span / n_f
+            a1 = a0 - span / n_f
+            u0, u1 = x1 - (x1 - x0) * k / n_f, x1 - (x1 - x0) * (k + 1) / n_f
+            p0 = (math.cos(a0) * rl, math.sin(a0) * rl)
+            p1 = (math.cos(a1) * rl, math.sin(a1) * rl)
+            z0, z1 = 0.49 * M, 0.6 * M
+            self.quad("DecoPrint", [(p1[0], p1[1], z0), (p0[0], p0[1], z0), (p0[0], p0[1], z1), (p1[0], p1[1], z1)],
+                      ((u1, 1 - y1), (u0, 1 - y1), (u0, 1 - y0), (u1, 1 - y0)))
         self.col((0, 0, 0.55 * M), (0.66 * M, 0.66 * M, 1.1 * M))
 
     def bench(self, p):
@@ -445,23 +458,30 @@ class Street:
         self.rz = 0.0
         H = 6.2 * M
         self.box("Plinth", (0, 0, 0.0), (0.7 * M, 0.7 * M, 0.12 * M))
-        self.cyl("Pole", (0, 0, 0.1 * M), 0.22 * M, 0.08 * M, segs=12, mat="PoleSteel")
-        self.cyl("Pole", (0, 0, H / 2 + 0.1 * M), 0.15 * M, H, segs=10, r2=0.1 * M, mat="PoleSteel")
-        self.cyl("Pole", (0, 0, H + 0.35 * M), 0.08 * M, 0.5 * M, segs=8, mat="PoleSteel")
+        self.cyl("PoleGalv", (0, 0, 0.1 * M), 0.22 * M, 0.08 * M, segs=12, mat="PoleGalv")
+        self.cyl("PoleGalv", (0, 0, H / 2 + 0.1 * M), 0.15 * M, H, segs=10, r2=0.1 * M, mat="PoleGalv")
+        self.cyl("PoleGalv", (0, 0, H + 0.35 * M), 0.08 * M, 0.5 * M, segs=8, mat="PoleGalv")
         self.col((0, 0, H / 2), (0.32 * M, 0.32 * M, H))
         self.col((0, 0, 0.0), (0.7 * M, 0.7 * M, 0.12 * M), "Concrete")
         arm = p["arm"]
         a0 = Vector((0, 0, H - 0.2 * M))
         a1 = a0 - right * arm
-        self.rod("Pole", tuple(a0), tuple(a1), 0.07 * M, segs=8, mat="PoleSteel")
-        self.rod("Pole", tuple(a0 + Vector((0, 0, 1.0 * M))), tuple(a0 - right * arm * 0.35), 0.03 * M, segs=6, mat="PoleSteel")
+        self.rod("PoleGalv", tuple(a0 - right * 0.1 * M), tuple(a1), 0.07 * M, segs=8, mat="PoleGalv")
+        self.box("PoleGalv", tuple(a0 - right * 0.12 * M), (0.36 * M, 0.36 * M, 0.42 * M), mat="PoleGalv")   # arm clamp
+        self.rod("PoleGalv", tuple(a0 + Vector((0, 0, 1.0 * M))), tuple(a0 - right * arm * 0.35), 0.03 * M, segs=6, mat="PoleGalv")
         phase = p["phase"]
         for t in (0.35, 0.83):
             c = a0 - right * arm * t - Vector((0, 0, 0.75 * M))
             self.head(self.w(c), d, phase)
-            self.rod("Pole", tuple(c + Vector((0, 0, 0.6 * M))), tuple(a0 - right * arm * t), 0.02 * M, segs=4, mat="PoleSteel")
-        # a third head on the pole itself, at driver height
-        self.head(self.w(Vector((0, 0, 3.2 * M)) - right * 0.35 * M), d, phase)
+            # hanger: from inside the head's top, through the arm
+            self.rod("PoleGalv", tuple(c + Vector((0, 0, 0.45 * M))), tuple(a0 - right * arm * t + Vector((0, 0, 0.08 * M))), 0.035 * M, segs=6, mat="PoleGalv")
+            self.box("PoleGalv", tuple(a0 - right * arm * t), (0.2 * M, 0.2 * M, 0.2 * M), mat="PoleGalv")   # clamp on the arm
+        # a third head on the pole itself, at driver height, on two brackets that reach into it
+        hc = Vector((0, 0, 3.2 * M)) - right * 0.5 * M
+        for dz in (-0.35 * M, 0.35 * M):
+            self.rod("PoleGalv", (0, 0, 3.2 * M + dz), tuple(hc + Vector((0, 0, dz))), 0.04 * M, segs=6, mat="PoleGalv")
+            self.cyl("PoleGalv", (0, 0, 3.2 * M + dz), 0.14 * M, 0.1 * M, segs=10, mat="PoleGalv")             # pole band
+        self.head(self.w(hc), d, phase)
         # street name blades on top of the pole: one along each street
         names = p.get("blades") or []
         if names:
@@ -475,14 +495,15 @@ class Street:
         def at(u, v, w):                        # u along side, v along facing, w up
             return c + side * u + f * v + Vector((0, 0, w))
         bm_box = lambda part, cc, s, mat: self.K.box(part, tuple(cc), (s[0], s[1], s[2]), rz=math.atan2(side.y, side.x), mat=mat)
-        bm_box("MetalSignal", at(0, 0, 0), (0.36 * M, 0.3 * M, 1.05 * M), "SignalBody")
+        bm_box("MetalSignalHead", at(0, 0, 0), (0.36 * M, 0.3 * M, 1.05 * M), "SignalYellow")
         bm_box("MetalSignal", at(0, -0.17 * M, 0), (0.62 * M, 0.02 * M, 1.3 * M), "SignalBody")       # backplate
+        bm_box("MetalSignalHead", at(0, -0.17 * M, 0), (0.66 * M, 0.015 * M, 1.34 * M), "SignalYellow")  # retro border
         for k, col in enumerate(("Red", "Amber", "Green")):
             w = (1 - k) * 0.33 * M
             self.K.cyl_along(f"Signal{phase}{col}", tuple(at(0, 0.16 * M, w)), tuple(at(0, 0.18 * M, w)), 0.12 * M, segs=12, mat=f"Lens{col}")
-            bm_box("MetalSignal", at(0, 0.26 * M, w + 0.12 * M), (0.3 * M, 0.2 * M, 0.02 * M), "SignalBody")  # visor
+            bm_box("MetalSignalHead", at(0, 0.25 * M, w + 0.12 * M), (0.3 * M, 0.2 * M, 0.02 * M), "SignalYellow")  # visor
             for s in (-1, 1):
-                bm_box("MetalSignal", at(s * 0.14 * M, 0.26 * M, w + 0.02 * M), (0.02 * M, 0.2 * M, 0.2 * M), "SignalBody")
+                bm_box("MetalSignalHead", at(s * 0.14 * M, 0.25 * M, w + 0.02 * M), (0.02 * M, 0.2 * M, 0.2 * M), "SignalYellow")
 
     def blade(self, text, c, axis):
         x0, y0, x1, y1 = ATLAS[f"Blade_{text}"]
