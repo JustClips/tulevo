@@ -1,0 +1,232 @@
+{
+ "name": "ArkwellAtm",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "AtmShell": {
+   "tris": 60,
+   "min": [
+    -8.2,
+    -1.6,
+    0.0
+   ],
+   "max": [
+    8.2,
+    0.0,
+    10.6
+   ]
+  },
+  "AtmSteel": {
+   "tris": 804,
+   "min": [
+    -8.3,
+    -3.2,
+    0.0
+   ],
+   "max": [
+    8.3,
+    0.0,
+    11.0
+   ]
+  },
+  "AtmSteelDark": {
+   "tris": 252,
+   "min": [
+    -8.3,
+    -3.1,
+    0.62
+   ],
+   "max": [
+    8.3,
+    -0.45,
+    7.16
+   ]
+  },
+  "LightCeil": {
+   "tris": 24,
+   "min": [
+    -5.3,
+    -2.45,
+    6.8
+   ],
+   "max": [
+    5.3,
+    -2.15,
+    6.86
+   ]
+  },
+  "AtmBlack": {
+   "tris": 620,
+   "min": [
+    -6.0,
+    -1.88,
+    1.69
+   ],
+   "max": [
+    6.0,
+    -0.45,
+    10.4
+   ]
+  },
+  "AtmSign": {
+   "tris": 2,
+   "min": [
+    -5.6,
+    -1.93,
+    7.5
+   ],
+   "max": [
+    5.6,
+    -1.93,
+    10.3
+   ]
+  },
+  "AtmLabels": {
+   "tris": 20,
+   "min": [
+    -6.0,
+    -0.56,
+    0.78
+   ],
+   "max": [
+    6.0,
+    -0.5,
+    6.49
+   ]
+  },
+  "AtmMirror": {
+   "tris": 96,
+   "min": [
+    -5.3,
+    -0.96,
+    5.43
+   ],
+   "max": [
+    5.3,
+    -0.45,
+    5.84
+   ]
+  },
+  "Atm1Screen": {
+   "tris": 12,
+   "min": [
+    -4.67,
+    -0.67,
+    3.66
+   ],
+   "max": [
+    -2.53,
+    -0.63,
+    5.26
+   ]
+  },
+  "AtmCardLight": {
+   "tris": 24,
+   "min": [
+    -1.76,
+    -0.81,
+    3.78
+   ],
+   "max": [
+    5.96,
+    -0.75,
+    4.0
+   ]
+  },
+  "AtmRubber": {
+   "tris": 264,
+   "min": [
+    -5.93,
+    -1.32,
+    1.6
+   ],
+   "max": [
+    5.91,
+    -0.5,
+    3.92
+   ]
+  },
+  "AtmKeys": {
+   "tris": 64,
+   "min": [
+    -4.51,
+    -1.45,
+    2.9
+   ],
+   "max": [
+    3.8,
+    -0.64,
+    3.18
+   ]
+  },
+  "AtmCashLight": {
+   "tris": 24,
+   "min": [
+    -4.7,
+    -0.74,
+    1.9
+   ],
+   "max": [
+    4.7,
+    -0.7,
+    1.95
+   ]
+  },
+  "Atm2Screen": {
+   "tris": 12,
+   "min": [
+    2.53,
+    -0.67,
+    3.66
+   ],
+   "max": [
+    4.67,
+    -0.63,
+    5.26
+   ]
+  }
+ },
+ "lamps": [],
+ "textures": {
+  "AtmShell": "AtmShell_Color.png",
+  "AtmSteel": "AtmSteel_Color.png",
+  "AtmSteelDark": "AtmSteelDark_Color.png",
+  "LightCeil": "Light_Color.png",
+  "AtmBlack": "AtmBlack_Color.png",
+  "AtmSign": "AtmSign_Color.png",
+  "AtmLabels": "AtmLabels_Color.png",
+  "AtmMirror": "AtmMirror_Color.png",
+  "Atm1Screen": "AtmScreen_Color.png",
+  "AtmCardLight": "AtmCardLight_Color.png",
+  "AtmRubber": "AtmRubber_Color.png",
+  "AtmKeys": "AtmKeys_Color.png",
+  "AtmCashLight": "AtmCashLight_Color.png",
+  "Atm2Screen": "AtmScreen_Color.png"
+ },
+ "collider_boxes": [
+  [
+   0,
+   -0.8600000000000001,
+   5.5,
+   16.599999999999998,
+   1.7200000000000002,
+   11.0,
+   0,
+   "Metal"
+  ],
+  [
+   0,
+   -2.4000000000000004,
+   7.01,
+   16.599999999999998,
+   1.6,
+   0.2999999999999998,
+   0,
+   "Metal"
+  ]
+ ],
+ "screens": [
+  "Atm1Screen",
+  "Atm2Screen"
+ ]
+}

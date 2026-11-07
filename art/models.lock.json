@@ -198,5 +198,9 @@
  "Diner": {
   "id": 135497784909875,
   "sha": "12af44a6a3ba0571807321340aeb971bc872365044032dbb601a68e7f7ddc66d"
+ },
+ "ArkwellAtm": {
+  "id": 84237954777106,
+  "sha": "5793e1c73b2ce6e9f59732841fa18741be1c0ff7ba2386cdfc5419c0d0a1298b"
  }
 }
