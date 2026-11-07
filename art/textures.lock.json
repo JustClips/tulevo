@@ -3568,5 +3568,20 @@
   "id": 74660046985828,
   "file": "art/models/BikeWheelFront/tex/Rotor_Color.png",
   "state": "Approved"
+ },
+ "24970c83f8ae60038569b9207f3e390449f0112fec043c6e6dc2ab8508580c79": {
+  "id": 102397233586823,
+  "file": "art/models/Park/tex/ParkCap_Color.png",
+  "state": "Approved"
+ },
+ "9c9d89eb870b233740cf04ecc59137ac8d1c3ce12dbcb43c5002c4561e97b816": {
+  "id": 103839017959145,
+  "file": "art/models/Park/tex/SkateCrete_Color.png",
+  "state": "Approved"
+ },
+ "71122dc862cc974becef8b302989b58feac74572ba790e2e47b38a1f0353e4eb": {
+  "id": 86246615574970,
+  "file": "art/models/Park/tex/ParkWall_Color.png",
+  "state": "Approved"
  }
 }

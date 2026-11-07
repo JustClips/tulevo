@@ -151,7 +151,9 @@ for a, b in GATES_FRONT:                                                        
     for u in (a, b):
         B("StoneTrim", u - 1.8, u + 1.8, V1 - 2.8, V1 + 0.0, -0.3, 7.5)
         B("Plinth", u - 2.1, u + 2.1, V1 - 3.1, V1 + 0.0, 7.5, 8.0)
-        K.lamp(P(u, V1 - 1.4, 8.6), (1.6, 1.6, 1.0))
+        C("IronBlack", u, V1 - 1.4, 8.15, 0.7, 0.3, segs=8)                                # small lantern on each pier
+        C("LightPier", u, V1 - 1.4, 9.0, 0.45, 1.4, segs=8, r2=0.55, mat="Light")
+        C("IronBlack", u, V1 - 1.4, 9.95, 0.8, 0.5, segs=8, r2=0.15)
 wall_run(U0 + 1.0, V0 + 1.5, U0 + 1.0, V1 - 2.0)
 wall_run(U1 - 1.0, V0 + 1.5, U1 - 1.0, V1 - 2.0)
 wall_run(U0, V0 + 0.7, U1, V0 + 0.7, pillars=False)                                    # back: the houses' walls are behind
@@ -170,9 +172,9 @@ def sign(u, v, w, h, h0, box):
 B("StoneTrim", -126, -104, V1 - 5.4, V1 - 3.6, -0.3, 2.0)                               # park name sign on a plinth
 B("BenchWood", -125, -105, V1 - 4.8, V1 - 4.2, 2.0, 7.8)
 sign(-115, V1 - 4.15, 19, 5.4, 2.2, (0, 0.502, 1, 1))
-B("PoleGalv", 96, 98, V1 - 6, V1 - 5, 0, 9.5)
-B("PoleGalv", 116, 118, V1 - 6, V1 - 5, 0, 9.5)
-B("IronBlack", 96, 118, V1 - 5.9, V1 - 5.1, 4.4, 9.4)
+B("PoleGalv", 94, 96, V1 - 6, V1 - 5, 0, 9.6)                                           # posts stand clear of the board
+B("PoleGalv", 118, 120, V1 - 6, V1 - 5, 0, 9.6)                                         # (no shared faces: they flickered)
+B("IronBlack", 95.5, 118.5, V1 - 5.9, V1 - 5.1, 4.4, 9.4)
 sign(107, V1 - 5.95, 21.4, 4.8, 4.5, (0, 0, 1, 0.498))
 
 # ---------------------------------------------------------------- paths + fountain plaza (park half, u < 0)

@@ -4351,6 +4351,105 @@
    }
   },
   {
+   "name": "OrtegaSideWalk",
+   "className": "Part",
+   "properties": {
+    "Anchored": true,
+    "Size": [
+     6.399999999999977,
+     0.6,
+     83.6
+    ],
+    "Color": "#FFFFFF",
+    "Material": "Concrete",
+    "TopSurface": "Smooth",
+    "BottomSurface": "Smooth",
+    "CFrame": {
+     "position": [
+      312.8,
+      0.3,
+      50.2
+     ],
+     "orientation": [
+      0,
+      0,
+      0
+     ]
+    },
+    "MaterialVariant": "TulevoSidewalk"
+   },
+   "children": [
+    {
+     "name": "Surface",
+     "className": "Texture",
+     "properties": {
+      "Texture": "rbxassetid://81777358312256",
+      "Face": "Top",
+      "StudsPerTileU": 21.6,
+      "StudsPerTileV": 21.6,
+      "Color3": "#FFFFFF",
+      "Transparency": 0
+     }
+    }
+   ]
+  },
+  {
+   "name": "OrtegaSideLot",
+   "className": "Part",
+   "properties": {
+    "Anchored": true,
+    "Size": [
+     14.199999999999989,
+     0.3,
+     83.6
+    ],
+    "Color": "#2E2F31",
+    "Material": "Asphalt",
+    "TopSurface": "Smooth",
+    "BottomSurface": "Smooth",
+    "CFrame": {
+     "position": [
+      323.1,
+      0.15,
+      50.2
+     ],
+     "orientation": [
+      0,
+      0,
+      0
+     ]
+    }
+   }
+  },
+  {
+   "name": "CrestlineLotEdge",
+   "className": "Part",
+   "properties": {
+    "Anchored": true,
+    "Size": [
+     10.199999999999989,
+     0.3,
+     100.4
+    ],
+    "Color": "#2E2F31",
+    "Material": "Asphalt",
+    "TopSurface": "Smooth",
+    "BottomSurface": "Smooth",
+    "CFrame": {
+     "position": [
+      325.1,
+      0.15,
+      -41.8
+     ],
+     "orientation": [
+      0,
+      0,
+      0
+     ]
+    }
+   }
+  },
+  {
    "name": "HollisPlaza",
    "className": "Part",
    "properties": {
@@ -140634,7 +140733,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 92281082101318,
+      "LiveSyncAsset": 122828741267204,
       "LiveSyncBoxCenter": {
        "Vector3": [
         -468.0,
@@ -140643,7 +140742,7 @@
        ]
       },
       "CityModel": "Park",
-      "LiveSyncTextures": "{\"BenchWood\":139177732485514,\"FountainStone\":123609772945212,\"FxFall\":101934883781415,\"FxPool\":130518375675616,\"FxRipple\":106345847840745,\"IronBlack\":93272992342514,\"Lamp1\":137400735635764,\"Lamp10\":137400735635764,\"Lamp11\":137400735635764,\"Lamp12\":137400735635764,\"Lamp13\":137400735635764,\"Lamp14\":137400735635764,\"Lamp15\":137400735635764,\"Lamp16\":137400735635764,\"Lamp17\":137400735635764,\"Lamp18\":137400735635764,\"Lamp19\":137400735635764,\"Lamp2\":137400735635764,\"Lamp20\":137400735635764,\"Lamp21\":137400735635764,\"Lamp22\":137400735635764,\"Lamp23\":137400735635764,\"Lamp3\":137400735635764,\"Lamp4\":137400735635764,\"Lamp5\":137400735635764,\"Lamp6\":137400735635764,\"Lamp7\":137400735635764,\"Lamp8\":137400735635764,\"Lamp9\":137400735635764,\"Lawn\":74884554731769,\"LightLantern\":137400735635764,\"MatBark\":89751817671678,\"ParkSigns\":132180745133204,\"Pavers\":76861255102066,\"PlayBlue\":86563754251200,\"PlayGreen\":128096551381033,\"PlayRed\":133676813884739,\"PlayYellow\":128478696493565,\"PlazaStone\":93466706026735,\"Plinth\":116587823773881,\"PoleGalv\":114140485306376,\"SkateConcrete\":118418934208050,\"Steel\":115560263077404,\"StoneTrim\":71484964186058}"
+      "LiveSyncTextures": "{\"BenchWood\":139177732485514,\"FountainStone\":123609772945212,\"FxFall\":101934883781415,\"FxPool\":130518375675616,\"FxRipple\":106345847840745,\"IronBlack\":93272992342514,\"Lamp1\":137400735635764,\"Lamp10\":137400735635764,\"Lamp11\":137400735635764,\"Lamp12\":137400735635764,\"Lamp13\":137400735635764,\"Lamp14\":137400735635764,\"Lamp15\":137400735635764,\"Lamp16\":137400735635764,\"Lamp17\":137400735635764,\"Lamp18\":137400735635764,\"Lamp19\":137400735635764,\"Lamp2\":137400735635764,\"Lamp3\":137400735635764,\"Lamp4\":137400735635764,\"Lamp5\":137400735635764,\"Lamp6\":137400735635764,\"Lamp7\":137400735635764,\"Lamp8\":137400735635764,\"Lamp9\":137400735635764,\"Lawn\":74884554731769,\"LightLantern\":137400735635764,\"LightPier\":137400735635764,\"MatBark\":89751817671678,\"ParkSigns\":132180745133204,\"Pavers\":76861255102066,\"PlayBlue\":86563754251200,\"PlayGreen\":128096551381033,\"PlayRed\":133676813884739,\"PlayYellow\":128478696493565,\"PlazaStone\":93466706026735,\"Plinth\":102397233586823,\"PoleGalv\":114140485306376,\"SkateConcrete\":103839017959145,\"Steel\":115560263077404,\"StoneTrim\":86246615574970}"
      }
     },
     {
