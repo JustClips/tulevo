@@ -206,5 +206,9 @@
  "Hotel_S": {
   "id": 94774574140378,
   "sha": "0f22f2ea02ebabfdc8e70e846537eeb174f9d872138d2811c87ebeac44942852"
+ },
+ "GunShop": {
+  "id": 125590717240105,
+  "sha": "7a92a7c49e7c5174cabc0b863146aec38f3200e43b333ce3d266a84be749c600"
  }
 }

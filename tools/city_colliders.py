@@ -46,7 +46,9 @@ SKIP_EXACT = {"Frame", "Sill", "WinIron", "Pipe", "Meter", "CandyRack", "FridgeD
 SKIP_PREFIX = ("Light", "Lamp", "Neon", "Fx", "Poster", "ShelfGoods", "Deco", "Swing", "Slide", "Lift", "Flower",
                "Tag",
                # street furniture (art/blender/cityfill): lit lenses, signal lenses, canopies, tree grates
-               "StreetLamp", "Signal", "Leaf", "Grate")
+               "StreetLamp", "Signal", "Leaf", "Grate",
+               # gun shop markers (Server/GunShop)
+               "Spot")
 # Roblox material per part name (footsteps, bullet impacts); first match wins
 MATERIALS = [
     (r"^(Lawn|Turf|Grass)", "Grass"),

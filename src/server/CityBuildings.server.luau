@@ -347,6 +347,14 @@ local function style(model: Model)
 				d.CanCollide = false
 				d.CanTouch = false
 			end
+			if d.Name:match("^Spot%u") then
+				-- marker (gun shop: SpotBuy / SpotClerk / SpotCam, read by Server/GunShop): invisible
+				d.Transparency = 1
+				d.CanCollide = false
+				d.CanQuery = false
+				d.CanTouch = false
+				d.CastShadow = false
+			end
 			if d.Name:match("^Fx") then
 				-- fountain water (Client/FountainFx animates it): walk through, no shadows
 				d.CanCollide = false
