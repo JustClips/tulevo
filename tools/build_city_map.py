@@ -122,6 +122,22 @@ ARMY_AT = (-650 - 68 * ARMY_M, 0.15, AVE_Z)          # model origin; front edge 
 ARMY_APRON_X = ARMY_AT[0] + 52 * ARMY_M + 1.0       # model asphalt starts 52 m in front (+1 stud overlap)
 BUILDINGS.append(("FortHalden", "ArmyBase_E", ARMY_AT, {}, {"MeshNoCollide": True}))
 
+# ---------------------------------------------------------------- city-fill buildings
+# (thread "Fill city with buildings and street props"; art/blender/cityfill/build_*.py). Fronts sit on
+# the back edge of the sidewalk: Vault Avenue's sidewalks end at z -172 (north side, *_S builds) and
+# z -92 (south side). Brick block: 30 x 20 m, origin mid-depth, pilaster bases 0.7 studs proud.
+BRICK_HALF_D = 36.7
+VAULT_N_LINE = AVE_Z - ROAD_W / 2 - SIDE_W        # -172
+VAULT_S_LINE = AVE_Z + ROAD_W / 2 + SIDE_W        # -92
+BUILDINGS += [
+    ("HalvorsenBuilding", "BrickBlock_S", (-230, 0.6, VAULT_N_LINE - BRICK_HALF_D), {}),
+    ("CalderBuilding", "BrickBlock_S", (-560, 0.6, VAULT_N_LINE - BRICK_HALF_D),
+     {"Brick": "Brown", "Storefronts": "B", "ShopSigns": "B"}),
+    ("PikeBuilding", "BrickBlock_S", (232, 0.6, VAULT_N_LINE - BRICK_HALF_D),
+     {"Brick": "Tan", "Storefronts": "B", "ShopSigns": "B"}),
+    ("FennBuilding", "BrickBlock", (560, 0.6, VAULT_S_LINE + BRICK_HALF_D), {"Brick": "Brown"}),
+]
+
 # ---------------------------------------------------------------- street furniture
 # (thread "Fill city with buildings and street props"): street lights, trees, bins, benches,
 # hydrants, news boxes, meters, bus stops, signs and traffic signals, one merged model per street

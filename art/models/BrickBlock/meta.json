@@ -1,0 +1,359 @@
+{
+ "name": "BrickBlock",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Brick": {
+   "tris": 108,
+   "min": [
+    -54.0,
+    -36.0,
+    -2.52
+   ],
+   "max": [
+    54.0,
+    36.0,
+    88.92
+   ]
+  },
+  "Stone": {
+   "tris": 4908,
+   "min": [
+    -55.73,
+    -37.73,
+    -2.52
+   ],
+   "max": [
+    55.73,
+    37.08,
+    89.46
+   ]
+  },
+  "Roof": {
+   "tris": 88,
+   "min": [
+    -52.92,
+    -34.92,
+    78.48
+   ],
+   "max": [
+    52.92,
+    34.92,
+    106.38
+   ]
+  },
+  "Storefronts": {
+   "tris": 10,
+   "min": [
+    -54.07,
+    -33.95,
+    1.8
+   ],
+   "max": [
+    51.84,
+    -16.2,
+    12.6
+   ]
+  },
+  "Frame": {
+   "tris": 9144,
+   "min": [
+    -54.36,
+    -36.36,
+    1.62
+   ],
+   "max": [
+    54.36,
+    36.36,
+    76.93
+   ]
+  },
+  "ShopSigns": {
+   "tris": 8,
+   "min": [
+    -51.3,
+    -36.25,
+    13.39
+   ],
+   "max": [
+    51.3,
+    -36.25,
+    16.85
+   ]
+  },
+  "Steel": {
+   "tris": 7440,
+   "min": [
+    -51.74,
+    -41.23,
+    8.1
+   ],
+   "max": [
+    55.44,
+    40.79,
+    103.14
+   ]
+  },
+  "Sconce": {
+   "tris": 132,
+   "min": [
+    -46.42,
+    -38.34,
+    8.21
+   ],
+   "max": [
+    46.42,
+    36.79,
+    17.5
+   ]
+  },
+  "Awnings": {
+   "tris": 64,
+   "min": [
+    -51.84,
+    -41.4,
+    9.0
+   ],
+   "max": [
+    51.84,
+    -36.22,
+    12.6
+   ]
+  },
+  "LobbyDoor": {
+   "tris": 2,
+   "min": [
+    -4.68,
+    -30.31,
+    0.11
+   ],
+   "max": [
+    4.68,
+    -30.31,
+    12.71
+   ]
+  },
+  "GlassD": {
+   "tris": 58,
+   "min": [
+    -54.03,
+    -36.03,
+    20.52
+   ],
+   "max": [
+    54.03,
+    36.03,
+    76.68
+   ]
+  },
+  "Sill": {
+   "tris": 1776,
+   "min": [
+    -54.72,
+    -36.72,
+    20.02
+   ],
+   "max": [
+    54.72,
+    36.72,
+    69.23
+   ]
+  },
+  "AcBody": {
+   "tris": 264,
+   "min": [
+    -50.58,
+    -37.8,
+    21.38
+   ],
+   "max": [
+    55.8,
+    37.8,
+    83.16
+   ]
+  },
+  "Dark": {
+   "tris": 384,
+   "min": [
+    -50.33,
+    -37.85,
+    0.0
+   ],
+   "max": [
+    55.85,
+    37.85,
+    86.4
+   ]
+  },
+  "GlassE": {
+   "tris": 48,
+   "min": [
+    -54.03,
+    -36.03,
+    20.52
+   ],
+   "max": [
+    54.03,
+    36.03,
+    76.68
+   ]
+  },
+  "GlassC": {
+   "tris": 66,
+   "min": [
+    -54.03,
+    -36.03,
+    20.52
+   ],
+   "max": [
+    54.03,
+    36.03,
+    76.68
+   ]
+  },
+  "GlassA": {
+   "tris": 40,
+   "min": [
+    -51.66,
+    -36.03,
+    20.52
+   ],
+   "max": [
+    54.03,
+    36.03,
+    76.68
+   ]
+  },
+  "GlassB": {
+   "tris": 42,
+   "min": [
+    -54.03,
+    -36.03,
+    20.52
+   ],
+   "max": [
+    54.03,
+    36.03,
+    76.68
+   ]
+  },
+  "GlassF": {
+   "tris": 42,
+   "min": [
+    -51.66,
+    -36.03,
+    20.52
+   ],
+   "max": [
+    54.03,
+    36.03,
+    76.68
+   ]
+  },
+  "GhostSign": {
+   "tris": 2,
+   "min": [
+    -54.07,
+    -27.0,
+    43.2
+   ],
+   "max": [
+    -54.07,
+    27.0,
+    70.2
+   ]
+  },
+  "Pipe": {
+   "tris": 840,
+   "min": [
+    -53.16,
+    36.19,
+    0.0
+   ],
+   "max": [
+    53.16,
+    36.67,
+    80.64
+   ]
+  },
+  "Pave": {
+   "tris": 36,
+   "min": [
+    -64.8,
+    -33.84,
+    -2.52
+   ],
+   "max": [
+    64.8,
+    46.8,
+    -1.8
+   ]
+  },
+  "Wood": {
+   "tris": 76,
+   "min": [
+    15.84,
+    5.04,
+    90.9
+   ],
+   "max": [
+    27.36,
+    16.56,
+    103.14
+   ]
+  },
+  "ClearGlassSky": {
+   "tris": 12,
+   "min": [
+    -6.48,
+    11.52,
+    80.28
+   ],
+   "max": [
+    6.48,
+    24.48,
+    80.5
+   ]
+  }
+ },
+ "lamps": [],
+ "textures": {
+  "Brick": "BrickRed_Color.png",
+  "Stone": "StoneTrim_Color.png",
+  "Roof": "RoofTar_Color.png",
+  "Storefronts": "StorefrontsA_Color.png",
+  "Frame": "Frame_Color.png",
+  "ShopSigns": "ShopSignsA_Color.png",
+  "Steel": "FireSteel_Color.png",
+  "Sconce": "Sconce_Color.png",
+  "Awnings": "Awnings_Color.png",
+  "LobbyDoor": "LobbyDoor_Color.png",
+  "GlassD": "GlassD_Color.png",
+  "Sill": "Sill_Color.png",
+  "AcBody": "HvacGrey_Color.png",
+  "Dark": "Dark_Color.png",
+  "GlassE": "GlassE_Color.png",
+  "GlassC": "GlassC_Color.png",
+  "GlassA": "GlassA_Color.png",
+  "GlassB": "GlassB_Color.png",
+  "GlassF": "GlassF_Color.png",
+  "GhostSign": "GhostSign_Color.png",
+  "Pipe": "Pipe_Color.png",
+  "Pave": "Plinth_Color.png",
+  "Wood": "TankWood_Color.png",
+  "ClearGlassSky": "GlassA_Color.png"
+ },
+ "variants": {
+  "Brick": {
+   "Brown": "BrickBrown_Color.png",
+   "Tan": "BrickTan_Color.png"
+  },
+  "Storefronts": {
+   "B": "StorefrontsB_Color.png"
+  },
+  "ShopSigns": {
+   "B": "ShopSignsB_Color.png"
+  }
+ },
+ "driveways": []
+}

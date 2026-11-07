@@ -41,7 +41,8 @@ SKIP_EXACT = {"Frame", "Sill", "WinIron", "Pipe", "Meter", "CandyRack", "FridgeD
               "Palm", "Shrub", "Hedge", "Net", "Sconce", "Water", "PriceFace", "ShopLamp", "Agave",
               "Grass", "MeterFace", "BinLabel", "Timetable", "BusDisplay", "AcGrille", "Register", "AtmFace",
               "Coffee", "FreezerTop", "IceFront", "NewsFace",
-              "Blossom", "Ivy", "HouseNumbers"}   # Bellmont Hills plants + number plates
+              "Blossom", "Ivy", "HouseNumbers",   # Bellmont Hills plants + number plates
+              "GhostSign", "ShopSigns"}           # city-fill flat printed panels
 SKIP_PREFIX = ("Light", "Lamp", "Neon", "Fx", "Poster", "ShelfGoods", "Deco", "Swing", "Slide", "Lift", "Flower",
                "Tag",
                # street furniture (art/blender/cityfill): lit lenses, signal lenses, canopies, tree grates

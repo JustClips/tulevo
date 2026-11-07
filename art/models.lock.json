@@ -182,5 +182,13 @@
  "StreetWestStreet": {
   "id": 102767779206063,
   "sha": "d6765dd228219ac7af34ac7e29b32ef7044613bd0c1701ee34fb885d38a3ed0a"
+ },
+ "BrickBlock": {
+  "id": 115052555208165,
+  "sha": "e5c95c24f98496eba69a7ac3bdde8245ad7ce6c108ada96416503709480a3416"
+ },
+ "BrickBlock_S": {
+  "id": 73159478556043,
+  "sha": "76d7f79a7aca071cf5b27fa895af11b06f7274ec85fd8a2dcecb9848c48e26a7"
  }
 }

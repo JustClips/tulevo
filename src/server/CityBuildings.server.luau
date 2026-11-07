@@ -73,6 +73,8 @@ local ALPHA = {
 	LeafCardB = true,
 	LeafCardC = true,
 	LeafCardD = true,
+	-- faded painted wall advert on the brick block (paint only, brick shows through)
+	GhostSign = true,
 	LeafCardE = true,
 	LeafCardF = true,
 }

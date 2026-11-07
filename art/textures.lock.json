@@ -2807,11 +2807,121 @@
  "ea8d5ee5aa051a1c9ddf309aff25aaa14750d540b377fe1cb6291798d23c9d89": {
   "id": 71050774128426,
   "file": "art/models/StreetBackStreet/tex/SignalBody_Color.png",
-  "state": "Reviewing"
+  "state": "Approved"
  },
  "795c03045c50a56c08b5ef6d9b859132dcdb881b805978c99a2610e2b97a281f": {
   "id": 74084674557679,
   "file": "art/models/StreetCorners/tex/SignalYellow_Color.png",
+  "state": "Approved"
+ },
+ "b2e2a156eb1179a3980004c08ab33645498d8d2cbd4844100f13601d0a31083a": {
+  "id": 120948343130427,
+  "file": "art/models/BrickBlock/tex/HvacGrey_Color.png",
+  "state": "Approved"
+ },
+ "20cad9d5746387269759a7cbd653978b56a61e338155bdc5ec5e8e838802b490": {
+  "id": 82012101086862,
+  "file": "art/models/BrickBlock/tex/Awnings_Color.png",
+  "state": "Approved"
+ },
+ "3cc4e8e0224232831b09df048ebd70004616e35bd6202f7868e3071dedb3fbda": {
+  "id": 126627086603726,
+  "file": "art/models/BrickBlock/tex/BrickRed_Color.png",
+  "state": "Approved"
+ },
+ "525695e36f7955a3f9580fb6f309b775e2c2c07e589db4442f88983157e36f93": {
+  "id": 77657588039510,
+  "file": "art/models/BrickBlock/tex/BrickBrown_Color.png",
+  "state": "Approved"
+ },
+ "810ef0b6d87f7934f43b669aba5ed4861d13573abcfa6f3b0015286fbd163e06": {
+  "id": 135524357343829,
+  "file": "art/models/BrickBlock/tex/BrickTan_Color.png",
+  "state": "Approved"
+ },
+ "755cf3784a5d6f20f2d48f2a532e156ae7cac734143220c945975af06a04bfa0": {
+  "id": 74796012730483,
+  "file": "art/models/BrickBlock/tex/GlassA_Color.png",
+  "state": "Approved"
+ },
+ "998de66607f1d0b17bdfa187014881dbbda22bc8dfc44f433274104170dd8a20": {
+  "id": 136648683029015,
+  "file": "art/models/BrickBlock/tex/Frame_Color.png",
+  "state": "Approved"
+ },
+ "75fa87f89f713f6dc728803a3af9ec3220c14f6d7d31c7ee14ac44e48aacef86": {
+  "id": 79330891822982,
+  "file": "art/models/BrickBlock/tex/GhostSign_Color.png",
+  "state": "Approved"
+ },
+ "7b6e5159a08a60ac5fb667cfee1b50f4512262f3bb19a3a85219922322a8cce0": {
+  "id": 96066585480286,
+  "file": "art/models/BrickBlock/tex/GlassB_Color.png",
+  "state": "Approved"
+ },
+ "8cdd5ed32a2ba74f11f9bb409165ac0631c1875f2ae2d7198085c219ba31cd86": {
+  "id": 130000111490759,
+  "file": "art/models/BrickBlock/tex/GlassC_Color.png",
+  "state": "Approved"
+ },
+ "95075c3241e5f1dde08e29bb5c69b14b810cdec909dfec66001434fb06fe9ad3": {
+  "id": 80032885960994,
+  "file": "art/models/BrickBlock/tex/GlassD_Color.png",
+  "state": "Approved"
+ },
+ "6a4cc8a33a298580243681ce80c42d11c40a01d42cfc16d4b5820eb616b426e1": {
+  "id": 131399954902639,
+  "file": "art/models/BrickBlock/tex/GlassE_Color.png",
+  "state": "Approved"
+ },
+ "b0876e65704d379486368f7e2f899989a0a7c421ee2bd0e777dfe7805fde76a5": {
+  "id": 120697599887342,
+  "file": "art/models/BrickBlock/tex/GlassF_Color.png",
+  "state": "Approved"
+ },
+ "8e06f958011d5c5ba63d983b0a93d6bfac44d2f7e09300d7947bf01c95edaf4e": {
+  "id": 94645271506848,
+  "file": "art/models/BrickBlock/tex/LobbyDoor_Color.png",
+  "state": "Approved"
+ },
+ "c3cf84eb651755a12b9a146fecf955a17c4928656dee90b02c11f8534055ad31": {
+  "id": 105514254584518,
+  "file": "art/models/BrickBlock/tex/RoofTar_Color.png",
+  "state": "Approved"
+ },
+ "edc31efcb429d44c74f250f5edb8637301e4997c68f74bea42f95cca5e3a8ec1": {
+  "id": 133550469348322,
+  "file": "art/models/BrickBlock/tex/ShopSignsA_Color.png",
+  "state": "Approved"
+ },
+ "17699e38f8dace1d36a54c677f3ca3bc703cbe4d7659dfe6114e05d6aa909dad": {
+  "id": 139079349668574,
+  "file": "art/models/BrickBlock/tex/ShopSignsB_Color.png",
+  "state": "Approved"
+ },
+ "103b305bc409e9e9dccc0f81ce6b19c77259a6ad4b557fb8bf861ba0f16e7126": {
+  "id": 140625948220933,
+  "file": "art/models/BrickBlock/tex/FireSteel_Color.png",
+  "state": "Approved"
+ },
+ "c9a56b2b84570d8000205c3ab20d89c8c4c99147001ce46364f1d2ae3417642d": {
+  "id": 93064200161961,
+  "file": "art/models/BrickBlock/tex/StoneTrim_Color.png",
+  "state": "Approved"
+ },
+ "91107312524a0b047aecd6d7867c29acd0106f5cd5b89d940809aec0f1ea5ede": {
+  "id": 83173822715086,
+  "file": "art/models/BrickBlock/tex/StorefrontsA_Color.png",
+  "state": "Approved"
+ },
+ "c64d16dbc0ef280e9b3e4ff647c7de355b2b1349a2317eda40e6ae334c14d39e": {
+  "id": 122513274899167,
+  "file": "art/models/BrickBlock/tex/StorefrontsB_Color.png",
+  "state": "Approved"
+ },
+ "bd96e82db5b2b5d9be0ff0c46f1c381babeb272fafed58193a2b4600cef9122f": {
+  "id": 128712462698011,
+  "file": "art/models/BrickBlock/tex/TankWood_Color.png",
   "state": "Approved"
  }
 }

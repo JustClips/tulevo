@@ -460,7 +460,7 @@ def shop_sets():
         signs = Image.new("RGB", (1024, 512))
         sd = ImageDraw.Draw(signs)
         for i, (text, bg, fg, kind) in enumerate(shops):
-            fronts.paste(shop_interior(kind, 400 + i + (10 if key == "B" else 0), 512, 480).resize((512, 512)), ((i % 2) * 512, (i // 2) * 512))
+            fronts.paste(shop_interior(kind, 400 + i + (10 if key == "B" else 0)).resize((512, 512)), ((i % 2) * 512, (i // 2) * 512))
             y0 = i * 128
             sd.rectangle((0, y0, 1024, y0 + 128), fill=bg)
             sd.rectangle((10, y0 + 10, 1014, y0 + 118), outline=fg, width=4)
@@ -512,24 +512,33 @@ def lobby_door():
 
 
 def ghost_sign():
-    """Faded painted wall ad on the side brick (original wording)."""
+    """Faded painted wall ad (original wording), RGBA paint only: it lies over the side brick, so
+    the bricks keep their real scale and show through the worn paint."""
     W, H = 1024, 512
-    base = scan("Bricks085", size=1024).crop((0, 0, 1024, 512))
     over = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(over)
-    d.rectangle((30, 30, W - 30, H - 30), fill=(230, 224, 200, 120))
-    d.rectangle((50, 50, W - 50, H - 50), outline=(40, 60, 90, 150), width=10)
-    fit_text(d, (W / 2, 150), "HALVORSEN & SONS", FONT_B, W - 140, 110, (40, 60, 90, 170))
-    fit_text(d, (W / 2, 290), "FINE FURNITURE", FONT_B, W - 200, 96, (150, 40, 30, 160))
-    fit_text(d, (W / 2, 400), "EST. 1931", FONT_B, 400, 60, (40, 60, 90, 150))
-    # weathering: knock out paint where the brick noise is dark
-    g = np.asarray(base.convert("L"), np.float32)
-    keep = (g > np.percentile(g, 30)).astype(np.float32)
-    keep = np.asarray(Image.fromarray((keep * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(1.2)), np.float32) / 255
-    a = np.asarray(over.getchannel("A"), np.float32) * keep
-    over.putalpha(Image.fromarray(a.astype(np.uint8)))
-    out = Image.alpha_composite(base.convert("RGBA"), over).convert("RGB")
-    save("GhostSign", out, scan("Bricks085", "Roughness", 1024).crop((0, 0, 1024, 512)))
+    d.rectangle((20, 20, W - 20, H - 20), fill=(232, 226, 204, 150))
+    d.rectangle((44, 44, W - 44, H - 44), outline=(40, 60, 90, 190), width=12)
+    fit_text(d, (W / 2, 150), "HALVORSEN & SONS", FONT_B, W - 140, 110, (40, 60, 90, 210))
+    fit_text(d, (W / 2, 290), "FINE FURNITURE", FONT_B, W - 200, 96, (150, 40, 30, 200))
+    fit_text(d, (W / 2, 400), "EST. 1931", FONT_B, 400, 60, (40, 60, 90, 190))
+    # weathering: knock the paint out in a brick-like pattern and blotches (cut-out alpha)
+    g = np.asarray(scan("Bricks085", size=1024).crop((0, 0, W, H)).convert("L"), np.float32)
+    r = random.Random(3)
+    blot = Image.new("L", (W // 32, H // 32))
+    blot.putdata([r.randint(0, 255) for _ in range(blot.width * blot.height)])
+    blot = np.asarray(blot.resize((W, H), Image.BICUBIC), np.float32)
+    keep = (g > np.percentile(g, 35)) & (blot > 70)
+    a = np.asarray(over.getchannel("A"), np.float32)
+    a = np.where(keep & (a > 0), 255, 0).astype(np.uint8)
+    rgb = Image.new("RGB", (W, H), (200, 190, 170))
+    rgb.paste(over.convert("RGB"), mask=over.getchannel("A"))
+    out = rgb.convert("RGBA")
+    out.putalpha(Image.fromarray(a))
+    os.makedirs(OUT, exist_ok=True)
+    out.save(os.path.join(OUT, "GhostSign_Color.png"), optimize=True)
+    Image.new("RGB", (W, H), (220, 220, 220)).save(os.path.join(OUT, "GhostSign_Roughness.png"))
+    print("wrote GhostSign")
 
 
 def brick_building():
