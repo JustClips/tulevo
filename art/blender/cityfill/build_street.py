@@ -10,7 +10,8 @@ textures/, renders/) for every model in it: Street<Road> per city street and Str
 tools/build_city_map.py places each at the origin.
 
 Props:
-  Light      9 m cobra-head street light on a tapered steel pole (StreetLamp<n> = the lit lens)
+  Light      street light (StreetLamp<n> = the lit lens): galvanized pole + cobra head with a refractor
+             bowl, or on Vault Avenue / Back Street a dark davit pole with a slim LED head
   Palm/Tree  street palm (Vault Avenue) or shade tree in a cast-iron tree grate
   Bin        slatted round litter bin with a domed lid
   Bench      cast-iron frame bench with hardwood slats, facing the street
@@ -161,34 +162,119 @@ class Street:
 
 
     # ------------------------------------------------------------ props
+    def loft(self, part, rings, mat=None):
+        """Closed shell through rings of local points (same count each), capped at both ends."""
+        bm = self.K.bm(part, mat)
+        vs = [[bm.verts.new(self.w(q)) for q in r] for r in rings]
+        n = len(rings[0])
+        bm.faces.new(vs[0][::-1])
+        bm.faces.new(vs[-1])
+        for a, b in zip(vs, vs[1:]):
+            for i in range(n):
+                j = (i + 1) % n
+                bm.faces.new([a[i], a[j], b[j], b[i]])
+
     def light(self, p):
-        H = 8.6 * M
-        self.box("Plinth", (0, 0, 0.03 * M - 0.02), (0.55 * M, 0.55 * M, 0.06 * M + 0.04))
-        self.cyl("Pole", (0, 0, 0.09 * M), 0.2 * M, 0.06 * M, segs=12, mat="PoleSteel")             # base flange
-        for a in range(4):                                                                         # anchor bolts
-            ang = a * math.pi / 2 + math.pi / 4
-            self.cyl("Pole", (math.cos(ang) * 0.15 * M, math.sin(ang) * 0.15 * M, 0.14 * M), 0.025 * M, 0.06 * M, segs=6, mat="PoleSteel")
-        self.cyl("Pole", (0, 0, 0.12 * M + 0.3 * M), 0.17 * M, 0.6 * M, segs=8, r2=0.13 * M, mat="PoleSteel")   # base cover
-        self.cyl("Pole", (0, 0, 0.7 * M + 0.03 * M), 0.14 * M, 0.06 * M, segs=8, mat="PoleSteel")            # cover lip
-        self.cyl("Pole", (0, 0, (0.72 * M + H) / 2), 0.115 * M, H - 0.72 * M, segs=10, r2=0.065 * M, mat="PoleSteel")
-        # curved arm out over the road (-Y), rising at the end
-        pts = []
-        for i in range(8):
-            t = i / 7
-            pts.append((0, -2.3 * M * t, H - 0.3 * M + 0.9 * M * math.sin(t * math.pi / 2) - 0.25 * M * t * t))
-        self.tube("Pole", pts, 0.06 * M, 0.045 * M, segs=8, mat="PoleSteel")
-        self.rod("Pole", (0, 0, H - 1.0 * M), (0, -0.9 * M, H - 0.15 * M + 0.35 * M), 0.025 * M, segs=6, mat="PoleSteel")  # brace
-        ex, ez = -2.3 * M, H - 0.3 * M + 0.9 * M - 0.25 * M
-        # cobra head: a tapered shell, lens underneath, photocell on top
-        bmh = (0, ex - 0.32 * M)
-        self.frustum("Pole", bmh, ez - 0.06 * M, ez + 0.1 * M, 0.36 * M, 0.82 * M, 0.24 * M, 0.66 * M, mat="PoleSteel")
-        self.cyl("Pole", (0, ex - 0.2 * M, ez + 0.14 * M), 0.05 * M, 0.06 * M, segs=8, mat="PoleSteel")
+        """Street light (original designs, 2026-11-07 "Replace street lights"). Downtown streets get
+        a dark davit pole with a slim LED head, the rest a galvanized pole with a cobra head."""
         self.n_lamp += 1
         name = f"StreetLamp{self.n_lamp}"
-        self.box(name, (0, ex - 0.36 * M, ez - 0.08 * M), (0.26 * M, 0.56 * M, 0.04 * M), mat="Light")
         self.K.lamps.append(name)
-        self.col((0, 0, 0.36 * M), (0.5 * M, 0.5 * M, 0.72 * M))
-        self.col((0, 0, (0.72 * M + H) / 2), (0.22 * M, 0.22 * M, H - 0.72 * M))
+        if self.K.name in ("StreetVaultAvenue", "StreetBackStreet"):
+            self.light_davit(name)
+        else:
+            self.light_cobra(name)
+
+    def pole_base(self, mat, H, r0, r1, sides):
+        """Anchor plinth, flange with nut caps, handhole door, tapered shaft to H (local)."""
+        self.box("Plinth", (0, 0, 0.03 * M - 0.02), (0.6 * M, 0.6 * M, 0.06 * M + 0.04))
+        self.cyl("PoleLamp", (0, 0, 0.1 * M), 0.21 * M, 0.04 * M, segs=sides, mat=mat)                    # base plate
+        for a in range(4):
+            ang = a * math.pi / 2 + math.pi / 4
+            c = (math.cos(ang) * 0.16 * M, math.sin(ang) * 0.16 * M)
+            self.cyl("PoleLamp", (c[0], c[1], 0.135 * M), 0.03 * M, 0.03 * M, segs=6, mat=mat)           # nut
+            self.cyl("PoleLamp", (c[0], c[1], 0.16 * M), 0.012 * M, 0.03 * M, segs=6, mat=mat)           # bolt end
+        self.cyl("PoleLamp", (0, 0, 0.12 * M + 0.04 * M), r0 * 1.12, 0.08 * M, segs=sides, mat=mat)       # weld collar
+        self.cyl("PoleLamp", (0, 0, (0.12 * M + H) / 2), r0, H - 0.12 * M, segs=sides, r2=r1, mat=mat)
+        # handhole door on the road side, 0.5 m up
+        self.box("PoleLamp", (0, -r0 * 0.93, 0.62 * M), (0.1 * M, 0.03 * M, 0.26 * M), mat=mat)
+        self.cyl("PoleLamp", (0, -r0 * 0.93 - 0.015 * M, 0.62 * M), 0.012 * M, 0.02 * M, segs=6, mat=mat)
+        self.col((0, 0, 0.1 * M), (0.6 * M, 0.6 * M, 0.2 * M), "Concrete")
+        self.col((0, 0, (0.12 * M + H) / 2), (r0 * 1.9, r0 * 1.9, H - 0.12 * M))
+
+    def light_cobra(self, name):
+        """9.5 m galvanized pole, upswept tapered arm with a slip fitter, cobra head with a
+        drop refractor bowl (the lit part) and a twist-lock photocell."""
+        H = 8.4 * M
+        self.pole_base("PoleGalv", H, 0.12 * M, 0.068 * M, 12)
+        self.cyl("PoleLamp", (0, 0, H + 0.04 * M), 0.07 * M, 0.08 * M, segs=12, mat="PoleGalv")            # pole cap
+        self.cyl("PoleLamp", (0, 0, H + 0.1 * M), 0.035 * M, 0.04 * M, segs=8, mat="PoleGalv")
+        # arm: clamp plate on the pole, rising curve out 2.6 m over the road (-Y)
+        self.box("PoleLamp", (0, -0.075 * M, H - 0.35 * M), (0.16 * M, 0.04 * M, 0.42 * M), mat="PoleGalv")
+        L, rise = 2.6 * M, 0.75 * M
+        pts = [(0, -0.08 * M - L * t, H - 0.45 * M + rise * math.sin(t * math.pi / 2) ** 0.8) for t in (i / 7 for i in range(8))]
+        self.tube("PoleLamp", pts, 0.055 * M, 0.038 * M, segs=8, mat="PoleGalv")
+        ex, ez = pts[-1][1], pts[-1][2]
+        # slip fitter collar where the head grips the arm
+        self.rod("PoleLamp", (0, ex + 0.02 * M, ez), (0, ex - 0.14 * M, ez - 0.01 * M), 0.06 * M, segs=10, mat="PoleGalv")
+        # cobra shell: teardrop in plan, highest mid-way, slightly nose-down
+        hx0 = ex - 0.1 * M
+        rings = []
+        for i in range(9):
+            t = i / 8                                  # 0 = back (arm end), 1 = nose
+            y = hx0 - 0.95 * M * t
+            half_w = 0.07 * M + 0.16 * M * math.sin(min(1.0, t * 1.25) * math.pi * 0.62)
+            if t > 0.8:
+                half_w *= 1 - (t - 0.8) / 0.2 * 0.55
+            top = 0.08 * M + 0.1 * M * math.sin(t * math.pi) - 0.06 * M * t
+            bot = -0.06 * M - 0.02 * M * math.sin(t * math.pi) - 0.05 * M * t
+            ring = []
+            for k in range(12):
+                a = k / 12 * math.tau
+                cz, sz = math.cos(a), math.sin(a)
+                zz = (top if sz > 0 else bot) * abs(sz) ** 0.7 * (1 if sz > 0 else 1)
+                ring.append((half_w * cz, y, ez + zz if sz >= 0 else ez - abs(bot) * abs(sz) ** 0.7))
+            rings.append(ring)
+        self.loft("MetalLampHead", rings, mat="PoleGalv")
+        # refractor bowl under the shell (glows at night)
+        bowl = []
+        for j, (d, w) in enumerate(((0.0, 1.0), (0.05 * M, 0.82), (0.09 * M, 0.5))):
+            ring = []
+            for k in range(14):
+                a = k / 14 * math.tau
+                ring.append((0.13 * M * w * math.cos(a), hx0 - 0.55 * M + 0.3 * M * w * math.sin(a), ez - 0.07 * M - d))
+            bowl.append(ring)
+        self.loft(name, bowl, mat="Light")
+        # photocell on top of the shell
+        self.cyl("MetalLampHead", (0, hx0 - 0.3 * M, ez + 0.15 * M), 0.045 * M, 0.06 * M, segs=10, mat="PoleGalv")
+        self.cyl("MetalLampCap", (0, hx0 - 0.3 * M, ez + 0.2 * M), 0.04 * M, 0.05 * M, segs=10, r2=0.02 * M, mat="IronBlack")
+
+    def light_davit(self, name):
+        """Downtown: 9 m dark octagonal pole that curves over in one smooth davit arc to a slim
+        LED head (flat lit panel underneath)."""
+        H = 7.2 * M
+        self.pole_base("PoleSteel", H, 0.11 * M, 0.075 * M, 8)
+        R = 1.4 * M                                         # davit radius
+        pts = [(0, -R + R * math.cos(t * math.pi / 2), H + R * math.sin(t * math.pi / 2)) for t in (i / 8 for i in range(9))]
+        self.tube("PoleLamp", pts, 0.075 * M, 0.05 * M, segs=8, mat="PoleSteel")
+        top = pts[-1]
+        tip = (0, top[1] - 0.7 * M, top[2] - 0.05 * M)
+        self.tube("PoleLamp", [top, (0, top[1] - 0.35 * M, top[2] - 0.01 * M), tip], 0.05 * M, 0.042 * M, segs=8, mat="PoleSteel")
+        # LED head: rounded slab, tapering at the back, lit panel underneath
+        cy, cz = tip[1] - 0.42 * M, tip[2] - 0.02 * M
+        rings = []
+        for i in range(7):
+            t = i / 6
+            y = tip[1] + 0.05 * M - 0.95 * M * t
+            hw = 0.08 * M + 0.12 * M * min(1.0, t * 2.2) - (0.04 * M * max(0.0, t - 0.85) / 0.15)
+            th = 0.05 * M + 0.04 * M * min(1.0, t * 3)
+            ring = [(hw * math.cos(k / 10 * math.tau), y, cz + th * math.sin(k / 10 * math.tau)) for k in range(10)]
+            rings.append(ring)
+        self.loft("MetalLampHead", rings, mat="PoleSteel")
+        self.box(name, (0, cy - 0.05 * M, cz - 0.09 * M), (0.3 * M, 0.62 * M, 0.025 * M), mat="Light")
+        # heat-sink fins on top
+        for k in range(-2, 3):
+            self.box("MetalLampHead", (k * 0.05 * M, cy - 0.05 * M, cz + 0.095 * M), (0.012 * M, 0.5 * M, 0.04 * M), mat="PoleSteel")
 
     def grate(self, s=1.3 * M):
         x0, y0, x1, y1 = 0, 0, 1, 1
