@@ -1,0 +1,15 @@
+{
+ "Bark": "art/models/WestTreesS/tex/Bark_Color.png",
+ "Leaf": "art/models/WestTreesS/tex/Leaves_Color.png",
+ "LeafB": "art/models/WestTreesS/tex/Leaves_Color.png",
+ "LeafC": "art/models/WestTreesS/tex/Leaves_Color.png",
+ "LeafCard": "art/models/WestTreesS/tex/LeafCard_Color.png",
+ "LeafCardB": "art/models/WestTreesS/tex/LeafCard_Color.png",
+ "LeafCardC": "art/models/WestTreesS/tex/LeafCard_Color.png",
+ "LeafCardD": "art/models/WestTreesS/tex/LeafCard_Color.png",
+ "LeafCardE": "art/models/WestTreesS/tex/LeafCard_Color.png",
+ "LeafCardF": "art/models/WestTreesS/tex/LeafCard_Color.png",
+ "LeafD": "art/models/WestTreesS/tex/Leaves_Color.png",
+ "LeafE": "art/models/WestTreesS/tex/Leaves_Color.png",
+ "LeafF": "art/models/WestTreesS/tex/Leaves_Color.png"
+}

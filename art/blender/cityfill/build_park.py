@@ -7,7 +7,7 @@
 Builds two models in WORLD coordinates (placed at the origin, like the street models):
   Park       lawn, low stone wall + iron fence, paths, fountain plaza, playground (play tower,
              slide, swings, seesaw), picnic tables, park lamps, entrance signs; skate park: a
-             concrete pad in chain-link with a half-pipe, two quarter pipes, a funbox with ledge
+             open concrete plaza (low steel-edged ledges) with a half-pipe, two quarter pipes, a funbox with ledge
              and rail, a stair set with handrail and hubba, a pyramid, a grind rail, a manual pad,
              flood lights and a bleacher. Collision from the mesh (ramps become height fields).
   ParkProps  shade trees, benches and bins from build_street.py (hand collision boxes).
@@ -42,69 +42,119 @@ def C(part, u, v, h, r, d, segs=12, r2=None, mat=None):
     K.cyl(part, P(u, v, h), r, d, segs=segs, r2=r2, mat=mat)
 
 
+def ring(part, u, v, h0, h1, r_in, r_out, segs=32):
+    """Closed annulus (hollow cylinder) round (u, v) from h0 to h1."""
+    bm = K.bm(part)
+    vs = []
+    for k in range(segs):
+        a = k / segs * math.tau
+        c, s_ = math.cos(a), math.sin(a)
+        vs.append([bm.verts.new(P(u + c * r, v + s_ * r, h)) for r, h in ((r_in, h0), (r_out, h0), (r_out, h1), (r_in, h1))])
+    for k in range(segs):
+        A, Bq = vs[k], vs[(k + 1) % segs]
+        for j in range(4):
+            bm.faces.new((A[j], Bq[j], Bq[(j + 1) % 4], A[(j + 1) % 4]))
+
+
+def prism(part, prof, w0, w1, axis="v", base=0.12):
+    """Solid ramp: each segment of the profile [(t, h), ...] becomes a closed slice down to base,
+    extruded across w0..w1 (axis "v": t runs along v, w along u; axis "u": the other way round).
+    Closed solids keep their normals right, so no see-through faces."""
+    F = (lambda w, t, h: P(w, t, h)) if axis == "v" else (lambda w, t, h: P(t, w, h))
+    for (ta, ha), (tb, hb) in zip(prof, prof[1:]):
+        if abs(tb - ta) < 1e-3:
+            continue
+        bm = K.bm(part)
+        q = [bm.verts.new(F(w, t, h)) for w in (w0, w1) for (t, h) in ((ta, ha), (tb, hb), (tb, base), (ta, base))]
+        for f in ((0, 1, 2, 3), (7, 6, 5, 4), (0, 4, 5, 1), (1, 5, 6, 2), (2, 6, 7, 3), (3, 7, 4, 0)):
+            bm.faces.new([q[i] for i in f])
+
+
+def disc(part, u, v, r, h, segs=32, scale=8.0):
+    bm = K.bm(part)
+    uvl = bm.loops.layers.uv.active
+    for i in range(segs):
+        a0, a1 = i / segs * math.tau, (i + 1) / segs * math.tau
+        q = [(0, 0), (r * math.cos(a0), r * math.sin(a0)), (r * math.cos(a1), r * math.sin(a1))]
+        f = bm.faces.new([bm.verts.new(P(u + du, v + dv, h)) for du, dv in q])
+        for l, (du, dv) in zip(f.loops, q):
+            l[uvl].uv = (du / scale, dv / scale)
+
+
+def sheet_rev(part, u, v, r0, h0, r1, h1, segs=32, urep=6, vrep=1.0, both=True):
+    """Surface of revolution between two rings (falling water curtains, ripple bands), UV u round, v down."""
+    for side in ((1, -1) if both else (1,)):
+        for i in range(segs):
+            a0, a1 = i / segs * math.tau, (i + 1) / segs * math.tau
+            p = [P(u + r0 * math.cos(a0), v + r0 * math.sin(a0), h0), P(u + r0 * math.cos(a1), v + r0 * math.sin(a1), h0),
+                 P(u + r1 * math.cos(a1), v + r1 * math.sin(a1), h1), P(u + r1 * math.cos(a0), v + r1 * math.sin(a0), h1)]
+            uv = [(i / segs * urep, 0), ((i + 1) / segs * urep, 0), ((i + 1) / segs * urep, vrep), (i / segs * urep, vrep)]
+            if side < 0:
+                p, uv = p[::-1], uv[::-1]
+            K.quad(part, p, uv)
+
+
 def R(part, a, b, r, segs=8, mat=None):
     K.cyl_along(part, P(*a), P(*b), r, segs=segs, mat=mat)
 
 
-for name, sheet, tile in (("Lawn", "Lawn", (3 * M, 3 * M)), ("Plinth", "Plinth", (1.5 * M, 1.5 * M)),
-                          ("Pavers", "Pavers", (1.5 * M, 1.5 * M)), ("SkateConcrete", "SkateConcrete", (4 * M, 4 * M)),
-                          ("MatBark", "MatBark", (1.5 * M, 1.5 * M)), ("Water", "Water", (3 * M, 3 * M)),
+for name, sheet, tile in (("Lawn", "ParkLawn", (3 * M, 3 * M)), ("Plinth", "ParkCap", (2 * M, 2 * M)),
+                          ("Pavers", "ParkPavers", (2.4 * M, 2.4 * M)), ("PlazaStone", "PlazaStone", (3 * M, 3 * M)),
+                          ("FountainStone", "FountainStone", (2 * M, 2 * M)), ("SkateConcrete", "SkateCrete", (4 * M, 4 * M)),
+                          ("MatBark", "ParkMulch", (2 * M, 2 * M)),
                           ("IronBlack", "IronBlack", (1 * M, 1 * M)), ("PoleGalv", "PoleGalv", (1.2 * M, 1.2 * M)),
                           ("PlayRed", "PlayRed", (1 * M, 1 * M)), ("PlayBlue", "PlayBlue", (1 * M, 1 * M)),
                           ("PlayYellow", "PlayYellow", (1 * M, 1 * M)), ("PlayGreen", "PlayGreen", (1 * M, 1 * M)),
-                          ("BenchWood", "BenchWood", (1.2 * M, 1.2 * M)), ("StoneTrim", "StoneTrim", (2 * M, 2 * M))):
+                          ("BenchWood", "BenchWood", (1.2 * M, 1.2 * M)), ("StoneTrim", "ParkWall", (2 * M, 2 * M))):
     K.mat(name, sheet=sheet, tile=tile)
 K.mat("ParkSigns", sheet="ParkSigns", explicit=True)
-K.mat("ChainLink", sheet="ChainLink", explicit=True, alpha=True, metal=0.6, rough=0.4)
 K.mat("Light", color=(1.0, 0.95, 0.85), emit=4.0)
+# animated fountain water (flipbooks swapped in game by Client/FountainFx, same frames as the estate fountains)
+K.mat("FxPool", sheet="FxPool", explicit=True, rough=0.05)
+K.mat("FxFall", sheet="FxFall", explicit=True, alpha=True, rough=0.05)
+K.mat("FxRipple", sheet="FxRipple", explicit=True, alpha=True, rough=0.05)
 K.mat("Steel", color=(0.62, 0.63, 0.64), rough=0.3, metal=1.0)
 
 # ---------------------------------------------------------------- ground, edge wall, fence
-B("Lawn", -HU, HU, -HV, HV, -1.0 * M, 0)
+# the lot runs right up to the Vault Ave sidewalk (z -172) and the city's west edge (x -640), so no bare
+# strips are left round it
+U0, U1, V0, V1 = -177.0, HU, -HV, 140.0
+B("Lawn", U0, U1, V0, V1 + 0.1, -1.0 * M, 0)
 GATES_FRONT = ((-100, -80), (70, 92))                 # u ranges of the two entrances on the Vault Ave side
 
 
-def wall_run(u0, v0, u1, v1, fence=True):
-    """Low stone wall from (u0,v0) to (u1,v1) (axis aligned) with an iron fence on top."""
+def wall_run(u0, v0, u1, v1, pillars=True):
+    """Low exposed-aggregate wall from (u0,v0) to (u1,v1) (axis aligned) with a concrete cap and
+    square pillars every ~24 studs. No railings: thin bars shimmer at a distance in Roblox."""
     if v0 == v1:
-        B("StoneTrim", min(u0, u1), max(u0, u1), v0 - 0.5, v0 + 0.5, -0.3, 1.8)
-        B("Plinth", min(u0, u1) - 0.15, max(u0, u1) + 0.15, v0 - 0.65, v0 + 0.65, 1.8, 2.1)
+        B("StoneTrim", min(u0, u1), max(u0, u1), v0 - 0.7, v0 + 0.7, -0.3, 2.4)
+        B("Plinth", min(u0, u1) - 0.2, max(u0, u1) + 0.2, v0 - 0.95, v0 + 0.95, 2.4, 2.9)
     else:
-        B("StoneTrim", u0 - 0.5, u0 + 0.5, min(v0, v1), max(v0, v1), -0.3, 1.8)
-        B("Plinth", u0 - 0.65, u0 + 0.65, min(v0, v1) - 0.15, max(v0, v1) + 0.15, 1.8, 2.1)
-    if not fence:
+        B("StoneTrim", u0 - 0.7, u0 + 0.7, min(v0, v1), max(v0, v1), -0.3, 2.4)
+        B("Plinth", u0 - 0.95, u0 + 0.95, min(v0, v1) - 0.2, max(v0, v1) + 0.2, 2.4, 2.9)
+    if not pillars:
         return
     L = abs(u1 - u0) + abs(v1 - v0)
-    n = max(1, int(L / 9))
+    n = max(1, round(L / 24))
     for i in range(n + 1):
         t = i / n
         u, v = u0 + (u1 - u0) * t, v0 + (v1 - v0) * t
-        B("IronBlack", u - 0.2, u + 0.2, v - 0.2, v + 0.2, 2.1, 6.0)
-        C("IronBlack", u, v, 6.15, 0.3, 0.3, segs=6, r2=0.05)
-    for h in (2.6, 5.6):
-        if v0 == v1:
-            B("IronBlack", min(u0, u1), max(u0, u1), v0 - 0.08, v0 + 0.08, h, h + 0.18)
-        else:
-            B("IronBlack", u0 - 0.08, u0 + 0.08, min(v0, v1), max(v0, v1), h, h + 0.18)
-    k = int(L / 1.1)
-    for i in range(1, k):                                                            # pickets
-        t = i / k
-        u, v = u0 + (u1 - u0) * t, v0 + (v1 - v0) * t
-        B("IronBlack", u - 0.06, u + 0.06, v - 0.06, v + 0.06, 2.1, 5.8)
+        B("StoneTrim", u - 1.3, u + 1.3, v - 1.3, v + 1.3, -0.3, 4.6)
+        B("Plinth", u - 1.6, u + 1.6, v - 1.6, v + 1.6, 4.6, 5.1)
 
 
 # front (Vault Ave side): split at the two entrances
-cuts = [-HU] + [x for g in GATES_FRONT for x in g] + [HU]
+cuts = [U0] + [x for g in GATES_FRONT for x in g] + [U1]
 for i in range(0, len(cuts), 2):
-    wall_run(cuts[i], HV - 0.5, cuts[i + 1], HV - 0.5)
+    wall_run(cuts[i] + (1.8 if i else 0), V1 - 1.0, cuts[i + 1] - (1.8 if i + 2 < len(cuts) else 0), V1 - 1.0)
 for a, b in GATES_FRONT:                                                              # gate piers
     for u in (a, b):
-        B("StoneTrim", u - 1.4, u + 1.4, HV - 1.9, HV + 0.9, -0.3, 7.5)
-        B("Plinth", u - 1.7, u + 1.7, HV - 2.2, HV + 1.2, 7.5, 8.0)
-        K.lamp(P(u, HV - 0.5, 8.6), (1.6, 1.6, 1.0))
-wall_run(-HU + 0.5, -HV + 1, -HU + 0.5, HV - 1)
-wall_run(HU - 0.5, -HV + 1, HU - 0.5, HV - 1)
-wall_run(-HU, -HV + 0.5, HU, -HV + 0.5, fence=False)                                  # back: the houses' walls are behind
+        B("StoneTrim", u - 1.8, u + 1.8, V1 - 2.8, V1 + 0.0, -0.3, 7.5)
+        B("Plinth", u - 2.1, u + 2.1, V1 - 3.1, V1 + 0.0, 7.5, 8.0)
+        K.lamp(P(u, V1 - 1.4, 8.6), (1.6, 1.6, 1.0))
+wall_run(U0 + 1.0, V0 + 1.5, U0 + 1.0, V1 - 2.0)
+wall_run(U1 - 1.0, V0 + 1.5, U1 - 1.0, V1 - 2.0)
+wall_run(U0, V0 + 0.7, U1, V0 + 0.7, pillars=False)                                    # back: the houses' walls are behind
 
 
 # entrance signs on the front wall
@@ -117,38 +167,40 @@ def sign(u, v, w, h, h0, box):
         K.quad("ParkSigns", cs, ((u0, v0), (u1, v0), (u1, v1), (u0, v1)))
 
 
-B("StoneTrim", -126, -104, HV - 3.0, HV - 1.2, -0.3, 2.0)                               # park name sign on a plinth
-B("BenchWood", -125, -105, HV - 2.4, HV - 1.8, 2.0, 7.8)
-sign(-115, HV - 1.75, 19, 5.4, 2.2, (0, 0.502, 1, 1))
-B("PoleGalv", 96, 98, HV - 3, HV - 2, 0, 9.5)
-B("PoleGalv", 116, 118, HV - 3, HV - 2, 0, 9.5)
-B("IronBlack", 96, 118, HV - 2.9, HV - 2.1, 4.4, 9.4)
-sign(107, HV - 2.95, 21.4, 4.8, 4.5, (0, 0, 1, 0.498))
+B("StoneTrim", -126, -104, V1 - 5.4, V1 - 3.6, -0.3, 2.0)                               # park name sign on a plinth
+B("BenchWood", -125, -105, V1 - 4.8, V1 - 4.2, 2.0, 7.8)
+sign(-115, V1 - 4.15, 19, 5.4, 2.2, (0, 0.502, 1, 1))
+B("PoleGalv", 96, 98, V1 - 6, V1 - 5, 0, 9.5)
+B("PoleGalv", 116, 118, V1 - 6, V1 - 5, 0, 9.5)
+B("IronBlack", 96, 118, V1 - 5.9, V1 - 5.1, 4.4, 9.4)
+sign(107, V1 - 5.95, 21.4, 4.8, 4.5, (0, 0, 1, 0.498))
 
 # ---------------------------------------------------------------- paths + fountain plaza (park half, u < 0)
 FX, FV = -90.0, 5.0
-B("Pavers", -95, -85, 30, HV - 0.5, 0, 0.1)                                            # entrance walk to the plaza
-B("Pavers", -HU + 1, -30, FV - 5, FV + 5, 0, 0.1)                                       # east-west promenade
-B("Pavers", -30, 70, FV - 5, FV + 5, 0, 0.1)
-B("Pavers", 70, 92, FV - 5, HV - 0.5, 0, 0.1)                                           # skate park entrance walk
-B("Pavers", -95, -85, -HV + 2, -30, 0, 0.1)                                             # north walk
-C("Pavers", FX, FV, 0.06, 38, 0.12, segs=40)                                            # plaza
-C("StoneTrim", FX, FV, 0.13, 38.4, 0.06, segs=40)                                       # plaza edge band (raised 0.04 above)
-C("Pavers", FX, FV, 0.17, 37.6, 0.02, segs=40)
-# fountain: basin wall, water, centre column with two bowls
-C("StoneTrim", FX, FV, 1.2, 17, 2.4, segs=36)
-C("Plinth", FX, FV, 2.5, 17.4, 0.25, segs=36)
-C("Water", FX, FV, 1.9, 15.6, 0.1, segs=36)
-C("StoneTrim", FX, FV, 4.0, 2.0, 4.6, segs=16)
-C("StoneTrim", FX, FV, 6.2, 7.0, 0.6, segs=24, r2=4.0)
-C("Water", FX, FV, 6.55, 6.4, 0.1, segs=24)
-C("StoneTrim", FX, FV, 8.0, 1.2, 3.4, segs=12)
-C("StoneTrim", FX, FV, 9.8, 3.6, 0.5, segs=20, r2=2.0)
-C("Water", FX, FV, 10.1, 3.2, 0.1, segs=20)
-C("Water", FX, FV, 11.4, 0.35, 2.6, segs=8, r2=0.15)                                    # jet
-for k in range(8):                                                                    # falling sheets off the bowl rim
-    a = k / 8 * math.tau
-    C("Water", FX + math.cos(a) * 6.9, FV + math.sin(a) * 6.9, 4.3, 0.12, 4.2, segs=5)
+# walks: herringbone pavers 0.12 proud of the lawn; the plaza sits higher again (no shared tops)
+B("Pavers", -95, -85, 30, V1 - 0.6, 0, 0.12)                                           # entrance walk to the plaza
+B("Pavers", U0 + 2, -52, FV - 5, FV + 5, 0, 0.12)                                       # east-west promenade
+B("Pavers", -52, 6.0, FV - 5, FV + 5, 0, 0.12)                                        # (stops at the skate pad)
+B("Pavers", 70, 92, 108.0, V1 - 0.6, 0, 0.12)                                           # skate park entrance walk
+B("Pavers", -95, -85, V0 + 2, -30, 0, 0.12)                                             # north walk
+C("Plinth", FX, FV, 0.06, 38.6, 0.28, segs=48)                                          # plaza kerb ring (top 0.20)
+C("PlazaStone", FX, FV, 0.13, 37.8, 0.26, segs=48)                                      # plaza slabs (top 0.26)
+# fountain: travertine basin with a cap, water, centre column with two bowls
+C("FountainStone", FX, FV, 0.45, 16.0, 0.7, segs=40)                                   # basin floor
+ring("FountainStone", FX, FV, 0.1, 2.5, 15.6, 17.0, segs=40)                            # basin wall
+ring("FountainStone", FX, FV, 2.5, 3.0, 15.3, 17.6, segs=40)                            # sitting cap
+disc("FxPool", FX, FV, 15.62, 2.0, segs=40, scale=10.0)                                 # basin water
+C("FountainStone", FX, FV, 4.2, 2.2, 4.6, segs=20)
+C("FountainStone", FX, FV, 6.2, 7.0, 0.7, segs=32, r2=4.2)
+disc("FxPool", FX, FV, 6.5, 6.6, segs=32, scale=5.0)
+C("FountainStone", FX, FV, 8.2, 1.3, 3.4, segs=16)
+C("FountainStone", FX, FV, 9.9, 3.6, 0.55, segs=24, r2=2.0)
+disc("FxPool", FX, FV, 3.3, 10.22, segs=24, scale=3.0)
+sheet_rev("FxFall", FX, FV, 7.05, 6.6, 7.7, 2.02, segs=40, urep=12, vrep=2.0)            # curtain off the big bowl
+sheet_rev("FxFall", FX, FV, 3.65, 10.22, 4.1, 6.62, segs=24, urep=7, vrep=1.6)           # off the top bowl
+sheet_rev("FxFall", FX, FV, 0.12, 13.4, 0.05, 10.22, segs=8, urep=1, vrep=1.0)           # jet
+sheet_rev("FxRipple", FX, FV, 7.6, 2.04, 10.5, 2.04, segs=40, urep=10, vrep=1.0, both=False)
+sheet_rev("FxRipple", FX, FV, 4.0, 6.64, 5.6, 6.64, segs=24, urep=6, vrep=1.0, both=False)
 
 # ---------------------------------------------------------------- playground (south-west lawn)
 PU, PV = -135.0, 80.0
@@ -224,61 +276,39 @@ for (u, v) in LAMPS:
 # ---------------------------------------------------------------- skate park (u 5..160)
 SU0, SU1, SV0, SV1 = 6.0, 160.0, -112.0, 108.0
 B("SkateConcrete", SU0, SU1, SV0, SV1, -0.3, 0.12)
-SG = (70, 92)                                                                           # gate in the south fence
-# chain-link fence round the pad, gate gap toward the walk
+SG = (70, 92)                                                                           # opening toward the Vault Ave walk
+# open plaza like a city skate park: a low concrete ledge round the pad (skateable, steel edge),
+# open where the walks come in (no chain-link: its fine mesh shimmered)
 
 
-def chain(u0, v0, u1, v1, h=12.0):
-    L = math.hypot(u1 - u0, v1 - v0)
-    n = max(1, int(L / 10))
-    for i in range(n + 1):
-        t = i / n
-        C("PoleGalv", u0 + (u1 - u0) * t, v0 + (v1 - v0) * t, h / 2, 0.22, h, segs=8)
-    R("PoleGalv", (u0, v0, h - 0.1), (u1, v1, h - 0.1), 0.12, segs=6)
-    R("PoleGalv", (u0, v0, 0.6), (u1, v1, 0.6), 0.1, segs=6)
-    a, b = Vector(P(u0, v0)), Vector(P(u1, v1))
-    d = (b - a).normalized()
-    nrm = Vector((-d.y, d.x, 0)) * 0.1
-    t = 3.2
-    uvs = ((0, 0), (L / t, 0), (L / t, h / t), (0, h / t))
-    for s in (1, -1):
-        pa, pb = a + nrm * s, b + nrm * s
-        cs = [(pa.x, pa.y, Y0 + 0.2), (pb.x, pb.y, Y0 + 0.2), (pb.x, pb.y, Y0 + h - 0.3), (pa.x, pa.y, Y0 + h - 0.3)]
-        K.quad("ChainLink", cs if s > 0 else cs[::-1], uvs if s > 0 else uvs[::-1])
-
-
-chain(SU0, SV0, SU1, SV0)
-chain(SU0, SV0, SU0, SV1)
-chain(SU1, SV0, SU1, SV1)
-chain(SU0, SV1, SG[0], SV1)
-chain(SG[1], SV1, SU1, SV1)
-
-
-def ramp(profile, u0, u1, part="SkateConcrete", coping=True, axis="v", back_at=None):
-    """Extrude a ramp profile [(t, h), ...] (t along v or u in studs, h up) between u0..u1 (or
-    v0..v1): riding surface, flat back wall, both side walls, steel coping on the top lip."""
-    pts = profile
-    n = len(pts)
-    if axis == "v":
-        F = lambda w, t, h: P(w, t, h)
+def ledge(u0, u1, v0, v1, h=1.6):
+    B("SkateConcrete", u0, u1, v0, v1, 0.12, h)
+    if u1 - u0 > v1 - v0:
+        B("Steel", u0, u1, v0 - 0.04, v0 + 0.3, h - 0.3, h + 0.04)
+        B("Steel", u0, u1, v1 - 0.3, v1 + 0.04, h - 0.3, h + 0.04)
     else:
-        F = lambda w, t, h: P(t, w, h)
-    for i in range(n - 1):
-        (ta, ha), (tb, hb) = pts[i], pts[i + 1]
-        K.quad(part, [F(u0, ta, ha), F(u1, ta, ha), F(u1, tb, hb), F(u0, tb, hb)])
-    for w in (u0, u1):                                                                # side walls
-        bm = K.bm(part)
-        vs = [bm.verts.new(F(w, t, h)) for t, h in pts] + [bm.verts.new(F(w, pts[-1][0], 0.12)), bm.verts.new(F(w, pts[0][0], 0.12))]
-        bm.faces.new(vs if w == u0 else vs[::-1])
-    t_end, h_end = pts[-1]
-    K.quad(part, [F(u0, t_end, h_end), F(u0, t_end, 0.12), F(u1, t_end, 0.12), F(u1, t_end, h_end)])
+        B("Steel", u0 - 0.04, u0 + 0.3, v0, v1, h - 0.3, h + 0.04)
+        B("Steel", u1 - 0.3, u1 + 0.04, v0, v1, h - 0.3, h + 0.04)
+
+
+ledge(SU0, SU1, SV0, SV0 + 1.4)
+ledge(SU1 - 1.4, SU1, SV0 + 1.5, SV1)
+ledge(SU0, SU0 + 1.4, SV0 + 1.5, FV - 5.5)
+ledge(SU0, SU0 + 1.4, FV + 5.5, SV1)
+ledge(SU0 + 1.5, SG[0], SV1 - 1.4, SV1)
+ledge(SG[1], SU1 - 1.5, SV1 - 1.4, SV1)
+
+
+def ramp(profile, u0, u1, part="SkateConcrete", coping=True, axis="v"):
+    """Solid ramp from a profile, with a steel coping pipe on its top lip."""
+    prism(part, profile, u0, u1, axis=axis)
     if coping:
-        tl, hl = max(pts, key=lambda p: p[1])
-        a, b = Vector(F(u0, tl, hl + 0.1)), Vector(F(u1, tl, hl + 0.1))
-        K.cyl_along("Steel", tuple(a), tuple(b), 0.25, segs=10)
+        F = (lambda w, t, h: P(w, t, h)) if axis == "v" else (lambda w, t, h: P(t, w, h))
+        tl, hl = max(profile, key=lambda p: p[1])
+        K.cyl_along("Steel", F(u0, tl, hl + 0.05), F(u1, tl, hl + 0.05), 0.25, segs=10)
 
 
-def transition(t0, direction, R_, H, deck, n=10):
+def transition(t0, direction, R_, H, deck, n=16):
     """Quarter-pipe profile starting flat at t0 going `direction` (+1/-1): circular transition of
     radius R_ up to height H, then a flat deck."""
     pts = [(t0, 0.12)]
@@ -287,19 +317,18 @@ def transition(t0, direction, R_, H, deck, n=10):
         a = ang * i / n
         pts.append((t0 + direction * R_ * math.sin(a), 0.12 + R_ * (1 - math.cos(a))))
     tt = pts[-1][0]
-    pts.append((tt, H + 0.12))
-    pts.append((tt + direction * deck, H + 0.12))
-    return pts
+    pts.append((tt + direction * deck, pts[-1][1]))
+    return pts if direction > 0 else pts[::-1]
 
 
 # half-pipe across the north end: two quarter pipes facing each other with a flat bottom
 HP_U0, HP_U1 = 20.0, 70.0
 ramp(transition(-80, -1, 14, 11, 7), HP_U0, HP_U1)
 ramp(transition(-60, 1, 14, 11, 7), HP_U0, HP_U1)
-for t in (-104, -48):                                                                 # deck railings
+for t in (-100.3, -39.7):                                                              # railings on the back edge of each deck
     B("PoleGalv", HP_U0, HP_U1, t - 0.15, t + 0.15, 14.6, 15.0)
     for u in range(int(HP_U0), int(HP_U1) + 1, 10):
-        B("PoleGalv", u - 0.2, u + 0.2, t - 0.2, t + 0.2, 11.2, 15.0)
+        B("PoleGalv", u - 0.2, u + 0.2, t - 0.2, t + 0.2, 11.1, 15.0)
 # quarter pipes on the east wall, facing west
 ramp(transition(140, 1, 10, 7, 5), -60, -10, axis="u")
 ramp(transition(140, 1, 10, 7, 5), 20, 70, axis="u")
@@ -307,12 +336,8 @@ ramp(transition(140, 1, 10, 7, 5), 20, 70, axis="u")
 FU0, FU1, FV0, FV1 = 60.0, 84.0, -20.0, -6.0
 B("SkateConcrete", FU0, FU1, FV0, FV1, 0.12, 3.0)
 B("Steel", FU0, FU1, FV1 - 0.4, FV1 + 0.05, 2.7, 3.05)
-for (a, b) in ((FU0, FU0 - 12), (FU1, FU1 + 12)):
-    K.quad("SkateConcrete", [P(a, FV0, 3.0), P(a, FV1, 3.0), P(b, FV1, 0.12), P(b, FV0, 0.12)][::(1 if b < a else -1)])
-    for v in (FV0, FV1):
-        bm = K.bm("SkateConcrete")
-        vs = [bm.verts.new(P(a, v, 3.0)), bm.verts.new(P(b, v, 0.12)), bm.verts.new(P(a, v, 0.12))]
-        bm.faces.new(vs if (v == FV0) == (b < a) else vs[::-1])
+prism("SkateConcrete", [(FU0 - 12, 0.12), (FU0, 3.0)], FV0, FV1, axis="u")                  # kicker banks
+prism("SkateConcrete", [(FU1, 3.0), (FU1 + 12, 0.12)], FV0, FV1, axis="u")
 B("Steel", FU0 + 3, FU1 - 3, (FV0 + FV1) / 2 - 0.15, (FV0 + FV1) / 2 + 0.15, 4.9, 5.2)
 for u in (FU0 + 4, FU1 - 4):
     B("Steel", u - 0.15, u + 0.15, (FV0 + FV1) / 2 - 0.12, (FV0 + FV1) / 2 + 0.12, 3.0, 4.9)
@@ -322,15 +347,13 @@ B("SkateConcrete", ST_U0, ST_U1, ST_V - 22, ST_V, 0.12, 4.4)                    
 for i in range(4):
     B("SkateConcrete", ST_U0 + 6, ST_U1 - 6, ST_V + i * 2.4, ST_V + (i + 1) * 2.4, 0.12, 4.4 - (i + 1) * 1.07)
 for u in (ST_U0 + 3, ST_U1 - 3):                                                       # hubba ledges
-    bm = K.bm("SkateConcrete")
-    pts = [(ST_V, 4.4 + 1.2), (ST_V + 9.6, 1.2)]
-    ramp([(ST_V, 5.6), (ST_V + 9.6, 1.25)], u - 3, u + 3, coping=False)
+    prism("SkateConcrete", [(ST_V, 5.6), (ST_V + 9.6, 1.25)], u - 3, u + 3)
     R("Steel", (u + 3.05, ST_V, 5.62), (u + 3.05, ST_V + 9.6, 1.27), 0.15, segs=6)
 R("Steel", ((ST_U0 + ST_U1) / 2, ST_V - 2, 7.6), ((ST_U0 + ST_U1) / 2, ST_V + 11, 3.0), 0.2, segs=8)
 for (v, h) in ((ST_V - 2, 4.4), (ST_V + 4.6, 2.3), (ST_V + 11, 0.12)):
     B("Steel", (ST_U0 + ST_U1) / 2 - 0.15, (ST_U0 + ST_U1) / 2 + 0.15, v - 0.15, v + 0.15, h, 7.6 - (v - ST_V + 2) * 4.6 / 13)
 # bank down the back of the platform
-ramp([(ST_V - 22, 4.4), (ST_V - 36, 0.12)], ST_U0, ST_U1, coping=False)
+prism("SkateConcrete", [(ST_V - 36, 0.12), (ST_V - 22, 4.4)], ST_U0, ST_U1)
 # pyramid: frustum with four banks
 PYU, PYV = 34.0, 40.0
 w0, w1, hh = 16.0, 6.0, 3.0
@@ -342,7 +365,7 @@ for u in (22, 37, 53):
     B("Steel", u - 0.8, u + 0.8, 79.2, 80.8, 0.12, 0.3)
 B("SkateConcrete", 110, 134, 66, 76, 0.12, 1.0)
 B("Steel", 110, 134, 75.7, 76.05, 0.75, 1.05)
-# flood lights on the corners + a bleacher outside the west fence
+# flood lights on the corners + a bleacher outside the west ledge
 for (u, v) in ((SU0 + 2, SV0 + 2), (SU1 - 2, SV0 + 2), (SU0 + 2, SV1 - 2), (SU1 - 2, SV1 - 2)):
     C("PoleGalv", u, v, 11, 0.5, 22, segs=10)
     B("PoleGalv", u - 2.2, u + 2.2, v - 0.4, v + 0.4, 21.6, 22.6)
@@ -363,6 +386,8 @@ if A["render"]:
     K.shot("overview", tuple(Vector(P(-40, 260, 160))), tuple(c), lens=28)
     K.shot("fountain", tuple(Vector(P(-50, 60, 12))), tuple(Vector(P(FX, FV, 4))), lens=28)
     K.shot("skate", tuple(Vector(P(150, 120, 30))), tuple(Vector(P(70, -20, 0))), lens=26)
+    K.shot("halfpipe", tuple(Vector(P(10, -55, 9))), tuple(Vector(P(50, -95, 5))), lens=26)
+    K.shot("wall", tuple(Vector(P(-60, 160, 6))), tuple(Vector(P(-140, 135, 2))), lens=30)
     K.shot("playground", tuple(Vector(P(-100, 120, 18))), tuple(Vector(P(PU, PV, 3))), lens=28)
 
 # ---------------------------------------------------------------- ParkProps: trees, benches, bins (build_street props)
@@ -389,7 +414,7 @@ for k in range(8):
 for (u, v, fu, fv) in ((-80, 50, -1, 0), (-80, 95, -1, 0), (-100, 120, 1, 0), (-120, 0, 0, 1), (-40, 0, 0, 1), (20, 0, 0, 1),
                        (75, 60, 1, 0), (-100, -60, 1, 0)):
     props.append(prop("Bench", u, v, fu, fv))
-for (u, v) in ((-104, HV - 8), (66, HV - 8), (-78, 30), (-20, -8), (96, 30), (-105, -40)):
+for (u, v) in ((-104, V1 - 8), (66, V1 - 8), (-78, 30), (-20, -8), (96, 30), (-105, -40)):
     props.append(prop("Bin", u, v, 0, 1))
 S.build(props)
 

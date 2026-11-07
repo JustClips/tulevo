@@ -34,7 +34,10 @@ UA = {"User-Agent": "Mozilla/5.0 (tulevo-build)"}
 
 SCANS = ["Bricks085", "Bricks094", "Bricks101", "Bricks097", "Concrete034", "Concrete031", "Concrete044D",
          "Metal029", "PaintedMetal004", "PaintedMetal012", "Planks023A", "CorrugatedSteel005", "Plaster001",
-         "PaintedPlaster017", "Tiles107", "Facade006", "WoodSiding008"]
+         "PaintedPlaster017", "Tiles107", "Facade006", "WoodSiding008",
+         # Lindell Park v2 (paths, plaza, fountain, wall, lawn, playground mulch, skate concrete)
+         "PavingStones081", "PavingStones128", "Travertine009", "Concrete025", "Concrete016", "Grass004",
+         "WoodChips001", "Concrete042A"]
 
 
 def fetch():
@@ -879,12 +882,33 @@ def park_signs():
 
 
 def park():
-    real("SkateConcrete", "Concrete031", 1024, tint=(196, 196, 192), gain=1.15)
+    # real scans (checked at full size: no text, logos or marks)
+    real("ParkPavers", "PavingStones081", 1024)                                 # herringbone walks
+    real("PlazaStone", "PavingStones128", 1024)                                 # fountain plaza slabs
+    real("FountainStone", "Travertine009", 1024, tint=(222, 212, 192), gain=1.0)  # basin, column, bowls
+    real("ParkWall", "Concrete025", 1024)                                       # exposed-aggregate wall
+    real("ParkCap", "Concrete016", 512, tint=(200, 198, 192), gain=1.15)        # wall caps, kerbs
+    real("ParkLawn", "Grass004", 1024)
+    real("ParkMulch", "WoodChips001", 1024, tint=(132, 96, 66), gain=1.0)
+    # skate concrete: smooth, light, even (GTA-style), faint trowel cloud + saw-cut joints on the tile edge
+    S_ = 1024
+    gl = scan("Concrete042A", size=S_).convert("L")
+    g = np.asarray(gl.filter(ImageFilter.GaussianBlur(6)), np.float32)
+    v = 160 + (g - g.mean()) * 0.2
+    fine = np.asarray(gl, np.float32)
+    v += (fine - np.asarray(gl.filter(ImageFilter.GaussianBlur(3)), np.float32)) * 0.25
+    yy, xx = np.mgrid[0:S_, 0:S_]
+    joint = (np.minimum(xx, S_ - 1 - xx) < 3) | (np.minimum(yy, S_ - 1 - yy) < 3)
+    v = np.where(joint, v - 45, v)
+    col = np.stack([v * 1.01, v, v * 0.97], -1)
+    r = np.where(joint, 200, 150 + (g - g.mean()) * 0.2)
+    save("SkateCrete", Image.fromarray(np.clip(col, 0, 255).astype(np.uint8)),
+         Image.fromarray(np.clip(r, 0, 255).astype(np.uint8)))
     for n, c in (("PlayRed", (200, 50, 40)), ("PlayBlue", (40, 100, 190)), ("PlayYellow", (236, 186, 40)),
                  ("PlayGreen", (60, 150, 70))):
         paint(n, c, grain="PaintedMetal012", strength=0.25)
     park_signs()
-    src = {"Lawn": "hood", "MatBark": "hood", "ChainLink": "hood", "Water": "hood"}
+    src = {"FxPool": "estate", "FxFall": "estate", "FxRipple": "estate"}
     for n, d_ in src.items():
         for k in ("Color", "Roughness"):
             sp = os.path.join(ROOT, "art", "blender", d_, "tex", f"{n}_{k}.png")

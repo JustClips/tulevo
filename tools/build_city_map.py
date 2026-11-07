@@ -155,6 +155,11 @@ BUILDINGS += [
     # Lindell Park + skate park (built in world coordinates, like the street models)
     ("LindellPark", "Park", (0, 0, 0)),
     ("LindellParkProps", "ParkProps", (0, 0, 0)),
+    # trees on the grass west of the city (art/blender/cityfill/build_outskirts.py, world coordinates)
+    ("WestTreesN", "WestTreesN", (0, 0, 0)),
+    ("WestTreesN2", "WestTreesN2", (0, 0, 0)),
+    ("WestTreesS", "WestTreesS", (0, 0, 0)),
+    ("WestTreesS2", "WestTreesS2", (0, 0, 0)),
 ]
 
 # Ironwood Arms gun shop + indoor range (thread "Build GTA-style gun shop"; art/blender/gunshop):
@@ -312,6 +317,15 @@ for name, x0, x1, z0, z1 in (
         ("BellmontGreenMid", EXTENT + 2, EST_WAY_X - ROAD_W / 2 - SIDE_W, AVE_Z + ROAD_W / 2 + SIDE_W, BACK_Z - ROAD_W / 2 - SIDE_W),
         ("BellmontGreenS", EXTENT, EST_END + 60, BACK_Z + ROAD_W / 2 + SIDE_W, 700),
         ("BellmontGreenE", EST_WAY_X + ROAD_W / 2 + SIDE_W, EST_END + 60, AVE_Z - ROAD_W / 2 - SIDE_W, BACK_Z + ROAD_W / 2 + SIDE_W)):
+    children.append(part(name, (x1 - x0, 0.15, z1 - z0), ((x0 + x1) / 2, 0.075, (z0 + z1) / 2), "#4E6A33", "Grass"))
+
+# countryside west of the city (old Fort Halden site, thread "Fill city with buildings and street
+# props"): grass either side of FortRoad from the city edge out to the fort's own ground (x -1750)
+for name, x0, x1, z0, z1 in (
+        ("WestGreenN", ARMY_FRONT_X, -EXTENT, -832, AVE_Z - ROAD_W / 2),
+        ("WestGreenS", ARMY_FRONT_X, -EXTENT, AVE_Z + ROAD_W / 2, 568),
+        ("WestGreenFarN", -1350, -EXTENT, -1350, -832),
+        ("WestGreenFarS", -1350, -EXTENT, 568, 1350)):
     children.append(part(name, (x1 - x0, 0.15, z1 - z0), ((x0 + x1) / 2, 0.075, (z0 + z1) / 2), "#4E6A33", "Grass"))
 
 for name, x0, x1, z0, z1 in PLAZAS:
