@@ -43,7 +43,9 @@ SKIP_EXACT = {"Frame", "Sill", "WinIron", "Pipe", "Meter", "CandyRack", "FridgeD
               "Coffee", "FreezerTop", "IceFront", "NewsFace",
               "Blossom", "Ivy", "HouseNumbers"}   # Bellmont Hills plants + number plates
 SKIP_PREFIX = ("Light", "Lamp", "Neon", "Fx", "Poster", "ShelfGoods", "Deco", "Swing", "Slide", "Lift", "Flower",
-               "Tag")
+               "Tag",
+               # street furniture (art/blender/cityfill): lit lenses, signal lenses, canopies, tree grates
+               "StreetLamp", "Signal", "Leaf", "Grate")
 # Roblox material per part name (footsteps, bullet impacts); first match wins
 MATERIALS = [
     (r"^(Lawn|Turf|Grass)", "Grass"),
@@ -60,6 +62,7 @@ MATERIALS = [
     (r"^(Soil|Dirt|Mulch|Gravel)", "Ground"),
     (r"^(Brick|WallBrick)", "Brick"),
     (r"^(Granite|Stone|Marble|Kerb)", "Granite"),
+    (r"^(Plinth)", "Concrete"),
     (r"^(Tile|ShopFloor)", "Slate"),
 ]
 MAT_NAMES = ["Concrete", "Grass", "Asphalt", "Wood", "Metal", "Glass", "Slate", "Plastic", "Ground", "Brick", "Granite"]
@@ -478,6 +481,25 @@ def pack(aabbs, rotated):
     return bytes(out), worst
 
 
+def hand_boxes(boxes):
+    """meta["collider_boxes"]: [cx, cy, cz, sx, sy, sz, rz, material] in Blender coordinates
+    (box turned rz about Blender Z) -> Roblox model space (-x, z, y)."""
+    P = np.array([[-1.0, 0, 0], [0, 0, 1.0], [0, 1.0, 0]])
+    aabbs, rotated = [], []
+    for cx, cy, cz, sx, sy, sz, rz, mat in boxes:
+        c = P @ np.array([cx, cy, cz])
+        s_ = np.array([sx, sz, sy])
+        cr, sr = math.cos(rz), math.sin(rz)
+        R = P @ np.array([[cr, -sr, 0], [sr, cr, 0], [0, 0, 1.0]]) @ P
+        m = MAT_NAMES.index(mat)
+        ab = to_aabb(c, R, s_)
+        if ab is not None:
+            aabbs.append((ab[0], ab[1], m))
+        else:
+            rotated.append((c, R, s_, m))
+    return aabbs, rotated
+
+
 def main():
     import base64
     models = sys.argv[1:] or placed_models()
@@ -489,6 +511,11 @@ def main():
             print(f"skip {m}: no GLB")
             continue
         ref, aabbs, rotated, n_raw = model_colliders(path)
+        meta = json.load(open(os.path.join(ROOT, "art", "models", m, "meta.json")))
+        if meta.get("collider_boxes"):
+            # small props (art/blender/cityfill street furniture) list one simple box per prop
+            # instead: thousands of slats, bolts and bars would each become a box otherwise
+            aabbs, rotated = hand_boxes(meta["collider_boxes"])
         rname, rlo, rhi = ref
         data, worst = pack(aabbs, rotated)
         b64 = base64.b64encode(data).decode()

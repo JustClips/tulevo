@@ -122,6 +122,17 @@ ARMY_AT = (-650 - 68 * ARMY_M, 0.15, AVE_Z)          # model origin; front edge 
 ARMY_APRON_X = ARMY_AT[0] + 52 * ARMY_M + 1.0       # model asphalt starts 52 m in front (+1 stud overlap)
 BUILDINGS.append(("FortHalden", "ArmyBase_E", ARMY_AT, {}, {"MeshNoCollide": True}))
 
+# ---------------------------------------------------------------- street furniture
+# (thread "Fill city with buildings and street props"): street lights, trees, bins, benches,
+# hydrants, news boxes, meters, bus stops, signs and traffic signals, one merged model per street
+# plus StreetCorners for the intersections. tools/street_layout.py places them along the
+# sidewalks above; art/blender/cityfill/build_street.py builds them in world coordinates, so each
+# model's origin is the world origin.
+STREET_MODELS = ("StreetVaultAvenue", "StreetBackStreet", "StreetWestStreet", "StreetEastStreet",
+                 "StreetNorthStreet", "StreetSouthStreet", "StreetCorners")
+for _m in STREET_MODELS:
+    BUILDINGS.append((_m, _m, (0, 0, 0)))
+
 # ---------------------------------------------------------------- Bellmont Hills (rich suburb)
 # (thread "Build rich suburbs district"; art/blender/estate/build_estate.py). East of the city:
 # Vault Avenue carries on east as Bellmont Drive, Back Street as Crestview Road, and Bellmont Way

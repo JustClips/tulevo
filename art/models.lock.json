@@ -154,5 +154,33 @@
  "Modern": {
   "id": 96316268862867,
   "sha": "cde4f82f07d74f3bb61856d74f4609c20bc0efdbdd1eee4c5455d9b8492462b3"
+ },
+ "StreetBackStreet": {
+  "id": 137753911964893,
+  "sha": "5f5d0ed2072b51f379c70c92ccbf7494024aa8ae486afd650c438402d8ef3ca5"
+ },
+ "StreetCorners": {
+  "id": 109380920379204,
+  "sha": "91548bc3e2569f2dbd4dd9164b6616a2194b9ba9d6def63de88b47dbf156301d"
+ },
+ "StreetEastStreet": {
+  "id": 122976449923111,
+  "sha": "cfc2f0ebd03771d41bb35b67655736c6576e557dcd50a8bf25e0c85827f7b844"
+ },
+ "StreetNorthStreet": {
+  "id": 95626626528393,
+  "sha": "aad855afcf5f9dfe67166137d032bf0b0d20bb589ea5b9175ee33c873da72313"
+ },
+ "StreetSouthStreet": {
+  "id": 113164717893834,
+  "sha": "4d609f7ad1951cb9e1dc272966f6079b53de04036955bd8fdbcbb6450d18edb1"
+ },
+ "StreetVaultAvenue": {
+  "id": 75786898670849,
+  "sha": "4d495b1c1033d92098da629b8df36b9fad0e0d8d81213057afe5f57eed170cad"
+ },
+ "StreetWestStreet": {
+  "id": 94905712587578,
+  "sha": "7d90c85657faa1da439fa53931bec2dc238ef4ac046114c4383685097cc195e6"
  }
 }

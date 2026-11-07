@@ -2678,5 +2678,130 @@
   "id": 139650086426018,
   "file": "art/models/Villa/tex/RoofBrown_Color.png",
   "state": "Approved"
+ },
+ "3e6f2f81b4b5c053f47872f0dee6e3d638a57d5ff2885a706fd472ee9c85612e": {
+  "id": 76755781017336,
+  "file": "art/models/StreetBackStreet/tex/Bark_Color.png",
+  "state": "Approved"
+ },
+ "1942a0ae4ff10418acfe5dfc9b87be46868ceca1ffcf9f9547b54670e028c301": {
+  "id": 139177732485514,
+  "file": "art/models/StreetBackStreet/tex/BenchWood_Color.png",
+  "state": "Approved"
+ },
+ "832596f9a440934b00c6343e6380e57a66b80f7f8f985b0a239381f1cb00b4bd": {
+  "id": 115233517563061,
+  "file": "art/models/StreetBackStreet/tex/BinGreen_Color.png",
+  "state": "Approved"
+ },
+ "dc7f4b0af88221a4ffee6d98e4831f4945912b7423ba4885fddb5dbe69fd1363": {
+  "id": 93272992342514,
+  "file": "art/models/StreetBackStreet/tex/IronBlack_Color.png",
+  "state": "Approved"
+ },
+ "5ca9ce25949e24ab99d72455e6d5920ff72d8695d15e02375d51001b489fdd0c": {
+  "id": 74403610321866,
+  "file": "art/models/StreetBackStreet/tex/ShelterGlass_Color.png",
+  "state": "Approved"
+ },
+ "44a2ba01aa1c354ae104fe1505163797ba556eff176015bd57e01f785b1e9c35": {
+  "id": 92326837133607,
+  "file": "art/models/StreetBackStreet/tex/DecoPrint_Color.png",
+  "state": "Approved"
+ },
+ "23b277317923435b7df74de6f5b72eb74f569fb24c27d7fb09cacebe0b77d678": {
+  "id": 104715238802230,
+  "file": "art/models/StreetBackStreet/tex/Grate_Color.png",
+  "state": "Approved"
+ },
+ "d11da8796e6e341589da29a12702d81ec1597c17f9cb111e3080398bf4b83b12": {
+  "id": 114674898966960,
+  "file": "art/models/StreetBackStreet/tex/Leaves_Color.png",
+  "state": "Approved"
+ },
+ "a1ea04fa31ed73236b7b9f68aaebe16d68963aa8d60f0f7f213d5b3dadd5efa7": {
+  "id": 138772268247559,
+  "file": "art/models/StreetBackStreet/tex/LeafCard_Color.png",
+  "state": "Approved"
+ },
+ "474e7887b0a9ab5fe87de6e59e63e08a79907eaacd270e12996f74b1d77afbe7": {
+  "id": 127570477872958,
+  "file": "art/models/StreetBackStreet/tex/MailBlue_Color.png",
+  "state": "Approved"
+ },
+ "f9a427d5ee70b6e30229a4d8ec93961f33c4ff3abe4ef4960d801bb21247ce7a": {
+  "id": 90975157846102,
+  "file": "art/models/StreetBackStreet/tex/SignalBody_Color.png",
+  "state": "Approved"
+ },
+ "5e45afd949cd21deb1a8f1446fccb23c006b678bcd1644fa3d075e5e8e40dd74": {
+  "id": 115947468429408,
+  "file": "art/models/StreetBackStreet/tex/CabGrey_Color.png",
+  "state": "Approved"
+ },
+ "53306cc0166fe4459d23ac7649f8755a1a304f69cacb586b02bd4ebd07fde6fa": {
+  "id": 122220823304199,
+  "file": "art/models/StreetBackStreet/tex/NewsAmber_Color.png",
+  "state": "Approved"
+ },
+ "c06221b2e59dfafcf75743810794b41d8e9fe97680414e127f6b9d9e9d7aa5a3": {
+  "id": 115525044594635,
+  "file": "art/models/StreetBackStreet/tex/NewsBlue_Color.png",
+  "state": "Approved"
+ },
+ "7f4bd99255e990571861adc36eddca5c2ac73a30d259f9bd29083f60cc033cb0": {
+  "id": 99415377043787,
+  "file": "art/models/StreetBackStreet/tex/NewsRed_Color.png",
+  "state": "Approved"
+ },
+ "08b44ed370ad409c46ec2afe7a2cb2654d26f76a73f558deea4d51d19cbee801": {
+  "id": 71299503801406,
+  "file": "art/models/StreetBackStreet/tex/HydrantRed_Color.png",
+  "state": "Approved"
+ },
+ "1f2c96ee9eadaa463a4941e403297c5d6fe569eb560ec1d805de5656f41d1841": {
+  "id": 77087858351110,
+  "file": "art/models/StreetBackStreet/tex/SafetyYellow_Color.png",
+  "state": "Approved"
+ },
+ "387a2291512196bd84b51e36e36f3417b36a77be17e080d26d261c9b26e5e53c": {
+  "id": 93428432497505,
+  "file": "art/models/StreetBackStreet/tex/Plinth_Color.png",
+  "state": "Approved"
+ },
+ "2c3dcabe5488b76e533efee1bce306178bfb4863a15a3760834696975502f58f": {
+  "id": 108872888474112,
+  "file": "art/models/StreetBackStreet/tex/PoleSteel_Color.png",
+  "state": "Approved"
+ },
+ "1cc45c732f47c6ac4d6c06284ee3e24f14b331ae958fb90650090a34e7ce7121": {
+  "id": 114140485306376,
+  "file": "art/models/StreetBackStreet/tex/PoleGalv_Color.png",
+  "state": "Approved"
+ },
+ "e9e18e1e1e2f710c354adbcec4b31f765028c39d1acbdbf5aab70d5e534bd11b": {
+  "id": 130043507281865,
+  "file": "art/models/StreetCorners/tex/LensAmber_Color.png",
+  "state": "Approved"
+ },
+ "abc7cc61456297f4fc1457f09b552067aaeda85f61c6db40230c1e9cd0b1cd4f": {
+  "id": 135153447097222,
+  "file": "art/models/StreetCorners/tex/LensGreen_Color.png",
+  "state": "Approved"
+ },
+ "2e725224c1b62e34ee122580c162905e12515c49490b5fb111c9f225d9963525": {
+  "id": 98163766974867,
+  "file": "art/models/StreetCorners/tex/LensRed_Color.png",
+  "state": "Approved"
+ },
+ "932a56c8ad01c2120328ce325fe3055d10a14b5acd4bcb39ab23b42c7cce1bd0": {
+  "id": 91037678569468,
+  "file": "art/models/StreetVaultAvenue/tex/Palm_Color.png",
+  "state": "Approved"
+ },
+ "b60b56eb8cd6805969a5e41332a814a2fc2f29dc1a2a1f49d5b7c3bc53528bc3": {
+  "id": 125404463799650,
+  "file": "art/models/StreetVaultAvenue/tex/Trunk_Color.png",
+  "state": "Approved"
  }
 }

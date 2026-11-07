@@ -10,6 +10,9 @@
 --   PriceFace  printed price sign -> a small glow so it reads at night
 --   Neon<Colour> (NeonPink, NeonCyan, NeonRed) coloured neon tubes / beacons + a coloured glow
 --   Sconce     small porch lights -> warm Neon
+--   StreetLamp<n>  street light lenses (art/blender/cityfill) -> Neon + a wide SurfaceLight
+--              without shadows (there are ~150 of them) + a faint light shaft at night
+--   Signal<EW|NS><Red|Amber|Green>  traffic signal lenses, cycled by Client/TrafficSignals
 -- Lamps get brighter and the light shafts show up as the in-game clock goes into night.
 local InsertService = game:GetService("InsertService")
 local Lighting = game:GetService("Lighting")
@@ -65,6 +68,13 @@ local ALPHA = {
 	Slide2Mesh = true,
 	-- Bellmont Hills mansions
 	Ivy = true,
+	-- street tree canopies (art/blender/cityfill)
+	LeafCard = true,
+	LeafCardB = true,
+	LeafCardC = true,
+	LeafCardD = true,
+	LeafCardE = true,
+	LeafCardF = true,
 }
 -- Small decor parts that should not collide.
 local DECO = {
@@ -361,6 +371,24 @@ local function style(model: Model)
 				downLight(d, 18, 0.6, 1.5)
 			elseif d.Name:match("^Light") then
 				neon(d)
+			elseif d.Name:match("^StreetLamp%d") then
+				neon(d)
+				local light = downLight(d, 34, 0, 2.2)
+				light.Shadows = false
+				light.Angle = 150
+				lightShaft(d, model)
+			elseif d.Name:match("^Signal%u%u%a+$") then
+				-- traffic signal lens: Client/TrafficSignals lights it by phase
+				for _, c in d:GetChildren() do
+					if c:IsA("SurfaceAppearance") then
+						c:Destroy()
+					end
+				end
+				if d:IsA("MeshPart") then
+					d.TextureID = ""
+				end
+				d.CastShadow = false
+				d.Material = Enum.Material.SmoothPlastic
 			elseif d.Name:match("^Lamp%d") then
 				neon(d)
 				downLight(d, 26, 0.6, 3)
