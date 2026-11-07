@@ -1,0 +1,1506 @@
+{
+ "name": "ArmyBase_E",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Grass": {
+   "tris": 36,
+   "min": [
+    -244.8,
+    -259.2,
+    -1.08
+   ],
+   "max": [
+    237.6,
+    259.2,
+    0.0
+   ]
+  },
+  "Asphalt": {
+   "tris": 72,
+   "min": [
+    -201.6,
+    -187.2,
+    -0.86
+   ],
+   "max": [
+    180.0,
+    201.6,
+    0.22
+   ]
+  },
+  "FenceSteel": {
+   "tris": 14968,
+   "min": [
+    -181.22,
+    -217.22,
+    0.0
+   ],
+   "max": [
+    199.22,
+    217.22,
+    12.36
+   ]
+  },
+  "ConcreteDark": {
+   "tris": 6940,
+   "min": [
+    -232.56,
+    -216.58,
+    -0.03
+   ],
+   "max": [
+    198.58,
+    216.58,
+    95.76
+   ]
+  },
+  "ChainLink": {
+   "tris": 744,
+   "min": [
+    -180.0,
+    -216.0,
+    0.18
+   ],
+   "max": [
+    198.0,
+    216.0,
+    10.62
+   ]
+  },
+  "DecoWire": {
+   "tris": 7016,
+   "min": [
+    -181.17,
+    -217.17,
+    2.15
+   ],
+   "max": [
+    199.17,
+    217.17,
+    12.15
+   ]
+  },
+  "RazorWire": {
+   "tris": 4544,
+   "min": [
+    -181.3,
+    -217.3,
+    10.4
+   ],
+   "max": [
+    199.3,
+    217.3,
+    13.0
+   ]
+  },
+  "Slide1Leaf": {
+   "tris": 116,
+   "min": [
+    -145.6,
+    -0.02,
+    0.36
+   ],
+   "max": [
+    -145.28,
+    39.25,
+    8.64
+   ]
+  },
+  "Slide1Mesh": {
+   "tris": 4,
+   "min": [
+    -145.44,
+    0.0,
+    0.65
+   ],
+   "max": [
+    -145.44,
+    39.24,
+    8.46
+   ]
+  },
+  "Slide1Wheel": {
+   "tris": 72,
+   "min": [
+    -145.58,
+    1.46,
+    0.0
+   ],
+   "max": [
+    -145.3,
+    37.78,
+    0.72
+   ]
+  },
+  "Slide1Pivot": {
+   "tris": 12,
+   "min": [
+    -146.16,
+    40.21,
+    0.0
+   ],
+   "max": [
+    -144.72,
+    40.79,
+    9.0
+   ]
+  },
+  "DarkSteel": {
+   "tris": 2740,
+   "min": [
+    -259.27,
+    -210.96,
+    -0.01
+   ],
+   "max": [
+    192.78,
+    210.78,
+    111.24
+   ]
+  },
+  "Slide2Leaf": {
+   "tris": 116,
+   "min": [
+    -145.6,
+    -39.25,
+    0.36
+   ],
+   "max": [
+    -145.28,
+    0.02,
+    8.64
+   ]
+  },
+  "Slide2Mesh": {
+   "tris": 4,
+   "min": [
+    -145.44,
+    -39.24,
+    0.65
+   ],
+   "max": [
+    -145.44,
+    0.0,
+    8.46
+   ]
+  },
+  "Slide2Wheel": {
+   "tris": 72,
+   "min": [
+    -145.58,
+    -37.78,
+    0.0
+   ],
+   "max": [
+    -145.3,
+    -1.46,
+    0.72
+   ]
+  },
+  "Slide2Pivot": {
+   "tris": 12,
+   "min": [
+    -146.16,
+    -40.79,
+    0.0
+   ],
+   "max": [
+    -144.72,
+    -40.21,
+    9.0
+   ]
+  },
+  "SignRestricted": {
+   "tris": 32,
+   "min": [
+    -180.22,
+    -216.22,
+    4.68
+   ],
+   "max": [
+    198.22,
+    216.22,
+    6.84
+   ]
+  },
+  "Concrete": {
+   "tris": 420,
+   "min": [
+    -194.4,
+    -164.52,
+    -0.36
+   ],
+   "max": [
+    144.36,
+    63.36,
+    99.36
+   ]
+  },
+  "GateSign": {
+   "tris": 4,
+   "min": [
+    -194.47,
+    -10.8,
+    19.66
+   ],
+   "max": [
+    -165.53,
+    10.8,
+    25.06
+   ]
+  },
+  "Lamp1": {
+   "tris": 12,
+   "min": [
+    -187.74,
+    21.24,
+    19.12
+   ],
+   "max": [
+    -186.66,
+    25.56,
+    19.4
+   ]
+  },
+  "Lamp2": {
+   "tris": 12,
+   "min": [
+    -173.34,
+    21.24,
+    19.12
+   ],
+   "max": [
+    -172.26,
+    25.56,
+    19.4
+   ]
+  },
+  "Lamp3": {
+   "tris": 12,
+   "min": [
+    -187.74,
+    6.84,
+    19.12
+   ],
+   "max": [
+    -186.66,
+    11.16,
+    19.4
+   ]
+  },
+  "Lamp4": {
+   "tris": 12,
+   "min": [
+    -173.34,
+    6.84,
+    19.12
+   ],
+   "max": [
+    -172.26,
+    11.16,
+    19.4
+   ]
+  },
+  "Lamp5": {
+   "tris": 12,
+   "min": [
+    -187.74,
+    -11.16,
+    19.12
+   ],
+   "max": [
+    -186.66,
+    -6.84,
+    19.4
+   ]
+  },
+  "Lamp6": {
+   "tris": 12,
+   "min": [
+    -173.34,
+    -11.16,
+    19.12
+   ],
+   "max": [
+    -172.26,
+    -6.84,
+    19.4
+   ]
+  },
+  "Lamp7": {
+   "tris": 12,
+   "min": [
+    -187.74,
+    -25.56,
+    19.12
+   ],
+   "max": [
+    -186.66,
+    -21.24,
+    19.4
+   ]
+  },
+  "Lamp8": {
+   "tris": 12,
+   "min": [
+    -173.34,
+    -25.56,
+    19.12
+   ],
+   "max": [
+    -172.26,
+    -21.24,
+    19.4
+   ]
+  },
+  "PaintYellow": {
+   "tris": 228,
+   "min": [
+    -224.28,
+    -18.85,
+    0.22
+   ],
+   "max": [
+    151.2,
+    194.62,
+    0.83
+   ]
+  },
+  "TowerGlassA": {
+   "tris": 24,
+   "min": [
+    -185.8,
+    -158.97,
+    4.21
+   ],
+   "max": [
+    -114.63,
+    3.82,
+    109.44
+   ]
+  },
+  "Door": {
+   "tris": 58,
+   "min": [
+    -178.47,
+    -147.28,
+    0.11
+   ],
+   "max": [
+    138.67,
+    108.79,
+    21.6
+   ]
+  },
+  "Roof": {
+   "tris": 112,
+   "min": [
+    -187.02,
+    -160.92,
+    10.51
+   ],
+   "max": [
+    137.7,
+    56.7,
+    111.6
+   ]
+  },
+  "Black": {
+   "tris": 108,
+   "min": [
+    -187.06,
+    -159.2,
+    11.16
+   ],
+   "max": [
+    -114.4,
+    5.08,
+    109.48
+   ]
+  },
+  "Lamp9": {
+   "tris": 12,
+   "min": [
+    -186.75,
+    -1.08,
+    10.33
+   ],
+   "max": [
+    -186.21,
+    1.08,
+    10.55
+   ]
+  },
+  "BoomWhite": {
+   "tris": 48,
+   "min": [
+    -190.87,
+    -33.7,
+    0.22
+   ],
+   "max": [
+    -169.13,
+    33.7,
+    4.14
+   ]
+  },
+  "BoomRed": {
+   "tris": 24,
+   "min": [
+    -190.94,
+    -4.46,
+    3.64
+   ],
+   "max": [
+    -169.06,
+    4.46,
+    3.82
+   ]
+  },
+  "Lift1Pivot": {
+   "tris": 12,
+   "min": [
+    -190.66,
+    -4.18,
+    3.82
+   ],
+   "max": [
+    -189.5,
+    -3.02,
+    4.9
+   ]
+  },
+  "Lift1Arm": {
+   "tris": 60,
+   "min": [
+    -190.26,
+    -34.42,
+    4.09
+   ],
+   "max": [
+    -189.9,
+    -3.6,
+    4.54
+   ]
+  },
+  "Lift1Stripes": {
+   "tris": 36,
+   "min": [
+    -190.26,
+    -30.1,
+    4.18
+   ],
+   "max": [
+    -189.9,
+    -8.5,
+    4.54
+   ]
+  },
+  "NeonRed": {
+   "tris": 52,
+   "min": [
+    -190.98,
+    -144.58,
+    2.74
+   ],
+   "max": [
+    -129.02,
+    3.82,
+    133.92
+   ]
+  },
+  "Lift2Pivot": {
+   "tris": 12,
+   "min": [
+    -170.5,
+    3.02,
+    3.82
+   ],
+   "max": [
+    -169.34,
+    4.18,
+    4.9
+   ]
+  },
+  "Lift2Arm": {
+   "tris": 60,
+   "min": [
+    -170.1,
+    3.6,
+    4.09
+   ],
+   "max": [
+    -169.74,
+    34.42,
+    4.54
+   ]
+  },
+  "Lift2Stripes": {
+   "tris": 36,
+   "min": [
+    -170.1,
+    8.5,
+    4.18
+   ],
+   "max": [
+    -169.74,
+    30.1,
+    4.54
+   ]
+  },
+  "PaintWhite": {
+   "tris": 428,
+   "min": [
+    -203.4,
+    -154.62,
+    0.22
+   ],
+   "max": [
+    86.4,
+    57.82,
+    117.09
+   ]
+  },
+  "Rubber": {
+   "tris": 672,
+   "min": [
+    -224.28,
+    -21.24,
+    0.14
+   ],
+   "max": [
+    -139.72,
+    148.42,
+    0.94
+   ]
+  },
+  "SignStop": {
+   "tris": 2,
+   "min": [
+    -212.51,
+    -31.86,
+    5.04
+   ],
+   "max": [
+    -212.51,
+    -27.9,
+    7.99
+   ]
+  },
+  "Steel": {
+   "tris": 4956,
+   "min": [
+    -259.27,
+    -211.25,
+    0.0
+   ],
+   "max": [
+    191.27,
+    199.37,
+    132.84
+   ]
+  },
+  "SignSpeed": {
+   "tris": 2,
+   "min": [
+    -259.31,
+    -31.5,
+    5.4
+   ],
+   "max": [
+    -259.31,
+    -28.26,
+    7.85
+   ]
+  },
+  "SignNoPhoto": {
+   "tris": 2,
+   "min": [
+    -212.51,
+    27.9,
+    5.04
+   ],
+   "max": [
+    -212.51,
+    31.86,
+    7.99
+   ]
+  },
+  "Sandbag": {
+   "tris": 1380,
+   "min": [
+    -201.17,
+    51.19,
+    0.0
+   ],
+   "max": [
+    -133.6,
+    126.65,
+    3.31
+   ]
+  },
+  "Planks": {
+   "tris": 656,
+   "min": [
+    -200.74,
+    -210.96,
+    0.0
+   ],
+   "max": [
+    192.96,
+    210.96,
+    25.74
+   ]
+  },
+  "Canvas": {
+   "tris": 12,
+   "min": [
+    -201.6,
+    50.76,
+    8.28
+   ],
+   "max": [
+    -190.8,
+    64.44,
+    8.57
+   ]
+  },
+  "Hesco": {
+   "tris": 120,
+   "min": [
+    -185.4,
+    -60.84,
+    0.0
+   ],
+   "max": [
+    -181.8,
+    60.84,
+    4.32
+   ]
+  },
+  "Dirt": {
+   "tris": 132,
+   "min": [
+    -185.26,
+    -60.7,
+    -0.61
+   ],
+   "max": [
+    -36.0,
+    205.2,
+    4.46
+   ]
+  },
+  "Light": {
+   "tris": 84,
+   "min": [
+    -144.54,
+    -159.98,
+    109.91
+   ],
+   "max": [
+    -115.94,
+    -131.74,
+    110.41
+   ]
+  },
+  "PlateRangetower": {
+   "tris": 2,
+   "min": [
+    -157.07,
+    -156.96,
+    7.56
+   ],
+   "max": [
+    -157.07,
+    -149.76,
+    9.79
+   ]
+  },
+  "GlassA": {
+   "tris": 82,
+   "min": [
+    -156.99,
+    -157.68,
+    4.68
+   ],
+   "max": [
+    138.63,
+    57.63,
+    21.42
+   ]
+  },
+  "Frame": {
+   "tris": 9756,
+   "min": [
+    -157.97,
+    -157.9,
+    3.78
+   ],
+   "max": [
+    138.96,
+    103.14,
+    21.64
+   ]
+  },
+  "Sill": {
+   "tris": 2004,
+   "min": [
+    -158.33,
+    -158.26,
+    3.53
+   ],
+   "max": [
+    139.32,
+    103.5,
+    16.34
+   ]
+  },
+  "Sconce": {
+   "tris": 132,
+   "min": [
+    -157.32,
+    -144.43,
+    9.36
+   ],
+   "max": [
+    138.96,
+    14.83,
+    10.73
+   ]
+  },
+  "Hvac": {
+   "tris": 300,
+   "min": [
+    -151.92,
+    -158.4,
+    2.34
+   ],
+   "max": [
+    140.94,
+    43.2,
+    29.88
+   ]
+  },
+  "HvacTop": {
+   "tris": 30,
+   "min": [
+    -151.85,
+    -158.33,
+    17.14
+   ],
+   "max": [
+    130.79,
+    43.13,
+    29.92
+   ]
+  },
+  "Siding": {
+   "tris": 60,
+   "min": [
+    -77.4,
+    -144.0,
+    2.16
+   ],
+   "max": [
+    138.6,
+    57.6,
+    25.92
+   ]
+  },
+  "GlassD": {
+   "tris": 86,
+   "min": [
+    -77.43,
+    -144.03,
+    5.4
+   ],
+   "max": [
+    138.63,
+    57.63,
+    21.42
+   ]
+  },
+  "GlassB": {
+   "tris": 88,
+   "min": [
+    -157.71,
+    -144.03,
+    3.96
+   ],
+   "max": [
+    138.63,
+    102.96,
+    21.42
+   ]
+  },
+  "GlassC": {
+   "tris": 78,
+   "min": [
+    -77.43,
+    -140.85,
+    5.4
+   ],
+   "max": [
+    138.63,
+    57.63,
+    21.42
+   ]
+  },
+  "Plate101": {
+   "tris": 2,
+   "min": [
+    -77.51,
+    -105.12,
+    7.2
+   ],
+   "max": [
+    -77.51,
+    -99.36,
+    9.0
+   ]
+  },
+  "LightWall": {
+   "tris": 240,
+   "min": [
+    -78.52,
+    -130.14,
+    21.74
+   ],
+   "max": [
+    139.72,
+    43.74,
+    21.96
+   ]
+  },
+  "Pipe": {
+   "tris": 3360,
+   "min": [
+    -78.08,
+    -143.52,
+    0.72
+   ],
+   "max": [
+    139.27,
+    57.12,
+    27.0
+   ]
+  },
+  "Tread": {
+   "tris": 720,
+   "min": [
+    -174.96,
+    -210.96,
+    0.85
+   ],
+   "max": [
+    192.96,
+    210.96,
+    22.14
+   ]
+  },
+  "Plate102": {
+   "tris": 2,
+   "min": [
+    -5.51,
+    -105.12,
+    7.2
+   ],
+   "max": [
+    -5.51,
+    -99.36,
+    9.0
+   ]
+  },
+  "Plate103": {
+   "tris": 2,
+   "min": [
+    98.89,
+    2.88,
+    7.2
+   ],
+   "max": [
+    98.89,
+    8.64,
+    9.0
+   ]
+  },
+  "Plate104": {
+   "tris": 2,
+   "min": [
+    98.89,
+    -112.32,
+    7.2
+   ],
+   "max": [
+    98.89,
+    -106.56,
+    9.0
+   ]
+  },
+  "PlateHQ": {
+   "tris": 2,
+   "min": [
+    8.89,
+    2.88,
+    7.2
+   ],
+   "max": [
+    8.89,
+    8.64,
+    9.0
+   ]
+  },
+  "Tire": {
+   "tris": 704,
+   "min": [
+    -145.51,
+    120.53,
+    0.11
+   ],
+   "max": [
+    -139.07,
+    149.11,
+    0.9
+   ]
+  },
+  "Bark": {
+   "tris": 252,
+   "min": [
+    -119.38,
+    144.0,
+    0.0
+   ],
+   "max": [
+    -113.9,
+    190.8,
+    3.56
+   ]
+  },
+  "SidingOlive": {
+   "tris": 72,
+   "min": [
+    -176.04,
+    -212.04,
+    0.11
+   ],
+   "max": [
+    194.04,
+    212.04,
+    31.5
+   ]
+  },
+  "ShedRoof": {
+   "tris": 4,
+   "min": [
+    105.12,
+    91.44,
+    19.01
+   ],
+   "max": [
+    161.28,
+    196.56,
+    21.24
+   ]
+  },
+  "PlateMotorpool": {
+   "tris": 2,
+   "min": [
+    104.76,
+    138.24,
+    15.66
+   ],
+   "max": [
+    104.76,
+    149.76,
+    18.18
+   ]
+  },
+  "LightShed": {
+   "tris": 60,
+   "min": [
+    132.77,
+    101.52,
+    18.36
+   ],
+   "max": [
+    133.63,
+    186.48,
+    18.65
+   ]
+  },
+  "CamoNet": {
+   "tris": 20,
+   "min": [
+    98.64,
+    93.6,
+    8.64
+   ],
+   "max": [
+    104.76,
+    194.4,
+    19.08
+   ]
+  },
+  "Olive": {
+   "tris": 512,
+   "min": [
+    153.0,
+    98.82,
+    0.22
+   ],
+   "max": [
+    156.6,
+    191.84,
+    5.62
+   ]
+  },
+  "Lamp10": {
+   "tris": 12,
+   "min": [
+    -174.96,
+    199.44,
+    25.52
+   ],
+   "max": [
+    -173.88,
+    200.52,
+    25.74
+   ]
+  },
+  "Lamp11": {
+   "tris": 12,
+   "min": [
+    -174.96,
+    -210.96,
+    25.52
+   ],
+   "max": [
+    -173.88,
+    -209.88,
+    25.74
+   ]
+  },
+  "Lamp12": {
+   "tris": 12,
+   "min": [
+    181.44,
+    199.44,
+    25.52
+   ],
+   "max": [
+    182.52,
+    200.52,
+    25.74
+   ]
+  },
+  "Lamp13": {
+   "tris": 12,
+   "min": [
+    181.44,
+    -210.96,
+    25.52
+   ],
+   "max": [
+    182.52,
+    -209.88,
+    25.74
+   ]
+  },
+  "Lamp14": {
+   "tris": 12,
+   "min": [
+    -166.03,
+    18.72,
+    26.98
+   ],
+   "max": [
+    -165.17,
+    20.88,
+    27.09
+   ]
+  },
+  "Lamp15": {
+   "tris": 12,
+   "min": [
+    -144.43,
+    -20.88,
+    26.98
+   ],
+   "max": [
+    -143.57,
+    -18.72,
+    27.09
+   ]
+  },
+  "Lamp16": {
+   "tris": 12,
+   "min": [
+    -122.83,
+    18.72,
+    26.98
+   ],
+   "max": [
+    -121.97,
+    20.88,
+    27.09
+   ]
+  },
+  "Lamp17": {
+   "tris": 12,
+   "min": [
+    -101.95,
+    -29.88,
+    26.98
+   ],
+   "max": [
+    -101.09,
+    -27.72,
+    27.09
+   ]
+  },
+  "Lamp18": {
+   "tris": 12,
+   "min": [
+    -91.15,
+    -109.08,
+    26.98
+   ],
+   "max": [
+    -90.29,
+    -106.92,
+    27.09
+   ]
+  },
+  "Lamp19": {
+   "tris": 12,
+   "min": [
+    -36.43,
+    -167.4,
+    26.98
+   ],
+   "max": [
+    -35.57,
+    -165.24,
+    27.09
+   ]
+  },
+  "Lamp20": {
+   "tris": 12,
+   "min": [
+    42.77,
+    -167.4,
+    26.98
+   ],
+   "max": [
+    43.63,
+    -165.24,
+    27.09
+   ]
+  },
+  "Lamp21": {
+   "tris": 12,
+   "min": [
+    72.29,
+    -37.08,
+    26.98
+   ],
+   "max": [
+    73.15,
+    -34.92,
+    27.09
+   ]
+  },
+  "Lamp22": {
+   "tris": 12,
+   "min": [
+    72.29,
+    63.72,
+    26.98
+   ],
+   "max": [
+    73.15,
+    65.88,
+    27.09
+   ]
+  },
+  "Lamp23": {
+   "tris": 12,
+   "min": [
+    27.65,
+    142.92,
+    26.98
+   ],
+   "max": [
+    28.51,
+    145.08,
+    27.09
+   ]
+  },
+  "Lamp24": {
+   "tris": 12,
+   "min": [
+    158.69,
+    -109.08,
+    26.98
+   ],
+   "max": [
+    159.55,
+    -106.92,
+    27.09
+   ]
+  },
+  "Lamp25": {
+   "tris": 12,
+   "min": [
+    158.69,
+    34.92,
+    26.98
+   ],
+   "max": [
+    159.55,
+    37.08,
+    27.09
+   ]
+  },
+  "Flag": {
+   "tris": 32,
+   "min": [
+    -22.22,
+    4.75,
+    36.54
+   ],
+   "max": [
+    -21.37,
+    14.11,
+    42.48
+   ]
+  },
+  "Trunk": {
+   "tris": 2208,
+   "min": [
+    -237.99,
+    -253.28,
+    0.0
+   ],
+   "max": [
+    230.6,
+    252.91,
+    39.09
+   ]
+  },
+  "LeafB": {
+   "tris": 8736,
+   "min": [
+    -228.82,
+    -263.12,
+    6.18
+   ],
+   "max": [
+    240.66,
+    259.18,
+    57.88
+   ]
+  },
+  "LeafC": {
+   "tris": 8684,
+   "min": [
+    -238.52,
+    -261.26,
+    5.41
+   ],
+   "max": [
+    236.54,
+    262.79,
+    60.76
+   ]
+  },
+  "LeafD": {
+   "tris": 8320,
+   "min": [
+    -246.56,
+    -261.5,
+    5.46
+   ],
+   "max": [
+    235.99,
+    256.68,
+    59.59
+   ]
+  },
+  "LeafE": {
+   "tris": 8060,
+   "min": [
+    -250.8,
+    -263.64,
+    5.62
+   ],
+   "max": [
+    236.1,
+    259.59,
+    58.41
+   ]
+  },
+  "LeafF": {
+   "tris": 8424,
+   "min": [
+    -247.11,
+    -225.41,
+    6.21
+   ],
+   "max": [
+    241.24,
+    263.82,
+    58.86
+   ]
+  },
+  "Leaf": {
+   "tris": 8112,
+   "min": [
+    -246.46,
+    -261.75,
+    5.66
+   ],
+   "max": [
+    225.07,
+    252.77,
+    60.75
+   ]
+  }
+ },
+ "lamps": [
+  "Lamp1",
+  "Lamp2",
+  "Lamp3",
+  "Lamp4",
+  "Lamp5",
+  "Lamp6",
+  "Lamp7",
+  "Lamp8",
+  "Lamp9",
+  "Lamp10",
+  "Lamp11",
+  "Lamp12",
+  "Lamp13",
+  "Lamp14",
+  "Lamp15",
+  "Lamp16",
+  "Lamp17",
+  "Lamp18",
+  "Lamp19",
+  "Lamp20",
+  "Lamp21",
+  "Lamp22",
+  "Lamp23",
+  "Lamp24",
+  "Lamp25"
+ ],
+ "textures": {
+  "Grass": "Grass_Color.png",
+  "Asphalt": "Asphalt_Color.png",
+  "FenceSteel": "Steel_Color.png",
+  "ConcreteDark": "ConcreteDark_Color.png",
+  "ChainLink": "ChainLink_Color.png",
+  "DecoWire": "DarkSteel_Color.png",
+  "RazorWire": "RazorWire_Color.png",
+  "Slide1Leaf": "Steel_Color.png",
+  "Slide1Mesh": "ChainLink_Color.png",
+  "Slide1Wheel": "Rubber_Color.png",
+  "Slide1Pivot": "DarkSteel_Color.png",
+  "DarkSteel": "DarkSteel_Color.png",
+  "Slide2Leaf": "Steel_Color.png",
+  "Slide2Mesh": "ChainLink_Color.png",
+  "Slide2Wheel": "Rubber_Color.png",
+  "Slide2Pivot": "DarkSteel_Color.png",
+  "SignRestricted": "SignRestricted_Color.png",
+  "Concrete": "Concrete_Color.png",
+  "GateSign": "GateSign_Color.png",
+  "Lamp1": "Light_Color.png",
+  "Lamp2": "Light_Color.png",
+  "Lamp3": "Light_Color.png",
+  "Lamp4": "Light_Color.png",
+  "Lamp5": "Light_Color.png",
+  "Lamp6": "Light_Color.png",
+  "Lamp7": "Light_Color.png",
+  "Lamp8": "Light_Color.png",
+  "PaintYellow": "PaintYellow_Color.png",
+  "TowerGlassA": "TowerGlassA_Color.png",
+  "Door": "Door_Color.png",
+  "Roof": "Roof_Color.png",
+  "Black": "Black_Color.png",
+  "Lamp9": "Light_Color.png",
+  "BoomWhite": "BoomWhite_Color.png",
+  "BoomRed": "BoomRed_Color.png",
+  "Lift1Pivot": "DarkSteel_Color.png",
+  "Lift1Arm": "BoomRed_Color.png",
+  "Lift1Stripes": "BoomWhite_Color.png",
+  "NeonRed": "NeonRed_Color.png",
+  "Lift2Pivot": "DarkSteel_Color.png",
+  "Lift2Arm": "BoomRed_Color.png",
+  "Lift2Stripes": "BoomWhite_Color.png",
+  "PaintWhite": "PaintWhite_Color.png",
+  "Rubber": "Rubber_Color.png",
+  "SignStop": "SignStop_Color.png",
+  "Steel": "Steel_Color.png",
+  "SignSpeed": "SignSpeed_Color.png",
+  "SignNoPhoto": "SignNoPhoto_Color.png",
+  "Sandbag": "Sandbag_Color.png",
+  "Planks": "Planks_Color.png",
+  "Canvas": "Canvas_Color.png",
+  "Hesco": "Hesco_Color.png",
+  "Dirt": "Dirt_Color.png",
+  "Light": "Light_Color.png",
+  "PlateRangetower": "PlateRangetower_Color.png",
+  "GlassA": "GlassA_Color.png",
+  "Frame": "Frame_Color.png",
+  "Sill": "Sill_Color.png",
+  "Sconce": "Sconce_Color.png",
+  "Hvac": "Hvac_Color.png",
+  "HvacTop": "HvacTop_Color.png",
+  "Siding": "Siding_Color.png",
+  "GlassD": "GlassD_Color.png",
+  "GlassB": "GlassB_Color.png",
+  "GlassC": "GlassC_Color.png",
+  "Plate101": "Plate101_Color.png",
+  "LightWall": "Light_Color.png",
+  "Pipe": "Pipe_Color.png",
+  "Tread": "Tread_Color.png",
+  "Plate102": "Plate102_Color.png",
+  "Plate103": "Plate103_Color.png",
+  "Plate104": "Plate104_Color.png",
+  "PlateHQ": "PlateHQ_Color.png",
+  "Tire": "Tire_Color.png",
+  "Bark": "Bark_Color.png",
+  "SidingOlive": "SidingOlive_Color.png",
+  "ShedRoof": "SidingOlive_Color.png",
+  "PlateMotorpool": "PlateMotorpool_Color.png",
+  "LightShed": "Light_Color.png",
+  "CamoNet": "CamoNet_Color.png",
+  "Olive": "Olive_Color.png",
+  "Lamp10": "Light_Color.png",
+  "Lamp11": "Light_Color.png",
+  "Lamp12": "Light_Color.png",
+  "Lamp13": "Light_Color.png",
+  "Lamp14": "Light_Color.png",
+  "Lamp15": "Light_Color.png",
+  "Lamp16": "Light_Color.png",
+  "Lamp17": "Light_Color.png",
+  "Lamp18": "Light_Color.png",
+  "Lamp19": "Light_Color.png",
+  "Lamp20": "Light_Color.png",
+  "Lamp21": "Light_Color.png",
+  "Lamp22": "Light_Color.png",
+  "Lamp23": "Light_Color.png",
+  "Lamp24": "Light_Color.png",
+  "Lamp25": "Light_Color.png",
+  "Flag": "Flag_Color.png",
+  "Trunk": "Bark_Color.png",
+  "LeafB": "Needles_Color.png",
+  "LeafC": "Needles_Color.png",
+  "LeafD": "Needles_Color.png",
+  "LeafE": "Needles_Color.png",
+  "LeafF": "Needles_Color.png",
+  "Leaf": "Needles_Color.png"
+ }
+}

@@ -22,7 +22,17 @@ local NEON = {
 	NeonRed = Color3.fromRGB(255, 40, 30),
 }
 -- Textures with see-through pixels (chain-link fence, graffiti decals).
-local ALPHA = { ChainLink = true, Tag = true, FxFall = true, FxRipple = true }
+local ALPHA = {
+	ChainLink = true,
+	Tag = true,
+	FxFall = true,
+	FxRipple = true,
+	-- Fort Halden army base
+	RazorWire = true,
+	CamoNet = true,
+	Slide1Mesh = true,
+	Slide2Mesh = true,
+}
 -- Small decor parts that should not collide.
 local DECO = {
 	Frame = true,
@@ -173,6 +183,11 @@ local WALK_IN_SOLID = {
 local PLANTS = {
 	Leaf = true,
 	LeafB = true,
+	LeafC = true,
+	LeafD = true,
+	LeafE = true,
+	LeafF = true,
+	CamoNet = true,
 	Palm = true,
 	Shrub = true,
 	Hedge = true,

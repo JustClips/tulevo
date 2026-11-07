@@ -2,6 +2,7 @@
 return {
 	Apartments = 87879520347710,
 	ArmorVest = 106468371106307,
+	ArmyBase_E = 82559827773204,
 	BankTower = 122789663490592,
 	Carbine = 105521336217513,
 	CarbineRifle = 74701704114774,

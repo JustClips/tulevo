@@ -112,6 +112,16 @@ for gang, (sz, x0, d, paints) in GANGS.items():
                 BUILDINGS.append((f"{gang}House{'N' if side > 0 else 'S'}{i}", key, (cx, 0.3, z),
                                   {"Walls": paints[(n + (side < 0) * 2) % len(paints)], "Tag": gang}))
 
+# ---------------------------------------------------------------- Fort Halden army base
+# (thread "Build realistic army base"; art/blender/army/build_army.py, built with --face E so
+# the gate faces the city). West of the city, on the line of Vault Avenue: FortRoad carries the
+# avenue on from its west end (x = -EXTENT) to the gate apron, where the model's own asphalt
+# starts (a step higher, so nothing is coplanar). Model ground front edge sits at x = -650.
+ARMY_M = 3.6
+ARMY_AT = (-650 - 68 * ARMY_M, 0.15, AVE_Z)          # model origin; front edge is 68 m in front of it
+ARMY_APRON_X = ARMY_AT[0] + 52 * ARMY_M + 1.0       # model asphalt starts 52 m in front (+1 stud overlap)
+BUILDINGS.append(("FortHalden", "ArmyBase_E", ARMY_AT))
+
 # paved plazas under the towers, from the kerb to behind the building: name, x0, x1, z0, z1
 PLAZAS = [
     ("HollisPlaza", -70, 70, BACK_Z + 22 + 18, 310),
@@ -188,6 +198,13 @@ for name, size, pos in roads:
             else:
                 children.append(part(f"{name}Walk{k}{'W' if side < 0 else 'E'}", (sw, kerb, b - a),
                                      (pos[0] + off, kerb / 2, (a + b) / 2), SIDEWALK))
+
+# Fort Halden access road: added after the sidewalks loop (no kerbs out in the country), but
+# part of `roads` so it gets lane lines, wear and the radar/GPS Road tag
+FORT_ROAD = ("FortRoad", (-EXTENT - ARMY_APRON_X, 0.2, ROAD_W),
+             ((-EXTENT + ARMY_APRON_X) / 2, 0.1, AVE_Z))
+children.append(road_dressing.style_road(part(*FORT_ROAD, ASPHALT, "Asphalt", tags=["Road"])))
+roads.append(FORT_ROAD)
 
 # the tower block itself: one paved plaza between the four sidewalks
 inner_x = BLOCK_X - R - SIDE_W
