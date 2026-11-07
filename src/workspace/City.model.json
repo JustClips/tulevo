@@ -140761,12 +140761,12 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 126196202092536,
+      "LiveSyncAsset": 115107090175747,
       "LiveSyncBoxCenter": {
        "Vector3": [
-        -468.0,
+        -466.05,
         9.8,
-        -308.825
+        -312.275
        ]
       },
       "CityModel": "Park",
@@ -140970,10 +140970,10 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 132306229269310,
+      "LiveSyncAsset": 86949340174148,
       "LiveSyncBoxCenter": {
        "Vector3": [
-        -107.2,
+        -108.2,
         23.0,
         -307.65
        ]

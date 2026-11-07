@@ -120,8 +120,11 @@ K.mat("Steel", color=(0.62, 0.63, 0.64), rough=0.3, metal=1.0)
 # ---------------------------------------------------------------- ground, edge wall, fence
 # the lot runs right up to the Vault Ave sidewalk (z -172) and the city's west edge (x -640), so no bare
 # strips are left round it
-U0, U1, V0, V1 = -177.0, HU, -HV, 140.0
+# 2026-11-07 Dev: the north edge runs up to the North St sidewalk (z -453) too, and a lawn strip fills
+# the corner between the east wall and the house lot next door (x -296..-290.4, up to the fire station)
+U0, U1, V0, V1 = -177.0, HU, -140.9, 140.0
 B("Lawn", U0, U1, V0, V1 + 0.1, -1.0 * M, 0)
+B("Lawn", U1, 172.5, V0, -47.2, -1.0 * M, 0)
 GATES_FRONT = ((-100, -80), (70, 92))                 # u ranges of the two entrances on the Vault Ave side
 
 
@@ -158,7 +161,7 @@ for a, b in GATES_FRONT:                                                        
         C("IronBlack", u, V1 - 1.4, 9.95, 0.8, 0.5, segs=8, r2=0.15)
 wall_run(U0 + 1.0, V0 + 1.5, U0 + 1.0, V1 - 2.0)
 wall_run(U1 - 1.0, V0 + 1.5, U1 - 1.0, V1 - 2.0)
-wall_run(U0, V0 + 0.7, U1, V0 + 0.7, pillars=False)                                    # back: the houses' walls are behind
+wall_run(U0, V0 + 0.7, 5.0, V0 + 0.7, pillars=False)                                   # North St side; the skate pad runs to the sidewalk
 
 
 # entrance signs on the front wall
@@ -282,7 +285,7 @@ for (u, v) in LAMPS:
     K.lamp(P(u, v, 12.95), (1.0, 1.0, 0.1))
 
 # ---------------------------------------------------------------- skate park (u 5..160)
-SU0, SU1, SV0, SV1 = 6.0, 160.0, -112.0, 108.0
+SU0, SU1, SV0, SV1 = 6.0, 164.0, V0 + 0.1, 108.0       # pad runs up to the North St sidewalk and the east wall
 B("SkateConcrete", SU0, SU1, SV0, SV1, -0.3, 0.12)
 SG = (70, 92)                                                                           # opening toward the Vault Ave walk
 # open plaza like a city skate park: a low concrete ledge round the pad (skateable, steel edge),
@@ -372,6 +375,14 @@ for u in (22, 37, 53):
     B("Steel", u - 0.15, u + 0.15, 79.85, 80.15, 0.12, 2.0)
     B("Steel", u - 0.8, u + 0.8, 79.2, 80.8, 0.12, 0.3)
 B("SkateConcrete", 110, 134, 66, 76, 0.12, 1.0)
+# street section on the extra pad by North St: a long manual pad and a flat bar
+B("SkateConcrete", 40, 100, -128, -120, 0.12, 1.0)
+B("Steel", 40, 100, -128.04, -127.7, 0.75, 1.04)
+B("Steel", 40, 100, -120.3, -119.96, 0.75, 1.04)
+R("Steel", (112, -124, 2.0), (152, -124, 2.0), 0.22, segs=10)
+for u in (114, 132, 150):
+    B("Steel", u - 0.15, u + 0.15, -124.15, -123.85, 0.12, 2.0)
+    B("Steel", u - 0.8, u + 0.8, -124.8, -123.2, 0.12, 0.3)
 B("Steel", 110, 134, 75.7, 76.05, 0.75, 1.05)
 # flood lights on the corners + a bleacher outside the west ledge
 for (u, v) in ((SU0 + 2, SV0 + 2), (SU1 - 2, SV0 + 2), (SU0 + 2, SV1 - 2), (SU1 - 2, SV1 - 2)):
