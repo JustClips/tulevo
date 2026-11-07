@@ -206,8 +206,65 @@ local function solidInWalkIn(name: string): boolean
 	return false
 end
 
+-- Until the shared door system drives them, gates named Lift<N>* (boom arms) and Slide<N>* (sliding
+-- leaves) are posed open at start (DoorsStaticOpen): a boom arm swings up ~85 deg about its
+-- Lift<N>Pivot, a slide leaf moves its own length toward its Slide<N>Pivot.
+local function openDoorsStatic(model: Model)
+	local groups = {}
+	for _, d in model:GetDescendants() do
+		if d:IsA("BasePart") then
+			local kind, n, role = d.Name:match("^(%a-)(%d+)(%a*)$")
+			if kind == "Lift" or kind == "Slide" then
+				local key = kind .. n
+				groups[key] = groups[key] or { kind = kind, parts = {} }
+				if role == "Pivot" then
+					groups[key].pivot = d
+				else
+					table.insert(groups[key].parts, d)
+				end
+			end
+		end
+	end
+	for _, g in groups do
+		if not g.pivot or #g.parts == 0 then
+			continue
+		end
+		local lo, hi = Vector3.new(math.huge, math.huge, math.huge), Vector3.new(-math.huge, -math.huge, -math.huge)
+		for _, p in g.parts do
+			local h = p.Size / 2
+			lo = lo:Min(p.Position - h)
+			hi = hi:Max(p.Position + h)
+		end
+		local center, size = (lo + hi) / 2, hi - lo
+		local pivot = g.pivot.Position
+		if g.kind == "Lift" then
+			local d = Vector3.new(center.X - pivot.X, 0, center.Z - pivot.Z)
+			if d.Magnitude < 0.01 then
+				continue
+			end
+			local axis = d.Unit:Cross(Vector3.yAxis)
+			local turn = CFrame.new(pivot) * CFrame.fromAxisAngle(axis, math.rad(85)) * CFrame.new(-pivot)
+			for _, p in g.parts do
+				p.CFrame = turn * p.CFrame
+			end
+		else
+			local alongX = size.X >= size.Z
+			local dir = if alongX
+				then Vector3.new(math.sign(pivot.X - center.X), 0, 0) * size.X
+				else Vector3.new(0, 0, math.sign(pivot.Z - center.Z)) * size.Z
+			for _, p in g.parts do
+				p.Position += dir
+			end
+		end
+	end
+end
+
 local function style(model: Model)
 	applyTextures(model)
+	if model:GetAttribute("DoorsStaticOpen") then
+		openDoorsStatic(model)
+	end
+	local noCollide = model:GetAttribute("MeshNoCollide") == true
 	local walkIn = model:FindFirstChild("WallF1", true) ~= nil
 	for _, d in model:GetDescendants() do
 		if d:IsA("Script") or d:IsA("LocalScript") then
@@ -221,6 +278,11 @@ local function style(model: Model)
 			end
 			if PLANTS[d.Name] or (walkIn and not solidInWalkIn(d.Name)) then
 				d.CanCollide = false
+			end
+			if noCollide then
+				-- collision comes from invisible box colliders (City/FortHaldenColliders)
+				d.CanCollide = false
+				d.CanTouch = false
 			end
 			if d.Name:match("^Fx") then
 				-- fountain water (Client/FountainFx animates it): walk through, no shadows
