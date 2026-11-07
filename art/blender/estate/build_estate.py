@@ -28,11 +28,13 @@ ONLY = argv[argv.index("--only") + 1]
 NAME = model_name(ONLY, A)
 TEX = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tex")
 K = Kit(NAME, A["out"], TEX)
-rng = random.Random({"Casa": 11, "Modern": 12, "Villa": 13, "Hacienda": 14, "Police": 15}[ONLY])
+rng = random.Random({"Casa": 11, "Modern": 12, "Villa": 13, "Hacienda": 14, "Police": 15, "Colonial": 16, "Tower": 17, "Cubist": 18, "Ranch": 19}[ONLY])
 LW, LD = 36.0, 40.0                     # lot, metres
 PAINTS = ("Ivory", "Sand", "White", "Sage", "Stone", "Blush", "Slate", "Charcoal")
-ROOF = {"Casa": "RoofClay", "Modern": "RoofFlat", "Villa": "RoofBrown", "Hacienda": "RoofBarrel", "Police": "RoofFlat"}[ONLY]
-WALL = {"Casa": "WallIvory", "Modern": "WallWhite", "Villa": "WallSage", "Hacienda": "WallSand", "Police": "WallStone"}[ONLY]
+ROOF = {"Casa": "RoofClay", "Modern": "RoofFlat", "Villa": "RoofBrown", "Hacienda": "RoofBarrel", "Police": "RoofFlat",
+        "Colonial": "RoofSlate", "Tower": "RoofClay", "Cubist": "RoofFlat", "Ranch": "RoofBrown"}[ONLY]
+WALL = {"Casa": "WallIvory", "Modern": "WallWhite", "Villa": "WallSage", "Hacienda": "WallSand", "Police": "WallStone",
+        "Colonial": "WallWhite", "Tower": "WallBlush", "Cubist": "WallWhite", "Ranch": "WallStone"}[ONLY]
 
 # ---------------------------------------------------------------- materials (tile sizes in metres)
 for name, sheet, tile in (("Walls", WALL, 3.0), ("Render", "Render", 3.0), ("Lawn", "Lawn", 3.0), ("Pavers", "Pavers", 1.6),
@@ -42,7 +44,8 @@ for name, sheet, tile in (("Walls", WALL, 3.0), ("Render", "Render", 3.0), ("Law
                           ("Shrub", "HedgeBox", 1.0), ("Leaf", "Leaf", 1.4), ("LeafB", "LeafB", 1.4), ("Blossom", "Blossom", 1.4),
                           ("Trim", "Trim", 1.5), ("Iron", "Iron", 1.0), ("Bronze", "Bronze", 1.0), ("Steel", "Steel", 1.0),
                           ("Alu", "Alu", 1.0), ("Teak", "Teak", 1.0), ("Cushion", "Cushion", 1.0), ("Soil", "Soil", 1.0),
-                          ("Bark", "Bark", 0.8), ("Pot", "Pot", 1.0), ("Rubber", "Rubber", 1.0), ("RoofFlat", "RoofFlat", 3.0), ("Asphalt", "Asphalt", 8 / 3.6)):
+                          ("Bark", "Bark", 0.8), ("Pot", "Pot", 1.0), ("Rubber", "Rubber", 1.0), ("RoofFlat", "RoofFlat", 3.0), ("Asphalt", "Asphalt", 8 / 3.6), ("Shutter", "Shutter", 1.0),
+                          ("Column", "Column", 1.0), ("Cone", ROOF, 2.0)):
     K.mat(name, sheet=sheet, tile=(tile * M, tile * M), rough=0.7)
 K.mat("Roof", sheet=ROOF, explicit=True)          # explicit UVs: tile rows run along each eave
 for name in ("FrontDoor", "PivotDoor", "GarageWood", "GarageGlass", "GlassBigA", "GlassBigB", "GlassBigC", "HouseNumbers",
@@ -613,6 +616,7 @@ def casa():
     tree(-15.2, 17.0, h=7.0, spread=4.0)
     bollard(-1.2, -12.5); bollard(1.2, -12.5); bollard(-1.2, -16.0); bollard(1.2, -16.0)
     VARIANTS["Walls"] = {p: f"Wall{p}_Color.png" for p in PAINTS if p != "Charcoal"}
+    VARIANTS["Roof"] = ROOF_VARIANTS
     return [("01_front", (14, -46, 9), (0, -2, 3), 26), ("02_aerial", (30, -38, 30), (0, 0, 0), 26),
             ("03_court", (-4.5, -16, 2.0), (1, -4, 2.8), 24), ("04_pool", (-16, 26, 6), (-3, 15, 1), 26)]
 
@@ -807,6 +811,7 @@ def villa():
     tree(-14.0, 16.5, h=8.0, spread=4.8)
     palm(14.5, 15.0, 8.5)
     VARIANTS["Walls"] = {p: f"Wall{p}_Color.png" for p in PAINTS if p != "Charcoal"}
+    VARIANTS["Roof"] = ROOF_VARIANTS
     return [("01_front", (12, -46, 9), (-3, -2, 3), 26), ("02_aerial", (30, -38, 30), (0, 0, 0), 26),
             ("03_balcony", (7, -11, 2.4), (-2, -4, 4.4), 22), ("04_pool", (-18, 26, 6), (-4, 13, 1), 26)]
 
@@ -886,10 +891,363 @@ def hacienda():
     tree(-14.0, 15.5, h=7.0, spread=4.5)
     tree(14.0, 18.0, h=6.0, spread=3.5, part="Blossom")
     VARIANTS["Walls"] = {p: f"Wall{p}_Color.png" for p in PAINTS if p != "Charcoal"}
+    VARIANTS["Roof"] = ROOF_VARIANTS
     return [("01_front", (16, -46, 9), (0, -3, 3), 26), ("02_aerial", (30, -38, 30), (0, 0, 0), 26),
             ("03_court", (-9, -20, 2.4), (0, -9, 2.2), 26), ("04_pool", (-16, 26, 6), (0, 14, 1), 26)]
 
 
+
+
+ROOF_VARIANTS = {"Clay": "RoofClay_Color.png", "Brown": "RoofBrown_Color.png", "Barrel": "RoofBarrel_Color.png", "Slate": "RoofSlate_Color.png"}
+
+
+def shutters(ax, plane, facing, a, z0, w, h):
+    """Louvred shutters either side of a window (metres)."""
+    for side in (-1, 1):
+        c = a + side * (w / 2 + 0.38)
+        for k in range(6):
+            z = z0 + (k + 0.5) * h / 6
+            if ax == "y":
+                B("Shutter", c - 0.3, c + 0.3, plane + facing * 0.02 - 0.03, plane + facing * 0.02 + 0.03, z - h / 12 + 0.02, z + h / 12 - 0.02)
+            else:
+                B("Shutter", plane + facing * 0.02 - 0.03, plane + facing * 0.02 + 0.03, c - 0.3, c + 0.3, z - h / 12 + 0.02, z + h / 12 - 0.02)
+
+
+def win_sh(ax, plane, facing, a, z0, w=1.3, h=2.0):
+    win(ax, plane, facing, a, z0, w, h)
+    shutters(ax, plane, facing, a, z0, w, h)
+
+
+def dormer(x, y, z, w=1.6, h=1.6):
+    """Roof dormer facing -Y: small box with a window and a hip cap (sits in the front roof slope)."""
+    B("Walls", x - w / 2, x + w / 2, y, y + 2.2, z - 0.6, z + h)
+    win("y", y, -1, x, z, w - 0.6, h - 0.4, mull=1, transom=False)
+    hip(x - w / 2, x + w / 2, y, y + 2.2, z + h, slope=0.6, over=0.2, gutter=False)
+
+
+# ================================================================ Colonial: white columned portico
+def colonial():
+    lot_edges()
+    F1, F2, TOP = 0.6, 3.9, 7.2
+    B("Brick", -11.1, 11.1, -0.1, 10.1, 0, F1)
+    B("Walls", -11, 11, 0, 10, F1, TOP)
+    B("Column", -11.06, 11.06, -0.06, 10.06, TOP - 0.35, TOP)                       # cornice
+    hip(-11, 11, 0, 10, TOP, slope=0.55, over=0.45)
+    for x in (-10.0, 10.0):                                                          # end chimneys
+        B("Brick", x - 0.6, x + 0.6, 4.2, 5.8, TOP, TOP + 4.6)
+        B("Stone", x - 0.7, x + 0.7, 4.1, 5.9, TOP + 4.6, TOP + 4.75)
+    for x in (-6.0, 6.0):
+        dormer(x, 1.6, TOP + 0.9)
+    # two-storey portico: 4 columns, entablature, balcony at the second floor
+    PX0, PX1, PY = -4.6, 4.6, -3.4
+    B("Stone", PX0 - 0.4, PX1 + 0.4, PY - 0.4, 0, 0, F1)
+    for k in range(3):
+        B("Stone", -2.2, 2.2, PY - 0.4 - 0.4 * (k + 1), PY - 0.4 - 0.4 * k, 0, F1 * (3 - k) / 4)
+    for x in (PX0, -1.6, 1.6, PX1):
+        C("Column", x, PY, F1 + 0.15, 0.42, 0.3, segs=14)
+        C("Column", x, PY, (F1 + TOP - 0.6) / 2 + 0.15, 0.3, TOP - 0.6 - F1 - 0.3, segs=16, r2=0.26)
+        C("Column", x, PY, TOP - 0.68, 0.4, 0.16, segs=14)
+    B("Column", PX0 - 0.5, PX1 + 0.5, PY - 0.5, 0, TOP - 0.6, TOP)                   # entablature
+    B("Column", PX0 - 0.6, PX1 + 0.6, PY - 0.6, 0.0, TOP, TOP + 0.12)
+    rail(PX0 - 0.5, PY - 0.45, PX1 + 0.5, PY - 0.45, TOP + 0.12, h=0.9, part="Column", step=0.25)
+    B("Deck", PX0 - 0.3, PX1 + 0.3, PY + 0.2, 0, F2 - 0.15, F2)                      # inner balcony
+    rail(PX0 + 0.3, PY + 0.25, PX1 - 0.3, PY + 0.25, F2, h=1.0)
+    FY("FrontDoor", 0, 0, F1, 1.9, 2.6)
+    B("Column", -1.25, 1.25, -0.12, 0, F1 + 2.6, F1 + 3.0)
+    win("y", 0, -1, 0, F2 + 0.1, 1.5, 2.3)
+    for x in (-3.0, 3.0):
+        K.box("Sconce", (x * M, -0.1 * M, 2.5 * M), (0.2 * M, 0.18 * M, 0.34 * M))
+    for x in (-9.0, -6.5, 6.5, 9.0):
+        win_sh("y", 0, -1, x, F1 + 0.5)
+        win_sh("y", 0, -1, x, F2 + 0.4, h=1.8)
+    for x, fc in ((-11, -1), (11, 1)):
+        for a in (2.0, 5.0, 8.0):
+            win_sh("x", x, fc, a, F1 + 0.5)
+            win_sh("x", x, fc, a, F2 + 0.4, h=1.8)
+    win_row("y", 10, 1, -11, 11, F1 + 0.5, 6, 1.3, 2.0)
+    win_row("y", 10, 1, -11, 11, F2 + 0.4, 6, 1.3, 1.8)
+    # one-storey side wings: garage (east) and sun room (west)
+    B("Brick", 11.0, 16.6, 2.0, 10.0, 0, 0.3)
+    B("Walls", 11.0, 16.5, 2.1, 10.0, 0.3, 3.6)
+    hip(11.0, 16.5, 2.1, 10.0, 3.6, slope=0.55, over=0.35)
+    FY("GarageWood", 13.75, 2.1, 0.3, 4.4, 2.5)
+    B("Brick", -16.6, -11.0, 2.0, 10.0, 0, 0.6)
+    B("Walls", -16.5, -11.0, 2.1, 10.0, 0.6, 3.8)
+    hip(-16.5, -11.0, 2.1, 10.0, 3.8, slope=0.55, over=0.35)
+    win_row("y", 2.1, -1, -16.5, -11.0, 0.9, 3, 1.4, 2.2)
+    for (x, y) in ((-11.1, -0.1), (11.1, -0.1)):
+        K.downpipe(x * M, y * M, 0, TOP * M)
+    # front: brick wall with two gated entries, horseshoe drive round a lawn island with a fountain
+    front_wall(-19.6, [(-12.0, -8.0), (8.0, 12.0)], h=0.9, part="Brick", cap="Stone")
+    iron_gate(-12.0 + 0.3, -8.0 - 0.3, -19.6, h=1.5)
+    iron_gate(8.0 + 0.3, 12.0 - 0.3, -19.6, h=1.5)
+    house_number(-12.0, -19.95, 1.0, 2)
+    pave("Pavers", -12.0, -8.0, -19.7, -6.0)
+    pave("Pavers", 8.0, 12.0, -19.7, -6.0)
+    pave("Pavers", -12.0, 12.0, -6.0, -3.0)
+    pave("Pavers", 12.0, 16.5, -6.0, 2.1)
+    B("Lawn", -7.4, 7.4, -18.4, -6.6, -0.05, 0.08)
+    for (a0, a1, b0, b1) in ((-7.5, 7.5, -18.5, -18.4), (-7.5, 7.5, -6.6, -6.5), (-7.5, -7.4, -18.4, -6.6), (7.4, 7.5, -18.4, -6.6)):
+        B("Stone", a0, a1, b0, b1, 0, 0.16)
+    fountain(0, -12.5, R=1.8, tiers=2)
+    for sx in (-1, 1):
+        hedge(sx * 5.6 - 0.6, sx * 5.6 + 0.6, -17.6, -7.4, 0.8)
+        topiary(sx * 3.5, -8.0, 0.08)
+        tree(sx * 15.0, -14.0, h=9.0, spread=5.5)
+    flower_bed(-10.5, -5.2, -2.2, -1.2)
+    flower_bed(5.2, 10.5, -2.2, -1.2)
+    # back: pool + loungers, gazebo
+    pool(-7, 7, 13.6, 17.4, (-10, 10, 11.6, 19.3))
+    for x in (-5.5, -3.7, -1.9):
+        lounger(x, 18.6, 0.9, rz=math.pi)
+    umbrella(1.5, 18.6, 0.9)
+    for (x, y) in ((12.0, 13.0), (15.5, 13.0), (12.0, 16.5), (15.5, 16.5)):
+        C("Column", x, y, 1.4, 0.15, 2.8, segs=10)
+    hip(11.8, 15.7, 12.8, 16.7, 2.8, slope=0.6, over=0.4, gutter=False)
+    pave("Patio", 11.2, 16.3, 12.2, 17.3)
+    table_set(13.75, 14.75, 0.05)
+    VARIANTS["Walls"] = {p: f"Wall{p}_Color.png" for p in ("White", "Ivory", "Stone", "Slate", "Sage")}
+    VARIANTS["Roof"] = ROOF_VARIANTS
+    return [("01_front", (16, -46, 9), (0, -2, 3), 26), ("02_aerial", (30, -38, 30), (0, 0, 0), 26),
+            ("03_portico", (6, -14, 2.0), (0, -2, 4.0), 24), ("04_pool", (-16, 26, 6), (0, 14, 1), 26)]
+
+
+# ================================================================ Tower: Mediterranean villa with a round tower
+def tower():
+    lot_edges()
+    F1, F2, TOP = 0.4, 3.7, 7.0
+    B("Stone", -10.1, 6.1, -2.1, 9.1, 0, F1)
+    B("Walls", -10, 6, -2, 9, F1, TOP)
+    B("Stone", -10.04, 6.04, -2.04, 9.04, F2 - 0.12, F2)
+    hip(-10, 6, -2, 9, TOP, slope=0.42, over=0.6)
+    # round tower on the front-left corner, three floors, cone roof
+    TX, TY, TR, TT = -10.0, -2.0, 3.0, 10.6
+    C("Stone", TX, TY, F1 / 2, TR + 0.1, F1, segs=28)
+    C("Walls", TX, TY, (F1 + TT) / 2, TR, TT - F1, segs=28)
+    for z in (F2 - 0.06, 7.0):
+        C("Stone", TX, TY, z, TR + 0.06, 0.14, segs=28)
+    C("Stone", TX, TY, TT + 0.06, TR + 0.25, 0.12, segs=28)
+    C("Cone", TX, TY, TT + 0.12 + 2.4, TR + 0.5, 4.8, segs=28, r2=0.02)
+    C("Bronze", TX, TY, TT + 5.0, 0.06, 0.8, segs=6)
+    for z0 in (F1 + 0.6, F2 + 0.5, 7.6):
+        win("y", TY - TR, -1, TX, z0, 0.8, 1.8 if z0 < 7 else 1.4, mull=0, transom=False)
+        win("x", TX - TR, -1, TY, z0, 0.8, 1.8 if z0 < 7 else 1.4, mull=0, transom=False)
+    # main front: door with stone surround, balcony over it, tall windows
+    FY("FrontDoor", -2.5, -2, F1, 2.0, 2.7)
+    for x in (-3.65, -1.35):
+        B("Stone", x - 0.15, x + 0.15, -2.25, -2.0, F1, F1 + 2.9)
+    B("Stone", -3.9, -1.1, -2.3, -2.0, F1 + 2.9, F1 + 3.2)
+    B("Deck", -4.4, -0.6, -3.4, -2.0, F2 - 0.1, F2 + 0.05)
+    for k in range(3):
+        B("Stone", -4.0 + k * 1.5 - 0.12, -4.0 + k * 1.5 + 0.12, -3.2, -2.0, F2 - 0.5, F2 - 0.1)
+    rail(-4.4, -3.35, -0.6, -3.35, F2 + 0.05)
+    rail(-4.4, -3.35, -4.4, -2.05, F2 + 0.05)
+    rail(-0.6, -3.35, -0.6, -2.05, F2 + 0.05)
+    win("y", -2, -1, -2.5, F2 + 0.06, 1.6, 2.4)
+    win_row("y", -2, -1, -0.4, 6, F1 + 0.5, 2, 1.4, 2.1)
+    win_row("y", -2, -1, -0.4, 6, F2 + 0.4, 2, 1.4, 1.9)
+    for x, fc in ((-10, -1), (6, 1)):
+        win_row("x", x, fc, 1.5, 9, F1 + 0.5, 3, 1.2, 2.0)
+        win_row("x", x, fc, 1.5, 9, F2 + 0.4, 3, 1.2, 1.8)
+    win_row("y", 9, 1, -10, 6, F1 + 0.5, 5, 1.3, 2.1)
+    win_row("y", 9, 1, -10, 6, F2 + 0.4, 5, 1.3, 1.8)
+    # east wing: garage below, roof terrace with pergola on top
+    B("Stone", 6.0, 14.1, -2.1, 9.1, 0, 0.3)
+    B("Walls", 6.0, 14.0, -2.0, 9.0, 0.3, 3.6)
+    B("Stone", 5.9, 14.1, -2.1, 9.1, 3.6, 3.8)
+    B("Deck", 6.1, 13.9, -1.9, 8.9, 3.8, 3.85)
+    rail(6.1, -1.95, 13.95, -1.95, 3.85, part="Column", step=0.22, h=0.95)
+    rail(13.95, -1.95, 13.95, 8.95, 3.85, part="Column", step=0.22, h=0.95)
+    for x in (7.0, 10.0, 13.2):
+        for y in (-1.2, 3.5):
+            B("Teak", x - 0.1, x + 0.1, y - 0.1, y + 0.1, 3.85, 6.3)
+    for y in (-1.2, 3.5):
+        B("Teak", 6.6, 13.6, y - 0.08, y + 0.08, 6.3, 6.5)
+    for k in range(10):
+        x = 6.8 + k * 0.72
+        B("Teak", x - 0.05, x + 0.05, -1.6, 3.9, 6.5, 6.62)
+    table_set(9.0, 1.3, 3.85)
+    lounger(12.5, 6.5, 3.85, rz=0.0)
+    FY("GarageWood", 10.0, -2.0, 0.3, 5.2, 2.6)
+    win_row("x", 14, 1, 1, 9, 0.9, 2, 1.2, 1.6)
+    # front: gravel court, olive trees, stone wall + gates, cypress pair, palms
+    front_wall(-19.6, [(-4.6, -0.4), (7.6, 12.4)], h=1.1, part="StoneWall", cap="Stone")
+    iron_gate(-4.6 + 0.3, -0.4 - 0.3, -19.6, h=1.6)
+    house_number(-4.6, -19.95, 1.2, 5)
+    pave("Gravel", -14.0, 6.0, -11.0, -4.0)
+    pave("Travert", -3.6, -1.4, -19.7, -11.0)
+    pave("Pavers", 7.6, 12.4, -20.0, -2.0)
+    fountain(-8.0, -7.5, R=1.6, tiers=2)
+    for x in (-5.2, -0.0):
+        cypress(x, -17.8, h=7.0)
+    for (x, y) in ((-13.0, -15.0), (2.5, -14.0), (-14.0, 4.0)):
+        tree(x, y, h=6.0, spread=4.0, part="LeafB")
+    palm(15.5, -16.0, 8.5)
+    flower_bed(0.5, 5.5, -4.0, -3.2)
+    for x in (-13.0, -11.0):
+        topiary(x, -5.0, 0.05)
+    # back: pool
+    pool(-8, 4, 13.4, 17.2, (-11, 8, 11.2, 19.3))
+    for x in (-6.5, -4.7, -2.9):
+        lounger(x, 18.6, 0.9, rz=math.pi)
+    umbrella(0.5, 18.6, 0.9)
+    palm(13.0, 16.0, 8.0)
+    VARIANTS["Walls"] = {p: f"Wall{p}_Color.png" for p in ("Blush", "Ivory", "Sand", "White", "Stone")}
+    VARIANTS["Roof"] = ROOF_VARIANTS
+    return [("01_front", (14, -46, 10), (-2, -2, 4), 26), ("02_aerial", (30, -38, 30), (0, 0, 0), 26),
+            ("03_tower", (2, -16, 2.2), (-8, -3, 5.0), 26), ("04_pool", (-16, 26, 6), (-2, 13, 1), 26)]
+
+
+# ================================================================ Cubist: white stacked boxes, glass, slats
+def cubist():
+    lot_edges(back="Concrete")
+    F1, F2, TOP = 0.3, 3.8, 7.3
+    B("Concrete", -12.3, 4.3, -4.3, 8.3, 0, F1)
+    B("Walls", -12, 4, -1, 8, F1, F2)                                                # ground box (back part solid)
+    B("Walls", -12, -10.5, -4, -1, F1, F2)
+    for k in range(5):                                                               # glass front of the living room
+        x0 = -10.5 + k * 2.9
+        FY("GlassBig" + "ACBAC"[k], x0 + 1.45, -4, F1, 2.9, F2 - F1)
+        B("Alu", x0 - 0.04, x0 + 0.04, -4.1, -3.95, F1, F2)
+    B("Alu", 4.0 - 0.04, 4.0 + 0.04, -4.1, -3.95, F1, F2)
+    B("Walls", -10.5, 4, -3.9, -1, F1, F2 - 0.01)
+    B("Concrete", -12.4, 4.4, -4.6, 8.4, F2, F2 + 0.3)                                # slab
+    # upper box turned the other way, cantilevers over the garage; cedar slat screen
+    B("Walls", -6, 12, -6, 6, F2 + 0.3, TOP)
+    B("Concrete", -6.3, 12.3, -6.3, 6.3, TOP, TOP + 0.3)
+    B("RoofFlat", -6.0, 12.0, -6.0, 6.0, TOP + 0.3, TOP + 0.34)
+    for k in range(34):                                                              # vertical cedar slats over the front
+        x = -5.6 + k * 0.32
+        if 1.0 < x < 8.0:
+            continue
+        B("Cladding", x - 0.06, x + 0.06, -6.25, -6.05, F2 + 0.4, TOP - 0.1)
+    FY("GlassBigB", 4.5, -6, F2 + 0.6, 6.8, 2.6)
+    B("Alu", 1.05, 7.95, -6.12, -5.98, F2 + 0.5, F2 + 0.6)
+    B("Alu", 1.05, 7.95, -6.12, -5.98, F2 + 3.2, F2 + 3.3)
+    win_row("x", 12, 1, -5, 5, F2 + 0.7, 3, 1.6, 2.4, mull=0, transom=False)
+    win_row("x", -6, -1, 2, 5.5, F2 + 0.7, 1, 1.6, 2.4, mull=0, transom=False)
+    win_row("y", 6, 1, -6, 12, F2 + 0.7, 4, 2.0, 2.4, mull=0, transom=False)
+    # garage under the cantilever (columns + glass door), entry with a pivot door
+    B("Walls", 4.0, 12.0, -1.0, 6.0, 0.15, F2 + 0.3)
+    FY("GarageGlass", 8.0, -1.0, 0.15, 6.0, 2.7)
+    for x in (4.3, 11.7):
+        C("Steel", x, -5.6, (F2 + 0.3) / 2, 0.12, F2 + 0.3, segs=10)
+    B("Concrete", 4.0, 12.3, -6.3, -1.0, F2, F2 + 0.3)
+    for x in (5.5, 10.5):
+        K.box("Light", (x * M, -3.5 * M, (F2 - 0.02) * M), (0.3 * M, 0.3 * M, 0.04 * M))
+    FX("PivotDoor", -12, -2.5, F1, 1.2, 3.0, facing=-1)
+    # west roof garden on the ground box: planters + topiary, glass rail
+    B("Deck", -12.2, -6.1, -4.4, 8.2, F2 + 0.3, F2 + 0.35)
+    glass_rail(-12.2, -4.4, -6.1, -4.4, F2 + 0.35)
+    glass_rail(-12.2, -4.4, -12.2, 8.2, F2 + 0.35)
+    for y in (-2.8, 1.0, 4.8):
+        B("Concrete", -11.8, -10.6, y - 0.6, y + 0.6, F2 + 0.35, F2 + 0.95)
+        topiary(-11.2, y, F2 + 0.95, pot=False, h=0.7, s=0.4)
+    lounger(-8.0, 2.0, F2 + 0.35, rz=0.0)
+    # front: zen gravel + square stepping stones, cypress row, low concrete wall
+    front_wall(-19.6, [(-3.0, 0.0), (5.0, 11.0)], h=0.7, part="Concrete", cap="Concrete", piers=False)
+    pave("Gravel", -16.6, 3.8, -18.8, -5.0)
+    for k in range(7):
+        y = -18.6 + k * 1.95
+        B("Travert", -2.4, -0.6, y, y + 1.3, -0.05, 0.08)
+    pave("Travert", -12.3, -0.6, -6.0, -4.3)
+    pave("Concrete", 5.0, 11.0, -20.0, -6.3)
+    for y in (-17.5, -14.0, -10.5, -7.0):
+        cypress(-15.8, y, h=6.5, r=0.6)
+        cypress(3.2, y, h=5.5, r=0.5)
+    for (x, y) in ((-10.0, -14.0), (-7.0, -9.0)):
+        B("Stone", x - 0.9, x + 0.9, y - 0.6, y + 0.6, 0, 0.5)                         # boulders
+        K.shrub(x * M, y * M, 0.3 * M, 0.6 * M, rng, part="Shrub")
+    tree(-6.0, -15.5, h=6.0, spread=3.5, part="Blossom")
+    for x in (5.5, 10.5):
+        bollard(x, -12.0)
+    house_number(0.2, -19.95, 0.2, 7)
+    # back: long lap pool along the back wall
+    pool(-12, 6, 15.0, 18.0, (-14, 9, 12.6, 19.3), zt=0.7)
+    for x in (10.5, 12.3, 14.1):
+        lounger(x, 16.0, 0.0, rz=math.pi)
+    pave("Deck", 9.4, 15.6, 13.5, 18.5)
+    tree(13.0, 9.0, h=7.0, spread=4.0)
+    VARIANTS["Walls"] = {p: f"Wall{p}_Color.png" for p in ("White", "Stone", "Charcoal", "Sand")}
+    return [("01_front", (14, -46, 10), (0, -2, 4), 26), ("02_aerial", (30, -38, 30), (0, 0, 0), 26),
+            ("03_entry", (2, -17, 2.2), (-2, -4, 3.8), 26), ("04_pool", (16, 28, 7), (-2, 14, 1), 26)]
+
+
+# ================================================================ Ranch: stone-clad estate, porch, triple garage
+def ranch():
+    lot_edges()
+    F1, TOP = 0.4, 3.9
+    B("StoneWall", -15.1, 7.1, -2.1, 8.1, 0, 1.1)                                     # stone wainscot
+    B("Walls", -15, 7, -2, 8, 1.1, TOP)
+    hip(-15, 7, -2, 8, TOP, slope=0.32, over=0.8)
+    B("StoneWall", -9.0, -7.0, 3.0, 5.0, TOP, TOP + 3.4)                              # stone chimney
+    B("Stone", -9.1, -6.9, 2.9, 5.1, TOP + 3.4, TOP + 3.55)
+    # front porch: timber posts, shed roof, stone floor
+    B("Patio", -12.0, 6.0, -5.0, -2.0, 0, F1)
+    for x in (-11.6, -7.6, -3.6, 0.4, 4.4):
+        B("StoneWall", x - 0.35, x + 0.35, -4.95, -4.25, F1, 1.1)
+        B("Teak", x - 0.16, x + 0.16, -4.76, -4.44, 1.1, 3.4)
+    B("Teak", -12.0, 6.0, -4.8, -4.4, 3.2, 3.45)
+    shed(-12.3, 6.3, -5.3, -2.0, 3.45, 3.9)
+    for k in range(2):
+        B("Stone", -2.6, -0.6, -5.0 - 0.4 * (k + 1), -5.0 - 0.4 * k, 0, F1 * (2 - k) / 3)
+    FY("FrontDoor", -1.6, -2, F1, 2.0, 2.6)
+    for x in (-3.0, -0.2):
+        K.box("Sconce", (x * M, -2.08 * M, 2.4 * M), (0.2 * M, 0.18 * M, 0.32 * M))
+    for x in (-13.6, -10.0, -6.0, 2.0, 5.0):
+        win_sh("y", -2, -1, x, F1 + 0.7, 1.5, 1.9)
+    for x, fc in ((-15, -1), (7, 1)):
+        win_row("x", x, fc, -2, 8, F1 + 0.7, 3, 1.3, 1.8)
+    win_row("y", 8, 1, -15, 7, F1 + 0.5, 6, 1.6, 2.2)
+    for k in range(2):                                                               # porch chairs
+        x = -9.5 + k * 1.6
+        B("Teak", x - 0.35, x + 0.35, -3.6, -2.9, F1 + 0.4, F1 + 0.48)
+        B("Teak", x - 0.35, x + 0.35, -2.95, -2.85, F1 + 0.48, F1 + 1.1)
+        for sx in (-0.3, 0.3):
+            B("Teak", x + sx - 0.03, x + sx + 0.03, -3.55, -2.95, F1, F1 + 0.4)
+    # garage wing forward on the east: three doors, hip roof, cupola
+    B("StoneWall", 7.0, 16.6, -10.1, 8.1, 0, 1.1)
+    B("Walls", 7.0, 16.5, -10.0, 8.0, 1.1, TOP - 0.3)
+    hip(7.0, 16.5, -10.0, 8.0, TOP - 0.3, slope=0.32, over=0.6)
+    for k in range(3):
+        FY("GarageWood", 8.6 + k * 2.6 + 0.6, -10.0, 0.02, 2.3, 2.3)
+    B("Walls", 11.2, 12.4, -1.6, -0.4, TOP + 1.2, TOP + 2.2)
+    hip(11.2, 12.4, -1.6, -0.4, TOP + 2.2, slope=0.8, over=0.15, gutter=False)
+    win("x", 16.5, 1, 2.0, 1.5, 1.2, 1.4)
+    # front: split-rail fence, wide drive, big lawn, oaks, boulders, flower beds, mailbox post
+    for x0, x1 in ((-17.6, -2.6), (2.6, 7.6)):
+        n = int((x1 - x0) / 2.4)
+        for k in range(n + 1):
+            x = x0 + k * (x1 - x0) / n
+            B("Teak", x - 0.1, x + 0.1, -19.7, -19.5, 0, 1.2)
+        for z in (0.45, 0.95):
+            B("Teak", x0, x1, -19.64, -19.56, z, z + 0.14)
+    pave("Pavers", 7.6, 17.0, -20.0, -10.0)
+    pave("Travert", -2.4, -0.8, -19.7, -5.8)
+    for (x, y, s_) in ((-12.0, -13.0, 6.0), (2.5, -15.0, 5.0)):
+        tree(x, y, h=9.5, spread=s_)
+    for (x, y) in ((-6.0, -9.0), (-5.0, -9.6), (4.5, -8.0)):
+        B("StoneWall", x - 0.5, x + 0.5, y - 0.4, y + 0.4, 0, 0.6)
+    flower_bed(-12.0, -2.8, -6.6, -5.6)
+    flower_bed(0.2, 6.0, -6.6, -5.6)
+    B("StoneWall", -3.6, -3.0, -19.4, -18.8, 0, 1.2)
+    house_number(-3.3, -19.42, 0.6, 9)
+    # back: covered patio, pool, fire pit
+    pave("Patio", -12, 4, 8.1, 12.0)
+    pool(-6, 8, 13.8, 17.4, (-9, 11, 12.4, 19.3))
+    for x in (-4.5, -2.7, -0.9):
+        lounger(x, 18.6, 0.9, rz=math.pi)
+    umbrella(2.5, 18.6, 0.9)
+    C("StoneWall", -13.0, 15.5, 0.25, 1.0, 0.5, segs=14)
+    C("Soil", -13.0, 15.5, 0.51, 0.8, 0.02, segs=14)
+    for k in range(4):
+        a = k / 4 * math.tau
+        B("Teak", -13.0 + math.cos(a) * 2.2 - 0.6, -13.0 + math.cos(a) * 2.2 + 0.6, 15.5 + math.sin(a) * 2.2 - 0.25, 15.5 + math.sin(a) * 2.2 + 0.25, 0, 0.45)
+    tree(14.0, 15.0, h=8.0, spread=5.0)
+    VARIANTS["Walls"] = {p: f"Wall{p}_Color.png" for p in ("Stone", "Sand", "White", "Sage", "Slate")}
+    VARIANTS["Roof"] = ROOF_VARIANTS
+    return [("01_front", (16, -46, 8), (0, -3, 2), 26), ("02_aerial", (30, -38, 30), (0, 0, 0), 26),
+            ("03_porch", (-6, -12, 1.8), (-3, -3, 2.2), 26), ("04_pool", (-16, 26, 6), (0, 14, 1), 26)]
 
 # ================================================================ Police: Tulevo Police Department
 def police():
@@ -1030,7 +1388,7 @@ def police():
     return [("01_front", (14, -48, 8), (-3, -6, 5), 26), ("02_aerial", (34, -40, 34), (0, 0, 0), 26),
             ("03_entry", (5, -24, 2.0), (-1.5, -12, 4.0), 24), ("04_back", (-14, 30, 10), (2, 8, 1), 26)]
 
-shots = {"Police": police, "Casa": casa, "Modern": modern, "Villa": villa, "Hacienda": hacienda}[ONLY]()
+shots = {"Colonial": colonial, "Tower": tower, "Cubist": cubist, "Ranch": ranch, "Police": police, "Casa": casa, "Modern": modern, "Villa": villa, "Hacienda": hacienda}[ONLY]()
 
 K.finish(keep_normals=("Palm", "Ivy"), face=A["face"])
 meta = K.export()

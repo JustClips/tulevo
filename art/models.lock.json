@@ -3,13 +3,29 @@
   "id": 87879520347710,
   "sha": "4c8c308505da9ac881a94c537b75af827be429ff493260edbb058a5d87f85fd6"
  },
+ "ArkwellAtm": {
+  "id": 84237954777106,
+  "sha": "5793e1c73b2ce6e9f59732841fa18741be1c0ff7ba2386cdfc5419c0d0a1298b"
+ },
  "ArmorVest": {
   "id": 106468371106307,
   "sha": "dfce20ef0d425a1116b25c5d35b2d6fae0c799a482c8d16069a3c24dc5a6e40c"
  },
+ "ArmyBase_E": {
+  "id": 82559827773204,
+  "sha": "219307f635912a243851c178cf667ab215803eef66ee18e84dd33aba28eaaed8"
+ },
  "BankTower": {
   "id": 122789663490592,
   "sha": "30569a07d369e78cc378e893f54b5172614d749d37faefd9ea13ce3db9682c46"
+ },
+ "BrickBlock": {
+  "id": 115052555208165,
+  "sha": "e5c95c24f98496eba69a7ac3bdde8245ad7ce6c108ada96416503709480a3416"
+ },
+ "BrickBlock_S": {
+  "id": 73159478556043,
+  "sha": "76d7f79a7aca071cf5b27fa895af11b06f7274ec85fd8a2dcecb9848c48e26a7"
  },
  "Carbine": {
   "id": 105521336217513,
@@ -19,13 +35,37 @@
   "id": 74701704114774,
   "sha": "a976872e8ea727bb1f4f6c250bff1d608ee93978963f87c6f8ac55474bbef88a"
  },
+ "Casa": {
+  "id": 84078501574119,
+  "sha": "9681b1b729a299f6815874229c1db3c1faffbb2b0348d3de8d821a0558d1b05b"
+ },
+ "Casa_S": {
+  "id": 135800400214231,
+  "sha": "85a6fce2e4f323f471496501ffe6b3220315827bc601783a6d28dbbf499aca6a"
+ },
  "Chaser": {
   "id": 107155976516351,
   "sha": "bf16725332e7a849a62de96baa04f0f1f8a90b3ba693fdf58b108c55d4ec4ac2"
  },
+ "Colonial": {
+  "id": 112241532032247,
+  "sha": "32c22e02474edff298bd27ec8975ad58cd585fa943800ed69ad0bf7497238e2b"
+ },
+ "Colonial_S": {
+  "id": 130415805320924,
+  "sha": "9d495e70cdc99c8b2d72abf2f32ec6ea892795a4eea27af8a75780eb3643b47e"
+ },
  "Court": {
   "id": 72610369752229,
   "sha": "db35b44b64854666399e6fbcd7fa1d3abbc3f3cb04756929233a9579670ac459"
+ },
+ "Cubist": {
+  "id": 78852975763829,
+  "sha": "542d5d11b8d082b5f7db47c8fa1e1ff2056a74d48629e1ded5a3687dda0e0a8c"
+ },
+ "Diner": {
+  "id": 112428378270982,
+  "sha": "f3891eb51258b2a2a5c9073a552674b76693ccdbe559fdbfa6d2d9984d2f521b"
  },
  "FirstAidKit": {
   "id": 114148189163015,
@@ -34,6 +74,22 @@
  "GasStation": {
   "id": 122974524566374,
   "sha": "11c715839839335b5354ac0a10ad920dbb9fbcc14179047ec28b7723e4aa95b9"
+ },
+ "GunShop": {
+  "id": 125590717240105,
+  "sha": "7a92a7c49e7c5174cabc0b863146aec38f3200e43b333ce3d266a84be749c600"
+ },
+ "Hacienda": {
+  "id": 90173494196525,
+  "sha": "0f28ec7d90017edb8dea78a5be06be4023ef5d4231a9b4d9dc4c4667df064867"
+ },
+ "Hacienda_S": {
+  "id": 86554636373732,
+  "sha": "ddbe6598b4387a8fad10d0a3ee42a7cdd6e0d189520a08c9f573ef99c3ea88a7"
+ },
+ "Hotel_S": {
+  "id": 94774574140378,
+  "sha": "0f22f2ea02ebabfdc8e70e846537eeb174f9d872138d2811c87ebeac44942852"
  },
  "HouseA": {
   "id": 81129835452314,
@@ -79,6 +135,14 @@
   "id": 115926346396105,
   "sha": "1e0a7f19fcebe3a7ea722357a7ffdc1b637f761eb2f614ebe1d6a4bae19654e0"
  },
+ "Modern": {
+  "id": 96316268862867,
+  "sha": "cde4f82f07d74f3bb61856d74f4609c20bc0efdbdd1eee4c5455d9b8492462b3"
+ },
+ "Modern_S": {
+  "id": 77659574193441,
+  "sha": "7724b579f2bc7be43c5468ab1a354aa553ddc854fb4ad4ab6ae97e1baef0b978"
+ },
  "Motel": {
   "id": 126849767132635,
   "sha": "57ec613db5661205971245e29fb1fb790a0699ee7350268e37aaf567a96f29d3"
@@ -94,6 +158,22 @@
  "OfficeStone": {
   "id": 122303453610488,
   "sha": "8b85c3f902bf797c83cfaa71a0bdb76a923183517fbe7e78886416b4075784b3"
+ },
+ "Park": {
+  "id": 90035164105160,
+  "sha": "01be50e4e73dd7a677b0b4437f397085aa462dad3f554368800ae717e18316fe"
+ },
+ "ParkProps": {
+  "id": 125835147851790,
+  "sha": "f3ddd1e15b0b77abf6b654754324f2446147da4bcb1a9e6d8e8e779a37dd02b9"
+ },
+ "Police": {
+  "id": 103696185411947,
+  "sha": "f91127d9ecad6a97c712c7f90441482d3edff78b89aa9a251d775a97c584cb02"
+ },
+ "Ranch": {
+  "id": 85332198684437,
+  "sha": "f8c4bde3f2b4121e3e4b350f0e40ff653aed5f23b70bc5d8ab2eaa51de40ac19"
  },
  "SideYard": {
   "id": 82354393599774,
@@ -114,46 +194,6 @@
  "Store_S": {
   "id": 77640230130569,
   "sha": "2f3d2cf5a438ef6d7ec26ce4cb26c83baa28c82bed84dcdd43a4a400e426bdde"
- },
- "WeatherMeshes": {
-  "id": 111007844108617,
-  "sha": "d3e6f2dda9f71da5e4f35ca3e6ed665acc4b1af13f111685b31c7f0e9ed2c8d6"
- },
- "ArmyBase_E": {
-  "id": 82559827773204,
-  "sha": "219307f635912a243851c178cf667ab215803eef66ee18e84dd33aba28eaaed8"
- },
- "Modern_S": {
-  "id": 77659574193441,
-  "sha": "7724b579f2bc7be43c5468ab1a354aa553ddc854fb4ad4ab6ae97e1baef0b978"
- },
- "Hacienda": {
-  "id": 90173494196525,
-  "sha": "0f28ec7d90017edb8dea78a5be06be4023ef5d4231a9b4d9dc4c4667df064867"
- },
- "Villa": {
-  "id": 70673747357732,
-  "sha": "f4bb117612d3bb880a64d0dee57d43dd3a2e49f2d962c35d77925b2250d35510"
- },
- "Casa_S": {
-  "id": 135800400214231,
-  "sha": "85a6fce2e4f323f471496501ffe6b3220315827bc601783a6d28dbbf499aca6a"
- },
- "Hacienda_S": {
-  "id": 86554636373732,
-  "sha": "ddbe6598b4387a8fad10d0a3ee42a7cdd6e0d189520a08c9f573ef99c3ea88a7"
- },
- "Villa_S": {
-  "id": 86561201753724,
-  "sha": "9fabe4343a1f83199035477d2c7e951f1ea9496c9d7b34268ce05eab5894e3f5"
- },
- "Casa": {
-  "id": 84078501574119,
-  "sha": "9681b1b729a299f6815874229c1db3c1faffbb2b0348d3de8d821a0558d1b05b"
- },
- "Modern": {
-  "id": 96316268862867,
-  "sha": "cde4f82f07d74f3bb61856d74f4609c20bc0efdbdd1eee4c5455d9b8492462b3"
  },
  "StreetBackStreet": {
   "id": 108951161702678,
@@ -183,41 +223,25 @@
   "id": 102767779206063,
   "sha": "d6765dd228219ac7af34ac7e29b32ef7044613bd0c1701ee34fb885d38a3ed0a"
  },
- "Police": {
-  "id": 103696185411947,
-  "sha": "f91127d9ecad6a97c712c7f90441482d3edff78b89aa9a251d775a97c584cb02"
+ "Tower": {
+  "id": 135012753304514,
+  "sha": "d21495b86df0ab5355e2fbe6720837594530f26b1c3ddfea3d42371f7dc967e8"
  },
- "BrickBlock": {
-  "id": 115052555208165,
-  "sha": "e5c95c24f98496eba69a7ac3bdde8245ad7ce6c108ada96416503709480a3416"
+ "Tower_S": {
+  "id": 132947289779505,
+  "sha": "bc0262c6613a96be4955b483214ce6553bdc8808faa2c0dd60e0c06bf583e8d1"
  },
- "BrickBlock_S": {
-  "id": 73159478556043,
-  "sha": "76d7f79a7aca071cf5b27fa895af11b06f7274ec85fd8a2dcecb9848c48e26a7"
+ "Villa": {
+  "id": 70673747357732,
+  "sha": "f4bb117612d3bb880a64d0dee57d43dd3a2e49f2d962c35d77925b2250d35510"
  },
- "Diner": {
-  "id": 112428378270982,
-  "sha": "f3891eb51258b2a2a5c9073a552674b76693ccdbe559fdbfa6d2d9984d2f521b"
+ "Villa_S": {
+  "id": 86561201753724,
+  "sha": "9fabe4343a1f83199035477d2c7e951f1ea9496c9d7b34268ce05eab5894e3f5"
  },
- "ArkwellAtm": {
-  "id": 84237954777106,
-  "sha": "5793e1c73b2ce6e9f59732841fa18741be1c0ff7ba2386cdfc5419c0d0a1298b"
- },
- "Hotel_S": {
-  "id": 94774574140378,
-  "sha": "0f22f2ea02ebabfdc8e70e846537eeb174f9d872138d2811c87ebeac44942852"
- },
- "GunShop": {
-  "id": 125590717240105,
-  "sha": "7a92a7c49e7c5174cabc0b863146aec38f3200e43b333ce3d266a84be749c600"
- },
- "Park": {
-  "id": 90035164105160,
-  "sha": "01be50e4e73dd7a677b0b4437f397085aa462dad3f554368800ae717e18316fe"
- },
- "ParkProps": {
-  "id": 125835147851790,
-  "sha": "f3ddd1e15b0b77abf6b654754324f2446147da4bcb1a9e6d8e8e779a37dd02b9"
+ "WeatherMeshes": {
+  "id": 111007844108617,
+  "sha": "d3e6f2dda9f71da5e4f35ca3e6ed665acc4b1af13f111685b31c7f0e9ed2c8d6"
  },
  "StripMall": {
   "id": 92123005210365,
