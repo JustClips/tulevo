@@ -28,11 +28,11 @@ ONLY = argv[argv.index("--only") + 1]
 NAME = model_name(ONLY, A)
 TEX = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tex")
 K = Kit(NAME, A["out"], TEX)
-rng = random.Random({"Casa": 11, "Modern": 12, "Villa": 13, "Hacienda": 14}[ONLY])
+rng = random.Random({"Casa": 11, "Modern": 12, "Villa": 13, "Hacienda": 14, "Police": 15}[ONLY])
 LW, LD = 36.0, 40.0                     # lot, metres
 PAINTS = ("Ivory", "Sand", "White", "Sage", "Stone", "Blush", "Slate", "Charcoal")
-ROOF = {"Casa": "RoofClay", "Modern": "RoofFlat", "Villa": "RoofBrown", "Hacienda": "RoofBarrel"}[ONLY]
-WALL = {"Casa": "WallIvory", "Modern": "WallWhite", "Villa": "WallSage", "Hacienda": "WallSand"}[ONLY]
+ROOF = {"Casa": "RoofClay", "Modern": "RoofFlat", "Villa": "RoofBrown", "Hacienda": "RoofBarrel", "Police": "RoofFlat"}[ONLY]
+WALL = {"Casa": "WallIvory", "Modern": "WallWhite", "Villa": "WallSage", "Hacienda": "WallSand", "Police": "WallStone"}[ONLY]
 
 # ---------------------------------------------------------------- materials (tile sizes in metres)
 for name, sheet, tile in (("Walls", WALL, 3.0), ("Render", "Render", 3.0), ("Lawn", "Lawn", 3.0), ("Pavers", "Pavers", 1.6),
@@ -42,10 +42,11 @@ for name, sheet, tile in (("Walls", WALL, 3.0), ("Render", "Render", 3.0), ("Law
                           ("Shrub", "HedgeBox", 1.0), ("Leaf", "Leaf", 1.4), ("LeafB", "LeafB", 1.4), ("Blossom", "Blossom", 1.4),
                           ("Trim", "Trim", 1.5), ("Iron", "Iron", 1.0), ("Bronze", "Bronze", 1.0), ("Steel", "Steel", 1.0),
                           ("Alu", "Alu", 1.0), ("Teak", "Teak", 1.0), ("Cushion", "Cushion", 1.0), ("Soil", "Soil", 1.0),
-                          ("Bark", "Bark", 0.8), ("Pot", "Pot", 1.0), ("Rubber", "Rubber", 1.0), ("RoofFlat", "RoofFlat", 3.0)):
+                          ("Bark", "Bark", 0.8), ("Pot", "Pot", 1.0), ("Rubber", "Rubber", 1.0), ("RoofFlat", "RoofFlat", 3.0), ("Asphalt", "Asphalt", 8 / 3.6)):
     K.mat(name, sheet=sheet, tile=(tile * M, tile * M), rough=0.7)
 K.mat("Roof", sheet=ROOF, explicit=True)          # explicit UVs: tile rows run along each eave
-for name in ("FrontDoor", "PivotDoor", "GarageWood", "GarageGlass", "GlassBigA", "GlassBigB", "GlassBigC", "HouseNumbers"):
+for name in ("FrontDoor", "PivotDoor", "GarageWood", "GarageGlass", "GlassBigA", "GlassBigB", "GlassBigC", "HouseNumbers",
+             "PoliceSign", "PoliceMonument", "PoliceBadge", "PoliceDoor", "RollDoor"):
     K.mat(name, sheet=name, explicit=True)
 K.mat("Ivy", sheet="Ivy", explicit=True, alpha=True)
 K.mat("FxPool", sheet="FxPool", explicit=True, rough=0.05)
@@ -55,7 +56,9 @@ K.mat("FxJet", color=(0.80, 0.90, 0.95), rough=0.05)
 K.mat("ClearGlassRail", color=(0.62, 0.74, 0.76), rough=0.05, metal=0.2)
 K.mat("Palm", color=(0.13, 0.29, 0.09), rough=0.7)
 K.mat("Trunk", color=(0.40, 0.31, 0.22), rough=0.95)
-for name, col, emit in (("Light", (1.0, 0.95, 0.85), 4.0), ("Sconce", (1.0, 0.90, 0.70), 3.0)):
+for name, col, emit in (("Light", (1.0, 0.95, 0.85), 4.0), ("Sconce", (1.0, 0.90, 0.70), 3.0), ("Paint", (0.93, 0.93, 0.90), 0),
+                        ("Flag", (0.10, 0.18, 0.40), 0), ("NeonRed", (1.0, 0.15, 0.12), 6.0), ("NeonCyan", (0.2, 0.5, 1.0), 6.0),
+                        ("Yellow", (0.92, 0.70, 0.10), 0), ("Red", (0.75, 0.10, 0.10), 0)):
     K.mat(name, color=col, emit=emit)
 K.facade_mats(frame=(0.95, 0.94, 0.91))
 _g = K.mats["ClearGlassRail"]["mat"]
@@ -426,20 +429,41 @@ def front_wall(y, gaps, h=0.9, part="Walls", cap="Stone", piers=True):
                 lantern(px, y, h + 0.6)
 
 
+GATES = [0]
+
+
+def swing_leaf(x0, x1, y, h, hinge):
+    """One openable iron gate leaf (metres) across x0..x1 at y, hinged at x0 ("left") or x1 ("right").
+    In game Client/CityDoors swings Swing<n>* round Swing<n>Pivot when a body walks into it."""
+    GATES[0] += 1
+    n = GATES[0]
+    leaf = f"Swing{n}Leaf"
+    hx = x1 - 0.05 if hinge == "right" else x0 + 0.05
+    far = x0 + 0.02 if hinge == "right" else x1 - 0.02
+    lo, hi = min(hx, far), max(hx, far)
+    z0, z1 = 0.06, h
+    def bx(a0, a1, b0, b1, c0, c1):
+        K.boxr(leaf, a0 * M, a1 * M, b0 * M, b1 * M, c0 * M, c1 * M, mat="Iron")
+    for xs in (lo, hi - 0.06):                                       # stiles
+        bx(xs, xs + 0.06, y - 0.03, y + 0.03, z0, z1)
+    for z in (z0, z0 + 0.3, (z0 + z1) * 0.55, z1 - 0.06):             # rails
+        bx(lo + 0.06, hi - 0.06, y - 0.025, y + 0.025, z, z + 0.06)
+    nb = max(2, int((hi - lo) / 0.12))
+    for k in range(1, nb):                                           # bars with spear tips
+        x = lo + k * (hi - lo) / nb
+        bx(x - 0.013, x + 0.013, y - 0.013, y + 0.013, z0 + 0.06, z1 + 0.1)
+        K.cyl(leaf, (x * M, y * M, (z1 + 0.14) * M), 0.03 * M, 0.09 * M, segs=4, r2=0.002 * M, mat="Iron")
+    lx = far + (0.07 if hinge == "right" else -0.07)
+    K.boxr(f"Swing{n}Latch", (lx - 0.03) * M, (lx + 0.03) * M, (y - 0.06) * M, (y + 0.06) * M, 0.95 * M, 1.05 * M, mat="Bronze")
+    for z in (0.3, z1 - 0.3):
+        K.cyl(f"Swing{n}Pivot", (hx * M, y * M, z * M), 0.03 * M, 0.18 * M, segs=8, mat="Iron")
+
+
 def iron_gate(x0, x1, y, h=1.4, open_=0.0):
-    """Pair of iron gate leaves between x0 and x1, swung `open_` radians inward (round the outer hinges)."""
-    w = (x1 - x0) / 2
-    for hx, sgn in ((x0, 1), (x1, -1)):
-        a = sgn * open_
-        d = Vector((math.cos(a) * sgn, math.sin(a) * sgn * sgn, 0))
-        for i in range(int(w / 0.12) + 1):
-            p = Vector((hx, y, 0)) + d * (i * w / int(w / 0.12))
-            K.box("Iron", (p.x * M, p.y * M, (h / 2 + 0.05) * M), (0.03 * M, 0.03 * M, h * M), rz=a)
-            if i % 2 == 0:
-                K.cyl("Iron", (p.x * M, p.y * M, (h + 0.1) * M), 0.035 * M, 0.12 * M, segs=4, r2=0.0)
-        for zz in (0.15, h * 0.55, h):
-            c = Vector((hx, y, 0)) + d * (w / 2)
-            K.box("Iron", (c.x * M, c.y * M, zz * M), (w * M, 0.05 * M, 0.05 * M), rz=a)
+    """Closed pair of openable iron gate leaves between the pier faces x0..x1 (push to open)."""
+    mid = (x0 + x1) / 2
+    swing_leaf(x0, mid - 0.02, y, h, "left")
+    swing_leaf(mid + 0.02, x1, y, h, "right")
 
 
 def lot_edges(back="StoneWall", side_h=2.0, front_y=-19.7, side_from=-19.2):
@@ -501,7 +525,9 @@ def casa():
     lot_edges()
     F1, F2, TOP = 0.4, 3.7, 7.0                # floor 1, floor 2, wall top
     # blocks: main (back of the court), west wing, east wing (garage at the front of the ground floor)
-    B("Stone", -14.1, 14.1, -9.6, 11.1, 0, F1)
+    B("Stone", -8.0, 8.0, 1.95, 11.1, 0, F1)                                     # plinths under each block only
+    B("Stone", -14.1, -8.0, -9.6, 11.1, 0, F1)                                     # (the court and loggia stay open)
+    B("Stone", 8.0, 14.1, -9.6, 11.1, 0, F1)
     for (x0, x1, y0, y1) in ((-8, 8, 2, 11), (-14, -8, -9.5, 11), (8, 14, -9.5, 11)):
         B("Walls", x0, x1, y0, y1, F1, TOP)
         B("Stone", x0 - 0.04, x1 + 0.04, y0 - 0.04, y1 + 0.04, F2 - 0.12, F2)      # floor band (outside the wall)
@@ -511,7 +537,7 @@ def casa():
     chimney(-11, 6, TOP, TOP + 3.2)
     # loggia: 4 arches across the court front of the main block, balcony on top
     arcade(-7.6, 7.6, -1.6, F1, F2 - 0.15, 4)
-    B("Travert", -7.6, 7.6, -1.6, 2, 0.0, F1)                                      # loggia floor
+    B("Travert", -7.6, 7.6, -1.6, 1.95, 0.0, F1 - 0.02)                            # loggia floor
     B("Deck", -8, 8, -1.8, 2, F2 - 0.15, F2 + 0.05)                                # balcony floor
     rail(-7.9, -1.75, 7.9, -1.75, F2 + 0.05)
     for x in (-7.9, 7.9):
@@ -562,7 +588,7 @@ def casa():
         K.downpipe(x * M, y * M, 0, TOP * M)
     # front garden: low wall with an iron gate + driveway gap, hedges, palms, cypresses, trees
     front_wall(-19.6, [(-2.0, 2.0), (8.6, 13.4)])
-    iron_gate(-2.0, 2.0, -19.6, open_=1.2)
+    iron_gate(-2.0 + 0.3, 2.0 - 0.3, -19.6)
     house_number(-2.0, -19.9, 0.9, 0)
     pave("Pavers", -1.6, 1.6, -19.7, -9.5)
     pave("Pavers", 8.6, 13.4, -20, -9.5)
@@ -840,7 +866,7 @@ def hacienda():
         pave("Gravel", sx * 9.5 - 1.5, sx * 9.5 + 1.5, -20, -16.5)
     front_wall(-19.6, [(-11.0, -8.0), (8.0, 11.0)], h=1.1, part="Walls", cap="Stone")
     for gx in ((-11.0, -8.0), (8.0, 11.0)):
-        iron_gate(gx[0], gx[1], -19.6, h=1.5, open_=1.3)
+        iron_gate(gx[0] + 0.3, gx[1] - 0.3, -19.6, h=1.5)
     house_number(-8.0, -19.95, 1.2, 1)
     hedge(-7.6, 7.6, -19.0, -18.3, 1.1)
     for x in (-16.0, 16.0):
@@ -864,7 +890,147 @@ def hacienda():
             ("03_court", (-9, -20, 2.4), (0, -9, 2.2), 26), ("04_pool", (-16, 26, 6), (0, 14, 1), 26)]
 
 
-shots = {"Casa": casa, "Modern": modern, "Villa": villa, "Hacienda": hacienda}[ONLY]()
+
+# ================================================================ Police: Tulevo Police Department
+def police():
+    """32 x 50 m lot south of Back Street: two-floor civic block (brick base, stone panels, glass atrium),
+    front plaza with flags + monument, side drive with a boom barrier to the secure back car park."""
+    W2, D2 = 16.0, 25.4
+    F1, F2, TOP = 0.6, 4.6, 8.6
+    B("Concrete", -W2, W2, -D2, D2, -0.083, 0)                                     # lot slab
+    # ---- building
+    X0, X1, Y0, Y1 = -15.0, 8.6, -12.0, 4.0
+    B("Stone", X0 - 0.15, X1 + 0.15, Y0 - 0.15, Y1 + 0.15, 0, F1)
+    B("Brick", X0, X1, Y0, Y1, F1, F2)
+    B("Walls", X0, X1, Y0, Y1, F2, TOP)
+    B("Stone", X0 - 0.08, X1 + 0.08, Y0 - 0.08, Y1 + 0.08, F2 - 0.2, F2 + 0.1)        # floor band
+    B("Walls", X0 - 0.1, X1 + 0.1, Y0 - 0.1, Y1 + 0.1, TOP, TOP + 0.9)                # parapet
+    B("Stone", X0 - 0.16, X1 + 0.16, Y0 - 0.16, Y1 + 0.16, TOP + 0.9, TOP + 1.05)
+    B("RoofFlat", X0 + 0.2, X1 - 0.2, Y0 + 0.2, Y1 - 0.2, TOP + 0.1, TOP + 0.15)
+    # glass entry atrium (taller, proud of the front), canopy, doors, fascia sign
+    AX0, AX1 = -5.0, 2.0
+    B("Walls", AX0, AX0 + 0.5, Y0 - 2.0, Y0, F1, TOP - 0.2)                       # piers stop under the head
+    B("Walls", AX1 - 0.5, AX1, Y0 - 2.0, Y0, F1, TOP - 0.2)
+    B("Walls", AX0, AX1, Y0 - 2.0, Y0, TOP - 0.2, TOP + 1.8)
+    B("Stone", AX0 - 0.1, AX1 + 0.1, Y0 - 2.1, Y0 + 0.1, TOP + 1.8, TOP + 1.95)
+    for k in range(4):
+        FY("GlassBig" + "BCAB"[k], AX0 + 0.5 + (k + 0.5) * 1.5, Y0 - 1.6, F2 + 0.2, 1.5, TOP - F2 - 0.5)
+    for k in range(5):
+        B("Alu", AX0 + 0.5 + k * 1.5 - 0.05, AX0 + 0.5 + k * 1.5 + 0.05, Y0 - 1.7, Y0 - 1.55, F1, TOP - 0.2)
+    B("Walls", AX0 + 0.5, AX1 - 0.5, Y0 - 1.55, Y0, F1, TOP - 0.2)                   # body behind the glass
+    FY("PoliceDoor", -1.5, Y0 - 1.6, F1, 2.4, 2.9)
+    FY("GlassBigA", -3.75, Y0 - 1.6, F1, 1.5, 2.9)
+    FY("GlassBigC", 0.75, Y0 - 1.6, F1, 1.5, 2.9)
+    B("Alu", AX0 + 0.5, AX1 - 0.5, Y0 - 1.7, Y0 - 1.55, F1 + 2.9, F1 + 3.1)
+    FY("PoliceBadge", -1.5, Y0 - 1.6, F1 + 3.3, 0.85, 0.85)
+    B("Concrete", AX0 - 1.0, AX1 + 1.0, Y0 - 5.0, Y0 - 2.0, F1 + 3.6, F1 + 3.9)        # canopy
+    for x in (AX0 - 0.6, AX1 + 0.6):
+        C("Steel", x, Y0 - 4.6, (F1 + 3.6) / 2 + 0.3, 0.16, F1 + 3.6 - 0.6, segs=12)
+    for x in (-4.0, -1.5, 1.0):
+        K.box("Light", (x * M, (Y0 - 3.5) * M, (F1 + 3.57) * M), (0.5 * M, 0.5 * M, 0.04 * M))
+    FY("PoliceSign", -1.5, Y0 - 2.0, TOP + 0.2, 6.6, 1.1)
+    # windows: ribbon of tall windows on both floors (barred low windows on the cell side)
+    for a0, a1 in ((X0, AX0), (AX1, X1)):
+        win_row("y", Y0, -1, a0 + 0.4, a1 - 0.4, F1 + 0.8, max(1, int((a1 - a0) / 2.3)), 1.5, 2.2, mull=1, transom=True)
+        win_row("y", Y0, -1, a0 + 0.4, a1 - 0.4, F2 + 0.7, max(1, int((a1 - a0) / 2.3)), 1.5, 2.2, mull=1, transom=True)
+    for x, fc in ((X0, -1), (X1, 1)):
+        win_row("x", x, fc, Y0 + 0.5, Y1 - 0.5, F2 + 0.7, 5, 1.4, 2.2, mull=1)
+        win_row("x", x, fc, Y0 + 0.5, Y1 - 0.5, F1 + 1.6, 5, 1.0, 1.0, mull=0, transom=False)
+    win_row("y", Y1, 1, X0, -2, F2 + 0.7, 5, 1.5, 2.2, mull=1)
+    # back: sally port roll door + staff door + lamp
+    FY("RollDoor", 3.5, Y1, 0.02, 4.4, 3.4, facing=1)
+    B("Concrete", 1.0, 6.0, Y1, Y1 + 1.4, F1 + 3.5, F1 + 3.7)
+    FY("PoliceDoor", -6.0, Y1, F1, 1.4, 2.4, facing=1)
+    B("Stone", -7.0, -5.0, Y1, Y1 + 1.0, 0, F1)
+    for x in (1.2, 5.8, -7.4):
+        K.box("Sconce", (x * M, (Y1 + 0.1) * M, 3.4 * M), (0.25 * M, 0.2 * M, 0.35 * M))
+    # roof: AC units, comms mast with a red beacon, stair hut
+    for (x, y) in ((-11, -6), (-11, -1), (-7, -6), (4, 0)):
+        B("Steel", x - 0.9, x + 0.9, y - 0.7, y + 0.7, TOP + 0.15, TOP + 1.3)
+        C("Rubber", x, y, TOP + 1.33, 0.5, 0.06, segs=12)
+    B("Walls", -1.0, 2.5, -2.0, 2.0, TOP + 0.15, TOP + 2.8)
+    B("Stone", -1.1, 2.6, -2.1, 2.1, TOP + 2.8, TOP + 2.95)
+    L("Steel", (6.0, -8.0, TOP + 0.15), (6.0, -8.0, TOP + 9.0), 0.08)
+    for k in range(6):
+        z = TOP + 1.0 + k * 1.3
+        L("Steel", (5.6, -8.0, z), (6.4, -8.0, z + 0.6), 0.03)
+        L("Steel", (6.0, -8.4, z + 0.6), (6.0, -7.6, z + 1.2), 0.03)
+    for k in range(3):
+        L("Steel", (6.0, -8.0, TOP + 8.0 - k * 1.5), (6.0 + 0.8, -8.0, TOP + 8.0 - k * 1.5), 0.04)
+    C("NeonRed", 6.0, -8.0, TOP + 9.1, 0.12, 0.2, segs=8)
+    for k in range(3):
+        L("Steel", (6.0, -8.0, TOP + 5), (6.0 + 1.6 * math.cos(k * 2.1), -8.0 + 1.6 * math.sin(k * 2.1), TOP + 0.15), 0.02)
+    for (x, y) in ((X0 - 0.2, Y0 - 0.2), (X1 + 0.2, Y0 - 0.2), (X0 - 0.2, Y1 + 0.2), (X1 + 0.2, Y1 + 0.2)):
+        K.downpipe(x * M, y * M, 0, TOP * M)
+    # ---- front plaza: pavers, steps + ramp, flags, monument, planters, bollards
+    pave("Travert", -W2 + 0.3, 9.4, -D2, Y0)
+    for k in range(3):
+        B("Stone", AX0 - 1.0, AX1 + 1.0, Y0 - 2.0 - 0.45 * (k + 1), Y0 - 2.0 - 0.45 * k, 0, F1 * (3 - k) / 3)
+    B("Stone", AX0 - 1.0, AX1 + 1.0, Y0 - 2.0, Y0, 0, F1)
+    for k in range(10):                                                              # ramp (sloped, built from thin steps)
+        B("Stone", AX1 + 1.0, AX1 + 2.6, Y0 - 2.0 - (k + 1) * 0.6, Y0 - 2.0 - k * 0.6, 0, F1 * (10 - k) / 10)
+    rail(AX1 + 2.6, Y0 - 8.0, AX1 + 2.6, Y0 - 2.0, 0.0, h=1.0, step=2.0, part="Steel")
+    for i, x in enumerate((-12.5, -10.5, -8.5)):
+        C("Steel", x, -20.5, 5.0, 0.07, 10.0, segs=8)
+        C("Steel", x, -20.5, 10.05, 0.12, 0.12, segs=8)
+        B("Flag", x + 0.07, x + 2.0, -20.52, -20.48, 8.6, 9.8)
+    B("Stone", -13.5, -7.5, -21.5, -19.5, 0, 0.3)
+    B("Stone", -15.4, -9.2, -24.2, -23.4, 0, 0.3)
+    B("Stone", -15.2, -9.4, -24.0, -23.6, 0.3, 1.9)
+    FY("PoliceMonument", -12.3, -24.0, 0.45, 4.2, 1.4)
+    for x in (-14.8, -9.8):
+        C("Light", x, -24.6, 0.08, 0.15, 0.06, segs=8)
+    for (x, y) in ((-13.0, -15.5), (6.0, -15.5), (6.0, -20.5)):
+        B("Stone", x - 1.4, x + 1.4, y - 1.4, y + 1.4, 0, 0.6)
+        B("Soil", x - 1.25, x + 1.25, y - 1.25, y + 1.25, 0.6, 0.62)
+        tree(x, y, h=7.0, spread=3.8) if (x, y) != (6.0, -20.5) else palm(x, y, 8.0)
+    for x in range(-14, 9, 2):
+        if AX0 - 1.4 < x < AX1 + 3.0:
+            continue
+        C("Steel", x, -24.9, 0.45, 0.13, 0.9, segs=10)
+    for x in (AX0 - 0.6, AX1 + 0.6, -6.2, 3.8):
+        C("Steel", x, -24.9, 0.45, 0.13, 0.9, segs=10)
+    # ---- east drive + boom barrier, back car park, fences
+    pave("Asphalt", 9.6, W2 - 0.3, -D2, Y1)
+    B("Asphalt", -W2 + 0.3, W2 - 0.3, Y1, D2 - 0.4, -0.05, 0.05)
+    for k in range(9):                                                               # stalls along the back wall
+        x = -14.5 + k * 2.8
+        B("Paint", x - 0.06, x + 0.06, 19.6, D2 - 0.6, 0.05, 0.06)
+    for k in range(4):                                                               # stalls along the west wall
+        y = 7.0 + k * 2.8
+        B("Paint", -W2 + 0.5, -W2 + 5.6, y - 0.06, y + 0.06, 0.05, 0.06)
+    for k in range(8):
+        x = -12.0 + k * 2.8
+        B("Rubber", x - 0.9, x + 0.9, 23.6, 23.9, 0.05, 0.2)                          # wheel stops
+    B("Yellow", 0.5, 7.0, 5.6, 5.75, 0.05, 0.06)                                     # sally port keep-clear box
+    B("Yellow", 0.5, 7.0, 10.4, 10.55, 0.05, 0.06)
+    # boom barrier across the drive at y = 6 (Lift1: arm lifts 85 deg when someone comes near)
+    BY = 6.5
+    B("Concrete", 14.5, 15.6, BY - 0.6, BY + 0.6, 0, 0.12)
+    B("Steel", 14.7, 15.4, BY - 0.35, BY + 0.35, 0.12, 1.1)
+    B("Yellow", 14.75, 15.35, BY - 0.36, BY + 0.36, 0.95, 1.0)
+    K.cyl("Lift1Pivot", (15.05 * M, (BY - 0.38) * M, 1.0 * M), 0.12 * M, 0.08 * M, segs=10, axis='Y', mat="Steel")
+    for k in range(10):
+        x0 = 14.9 - (k + 1) * 0.55
+        K.boxr("Lift1Arm", x0 * M, (x0 + 0.55) * M, (BY - 0.47) * M, (BY - 0.41) * M, 0.95 * M, 1.07 * M, mat="Red" if k % 2 else "Paint")
+    B("Steel", 9.8, 10.0, BY - 0.6, BY - 0.4, 0, 0.95)                               # arm rest post
+    # perimeter: tall stone wall west + back, iron fence on the east edge, gatehouse lamp posts
+    B("StoneWall", -W2, -W2 + 0.4, Y0, D2, 0, 2.4)
+    B("StoneWall", -W2, W2, D2 - 0.4, D2, 0, 2.4)
+    for (a0, a1, b0, b1) in ((-W2 - 0.05, -W2 + 0.45, Y0, D2), (-W2 - 0.05, W2 + 0.05, D2 - 0.45, D2 + 0.05)):
+        B("Stone", a0, a1, b0, b1, 2.4, 2.5)
+    rail(W2 - 0.15, Y1 + 2.5, W2 - 0.15, D2 - 0.45, 0.0, h=2.2, step=0.15)
+    rail(X1 + 0.2, Y1 + 2.5, 9.6, Y1 + 2.5, 0.0, h=2.2, step=0.15)
+    for (x, y) in ((-12.0, 13.0), (0.0, 13.0), (12.0, 15.0), (13.0, -8.0)):
+        C("Steel", x, y, 3.5, 0.1, 7.0, segs=8)
+        L("Steel", (x, y, 7.0), (x + 0.0, y - 1.2, 7.0), 0.06)
+        K.lamp((x * M, (y - 1.2) * M, 6.92 * M), (0.6 * M, 0.35 * M, 0.12 * M))
+    # hedges along the sidewalk either side of the plaza
+    VARIANTS["Walls"] = {p: f"Wall{p}_Color.png" for p in ("Stone", "White", "Sand", "Slate")}
+    return [("01_front", (14, -48, 8), (-3, -6, 5), 26), ("02_aerial", (34, -40, 34), (0, 0, 0), 26),
+            ("03_entry", (5, -24, 2.0), (-1.5, -12, 4.0), 24), ("04_back", (-14, 30, 10), (2, 8, 1), 26)]
+
+shots = {"Police": police, "Casa": casa, "Modern": modern, "Villa": villa, "Hacienda": hacienda}[ONLY]()
 
 K.finish(keep_normals=("Palm", "Ivy"), face=A["face"])
 meta = K.export()
