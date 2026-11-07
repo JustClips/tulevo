@@ -174,6 +174,7 @@ BUILDINGS += [
     # Eastside Rec Center behind the Calder building, tree groves on the grass north of Bellmont Hills
     ("FireStation3", "FireStation", (0, 0, 0)),
     ("EastsideRec", "RecCenter", (0, 0, 0)),
+    ("EastsideClinic", "Clinic", (0, 0, 0)),              # East St lot by Hotel Solana (2026-11-07)
     ("EastTrees", "EastTrees", (0, 0, 0)),
     ("EastTrees2", "EastTrees2", (0, 0, 0)),
 ]

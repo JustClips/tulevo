@@ -30,15 +30,15 @@
    ]
   },
   "Brick": {
-   "tris": 72,
+   "tris": 168,
    "min": [
-    200.0,
-    -346.0,
+    176.4,
+    -346.5,
     0.3
    ],
    "max": [
-    252.0,
-    -262.0,
+    252.35,
+    -261.5,
     46.3
    ]
   },
@@ -56,7 +56,7 @@
    ]
   },
   "Cap": {
-   "tris": 228,
+   "tris": 348,
    "min": [
     -79.6,
     -359.2,
@@ -64,7 +64,7 @@
    ],
    "max": [
     252.3,
-    -261.8,
+    -261.44,
     46.9
    ]
   },
@@ -81,6 +81,71 @@
     44.1
    ]
   },
+  "Dark": {
+   "tris": 1244,
+   "min": [
+    -77.18,
+    -354.2,
+    0.3
+   ],
+   "max": [
+    261.65,
+    -256.65,
+    49.8
+   ]
+  },
+  "Lamp1": {
+   "tris": 12,
+   "min": [
+    196.95,
+    -345.62,
+    12.72
+   ],
+   "max": [
+    197.85,
+    -344.72,
+    12.8
+   ]
+  },
+  "Lamp2": {
+   "tris": 12,
+   "min": [
+    196.95,
+    -328.2,
+    12.72
+   ],
+   "max": [
+    197.85,
+    -327.3,
+    12.8
+   ]
+  },
+  "Lamp3": {
+   "tris": 12,
+   "min": [
+    196.95,
+    -310.7,
+    12.72
+   ],
+   "max": [
+    197.85,
+    -309.8,
+    12.8
+   ]
+  },
+  "Lamp4": {
+   "tris": 12,
+   "min": [
+    196.95,
+    -293.2,
+    12.72
+   ],
+   "max": [
+    197.85,
+    -292.3,
+    12.8
+   ]
+  },
   "FireDoor": {
    "tris": 6,
    "min": [
@@ -94,56 +159,43 @@
     14.5
    ]
   },
-  "Lamp1": {
-   "tris": 12,
+  "DoorRail": {
+   "tris": 108,
    "min": [
-    198.6,
-    -336.8,
-    15.44
+    199.84,
+    -344.2,
+    4.68
    ],
    "max": [
-    200.2,
-    -336.2,
-    15.56
+    199.96,
+    -293.8,
+    11.32
    ]
   },
-  "Dark": {
-   "tris": 156,
+  "Steel": {
+   "tris": 2088,
    "min": [
-    -77.18,
-    -354.2,
-    1.9
+    -77.2,
+    -352.15,
+    0.3
    ],
    "max": [
-    265.2,
-    -276.3,
-    25.9
+    249.9,
+    -263.55,
+    57.7
    ]
   },
-  "Lamp2": {
-   "tris": 12,
+  "FireDecals": {
+   "tris": 32,
    "min": [
-    198.6,
-    -319.3,
-    15.44
+    162.88,
+    -340.2,
+    1.4
    ],
    "max": [
-    200.2,
-    -318.7,
-    15.56
-   ]
-  },
-  "Lamp3": {
-   "tris": 12,
-   "min": [
-    198.6,
-    -301.8,
-    15.44
-   ],
-   "max": [
-    200.2,
-    -301.2,
-    15.56
+    199.76,
+    -268.7,
+    17.85
    ]
   },
   "FireSigns": {
@@ -154,9 +206,9 @@
     4.0
    ],
    "max": [
-    199.66,
-    -300.5,
-    24.9
+    199.26,
+    -303.0,
+    26.7
    ]
   },
   "GlassF": {
@@ -251,7 +303,7 @@
    ]
   },
   "DoorGrey": {
-   "tris": 48,
+   "tris": 60,
    "min": [
     -71.0,
     -347.0,
@@ -260,23 +312,10 @@
    "max": [
     240.12,
     -275.9,
-    9.9
+    27.6
    ]
   },
-  "Steel": {
-   "tris": 356,
-   "min": [
-    -77.2,
-    -352.3,
-    0.3
-   ],
-   "max": [
-    262.3,
-    -263.55,
-    30.7
-   ]
-  },
-  "Lamp4": {
+  "Lamp5": {
    "tris": 12,
    "min": [
     197.6,
@@ -289,7 +328,46 @@
     10.7
    ]
   },
-  "Lamp5": {
+  "Soil": {
+   "tris": 168,
+   "min": [
+    -9.0,
+    -352.4,
+    2.2
+   ],
+   "max": [
+    199.4,
+    -271.2,
+    2.36
+   ]
+  },
+  "Shrub": {
+   "tris": 80,
+   "min": [
+    197.5,
+    -286.06,
+    2.07
+   ],
+   "max": [
+    199.29,
+    -270.96,
+    3.41
+   ]
+  },
+  "Bench": {
+   "tris": 240,
+   "min": [
+    -47.0,
+    -344.65,
+    1.8
+   ],
+   "max": [
+    199.7,
+    -266.5,
+    3.7
+   ]
+  },
+  "Lamp6": {
    "tris": 12,
    "min": [
     240.1,
@@ -302,7 +380,7 @@
     10.55
    ]
   },
-  "Lamp6": {
+  "Lamp7": {
    "tris": 12,
    "min": [
     240.1,
@@ -328,6 +406,19 @@
     16.3
    ]
   },
+  "NeonRed": {
+   "tris": 132,
+   "min": [
+    163.86,
+    -343.35,
+    3.3
+   ],
+   "max": [
+    249.33,
+    -315.2,
+    58.2
+   ]
+  },
   "AcBody": {
    "tris": 36,
    "min": [
@@ -342,94 +433,172 @@
    ]
   },
   "Pave": {
-   "tris": 168,
+   "tris": 12,
    "min": [
-    160.6,
-    -359.2,
+    163.8,
+    -265.2,
     0.3
    ],
    "max": [
-    296.0,
-    -256.0,
-    1.7
+    166.2,
+    -262.8,
+    0.8
    ]
   },
-  "LotLine": {
-   "tris": 120,
+  "Flag": {
+   "tris": 32,
    "min": [
-    274.0,
-    -350.2,
-    0.3
+    164.61,
+    -272.3,
+    25.9
    ],
    "max": [
-    292.0,
-    -268.8,
-    0.31
+    165.27,
+    -264.3,
+    29.9
    ]
   },
-  "Lamp7": {
-   "tris": 12,
-   "min": [
-    263.6,
-    -352.5,
-    25.22
-   ],
-   "max": [
-    265.6,
-    -351.5,
-    25.38
-   ]
-  },
-  "Lamp8": {
-   "tris": 12,
-   "min": [
-    258.4,
-    -352.5,
-    25.22
-   ],
-   "max": [
-    260.4,
-    -351.5,
-    25.38
-   ]
-  },
-  "Lamp9": {
-   "tris": 12,
-   "min": [
-    263.6,
-    -300.5,
-    25.22
-   ],
-   "max": [
-    265.6,
-    -299.5,
-    25.38
-   ]
-  },
-  "Lamp10": {
-   "tris": 12,
-   "min": [
-    258.4,
-    -300.5,
-    25.22
-   ],
-   "max": [
-    260.4,
-    -299.5,
-    25.38
-   ]
-  },
-  "Bin": {
+  "Hydrant": {
    "tris": 176,
    "min": [
-    -8.9,
-    -344.3,
+    162.38,
+    -328.37,
     0.3
    ],
    "max": [
-    249.0,
-    -257.0,
-    3.85
+    163.62,
+    -327.13,
+    3.25
+   ]
+  },
+  "Tire": {
+   "tris": 408,
+   "min": [
+    165.03,
+    -323.3,
+    0.3
+   ],
+   "max": [
+    192.47,
+    -314.7,
+    4.3
+   ]
+  },
+  "TruckRed": {
+   "tris": 84,
+   "min": [
+    164.0,
+    -323.2,
+    2.6
+   ],
+   "max": [
+    196.5,
+    -314.8,
+    12.7
+   ]
+  },
+  "TruckWhite": {
+   "tris": 24,
+   "min": [
+    163.94,
+    -323.26,
+    6.4
+   ],
+   "max": [
+    196.56,
+    -314.74,
+    6.9
+   ]
+  },
+  "Locker": {
+   "tris": 180,
+   "min": [
+    176.85,
+    -323.28,
+    2.9
+   ],
+   "max": [
+    196.58,
+    -314.72,
+    10.7
+   ]
+  },
+  "Brass": {
+   "tris": 660,
+   "min": [
+    174.17,
+    -323.41,
+    2.65
+   ],
+   "max": [
+    241.38,
+    -269.0,
+    7.9
+   ]
+  },
+  "CabGlass": {
+   "tris": 60,
+   "min": [
+    163.88,
+    -323.28,
+    7.9
+   ],
+   "max": [
+    173.3,
+    -314.72,
+    11.9
+   ]
+  },
+  "LightHead": {
+   "tris": 24,
+   "min": [
+    163.86,
+    -322.9,
+    4.9
+   ],
+   "max": [
+    164.0,
+    -315.1,
+    5.9
+   ]
+  },
+  "LightBar": {
+   "tris": 12,
+   "min": [
+    165.7,
+    -319.6,
+    12.9
+   ],
+   "max": [
+    167.3,
+    -318.4,
+    13.5
+   ]
+  },
+  "Hose": {
+   "tris": 416,
+   "min": [
+    240.55,
+    -316.0,
+    1.98
+   ],
+   "max": [
+    241.35,
+    -306.8,
+    7.52
+   ]
+  },
+  "Dumpster": {
+   "tris": 14,
+   "min": [
+    254.9,
+    -259.8,
+    0.8
+   ],
+   "max": [
+    262.1,
+    -256.3,
+    5.2
    ]
   },
   "Lawn": {
@@ -471,69 +640,43 @@
     10.5
    ]
   },
-  "Soil": {
-   "tris": 144,
-   "min": [
-    -9.0,
-    -352.4,
-    2.2
-   ],
-   "max": [
-    74.6,
-    -322.8,
-    2.3
-   ]
-  },
   "Crop": {
    "tris": 960,
    "min": [
-    -8.59,
-    -351.57,
+    -8.63,
+    -351.86,
     2.1
    ],
    "max": [
-    74.28,
-    -323.47,
+    74.31,
+    -323.53,
     3.6
    ]
   },
   "Trunk": {
    "tris": 1680,
    "min": [
-    -60.75,
-    -344.84,
+    -61.11,
+    -344.15,
     0.65
    ],
    "max": [
-    60.76,
-    -331.19,
-    28.36
+    60.81,
+    -331.45,
+    27.53
    ]
   },
   "Palm": {
    "tris": 2464,
    "min": [
-    -73.33,
-    -359.3,
-    22.56
+    -74.76,
+    -357.76,
+    20.01
    ],
    "max": [
-    74.67,
-    -318.32,
-    28.43
-   ]
-  },
-  "Bench": {
-   "tris": 192,
-   "min": [
-    -47.0,
-    -344.65,
-    1.8
-   ],
-   "max": [
-    47.0,
-    -330.95,
-    3.7
+    75.63,
+    -318.28,
+    27.6
    ]
   },
   "Roof": {
@@ -548,6 +691,19 @@
     -346.4,
     10.5
    ]
+  },
+  "Bin": {
+   "tris": 88,
+   "min": [
+    -8.9,
+    -344.3,
+    0.65
+   ],
+   "max": [
+    8.9,
+    -331.3,
+    3.85
+   ]
   }
  },
  "lamps": [
@@ -557,23 +713,24 @@
   "Lamp4",
   "Lamp5",
   "Lamp6",
-  "Lamp7",
-  "Lamp8",
-  "Lamp9",
-  "Lamp10"
+  "Lamp7"
  ],
  "textures": {
   "Asphalt": "LotAsphalt_Color.png",
   "Deck": "ForeCrete_Color.png",
-  "Brick": "BrickRed_Color.png",
+  "Brick": "FireBrick_Color.png",
   "RoofTar": "RoofTar_Color.png",
   "Cap": "ParkCap_Color.png",
   "FireRed": "FireRed_Color.png",
-  "FireDoor": "FireDoor_Color.png",
-  "Lamp1": "Light_Color.png",
   "Dark": "Dark_Color.png",
+  "Lamp1": "Light_Color.png",
   "Lamp2": "Light_Color.png",
   "Lamp3": "Light_Color.png",
+  "Lamp4": "Light_Color.png",
+  "FireDoor": "FireDoor_Color.png",
+  "DoorRail": "DoorRail_Color.png",
+  "Steel": "Steel_Color.png",
+  "FireDecals": "FireDecals_Color.png",
   "FireSigns": "FireSigns_Color.png",
   "GlassF": "GlassF_Color.png",
   "Frame": "Frame_Color.png",
@@ -583,27 +740,35 @@
   "GlassC": "GlassC_Color.png",
   "GlassA": "GlassA_Color.png",
   "DoorGrey": "DoorGrey_Color.png",
-  "Steel": "Steel_Color.png",
-  "Lamp4": "Light_Color.png",
   "Lamp5": "Light_Color.png",
+  "Soil": "Soil_Color.png",
+  "Shrub": "Shrub_Color.png",
+  "Bench": "BenchWood_Color.png",
   "Lamp6": "Light_Color.png",
+  "Lamp7": "Light_Color.png",
   "GlassE": "GlassE_Color.png",
+  "NeonRed": "NeonRed_Color.png",
   "AcBody": "HvacGrey_Color.png",
   "Pave": "Plinth_Color.png",
-  "LotLine": "LotLine_Color.png",
-  "Lamp7": "Light_Color.png",
-  "Lamp8": "Light_Color.png",
-  "Lamp9": "Light_Color.png",
-  "Lamp10": "Light_Color.png",
-  "Bin": "BinGreen_Color.png",
+  "Flag": "FireDecals_Color.png",
+  "Hydrant": "Yellow_Color.png",
+  "Tire": "Dark_Color.png",
+  "TruckRed": "TruckRed_Color.png",
+  "TruckWhite": "TruckWhite_Color.png",
+  "Locker": "Locker_Color.png",
+  "Brass": "Brass_Color.png",
+  "CabGlass": "CabGlass_Color.png",
+  "LightHead": "LightHead_Color.png",
+  "LightBar": "LightBar_Color.png",
+  "Hose": "Hose_Color.png",
+  "Dumpster": "BinGreen_Color.png",
   "Lawn": "ParkLawn_Color.png",
   "Path": "ParkPavers_Color.png",
   "Wood": "TankWood_Color.png",
-  "Soil": "Soil_Color.png",
   "Crop": "Crop_Color.png",
   "Trunk": "Trunk_Color.png",
   "Palm": "Palm_Color.png",
-  "Bench": "BenchWood_Color.png",
-  "Roof": "Roof_Color.png"
+  "Roof": "Roof_Color.png",
+  "Bin": "BinGreen_Color.png"
  }
 }

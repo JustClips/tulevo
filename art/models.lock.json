@@ -316,11 +316,15 @@
   "sha": "a78d06c05168729cdb79a1a48f307626f652abd339e53c6cad8c0cfe04b6e0a8"
  },
  "FireStation": {
-  "id": 86949340174148,
-  "sha": "db49ce07bca78fe00131ce3b9c124cdfc10626f27e07e705890edcd13964d78b"
+  "id": 137738261061375,
+  "sha": "03cc16990ca3b88d373ec1e202522b0957cce659ef9256ea13f082b26fc33b91"
  },
  "RecCenter": {
   "id": 84347859346632,
   "sha": "44f44eaca2f51cabe7d915ae137f38f246262a6d0b8dca06571d7a6da5bda192"
+ },
+ "Clinic": {
+  "id": 105308037500972,
+  "sha": "c8d6dbea56a58ec3f95ac0c86995afffc0f4d3e5ae356abb663cc9a5cac82ce6"
  }
 }

@@ -3848,5 +3848,65 @@
   "id": 124855083180828,
   "file": "art/models/RecCenter/tex/Rim_Color.png",
   "state": "Approved"
+ },
+ "b9f87e0765f2732fea1397b5812c542daed612355168b8aa6713b60d5e9ed694": {
+  "id": 74989844898727,
+  "file": "art/models/Clinic/tex/ClinicSigns_Color.png",
+  "state": "Approved"
+ },
+ "920897ea9ad5321a7d880b82e3ac086952e020666717a80ba50e3ba7de217ded": {
+  "id": 109104886994940,
+  "file": "art/models/Clinic/tex/ClinicTeal_Color.png",
+  "state": "Approved"
+ },
+ "c8470815009f11d836dc1dc38656032d4802471442d7f8ecbca3411add9921c8": {
+  "id": 125373095150752,
+  "file": "art/models/FireStation/tex/Brass_Color.png",
+  "state": "Approved"
+ },
+ "8a3adfaa9b93effb00faa244031f36ed94b247a1a8ba9bbedc51a40235f35646": {
+  "id": 135468817303925,
+  "file": "art/models/FireStation/tex/FireBrick_Color.png",
+  "state": "Approved"
+ },
+ "3c23de89e34cfa92b36cfedb0debfe9fffacfea5479ebea51094832d32457658": {
+  "id": 74948642511598,
+  "file": "art/models/FireStation/tex/CabGlass_Color.png",
+  "state": "Approved"
+ },
+ "cfe42da151c33f40df15386c35e65acbeb78c7e9a06b4323ca8de0aab33c9ea7": {
+  "id": 115191530548111,
+  "file": "art/models/FireStation/tex/DoorRail_Color.png",
+  "state": "Approved"
+ },
+ "16e642389c059971f56e6b7a57bb5c252e4fe0cb2dd886d4f691f1c2a3cebd0d": {
+  "id": 100633398667093,
+  "file": "art/models/FireStation/tex/FireDecals_Color.png",
+  "state": "Approved"
+ },
+ "d866178f0cf5831ba0d5fa884c6c97e8a60ee85ca542a761b26b6116d1a24e8e": {
+  "id": 82173047757604,
+  "file": "art/models/FireStation/tex/Hose_Color.png",
+  "state": "Approved"
+ },
+ "18052ab7865cadd6a718216aae37cdd0d736be03fa576f07da5865cd00091cf5": {
+  "id": 129587970796058,
+  "file": "art/models/FireStation/tex/LightBar_Color.png",
+  "state": "Approved"
+ },
+ "35b85491aee034b3f4fb1413ed1c27b43ac0d2c5074ca7fb213d36c0e32595fe": {
+  "id": 121468327357431,
+  "file": "art/models/FireStation/tex/LightHead_Color.png",
+  "state": "Approved"
+ },
+ "721fef2627a5540ce19815ff21a4407b1a13902cd662cfefc4a33d9f3386f39c": {
+  "id": 112371082459904,
+  "file": "art/models/FireStation/tex/Locker_Color.png",
+  "state": "Approved"
+ },
+ "93fb97b84fb1aa9615de4f112b68b6a5111d81c8f2f5bfb71e7289f6eb011e48": {
+  "id": 117663143319358,
+  "file": "art/models/FireStation/tex/TruckRed_Color.png",
+  "state": "Approved"
  }
 }

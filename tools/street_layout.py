@@ -50,6 +50,7 @@ CLEAR = [
     ("WestStreet", "W", -352, -288),        # fire station apron (bay doors)
     ("VaultAvenue", "N", 460, 488),         # Eastside Rec Center drives either side of the Calder building
     ("VaultAvenue", "N", 612, 642),
+    ("EastStreet", "E", -344, -322),        # Eastside Clinic drive
 ]
 # bus stops: (road, side, u)
 BUS = [("VaultAvenue", "S", 430), ("VaultAvenue", "N", -430), ("BackStreet", "N", 250),

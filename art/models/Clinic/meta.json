@@ -1,0 +1,553 @@
+{
+ "name": "Clinic",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Asphalt": {
+   "tris": 12,
+   "min": [
+    -296.6,
+    -346.6,
+    -0.9
+   ],
+   "max": [
+    -160.2,
+    -256.2,
+    0.3
+   ]
+  },
+  "Pave": {
+   "tris": 204,
+   "min": [
+    -236.1,
+    -342.0,
+    0.3
+   ],
+   "max": [
+    -161.5,
+    -260.5,
+    1.7
+   ]
+  },
+  "Block": {
+   "tris": 84,
+   "min": [
+    -292.0,
+    -338.0,
+    0.3
+   ],
+   "max": [
+    -162.0,
+    -266.0,
+    32.3
+   ]
+  },
+  "RoofTar": {
+   "tris": 12,
+   "min": [
+    -291.6,
+    -337.6,
+    24.3
+   ],
+   "max": [
+    -236.4,
+    -266.4,
+    24.4
+   ]
+  },
+  "Cap": {
+   "tris": 108,
+   "min": [
+    -292.2,
+    -338.2,
+    0.3
+   ],
+   "max": [
+    -161.6,
+    -265.8,
+    32.7
+   ]
+  },
+  "ClinicTeal": {
+   "tris": 36,
+   "min": [
+    -292.1,
+    -338.1,
+    10.5
+   ],
+   "max": [
+    -212.0,
+    -265.9,
+    13.9
+   ]
+  },
+  "GlassB": {
+   "tris": 14,
+   "min": [
+    -292.03,
+    -338.03,
+    3.1
+   ],
+   "max": [
+    -235.97,
+    -267.7,
+    20.7
+   ]
+  },
+  "Frame": {
+   "tris": 2568,
+   "min": [
+    -292.3,
+    -338.4,
+    1.25
+   ],
+   "max": [
+    -235.6,
+    -265.25,
+    20.95
+   ]
+  },
+  "Sill": {
+   "tris": 984,
+   "min": [
+    -292.66,
+    -338.76,
+    2.6
+   ],
+   "max": [
+    -235.24,
+    -264.82,
+    21.38
+   ]
+  },
+  "GlassD": {
+   "tris": 20,
+   "min": [
+    -284.3,
+    -338.03,
+    3.1
+   ],
+   "max": [
+    -235.97,
+    -265.5,
+    20.7
+   ]
+  },
+  "GlassA": {
+   "tris": 16,
+   "min": [
+    -292.03,
+    -338.03,
+    3.1
+   ],
+   "max": [
+    -235.97,
+    -265.97,
+    20.7
+   ]
+  },
+  "GlassE": {
+   "tris": 12,
+   "min": [
+    -292.03,
+    -332.3,
+    1.5
+   ],
+   "max": [
+    -235.97,
+    -265.97,
+    20.7
+   ]
+  },
+  "GlassC": {
+   "tris": 12,
+   "min": [
+    -268.3,
+    -338.03,
+    1.5
+   ],
+   "max": [
+    -235.97,
+    -265.97,
+    20.7
+   ]
+  },
+  "ClinicSigns": {
+   "tris": 16,
+   "min": [
+    -281.4,
+    -339.6,
+    2.6
+   ],
+   "max": [
+    -161.96,
+    -272.0,
+    25.34
+   ]
+  },
+  "Steel": {
+   "tris": 636,
+   "min": [
+    -280.5,
+    -341.3,
+    0.3
+   ],
+   "max": [
+    -162.1,
+    -262.7,
+    25.4
+   ]
+  },
+  "Lamp1": {
+   "tris": 12,
+   "min": [
+    -232.8,
+    -306.8,
+    10.4
+   ],
+   "max": [
+    -231.2,
+    -305.2,
+    10.5
+   ]
+  },
+  "Lamp2": {
+   "tris": 12,
+   "min": [
+    -232.8,
+    -298.8,
+    10.4
+   ],
+   "max": [
+    -231.2,
+    -297.2,
+    10.5
+   ]
+  },
+  "Lamp3": {
+   "tris": 12,
+   "min": [
+    -217.0,
+    -277.0,
+    12.8
+   ],
+   "max": [
+    -215.0,
+    -275.0,
+    12.9
+   ]
+  },
+  "Lamp4": {
+   "tris": 12,
+   "min": [
+    -223.0,
+    -277.0,
+    12.8
+   ],
+   "max": [
+    -221.0,
+    -275.0,
+    12.9
+   ]
+  },
+  "Lamp5": {
+   "tris": 12,
+   "min": [
+    -231.0,
+    -277.0,
+    12.8
+   ],
+   "max": [
+    -229.0,
+    -275.0,
+    12.9
+   ]
+  },
+  "Yellow": {
+   "tris": 12,
+   "min": [
+    -223.4,
+    -275.2,
+    0.3
+   ],
+   "max": [
+    -213.0,
+    -274.8,
+    0.32
+   ]
+  },
+  "GlassF": {
+   "tris": 10,
+   "min": [
+    -292.03,
+    -338.03,
+    3.1
+   ],
+   "max": [
+    -247.7,
+    -265.97,
+    20.7
+   ]
+  },
+  "DoorGrey": {
+   "tris": 24,
+   "min": [
+    -292.12,
+    -306.0,
+    0.3
+   ],
+   "max": [
+    -281.88,
+    -273.0,
+    31.3
+   ]
+  },
+  "Lamp6": {
+   "tris": 12,
+   "min": [
+    -292.9,
+    -304.1,
+    9.85
+   ],
+   "max": [
+    -292.1,
+    -302.9,
+    9.95
+   ]
+  },
+  "LightPad": {
+   "tris": 192,
+   "min": [
+    -281.95,
+    -315.95,
+    25.3
+   ],
+   "max": [
+    -254.05,
+    -288.05,
+    25.65
+   ]
+  },
+  "AcBody": {
+   "tris": 36,
+   "min": [
+    -270.5,
+    -332.0,
+    24.4
+   ],
+   "max": [
+    -243.5,
+    -274.0,
+    26.2
+   ]
+  },
+  "Dark": {
+   "tris": 252,
+   "min": [
+    -270.4,
+    -341.25,
+    3.9
+   ],
+   "max": [
+    -162.6,
+    -262.75,
+    26.3
+   ]
+  },
+  "LotLine": {
+   "tris": 192,
+   "min": [
+    -221.0,
+    -338.2,
+    0.3
+   ],
+   "max": [
+    -165.6,
+    -258.8,
+    0.31
+   ]
+  },
+  "Lawn": {
+   "tris": 60,
+   "min": [
+    -296.5,
+    -346.5,
+    -0.7
+   ],
+   "max": [
+    -160.2,
+    -256.3,
+    0.75
+   ]
+  },
+  "Shrub": {
+   "tris": 260,
+   "min": [
+    -279.26,
+    -345.5,
+    0.54
+   ],
+   "max": [
+    -161.14,
+    -259.88,
+    2.61
+   ]
+  },
+  "Trunk": {
+   "tris": 1260,
+   "min": [
+    -164.52,
+    -291.75,
+    0.75
+   ],
+   "max": [
+    -161.64,
+    -258.26,
+    27.59
+   ]
+  },
+  "Palm": {
+   "tris": 1848,
+   "min": [
+    -178.96,
+    -306.22,
+    20.9
+   ],
+   "max": [
+    -147.13,
+    -244.36,
+    27.68
+   ]
+  },
+  "Lamp7": {
+   "tris": 12,
+   "min": [
+    -166.0,
+    -334.5,
+    25.22
+   ],
+   "max": [
+    -164.0,
+    -333.5,
+    25.38
+   ]
+  },
+  "Lamp8": {
+   "tris": 12,
+   "min": [
+    -166.0,
+    -268.5,
+    25.22
+   ],
+   "max": [
+    -164.0,
+    -267.5,
+    25.38
+   ]
+  },
+  "Lamp9": {
+   "tris": 12,
+   "min": [
+    -226.4,
+    -341.5,
+    25.22
+   ],
+   "max": [
+    -224.4,
+    -340.5,
+    25.38
+   ]
+  },
+  "Lamp10": {
+   "tris": 12,
+   "min": [
+    -226.4,
+    -263.5,
+    25.22
+   ],
+   "max": [
+    -224.4,
+    -262.5,
+    25.38
+   ]
+  },
+  "Bench": {
+   "tris": 96,
+   "min": [
+    -227.5,
+    -325.0,
+    2.25
+   ],
+   "max": [
+    -225.6,
+    -289.0,
+    4.1
+   ]
+  },
+  "Bin": {
+   "tris": 88,
+   "min": [
+    -226.9,
+    -317.9,
+    0.75
+   ],
+   "max": [
+    -225.1,
+    -286.1,
+    3.95
+   ]
+  }
+ },
+ "lamps": [
+  "Lamp1",
+  "Lamp2",
+  "Lamp3",
+  "Lamp4",
+  "Lamp5",
+  "Lamp6",
+  "Lamp7",
+  "Lamp8",
+  "Lamp9",
+  "Lamp10"
+ ],
+ "textures": {
+  "Asphalt": "LotAsphalt_Color.png",
+  "Pave": "Plinth_Color.png",
+  "Block": "HotelStucco_Color.png",
+  "RoofTar": "RoofTar_Color.png",
+  "Cap": "ParkCap_Color.png",
+  "ClinicTeal": "ClinicTeal_Color.png",
+  "GlassB": "GlassB_Color.png",
+  "Frame": "Frame_Color.png",
+  "Sill": "Sill_Color.png",
+  "GlassD": "GlassD_Color.png",
+  "GlassA": "GlassA_Color.png",
+  "GlassE": "GlassE_Color.png",
+  "GlassC": "GlassC_Color.png",
+  "ClinicSigns": "ClinicSigns_Color.png",
+  "Steel": "Steel_Color.png",
+  "Lamp1": "Light_Color.png",
+  "Lamp2": "Light_Color.png",
+  "Lamp3": "Light_Color.png",
+  "Lamp4": "Light_Color.png",
+  "Lamp5": "Light_Color.png",
+  "Yellow": "Yellow_Color.png",
+  "GlassF": "GlassF_Color.png",
+  "DoorGrey": "DoorGrey_Color.png",
+  "Lamp6": "Light_Color.png",
+  "LightPad": "Light_Color.png",
+  "AcBody": "HvacGrey_Color.png",
+  "Dark": "Dark_Color.png",
+  "LotLine": "LotLine_Color.png",
+  "Lawn": "ParkLawn_Color.png",
+  "Shrub": "Shrub_Color.png",
+  "Trunk": "Trunk_Color.png",
+  "Palm": "Palm_Color.png",
+  "Lamp7": "Light_Color.png",
+  "Lamp8": "Light_Color.png",
+  "Lamp9": "Light_Color.png",
+  "Lamp10": "Light_Color.png",
+  "Bench": "BenchWood_Color.png",
+  "Bin": "BinGreen_Color.png"
+ }
+}
