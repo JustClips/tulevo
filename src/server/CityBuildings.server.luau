@@ -153,8 +153,47 @@ local function applyTextures(model: Model)
 	end
 end
 
+-- Walk-in buildings (corner store): every part that shares a mesh with pieces both outside
+-- and inside (door mats, frames, lights, trim) would make an invisible wall across the door,
+-- so only the real solid pieces collide.
+local WALK_IN_SOLID = {
+	"^Wall",
+	"^Parapet",
+	"^Cooler",
+	"^Gondola",
+	"^Counter",
+	"^Freezer",
+	"^Atm",
+	"^ShopFloor",
+	"^Asphalt",
+	"^Concrete",
+	"^Flat",
+}
+-- Plants never block walking.
+local PLANTS = {
+	Leaf = true,
+	LeafB = true,
+	Palm = true,
+	Shrub = true,
+	Hedge = true,
+	Soil = true,
+	FlowerR = true,
+	FlowerY = true,
+	FlowerW = true,
+}
+
+local function solidInWalkIn(name: string): boolean
+	for _, pat in WALK_IN_SOLID do
+		if name:match(pat) then
+			return true
+		end
+	end
+	return false
+end
+
 local function style(model: Model)
 	applyTextures(model)
+	local walkIn = model:FindFirstChild("WallF1", true) ~= nil
 	for _, d in model:GetDescendants() do
 		if d:IsA("Script") or d:IsA("LocalScript") then
 			d:Destroy()
@@ -164,6 +203,9 @@ local function style(model: Model)
 				-- Thin dressing: never blocks walking or bullets.
 				d.CanCollide = false
 				d.CanQuery = false
+			end
+			if PLANTS[d.Name] or (walkIn and not solidInWalkIn(d.Name)) then
+				d.CanCollide = false
 			end
 			if ALPHA[d.Name] then
 				-- A texture's transparent pixels only cut through when the part itself is

@@ -241,8 +241,9 @@ def shutters(face, a, z0, w, h):
 
 def flower_bed(x0, x1, y0, y1):
     """Edged soil bed with low shrubs and red/yellow/white flowers."""
-    K.boxr("Soil", x0, x1, y0, y1, 0, 0.06 * M)
-    for (a0, a1, b0, b1) in ((x0, x1, y0, y0 + 0.08 * M), (x0, x1, y1 - 0.08 * M, y1), (x0, x0 + 0.08 * M, y0, y1), (x1 - 0.08 * M, x1, y0, y1)):
+    e = 0.08 * M                                 # soil sits inside the edging (no shared faces -> no flicker)
+    K.boxr("Soil", x0 + e, x1 - e, y0 + e, y1 - e, 0.005 * M, 0.06 * M)
+    for (a0, a1, b0, b1) in ((x0, x1, y0, y0 + e), (x0, x1, y1 - e, y1), (x0, x0 + e, y0 + e, y1 - e), (x1 - e, x1, y0 + e, y1 - e)):
         K.boxr("Stone", a0, a1, b0, b1, 0, 0.15 * M)
     n = max(2, int((x1 - x0) / (0.9 * M)))
     for i in range(n):
@@ -668,7 +669,7 @@ def house_d():
     tag(WY - 0.15 * M, "y", -5.8 * M, 0.15 * M, 2.2 * M, 0.85 * M, -1)
     K.boxr("Stone", -3.0 * M, -2.1 * M, WY, Y0 - 2.4 * M, 0, 0.05)                   # path
     K.cyl("Stone", (-4.8 * M, -8.0 * M, 0.3 * M), 0.9 * M, 0.6 * M, segs=16)          # little fountain
-    K.cyl("Water", (-4.8 * M, -8.0 * M, 0.58 * M), 0.78 * M, 0.04 * M, segs=16)
+    K.cyl("Water", (-4.8 * M, -8.0 * M, 0.615 * M), 0.78 * M, 0.02 * M, segs=16)    # just above the rim top
     K.cyl("Stone", (-4.8 * M, -8.0 * M, 0.9 * M), 0.12 * M, 0.7 * M, segs=8)
     K.cyl("Stone", (-4.8 * M, -8.0 * M, 1.25 * M), 0.35 * M, 0.1 * M, segs=12)
     for (px, py) in ((-0.2 * M, -7.0 * M), (0.6 * M, -9.5 * M), (-6.8 * M, -5.6 * M)):
@@ -770,7 +771,9 @@ def store():
     K.boxr("Flat", X0 + T, X1 - T, YI, Y1 - T, H - 0.05, H + 0.06)                     # roof deck
     K.boxr("Ceiling", X0 + T, X1 - T, YI, Y1 - T, H - 0.55 * M, H - 0.45 * M)          # drop ceiling
     K.boxr("ShopFloor", X0 + T, X1 - T, YI - T, Y1 - T, 0, 0.04)
-    K.boxr("Foundation", X0 - 0.05, X1 + 0.05, Y0 - 0.05, Y1 + 0.05, 0, 0.35 * M)     # plinth band outside
+    for (a0, a1, b0, b1) in ((X0 - 0.05, X1 + 0.05, Y0 - 0.05, Y0), (X0 - 0.05, X1 + 0.05, Y1, Y1 + 0.05),
+                             (X0 - 0.05, X0, Y0, Y1), (X1, X1 + 0.05, Y0, Y1)):
+        K.boxr("Foundation", a0, a1, b0, b1, 0, 0.35 * M)                           # plinth band, outside only
     # ---- sign + lights
     K.face_y("StoreSign", 0, Y0 - 0.05, 3.5 * M, 19.2 * M, 2.4 * M)
     K.boxr("Dark", -9.8 * M, 9.8 * M, Y0 - 0.35 * M, Y0 - 0.05, 3.4 * M, 3.48 * M)

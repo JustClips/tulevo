@@ -106467,7 +106467,7 @@
        ]
       },
       "CityModel": "OfficeStone",
-      "LiveSyncTextures": "{\"Bark\":112704406592561,\"Base\":71671034462123,\"Bench\":74407114638198,\"Cornice\":77291495119151,\"Facade\":84412399490283,\"Lamp1\":137380545509287,\"Lamp2\":137380545509287,\"Light\":137380545509287,\"Lobby\":116713272898630,\"Mech\":94761267115390,\"NeonRed\":87267921952474,\"Plant\":109462770145914,\"Planter\":131030064324751,\"RevDoor\":93147410557191,\"Roof\":92232645723888,\"Steel\":129865890169071}"
+      "LiveSyncTextures": "{\"Bark\":112704406592561,\"Base\":85422384635818,\"Bench\":74407114638198,\"Cornice\":77291495119151,\"Facade\":86359339842473,\"Lamp1\":137380545509287,\"Lamp2\":137380545509287,\"Light\":137380545509287,\"Lobby\":116896371863540,\"Mech\":94761267115390,\"NeonRed\":87267921952474,\"Plant\":109462770145914,\"Planter\":131030064324751,\"RevDoor\":93147410557191,\"Roof\":92232645723888,\"Steel\":129865890169071}"
      }
     },
     {
@@ -106486,7 +106486,7 @@
        ]
       },
       "CityModel": "OfficeDark",
-      "LiveSyncTextures": "{\"Bark\":112704406592561,\"Base\":75875926962331,\"Bench\":74407114638198,\"Frame\":115179035203804,\"Glass\":96495675004037,\"Lamp1\":123755130553817,\"Lamp2\":123755130553817,\"Light\":123755130553817,\"Lobby\":101117844613267,\"NeonRed\":87267921952474,\"Plant\":109462770145914,\"Planter\":85666887330134,\"RevDoor\":97699434453353,\"Roof\":116572954031085,\"Screen\":118785328607199,\"Steel\":129865890169071}"
+      "LiveSyncTextures": "{\"Bark\":112704406592561,\"Base\":134932410376168,\"Bench\":74407114638198,\"Frame\":115179035203804,\"Glass\":93501231580541,\"Lamp1\":123755130553817,\"Lamp2\":123755130553817,\"Light\":123755130553817,\"Lobby\":112946844375212,\"NeonRed\":87267921952474,\"Plant\":109462770145914,\"Planter\":85666887330134,\"RevDoor\":97699434453353,\"Roof\":116572954031085,\"Screen\":140022006037901,\"Steel\":129865890169071}"
      }
     },
     {
@@ -106505,7 +106505,7 @@
        ]
       },
       "CityModel": "OfficeRound",
-      "LiveSyncTextures": "{\"Bark\":112704406592561,\"Base\":123666981443306,\"Bench\":74407114638198,\"Frame\":96794344758804,\"Glass\":91487123777018,\"Lamp1\":104957615987029,\"Lamp2\":104957615987029,\"Light\":104957615987029,\"Lobby\":100693593512053,\"NeonRed\":87267921952474,\"Plant\":109462770145914,\"Planter\":119699640094865,\"RevDoor\":87519907499581,\"Roof\":74000148946437,\"Steel\":129865890169071}"
+      "LiveSyncTextures": "{\"Bark\":112704406592561,\"Base\":91744762261280,\"Bench\":74407114638198,\"Frame\":96794344758804,\"Glass\":80995090227713,\"Lamp1\":104957615987029,\"Lamp2\":104957615987029,\"Light\":104957615987029,\"Lobby\":122763836490606,\"NeonRed\":87267921952474,\"Plant\":109462770145914,\"Planter\":119699640094865,\"RevDoor\":87519907499581,\"Roof\":74000148946437,\"Steel\":129865890169071}"
      }
     },
     {
@@ -106591,7 +106591,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 85577051365252,
+      "LiveSyncAsset": 82189685032591,
       "LiveSyncBoxCenter": {
        "Vector3": [
         323.235,
@@ -106610,7 +106610,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 114644001248564,
+      "LiveSyncAsset": 76031386624830,
       "LiveSyncBoxCenter": {
        "Vector3": [
         370.115,
@@ -106629,7 +106629,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 99451777325117,
+      "LiveSyncAsset": 107180832604561,
       "LiveSyncBoxCenter": {
        "Vector3": [
         412.26,
@@ -106648,7 +106648,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 101125660545792,
+      "LiveSyncAsset": 77818160248391,
       "LiveSyncBoxCenter": {
        "Vector3": [
         472.195,
@@ -106667,7 +106667,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 114644001248564,
+      "LiveSyncAsset": 76031386624830,
       "LiveSyncBoxCenter": {
        "Vector3": [
         506.915,
@@ -106686,7 +106686,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 135126135129492,
+      "LiveSyncAsset": 136977545455173,
       "LiveSyncBoxCenter": {
        "Vector3": [
         544.79,
@@ -106705,7 +106705,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 99451777325117,
+      "LiveSyncAsset": 107180832604561,
       "LiveSyncBoxCenter": {
        "Vector3": [
         606.66,
@@ -106724,7 +106724,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 123508360820459,
+      "LiveSyncAsset": 109874884927635,
       "LiveSyncBoxCenter": {
        "Vector3": [
         218.515,
@@ -106743,7 +106743,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 78320932172641,
+      "LiveSyncAsset": 94874717840178,
       "LiveSyncBoxCenter": {
        "Vector3": [
         289.405,
@@ -106762,7 +106762,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 114842638364333,
+      "LiveSyncAsset": 136608930859688,
       "LiveSyncBoxCenter": {
        "Vector3": [
         349.34,
@@ -106781,7 +106781,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 103668293433050,
+      "LiveSyncAsset": 83705554865831,
       "LiveSyncBoxCenter": {
        "Vector3": [
         391.485,
@@ -106800,7 +106800,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 119624172858700,
+      "LiveSyncAsset": 83220198726714,
       "LiveSyncBoxCenter": {
        "Vector3": [
         438.365,
@@ -106819,7 +106819,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 98205902092625,
+      "LiveSyncAsset": 138938698500049,
       "LiveSyncBoxCenter": {
        "Vector3": [
         504.81,
@@ -106838,7 +106838,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 103668293433050,
+      "LiveSyncAsset": 83705554865831,
       "LiveSyncBoxCenter": {
        "Vector3": [
         542.685,
@@ -106857,7 +106857,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 114842638364333,
+      "LiveSyncAsset": 136608930859688,
       "LiveSyncBoxCenter": {
        "Vector3": [
         579.74,
@@ -106895,7 +106895,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 99451777325117,
+      "LiveSyncAsset": 107180832604561,
       "LiveSyncBoxCenter": {
        "Vector3": [
         318.66,
@@ -106914,7 +106914,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 101125660545792,
+      "LiveSyncAsset": 77818160248391,
       "LiveSyncBoxCenter": {
        "Vector3": [
         378.595,
@@ -106933,7 +106933,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 114644001248564,
+      "LiveSyncAsset": 76031386624830,
       "LiveSyncBoxCenter": {
        "Vector3": [
         413.315,
@@ -106952,7 +106952,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 135126135129492,
+      "LiveSyncAsset": 136977545455173,
       "LiveSyncBoxCenter": {
        "Vector3": [
         451.19,
@@ -106971,7 +106971,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 85577051365252,
+      "LiveSyncAsset": 82189685032591,
       "LiveSyncBoxCenter": {
        "Vector3": [
         517.635,
@@ -106990,7 +106990,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 114644001248564,
+      "LiveSyncAsset": 76031386624830,
       "LiveSyncBoxCenter": {
        "Vector3": [
         564.515,
@@ -107009,7 +107009,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 99451777325117,
+      "LiveSyncAsset": 107180832604561,
       "LiveSyncBoxCenter": {
        "Vector3": [
         606.66,
@@ -107028,7 +107028,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 123508360820459,
+      "LiveSyncAsset": 109874884927635,
       "LiveSyncBoxCenter": {
        "Vector3": [
         218.515,
@@ -107047,7 +107047,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 98205902092625,
+      "LiveSyncAsset": 138938698500049,
       "LiveSyncBoxCenter": {
        "Vector3": [
         296.01,
@@ -107066,7 +107066,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 103668293433050,
+      "LiveSyncAsset": 83705554865831,
       "LiveSyncBoxCenter": {
        "Vector3": [
         333.885,
@@ -107085,7 +107085,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 119624172858700,
+      "LiveSyncAsset": 83220198726714,
       "LiveSyncBoxCenter": {
        "Vector3": [
         380.765,
@@ -107104,7 +107104,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 114842638364333,
+      "LiveSyncAsset": 136608930859688,
       "LiveSyncBoxCenter": {
        "Vector3": [
         442.94,
@@ -107123,7 +107123,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 103668293433050,
+      "LiveSyncAsset": 83705554865831,
       "LiveSyncBoxCenter": {
        "Vector3": [
         485.085,
@@ -107142,7 +107142,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 78320932172641,
+      "LiveSyncAsset": 94874717840178,
       "LiveSyncBoxCenter": {
        "Vector3": [
         519.805,
@@ -107161,7 +107161,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 114842638364333,
+      "LiveSyncAsset": 136608930859688,
       "LiveSyncBoxCenter": {
        "Vector3": [
         579.74,
@@ -107199,7 +107199,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 101125660545792,
+      "LiveSyncAsset": 77818160248391,
       "LiveSyncBoxCenter": {
        "Vector3": [
         -311.005,
@@ -107218,7 +107218,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 114644001248564,
+      "LiveSyncAsset": 76031386624830,
       "LiveSyncBoxCenter": {
        "Vector3": [
         -355.485,
@@ -107237,7 +107237,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 85577051365252,
+      "LiveSyncAsset": 82189685032591,
       "LiveSyncBoxCenter": {
        "Vector3": [
         -402.365,
@@ -107256,7 +107256,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 99451777325117,
+      "LiveSyncAsset": 107180832604561,
       "LiveSyncBoxCenter": {
        "Vector3": [
         -464.54,
@@ -107275,7 +107275,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 135126135129492,
+      "LiveSyncAsset": 136977545455173,
       "LiveSyncBoxCenter": {
        "Vector3": [
         -526.41,
@@ -107294,7 +107294,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 114644001248564,
+      "LiveSyncAsset": 76031386624830,
       "LiveSyncBoxCenter": {
        "Vector3": [
         -564.285,
@@ -107313,7 +107313,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 101125660545792,
+      "LiveSyncAsset": 77818160248391,
       "LiveSyncBoxCenter": {
        "Vector3": [
         -599.005,
@@ -107332,7 +107332,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 123508360820459,
+      "LiveSyncAsset": 109874884927635,
       "LiveSyncBoxCenter": {
        "Vector3": [
         -219.085,
@@ -107351,7 +107351,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 114842638364333,
+      "LiveSyncAsset": 136608930859688,
       "LiveSyncBoxCenter": {
        "Vector3": [
         -297.06,
@@ -107370,7 +107370,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 119624172858700,
+      "LiveSyncAsset": 83220198726714,
       "LiveSyncBoxCenter": {
        "Vector3": [
         -359.235,
@@ -107389,7 +107389,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 103668293433050,
+      "LiveSyncAsset": 83705554865831,
       "LiveSyncBoxCenter": {
        "Vector3": [
         -406.115,
@@ -107408,7 +107408,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 78320932172641,
+      "LiveSyncAsset": 94874717840178,
       "LiveSyncBoxCenter": {
        "Vector3": [
         -450.595,
@@ -107427,7 +107427,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 98205902092625,
+      "LiveSyncAsset": 138938698500049,
       "LiveSyncBoxCenter": {
        "Vector3": [
         -501.59,
@@ -107446,7 +107446,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 103668293433050,
+      "LiveSyncAsset": 83705554865831,
       "LiveSyncBoxCenter": {
        "Vector3": [
         -542.915,
@@ -107465,7 +107465,7 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 114842638364333,
+      "LiveSyncAsset": 136608930859688,
       "LiveSyncBoxCenter": {
        "Vector3": [
         -585.06,

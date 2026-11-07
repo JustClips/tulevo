@@ -1702,11 +1702,71 @@
  "d272a9d2080bbc71ce127b4b5e886ae666bcd55aceed070fd14ebbf1af04a4c7": {
   "id": 119558600171300,
   "file": "art/models/Human/tex/Head.png",
-  "state": "Reviewing"
+  "state": "Approved"
  },
  "427c53e495461cb9752499f0b002269bdc3e5ae7cfb482096603aa43d0884ec7": {
   "id": 97079110004859,
   "file": "art/models/Human/tex/Shoes.png",
-  "state": "Reviewing"
+  "state": "Approved"
+ },
+ "79a21a51e1e45dbcd601837dd0ab27a35e1c3831c735748dfa4f52b98687a0cb": {
+  "id": 75203088271538,
+  "file": "art/models/Human/tex/Body.png",
+  "state": "Approved"
+ },
+ "a46b491d5f911c498f80c34823a3518215fc77a906bda1b84094368236cc8cd7": {
+  "id": 130895939973795,
+  "file": "art/models/Human/tex/Head.png",
+  "state": "Approved"
+ },
+ "ff5eb7ffef13aeff284418c50da205a749880185a3bcc3ae1b582213c36e37a0": {
+  "id": 134932410376168,
+  "file": "art/models/OfficeDark/tex/OfficeDark_Base.png",
+  "state": "Approved"
+ },
+ "48f16242576e2b103c08a44579915d6c0fdbf6714cb3f8acaad8e5c799561dd6": {
+  "id": 93501231580541,
+  "file": "art/models/OfficeDark/tex/OfficeDark_Glass.png",
+  "state": "Approved"
+ },
+ "5c63039e4abf4ba3198c751a95de95c6f7975c2c4a563dad901f72fdfabd71e6": {
+  "id": 112946844375212,
+  "file": "art/models/OfficeDark/tex/OfficeDark_Lobby.png",
+  "state": "Approved"
+ },
+ "2f667533e3b8ff14d9b557c39868ec8011192e144e66efec70bdabb9375f2dcb": {
+  "id": 140022006037901,
+  "file": "art/models/OfficeDark/tex/OfficeDark_Screen.png",
+  "state": "Approved"
+ },
+ "6bffa9acec675e1633560d1972878a5634cf8903947b7a0eb56f1bbcd6babe3c": {
+  "id": 91744762261280,
+  "file": "art/models/OfficeRound/tex/OfficeRound_Base.png",
+  "state": "Approved"
+ },
+ "d696ac23fc56dd8b8f6f2670178676a973120555fd5dfe0c42f2e6e77fd77ca1": {
+  "id": 80995090227713,
+  "file": "art/models/OfficeRound/tex/OfficeRound_Glass.png",
+  "state": "Approved"
+ },
+ "cd8a72a533af7da80e8dadc7c16655601c753374d5e04ec467354f8d969a3a8b": {
+  "id": 122763836490606,
+  "file": "art/models/OfficeRound/tex/OfficeRound_Lobby.png",
+  "state": "Approved"
+ },
+ "12b10702134005b4def5eb7b15bc614ebbba72e1e7485dfeffaa3f9b84847f76": {
+  "id": 85422384635818,
+  "file": "art/models/OfficeStone/tex/OfficeStone_Base.png",
+  "state": "Approved"
+ },
+ "e4b6181abd582310fc04f95cf9d3cdd8db2e8c174710492ba88f16fc72884340": {
+  "id": 86359339842473,
+  "file": "art/models/OfficeStone/tex/OfficeStone_Facade.png",
+  "state": "Approved"
+ },
+ "a256d004978d1bb607b5c0549e85258f457a4dba71c891e80785f5d42e701bce": {
+  "id": 116896371863540,
+  "file": "art/models/OfficeStone/tex/OfficeStone_Lobby.png",
+  "state": "Approved"
  }
 }
