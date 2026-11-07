@@ -5,8 +5,9 @@
 -- Keys are PascalCase of the Roblox marketplace name so the shape in code
 -- matches what's in Studio.
 --
--- Not placed in the map yet: add them to the city (or CityBuildings) where
--- they should stand. CityPropLayout.luau has the sidewalk anchor points.
+-- The lamps are placed on the street light spots by Server/CityPropPlacer (which lamp goes on
+-- which street is set there). The signals are not placed yet: the old signal masts are still
+-- part of the StreetCorners mesh and need a Blender re-bake first.
 return {
 	-- Street lamps (24)
 	FancyStreetLight1 = 97754943913314,

@@ -1,0 +1,202 @@
+-- Puts the City Prop street lamps (Shared/CityPropIds) into the world on every street light spot
+-- of the city (Server/CityPropLayout, from tools/city_props.py), in workspace.City.StreetLamps.
+-- Each model is turned so its arm reaches over the road and its pole stands on the plinth left
+-- in the street mesh. Its glowing part gets the attribute PropLight (CityBuildings adds the light).
+--
+-- Edit mode (so the lamps are in the place itself, not only in Play): paste in the Studio
+-- command bar, then save / publish the place:
+--   require(game.ServerScriptService.Server.CityPropPlacer).place(true)
+-- This also deletes the old baked lamp parts from the street meshes. Run it again after changing
+-- STREET_LAMP or LAMP_TURN: it rebuilds the folder. LiveSync leaves the folder alone (it only
+-- removes what it made itself). If the folder is missing at run time, CityBuildings places the
+-- lamps then.
+local InsertService = game:GetService("InsertService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local CityPropIds = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("CityPropIds")) :: any
+local PropLayout = require(script.Parent:WaitForChild("CityPropLayout")) :: any
+
+local M = {}
+
+-- Which lamp model stands on each street. Change freely: any lamp key of Shared/CityPropIds.
+M.STREET_LAMP = {
+	StreetVaultAvenue = "StreetLightLongArm1",
+	StreetBackStreet = "StreetLightLongArm2",
+	StreetNorthStreet = "StreetLight1",
+	StreetSouthStreet = "StreetLight2",
+	StreetWestStreet = "StreetLight3",
+	StreetEastStreet = "StreetLight1",
+}
+-- Extra turn in degrees for a lamp model that ends up facing the wrong way,
+-- e.g. { StreetLight2 = 180 }.
+M.LAMP_TURN = {} :: { [string]: number }
+-- Extra size for a lamp model that comes out too big or small, e.g. { StreetLight3 = 1.3 }.
+M.LAMP_SCALE = {} :: { [string]: number }
+
+local PLINTH_TOP = 0.22 -- plinth top above the sidewalk point
+local LIGHT_NAMES = { "bulb", "lens", "light", "glow", "emit", "glass" }
+-- parts of the old baked street lamps in the Street* meshes
+local OLD_LAMP_PARTS = { PoleLamp = true, MetalLampHead = true, MetalLampCap = true }
+
+-- world AABB of a part
+local function extents(p: BasePart): (Vector3, Vector3)
+	local cf, s = p.CFrame, p.Size / 2
+	local e = Vector3.new(
+		math.abs(cf.RightVector.X) * s.X + math.abs(cf.UpVector.X) * s.Y + math.abs(cf.LookVector.X) * s.Z,
+		math.abs(cf.RightVector.Y) * s.X + math.abs(cf.UpVector.Y) * s.Y + math.abs(cf.LookVector.Y) * s.Z,
+		math.abs(cf.RightVector.Z) * s.X + math.abs(cf.UpVector.Z) * s.Y + math.abs(cf.LookVector.Z) * s.Z
+	)
+	return cf.Position - e, cf.Position + e
+end
+
+-- how much a part looks like the lamp's glowing bit: Neon first, then by name; 0 = not at all
+local function lightScore(p: BasePart): number
+	if p.Material == Enum.Material.Neon then
+		return 100
+	end
+	local n = p.Name:lower()
+	for i, k in LIGHT_NAMES do
+		if n:find(k, 1, true) then
+			return 50 - i
+		end
+	end
+	return 0
+end
+
+-- Loads one lamp model at the origin and works out where its pole stands and which way its arm
+-- reaches. Returns the model, the pole foot (model space) and the arm direction.
+local function prototype(key: string): (Model?, Vector3?, Vector3?)
+	local id = CityPropIds[key]
+	if not id then
+		warn(`[CityProps] no id for {key} in Shared/CityPropIds`)
+		return nil
+	end
+	local ok, res = pcall(InsertService.LoadAsset, InsertService, id)
+	if not ok then
+		warn(`[CityProps] {key} ({id}) failed to load: {res}`)
+		return nil
+	end
+	local inner = res:FindFirstChildWhichIsA("Model")
+	local m: Model = if inner and #res:GetChildren() == 1 then inner else res
+	m.Name = key
+	m.Parent = nil
+	if m ~= res then
+		res:Destroy()
+	end
+	for _, d in m:GetDescendants() do
+		if d:IsA("Script") or d:IsA("LocalScript") or d:IsA("ModuleScript") then
+			d:Destroy()
+		elseif d:IsA("BasePart") then
+			d.Anchored = true
+			d.CanTouch = false
+		end
+	end
+	local scale = M.LAMP_SCALE[key]
+	if scale and scale > 0 then
+		m:ScaleTo(m:GetScale() * scale)
+	end
+	m:PivotTo(CFrame.new())
+	local box, size = m:GetBoundingBox()
+	-- pole: the tallest, slimmest part
+	local pole, best = nil, 0
+	local glow, glowScore, top, topY = nil, 0, nil, -math.huge
+	for _, d in m:GetDescendants() do
+		if d:IsA("BasePart") then
+			local lo, hi = extents(d)
+			local h, w = hi.Y - lo.Y, math.max(hi.X - lo.X, hi.Z - lo.Z, 0.05)
+			if h > size.Y * 0.4 and h / w > best then
+				pole, best = (lo + hi) / 2, h / w
+			end
+			local sc = lightScore(d)
+			if sc > glowScore then
+				glow, glowScore = d, sc
+			end
+			if hi.Y > topY then
+				top, topY = d, hi.Y
+			end
+		end
+	end
+	-- one light per lamp: its glowing part, or the part highest up if nothing looks like one
+	local lit = glow or top
+	if lit then
+		lit:SetAttribute("PropLight", true)
+	end
+	local foot = Vector3.new((pole or box.Position).X, box.Y - size.Y / 2, (pole or box.Position).Z)
+	local reach = Vector3.new(box.X - foot.X, 0, box.Z - foot.Z)
+	local dir = if reach.Magnitude > 0.5 then reach.Unit else Vector3.new(0, 0, -1)
+	return m, foot, dir
+end
+
+-- Deletes the old baked lamp parts from the Street* meshes under City.Buildings.
+function M.removeOldLamps(city: Instance): number
+	local n = 0
+	local buildings = city:FindFirstChild("Buildings")
+	for _, model in (if buildings then buildings:GetChildren() else {}) do
+		if model:IsA("Model") and model.Name:match("^Street") then
+			for _, d in model:GetDescendants() do
+				if d:IsA("BasePart") and (OLD_LAMP_PARTS[d.Name] or d.Name:match("^StreetLamp%d")) then
+					d:Destroy()
+					n += 1
+				end
+			end
+		end
+	end
+	return n
+end
+
+-- Places every lamp in a fresh City.StreetLamps folder and returns it. With editMode, also
+-- removes the old baked lamps (in Play, CityBuildings already does that).
+function M.place(editMode: boolean?): Folder?
+	local city = workspace:FindFirstChild("City")
+	if not city then
+		warn("[CityProps] workspace.City not found")
+		return nil
+	end
+	local old = city:FindFirstChild("StreetLamps")
+	if old then
+		old:Destroy()
+	end
+	if editMode then
+		print(`[CityProps] removed {M.removeOldLamps(city)} old lamp parts`)
+	end
+	local folder = Instance.new("Folder")
+	folder.Name = "StreetLamps"
+	local protos = {}
+	local placed = 0
+	for street, spots in PropLayout do
+		local key = M.STREET_LAMP[street]
+		if not key then
+			continue
+		end
+		if protos[key] == nil then
+			local m, foot, dir = prototype(key)
+			protos[key] = if m then { model = m, foot = foot, dir = dir } else false
+		end
+		local proto = protos[key]
+		if not proto then
+			continue
+		end
+		local base = CFrame.lookAt(Vector3.zero, proto.dir)
+		local turn = CFrame.Angles(0, math.rad(M.LAMP_TURN[key] or 0), 0)
+		for i, s in spots do
+			local road = Vector3.new(s[4], 0, s[5])
+			local rot = CFrame.lookAt(Vector3.zero, road) * base:Inverse()
+			local lamp = proto.model:Clone()
+			lamp.Name = `{street}Lamp{i}`
+			lamp:PivotTo(CFrame.new(s[1], s[2] + PLINTH_TOP, s[3]) * turn * rot * CFrame.new(-proto.foot))
+			lamp.ModelStreamingMode = Enum.ModelStreamingMode.Persistent
+			lamp.Parent = folder
+			placed += 1
+		end
+	end
+	for _, p in protos do
+		if p then
+			p.model:Destroy()
+		end
+	end
+	folder.Parent = city
+	print(`[CityProps] {placed} street lamps placed`)
+	return folder
+end
+
+return M
