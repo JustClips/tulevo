@@ -96,6 +96,8 @@ local DECO = {
 	Tag = true,
 }
 local lamps = {} -- { light = SurfaceLight, day = number, night = number }
+local lampGlass: { BasePart } = {} -- City Prop lamp glass: lit (Neon) at night
+local GLASS_COLOR = Color3.fromRGB(235, 232, 220) -- City Prop lamp glass by day
 
 local function hasParts(model: Model): boolean
 	return model:FindFirstChildWhichIsA("BasePart", true) ~= nil
@@ -122,14 +124,51 @@ local function partsCenter(model: Model): Vector3
 	return if lo.X < math.huge then (lo + hi) / 2 else model:GetPivot().Position
 end
 
+local propAssets: { [number]: Instance } = {} -- City Prop asset id -> loaded copy to clone
+
 local function load(model: Model)
 	local id = tonumber(model:GetAttribute("LiveSyncAsset"))
 	if not id then
 		return
 	end
-	local ok, container = pcall(InsertService.LoadAsset, InsertService, id)
+	-- placed props (City Prop lamps / signals, tools/city_props.py), the same as the LiveSync
+	-- plugin v10: scale the asset about its origin, then move it by LiveSyncCFrame. Each prop
+	-- asset is loaded once and cloned.
+	local scale = model:GetAttribute("LiveSyncScale")
+	local placed = model:GetAttribute("LiveSyncCFrame")
+	local isProp = typeof(placed) == "CFrame"
+	local ok, container
+	if isProp and propAssets[id] then
+		ok, container = true, propAssets[id]:Clone()
+	else
+		ok, container = pcall(InsertService.LoadAsset, InsertService, id)
+		if ok and isProp then
+			propAssets[id] = container:Clone()
+		end
+	end
 	if not ok then
 		warn(`[City] could not load {model.Name} ({id}): {container}`)
+		return
+	end
+	if isProp or type(scale) == "number" then
+		for _, d in container:GetDescendants() do
+			if d:IsA("Script") or d:IsA("LocalScript") or d:IsA("ModuleScript") then
+				d:Destroy()
+			elseif d:IsA("BasePart") then
+				d.Anchored = true
+			end
+		end
+		container.WorldPivot = CFrame.identity
+		if type(scale) == "number" and scale > 0 and scale ~= 1 then
+			container:ScaleTo(scale)
+		end
+		if typeof(placed) == "CFrame" then
+			container:PivotTo(placed)
+		end
+		for _, child in container:GetChildren() do
+			child.Parent = model
+		end
+		container:Destroy()
 		return
 	end
 	-- Drop the GLB's embedded SurfaceAppearances before they reach the place: every part gets
@@ -472,32 +511,132 @@ RunService.Heartbeat:Connect(function()
 	for _, l in lamps do
 		l.light.Brightness = l.day + (l.night - l.day) * n
 	end
+	local lit = n >= 0.5
+	for _, g in lampGlass do
+		g.Material = if lit then Enum.Material.Neon else Enum.Material.SmoothPlastic
+		g.Color = if lit then LAMP_COLOR else GLASS_COLOR
+	end
 end)
 
--- City Prop street lamps and traffic signals (2026-11-07): Roblox models (Shared/CityPropIds) on
--- every street light and signal spot, placed by Server/CityPropPlacer (which lamp goes on which street is set there). If they
--- were already put in the place from the Studio command bar they are used as they are; otherwise
--- they are placed now. Each lamp's glowing part gets the same night light as the old baked lamps.
-local CityPropPlacer = require(script.Parent:WaitForChild("CityPropPlacer")) :: any
+-- City Props (2026-11-07): Roblox models (Shared/CityPropIds) on every street light and traffic
+-- signal spot. They are in the map itself (City/StreetLamps, City/TrafficSignals from
+-- tools/city_props.py), so the LiveSync plugin (v10+) shows them in edit mode; any still empty
+-- here is loaded now. Then, from Shared/CityPropInfo (tools/city_prop_scan.py): the lamp glass
+-- glows at night with the same light as the old baked lamps, each signal lens gets a disc named
+-- Signal<EW|NS><Red|Amber|Green> that Client/TrafficSignals lights, and the models themselves
+-- don't collide: an invisible box round each pole does (cars, players, bullets).
+local PropInfo = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("CityPropInfo")) :: any
+local LENS_OFF = Color3.fromRGB(30, 30, 30) -- signal discs before Client/TrafficSignals lights them
 
-task.spawn(function()
-	local signals = city:FindFirstChild("TrafficSignals")
-	if not signals or #signals:GetChildren() == 0 then
-		CityPropPlacer.placeSignals()
-	end
-	local folder = city:FindFirstChild("StreetLamps")
-	if not folder or #folder:GetChildren() == 0 then
-		folder = CityPropPlacer.placeLamps()
-	end
-	if not folder then
-		return
-	end
-	for _, d in folder:GetDescendants() do
-		if d:IsA("BasePart") and d:GetAttribute("PropLight") then
-			local light = downLight(d, 34, 0, 2.2)
-			light.Shadows = false
-			light.Angle = 150
-			light.Brightness = 2.2 * math.max(last, 0)
+local function v3(t: { number }): Vector3
+	return Vector3.new(t[1], t[2], t[3])
+end
+
+-- a part by name (the pack names its model and its main part the same, so FindFirstChild won't do)
+local function findPart(root: Instance, name: string): BasePart?
+	for _, d in root:GetDescendants() do
+		if d:IsA("BasePart") and d.Name == name then
+			return d
 		end
 	end
+	return nil
+end
+
+local function finishProp(m: Model)
+	local key = m:GetAttribute("CityProp")
+	local info = type(key) == "string" and PropInfo[key]
+	if not info then
+		warn(`[CityProps] {m.Name}: no CityPropInfo for {key}`)
+		return
+	end
+	if not hasParts(m) then
+		load(m)
+	end
+	local ref = findPart(m, info.ref)
+	if not ref then
+		warn(`[CityProps] {m.Name}: reference part {info.ref} missing`)
+		return
+	end
+	local s = tonumber(m:GetAttribute("LiveSyncScale")) or 1
+	for _, d in m:GetDescendants() do
+		if d:IsA("Script") or d:IsA("LocalScript") then
+			d:Destroy()
+		elseif d:IsA("BasePart") then
+			d.Anchored = true
+			d.CanCollide = false
+			d.CanQuery = false
+			d.CanTouch = false
+		end
+	end
+	-- lamp glass: plain by day, Neon + a wide down light at night
+	local phase = m:GetAttribute("SignalPhase")
+	local glass = if phase then nil else findPart(m, info.glow)
+	if glass and glass ~= ref then
+		for _, c in glass:GetChildren() do
+			if c:IsA("SurfaceAppearance") then
+				c:Destroy()
+			end
+		end
+		if glass:IsA("MeshPart") then
+			glass.TextureID = ""
+		end
+		glass.CastShadow = false
+		local lit = last >= 0.5
+		glass.Material = if lit then Enum.Material.Neon else Enum.Material.SmoothPlastic
+		glass.Color = if lit then LAMP_COLOR else GLASS_COLOR
+		table.insert(lampGlass, glass)
+		local light = downLight(glass, 34, 0, 2.2)
+		light.Shadows = false
+		light.Angle = 150
+		light.Brightness = 2.2 * math.max(last, 0)
+	end
+	-- the pole up to the lamp head / signal arm
+	local foot = ref.CFrame:PointToWorldSpace(v3(info.foot) * s)
+	local poleH = math.min(info.glowAt[2] - info.foot[2], info.height * 0.85) * s
+	local box = Instance.new("Part")
+	box.Name = "PoleCollider"
+	box.Anchored = true
+	box.CanTouch = false
+	box.CastShadow = false
+	box.Transparency = 1
+	box.Material = Enum.Material.Metal
+	box.Size = Vector3.new(info.pole * s, poleH, info.pole * s)
+	box.CFrame = ref.CFrame.Rotation + foot + Vector3.new(0, poleH / 2, 0)
+	box.Parent = m
+	-- signal lens discs over the painted lenses
+	if type(phase) == "string" then
+		for _, l in info.lenses or {} do
+			local pos = ref.CFrame:PointToWorldSpace(Vector3.new(l[2], l[3], l[4]) * s)
+			local n = ref.CFrame:VectorToWorldSpace(Vector3.new(l[5], l[6], l[7]))
+			local disc = Instance.new("Part")
+			disc.Name = `Signal{phase}{l[1]}`
+			disc.Shape = Enum.PartType.Cylinder
+			disc.Size = Vector3.new(0.06, l[8] * 2 * s, l[8] * 2 * s)
+			disc.CFrame = CFrame.lookAt(pos + n * 0.03, pos + n) * CFrame.Angles(0, math.rad(90), 0)
+			disc.Anchored = true
+			disc.CanCollide = false
+			disc.CanQuery = false
+			disc.CanTouch = false
+			disc.CastShadow = false
+			disc.Material = Enum.Material.SmoothPlastic
+			disc.Color = LENS_OFF
+			disc.Parent = m
+		end
+	end
+	m.ModelStreamingMode = Enum.ModelStreamingMode.Persistent
+end
+
+task.spawn(function()
+	for _, folderName in { "StreetLamps", "TrafficSignals" } do
+		local folder = city:FindFirstChild(folderName)
+		local n = 0
+		for _, m in (if folder then folder:GetChildren() else {}) do
+			if m:IsA("Model") and m:GetAttribute("CityProp") then
+				finishProp(m)
+				n += 1
+			end
+		end
+		print(`[CityProps] {n} {folderName} ready`)
+	end
 end)
+

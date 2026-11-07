@@ -1,5 +1,5 @@
 -- Traffic signals at the downtown intersections: City Prop signal models in City.TrafficSignals
--- (Server/CityPropPlacer), or the old baked ones in City.Buildings.StreetCorners. Each lens is a part named
+-- (lens discs added by Server/CityBuildings), or old baked ones in City.Buildings.StreetCorners. Each lens is a part named
 -- Signal<Phase><Colour>: Phase EW = traffic on the east-west streets, NS = north-south.
 -- Every client runs the same cycle from the server clock, so all players see the same lights.
 local RunService = game:GetService("RunService")
@@ -47,7 +47,7 @@ if not city then
 	return
 end
 -- Lenses live in the baked StreetCorners mesh (old signals) and/or the City Prop signal models
--- in City.TrafficSignals (Server/CityPropPlacer). Both may still be loading: rescan when lens
+-- in City.TrafficSignals (Server/CityBuildings). Both may still be loading: rescan when lens
 -- parts arrive.
 local roots: { Instance } = {}
 local function rescan()

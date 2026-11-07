@@ -5,9 +5,8 @@
 -- Keys are PascalCase of the Roblox marketplace name so the shape in code
 -- matches what's in Studio.
 --
--- The lamps are placed on the street light spots by Server/CityPropPlacer (which lamp goes on
--- which street is set there). The signals are not placed yet: the old signal masts are still
--- part of the StreetCorners mesh and need a Blender re-bake first.
+-- The lamps and signals stand in the map (City/StreetLamps, City/TrafficSignals) on the old lamp
+-- and signal spots: tools/city_props.py, which model goes where is set in art/city_props.json.
 return {
 	-- Street lamps (24)
 	FancyStreetLight1 = 97754943913314,

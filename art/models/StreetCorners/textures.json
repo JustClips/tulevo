@@ -1,13 +1,5 @@
 {
  "DecoPrint": "art/models/StreetCorners/tex/DecoPrint_Color.png",
- "MetalSignal": "art/models/StreetCorners/tex/SignalBody_Color.png",
- "MetalSignalHead": "art/models/StreetCorners/tex/SignalYellow_Color.png",
  "Plinth": "art/models/StreetCorners/tex/Plinth_Color.png",
- "PoleGalv": "art/models/StreetCorners/tex/PoleGalv_Color.png",
- "SignalEWAmber": "art/models/StreetCorners/tex/LensAmber_Color.png",
- "SignalEWGreen": "art/models/StreetCorners/tex/LensGreen_Color.png",
- "SignalEWRed": "art/models/StreetCorners/tex/LensRed_Color.png",
- "SignalNSAmber": "art/models/StreetCorners/tex/LensAmber_Color.png",
- "SignalNSGreen": "art/models/StreetCorners/tex/LensGreen_Color.png",
- "SignalNSRed": "art/models/StreetCorners/tex/LensRed_Color.png"
+ "PoleGalv": "art/models/StreetCorners/tex/PoleGalv_Color.png"
 }

@@ -6,7 +6,7 @@ buildings and street props", 2026-11-07). Original designs, real CC0 surface sca
 
 Reads street_layout.json (next to this script) and writes OUT_DIR/<Model>/ (glb, meta.json,
 textures/, renders/) for every model in it: Street<Road> per city street and StreetCorners
-(traffic signals, stop signs, street name blades). Models are built in world coordinates, so
+(signal plinths, stop signs, street name blades). Models are built in world coordinates, so
 tools/build_city_map.py places each at the origin.
 
 Props:
@@ -21,8 +21,8 @@ Props:
   Mailbox    blue city mail box
   Cabinet    signal control cabinet on a plinth
   Speed      speed limit sign; BusFlag bus stop sign; BusStop glass shelter with bench and ad
-  Signal     plinth for a Roblox "City Prop" signal model (Server/CityPropPlacer) + street name
-             blades on a short post (old mast-arm signal with lenses: signal_old)
+  Signal     concrete plinth for a traffic signal: the signal is a Roblox "City Prop" model placed
+             on it at run time (Server/CityBuildings); signal_old is the old baked mast arm
   StopSign   stop sign on a post, with street blades on some
 
 Blender (x, y, z) = Roblox (-x, z, y). Local prop frame: -Y = the prop's front (toward the road
@@ -542,24 +542,14 @@ class Street:
 
     # ------------------------------------------------------------ intersection props (world space)
     def signal(self, p):
-        """Signal spot: only the plinth is baked now, plus the street name blades on a short post
-        beside it. The signal itself is a Roblox "City Prop" model placed on the plinth
-        (Server/CityPropPlacer, 2026-11-07). The old mast-arm signal is kept as signal_old."""
-        dx, dz = p["dx"], p["dz"]
-        right = Vector((dz, dx, 0))          # Roblox right (-dz, dx) -> Blender (dz, dx)
+        """Signal corner: only the concrete plinth is baked now. The signal itself is a Roblox
+        "City Prop - Signal" model (mast arm, heads, street light) stood on it at run time
+        (Server/CityBuildings, 2026-11-07). The street name blades went with the old mast: the new
+        pole has no place for them. The old baked signal is kept below as signal_old."""
         self.T = Matrix.Translation((-p["x"], p["z"], p["y"]))
         self.rz = 0.0
         self.box("Plinth", (0, 0, 0.0), (0.7 * M, 0.7 * M, 0.12 * M))
         self.col((0, 0, 0.0), (0.7 * M, 0.7 * M, 0.12 * M), "Concrete")
-        names = p.get("blades") or []
-        if names:
-            # short galvanized post 1.1 m behind the plinth (away from the road the arm reaches over)
-            b = right * 1.1 * M
-            H = 3.0 * M
-            self.cyl("PoleGalv", (b.x, b.y, H / 2), 0.05 * M, H, segs=8, mat="PoleGalv")
-            self.col((b.x, b.y, H / 2), (0.12 * M, 0.12 * M, H))
-            self.blade(names[0], self.w((b.x, b.y, H + 0.15 * M)), axis=Vector((1, 0, 0)))     # E-W street runs along x
-            self.blade(names[1], self.w((b.x, b.y, H + 0.45 * M)), axis=Vector((0, 1, 0)))     # N-S street runs along y
 
     def signal_old(self, p):
         """Mast-arm signal on a corner, heads facing traffic travelling (dx, dz) (Roblox)."""

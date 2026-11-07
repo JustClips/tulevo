@@ -1,0 +1,27 @@
+{
+ "_about": "City Prop street lamps and traffic signals placed into src/workspace/City.model.json by tools/city_props.py (via tools/build_city_map.py). street_lamp: lamp model per street. signal_model: signal model per phase. models.<key>.ref = position of the model's reference part (CityPropInfo ref) where it sits in the uploaded asset (read with InsertService:LoadAsset; every ref part is unrotated). foot / reach / face come from Shared/CityPropInfo (tools/city_prop_scan.py), in the ref part's frame at the model's own size.",
+ "scale": 2.4,
+ "plinth_top": 0.22,
+ "street_lamp": {
+  "StreetVaultAvenue": "FancyStreetLight1",
+  "StreetBackStreet": "FancyStreetLight2",
+  "StreetNorthStreet": "StreetLightLongArm1",
+  "StreetSouthStreet": "StreetLightLongArm2",
+  "StreetWestStreet": "StreetLight1",
+  "StreetEastStreet": "StreetLight2"
+ },
+ "signal_model": {
+  "EW": "IntersectionTrafficLight3LongDouble",
+  "NS": "IntersectionTrafficLight2Long"
+ },
+ "models": {
+  "FancyStreetLight1": {"ref": [0.003662, 4.419678, 0.0], "foot": [0.012, -4.491, -0.028], "reach": [0, 0, -1]},
+  "FancyStreetLight2": {"ref": [-0.010986, 4.736821, -0.454606], "foot": [0.021, -4.737, 0.439], "reach": [-0.02, 0, -1]},
+  "StreetLightLongArm1": {"ref": [0.0, 4.436234, -2.478518], "foot": [-0.007, -4.707, 2.431], "reach": [0.002, 0, -1]},
+  "StreetLightLongArm2": {"ref": [0.0, 4.436234, -2.478518], "foot": [0.003, -5.444, 2.203], "reach": [0, 0, -1]},
+  "StreetLight1": {"ref": [0.0, 4.617549, -0.61605], "foot": [0.017, -4.689, 0.653], "reach": [-0.009, 0, -1]},
+  "StreetLight2": {"ref": [0.0, 4.666703, -1.104983], "foot": [0.002, -4.664, 1.1], "reach": [-0.005, 0, -1]},
+  "IntersectionTrafficLight3LongDouble": {"ref": [4.895866, 4.632619, -0.199949], "foot": [-4.888, -4.687, 0.195], "reach": [1, 0, 0], "face": [0, 0, -1]},
+  "IntersectionTrafficLight2Long": {"ref": [4.671127, 4.632619, -0.19995], "foot": [-4.663, -4.687, 0.195], "reach": [1, 0, 0], "face": [0, 0, -1]}
+ }
+}

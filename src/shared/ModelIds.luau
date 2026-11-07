@@ -72,7 +72,7 @@ return {
 	Store = 106551522836920,
 	Store_S = 77640230130569,
 	StreetBackStreet = 133790876707123,
-	StreetCorners = 88898703377960,
+	StreetCorners = 95062576938884,
 	StreetEastStreet = 87425318825533,
 	StreetNorthStreet = 96882086023841,
 	StreetSouthStreet = 88225876732553,

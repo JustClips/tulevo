@@ -470,6 +470,17 @@ for name, model, at, *rest in BUILDINGS:
         **textures_attr(model, variants[0] if variants else None), **extra}})
 children.append({"name": "Buildings", "className": "Folder", "children": buildings})
 
+# City Prop street lamps and traffic signals (tools/city_props.py): Roblox models on the old lamp
+# and signal spots; the street meshes' old baked lamps are dropped when they load
+import importlib.util as _ilu
+_spec = _ilu.spec_from_file_location("city_props", os.path.join(ROOT, "tools", "city_props.py"))
+_city_props = _ilu.module_from_spec(_spec)
+_spec.loader.exec_module(_city_props)
+for _b in buildings:
+    if _b["name"].startswith("Street"):
+        _b["attributes"]["LiveSyncDrop"] = _city_props.OLD_LAMP_DROP
+children += _city_props.world_folders()
+
 # Fort Halden collision: the army base meshes never collide in game (MeshNoCollide; merged meshes
 # made invisible walls), so these invisible boxes from build_army.py (meta "colliders") do instead
 _army = json.load(open(os.path.join(ROOT, "art", "models", "ArmyBase_E", "meta.json")))

@@ -141606,7 +141606,8 @@
        ]
       },
       "CityModel": "StreetVaultAvenue",
-      "LiveSyncTextures": "{\"Bench\":139177732485514,\"Bin\":115233517563061,\"BinLiner\":93272992342514,\"ClearGlassBus\":74403610321866,\"ClearGlassBusRoof\":74403610321866,\"DecoPrint\":92326837133607,\"Grate\":104715238802230,\"Iron\":93272992342514,\"Mailbox\":127570477872958,\"MetalAdFrame\":71050774128426,\"MetalCab\":115947468429408,\"MetalLampHead\":108872888474112,\"MetalMeter\":71050774128426,\"MetalNewsA\":122220823304199,\"MetalNewsB\":115525044594635,\"MetalNewsR\":99415377043787,\"MetalRed\":71299503801406,\"MetalYellow\":77087858351110,\"Palm\":91037678569468,\"Plinth\":93428432497505,\"Pole\":108872888474112,\"PoleGalv\":114140485306376,\"PoleLamp\":108872888474112,\"StreetLamp1\":137400735635764,\"StreetLamp10\":137400735635764,\"StreetLamp11\":137400735635764,\"StreetLamp12\":137400735635764,\"StreetLamp13\":137400735635764,\"StreetLamp14\":137400735635764,\"StreetLamp15\":137400735635764,\"StreetLamp16\":137400735635764,\"StreetLamp17\":137400735635764,\"StreetLamp18\":137400735635764,\"StreetLamp19\":137400735635764,\"StreetLamp2\":137400735635764,\"StreetLamp3\":137400735635764,\"StreetLamp4\":137400735635764,\"StreetLamp5\":137400735635764,\"StreetLamp6\":137400735635764,\"StreetLamp7\":137400735635764,\"StreetLamp8\":137400735635764,\"StreetLamp9\":137400735635764,\"Trunk\":125404463799650}"
+      "LiveSyncTextures": "{\"Bench\":139177732485514,\"Bin\":115233517563061,\"BinLiner\":93272992342514,\"ClearGlassBus\":74403610321866,\"ClearGlassBusRoof\":74403610321866,\"DecoPrint\":92326837133607,\"Grate\":104715238802230,\"Iron\":93272992342514,\"Mailbox\":127570477872958,\"MetalAdFrame\":71050774128426,\"MetalCab\":115947468429408,\"MetalLampHead\":108872888474112,\"MetalMeter\":71050774128426,\"MetalNewsA\":122220823304199,\"MetalNewsB\":115525044594635,\"MetalNewsR\":99415377043787,\"MetalRed\":71299503801406,\"MetalYellow\":77087858351110,\"Palm\":91037678569468,\"Plinth\":93428432497505,\"Pole\":108872888474112,\"PoleGalv\":114140485306376,\"PoleLamp\":108872888474112,\"StreetLamp1\":137400735635764,\"StreetLamp10\":137400735635764,\"StreetLamp11\":137400735635764,\"StreetLamp12\":137400735635764,\"StreetLamp13\":137400735635764,\"StreetLamp14\":137400735635764,\"StreetLamp15\":137400735635764,\"StreetLamp16\":137400735635764,\"StreetLamp17\":137400735635764,\"StreetLamp18\":137400735635764,\"StreetLamp19\":137400735635764,\"StreetLamp2\":137400735635764,\"StreetLamp3\":137400735635764,\"StreetLamp4\":137400735635764,\"StreetLamp5\":137400735635764,\"StreetLamp6\":137400735635764,\"StreetLamp7\":137400735635764,\"StreetLamp8\":137400735635764,\"StreetLamp9\":137400735635764,\"Trunk\":125404463799650}",
+      "LiveSyncDrop": "^PoleLamp$,^MetalLampHead$,^MetalLampCap$,^StreetLamp%d"
      }
     },
     {
@@ -141625,7 +141626,8 @@
        ]
       },
       "CityModel": "StreetBackStreet",
-      "LiveSyncTextures": "{\"Bark\":76755781017336,\"Bench\":139177732485514,\"Bin\":115233517563061,\"BinLiner\":93272992342514,\"ClearGlassBus\":74403610321866,\"ClearGlassBusRoof\":74403610321866,\"DecoPrint\":92326837133607,\"Grate\":104715238802230,\"Iron\":93272992342514,\"Leaf\":114674898966960,\"LeafB\":114674898966960,\"LeafCard\":138772268247559,\"LeafCardB\":138772268247559,\"Mailbox\":127570477872958,\"MetalAdFrame\":71050774128426,\"MetalCab\":115947468429408,\"MetalLampHead\":108872888474112,\"MetalMeter\":71050774128426,\"MetalNewsA\":122220823304199,\"MetalNewsB\":115525044594635,\"MetalNewsR\":99415377043787,\"MetalRed\":71299503801406,\"MetalYellow\":77087858351110,\"Plinth\":93428432497505,\"Pole\":108872888474112,\"PoleGalv\":114140485306376,\"PoleLamp\":108872888474112,\"StreetLamp1\":137400735635764,\"StreetLamp10\":137400735635764,\"StreetLamp11\":137400735635764,\"StreetLamp12\":137400735635764,\"StreetLamp13\":137400735635764,\"StreetLamp14\":137400735635764,\"StreetLamp15\":137400735635764,\"StreetLamp16\":137400735635764,\"StreetLamp17\":137400735635764,\"StreetLamp18\":137400735635764,\"StreetLamp19\":137400735635764,\"StreetLamp2\":137400735635764,\"StreetLamp20\":137400735635764,\"StreetLamp3\":137400735635764,\"StreetLamp4\":137400735635764,\"StreetLamp5\":137400735635764,\"StreetLamp6\":137400735635764,\"StreetLamp7\":137400735635764,\"StreetLamp8\":137400735635764,\"StreetLamp9\":137400735635764}"
+      "LiveSyncTextures": "{\"Bark\":76755781017336,\"Bench\":139177732485514,\"Bin\":115233517563061,\"BinLiner\":93272992342514,\"ClearGlassBus\":74403610321866,\"ClearGlassBusRoof\":74403610321866,\"DecoPrint\":92326837133607,\"Grate\":104715238802230,\"Iron\":93272992342514,\"Leaf\":114674898966960,\"LeafB\":114674898966960,\"LeafCard\":138772268247559,\"LeafCardB\":138772268247559,\"Mailbox\":127570477872958,\"MetalAdFrame\":71050774128426,\"MetalCab\":115947468429408,\"MetalLampHead\":108872888474112,\"MetalMeter\":71050774128426,\"MetalNewsA\":122220823304199,\"MetalNewsB\":115525044594635,\"MetalNewsR\":99415377043787,\"MetalRed\":71299503801406,\"MetalYellow\":77087858351110,\"Plinth\":93428432497505,\"Pole\":108872888474112,\"PoleGalv\":114140485306376,\"PoleLamp\":108872888474112,\"StreetLamp1\":137400735635764,\"StreetLamp10\":137400735635764,\"StreetLamp11\":137400735635764,\"StreetLamp12\":137400735635764,\"StreetLamp13\":137400735635764,\"StreetLamp14\":137400735635764,\"StreetLamp15\":137400735635764,\"StreetLamp16\":137400735635764,\"StreetLamp17\":137400735635764,\"StreetLamp18\":137400735635764,\"StreetLamp19\":137400735635764,\"StreetLamp2\":137400735635764,\"StreetLamp20\":137400735635764,\"StreetLamp3\":137400735635764,\"StreetLamp4\":137400735635764,\"StreetLamp5\":137400735635764,\"StreetLamp6\":137400735635764,\"StreetLamp7\":137400735635764,\"StreetLamp8\":137400735635764,\"StreetLamp9\":137400735635764}",
+      "LiveSyncDrop": "^PoleLamp$,^MetalLampHead$,^MetalLampCap$,^StreetLamp%d"
      }
     },
     {
@@ -141644,7 +141646,8 @@
        ]
       },
       "CityModel": "StreetWestStreet",
-      "LiveSyncTextures": "{\"Bark\":76755781017336,\"Bench\":139177732485514,\"Bin\":115233517563061,\"BinLiner\":93272992342514,\"ClearGlassBus\":74403610321866,\"ClearGlassBusRoof\":74403610321866,\"DecoPrint\":92326837133607,\"Grate\":104715238802230,\"Iron\":93272992342514,\"Leaf\":114674898966960,\"LeafB\":114674898966960,\"LeafCard\":138772268247559,\"LeafCardB\":138772268247559,\"Mailbox\":127570477872958,\"MetalAdFrame\":71050774128426,\"MetalCab\":115947468429408,\"MetalLampCap\":93272992342514,\"MetalLampHead\":114140485306376,\"MetalNewsA\":122220823304199,\"MetalNewsB\":115525044594635,\"MetalNewsR\":99415377043787,\"MetalRed\":71299503801406,\"MetalYellow\":77087858351110,\"Plinth\":93428432497505,\"Pole\":108872888474112,\"PoleGalv\":114140485306376,\"PoleLamp\":114140485306376,\"StreetLamp1\":137400735635764,\"StreetLamp10\":137400735635764,\"StreetLamp11\":137400735635764,\"StreetLamp12\":137400735635764,\"StreetLamp13\":137400735635764,\"StreetLamp14\":137400735635764,\"StreetLamp15\":137400735635764,\"StreetLamp16\":137400735635764,\"StreetLamp17\":137400735635764,\"StreetLamp18\":137400735635764,\"StreetLamp19\":137400735635764,\"StreetLamp2\":137400735635764,\"StreetLamp20\":137400735635764,\"StreetLamp21\":137400735635764,\"StreetLamp22\":137400735635764,\"StreetLamp23\":137400735635764,\"StreetLamp3\":137400735635764,\"StreetLamp4\":137400735635764,\"StreetLamp5\":137400735635764,\"StreetLamp6\":137400735635764,\"StreetLamp7\":137400735635764,\"StreetLamp8\":137400735635764,\"StreetLamp9\":137400735635764}"
+      "LiveSyncTextures": "{\"Bark\":76755781017336,\"Bench\":139177732485514,\"Bin\":115233517563061,\"BinLiner\":93272992342514,\"ClearGlassBus\":74403610321866,\"ClearGlassBusRoof\":74403610321866,\"DecoPrint\":92326837133607,\"Grate\":104715238802230,\"Iron\":93272992342514,\"Leaf\":114674898966960,\"LeafB\":114674898966960,\"LeafCard\":138772268247559,\"LeafCardB\":138772268247559,\"Mailbox\":127570477872958,\"MetalAdFrame\":71050774128426,\"MetalCab\":115947468429408,\"MetalLampCap\":93272992342514,\"MetalLampHead\":114140485306376,\"MetalNewsA\":122220823304199,\"MetalNewsB\":115525044594635,\"MetalNewsR\":99415377043787,\"MetalRed\":71299503801406,\"MetalYellow\":77087858351110,\"Plinth\":93428432497505,\"Pole\":108872888474112,\"PoleGalv\":114140485306376,\"PoleLamp\":114140485306376,\"StreetLamp1\":137400735635764,\"StreetLamp10\":137400735635764,\"StreetLamp11\":137400735635764,\"StreetLamp12\":137400735635764,\"StreetLamp13\":137400735635764,\"StreetLamp14\":137400735635764,\"StreetLamp15\":137400735635764,\"StreetLamp16\":137400735635764,\"StreetLamp17\":137400735635764,\"StreetLamp18\":137400735635764,\"StreetLamp19\":137400735635764,\"StreetLamp2\":137400735635764,\"StreetLamp20\":137400735635764,\"StreetLamp21\":137400735635764,\"StreetLamp22\":137400735635764,\"StreetLamp23\":137400735635764,\"StreetLamp3\":137400735635764,\"StreetLamp4\":137400735635764,\"StreetLamp5\":137400735635764,\"StreetLamp6\":137400735635764,\"StreetLamp7\":137400735635764,\"StreetLamp8\":137400735635764,\"StreetLamp9\":137400735635764}",
+      "LiveSyncDrop": "^PoleLamp$,^MetalLampHead$,^MetalLampCap$,^StreetLamp%d"
      }
     },
     {
@@ -141663,7 +141666,8 @@
        ]
       },
       "CityModel": "StreetEastStreet",
-      "LiveSyncTextures": "{\"Bark\":76755781017336,\"Bench\":139177732485514,\"Bin\":115233517563061,\"BinLiner\":93272992342514,\"ClearGlassBus\":74403610321866,\"ClearGlassBusRoof\":74403610321866,\"DecoPrint\":92326837133607,\"Grate\":104715238802230,\"Iron\":93272992342514,\"Leaf\":114674898966960,\"LeafB\":114674898966960,\"LeafCard\":138772268247559,\"LeafCardB\":138772268247559,\"Mailbox\":127570477872958,\"MetalAdFrame\":71050774128426,\"MetalCab\":115947468429408,\"MetalLampCap\":93272992342514,\"MetalLampHead\":114140485306376,\"MetalNewsA\":122220823304199,\"MetalNewsB\":115525044594635,\"MetalNewsR\":99415377043787,\"MetalRed\":71299503801406,\"MetalYellow\":77087858351110,\"Plinth\":93428432497505,\"Pole\":108872888474112,\"PoleGalv\":114140485306376,\"PoleLamp\":114140485306376,\"StreetLamp1\":137400735635764,\"StreetLamp10\":137400735635764,\"StreetLamp11\":137400735635764,\"StreetLamp12\":137400735635764,\"StreetLamp13\":137400735635764,\"StreetLamp14\":137400735635764,\"StreetLamp15\":137400735635764,\"StreetLamp16\":137400735635764,\"StreetLamp17\":137400735635764,\"StreetLamp18\":137400735635764,\"StreetLamp19\":137400735635764,\"StreetLamp2\":137400735635764,\"StreetLamp20\":137400735635764,\"StreetLamp21\":137400735635764,\"StreetLamp22\":137400735635764,\"StreetLamp23\":137400735635764,\"StreetLamp24\":137400735635764,\"StreetLamp25\":137400735635764,\"StreetLamp3\":137400735635764,\"StreetLamp4\":137400735635764,\"StreetLamp5\":137400735635764,\"StreetLamp6\":137400735635764,\"StreetLamp7\":137400735635764,\"StreetLamp8\":137400735635764,\"StreetLamp9\":137400735635764}"
+      "LiveSyncTextures": "{\"Bark\":76755781017336,\"Bench\":139177732485514,\"Bin\":115233517563061,\"BinLiner\":93272992342514,\"ClearGlassBus\":74403610321866,\"ClearGlassBusRoof\":74403610321866,\"DecoPrint\":92326837133607,\"Grate\":104715238802230,\"Iron\":93272992342514,\"Leaf\":114674898966960,\"LeafB\":114674898966960,\"LeafCard\":138772268247559,\"LeafCardB\":138772268247559,\"Mailbox\":127570477872958,\"MetalAdFrame\":71050774128426,\"MetalCab\":115947468429408,\"MetalLampCap\":93272992342514,\"MetalLampHead\":114140485306376,\"MetalNewsA\":122220823304199,\"MetalNewsB\":115525044594635,\"MetalNewsR\":99415377043787,\"MetalRed\":71299503801406,\"MetalYellow\":77087858351110,\"Plinth\":93428432497505,\"Pole\":108872888474112,\"PoleGalv\":114140485306376,\"PoleLamp\":114140485306376,\"StreetLamp1\":137400735635764,\"StreetLamp10\":137400735635764,\"StreetLamp11\":137400735635764,\"StreetLamp12\":137400735635764,\"StreetLamp13\":137400735635764,\"StreetLamp14\":137400735635764,\"StreetLamp15\":137400735635764,\"StreetLamp16\":137400735635764,\"StreetLamp17\":137400735635764,\"StreetLamp18\":137400735635764,\"StreetLamp19\":137400735635764,\"StreetLamp2\":137400735635764,\"StreetLamp20\":137400735635764,\"StreetLamp21\":137400735635764,\"StreetLamp22\":137400735635764,\"StreetLamp23\":137400735635764,\"StreetLamp24\":137400735635764,\"StreetLamp25\":137400735635764,\"StreetLamp3\":137400735635764,\"StreetLamp4\":137400735635764,\"StreetLamp5\":137400735635764,\"StreetLamp6\":137400735635764,\"StreetLamp7\":137400735635764,\"StreetLamp8\":137400735635764,\"StreetLamp9\":137400735635764}",
+      "LiveSyncDrop": "^PoleLamp$,^MetalLampHead$,^MetalLampCap$,^StreetLamp%d"
      }
     },
     {
@@ -141682,7 +141686,8 @@
        ]
       },
       "CityModel": "StreetNorthStreet",
-      "LiveSyncTextures": "{\"Bin\":115233517563061,\"BinLiner\":93272992342514,\"DecoPrint\":92326837133607,\"MetalLampCap\":93272992342514,\"MetalLampHead\":114140485306376,\"MetalRed\":71299503801406,\"MetalYellow\":77087858351110,\"Plinth\":93428432497505,\"PoleGalv\":114140485306376,\"PoleLamp\":114140485306376,\"StreetLamp1\":137400735635764,\"StreetLamp10\":137400735635764,\"StreetLamp11\":137400735635764,\"StreetLamp12\":137400735635764,\"StreetLamp13\":137400735635764,\"StreetLamp14\":137400735635764,\"StreetLamp15\":137400735635764,\"StreetLamp16\":137400735635764,\"StreetLamp17\":137400735635764,\"StreetLamp18\":137400735635764,\"StreetLamp19\":137400735635764,\"StreetLamp2\":137400735635764,\"StreetLamp20\":137400735635764,\"StreetLamp21\":137400735635764,\"StreetLamp3\":137400735635764,\"StreetLamp4\":137400735635764,\"StreetLamp5\":137400735635764,\"StreetLamp6\":137400735635764,\"StreetLamp7\":137400735635764,\"StreetLamp8\":137400735635764,\"StreetLamp9\":137400735635764}"
+      "LiveSyncTextures": "{\"Bin\":115233517563061,\"BinLiner\":93272992342514,\"DecoPrint\":92326837133607,\"MetalLampCap\":93272992342514,\"MetalLampHead\":114140485306376,\"MetalRed\":71299503801406,\"MetalYellow\":77087858351110,\"Plinth\":93428432497505,\"PoleGalv\":114140485306376,\"PoleLamp\":114140485306376,\"StreetLamp1\":137400735635764,\"StreetLamp10\":137400735635764,\"StreetLamp11\":137400735635764,\"StreetLamp12\":137400735635764,\"StreetLamp13\":137400735635764,\"StreetLamp14\":137400735635764,\"StreetLamp15\":137400735635764,\"StreetLamp16\":137400735635764,\"StreetLamp17\":137400735635764,\"StreetLamp18\":137400735635764,\"StreetLamp19\":137400735635764,\"StreetLamp2\":137400735635764,\"StreetLamp20\":137400735635764,\"StreetLamp21\":137400735635764,\"StreetLamp3\":137400735635764,\"StreetLamp4\":137400735635764,\"StreetLamp5\":137400735635764,\"StreetLamp6\":137400735635764,\"StreetLamp7\":137400735635764,\"StreetLamp8\":137400735635764,\"StreetLamp9\":137400735635764}",
+      "LiveSyncDrop": "^PoleLamp$,^MetalLampHead$,^MetalLampCap$,^StreetLamp%d"
      }
     },
     {
@@ -141701,7 +141706,8 @@
        ]
       },
       "CityModel": "StreetSouthStreet",
-      "LiveSyncTextures": "{\"Bin\":115233517563061,\"BinLiner\":93272992342514,\"DecoPrint\":92326837133607,\"MetalLampCap\":93272992342514,\"MetalLampHead\":114140485306376,\"MetalRed\":71299503801406,\"MetalYellow\":77087858351110,\"Plinth\":93428432497505,\"PoleGalv\":114140485306376,\"PoleLamp\":114140485306376,\"StreetLamp1\":137400735635764,\"StreetLamp10\":137400735635764,\"StreetLamp11\":137400735635764,\"StreetLamp12\":137400735635764,\"StreetLamp13\":137400735635764,\"StreetLamp14\":137400735635764,\"StreetLamp15\":137400735635764,\"StreetLamp16\":137400735635764,\"StreetLamp17\":137400735635764,\"StreetLamp18\":137400735635764,\"StreetLamp19\":137400735635764,\"StreetLamp2\":137400735635764,\"StreetLamp20\":137400735635764,\"StreetLamp21\":137400735635764,\"StreetLamp3\":137400735635764,\"StreetLamp4\":137400735635764,\"StreetLamp5\":137400735635764,\"StreetLamp6\":137400735635764,\"StreetLamp7\":137400735635764,\"StreetLamp8\":137400735635764,\"StreetLamp9\":137400735635764}"
+      "LiveSyncTextures": "{\"Bin\":115233517563061,\"BinLiner\":93272992342514,\"DecoPrint\":92326837133607,\"MetalLampCap\":93272992342514,\"MetalLampHead\":114140485306376,\"MetalRed\":71299503801406,\"MetalYellow\":77087858351110,\"Plinth\":93428432497505,\"PoleGalv\":114140485306376,\"PoleLamp\":114140485306376,\"StreetLamp1\":137400735635764,\"StreetLamp10\":137400735635764,\"StreetLamp11\":137400735635764,\"StreetLamp12\":137400735635764,\"StreetLamp13\":137400735635764,\"StreetLamp14\":137400735635764,\"StreetLamp15\":137400735635764,\"StreetLamp16\":137400735635764,\"StreetLamp17\":137400735635764,\"StreetLamp18\":137400735635764,\"StreetLamp19\":137400735635764,\"StreetLamp2\":137400735635764,\"StreetLamp20\":137400735635764,\"StreetLamp21\":137400735635764,\"StreetLamp3\":137400735635764,\"StreetLamp4\":137400735635764,\"StreetLamp5\":137400735635764,\"StreetLamp6\":137400735635764,\"StreetLamp7\":137400735635764,\"StreetLamp8\":137400735635764,\"StreetLamp9\":137400735635764}",
+      "LiveSyncDrop": "^PoleLamp$,^MetalLampHead$,^MetalLampCap$,^StreetLamp%d"
      }
     },
     {
@@ -141711,16 +141717,17 @@
       "Building"
      ],
      "attributes": {
-      "LiveSyncAsset": 88898703377960,
+      "LiveSyncAsset": 95062576938884,
       "LiveSyncBoxCenter": {
        "Vector3": [
         0.0,
-        13.235,
+        7.025,
         0.0
        ]
       },
       "CityModel": "StreetCorners",
-      "LiveSyncTextures": "{\"DecoPrint\":92326837133607,\"MetalSignal\":71050774128426,\"MetalSignalHead\":74084674557679,\"Plinth\":93428432497505,\"PoleGalv\":114140485306376,\"SignalEWAmber\":130043507281865,\"SignalEWGreen\":135153447097222,\"SignalEWRed\":98163766974867,\"SignalNSAmber\":130043507281865,\"SignalNSGreen\":135153447097222,\"SignalNSRed\":98163766974867}"
+      "LiveSyncTextures": "{\"DecoPrint\":92326837133607,\"Plinth\":93428432497505,\"PoleGalv\":114140485306376}",
+      "LiveSyncDrop": "^PoleLamp$,^MetalLampHead$,^MetalLampCap$,^StreetLamp%d"
      }
     },
     {
@@ -141968,6 +141975,4094 @@
       },
       "CityModel": "Police",
       "LiveSyncTextures": "{\"Alu\":128316034549785,\"Asphalt\":80058513883003,\"Bark\":96135761826737,\"Brick\":130726565101166,\"Concrete\":99385213460112,\"Flag\":108353393515835,\"Frame\":92389957464520,\"GlassA\":126350745460944,\"GlassB\":117880897577311,\"GlassBigA\":70606555667336,\"GlassBigB\":104335055532507,\"GlassBigC\":107469433069857,\"GlassC\":105452149128540,\"GlassD\":114893786096070,\"GlassE\":134073405209372,\"GlassF\":100615785254268,\"Iron\":85706527554904,\"Lamp1\":137400735635764,\"Lamp2\":137400735635764,\"Lamp3\":137400735635764,\"Lamp4\":137400735635764,\"Leaf\":136577902287923,\"LeafB\":126864039351224,\"Lift1Arm\":84881770144623,\"Lift1Pivot\":136757448799040,\"Light\":137400735635764,\"NeonRed\":126078658838801,\"Paint\":84881770144623,\"Palm\":129354176669105,\"Pipe\":96357232429677,\"PoliceBadge\":136583318982046,\"PoliceDoor\":75162115796702,\"PoliceMonument\":76516751388356,\"PoliceSign\":138314890863346,\"RollDoor\":99460390560148,\"RoofFlat\":92995793110472,\"Rubber\":129830506943580,\"Sconce\":109588553072422,\"Sill\":93440981440175,\"Soil\":104861011580642,\"Steel\":136757448799040,\"Stone\":135284003276581,\"StoneWall\":87821280766420,\"Travert\":135094244257608,\"Trunk\":84064326386661,\"Walls\":87927198412408,\"Yellow\":95630395059097}"
+     }
+    }
+   ]
+  },
+  {
+   "name": "StreetLamps",
+   "className": "Folder",
+   "children": [
+    {
+     "name": "StreetVaultAvenueLamp1",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 97754943913314,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -627.9624,
+        0.9912,
+        -156.2672,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "FancyStreetLight1"
+     }
+    },
+    {
+     "name": "StreetVaultAvenueLamp2",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 97754943913314,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -540.3624,
+        0.9912,
+        -156.2672,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "FancyStreetLight1"
+     }
+    },
+    {
+     "name": "StreetVaultAvenueLamp3",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 97754943913314,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -446.7624,
+        0.9912,
+        -156.2672,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "FancyStreetLight1"
+     }
+    },
+    {
+     "name": "StreetVaultAvenueLamp4",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 97754943913314,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -353.1624,
+        0.9912,
+        -156.2672,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "FancyStreetLight1"
+     }
+    },
+    {
+     "name": "StreetVaultAvenueLamp5",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 97754943913314,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -259.5624,
+        0.9912,
+        -156.2672,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "FancyStreetLight1"
+     }
+    },
+    {
+     "name": "StreetVaultAvenueLamp6",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 97754943913314,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -171.9624,
+        0.9912,
+        -156.2672,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "FancyStreetLight1"
+     }
+    },
+    {
+     "name": "StreetVaultAvenueLamp7",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 97754943913314,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        172.0376,
+        0.9912,
+        -156.2672,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "FancyStreetLight1"
+     }
+    },
+    {
+     "name": "StreetVaultAvenueLamp8",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 97754943913314,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        259.6376,
+        0.9912,
+        -156.2672,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "FancyStreetLight1"
+     }
+    },
+    {
+     "name": "StreetVaultAvenueLamp9",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 97754943913314,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        353.2376,
+        0.9912,
+        -156.2672,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "FancyStreetLight1"
+     }
+    },
+    {
+     "name": "StreetVaultAvenueLamp10",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 97754943913314,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        540.4376,
+        0.9912,
+        -156.2672,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "FancyStreetLight1"
+     }
+    },
+    {
+     "name": "StreetVaultAvenueLamp11",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 97754943913314,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -587.2376,
+        0.9912,
+        -107.7328,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "FancyStreetLight1"
+     }
+    },
+    {
+     "name": "StreetVaultAvenueLamp12",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 97754943913314,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -493.6376,
+        0.9912,
+        -107.7328,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "FancyStreetLight1"
+     }
+    },
+    {
+     "name": "StreetVaultAvenueLamp13",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 97754943913314,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -306.4376,
+        0.9912,
+        -107.7328,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "FancyStreetLight1"
+     }
+    },
+    {
+     "name": "StreetVaultAvenueLamp14",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 97754943913314,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -0.0376,
+        0.9912,
+        -107.7328,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "FancyStreetLight1"
+     }
+    },
+    {
+     "name": "StreetVaultAvenueLamp15",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 97754943913314,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        212.7624,
+        0.9912,
+        -107.7328,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "FancyStreetLight1"
+     }
+    },
+    {
+     "name": "StreetVaultAvenueLamp16",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 97754943913314,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        306.3624,
+        0.9912,
+        -107.7328,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "FancyStreetLight1"
+     }
+    },
+    {
+     "name": "StreetVaultAvenueLamp17",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 97754943913314,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        399.9624,
+        0.9912,
+        -107.7328,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "FancyStreetLight1"
+     }
+    },
+    {
+     "name": "StreetVaultAvenueLamp18",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 97754943913314,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        499.5624,
+        0.9912,
+        -107.7328,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "FancyStreetLight1"
+     }
+    },
+    {
+     "name": "StreetVaultAvenueLamp19",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 97754943913314,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        587.1624,
+        0.9912,
+        -107.7328,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "FancyStreetLight1"
+     }
+    },
+    {
+     "name": "StreetBackStreetLamp1",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 98570207290490,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -540.3752,
+        0.8204,
+        107.763,
+        -0.9998,
+        0.0,
+        0.02,
+        0.0,
+        1,
+        0.0,
+        -0.02,
+        0.0,
+        -0.9998
+       ]
+      },
+      "CityProp": "FancyStreetLight2"
+     }
+    },
+    {
+     "name": "StreetBackStreetLamp2",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 98570207290490,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -446.7752,
+        0.8204,
+        107.763,
+        -0.9998,
+        0.0,
+        0.02,
+        0.0,
+        1,
+        0.0,
+        -0.02,
+        0.0,
+        -0.9998
+       ]
+      },
+      "CityProp": "FancyStreetLight2"
+     }
+    },
+    {
+     "name": "StreetBackStreetLamp3",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 98570207290490,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -353.1752,
+        0.8204,
+        107.763,
+        -0.9998,
+        0.0,
+        0.02,
+        0.0,
+        1,
+        0.0,
+        -0.02,
+        0.0,
+        -0.9998
+       ]
+      },
+      "CityProp": "FancyStreetLight2"
+     }
+    },
+    {
+     "name": "StreetBackStreetLamp4",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 98570207290490,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -259.5752,
+        0.8204,
+        107.763,
+        -0.9998,
+        0.0,
+        0.02,
+        0.0,
+        1,
+        0.0,
+        -0.02,
+        0.0,
+        -0.9998
+       ]
+      },
+      "CityProp": "FancyStreetLight2"
+     }
+    },
+    {
+     "name": "StreetBackStreetLamp5",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 98570207290490,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -171.9752,
+        0.8204,
+        107.763,
+        -0.9998,
+        0.0,
+        0.02,
+        0.0,
+        1,
+        0.0,
+        -0.02,
+        0.0,
+        -0.9998
+       ]
+      },
+      "CityProp": "FancyStreetLight2"
+     }
+    },
+    {
+     "name": "StreetBackStreetLamp6",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 98570207290490,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -67.9752,
+        0.8204,
+        107.763,
+        -0.9998,
+        0.0,
+        0.02,
+        0.0,
+        1,
+        0.0,
+        -0.02,
+        0.0,
+        -0.9998
+       ]
+      },
+      "CityProp": "FancyStreetLight2"
+     }
+    },
+    {
+     "name": "StreetBackStreetLamp7",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 98570207290490,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        68.0248,
+        0.8204,
+        107.763,
+        -0.9998,
+        0.0,
+        0.02,
+        0.0,
+        1,
+        0.0,
+        -0.02,
+        0.0,
+        -0.9998
+       ]
+      },
+      "CityProp": "FancyStreetLight2"
+     }
+    },
+    {
+     "name": "StreetBackStreetLamp8",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 98570207290490,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        172.0248,
+        0.8204,
+        107.763,
+        -0.9998,
+        0.0,
+        0.02,
+        0.0,
+        1,
+        0.0,
+        -0.02,
+        0.0,
+        -0.9998
+       ]
+      },
+      "CityProp": "FancyStreetLight2"
+     }
+    },
+    {
+     "name": "StreetBackStreetLamp9",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 98570207290490,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        265.6248,
+        0.8204,
+        107.763,
+        -0.9998,
+        0.0,
+        0.02,
+        0.0,
+        1,
+        0.0,
+        -0.02,
+        0.0,
+        -0.9998
+       ]
+      },
+      "CityProp": "FancyStreetLight2"
+     }
+    },
+    {
+     "name": "StreetBackStreetLamp10",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 98570207290490,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        353.2248,
+        0.8204,
+        107.763,
+        -0.9998,
+        0.0,
+        0.02,
+        0.0,
+        1,
+        0.0,
+        -0.02,
+        0.0,
+        -0.9998
+       ]
+      },
+      "CityProp": "FancyStreetLight2"
+     }
+    },
+    {
+     "name": "StreetBackStreetLamp11",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 98570207290490,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        446.8248,
+        0.8204,
+        107.763,
+        -0.9998,
+        0.0,
+        0.02,
+        0.0,
+        1,
+        0.0,
+        -0.02,
+        0.0,
+        -0.9998
+       ]
+      },
+      "CityProp": "FancyStreetLight2"
+     }
+    },
+    {
+     "name": "StreetBackStreetLamp12",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 98570207290490,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        628.0248,
+        0.8204,
+        107.763,
+        -0.9998,
+        0.0,
+        0.02,
+        0.0,
+        1,
+        0.0,
+        -0.02,
+        0.0,
+        -0.9998
+       ]
+      },
+      "CityProp": "FancyStreetLight2"
+     }
+    },
+    {
+     "name": "StreetBackStreetLamp13",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 98570207290490,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -587.2248,
+        0.8204,
+        156.237,
+        0.9998,
+        0.0,
+        -0.02,
+        0.0,
+        1,
+        0.0,
+        0.02,
+        0.0,
+        0.9998
+       ]
+      },
+      "CityProp": "FancyStreetLight2"
+     }
+    },
+    {
+     "name": "StreetBackStreetLamp14",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 98570207290490,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -493.6248,
+        0.8204,
+        156.237,
+        0.9998,
+        0.0,
+        -0.02,
+        0.0,
+        1,
+        0.0,
+        0.02,
+        0.0,
+        0.9998
+       ]
+      },
+      "CityProp": "FancyStreetLight2"
+     }
+    },
+    {
+     "name": "StreetBackStreetLamp15",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 98570207290490,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -400.0248,
+        0.8204,
+        156.237,
+        0.9998,
+        0.0,
+        -0.02,
+        0.0,
+        1,
+        0.0,
+        0.02,
+        0.0,
+        0.9998
+       ]
+      },
+      "CityProp": "FancyStreetLight2"
+     }
+    },
+    {
+     "name": "StreetBackStreetLamp16",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 98570207290490,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -0.0248,
+        0.8204,
+        156.237,
+        0.9998,
+        0.0,
+        -0.02,
+        0.0,
+        1,
+        0.0,
+        0.02,
+        0.0,
+        0.9998
+       ]
+      },
+      "CityProp": "FancyStreetLight2"
+     }
+    },
+    {
+     "name": "StreetBackStreetLamp17",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 98570207290490,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        212.7752,
+        0.8204,
+        156.237,
+        0.9998,
+        0.0,
+        -0.02,
+        0.0,
+        1,
+        0.0,
+        0.02,
+        0.0,
+        0.9998
+       ]
+      },
+      "CityProp": "FancyStreetLight2"
+     }
+    },
+    {
+     "name": "StreetBackStreetLamp18",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 98570207290490,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        306.3752,
+        0.8204,
+        156.237,
+        0.9998,
+        0.0,
+        -0.02,
+        0.0,
+        1,
+        0.0,
+        0.02,
+        0.0,
+        0.9998
+       ]
+      },
+      "CityProp": "FancyStreetLight2"
+     }
+    },
+    {
+     "name": "StreetBackStreetLamp19",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 98570207290490,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        493.5752,
+        0.8204,
+        156.237,
+        0.9998,
+        0.0,
+        -0.02,
+        0.0,
+        1,
+        0.0,
+        0.02,
+        0.0,
+        0.9998
+       ]
+      },
+      "CityProp": "FancyStreetLight2"
+     }
+    },
+    {
+     "name": "StreetBackStreetLamp20",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 98570207290490,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        587.1752,
+        0.8204,
+        156.237,
+        0.9998,
+        0.0,
+        -0.02,
+        0.0,
+        1,
+        0.0,
+        0.02,
+        0.0,
+        0.9998
+       ]
+      },
+      "CityProp": "FancyStreetLight2"
+     }
+    },
+    {
+     "name": "StreetNorthStreetLamp1",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 136069185718884,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -628.017,
+        1.4698,
+        -496.914,
+        -1.0,
+        0.0,
+        -0.002,
+        0.0,
+        1,
+        0.0,
+        0.002,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm1"
+     }
+    },
+    {
+     "name": "StreetNorthStreetLamp2",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 136069185718884,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -515.517,
+        1.4698,
+        -496.914,
+        -1.0,
+        0.0,
+        -0.002,
+        0.0,
+        1,
+        0.0,
+        0.002,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm1"
+     }
+    },
+    {
+     "name": "StreetNorthStreetLamp3",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 136069185718884,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -397.017,
+        1.4698,
+        -496.914,
+        -1.0,
+        0.0,
+        -0.002,
+        0.0,
+        1,
+        0.0,
+        0.002,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm1"
+     }
+    },
+    {
+     "name": "StreetNorthStreetLamp4",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 136069185718884,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -284.517,
+        1.4698,
+        -496.914,
+        -1.0,
+        0.0,
+        -0.002,
+        0.0,
+        1,
+        0.0,
+        0.002,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm1"
+     }
+    },
+    {
+     "name": "StreetNorthStreetLamp5",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 136069185718884,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -166.017,
+        1.4698,
+        -496.914,
+        -1.0,
+        0.0,
+        -0.002,
+        0.0,
+        1,
+        0.0,
+        0.002,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm1"
+     }
+    },
+    {
+     "name": "StreetNorthStreetLamp6",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 136069185718884,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -74.017,
+        1.4698,
+        -496.914,
+        -1.0,
+        0.0,
+        -0.002,
+        0.0,
+        1,
+        0.0,
+        0.002,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm1"
+     }
+    },
+    {
+     "name": "StreetNorthStreetLamp7",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 136069185718884,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        73.983,
+        1.4698,
+        -496.914,
+        -1.0,
+        0.0,
+        -0.002,
+        0.0,
+        1,
+        0.0,
+        0.002,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm1"
+     }
+    },
+    {
+     "name": "StreetNorthStreetLamp8",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 136069185718884,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        165.983,
+        1.4698,
+        -496.914,
+        -1.0,
+        0.0,
+        -0.002,
+        0.0,
+        1,
+        0.0,
+        0.002,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm1"
+     }
+    },
+    {
+     "name": "StreetNorthStreetLamp9",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 136069185718884,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        278.483,
+        1.4698,
+        -496.914,
+        -1.0,
+        0.0,
+        -0.002,
+        0.0,
+        1,
+        0.0,
+        0.002,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm1"
+     }
+    },
+    {
+     "name": "StreetNorthStreetLamp10",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 136069185718884,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        396.983,
+        1.4698,
+        -496.914,
+        -1.0,
+        0.0,
+        -0.002,
+        0.0,
+        1,
+        0.0,
+        0.002,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm1"
+     }
+    },
+    {
+     "name": "StreetNorthStreetLamp11",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 136069185718884,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        503.483,
+        1.4698,
+        -496.914,
+        -1.0,
+        0.0,
+        -0.002,
+        0.0,
+        1,
+        0.0,
+        0.002,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm1"
+     }
+    },
+    {
+     "name": "StreetNorthStreetLamp12",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 136069185718884,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        627.983,
+        1.4698,
+        -496.914,
+        -1.0,
+        0.0,
+        -0.002,
+        0.0,
+        1,
+        0.0,
+        0.002,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm1"
+     }
+    },
+    {
+     "name": "StreetNorthStreetLamp13",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 136069185718884,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -574.733,
+        1.4698,
+        -463.086,
+        1.0,
+        0.0,
+        0.002,
+        0.0,
+        1,
+        0.0,
+        -0.002,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm1"
+     }
+    },
+    {
+     "name": "StreetNorthStreetLamp14",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 136069185718884,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -456.233,
+        1.4698,
+        -463.086,
+        1.0,
+        0.0,
+        0.002,
+        0.0,
+        1,
+        0.0,
+        -0.002,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm1"
+     }
+    },
+    {
+     "name": "StreetNorthStreetLamp15",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 136069185718884,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -337.733,
+        1.4698,
+        -463.086,
+        1.0,
+        0.0,
+        0.002,
+        0.0,
+        1,
+        0.0,
+        -0.002,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm1"
+     }
+    },
+    {
+     "name": "StreetNorthStreetLamp16",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 136069185718884,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -225.233,
+        1.4698,
+        -463.086,
+        1.0,
+        0.0,
+        0.002,
+        0.0,
+        1,
+        0.0,
+        -0.002,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm1"
+     }
+    },
+    {
+     "name": "StreetNorthStreetLamp17",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 136069185718884,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        0.017,
+        1.4698,
+        -463.086,
+        1.0,
+        0.0,
+        0.002,
+        0.0,
+        1,
+        0.0,
+        -0.002,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm1"
+     }
+    },
+    {
+     "name": "StreetNorthStreetLamp18",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 136069185718884,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        219.267,
+        1.4698,
+        -463.086,
+        1.0,
+        0.0,
+        0.002,
+        0.0,
+        1,
+        0.0,
+        -0.002,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm1"
+     }
+    },
+    {
+     "name": "StreetNorthStreetLamp19",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 136069185718884,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        337.767,
+        1.4698,
+        -463.086,
+        1.0,
+        0.0,
+        0.002,
+        0.0,
+        1,
+        0.0,
+        -0.002,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm1"
+     }
+    },
+    {
+     "name": "StreetNorthStreetLamp20",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 136069185718884,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        468.267,
+        1.4698,
+        -463.086,
+        1.0,
+        0.0,
+        0.002,
+        0.0,
+        1,
+        0.0,
+        -0.002,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm1"
+     }
+    },
+    {
+     "name": "StreetNorthStreetLamp21",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 136069185718884,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        568.767,
+        1.4698,
+        -463.086,
+        1.0,
+        0.0,
+        0.002,
+        0.0,
+        1,
+        0.0,
+        -0.002,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm1"
+     }
+    },
+    {
+     "name": "StreetSouthStreetLamp1",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 118726279309343,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -627.9928,
+        3.2386,
+        462.5388,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm2"
+     }
+    },
+    {
+     "name": "StreetSouthStreetLamp2",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 118726279309343,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -515.4928,
+        3.2386,
+        462.5388,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm2"
+     }
+    },
+    {
+     "name": "StreetSouthStreetLamp3",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 118726279309343,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -396.9928,
+        3.2386,
+        462.5388,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm2"
+     }
+    },
+    {
+     "name": "StreetSouthStreetLamp4",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 118726279309343,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -284.4928,
+        3.2386,
+        462.5388,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm2"
+     }
+    },
+    {
+     "name": "StreetSouthStreetLamp5",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 118726279309343,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -165.9928,
+        3.2386,
+        462.5388,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm2"
+     }
+    },
+    {
+     "name": "StreetSouthStreetLamp6",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 118726279309343,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -73.9928,
+        3.2386,
+        462.5388,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm2"
+     }
+    },
+    {
+     "name": "StreetSouthStreetLamp7",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 118726279309343,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        74.0072,
+        3.2386,
+        462.5388,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm2"
+     }
+    },
+    {
+     "name": "StreetSouthStreetLamp8",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 118726279309343,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        166.0072,
+        3.2386,
+        462.5388,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm2"
+     }
+    },
+    {
+     "name": "StreetSouthStreetLamp9",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 118726279309343,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        278.5072,
+        3.2386,
+        462.5388,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm2"
+     }
+    },
+    {
+     "name": "StreetSouthStreetLamp10",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 118726279309343,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        385.0072,
+        3.2386,
+        462.5388,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm2"
+     }
+    },
+    {
+     "name": "StreetSouthStreetLamp11",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 118726279309343,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        515.5072,
+        3.2386,
+        462.5388,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm2"
+     }
+    },
+    {
+     "name": "StreetSouthStreetLamp12",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 118726279309343,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        628.0072,
+        3.2386,
+        462.5388,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm2"
+     }
+    },
+    {
+     "name": "StreetSouthStreetLamp13",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 118726279309343,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -574.7572,
+        3.2386,
+        497.4612,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm2"
+     }
+    },
+    {
+     "name": "StreetSouthStreetLamp14",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 118726279309343,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -456.2572,
+        3.2386,
+        497.4612,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm2"
+     }
+    },
+    {
+     "name": "StreetSouthStreetLamp15",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 118726279309343,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -349.7572,
+        3.2386,
+        497.4612,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm2"
+     }
+    },
+    {
+     "name": "StreetSouthStreetLamp16",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 118726279309343,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -219.2572,
+        3.2386,
+        497.4612,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm2"
+     }
+    },
+    {
+     "name": "StreetSouthStreetLamp17",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 118726279309343,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -12.0072,
+        3.2386,
+        497.4612,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm2"
+     }
+    },
+    {
+     "name": "StreetSouthStreetLamp18",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 118726279309343,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        219.2428,
+        3.2386,
+        497.4612,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm2"
+     }
+    },
+    {
+     "name": "StreetSouthStreetLamp19",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 118726279309343,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        337.7428,
+        3.2386,
+        497.4612,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm2"
+     }
+    },
+    {
+     "name": "StreetSouthStreetLamp20",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 118726279309343,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        456.2428,
+        3.2386,
+        497.4612,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm2"
+     }
+    },
+    {
+     "name": "StreetSouthStreetLamp21",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 118726279309343,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        568.7428,
+        3.2386,
+        497.4612,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "StreetLightLongArm2"
+     }
+    },
+    {
+     "name": "StreetWestStreetLamp1",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 78865298128852,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -144.111,
+        0.9915,
+        -628.04,
+        -0.009,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.009
+       ]
+      },
+      "CityProp": "StreetLight1"
+     }
+    },
+    {
+     "name": "StreetWestStreetLamp2",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 78865298128852,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -144.111,
+        0.9915,
+        -525.04,
+        -0.009,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.009
+       ]
+      },
+      "CityProp": "StreetLight1"
+     }
+    },
+    {
+     "name": "StreetWestStreetLamp3",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 78865298128852,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -144.111,
+        0.9915,
+        -435.04,
+        -0.009,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.009
+       ]
+      },
+      "CityProp": "StreetLight1"
+     }
+    },
+    {
+     "name": "StreetWestStreetLamp4",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 78865298128852,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -144.111,
+        0.9915,
+        -359.373,
+        -0.009,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.009
+       ]
+      },
+      "CityProp": "StreetLight1"
+     }
+    },
+    {
+     "name": "StreetWestStreetLamp5",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 78865298128852,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -144.111,
+        0.9915,
+        -265.707,
+        -0.009,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.009
+       ]
+      },
+      "CityProp": "StreetLight1"
+     }
+    },
+    {
+     "name": "StreetWestStreetLamp6",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 78865298128852,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -144.111,
+        0.9915,
+        -184.04,
+        -0.009,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.009
+       ]
+      },
+      "CityProp": "StreetLight1"
+     }
+    },
+    {
+     "name": "StreetWestStreetLamp7",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 78865298128852,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -144.111,
+        0.9915,
+        -80.04,
+        -0.009,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.009
+       ]
+      },
+      "CityProp": "StreetLight1"
+     }
+    },
+    {
+     "name": "StreetWestStreetLamp8",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 78865298128852,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -144.111,
+        0.9915,
+        -0.04,
+        -0.009,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.009
+       ]
+      },
+      "CityProp": "StreetLight1"
+     }
+    },
+    {
+     "name": "StreetWestStreetLamp9",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 78865298128852,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -144.111,
+        0.9915,
+        79.96,
+        -0.009,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.009
+       ]
+      },
+      "CityProp": "StreetLight1"
+     }
+    },
+    {
+     "name": "StreetWestStreetLamp10",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 78865298128852,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -144.111,
+        0.9915,
+        365.293,
+        -0.009,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.009
+       ]
+      },
+      "CityProp": "StreetLight1"
+     }
+    },
+    {
+     "name": "StreetWestStreetLamp11",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 78865298128852,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -144.111,
+        0.9915,
+        434.96,
+        -0.009,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.009
+       ]
+      },
+      "CityProp": "StreetLight1"
+     }
+    },
+    {
+     "name": "StreetWestStreetLamp12",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 78865298128852,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -144.111,
+        0.9915,
+        524.96,
+        -0.009,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.009
+       ]
+      },
+      "CityProp": "StreetLight1"
+     }
+    },
+    {
+     "name": "StreetWestStreetLamp13",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 78865298128852,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -144.111,
+        0.9915,
+        627.96,
+        -0.009,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.009
+       ]
+      },
+      "CityProp": "StreetLight1"
+     }
+    },
+    {
+     "name": "StreetWestStreetLamp14",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 78865298128852,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -95.889,
+        0.9915,
+        -576.46,
+        0.009,
+        0.0,
+        1.0,
+        0.0,
+        1,
+        0.0,
+        -1.0,
+        0.0,
+        0.009
+       ]
+      },
+      "CityProp": "StreetLight1"
+     }
+    },
+    {
+     "name": "StreetWestStreetLamp15",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 78865298128852,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -95.889,
+        0.9915,
+        -397.127,
+        0.009,
+        0.0,
+        1.0,
+        0.0,
+        1,
+        0.0,
+        -1.0,
+        0.0,
+        0.009
+       ]
+      },
+      "CityProp": "StreetLight1"
+     }
+    },
+    {
+     "name": "StreetWestStreetLamp16",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 78865298128852,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -95.889,
+        0.9915,
+        -309.46,
+        0.009,
+        0.0,
+        1.0,
+        0.0,
+        1,
+        0.0,
+        -1.0,
+        0.0,
+        0.009
+       ]
+      },
+      "CityProp": "StreetLight1"
+     }
+    },
+    {
+     "name": "StreetWestStreetLamp17",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 78865298128852,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -95.889,
+        0.9915,
+        -221.793,
+        0.009,
+        0.0,
+        1.0,
+        0.0,
+        1,
+        0.0,
+        -1.0,
+        0.0,
+        0.009
+       ]
+      },
+      "CityProp": "StreetLight1"
+     }
+    },
+    {
+     "name": "StreetWestStreetLamp18",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 78865298128852,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -95.889,
+        0.9915,
+        -42.96,
+        0.009,
+        0.0,
+        1.0,
+        0.0,
+        1,
+        0.0,
+        -1.0,
+        0.0,
+        0.009
+       ]
+      },
+      "CityProp": "StreetLight1"
+     }
+    },
+    {
+     "name": "StreetWestStreetLamp19",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 78865298128852,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -95.889,
+        0.9915,
+        43.04,
+        0.009,
+        0.0,
+        1.0,
+        0.0,
+        1,
+        0.0,
+        -1.0,
+        0.0,
+        0.009
+       ]
+      },
+      "CityProp": "StreetLight1"
+     }
+    },
+    {
+     "name": "StreetWestStreetLamp20",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 78865298128852,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -95.889,
+        0.9915,
+        221.873,
+        0.009,
+        0.0,
+        1.0,
+        0.0,
+        1,
+        0.0,
+        -1.0,
+        0.0,
+        0.009
+       ]
+      },
+      "CityProp": "StreetLight1"
+     }
+    },
+    {
+     "name": "StreetWestStreetLamp21",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 78865298128852,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -95.889,
+        0.9915,
+        309.54,
+        0.009,
+        0.0,
+        1.0,
+        0.0,
+        1,
+        0.0,
+        -1.0,
+        0.0,
+        0.009
+       ]
+      },
+      "CityProp": "StreetLight1"
+     }
+    },
+    {
+     "name": "StreetWestStreetLamp22",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 78865298128852,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -95.889,
+        0.9915,
+        397.207,
+        0.009,
+        0.0,
+        1.0,
+        0.0,
+        1,
+        0.0,
+        -1.0,
+        0.0,
+        0.009
+       ]
+      },
+      "CityProp": "StreetLight1"
+     }
+    },
+    {
+     "name": "StreetWestStreetLamp23",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 78865298128852,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -95.889,
+        0.9915,
+        576.54,
+        0.009,
+        0.0,
+        1.0,
+        0.0,
+        1,
+        0.0,
+        -1.0,
+        0.0,
+        0.009
+       ]
+      },
+      "CityProp": "StreetLight1"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp1",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        95.7881,
+        0.8135,
+        -628.0049,
+        -0.005,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp2",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        95.7881,
+        0.8135,
+        -525.0049,
+        -0.005,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp3",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        95.7881,
+        0.8135,
+        -435.0049,
+        -0.005,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp4",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        95.7881,
+        0.8135,
+        -353.3379,
+        -0.005,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp5",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        95.7881,
+        0.8135,
+        -265.6719,
+        -0.005,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp6",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        95.7881,
+        0.8135,
+        -184.0049,
+        -0.005,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp7",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        95.7881,
+        0.8135,
+        -80.0049,
+        -0.005,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp8",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        95.7881,
+        0.8135,
+        -0.0049,
+        -0.005,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp9",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        95.7881,
+        0.8135,
+        79.9951,
+        -0.005,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp10",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        95.7881,
+        0.8135,
+        183.9951,
+        -0.005,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp11",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        95.7881,
+        0.8135,
+        265.6621,
+        -0.005,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp12",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        95.7881,
+        0.8135,
+        353.3281,
+        -0.005,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp13",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        95.7881,
+        0.8135,
+        434.9951,
+        -0.005,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp14",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        95.7881,
+        0.8135,
+        524.9951,
+        -0.005,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp15",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        95.7881,
+        0.8135,
+        627.9951,
+        -0.005,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        -0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp16",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        144.2119,
+        0.8135,
+        -576.4951,
+        0.005,
+        0.0,
+        1.0,
+        0.0,
+        1,
+        0.0,
+        -1.0,
+        0.0,
+        0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp17",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        144.2119,
+        0.8135,
+        -397.1621,
+        0.005,
+        0.0,
+        1.0,
+        0.0,
+        1,
+        0.0,
+        -1.0,
+        0.0,
+        0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp18",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        144.2119,
+        0.8135,
+        -309.4951,
+        0.005,
+        0.0,
+        1.0,
+        0.0,
+        1,
+        0.0,
+        -1.0,
+        0.0,
+        0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp19",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        144.2119,
+        0.8135,
+        -221.8281,
+        0.005,
+        0.0,
+        1.0,
+        0.0,
+        1,
+        0.0,
+        -1.0,
+        0.0,
+        0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp20",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        144.2119,
+        0.8135,
+        -42.9951,
+        0.005,
+        0.0,
+        1.0,
+        0.0,
+        1,
+        0.0,
+        -1.0,
+        0.0,
+        0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp21",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        144.2119,
+        0.8135,
+        43.0049,
+        0.005,
+        0.0,
+        1.0,
+        0.0,
+        1,
+        0.0,
+        -1.0,
+        0.0,
+        0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp22",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        144.2119,
+        0.8135,
+        221.8379,
+        0.005,
+        0.0,
+        1.0,
+        0.0,
+        1,
+        0.0,
+        -1.0,
+        0.0,
+        0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp23",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        144.2119,
+        0.8135,
+        303.5049,
+        0.005,
+        0.0,
+        1.0,
+        0.0,
+        1,
+        0.0,
+        -1.0,
+        0.0,
+        0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp24",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        144.2119,
+        0.8135,
+        397.1719,
+        0.005,
+        0.0,
+        1.0,
+        0.0,
+        1,
+        0.0,
+        -1.0,
+        0.0,
+        0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    },
+    {
+     "name": "StreetEastStreetLamp25",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 113182288171470,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        144.2119,
+        0.8135,
+        576.5049,
+        0.005,
+        0.0,
+        1.0,
+        0.0,
+        1,
+        0.0,
+        -1.0,
+        0.0,
+        0.005
+       ]
+      },
+      "CityProp": "StreetLight2"
+     }
+    }
+   ]
+  },
+  {
+   "name": "TrafficSignals",
+   "className": "Folder",
+   "children": [
+    {
+     "name": "SignalEW1",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 81675694493474,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -95.3881,
+        0.9505,
+        -107.3811,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        1,
+        0.0,
+        -1.0,
+        0.0,
+        0.0
+       ]
+      },
+      "CityProp": "IntersectionTrafficLight3LongDouble",
+      "SignalPhase": "EW"
+     }
+    },
+    {
+     "name": "SignalEW2",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 81675694493474,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -144.6119,
+        0.9505,
+        -156.6189,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+       ]
+      },
+      "CityProp": "IntersectionTrafficLight3LongDouble",
+      "SignalPhase": "EW"
+     }
+    },
+    {
+     "name": "SignalNS3",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 128462696461043,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -144.6195,
+        0.9505,
+        -107.3881,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "IntersectionTrafficLight2Long",
+      "SignalPhase": "NS"
+     }
+    },
+    {
+     "name": "SignalNS4",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 128462696461043,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -95.3805,
+        0.9505,
+        -156.6119,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "IntersectionTrafficLight2Long",
+      "SignalPhase": "NS"
+     }
+    },
+    {
+     "name": "SignalEW5",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 81675694493474,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        144.6119,
+        0.9505,
+        -107.3811,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        1,
+        0.0,
+        -1.0,
+        0.0,
+        0.0
+       ]
+      },
+      "CityProp": "IntersectionTrafficLight3LongDouble",
+      "SignalPhase": "EW"
+     }
+    },
+    {
+     "name": "SignalEW6",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 81675694493474,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        95.3881,
+        0.9505,
+        -156.6189,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+       ]
+      },
+      "CityProp": "IntersectionTrafficLight3LongDouble",
+      "SignalPhase": "EW"
+     }
+    },
+    {
+     "name": "SignalNS7",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 128462696461043,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        95.3805,
+        0.9505,
+        -107.3881,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "IntersectionTrafficLight2Long",
+      "SignalPhase": "NS"
+     }
+    },
+    {
+     "name": "SignalNS8",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 128462696461043,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        144.6195,
+        0.9505,
+        -156.6119,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "IntersectionTrafficLight2Long",
+      "SignalPhase": "NS"
+     }
+    },
+    {
+     "name": "SignalEW9",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 81675694493474,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -95.3881,
+        0.9505,
+        156.6189,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        1,
+        0.0,
+        -1.0,
+        0.0,
+        0.0
+       ]
+      },
+      "CityProp": "IntersectionTrafficLight3LongDouble",
+      "SignalPhase": "EW"
+     }
+    },
+    {
+     "name": "SignalEW10",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 81675694493474,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -144.6119,
+        0.9505,
+        107.3811,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+       ]
+      },
+      "CityProp": "IntersectionTrafficLight3LongDouble",
+      "SignalPhase": "EW"
+     }
+    },
+    {
+     "name": "SignalNS11",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 128462696461043,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -144.6195,
+        0.9505,
+        156.6119,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "IntersectionTrafficLight2Long",
+      "SignalPhase": "NS"
+     }
+    },
+    {
+     "name": "SignalNS12",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 128462696461043,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        -95.3805,
+        0.9505,
+        107.3881,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "IntersectionTrafficLight2Long",
+      "SignalPhase": "NS"
+     }
+    },
+    {
+     "name": "SignalEW13",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 81675694493474,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        144.6119,
+        0.9505,
+        156.6189,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        1,
+        0.0,
+        -1.0,
+        0.0,
+        0.0
+       ]
+      },
+      "CityProp": "IntersectionTrafficLight3LongDouble",
+      "SignalPhase": "EW"
+     }
+    },
+    {
+     "name": "SignalEW14",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 81675694493474,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        95.3881,
+        0.9505,
+        107.3811,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        1,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+       ]
+      },
+      "CityProp": "IntersectionTrafficLight3LongDouble",
+      "SignalPhase": "EW"
+     }
+    },
+    {
+     "name": "SignalNS15",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 128462696461043,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        95.3805,
+        0.9505,
+        156.6119,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+       ]
+      },
+      "CityProp": "IntersectionTrafficLight2Long",
+      "SignalPhase": "NS"
+     }
+    },
+    {
+     "name": "SignalNS16",
+     "className": "Model",
+     "tags": [
+      "CityProp"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 128462696461043,
+      "LiveSyncScale": 2.4,
+      "LiveSyncCFrame": {
+       "CFrame": [
+        144.6195,
+        0.9505,
+        107.3881,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        1,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+       ]
+      },
+      "CityProp": "IntersectionTrafficLight2Long",
+      "SignalPhase": "NS"
      }
     }
    ]
