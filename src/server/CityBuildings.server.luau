@@ -13,7 +13,38 @@
 -- Lamps get brighter and the light shafts show up as the in-game clock goes into night.
 local InsertService = game:GetService("InsertService")
 local Lighting = game:GetService("Lighting")
+local PhysicsService = game:GetService("PhysicsService")
 local RunService = game:GetService("RunService")
+
+-- Exact collision (tools/city_colliders.py): invisible boxes per building, built below. The
+-- visible meshes go in collision group CityVisual, which collides with nothing, so the merged
+-- meshes' rough hulls stop making invisible walls. They keep CanCollide + CanQuery so the default
+-- camera still treats them as walls; raycasts with the default RaycastParams (group Default) skip
+-- them and hit the boxes instead (bullets, rain, car wheels, footprints).
+local Colliders = require(script.Parent:WaitForChild("CityColliders")) :: any
+local VISUAL_GROUP = "CityVisual"
+pcall(function()
+	PhysicsService:RegisterCollisionGroup(VISUAL_GROUP)
+end)
+PhysicsService:CollisionGroupSetCollidable(VISUAL_GROUP, "Default", false)
+PhysicsService:CollisionGroupSetCollidable(VISUAL_GROUP, VISUAL_GROUP, false)
+local BOX_MATERIALS = {
+	Enum.Material.Concrete,
+	Enum.Material.Grass,
+	Enum.Material.Asphalt,
+	Enum.Material.Wood,
+	Enum.Material.Metal,
+	Enum.Material.Glass,
+	Enum.Material.Slate,
+	Enum.Material.Plastic,
+	Enum.Material.Ground,
+	Enum.Material.Brick,
+	Enum.Material.Granite,
+}
+-- Moving door / gate parts (Client/CityDoors) keep their own mesh collision.
+local function isDoorPart(name: string): boolean
+	return name:match("^Swing%d") ~= nil or name:match("^Slide%d") ~= nil or name:match("^Lift%d") ~= nil
+end
 
 local LAMP_COLOR = Color3.fromRGB(255, 244, 222)
 local NEON = {
@@ -191,12 +222,66 @@ local function solidInWalkIn(name: string): boolean
 	return false
 end
 
+-- Invisible boxes from CityColliders, placed through one reference mesh part (its bounding box
+-- centre in model space is known), so they follow the model wherever it stands.
+local function buildCollision(model: Model): boolean
+	local key = model:GetAttribute("CityModel")
+	local data = type(key) == "string" and Colliders[key]
+	if not data then
+		return false
+	end
+	local ref = model:FindFirstChild(data.ref, true)
+	if not (ref and ref:IsA("BasePart")) then
+		warn(`[City] {model.Name}: collision reference part {data.ref} missing`)
+		return false
+	end
+	local refMin = Vector3.new(data.refMin[1], data.refMin[2], data.refMin[3])
+	local refMax = Vector3.new(data.refMax[1], data.refMax[2], data.refMax[3])
+	local span = refMax - refMin
+	local scale = if span.X > 0.01 then ref.Size.X / span.X else 1
+	local frame = ref.CFrame * CFrame.new(-(refMin + refMax) / 2 * scale)
+	local old = model:FindFirstChild("Collision")
+	if old then
+		old:Destroy()
+	end
+	local folder = Instance.new("Folder")
+	folder.Name = "Collision"
+	for _, b in data.boxes do
+		local p = Instance.new("Part")
+		p.Name = "Box"
+		p.Anchored = true
+		p.CanCollide = true
+		p.CanQuery = true
+		p.CanTouch = false
+		p.CastShadow = false
+		p.Transparency = 1
+		p.Material = BOX_MATERIALS[(b[7] or 0) + 1] or Enum.Material.Concrete
+		p.Size = Vector3.new(math.max(b[4], 0.05), math.max(b[5], 0.05), math.max(b[6], 0.05)) * scale
+		local cf = if #b >= 16
+			then CFrame.new(b[1] * scale, b[2] * scale, b[3] * scale, b[8], b[9], b[10], b[11], b[12], b[13], b[14], b[15], b[16])
+			else CFrame.new(b[1] * scale, b[2] * scale, b[3] * scale)
+		p.CFrame = frame * cf
+		p.Parent = folder
+	end
+	folder.Parent = model
+	for _, d in model:GetDescendants() do
+		if d:IsA("BasePart") and d.Parent ~= folder and not isDoorPart(d.Name) then
+			d.CollisionGroup = VISUAL_GROUP
+			d.CanTouch = false
+		end
+	end
+	return true
+end
+
 local function style(model: Model)
 	applyTextures(model)
-	local walkIn = model:FindFirstChild("WallF1", true) ~= nil
+	local exact = buildCollision(model)
+	local walkIn = not exact and model:FindFirstChild("WallF1", true) ~= nil
 	for _, d in model:GetDescendants() do
 		if d:IsA("Script") or d:IsA("LocalScript") then
 			d:Destroy()
+		elseif d:IsA("BasePart") and d.Parent and d.Parent.Name == "Collision" then
+			continue
 		elseif d:IsA("BasePart") then
 			d.Anchored = true
 			if DECO[d.Name] or d.Name:match("^Poster") or d.Name:match("^ShelfGoods") or d.Name:match("^Deco") then
@@ -204,7 +289,7 @@ local function style(model: Model)
 				d.CanCollide = false
 				d.CanQuery = false
 			end
-			if PLANTS[d.Name] or (walkIn and not solidInWalkIn(d.Name)) then
+			if not exact and (PLANTS[d.Name] or (walkIn and not solidInWalkIn(d.Name))) then
 				d.CanCollide = false
 			end
 			if d.Name:match("^Fx") then

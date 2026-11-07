@@ -298,16 +298,112 @@ def store_door():
     save("StoreDoor", grime(im, 0.15, 18), 140)
 
 
-def plaza_pave():
-    W = 512
-    im = Image.new("RGB", (W, W), (196, 186, 170))
+def door_decal():
+    """Store door hours sticker (Swing1Sign: the part name is the sheet name)."""
+    W, H = 320, 192
+    im = Image.new("RGB", (W, H), (24, 26, 30))
     d = ImageDraw.Draw(im)
-    for j in range(8):
-        for i in range(8):
-            c = r.randint(-12, 10)
-            tone = (196 + c, 186 + c, 170 + c) if (i + j) % 4 else (170 + c, 120 + c, 96 + c)
-            d.rectangle([i * 64 + 2, j * 64 + 2, i * 64 + 61, j * 64 + 61], fill=tone)
-    save("PlazaPave", grime(im, 0.12, 19, streaks=False), 210)
+    d.rectangle([6, 6, W - 6, H - 6], outline=(240, 190, 40), width=4)
+    text_c(d, (W // 2, 46), "OPEN DAILY", font(FONT_B, 34), (245, 245, 240))
+    text_c(d, (W // 2, 96), "6 AM - 2 AM", font(FONT_B, 38), (240, 190, 40))
+    text_c(d, (W // 2, 148), "PUSH", font(FONT_B, 30), (245, 245, 240))
+    save("Swing1Sign", grime(im, 0.08, 23, streaks=False), 120)
+
+
+def plaza_pave():
+    """Plaza paving, 4 m x 4 m per sheet: 50 x 25 cm granite pavers in running bond, three mixed
+    grey-beige tones, sanded joints with a bevel, speckle, worn centres, gum spots and stains.
+    Mid-grey on purpose: light flat tiles read as a cartoon in Roblox's sun."""
+    import numpy as np
+    from tex_kit import _wrap_noise
+    S, PW, PH = 1024, 128, 64
+    rr = np.random.default_rng(19)
+    tones = np.array([(146, 142, 134), (132, 129, 123), (158, 152, 142), (122, 118, 112)], np.float32)
+    img = np.zeros((S, S, 3), np.float32)
+    big = np.asarray(_wrap_noise(S, S, 96, 191, 24), np.float32) / 255 - 0.5
+    mid = np.asarray(_wrap_noise(S, S, 10, 192, 2), np.float32) / 255 - 0.5
+    fine = np.asarray(_wrap_noise(S, S, 1, 193, 0.6), np.float32) / 255 - 0.5
+    y, x = np.mgrid[0:S, 0:S]
+    row = y // PH
+    xo = (x + (row % 2) * (PW // 2)) % S
+    col = xo // PW
+    pid = row * 64 + col
+    pick = rr.choice(len(tones), size=pid.max() + 1, p=(0.4, 0.3, 0.2, 0.1))
+    shade = rr.normal(0, 5, pid.max() + 1)
+    base = tones[pick[pid]] + shade[pid][..., None]
+    lx, ly = xo % PW, y % PH                                     # position inside the paver
+    cx, cy = (lx - PW / 2) / (PW / 2), (ly - PH / 2) / (PH / 2)
+    wear = (1 - np.clip(cx * cx * 0.6 + cy * cy, 0, 1)) * 6     # foot traffic polish in the middle
+    img = base + (big * 18 + mid * 10 + fine * 26)[..., None] + wear[..., None]
+    dots = rr.random((S, S)) < 0.06                              # granite speckle
+    img[dots] *= 0.62
+    light = rr.random((S, S)) < 0.025
+    img[light] = np.minimum(255, img[light] * 1.22)
+    joint = (lx < 3) | (ly < 3)
+    img[joint] = np.array([78, 74, 68], np.float32) + (fine[joint] * 20)[..., None]
+    hi_edge = ((lx == 3) | (ly == 3)) & ~joint
+    lo_edge = ((lx == PW - 1) | (ly == PH - 1)) & ~joint
+    img[hi_edge] = np.minimum(255, img[hi_edge] * 1.12)
+    img[lo_edge] *= 0.8
+    im = Image.fromarray(np.clip(img, 0, 255).astype(np.uint8), "RGB")
+    # stains and gum, drawn wrapped so the sheet still tiles
+    over = Image.new("RGBA", (S * 3, S * 3), (0, 0, 0, 0))
+    d = ImageDraw.Draw(over)
+    pr = random.Random(195)
+    for _ in range(90):                                          # gum spots
+        gx, gy, gr = pr.randint(0, S), pr.randint(0, S), pr.uniform(2, 5)
+        for ox in (0, S, 2 * S):
+            for oy in (0, S, 2 * S):
+                d.ellipse([gx + ox - gr, gy + oy - gr, gx + ox + gr, gy + oy + gr], fill=(52, 50, 48, 150))
+    for _ in range(14):                                          # soft drink / oil stains
+        gx, gy, gr = pr.randint(0, S), pr.randint(0, S), pr.uniform(14, 46)
+        for ox in (0, S, 2 * S):
+            for oy in (0, S, 2 * S):
+                d.ellipse([gx + ox - gr, gy + oy - gr * 0.7, gx + ox + gr, gy + oy + gr * 0.7], fill=(60, 54, 46, 46))
+    over = over.filter(ImageFilter.GaussianBlur(3)).crop((S, S, 2 * S, 2 * S))
+    im.paste(over, (0, 0), over)
+    save("PlazaPave", grime(im, 0.1, 19, streaks=False), 200)
+
+
+def ledgestone():
+    """Stacked ledgestone veneer (house wainscot), 1 m x 1 m: long thin stones in rows, warm
+    sandstone and grey tones, dark recessed joints, a shadow under each stone's top edge."""
+    import numpy as np
+    from tex_kit import _wrap_noise
+    S = 512
+    rr = random.Random(410)
+    img = np.zeros((S, S, 3), np.float32)
+    fine = np.asarray(_wrap_noise(S, S, 1, 411, 0.6), np.float32) / 255 - 0.5
+    mid = np.asarray(_wrap_noise(S, S, 6, 412, 1.5), np.float32) / 255 - 0.5
+    tones = [(176, 160, 136), (158, 146, 128), (190, 176, 150), (140, 132, 122), (166, 140, 112), (124, 116, 106)]
+    img[:] = (44, 40, 36)                                        # deep joint colour
+    y = 0
+    while y < S:
+        h = min(rr.randint(26, 58), S - y)
+        if S - (y + h) < 22:
+            h = S - y
+        x = rr.randint(0, S)
+        end = x + S
+        while x < end:
+            w = min(rr.randint(70, 260), end - x)
+            if end - (x + w) < 40:
+                w = end - x
+            t = np.array(rr.choice(tones), np.float32) + rr.uniform(-8, 8)
+            g0, g1 = 3, 3                                        # joint gaps
+            ys = slice(y + g0, y + h - g1)
+            for xx in range(x + g0, x + w - g1):
+                xc = xx % S
+                img[ys, xc] = t
+            # shadow under the top edge and a lit lower lip (stones stick out)
+            for xx in range(x + g0, x + w - g1):
+                xc = xx % S
+                img[y + g0:y + g0 + 4, xc] *= 0.7
+                img[y + h - g1 - 2:y + h - g1, xc] = np.minimum(255, img[y + h - g1 - 2:y + h - g1, xc] * 1.15)
+            x += w
+        y += h
+    img += (mid * 26 + fine * 30)[..., None] * (img.mean(axis=2, keepdims=True) > 60)
+    im = Image.fromarray(np.clip(img, 0, 255).astype(np.uint8), "RGB")
+    save("MatLedge", grime(im, 0.12, 413, streaks=False), 200)
 
 
 def welcome_sign():
@@ -665,7 +761,7 @@ for i, (n, (k, c)) in enumerate(SURF.items()):
     save(f"Mat{n}", surface(k, c, seed=300 + i), 200)
 
 for fn in (bus_textures, bin_label, meter_face, shop_floor, ceiling, fridge_doors, candy_rack, faces, bar_window, security_door, garage_door, shingles, clay_tile, lawn, concrete, asphalt, backboard, store_front, store_sign,
-           store_door, plaza_pave, welcome_sign, shelter_ad, route_map, water, chain_link):
+           store_door, door_decal, plaza_pave, ledgestone, welcome_sign, shelter_ad, route_map, water, chain_link):
     fn()
 shelf_goods("ShelfGoodsA", 61)
 shelf_goods("ShelfGoodsB", 62)
