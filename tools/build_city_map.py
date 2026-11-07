@@ -112,6 +112,16 @@ for gang, (sz, x0, d, paints) in GANGS.items():
                 BUILDINGS.append((f"{gang}House{'N' if side > 0 else 'S'}{i}", key, (cx, 0.3, z),
                                   {"Walls": paints[(n + (side < 0) * 2) % len(paints)], "Tag": gang}))
 
+# ---------------------------------------------------------------- Fort Halden army base
+# (thread "Build realistic army base"; art/blender/army/build_army.py, built with --face E so
+# the gate faces the city). West of the city, on the line of Vault Avenue: FortRoad carries the
+# avenue on from its west end (x = -EXTENT) to the gate apron, where the model's own asphalt
+# starts (a step higher, so nothing is coplanar). Model ground front edge sits at x = -650.
+ARMY_M = 3.6
+ARMY_AT = (-650 - 68 * ARMY_M, 0.15, AVE_Z)          # model origin; front edge is 68 m in front of it
+ARMY_APRON_X = ARMY_AT[0] + 52 * ARMY_M + 1.0       # model asphalt starts 52 m in front (+1 stud overlap)
+BUILDINGS.append(("FortHalden", "ArmyBase_E", ARMY_AT, {}, {"MeshNoCollide": True}))
+
 # paved plazas under the towers, from the kerb to behind the building: name, x0, x1, z0, z1
 PLAZAS = [
     ("HollisPlaza", -70, 70, BACK_Z + 22 + 18, 310),
@@ -189,6 +199,13 @@ for name, size, pos in roads:
                 children.append(part(f"{name}Walk{k}{'W' if side < 0 else 'E'}", (sw, kerb, b - a),
                                      (pos[0] + off, kerb / 2, (a + b) / 2), SIDEWALK))
 
+# Fort Halden access road: added after the sidewalks loop (no kerbs out in the country), but
+# part of `roads` so it gets lane lines, wear and the radar/GPS Road tag
+FORT_ROAD = ("FortRoad", (-EXTENT - ARMY_APRON_X, 0.2, ROAD_W),
+             ((-EXTENT + ARMY_APRON_X) / 2, 0.1, AVE_Z))
+children.append(road_dressing.style_road(part(*FORT_ROAD, ASPHALT, "Asphalt", tags=["Road"])))
+roads.append(FORT_ROAD)
+
 # the tower block itself: one paved plaza between the four sidewalks
 inner_x = BLOCK_X - R - SIDE_W
 inner_z0, inner_z1 = AVE_Z + R + SIDE_W, BACK_Z - R - SIDE_W
@@ -263,7 +280,9 @@ def textures_attr(model, variants=None):
 
 lock = json.load(open(os.path.join(ROOT, "art", "models.lock.json")))
 buildings = []
-for name, model, at, *variants in BUILDINGS:
+for name, model, at, *rest in BUILDINGS:
+    variants = rest[:1] if rest and rest[0] else []
+    extra = rest[1] if len(rest) > 1 else {}
     meta = json.load(open(os.path.join(ROOT, "art", "models", model, "meta.json")))
     lo = [min(p["min"][i] for p in meta["parts"].values()) for i in range(3)]
     hi = [max(p["max"][i] for p in meta["parts"].values()) for i in range(3)]
@@ -272,8 +291,16 @@ for name, model, at, *variants in BUILDINGS:
     center = [round(at[0] - c[0], 3), round(at[1] + c[2], 3), round(at[2] + c[1], 3)]
     buildings.append({"name": name, "className": "Model", "tags": ["Building"], "attributes": {
         "LiveSyncAsset": lock[model]["id"], "LiveSyncBoxCenter": {"Vector3": center}, "CityModel": model,
-        **textures_attr(model, variants[0] if variants else None)}})
+        **textures_attr(model, variants[0] if variants else None), **extra}})
 children.append({"name": "Buildings", "className": "Folder", "children": buildings})
+
+# Fort Halden collision: the army base meshes never collide in game (MeshNoCollide; merged meshes
+# made invisible walls), so these invisible boxes from build_army.py (meta "colliders") do instead
+_army = json.load(open(os.path.join(ROOT, "art", "models", "ArmyBase_E", "meta.json")))
+children.append({"name": "FortHaldenColliders", "className": "Folder", "children": [
+    part(f"{c['name']}{i + 1}", c["size"], [ARMY_AT[k] + c["pos"][k] for k in range(3)], "#808080", "SmoothPlastic",
+         Transparency=1, CastShadow=False, CanTouch=False)
+    for i, c in enumerate(_army["colliders"])]})
 
 json.dump({"className": "Folder", "children": children}, open(OUT, "w"), indent=1)
 print(f"wrote {OUT}: {len(children)} parts + {len(lines)} lines")

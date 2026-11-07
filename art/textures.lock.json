@@ -2123,5 +2123,260 @@
   "id": 98419726252977,
   "file": "art/fx/fountain/Ripple7.png",
   "state": "Approved"
+ },
+ "a7ea0b43e83f7acdc5e3c0ec8fddab0022e9aed53ac800c619f86e8b46d4ecae": {
+  "id": 103608543037422,
+  "file": "art/models/ArmyBase_E/tex/Asphalt_Color.png",
+  "state": "Approved"
+ },
+ "80d6df528bcf04c96a2616143221819ff5b7e69daaeb99cd5a57e5661ee3acfa": {
+  "id": 85130872005150,
+  "file": "art/models/ArmyBase_E/tex/Bark_Color.png",
+  "state": "Approved"
+ },
+ "44d0b13dc21c7e6e390ccc5b81c11482f8388f20451fc40511538f60f261bb15": {
+  "id": 77546376382229,
+  "file": "art/models/ArmyBase_E/tex/BoomRed_Color.png",
+  "state": "Approved"
+ },
+ "1c11994fb6e43cc77db1fa82b5e7cbe5b19cf7df9054876a3d11b636cd26d530": {
+  "id": 110988944180376,
+  "file": "art/models/ArmyBase_E/tex/BoomWhite_Color.png",
+  "state": "Approved"
+ },
+ "1beff99175dcb733b3eb34a9d78c351c750efad620ceb901eb0c5512e1b66f23": {
+  "id": 133953973857949,
+  "file": "art/models/ArmyBase_E/tex/CamoNet_Color.png",
+  "state": "Approved"
+ },
+ "8492ae2276d077abc17ed768001c193a237556a9691ab3f9ff873cfdd6f046f0": {
+  "id": 98791019724994,
+  "file": "art/models/ArmyBase_E/tex/Canvas_Color.png",
+  "state": "Approved"
+ },
+ "0c0994055bdfabc64a993a22b3be0c930067e1a57554b5f46b7fe41a9c5f7e25": {
+  "id": 110117964242015,
+  "file": "art/models/ArmyBase_E/tex/ChainLink_Color.png",
+  "state": "Approved"
+ },
+ "fe6cd1a578c33cf3c0f6dfc27f0073d38d75e80f21eb0f2d39a498cf618f483e": {
+  "id": 104119053041541,
+  "file": "art/models/ArmyBase_E/tex/Concrete_Color.png",
+  "state": "Approved"
+ },
+ "2bcd22d3729e69e196f9811760c4f7b082de1955da92b007523fb7f856196f67": {
+  "id": 78648251431833,
+  "file": "art/models/ArmyBase_E/tex/ConcreteDark_Color.png",
+  "state": "Approved"
+ },
+ "45f9862390492b96aef5369af3f79b9bad3f89cd9ab4b706d6b79a2a39639f8f": {
+  "id": 130171966996601,
+  "file": "art/models/ArmyBase_E/tex/DarkSteel_Color.png",
+  "state": "Approved"
+ },
+ "376b869bb5fe3127f98a8d38923f5cc33e7e5bd764358de2c4b199f6a45e86de": {
+  "id": 83489227913149,
+  "file": "art/models/ArmyBase_E/tex/Dirt_Color.png",
+  "state": "Approved"
+ },
+ "4fa5d8fb17bcf815055b8b5ee12f3cd00d6b418b329bcccfb4b68665e4f98575": {
+  "id": 108660462518413,
+  "file": "art/models/ArmyBase_E/tex/Door_Color.png",
+  "state": "Approved"
+ },
+ "a20fa8d044c8f05f88ea4c0d36c8af486764bcec6bae880419538244ae8bf814": {
+  "id": 105896500208131,
+  "file": "art/models/ArmyBase_E/tex/Steel_Color.png",
+  "state": "Approved"
+ },
+ "14fada9845c510b264da59d6ea8334efefe0d2c4637c0019c5624f89ac9da457": {
+  "id": 121122804860224,
+  "file": "art/models/ArmyBase_E/tex/Flag_Color.png",
+  "state": "Approved"
+ },
+ "48ac17f73693a5f94d7133232a671483e73248e865ca3afb66acc4b8a61b934e": {
+  "id": 72624562520289,
+  "file": "art/models/ArmyBase_E/tex/Frame_Color.png",
+  "state": "Approved"
+ },
+ "5ccfcad4e1690276bd364a929e0a25f2fe9ad37ea917c53d4cf9a5defe60939b": {
+  "id": 84554165654498,
+  "file": "art/models/ArmyBase_E/tex/GateSign_Color.png",
+  "state": "Approved"
+ },
+ "ac9e7c38b34b8c0f661333af93b3c87eacf5d4d8810b170b7d46ae6520d1b4ac": {
+  "id": 121455795102863,
+  "file": "art/models/ArmyBase_E/tex/GlassA_Color.png",
+  "state": "Approved"
+ },
+ "c25e05a980eaafdac5ce91e658e7d83984704b65aa52220302d359bf64661cde": {
+  "id": 120226303228366,
+  "file": "art/models/ArmyBase_E/tex/GlassB_Color.png",
+  "state": "Approved"
+ },
+ "568e564fde320852ca9eb6454e8d92586a9071ea0bdde09b13d38004c286dce2": {
+  "id": 107221039699000,
+  "file": "art/models/ArmyBase_E/tex/GlassC_Color.png",
+  "state": "Approved"
+ },
+ "2a86225042534ca7017cac7f12519ed8dc462f26f1c81345c30e63b94aab0beb": {
+  "id": 81364088249585,
+  "file": "art/models/ArmyBase_E/tex/GlassD_Color.png",
+  "state": "Approved"
+ },
+ "cc84a961e7163d200dd07da82a8d588f37c01ea2cf8f27166f12b9dea09bcb00": {
+  "id": 134158909348331,
+  "file": "art/models/ArmyBase_E/tex/Grass_Color.png",
+  "state": "Approved"
+ },
+ "4e4eca1d73993bc3a9a61e15d60b42c05eb60dbb764fe037a1d860f3e9e4afa9": {
+  "id": 131469963122007,
+  "file": "art/models/ArmyBase_E/tex/Hesco_Color.png",
+  "state": "Approved"
+ },
+ "02ea2869eed081dfcf7c24ee479e323ef677ed13bcef11a8914935495835c74d": {
+  "id": 110305465945619,
+  "file": "art/models/ArmyBase_E/tex/Hvac_Color.png",
+  "state": "Approved"
+ },
+ "da13a6296fc6644c7d5f3addfc1ad5757e64fa83a2f8dc2e49b6fcf1843f7946": {
+  "id": 114749067376810,
+  "file": "art/models/ArmyBase_E/tex/HvacTop_Color.png",
+  "state": "Approved"
+ },
+ "144ed0f41a958b4a98698f68156ad0ce673fd15a9bc2477bbbf7ae119308c14b": {
+  "id": 119034044831814,
+  "file": "art/models/ArmyBase_E/tex/Needles_Color.png",
+  "state": "Approved"
+ },
+ "cc2e7342521bed3d3175b47d3ebe446192b83d7f90689ea6f2292c79b495676c": {
+  "id": 132584481479881,
+  "file": "art/models/ArmyBase_E/tex/NeonRed_Color.png",
+  "state": "Approved"
+ },
+ "e387ebdd87f6aa3d77cf9171a5dd0013099a83e75bf7bfe5a1625785c193d6ef": {
+  "id": 129309879121552,
+  "file": "art/models/ArmyBase_E/tex/Olive_Color.png",
+  "state": "Approved"
+ },
+ "8b6b06e36a42df981e923a1f243f58330f958029450677f9be8eef8e434eb868": {
+  "id": 110143570950962,
+  "file": "art/models/ArmyBase_E/tex/PaintWhite_Color.png",
+  "state": "Approved"
+ },
+ "a2f5fc9f671490a3f8d1d230c98a1a682d468e66d7192de027ce2bf849bdcf17": {
+  "id": 85935488205867,
+  "file": "art/models/ArmyBase_E/tex/PaintYellow_Color.png",
+  "state": "Approved"
+ },
+ "2833544dd03fcacb35d21bffece9ddc0c938dfb29e05dc37900692ead1d0b8f4": {
+  "id": 87730350094023,
+  "file": "art/models/ArmyBase_E/tex/Planks_Color.png",
+  "state": "Approved"
+ },
+ "fb84389e26035a411e14c012bee0464294322ee8d527a138ca272429bac0ae5a": {
+  "id": 117694794548080,
+  "file": "art/models/ArmyBase_E/tex/Plate101_Color.png",
+  "state": "Approved"
+ },
+ "6ecd75ed45fd188a66e6ecfcd39bf44d044f16df58a2e504496b4cc73329ed78": {
+  "id": 113311214926708,
+  "file": "art/models/ArmyBase_E/tex/Plate102_Color.png",
+  "state": "Approved"
+ },
+ "fde0202d80ee1b8d83e3982f58ce5c711624494bb691057faa70dc642678d8c7": {
+  "id": 133254614306928,
+  "file": "art/models/ArmyBase_E/tex/Plate103_Color.png",
+  "state": "Approved"
+ },
+ "99556d5fce8a79936d019ea17b53f1d8b85783c8fdfa363dbed3ee8aa38eae41": {
+  "id": 85607669216572,
+  "file": "art/models/ArmyBase_E/tex/Plate104_Color.png",
+  "state": "Approved"
+ },
+ "244d7f54fd09509cf27fdedc708b7d5f9b7e724c0e957c5d62fe2f2fa8137031": {
+  "id": 84518519958002,
+  "file": "art/models/ArmyBase_E/tex/PlateHQ_Color.png",
+  "state": "Approved"
+ },
+ "934246a0a2fe0cf91a032ff45dca5b2d1329d39137dff1c95abe14504be9ca65": {
+  "id": 108078368330456,
+  "file": "art/models/ArmyBase_E/tex/PlateMotorpool_Color.png",
+  "state": "Approved"
+ },
+ "0f4aa4fb155d826764d5fecd280a12b1b4a67bb6c82775e5525ae787a30e3947": {
+  "id": 95847248762150,
+  "file": "art/models/ArmyBase_E/tex/PlateRangetower_Color.png",
+  "state": "Approved"
+ },
+ "00ba2aec19a273467b6cb9dc80645fa0fa78c0f2542d40041887bed2e90b1315": {
+  "id": 77501881252154,
+  "file": "art/models/ArmyBase_E/tex/RazorWire_Color.png",
+  "state": "Approved"
+ },
+ "0ee337192f31dd3c2b4a5bdc26bdc0120dd8937bef40ed1ab7de9d1d1c13c450": {
+  "id": 82094773050017,
+  "file": "art/models/ArmyBase_E/tex/Roof_Color.png",
+  "state": "Approved"
+ },
+ "24c5804e4bd97f19088e24edbcd8f6d40cd9a1be1071ed0fd9740d13961bcfc6": {
+  "id": 98377904266884,
+  "file": "art/models/ArmyBase_E/tex/Rubber_Color.png",
+  "state": "Approved"
+ },
+ "759208eca90454def993e0918504911de4b713563679926e4cfcff5225d87117": {
+  "id": 84040078693618,
+  "file": "art/models/ArmyBase_E/tex/Sandbag_Color.png",
+  "state": "Approved"
+ },
+ "eeb7a0ebd4d0e23d993f49a9116901806a9f4cbfc953476c5cc38aabf373e3e3": {
+  "id": 74809070648576,
+  "file": "art/models/ArmyBase_E/tex/SidingOlive_Color.png",
+  "state": "Approved"
+ },
+ "0024d171aec9b6472b3e0aefd912b890d03c3ac9a9c0371b444aeb868890c1e1": {
+  "id": 135904367735777,
+  "file": "art/models/ArmyBase_E/tex/Siding_Color.png",
+  "state": "Approved"
+ },
+ "357babd7b291aa443220e65c673c1ec936faab0fffac66261be14abbee3e2d4f": {
+  "id": 80195495175362,
+  "file": "art/models/ArmyBase_E/tex/SignNoPhoto_Color.png",
+  "state": "Approved"
+ },
+ "c53b63631649b03db29c8c4bdadfa6bd346b10532bec9746a7dfe1cecab392f8": {
+  "id": 113739553053857,
+  "file": "art/models/ArmyBase_E/tex/SignRestricted_Color.png",
+  "state": "Approved"
+ },
+ "5990ee0fdef4983a9d65310ed8a6e2a4389dde2fe8dc32ced4b1b1b1975d0f6b": {
+  "id": 92741489184064,
+  "file": "art/models/ArmyBase_E/tex/SignSpeed_Color.png",
+  "state": "Approved"
+ },
+ "dfde6095e361b251427c0505dafb2b124d28a5abc14f274c05fa12bed9d36061": {
+  "id": 116654177968776,
+  "file": "art/models/ArmyBase_E/tex/SignStop_Color.png",
+  "state": "Approved"
+ },
+ "85468b4c244ce32c25518d5cb4fc50ecab709ee58fcd204f5b39568f1cb25530": {
+  "id": 74209808446230,
+  "file": "art/models/ArmyBase_E/tex/Sill_Color.png",
+  "state": "Approved"
+ },
+ "e92cf8d983170d8840bff9c49f580b0458baaa3edcfdfb3150c97a401912715e": {
+  "id": 101277237467871,
+  "file": "art/models/ArmyBase_E/tex/Tire_Color.png",
+  "state": "Approved"
+ },
+ "29530cde3cdadfe98bbe112461bb9bd093754eb8ea4ad72acde6967704b25c5c": {
+  "id": 111995003288650,
+  "file": "art/models/ArmyBase_E/tex/TowerGlassA_Color.png",
+  "state": "Approved"
+ },
+ "52236499a5be7c7d5188e0e0b87badfb6377e19f3364f8b9ea755895f32e98fb": {
+  "id": 88454350233306,
+  "file": "art/models/ArmyBase_E/tex/Tread_Color.png",
+  "state": "Approved"
  }
 }

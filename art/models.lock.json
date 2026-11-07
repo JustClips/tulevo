@@ -118,5 +118,9 @@
  "WeatherMeshes": {
   "id": 111007844108617,
   "sha": "d3e6f2dda9f71da5e4f35ca3e6ed665acc4b1af13f111685b31c7f0e9ed2c8d6"
+ },
+ "ArmyBase_E": {
+  "id": 82559827773204,
+  "sha": "219307f635912a243851c178cf667ab215803eef66ee18e84dd33aba28eaaed8"
  }
 }

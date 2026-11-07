@@ -53,7 +53,17 @@ local NEON = {
 	NeonRed = Color3.fromRGB(255, 40, 30),
 }
 -- Textures with see-through pixels (chain-link fence, graffiti decals).
-local ALPHA = { ChainLink = true, Tag = true, FxFall = true, FxRipple = true }
+local ALPHA = {
+	ChainLink = true,
+	Tag = true,
+	FxFall = true,
+	FxRipple = true,
+	-- Fort Halden army base
+	RazorWire = true,
+	CamoNet = true,
+	Slide1Mesh = true,
+	Slide2Mesh = true,
+}
 -- Small decor parts that should not collide.
 local DECO = {
 	Frame = true,
@@ -204,6 +214,11 @@ local WALK_IN_SOLID = {
 local PLANTS = {
 	Leaf = true,
 	LeafB = true,
+	LeafC = true,
+	LeafD = true,
+	LeafE = true,
+	LeafF = true,
+	CamoNet = true,
 	Palm = true,
 	Shrub = true,
 	Hedge = true,
@@ -276,6 +291,7 @@ end
 local function style(model: Model)
 	applyTextures(model)
 	local exact = buildCollision(model)
+	local noCollide = model:GetAttribute("MeshNoCollide") == true
 	local walkIn = not exact and model:FindFirstChild("WallF1", true) ~= nil
 	for _, d in model:GetDescendants() do
 		if d:IsA("Script") or d:IsA("LocalScript") then
@@ -292,6 +308,12 @@ local function style(model: Model)
 			if not exact and (PLANTS[d.Name] or (walkIn and not solidInWalkIn(d.Name))) then
 				d.CanCollide = false
 			end
+			if noCollide and not isDoorPart(d.Name) then
+				-- collision comes from invisible box colliders (City/FortHaldenColliders); gates
+				-- (Client/CityDoors) keep their own
+				d.CanCollide = false
+				d.CanTouch = false
+			end
 			if d.Name:match("^Fx") then
 				-- fountain water (Client/FountainFx animates it): walk through, no shadows
 				d.CanCollide = false
@@ -307,6 +329,11 @@ local function style(model: Model)
 				-- A texture's transparent pixels only cut through when the part itself is
 				-- a hair transparent.
 				d.Transparency = 0.02
+			elseif d.Name:match("^%a+%dGlass$") then
+				-- door / gate glass (Swing1Glass ...): see-through, moves with its door
+				d.Material = Enum.Material.Glass
+				d.Transparency = 0.55
+				d.CastShadow = false
 			elseif d.Name:match("^ClearGlass") then
 				d.Material = Enum.Material.Glass
 				d.Transparency = 0.6

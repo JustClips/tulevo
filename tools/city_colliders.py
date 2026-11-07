@@ -420,7 +420,9 @@ def placed_models():
     for m in sorted(os.listdir(base)):
         meta = os.path.join(base, m, "meta.json")
         if (m in names or m.replace("_S", "") in names) and os.path.exists(meta):
-            if "lamps" in json.load(open(meta)):
+            info = json.load(open(meta))
+            # models with their own hand-placed "colliders" (Fort Halden) are left alone
+            if "lamps" in info and "colliders" not in info:
                 out.append(m)
     return out
 
