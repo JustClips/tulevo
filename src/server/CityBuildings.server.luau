@@ -273,7 +273,20 @@ local function buildCollision(model: Model): boolean
 		p.Material = BOX_MATERIALS[(b[7] or 0) + 1] or Enum.Material.Concrete
 		p.Size = Vector3.new(math.max(b[4], 0.05), math.max(b[5], 0.05), math.max(b[6], 0.05)) * scale
 		local cf = if #b >= 16
-			then CFrame.new(b[1] * scale, b[2] * scale, b[3] * scale, b[8], b[9], b[10], b[11], b[12], b[13], b[14], b[15], b[16])
+			then CFrame.new(
+				b[1] * scale,
+				b[2] * scale,
+				b[3] * scale,
+				b[8],
+				b[9],
+				b[10],
+				b[11],
+				b[12],
+				b[13],
+				b[14],
+				b[15],
+				b[16]
+			)
 			else CFrame.new(b[1] * scale, b[2] * scale, b[3] * scale)
 		p.CFrame = frame * cf
 		p.Parent = folder

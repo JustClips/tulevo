@@ -69,7 +69,7 @@
    ]
   },
   "Stone": {
-   "tris": 192,
+   "tris": 1676,
    "min": [
     -10.8,
     -36.0,
@@ -78,7 +78,7 @@
    "max": [
     27.0,
     42.48,
-    4.68
+    4.64
    ]
   },
   "Sconce": {
@@ -238,15 +238,15 @@
    ]
   },
   "Iron": {
-   "tris": 324,
+   "tris": 240,
    "min": [
     -27.54,
     -31.68,
     0.0
    ],
    "max": [
-    6.7,
-    40.32,
+    6.59,
+    41.44,
     9.36
    ]
   },
@@ -289,6 +289,45 @@
     5.65
    ]
   },
+  "Swing1Leaf": {
+   "tris": 384,
+   "min": [
+    6.59,
+    41.31,
+    0.22
+   ],
+   "max": [
+    12.96,
+    41.49,
+    5.26
+   ]
+  },
+  "Swing1Latch": {
+   "tris": 12,
+   "min": [
+    12.64,
+    41.18,
+    3.42
+   ],
+   "max": [
+    12.85,
+    41.62,
+    3.78
+   ]
+  },
+  "Swing1Pivot": {
+   "tris": 56,
+   "min": [
+    6.49,
+    41.3,
+    0.61
+   ],
+   "max": [
+    6.69,
+    41.5,
+    4.07
+   ]
+  },
   "Tag": {
    "tris": 2,
    "min": [
@@ -302,17 +341,69 @@
     3.6
    ]
   },
-  "Water": {
+  "Kerb": {
+   "tris": 224,
+   "min": [
+    13.68,
+    25.2,
+    0.0
+   ],
+   "max": [
+    20.88,
+    32.4,
+    1.73
+   ]
+  },
+  "FxPool": {
    "tris": 60,
+   "min": [
+    14.45,
+    25.97,
+    1.8
+   ],
+   "max": [
+    20.11,
+    31.63,
+    3.85
+   ]
+  },
+  "FxFall": {
+   "tris": 136,
+   "min": [
+    15.12,
+    26.64,
+    1.82
+   ],
+   "max": [
+    19.44,
+    30.96,
+    5.83
+   ]
+  },
+  "FxRipple": {
+   "tris": 120,
    "min": [
     14.47,
     25.99,
-    2.18
+    1.82
    ],
    "max": [
     20.09,
     31.61,
-    2.25
+    3.87
+   ]
+  },
+  "FxJet": {
+   "tris": 144,
+   "min": [
+    15.68,
+    27.74,
+    2.76
+   ],
+   "max": [
+    18.66,
+    30.52,
+    4.43
    ]
   },
   "Shrub": {
@@ -380,17 +471,95 @@
     0.04
    ]
   },
-  "Wood": {
-   "tris": 216,
+  "Swing2Leaf": {
+   "tris": 108,
    "min": [
-    -27.07,
+    -23.45,
+    9.95,
+    0.22
+   ],
+   "max": [
+    -19.86,
+    10.21,
+    6.12
+   ]
+  },
+  "Swing2Latch": {
+   "tris": 12,
+   "min": [
+    -23.4,
+    9.95,
+    3.42
+   ],
+   "max": [
+    -23.18,
+    10.39,
+    3.78
+   ]
+  },
+  "Swing2Pivot": {
+   "tris": 56,
+   "min": [
+    -19.9,
+    10.07,
+    0.61
+   ],
+   "max": [
+    -19.7,
+    10.27,
+    5.51
+   ]
+  },
+  "Swing3Leaf": {
+   "tris": 108,
+   "min": [
+    -27.3,
+    9.95,
+    0.22
+   ],
+   "max": [
+    -23.71,
+    10.21,
+    6.12
+   ]
+  },
+  "Swing3Latch": {
+   "tris": 12,
+   "min": [
+    -23.98,
+    9.95,
+    3.42
+   ],
+   "max": [
+    -23.76,
+    10.39,
+    3.78
+   ]
+  },
+  "Swing3Pivot": {
+   "tris": 56,
+   "min": [
+    -27.46,
+    10.07,
+    0.61
+   ],
+   "max": [
+    -27.26,
+    10.27,
+    5.51
+   ]
+  },
+  "Wood": {
+   "tris": 60,
+   "min": [
+    -7.02,
     -33.48,
     0.0
    ],
    "max": [
     13.86,
     44.1,
-    6.48
+    3.6
    ]
   },
   "Mailbox": {
@@ -509,13 +678,26 @@
   "Pipe": "Pipe_Color.png",
   "Meter": "Meter_Color.png",
   "MeterFace": "MeterFace_Color.png",
+  "Swing1Leaf": "MatIron_Color.png",
+  "Swing1Latch": "MatIron_Color.png",
+  "Swing1Pivot": "MatIron_Color.png",
   "Tag": "Tag_Color.png",
-  "Water": "Water_Color.png",
+  "Kerb": "MatKerb_Color.png",
+  "FxPool": "FxPool_Color.png",
+  "FxFall": "FxFall_Color.png",
+  "FxRipple": "FxRipple_Color.png",
+  "FxJet": "FxJet_Color.png",
   "Shrub": "Shrub_Color.png",
   "Soil": "MatSoil_Color.png",
   "Trunk": "Trunk_Color.png",
   "Palm": "Palm_Color.png",
   "Concrete": "Concrete_Color.png",
+  "Swing2Leaf": "MatWood_Color.png",
+  "Swing2Latch": "MatIron_Color.png",
+  "Swing2Pivot": "MatIron_Color.png",
+  "Swing3Leaf": "MatWood_Color.png",
+  "Swing3Latch": "MatIron_Color.png",
+  "Swing3Pivot": "MatIron_Color.png",
   "Wood": "MatWood_Color.png",
   "Mailbox": "MatMailbox_Color.png",
   "Red": "MatRed_Color.png",

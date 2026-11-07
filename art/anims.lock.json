@@ -7,6 +7,14 @@
   "id": 121862260644701,
   "sha": "06b35a0a3774ce91299005c284e289c3d906f4b648f7ea2263132ac3729fb696"
  },
+ "Tulevo_DoorPush": {
+  "id": 104098273359431,
+  "sha": "56fc0fc85ba4d42a1a0b3e8ba2c99938459f3701c2bad47dea04ab4d4a6cdd80"
+ },
+ "Tulevo_DoorPushLeft": {
+  "id": 126274616622824,
+  "sha": "61fbe408a22d90b47a95b092d0b8d90ef8b433f3e0e50a19ba738790411f2c7e"
+ },
  "Tulevo_DrinkBottle": {
   "id": 130946416854336,
   "sha": "a082f96c8270a09f499e5d2aa8c6ac0052b794af01b91c41bb1b93aea9edd7ba"

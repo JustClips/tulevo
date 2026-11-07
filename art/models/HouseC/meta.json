@@ -42,6 +42,19 @@
     17.98
    ]
   },
+  "Ledge": {
+   "tris": 24,
+   "min": [
+    -32.62,
+    -18.22,
+    1.26
+   ],
+   "max": [
+    9.22,
+    -17.28,
+    4.14
+   ]
+  },
   "Stone": {
    "tris": 120,
    "min": [
@@ -381,10 +394,10 @@
    ]
   },
   "Iron": {
-   "tris": 232,
+   "tris": 256,
    "min": [
     -34.41,
-    9.42,
+    -45.4,
     -0.6
    ],
    "max": [
@@ -495,6 +508,45 @@
     8.86,
     -45.14,
     3.96
+   ]
+  },
+  "Swing1Leaf": {
+   "tris": 252,
+   "min": [
+    -8.76,
+    -45.52,
+    0.22
+   ],
+   "max": [
+    -4.14,
+    -45.23,
+    3.6
+   ]
+  },
+  "Swing1Latch": {
+   "tris": 12,
+   "min": [
+    -4.46,
+    -45.58,
+    3.42
+   ],
+   "max": [
+    -4.25,
+    -45.14,
+    3.78
+   ]
+  },
+  "Swing1Pivot": {
+   "tris": 56,
+   "min": [
+    -8.86,
+    -45.46,
+    0.61
+   ],
+   "max": [
+    -8.66,
+    -45.26,
+    2.81
    ]
   },
   "Soil": {
@@ -620,6 +672,7 @@
   "Lawn": "Lawn_Color.png",
   "Foundation": "MatFoundation_Color.png",
   "Walls": "WallCream_Color.png",
+  "Ledge": "MatLedge_Color.png",
   "Stone": "MatStone_Color.png",
   "Roof": "Shingles_Color.png",
   "Trim": "MatTrim_Color.png",
@@ -655,6 +708,9 @@
   "BinLabel": "BinLabel_Color.png",
   "BinGrey": "MatBinGrey_Color.png",
   "Picket": "MatPicket_Color.png",
+  "Swing1Leaf": "MatPicket_Color.png",
+  "Swing1Latch": "MatIron_Color.png",
+  "Swing1Pivot": "MatIron_Color.png",
   "Soil": "MatSoil_Color.png",
   "Shrub": "Shrub_Color.png",
   "FlowerW": "FlowerW_Color.png",

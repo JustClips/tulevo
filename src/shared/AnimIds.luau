@@ -2,6 +2,8 @@
 return {
 	Tulevo_CrouchIdle = "rbxassetid://106911361115207",
 	Tulevo_CrouchWalk = "rbxassetid://121862260644701",
+	Tulevo_DoorPush = "rbxassetid://104098273359431",
+	Tulevo_DoorPushLeft = "rbxassetid://126274616622824",
 	Tulevo_DrinkBottle = "rbxassetid://130946416854336",
 	Tulevo_DrinkCan = "rbxassetid://88371512817349",
 	Tulevo_Fall = "rbxassetid://71772951335743",

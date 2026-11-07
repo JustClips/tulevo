@@ -2378,5 +2378,20 @@
   "id": 88454350233306,
   "file": "art/models/ArmyBase_E/tex/Tread_Color.png",
   "state": "Approved"
+ },
+ "42788f198a633e3151040c0e8e2e59afea5d973db37325e4d4f0f3d2467b7963": {
+  "id": 98815425890853,
+  "file": "art/models/HouseC/tex/MatLedge_Color.png",
+  "state": "Approved"
+ },
+ "0983cd4596da2dc292bbd03cd18159798461e34fa08196cfa88b5285b7053168": {
+  "id": 131851784641508,
+  "file": "art/models/SpawnPlaza_S/tex/PlazaPave_Color.png",
+  "state": "Approved"
+ },
+ "0a794c70cc617bdfda399de45d7468fc6052feaa5d50b1577e08767a1d01e466": {
+  "id": 86987205974731,
+  "file": "art/models/Store/tex/Swing1Sign_Color.png",
+  "state": "Approved"
  }
 }
