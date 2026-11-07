@@ -1,0 +1,681 @@
+{
+ "name": "Police",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Concrete": {
+   "tris": 48,
+   "min": [
+    -57.6,
+    -91.44,
+    -0.3
+   ],
+   "max": [
+    57.6,
+    91.44,
+    16.2
+   ]
+  },
+  "Stone": {
+   "tris": 336,
+   "min": [
+    -57.78,
+    -87.12,
+    0.0
+   ],
+   "max": [
+    57.78,
+    91.62,
+    41.58
+   ]
+  },
+  "Brick": {
+   "tris": 12,
+   "min": [
+    -54.0,
+    -43.2,
+    2.16
+   ],
+   "max": [
+    30.96,
+    14.4,
+    16.56
+   ]
+  },
+  "Walls": {
+   "tris": 84,
+   "min": [
+    -54.36,
+    -50.4,
+    2.16
+   ],
+   "max": [
+    31.32,
+    14.76,
+    41.04
+   ]
+  },
+  "RoofFlat": {
+   "tris": 12,
+   "min": [
+    -53.28,
+    -42.48,
+    31.32
+   ],
+   "max": [
+    30.24,
+    13.68,
+    31.5
+   ]
+  },
+  "GlassBigB": {
+   "tris": 4,
+   "min": [
+    -16.2,
+    -49.0,
+    17.28
+   ],
+   "max": [
+    5.4,
+    -49.0,
+    29.88
+   ]
+  },
+  "GlassBigC": {
+   "tris": 4,
+   "min": [
+    -10.8,
+    -49.0,
+    2.16
+   ],
+   "max": [
+    5.4,
+    -49.0,
+    29.88
+   ]
+  },
+  "GlassBigA": {
+   "tris": 4,
+   "min": [
+    -16.2,
+    -49.0,
+    2.16
+   ],
+   "max": [
+    0.0,
+    -49.0,
+    29.88
+   ]
+  },
+  "Alu": {
+   "tris": 72,
+   "min": [
+    -16.38,
+    -49.32,
+    2.16
+   ],
+   "max": [
+    5.58,
+    -48.78,
+    30.24
+   ]
+  },
+  "PoliceDoor": {
+   "tris": 4,
+   "min": [
+    -24.12,
+    -49.0,
+    2.16
+   ],
+   "max": [
+    -1.08,
+    14.44,
+    12.6
+   ]
+  },
+  "PoliceBadge": {
+   "tris": 2,
+   "min": [
+    -6.93,
+    -49.0,
+    14.04
+   ],
+   "max": [
+    -3.87,
+    -49.0,
+    17.1
+   ]
+  },
+  "Steel": {
+   "tris": 1332,
+   "min": [
+    -50.85,
+    -90.11,
+    0.0
+   ],
+   "max": [
+    55.44,
+    54.36,
+    63.36
+   ]
+  },
+  "Light": {
+   "tris": 92,
+   "min": [
+    -53.82,
+    -89.1,
+    0.18
+   ],
+   "max": [
+    4.5,
+    -54.9,
+    15.08
+   ]
+  },
+  "PoliceSign": {
+   "tris": 2,
+   "min": [
+    -17.28,
+    -50.44,
+    31.68
+   ],
+   "max": [
+    6.48,
+    -50.44,
+    35.64
+   ]
+  },
+  "GlassD": {
+   "tris": 16,
+   "min": [
+    -54.03,
+    -43.23,
+    5.04
+   ],
+   "max": [
+    16.56,
+    14.43,
+    27.0
+   ]
+  },
+  "Frame": {
+   "tris": 2424,
+   "min": [
+    -54.5,
+    -43.7,
+    4.79
+   ],
+   "max": [
+    31.46,
+    14.9,
+    27.25
+   ]
+  },
+  "Sill": {
+   "tris": 888,
+   "min": [
+    -54.86,
+    -44.06,
+    4.54
+   ],
+   "max": [
+    31.82,
+    15.26,
+    27.68
+   ]
+  },
+  "GlassA": {
+   "tris": 12,
+   "min": [
+    -54.03,
+    -43.23,
+    5.04
+   ],
+   "max": [
+    30.99,
+    14.43,
+    27.0
+   ]
+  },
+  "GlassB": {
+   "tris": 16,
+   "min": [
+    -54.03,
+    -43.23,
+    5.04
+   ],
+   "max": [
+    30.99,
+    -1.08,
+    27.0
+   ]
+  },
+  "GlassE": {
+   "tris": 14,
+   "min": [
+    -54.03,
+    -43.23,
+    5.04
+   ],
+   "max": [
+    30.99,
+    -1.08,
+    27.0
+   ]
+  },
+  "GlassC": {
+   "tris": 8,
+   "min": [
+    -33.3,
+    -43.23,
+    5.04
+   ],
+   "max": [
+    30.99,
+    14.43,
+    27.0
+   ]
+  },
+  "GlassF": {
+   "tris": 8,
+   "min": [
+    -54.03,
+    -16.92,
+    7.92
+   ],
+   "max": [
+    30.99,
+    14.43,
+    27.0
+   ]
+  },
+  "RollDoor": {
+   "tris": 2,
+   "min": [
+    4.68,
+    14.44,
+    0.07
+   ],
+   "max": [
+    20.52,
+    14.44,
+    12.31
+   ]
+  },
+  "Sconce": {
+   "tris": 36,
+   "min": [
+    -27.09,
+    14.4,
+    11.61
+   ],
+   "max": [
+    21.33,
+    15.12,
+    12.87
+   ]
+  },
+  "Rubber": {
+   "tris": 272,
+   "min": [
+    -46.44,
+    -23.4,
+    0.18
+   ],
+   "max": [
+    30.6,
+    86.04,
+    35.86
+   ]
+  },
+  "NeonRed": {
+   "tris": 28,
+   "min": [
+    21.17,
+    -29.23,
+    63.36
+   ],
+   "max": [
+    22.03,
+    -28.37,
+    64.08
+   ]
+  },
+  "Pipe": {
+   "tris": 784,
+   "min": [
+    -54.96,
+    -44.16,
+    0.0
+   ],
+   "max": [
+    31.92,
+    15.36,
+    30.96
+   ]
+  },
+  "Travert": {
+   "tris": 12,
+   "min": [
+    -56.52,
+    -91.44,
+    -0.18
+   ],
+   "max": [
+    33.84,
+    -43.2,
+    0.18
+   ]
+  },
+  "Flag": {
+   "tris": 36,
+   "min": [
+    -44.75,
+    -73.87,
+    30.96
+   ],
+   "max": [
+    -23.4,
+    -73.73,
+    35.28
+   ]
+  },
+  "PoliceMonument": {
+   "tris": 2,
+   "min": [
+    -51.84,
+    -86.44,
+    1.62
+   ],
+   "max": [
+    -36.72,
+    -86.44,
+    6.66
+   ]
+  },
+  "Soil": {
+   "tris": 36,
+   "min": [
+    -51.3,
+    -78.3,
+    2.16
+   ],
+   "max": [
+    26.1,
+    -51.3,
+    2.23
+   ]
+  },
+  "Bark": {
+   "tris": 216,
+   "min": [
+    -51.72,
+    -60.63,
+    0.0
+   ],
+   "max": [
+    26.58,
+    -50.79,
+    16.82
+   ]
+  },
+  "LeafB": {
+   "tris": 800,
+   "min": [
+    -51.8,
+    -62.76,
+    12.31
+   ],
+   "max": [
+    27.71,
+    -47.52,
+    23.01
+   ]
+  },
+  "Leaf": {
+   "tris": 1440,
+   "min": [
+    -52.42,
+    -64.53,
+    11.41
+   ],
+   "max": [
+    30.12,
+    -46.94,
+    23.2
+   ]
+  },
+  "Trunk": {
+   "tris": 420,
+   "min": [
+    20.2,
+    -75.3,
+    -0.0
+   ],
+   "max": [
+    22.35,
+    -73.05,
+    30.42
+   ]
+  },
+  "Palm": {
+   "tris": 616,
+   "min": [
+    5.94,
+    -88.19,
+    25.88
+   ],
+   "max": [
+    36.7,
+    -60.1,
+    30.5
+   ]
+  },
+  "Asphalt": {
+   "tris": 24,
+   "min": [
+    -56.52,
+    -91.44,
+    -0.18
+   ],
+   "max": [
+    56.52,
+    90.0,
+    0.18
+   ]
+  },
+  "Paint": {
+   "tris": 156,
+   "min": [
+    -55.8,
+    24.98,
+    0.18
+   ],
+   "max": [
+    28.66,
+    89.28,
+    0.22
+   ]
+  },
+  "Yellow": {
+   "tris": 36,
+   "min": [
+    1.8,
+    20.16,
+    0.18
+   ],
+   "max": [
+    55.26,
+    37.98,
+    3.6
+   ]
+  },
+  "Lift1Pivot": {
+   "tris": 36,
+   "min": [
+    53.77,
+    21.89,
+    3.17
+   ],
+   "max": [
+    54.59,
+    22.18,
+    4.03
+   ]
+  },
+  "Lift1Arm": {
+   "tris": 120,
+   "min": [
+    33.84,
+    21.71,
+    3.42
+   ],
+   "max": [
+    53.64,
+    21.92,
+    3.85
+   ]
+  },
+  "StoneWall": {
+   "tris": 24,
+   "min": [
+    -57.6,
+    -43.2,
+    0.0
+   ],
+   "max": [
+    57.6,
+    91.44,
+    8.64
+   ]
+  },
+  "Iron": {
+   "tris": 1608,
+   "min": [
+    31.59,
+    23.29,
+    0.0
+   ],
+   "max": [
+    57.17,
+    89.91,
+    8.03
+   ]
+  },
+  "Lamp1": {
+   "tris": 12,
+   "min": [
+    -44.28,
+    41.85,
+    24.7
+   ],
+   "max": [
+    -42.12,
+    43.11,
+    25.13
+   ]
+  },
+  "Lamp2": {
+   "tris": 12,
+   "min": [
+    -1.08,
+    41.85,
+    24.7
+   ],
+   "max": [
+    1.08,
+    43.11,
+    25.13
+   ]
+  },
+  "Lamp3": {
+   "tris": 12,
+   "min": [
+    42.12,
+    49.05,
+    24.7
+   ],
+   "max": [
+    44.28,
+    50.31,
+    25.13
+   ]
+  },
+  "Lamp4": {
+   "tris": 12,
+   "min": [
+    45.72,
+    -33.75,
+    24.7
+   ],
+   "max": [
+    47.88,
+    -32.49,
+    25.13
+   ]
+  }
+ },
+ "lamps": [
+  "Lamp1",
+  "Lamp2",
+  "Lamp3",
+  "Lamp4"
+ ],
+ "textures": {
+  "Concrete": "Concrete_Color.png",
+  "Stone": "Stone_Color.png",
+  "Brick": "Brick_Color.png",
+  "Walls": "WallStone_Color.png",
+  "RoofFlat": "RoofFlat_Color.png",
+  "GlassBigB": "GlassBigB_Color.png",
+  "GlassBigC": "GlassBigC_Color.png",
+  "GlassBigA": "GlassBigA_Color.png",
+  "Alu": "Alu_Color.png",
+  "PoliceDoor": "PoliceDoor_Color.png",
+  "PoliceBadge": "PoliceBadge_Color.png",
+  "Steel": "Steel_Color.png",
+  "Light": "Light_Color.png",
+  "PoliceSign": "PoliceSign_Color.png",
+  "GlassD": "GlassD_Color.png",
+  "Frame": "Frame_Color.png",
+  "Sill": "Sill_Color.png",
+  "GlassA": "GlassA_Color.png",
+  "GlassB": "GlassB_Color.png",
+  "GlassE": "GlassE_Color.png",
+  "GlassC": "GlassC_Color.png",
+  "GlassF": "GlassF_Color.png",
+  "RollDoor": "RollDoor_Color.png",
+  "Sconce": "Sconce_Color.png",
+  "Rubber": "Rubber_Color.png",
+  "NeonRed": "NeonRed_Color.png",
+  "Pipe": "Pipe_Color.png",
+  "Travert": "Travert_Color.png",
+  "Flag": "Flag_Color.png",
+  "PoliceMonument": "PoliceMonument_Color.png",
+  "Soil": "Soil_Color.png",
+  "Bark": "Bark_Color.png",
+  "LeafB": "LeafB_Color.png",
+  "Leaf": "Leaf_Color.png",
+  "Trunk": "Trunk_Color.png",
+  "Palm": "Palm_Color.png",
+  "Asphalt": "Asphalt_Color.png",
+  "Paint": "Paint_Color.png",
+  "Yellow": "Yellow_Color.png",
+  "Lift1Pivot": "Steel_Color.png",
+  "Lift1Arm": "Paint_Color.png",
+  "StoneWall": "StoneWall_Color.png",
+  "Iron": "Iron_Color.png",
+  "Lamp1": "Light_Color.png",
+  "Lamp2": "Light_Color.png",
+  "Lamp3": "Light_Color.png",
+  "Lamp4": "Light_Color.png"
+ },
+ "variants": {
+  "Walls": {
+   "Stone": "WallStone_Color.png",
+   "White": "WallWhite_Color.png",
+   "Sand": "WallSand_Color.png",
+   "Slate": "WallSlate_Color.png"
+  }
+ }
+}

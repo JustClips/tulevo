@@ -160,15 +160,15 @@
    ]
   },
   "Iron": {
-   "tris": 1632,
+   "tris": 696,
    "min": [
-    -39.73,
+    -7.31,
     5.49,
-    0.18
+    14.58
    ],
    "max": [
-    39.73,
-    75.89,
+    7.31,
+    9.29,
     18.47
    ]
   },
@@ -432,6 +432,162 @@
     7.78
    ]
   },
+  "Swing1Leaf": {
+   "tris": 264,
+   "min": [
+    34.34,
+    70.45,
+    0.22
+   ],
+   "max": [
+    38.34,
+    70.67,
+    6.07
+   ]
+  },
+  "Swing1Latch": {
+   "tris": 12,
+   "min": [
+    34.49,
+    70.34,
+    3.42
+   ],
+   "max": [
+    34.7,
+    70.78,
+    3.78
+   ]
+  },
+  "Swing1Pivot": {
+   "tris": 56,
+   "min": [
+    38.23,
+    70.45,
+    0.76
+   ],
+   "max": [
+    38.45,
+    70.67,
+    4.64
+   ]
+  },
+  "Swing2Leaf": {
+   "tris": 264,
+   "min": [
+    30.06,
+    70.45,
+    0.22
+   ],
+   "max": [
+    34.06,
+    70.67,
+    6.07
+   ]
+  },
+  "Swing2Latch": {
+   "tris": 12,
+   "min": [
+    33.7,
+    70.34,
+    3.42
+   ],
+   "max": [
+    33.91,
+    70.78,
+    3.78
+   ]
+  },
+  "Swing2Pivot": {
+   "tris": 56,
+   "min": [
+    29.95,
+    70.45,
+    0.76
+   ],
+   "max": [
+    30.17,
+    70.67,
+    4.64
+   ]
+  },
+  "Swing3Leaf": {
+   "tris": 264,
+   "min": [
+    -34.06,
+    70.45,
+    0.22
+   ],
+   "max": [
+    -30.06,
+    70.67,
+    6.07
+   ]
+  },
+  "Swing3Latch": {
+   "tris": 12,
+   "min": [
+    -33.91,
+    70.34,
+    3.42
+   ],
+   "max": [
+    -33.7,
+    70.78,
+    3.78
+   ]
+  },
+  "Swing3Pivot": {
+   "tris": 56,
+   "min": [
+    -30.17,
+    70.45,
+    0.76
+   ],
+   "max": [
+    -29.95,
+    70.67,
+    4.64
+   ]
+  },
+  "Swing4Leaf": {
+   "tris": 264,
+   "min": [
+    -38.34,
+    70.45,
+    0.22
+   ],
+   "max": [
+    -34.34,
+    70.67,
+    6.07
+   ]
+  },
+  "Swing4Latch": {
+   "tris": 12,
+   "min": [
+    -34.7,
+    70.34,
+    3.42
+   ],
+   "max": [
+    -34.49,
+    70.78,
+    3.78
+   ]
+  },
+  "Swing4Pivot": {
+   "tris": 56,
+   "min": [
+    -38.45,
+    70.45,
+    0.76
+   ],
+   "max": [
+    -38.23,
+    70.67,
+    4.64
+   ]
+  },
   "HouseNumbers": {
    "tris": 2,
    "min": [
@@ -611,6 +767,18 @@
   "Soil": "Soil_Color.png",
   "Bark": "Bark_Color.png",
   "Bronze": "Bronze_Color.png",
+  "Swing1Leaf": "Iron_Color.png",
+  "Swing1Latch": "Bronze_Color.png",
+  "Swing1Pivot": "Iron_Color.png",
+  "Swing2Leaf": "Iron_Color.png",
+  "Swing2Latch": "Bronze_Color.png",
+  "Swing2Pivot": "Iron_Color.png",
+  "Swing3Leaf": "Iron_Color.png",
+  "Swing3Latch": "Bronze_Color.png",
+  "Swing3Pivot": "Iron_Color.png",
+  "Swing4Leaf": "Iron_Color.png",
+  "Swing4Latch": "Bronze_Color.png",
+  "Swing4Pivot": "Iron_Color.png",
   "HouseNumbers": "HouseNumbers_Color.png",
   "Trunk": "Trunk_Color.png",
   "Palm": "Palm_Color.png",

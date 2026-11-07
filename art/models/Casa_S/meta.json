@@ -43,7 +43,7 @@
    ]
   },
   "Stone": {
-   "tris": 3084,
+   "tris": 3108,
    "min": [
     -64.62,
     -71.82,
@@ -111,13 +111,13 @@
    "tris": 24,
    "min": [
     -28.62,
-    -7.2,
+    -7.02,
     -0.18
    ],
    "max": [
     28.62,
     34.2,
-    1.44
+    1.37
    ]
   },
   "Deck": {
@@ -134,15 +134,15 @@
    ]
   },
   "Iron": {
-   "tris": 3552,
+   "tris": 2964,
    "min": [
     -28.55,
     -7.11,
-    0.18
+    13.5
    ],
    "max": [
     45.47,
-    77.4,
+    37.37,
     17.39
    ]
   },
@@ -445,6 +445,84 @@
     7.06
    ]
   },
+  "Swing1Leaf": {
+   "tris": 360,
+   "min": [
+    0.14,
+    70.45,
+    0.22
+   ],
+   "max": [
+    5.94,
+    70.67,
+    5.71
+   ]
+  },
+  "Swing1Latch": {
+   "tris": 12,
+   "min": [
+    0.29,
+    70.34,
+    3.42
+   ],
+   "max": [
+    0.5,
+    70.78,
+    3.78
+   ]
+  },
+  "Swing1Pivot": {
+   "tris": 56,
+   "min": [
+    5.83,
+    70.45,
+    0.76
+   ],
+   "max": [
+    6.05,
+    70.67,
+    4.28
+   ]
+  },
+  "Swing2Leaf": {
+   "tris": 360,
+   "min": [
+    -5.94,
+    70.45,
+    0.22
+   ],
+   "max": [
+    -0.14,
+    70.67,
+    5.71
+   ]
+  },
+  "Swing2Latch": {
+   "tris": 12,
+   "min": [
+    -0.5,
+    70.34,
+    3.42
+   ],
+   "max": [
+    -0.29,
+    70.78,
+    3.78
+   ]
+  },
+  "Swing2Pivot": {
+   "tris": 56,
+   "min": [
+    -6.05,
+    70.45,
+    0.76
+   ],
+   "max": [
+    -5.83,
+    70.67,
+    4.28
+   ]
+  },
   "HouseNumbers": {
    "tris": 2,
    "min": [
@@ -625,6 +703,12 @@
   "Ivy": "Ivy_Color.png",
   "Pipe": "Pipe_Color.png",
   "Bronze": "Bronze_Color.png",
+  "Swing1Leaf": "Iron_Color.png",
+  "Swing1Latch": "Bronze_Color.png",
+  "Swing1Pivot": "Iron_Color.png",
+  "Swing2Leaf": "Iron_Color.png",
+  "Swing2Latch": "Bronze_Color.png",
+  "Swing2Pivot": "Iron_Color.png",
   "HouseNumbers": "HouseNumbers_Color.png",
   "Pavers": "Pavers_Color.png",
   "Leaf": "Leaf_Color.png",

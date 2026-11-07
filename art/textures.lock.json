@@ -2814,6 +2814,46 @@
   "file": "art/models/StreetCorners/tex/SignalYellow_Color.png",
   "state": "Approved"
  },
+ "80ca468970b0ab913f0256b62d007e2527594a7ff08581cbd90e52dcacd6e4f7": {
+  "id": 108353393515835,
+  "file": "art/models/Police/tex/Flag_Color.png",
+  "state": "Approved"
+ },
+ "9316d5870d62599344a1401a0367030317c22b1cb783dc612da50144a70c1737": {
+  "id": 136583318982046,
+  "file": "art/models/Police/tex/PoliceBadge_Color.png",
+  "state": "Approved"
+ },
+ "e89d90ee16d18829196eb92ff92290f2918c2274f6d2afb9d483e4b5d0d04c75": {
+  "id": 75162115796702,
+  "file": "art/models/Police/tex/PoliceDoor_Color.png",
+  "state": "Approved"
+ },
+ "a36cea534cf108813b14f3ae7da939f2dcd82180376c719361140e6f392db36e": {
+  "id": 76516751388356,
+  "file": "art/models/Police/tex/PoliceMonument_Color.png",
+  "state": "Approved"
+ },
+ "6f37142ec097aa1f2476ecb536f28de8c22fb107d5e312fe07ddd036f84a15b0": {
+  "id": 138314890863346,
+  "file": "art/models/Police/tex/PoliceSign_Color.png",
+  "state": "Approved"
+ },
+ "ec80467fd6f9c3a8506372a03de8830526b039ea4bd8c66880844303896af81b": {
+  "id": 99460390560148,
+  "file": "art/models/Police/tex/RollDoor_Color.png",
+  "state": "Approved"
+ },
+ "27ab249a85cbc185d254940d9ef1cf84b6b6d42521b53511a5fafc6abb4f325b": {
+  "id": 129830506943580,
+  "file": "art/models/Police/tex/Rubber_Color.png",
+  "state": "Approved"
+ },
+ "a13ff39a8b9ce7ce01bc2130357108f82054249ab2406b085ce09f074bc877e4": {
+  "id": 95630395059097,
+  "file": "art/models/Police/tex/Yellow_Color.png",
+  "state": "Approved"
+ },
  "b2e2a156eb1179a3980004c08ab33645498d8d2cbd4844100f13601d0a31083a": {
   "id": 120948343130427,
   "file": "art/models/BrickBlock/tex/HvacGrey_Color.png",

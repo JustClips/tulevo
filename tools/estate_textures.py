@@ -250,6 +250,58 @@ def numbers():
     save("HouseNumbers", im, 120)
 
 
+def badge(d, cx, cy, s, fill=(214, 178, 84), dark=(24, 44, 92)):
+    """Tulevo police badge (our own): a seven-point star in a ring."""
+    d.ellipse([cx - s, cy - s, cx + s, cy + s], fill=fill)
+    d.ellipse([cx - s * 0.84, cy - s * 0.84, cx + s * 0.84, cy + s * 0.84], fill=dark)
+    pts = []
+    for i in range(14):
+        a = -math.pi / 2 + i * math.pi / 7
+        r = s * (0.74 if i % 2 == 0 else 0.36)
+        pts.append((cx + math.cos(a) * r, cy + math.sin(a) * r))
+    d.polygon(pts, fill=fill)
+    d.ellipse([cx - s * 0.2, cy - s * 0.2, cx + s * 0.2, cy + s * 0.2], fill=dark)
+
+
+def police():
+    """Police station signs: fascia (TULEVO POLICE + badge, 6:1), monument plaque (3:1), badge disc,
+    and a dark tinted glass door pair."""
+    W, H = 1536, 256
+    im = Image.new("RGB", (W, H), (22, 38, 78))
+    d = ImageDraw.Draw(im)
+    d.rectangle([0, H - 18, W, H], fill=(214, 178, 84))
+    badge(d, 128, 120, 96)
+    fit_text(d, (W // 2 + 90, 118), "TULEVO POLICE DEPARTMENT", FONT_B, W - 330, 110, (240, 240, 236))
+    save("PoliceSign", grime(im, 0.05, 91), 120)
+    W, H = 1024, 340
+    st = baked("Travertine009", (0.98, 0.96, 0.92), light=0.3, gain=1.0, size=1024).crop((0, 0, W, H))
+    d = ImageDraw.Draw(st)
+    badge(d, 160, 170, 120)
+    fit_text(d, (600, 130), "TULEVO", FONT_B, 640, 120, (34, 44, 70))
+    fit_text(d, (600, 240), "POLICE DEPARTMENT", FONT_B, 640, 70, (34, 44, 70))
+    save("PoliceMonument", st, 160)
+    im = Image.new("RGB", (512, 512), (22, 38, 78))
+    badge(ImageDraw.Draw(im), 256, 256, 240)
+    save("PoliceBadge", im, 90)
+    W, H = 512, 640
+    im = Image.new("RGB", (W, H), (30, 32, 36))
+    for x0 in (0, W // 2):
+        pane = glass_pane(W // 2 - 40, H - 60, 77 + x0, "office", lit=True)
+        im.paste(pane, (x0 + 20, 30))
+    d = ImageDraw.Draw(im)
+    d.rectangle([W // 2 - 34, 300, W // 2 - 24, 420], fill=(190, 192, 194))
+    d.rectangle([W // 2 + 24, 300, W // 2 + 34, 420], fill=(190, 192, 194))
+    save("PoliceDoor", im, 40)
+    W, H = 768, 384                                                  # sally port roll door
+    im = Image.new("RGB", (W, H), (150, 154, 158))
+    d = ImageDraw.Draw(im)
+    for y in range(0, H, 14):
+        d.rectangle([0, y, W, y + 3], fill=(110, 114, 118))
+    save("RollDoor", grime(im, 0.12, 93), 110)
+    for fn in ("Asphalt_Color.png", "Asphalt_Roughness.png"):
+        shutil.copyfile(os.path.join(HOOD, fn), os.path.join(OUT, fn))
+
+
 def water():
     """Fountain / pool water flipbooks are the hood's (same images, same uploaded ids)."""
     for fn in os.listdir(HOOD):
@@ -279,6 +331,7 @@ def main():
     numbers()
     water()
     mats()
+    police()
 
 
 if __name__ == "__main__":

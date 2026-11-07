@@ -171,6 +171,11 @@ for r, (z, face, models, paints) in enumerate(EST_ROWS):
         BUILDINGS.append((f"Bellmont{model}{r}{i}", key, (EST_X0 + (i + 0.5) * EST_LOT_W, 0.3, z),
                           {"Render" if model == "Modern" else "Walls": paint}))
 
+# Tulevo Police Department (thread "Build rich suburbs district"): 32 x 50.8 m lot south of Back
+# Street, east of The Marlowe; front (-Z) on the Back Street sidewalk, east edge at x = 640.
+POLICE_W, POLICE_D = 32 * 3.6, 50.8 * 3.6
+BUILDINGS.append(("TulevoPolice", "Police", (EXTENT - POLICE_W / 2, 0.3, BACK_Z + ROAD_W / 2 + SIDE_W + POLICE_D / 2)))
+
 # paved plazas under the towers, from the kerb to behind the building: name, x0, x1, z0, z1
 PLAZAS = [
     ("HollisPlaza", -70, 70, BACK_Z + 22 + 18, 310),
