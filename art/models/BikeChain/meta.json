@@ -1,0 +1,115 @@
+{
+ "units": "studs (x3.6 baked in, use Scale 1)",
+ "axes": "Blender: +X = bike's LEFT, -Y = front, +Z = up; origin = ground between the axles (bike layout).",
+ "chain": {
+  "links": 116,
+  "pitch_m": 0.015875,
+  "rear_teeth": 45,
+  "front_teeth": 17,
+  "output_shaft_yz_m": [
+   0.0521,
+   0.375
+  ],
+  "plane_x_m": 0.085
+ },
+ "parts": {
+  "OuterPlatesL": {
+   "tris": 12760
+  },
+  "OuterPlatesR": {
+   "tris": 12760
+  },
+  "InnerPlates": {
+   "tris": 10672
+  },
+  "Rollers": {
+   "tris": 8352
+  },
+  "Pins": {
+   "tris": 9280
+  },
+  "Seals": {
+   "tris": 7424
+  },
+  "FrontSprocket": {
+   "tris": 4996
+  },
+  "SprocketNut": {
+   "tris": 620
+  }
+ },
+ "looks": {
+  "OuterPlatesL": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.1
+  },
+  "OuterPlatesR": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.1
+  },
+  "InnerPlates": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.05
+  },
+  "Rollers": {
+   "Color": [
+    92,
+    92,
+    96
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.06
+  },
+  "Pins": {
+   "Color": [
+    178,
+    180,
+    186
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.15
+  },
+  "Seals": {
+   "Color": [
+    24,
+    24,
+    26
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "FrontSprocket": {
+   "Color": [
+    118,
+    119,
+    124
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.08
+  },
+  "SprocketNut": {
+   "Color": [
+    160,
+    162,
+    168
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.12
+  }
+ },
+ "total_tris": 66864
+}

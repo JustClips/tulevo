@@ -34,6 +34,17 @@ local BIKE_EXHAUST_LOOKS = {
 	Sensors = { Color = Color3.fromRGB(110, 110, 116), Material = Enum.Material.SmoothPlastic },
 }
 
+-- Superbike chain paint; the plates get their brushed, oily colour maps from TextureIds.
+local BIKE_CHAIN_LOOKS = {
+	OuterPlates = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.1 },
+	InnerPlates = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.05 },
+	Rollers = { Color = Color3.fromRGB(92, 92, 96), Material = Enum.Material.SmoothPlastic, Reflectance = 0.06 },
+	Pins = { Color = Color3.fromRGB(178, 180, 186), Material = Enum.Material.SmoothPlastic, Reflectance = 0.15 },
+	Seals = { Color = Color3.fromRGB(24, 24, 26), Material = Enum.Material.SmoothPlastic },
+	FrontSprocket = { Color = Color3.fromRGB(118, 119, 124), Material = Enum.Material.SmoothPlastic, Reflectance = 0.08 },
+	SprocketNut = { Color = Color3.fromRGB(160, 162, 168), Material = Enum.Material.SmoothPlastic, Reflectance = 0.12 },
+}
+
 -- Blender meters -> studs. Roblox characters are about 5 studs tall, so real sizes x3.6.
 local SCALE = 3.6
 
@@ -52,6 +63,8 @@ local SHOWCASE = {
 	{ Name = "BikeWheelRear", Offset = Vector3.new(-9, 2.6, 6), Scale = 1, Looks = BIKE_WHEEL_LOOKS },
 	-- Superbike exhaust (art/blender/superbike/exhaust.py), headers to silencer, built in studs.
 	{ Name = "BikeExhaust", Offset = Vector3.new(-9, 2.8, 10.5), Scale = 1, Looks = BIKE_EXHAUST_LOOKS },
+	-- Superbike drive chain, 116 links + front sprocket (art/blender/superbike/chain.py), built in studs.
+	{ Name = "BikeChain", Offset = Vector3.new(-9, 2.6, 14.5), Scale = 1, Looks = BIKE_CHAIN_LOOKS },
 }
 
 local function findSpawn(): BasePart?

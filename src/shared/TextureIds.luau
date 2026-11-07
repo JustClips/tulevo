@@ -216,6 +216,11 @@ return {
 		Stone = 113294833293056,
 		TowerSign = 122902209943948,
 	},
+	BikeChain = {
+		InnerPlates = 72676075818041,
+		OuterPlatesL = 107264596098557,
+		OuterPlatesR = 107264596098557,
+	},
 	BikeExhaust = {
 		Collector = 137575000581354,
 		Headers = 126436819415341,
