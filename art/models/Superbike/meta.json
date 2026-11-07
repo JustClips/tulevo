@@ -1,0 +1,1615 @@
+{
+ "units": "studs (x3.6 baked in, use Scale 1)",
+ "axes": "Blender: +X = bike's LEFT, -Y = front, +Z = up; origin = ground between the axles (bike layout).",
+ "parts": {
+  "FrontCaliperR": {
+   "tris": 2812
+  },
+  "FrontPadR": {
+   "tris": 408
+  },
+  "FrontRotorR": {
+   "tris": 6480
+  },
+  "FrontCarrierL": {
+   "tris": 9272
+  },
+  "FrontCaliperL": {
+   "tris": 2812
+  },
+  "FrontTyre": {
+   "tris": 19488
+  },
+  "FrontPadL": {
+   "tris": 408
+  },
+  "FrontValve": {
+   "tris": 360
+  },
+  "FrontCarrierR": {
+   "tris": 9272
+  },
+  "FrontRotorL": {
+   "tris": 6480
+  },
+  "FrontRim": {
+   "tris": 16740
+  },
+  "RearTyre": {
+   "tris": 19488
+  },
+  "RearRim": {
+   "tris": 17764
+  },
+  "RearCaliper": {
+   "tris": 1996
+  },
+  "RearPad": {
+   "tris": 408
+  },
+  "RearRotor": {
+   "tris": 8568
+  },
+  "RearBracket": {
+   "tris": 5760
+  },
+  "RearSprocket": {
+   "tris": 10460
+  },
+  "RearValve": {
+   "tris": 360
+  },
+  "Fasteners": {
+   "tris": 2496
+  },
+  "FairingNose": {
+   "tris": 9276
+  },
+  "InnerPanelL": {
+   "tris": 1928
+  },
+  "IntakeDuct": {
+   "tris": 1200
+  },
+  "BellyPan": {
+   "tris": 12284
+  },
+  "HeadlightDRL": {
+   "tris": 2280
+  },
+  "HeadlightLens": {
+   "tris": 1434
+  },
+  "HeadlightHousing": {
+   "tris": 1872
+  },
+  "InnerPanelR": {
+   "tris": 1948
+  },
+  "GillDucts": {
+   "tris": 1468
+  },
+  "MirrorBlanks": {
+   "tris": 428
+  },
+  "SidePanelL": {
+   "tris": 6684
+  },
+  "Projector": {
+   "tris": 1120
+  },
+  "ProjectorLens": {
+   "tris": 896
+  },
+  "SidePanelR": {
+   "tris": 6680
+  },
+  "Screen": {
+   "tris": 4820
+  },
+  "IntakeGrille": {
+   "tris": 148
+  },
+  "FuelCapLock": {
+   "tris": 144
+  },
+  "KneePadR": {
+   "tris": 2824
+  },
+  "FuelCapLid": {
+   "tris": 1024
+  },
+  "TankFasteners": {
+   "tris": 288
+  },
+  "KneePadL": {
+   "tris": 2836
+  },
+  "AirboxCover": {
+   "tris": 9618
+  },
+  "FuelCapRing": {
+   "tris": 1512
+  },
+  "TankTop": {
+   "tris": 6322
+  },
+  "TailLED": {
+   "tris": 60
+  },
+  "TailFasteners": {
+   "tris": 288
+  },
+  "IndicatorLens": {
+   "tris": 192
+  },
+  "TailCowl": {
+   "tris": 9280
+  },
+  "Plate": {
+   "tris": 60
+  },
+  "PlateFrame": {
+   "tris": 100
+  },
+  "Indicators": {
+   "tris": 336
+  },
+  "TailLens": {
+   "tris": 60
+  },
+  "PlateHanger": {
+   "tris": 196
+  },
+  "TailEnd": {
+   "tris": 72
+  },
+  "TailUnder": {
+   "tris": 9512
+  },
+  "PillionBase": {
+   "tris": 1208
+  },
+  "PillionSides": {
+   "tris": 5952
+  },
+  "PillionPiping": {
+   "tris": 3968
+  },
+  "RiderTop": {
+   "tris": 11088
+  },
+  "RiderPiping": {
+   "tris": 5568
+  },
+  "RiderBase": {
+   "tris": 1608
+  },
+  "RiderSides": {
+   "tris": 8352
+  },
+  "SeatLatch": {
+   "tris": 280
+  },
+  "PillionTop": {
+   "tris": 6888
+  },
+  "ForkInner": {
+   "tris": 192
+  },
+  "Mudguard": {
+   "tris": 3032
+  },
+  "MirrorGlass": {
+   "tris": 1074
+  },
+  "Levers": {
+   "tris": 1088
+  },
+  "MirrorHousings": {
+   "tris": 960
+  },
+  "ForkFeet": {
+   "tris": 3512
+  },
+  "DashHousing": {
+   "tris": 160
+  },
+  "TopClamp": {
+   "tris": 1900
+  },
+  "BottomClamp": {
+   "tris": 3722
+  },
+  "Bars": {
+   "tris": 440
+  },
+  "Controls": {
+   "tris": 432
+  },
+  "Grips": {
+   "tris": 192
+  },
+  "ForkOuter": {
+   "tris": 672
+  },
+  "MudguardFins": {
+   "tris": 2692
+  },
+  "DashScreen": {
+   "tris": 887
+  },
+  "ChainSlider": {
+   "tris": 320
+  },
+  "Swingarm": {
+   "tris": 6956
+  },
+  "Linkage": {
+   "tris": 1792
+  },
+  "Frame": {
+   "tris": 6936
+  },
+  "PillionPegs": {
+   "tris": 144
+  },
+  "PillionBrackets": {
+   "tris": 2212
+  },
+  "ShockBody": {
+   "tris": 520
+  },
+  "Pegs": {
+   "tris": 224
+  },
+  "Rearsets": {
+   "tris": 4580
+  },
+  "ShockSpring": {
+   "tris": 2176
+  },
+  "HuggerTabs": {
+   "tris": 1532
+  },
+  "SideStand": {
+   "tris": 1436
+  },
+  "Subframe": {
+   "tris": 2928
+  },
+  "ShockReservoir": {
+   "tris": 160
+  },
+  "Hugger": {
+   "tris": 3784
+  },
+  "RadiatorCore": {
+   "tris": 64
+  },
+  "CylinderHead": {
+   "tris": 13400
+  },
+  "CamCover": {
+   "tris": 2452
+  },
+  "Airbox": {
+   "tris": 5944
+  },
+  "Hoses": {
+   "tris": 912
+  },
+  "RadiatorTanks": {
+   "tris": 224
+  },
+  "EngineCovers": {
+   "tris": 1816
+  },
+  "SprocketCover": {
+   "tris": 1006
+  },
+  "Crankcase": {
+   "tris": 13488
+  },
+  "Silencer": {
+   "tris": 3260
+  },
+  "HeatShield": {
+   "tris": 2180
+  },
+  "Hardware": {
+   "tris": 10924
+  },
+  "Headers": {
+   "tris": 18272
+  },
+  "Sensors": {
+   "tris": 232
+  },
+  "EndCap": {
+   "tris": 948
+  },
+  "Valve": {
+   "tris": 336
+  },
+  "PreSilencer": {
+   "tris": 392
+  },
+  "LinkPipe": {
+   "tris": 2080
+  },
+  "Collector": {
+   "tris": 4144
+  },
+  "OuterPlatesL": {
+   "tris": 12760
+  },
+  "Seals": {
+   "tris": 7424
+  },
+  "Pins": {
+   "tris": 9280
+  },
+  "InnerPlates": {
+   "tris": 10672
+  },
+  "OuterPlatesR": {
+   "tris": 12760
+  },
+  "FrontSprocket": {
+   "tris": 4996
+  },
+  "Rollers": {
+   "tris": 8352
+  },
+  "SprocketNut": {
+   "tris": 620
+  }
+ },
+ "looks": {
+  "FrontCaliperR": {
+   "Color": [
+    32,
+    74,
+    168
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.05
+  },
+  "FrontPadR": {
+   "Color": [
+    46,
+    43,
+    40
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "FrontRotorR": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.12
+  },
+  "FrontCarrierL": {
+   "Color": [
+    62,
+    64,
+    68
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.08
+  },
+  "FrontCaliperL": {
+   "Color": [
+    32,
+    74,
+    168
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.05
+  },
+  "FrontTyre": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "FrontPadL": {
+   "Color": [
+    46,
+    43,
+    40
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "FrontValve": {
+   "Color": [
+    168,
+    170,
+    176
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.2
+  },
+  "FrontCarrierR": {
+   "Color": [
+    62,
+    64,
+    68
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.08
+  },
+  "FrontRotorL": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.12
+  },
+  "FrontRim": {
+   "Color": [
+    24,
+    24,
+    26
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.06
+  },
+  "RearTyre": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "RearRim": {
+   "Color": [
+    24,
+    24,
+    26
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.06
+  },
+  "RearCaliper": {
+   "Color": [
+    32,
+    74,
+    168
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.05
+  },
+  "RearPad": {
+   "Color": [
+    46,
+    43,
+    40
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "RearRotor": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.12
+  },
+  "RearBracket": {
+   "Color": [
+    56,
+    58,
+    62
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.05
+  },
+  "RearSprocket": {
+   "Color": [
+    38,
+    38,
+    40
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.06
+  },
+  "RearValve": {
+   "Color": [
+    168,
+    170,
+    176
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.2
+  },
+  "Fasteners": {
+   "Color": [
+    44,
+    45,
+    48
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.1
+  },
+  "FairingNose": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.04
+  },
+  "InnerPanelL": {
+   "Color": [
+    26,
+    27,
+    30
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "IntakeDuct": {
+   "Color": [
+    14,
+    14,
+    15
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "BellyPan": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.04
+  },
+  "HeadlightDRL": {
+   "Color": [
+    235,
+    242,
+    255
+   ],
+   "Material": "Neon"
+  },
+  "HeadlightLens": {
+   "Color": [
+    225,
+    230,
+    238
+   ],
+   "Material": "Glass",
+   "Transparency": 0.7
+  },
+  "HeadlightHousing": {
+   "Color": [
+    34,
+    35,
+    39
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.2
+  },
+  "InnerPanelR": {
+   "Color": [
+    26,
+    27,
+    30
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "GillDucts": {
+   "Color": [
+    14,
+    14,
+    15
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "MirrorBlanks": {
+   "Color": [
+    22,
+    22,
+    24
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "SidePanelL": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.04
+  },
+  "Projector": {
+   "Color": [
+    176,
+    179,
+    186
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.35
+  },
+  "ProjectorLens": {
+   "Color": [
+    20,
+    24,
+    34
+   ],
+   "Material": "Glass",
+   "Reflectance": 0.2
+  },
+  "SidePanelR": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.04
+  },
+  "Screen": {
+   "Color": [
+    70,
+    74,
+    84
+   ],
+   "Material": "Glass",
+   "Transparency": 0.45
+  },
+  "IntakeGrille": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.0
+  },
+  "FuelCapLock": {
+   "Color": [
+    30,
+    31,
+    34
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.1
+  },
+  "KneePadR": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "Rubber",
+   "Reflectance": 0.0
+  },
+  "FuelCapLid": {
+   "Color": [
+    150,
+    153,
+    160
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.15
+  },
+  "TankFasteners": {
+   "Color": [
+    44,
+    45,
+    48
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.1
+  },
+  "KneePadL": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "Rubber",
+   "Reflectance": 0.0
+  },
+  "AirboxCover": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.04
+  },
+  "FuelCapRing": {
+   "Color": [
+    196,
+    199,
+    204
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.25
+  },
+  "TankTop": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.04
+  },
+  "TailLED": {
+   "Color": [
+    255,
+    40,
+    36
+   ],
+   "Material": "Neon"
+  },
+  "TailFasteners": {
+   "Color": [
+    44,
+    45,
+    48
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.1
+  },
+  "IndicatorLens": {
+   "Color": [
+    255,
+    150,
+    40
+   ],
+   "Material": "Glass",
+   "Transparency": 0.2
+  },
+  "TailCowl": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.04
+  },
+  "Plate": {
+   "Color": [
+    228,
+    230,
+    232
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.05
+  },
+  "PlateFrame": {
+   "Color": [
+    18,
+    18,
+    20
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "Indicators": {
+   "Color": [
+    28,
+    29,
+    32
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "TailLens": {
+   "Color": [
+    190,
+    20,
+    24
+   ],
+   "Material": "Glass",
+   "Transparency": 0.35
+  },
+  "PlateHanger": {
+   "Color": [
+    22,
+    22,
+    24
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "TailEnd": {
+   "Color": [
+    24,
+    25,
+    28
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "TailUnder": {
+   "Color": [
+    20,
+    20,
+    22
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "PillionBase": {
+   "Color": [
+    20,
+    20,
+    22
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "PillionSides": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.02
+  },
+  "PillionPiping": {
+   "Color": [
+    30,
+    30,
+    32
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.03
+  },
+  "RiderTop": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.02
+  },
+  "RiderPiping": {
+   "Color": [
+    30,
+    30,
+    32
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.03
+  },
+  "RiderBase": {
+   "Color": [
+    20,
+    20,
+    22
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "RiderSides": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.02
+  },
+  "SeatLatch": {
+   "Color": [
+    160,
+    162,
+    168
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.12
+  },
+  "PillionTop": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.02
+  },
+  "ForkInner": {
+   "Color": [
+    52,
+    52,
+    58
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.25
+  },
+  "Mudguard": {
+   "Color": [
+    36,
+    38,
+    42
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.06
+  },
+  "MirrorGlass": {
+   "Color": [
+    205,
+    215,
+    225
+   ],
+   "Material": "Glass",
+   "Reflectance": 0.7
+  },
+  "Levers": {
+   "Color": [
+    180,
+    183,
+    190
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.2
+  },
+  "MirrorHousings": {
+   "Color": [
+    24,
+    25,
+    28
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.05
+  },
+  "ForkFeet": {
+   "Color": [
+    30,
+    31,
+    34
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.1
+  },
+  "DashHousing": {
+   "Color": [
+    20,
+    20,
+    22
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "TopClamp": {
+   "Color": [
+    170,
+    173,
+    180
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.2
+  },
+  "BottomClamp": {
+   "Color": [
+    34,
+    35,
+    38
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.1
+  },
+  "Bars": {
+   "Color": [
+    28,
+    29,
+    32
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.1
+  },
+  "Controls": {
+   "Color": [
+    26,
+    27,
+    30
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "Grips": {
+   "Color": [
+    22,
+    22,
+    24
+   ],
+   "Material": "Rubber"
+  },
+  "ForkOuter": {
+   "Color": [
+    200,
+    160,
+    70
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.3
+  },
+  "MudguardFins": {
+   "Color": [
+    24,
+    25,
+    28
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "DashScreen": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.1
+  },
+  "ChainSlider": {
+   "Color": [
+    16,
+    16,
+    17
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "Swingarm": {
+   "Color": [
+    30,
+    31,
+    34
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.12
+  },
+  "Linkage": {
+   "Color": [
+    50,
+    51,
+    55
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.1
+  },
+  "Frame": {
+   "Color": [
+    176,
+    179,
+    185
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.18
+  },
+  "PillionPegs": {
+   "Color": [
+    40,
+    41,
+    44
+   ],
+   "Material": "Metal"
+  },
+  "PillionBrackets": {
+   "Color": [
+    196,
+    199,
+    205
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.25
+  },
+  "ShockBody": {
+   "Color": [
+    28,
+    29,
+    32
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.15
+  },
+  "Pegs": {
+   "Color": [
+    40,
+    41,
+    44
+   ],
+   "Material": "Metal"
+  },
+  "Rearsets": {
+   "Color": [
+    196,
+    199,
+    205
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.25
+  },
+  "ShockSpring": {
+   "Color": [
+    226,
+    64,
+    30
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.1
+  },
+  "HuggerTabs": {
+   "Color": [
+    20,
+    20,
+    22
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "SideStand": {
+   "Color": [
+    34,
+    35,
+    38
+   ],
+   "Material": "Metal"
+  },
+  "Subframe": {
+   "Color": [
+    148,
+    110,
+    62
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.15
+  },
+  "ShockReservoir": {
+   "Color": [
+    196,
+    160,
+    72
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.25
+  },
+  "Hugger": {
+   "Color": [
+    36,
+    38,
+    42
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.06
+  },
+  "RadiatorCore": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.0
+  },
+  "CylinderHead": {
+   "Color": [
+    44,
+    45,
+    49
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "CamCover": {
+   "Color": [
+    24,
+    25,
+    28
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.06
+  },
+  "Airbox": {
+   "Color": [
+    18,
+    18,
+    20
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "Hoses": {
+   "Color": [
+    16,
+    16,
+    17
+   ],
+   "Material": "Rubber"
+  },
+  "RadiatorTanks": {
+   "Color": [
+    22,
+    22,
+    24
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "EngineCovers": {
+   "Color": [
+    150,
+    153,
+    160
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.2
+  },
+  "SprocketCover": {
+   "Color": [
+    20,
+    20,
+    22
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "Crankcase": {
+   "Color": [
+    32,
+    33,
+    36
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "Silencer": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.12
+  },
+  "HeatShield": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.05
+  },
+  "Hardware": {
+   "Color": [
+    165,
+    168,
+    174
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.15
+  },
+  "Headers": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.1
+  },
+  "Sensors": {
+   "Color": [
+    110,
+    110,
+    116
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "EndCap": {
+   "Color": [
+    30,
+    30,
+    33
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "Valve": {
+   "Color": [
+    38,
+    38,
+    42
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "PreSilencer": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.08
+  },
+  "LinkPipe": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.1
+  },
+  "Collector": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.1
+  },
+  "OuterPlatesL": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.1
+  },
+  "Seals": {
+   "Color": [
+    24,
+    24,
+    26
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "Pins": {
+   "Color": [
+    178,
+    180,
+    186
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.15
+  },
+  "InnerPlates": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.05
+  },
+  "OuterPlatesR": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.1
+  },
+  "FrontSprocket": {
+   "Color": [
+    118,
+    119,
+    124
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.08
+  },
+  "Rollers": {
+   "Color": [
+    92,
+    92,
+    96
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.06
+  },
+  "SprocketNut": {
+   "Color": [
+    160,
+    162,
+    168
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.12
+  }
+ },
+ "credit": "Body shapes fitted to 'BMW S 1000 RR - HSLU Midterm 3DMOD4RT' by noe_auf (Sketchfab, CC-BY-4.0). Graphics are our own.",
+ "from": {
+  "FrontCaliperR": "BikeWheelFront",
+  "FrontPadR": "BikeWheelFront",
+  "FrontRotorR": "BikeWheelFront",
+  "FrontCarrierL": "BikeWheelFront",
+  "FrontCaliperL": "BikeWheelFront",
+  "FrontTyre": "BikeWheelFront",
+  "FrontPadL": "BikeWheelFront",
+  "FrontValve": "BikeWheelFront",
+  "FrontCarrierR": "BikeWheelFront",
+  "FrontRotorL": "BikeWheelFront",
+  "FrontRim": "BikeWheelFront",
+  "RearTyre": "BikeWheelRear",
+  "RearRim": "BikeWheelRear",
+  "RearCaliper": "BikeWheelRear",
+  "RearPad": "BikeWheelRear",
+  "RearRotor": "BikeWheelRear",
+  "RearBracket": "BikeWheelRear",
+  "RearSprocket": "BikeWheelRear",
+  "RearValve": "BikeWheelRear",
+  "Fasteners": "BikeFairings",
+  "FairingNose": "BikeFairings",
+  "InnerPanelL": "BikeFairings",
+  "IntakeDuct": "BikeFairings",
+  "BellyPan": "BikeFairings",
+  "HeadlightDRL": "BikeFairings",
+  "HeadlightLens": "BikeFairings",
+  "HeadlightHousing": "BikeFairings",
+  "InnerPanelR": "BikeFairings",
+  "GillDucts": "BikeFairings",
+  "MirrorBlanks": "BikeFairings",
+  "SidePanelL": "BikeFairings",
+  "Projector": "BikeFairings",
+  "ProjectorLens": "BikeFairings",
+  "SidePanelR": "BikeFairings",
+  "Screen": "BikeFairings",
+  "IntakeGrille": "BikeFairings",
+  "FuelCapLock": "BikeTank",
+  "KneePadR": "BikeTank",
+  "FuelCapLid": "BikeTank",
+  "TankFasteners": "BikeTank",
+  "KneePadL": "BikeTank",
+  "AirboxCover": "BikeTank",
+  "FuelCapRing": "BikeTank",
+  "TankTop": "BikeTank",
+  "TailLED": "BikeTail",
+  "TailFasteners": "BikeTail",
+  "IndicatorLens": "BikeTail",
+  "TailCowl": "BikeTail",
+  "Plate": "BikeTail",
+  "PlateFrame": "BikeTail",
+  "Indicators": "BikeTail",
+  "TailLens": "BikeTail",
+  "PlateHanger": "BikeTail",
+  "TailEnd": "BikeTail",
+  "TailUnder": "BikeTail",
+  "PillionBase": "BikeSeats",
+  "PillionSides": "BikeSeats",
+  "PillionPiping": "BikeSeats",
+  "RiderTop": "BikeSeats",
+  "RiderPiping": "BikeSeats",
+  "RiderBase": "BikeSeats",
+  "RiderSides": "BikeSeats",
+  "SeatLatch": "BikeSeats",
+  "PillionTop": "BikeSeats",
+  "ForkInner": "BikeFront",
+  "Mudguard": "BikeFront",
+  "MirrorGlass": "BikeFront",
+  "Levers": "BikeFront",
+  "MirrorHousings": "BikeFront",
+  "ForkFeet": "BikeFront",
+  "DashHousing": "BikeFront",
+  "TopClamp": "BikeFront",
+  "BottomClamp": "BikeFront",
+  "Bars": "BikeFront",
+  "Controls": "BikeFront",
+  "Grips": "BikeFront",
+  "ForkOuter": "BikeFront",
+  "MudguardFins": "BikeFront",
+  "DashScreen": "BikeFront",
+  "ChainSlider": "BikeChassis",
+  "Swingarm": "BikeChassis",
+  "Linkage": "BikeChassis",
+  "Frame": "BikeChassis",
+  "PillionPegs": "BikeChassis",
+  "PillionBrackets": "BikeChassis",
+  "ShockBody": "BikeChassis",
+  "Pegs": "BikeChassis",
+  "Rearsets": "BikeChassis",
+  "ShockSpring": "BikeChassis",
+  "HuggerTabs": "BikeChassis",
+  "SideStand": "BikeChassis",
+  "Subframe": "BikeChassis",
+  "ShockReservoir": "BikeChassis",
+  "Hugger": "BikeChassis",
+  "RadiatorCore": "BikeEngine",
+  "CylinderHead": "BikeEngine",
+  "CamCover": "BikeEngine",
+  "Airbox": "BikeEngine",
+  "Hoses": "BikeEngine",
+  "RadiatorTanks": "BikeEngine",
+  "EngineCovers": "BikeEngine",
+  "SprocketCover": "BikeEngine",
+  "Crankcase": "BikeEngine",
+  "Silencer": "BikeExhaust",
+  "HeatShield": "BikeExhaust",
+  "Hardware": "BikeExhaust",
+  "Headers": "BikeExhaust",
+  "Sensors": "BikeExhaust",
+  "EndCap": "BikeExhaust",
+  "Valve": "BikeExhaust",
+  "PreSilencer": "BikeExhaust",
+  "LinkPipe": "BikeExhaust",
+  "Collector": "BikeExhaust",
+  "OuterPlatesL": "BikeChain",
+  "Seals": "BikeChain",
+  "Pins": "BikeChain",
+  "InnerPlates": "BikeChain",
+  "OuterPlatesR": "BikeChain",
+  "FrontSprocket": "BikeChain",
+  "Rollers": "BikeChain",
+  "SprocketNut": "BikeChain"
+ },
+ "wheels": {
+  "Front": {
+   "hub": [
+    0.0,
+    -2.5938,
+    1.0796
+   ],
+   "spin": [
+    "FrontTyre",
+    "FrontRim",
+    "FrontValve",
+    "FrontRotorL",
+    "FrontCarrierL",
+    "FrontRotorR",
+    "FrontCarrierR"
+   ],
+   "fixed": [
+    "FrontCaliperL",
+    "FrontPadL",
+    "FrontCaliperR",
+    "FrontPadR"
+   ]
+  },
+  "Rear": {
+   "hub": [
+    0.0,
+    2.5938,
+    1.1534
+   ],
+   "spin": [
+    "RearTyre",
+    "RearRim",
+    "RearValve",
+    "RearRotor",
+    "RearSprocket"
+   ],
+   "fixed": [
+    "RearCaliper",
+    "RearBracket",
+    "RearPad"
+   ]
+  }
+ },
+ "steering": [
+  "ForkOuter",
+  "ForkInner",
+  "ForkFeet",
+  "TopClamp",
+  "BottomClamp",
+  "Bars",
+  "Grips",
+  "Controls",
+  "Levers",
+  "Mudguard",
+  "MudguardFins",
+  "FrontTyre",
+  "FrontRim",
+  "FrontValve",
+  "FrontRotorL",
+  "FrontCarrierL",
+  "FrontRotorR",
+  "FrontCarrierR",
+  "FrontCaliperL",
+  "FrontPadL",
+  "FrontCaliperR",
+  "FrontPadR"
+ ],
+ "steering_axis": "through the ground point y -0.8144 m, tilted back 23.1 deg (rake); x 0",
+ "total_tris": 491527
+}

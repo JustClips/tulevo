@@ -3928,5 +3928,35 @@
   "id": 117663143319358,
   "file": "art/models/FireStation/tex/TruckRed_Color.png",
   "state": "Approved"
+ },
+ "2ab6acdc79fe71910711e2e716b289627179af0bc5cda611e81485f653e3fec8": {
+  "id": 140534695143530,
+  "file": "art/models/BikeEngine/tex/RadiatorCore_Color.png",
+  "state": "Approved"
+ },
+ "d916853ff6ef2e54b25563018a7062f4c11b96b584715ac327fa390af042778e": {
+  "id": 108535103756317,
+  "file": "art/models/BikeFront/tex/DashScreen_Color.png",
+  "state": "Approved"
+ },
+ "3a65f347b0542f85cc7fb818950b687270e14b957e5820ca7e0d56a5f0ea0a4b": {
+  "id": 128343563063380,
+  "file": "art/models/BikeTail/tex/TailCowl_Color.png",
+  "state": "Approved"
+ },
+ "34ee8f072ad5db5db5c215b4f7e4c720286b8838a4d0f07dbc050d70a4badf8a": {
+  "id": 98566394167108,
+  "file": "art/models/BikeTank/tex/AirboxCover_Color.png",
+  "state": "Reviewing"
+ },
+ "bd0837d849b427d0b96d128a545784c8e36c5bdec1dd272b2b5325604fed69c8": {
+  "id": 92350611696148,
+  "file": "art/models/BikeTank/tex/KneePad_Color.png",
+  "state": "Reviewing"
+ },
+ "ff6cb5adfb647d637a553c8d8cdf97add928b97e066935c2e6deee3abbf30052": {
+  "id": 129781678661120,
+  "file": "art/models/BikeTank/tex/TankTop_Color.png",
+  "state": "Reviewing"
  }
 }

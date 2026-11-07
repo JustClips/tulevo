@@ -292,8 +292,8 @@
   "sha": "34307f55892db7ecd1d202966b8f0e459d5315408350dc01ee62d13d669735cd"
  },
  "BikeSeats": {
-  "id": 138068057732783,
-  "sha": "fbba0c9771bb1b4b08479ac785b41638e381241be2dee6ab069062f04830633f"
+  "id": 95677759109304,
+  "sha": "dcc7f1e72aeacae17b54c09162caee55078aa146491311bb0e7535dd877047e1"
  },
  "BikeFairings": {
   "id": 133566964196742,
@@ -330,5 +330,29 @@
  "Clinic": {
   "id": 105308037500972,
   "sha": "c8d6dbea56a58ec3f95ac0c86995afffc0f4d3e5ae356abb663cc9a5cac82ce6"
+ },
+ "BikeChassis": {
+  "id": 139029402941538,
+  "sha": "46dcdc8b26678e1c7b7f92a0abd1fa7289906628bcfb63afd277518694ef9970"
+ },
+ "BikeEngine": {
+  "id": 116792737552339,
+  "sha": "41d13e75e425997595315144aab0ec77b85eb4e18a6d2aff411d421eb4528814"
+ },
+ "BikeFront": {
+  "id": 111796888097980,
+  "sha": "a03e89c69d8208e754a23e719e2d0142e756639e42dcf799dd3ef6fa1e887466"
+ },
+ "BikeTail": {
+  "id": 95829778210858,
+  "sha": "eb56bd6c7e032a4db74d0701b619cacc5dd459f14bd7c4637b174e670220f6d8"
+ },
+ "BikeTank": {
+  "id": 75104495778356,
+  "sha": "774ab2a33cd8eb5c8a6d9c115cbfde25abb86beca5500102ef24437342461304"
+ },
+ "Superbike": {
+  "id": 78748827130963,
+  "sha": "2df1d6f48f8b363be8a37a31c4ca3e54eb91118e82f26627c511906aeb39f062"
  }
 }

@@ -1,0 +1,6 @@
+{
+ "AirboxCover": "art/models/BikeTank/tex/AirboxCover_Color.png",
+ "TankTop": "art/models/BikeTank/tex/TankTop_Color.png",
+ "KneePadL": "art/models/BikeTank/tex/KneePad_Color.png",
+ "KneePadR": "art/models/BikeTank/tex/KneePad_Color.png"
+}

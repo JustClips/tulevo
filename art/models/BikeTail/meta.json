@@ -1,0 +1,136 @@
+{
+ "units": "studs (x3.6 baked in, use Scale 1)",
+ "axes": "Blender: +X = bike's LEFT, -Y = front, +Z = up; origin = ground between the axles (bike layout).",
+ "parts": {
+  "TailCowl": {
+   "tris": 9280
+  },
+  "TailUnder": {
+   "tris": 9512
+  },
+  "TailEnd": {
+   "tris": 72
+  },
+  "TailLens": {
+   "tris": 60
+  },
+  "TailLED": {
+   "tris": 60
+  },
+  "PlateHanger": {
+   "tris": 196
+  },
+  "PlateFrame": {
+   "tris": 100
+  },
+  "Plate": {
+   "tris": 60
+  },
+  "Indicators": {
+   "tris": 336
+  },
+  "IndicatorLens": {
+   "tris": 192
+  },
+  "TailFasteners": {
+   "tris": 288
+  }
+ },
+ "looks": {
+  "TailCowl": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.04
+  },
+  "TailUnder": {
+   "Color": [
+    20,
+    20,
+    22
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "TailEnd": {
+   "Color": [
+    24,
+    25,
+    28
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "TailLens": {
+   "Color": [
+    190,
+    20,
+    24
+   ],
+   "Material": "Glass",
+   "Transparency": 0.35
+  },
+  "TailLED": {
+   "Color": [
+    255,
+    40,
+    36
+   ],
+   "Material": "Neon"
+  },
+  "PlateHanger": {
+   "Color": [
+    22,
+    22,
+    24
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "PlateFrame": {
+   "Color": [
+    18,
+    18,
+    20
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "Plate": {
+   "Color": [
+    228,
+    230,
+    232
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.05
+  },
+  "Indicators": {
+   "Color": [
+    28,
+    29,
+    32
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "IndicatorLens": {
+   "Color": [
+    255,
+    150,
+    40
+   ],
+   "Material": "Glass",
+   "Transparency": 0.2
+  },
+  "TailFasteners": {
+   "Color": [
+    44,
+    45,
+    48
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.1
+  }
+ },
+ "credit": "Body shapes fitted to 'BMW S 1000 RR - HSLU Midterm 3DMOD4RT' by noe_auf (Sketchfab, CC-BY-4.0). Graphics are our own.",
+ "total_tris": 20156
+}

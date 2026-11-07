@@ -5,3 +5,7 @@ art/army/src/
 art/estate/src/
 art/cityfill/src/
 art/gunshop/src/
+
+# Blender working files next to exported models (rebuilt by the art scripts)
+art/models/*/work.blend
+art/models/*/work.blend1

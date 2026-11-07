@@ -69,6 +69,10 @@ SEATS = {
     },
 }
 
+# where each seat sits on the bike (the specs above were drawn ~17 cm too far forward; checked against the scan
+# side view and the tail cowl, which the pillion sits in)
+PLACE = {"Rider": (0.0, 0.175, 0.0), "Pillion": (0.0, 0.185, 0.020)}
+
 GROOVE_BORDER = 0.0026     # depth of the groove round the pleated zone
 GROOVE_PLEAT = 0.0030
 RIB_PUFF = 0.0016
@@ -635,6 +639,10 @@ def build():
     parts, latches = {}, []
     for i, key in enumerate(SEATS):
         p, latch, patch, tile = build_seat(key)
+        off = PLACE[key]
+        for ob in p.values():
+            ob.data.transform(Matrix.Translation(off))
+        latch.v = [(x + off[0], y + off[1], z + off[2]) for x, y, z in latch.v]
         parts.update(p)
         latches.append(latch)
         top_texture(os.path.join(TEX, TEXFILES[f"{key}Top"]), patch, 100 + i)

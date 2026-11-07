@@ -1,0 +1,106 @@
+{
+ "units": "studs (x3.6 baked in, use Scale 1)",
+ "axes": "Blender: +X = bike's LEFT, -Y = front, +Z = up; origin = ground between the axles (bike layout).",
+ "parts": {
+  "AirboxCover": {
+   "tris": 9618
+  },
+  "TankTop": {
+   "tris": 6322
+  },
+  "KneePadL": {
+   "tris": 2836
+  },
+  "KneePadR": {
+   "tris": 2824
+  },
+  "FuelCapRing": {
+   "tris": 1512
+  },
+  "FuelCapLid": {
+   "tris": 1024
+  },
+  "FuelCapLock": {
+   "tris": 144
+  },
+  "TankFasteners": {
+   "tris": 288
+  }
+ },
+ "looks": {
+  "AirboxCover": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.04
+  },
+  "TankTop": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.04
+  },
+  "KneePadL": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "Rubber",
+   "Reflectance": 0.0
+  },
+  "KneePadR": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "Rubber",
+   "Reflectance": 0.0
+  },
+  "FuelCapRing": {
+   "Color": [
+    196,
+    199,
+    204
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.25
+  },
+  "FuelCapLid": {
+   "Color": [
+    150,
+    153,
+    160
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.15
+  },
+  "FuelCapLock": {
+   "Color": [
+    30,
+    31,
+    34
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.1
+  },
+  "TankFasteners": {
+   "Color": [
+    44,
+    45,
+    48
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.1
+  }
+ },
+ "credit": "Body shapes fitted to 'BMW S 1000 RR - HSLU Midterm 3DMOD4RT' by noe_auf (Sketchfab, CC-BY-4.0). Graphics are our own.",
+ "total_tris": 24568
+}

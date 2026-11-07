@@ -1,0 +1,184 @@
+{
+ "units": "studs (x3.6 baked in, use Scale 1)",
+ "axes": "Blender: +X = bike's LEFT, -Y = front, +Z = up; origin = ground between the axles (bike layout).",
+ "parts": {
+  "Frame": {
+   "tris": 6936
+  },
+  "Subframe": {
+   "tris": 2928
+  },
+  "Swingarm": {
+   "tris": 6956
+  },
+  "ChainSlider": {
+   "tris": 320
+  },
+  "ShockBody": {
+   "tris": 520
+  },
+  "ShockSpring": {
+   "tris": 2176
+  },
+  "ShockReservoir": {
+   "tris": 160
+  },
+  "Linkage": {
+   "tris": 1792
+  },
+  "Rearsets": {
+   "tris": 4580
+  },
+  "Pegs": {
+   "tris": 224
+  },
+  "PillionBrackets": {
+   "tris": 2212
+  },
+  "PillionPegs": {
+   "tris": 144
+  },
+  "SideStand": {
+   "tris": 1436
+  },
+  "Hugger": {
+   "tris": 3784
+  },
+  "HuggerTabs": {
+   "tris": 1532
+  }
+ },
+ "looks": {
+  "Frame": {
+   "Color": [
+    176,
+    179,
+    185
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.18
+  },
+  "Subframe": {
+   "Color": [
+    148,
+    110,
+    62
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.15
+  },
+  "Swingarm": {
+   "Color": [
+    30,
+    31,
+    34
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.12
+  },
+  "ChainSlider": {
+   "Color": [
+    16,
+    16,
+    17
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "ShockBody": {
+   "Color": [
+    28,
+    29,
+    32
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.15
+  },
+  "ShockSpring": {
+   "Color": [
+    226,
+    64,
+    30
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.1
+  },
+  "ShockReservoir": {
+   "Color": [
+    196,
+    160,
+    72
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.25
+  },
+  "Linkage": {
+   "Color": [
+    50,
+    51,
+    55
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.1
+  },
+  "Rearsets": {
+   "Color": [
+    196,
+    199,
+    205
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.25
+  },
+  "Pegs": {
+   "Color": [
+    40,
+    41,
+    44
+   ],
+   "Material": "Metal"
+  },
+  "PillionBrackets": {
+   "Color": [
+    196,
+    199,
+    205
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.25
+  },
+  "PillionPegs": {
+   "Color": [
+    40,
+    41,
+    44
+   ],
+   "Material": "Metal"
+  },
+  "SideStand": {
+   "Color": [
+    34,
+    35,
+    38
+   ],
+   "Material": "Metal"
+  },
+  "Hugger": {
+   "Color": [
+    36,
+    38,
+    42
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.06
+  },
+  "HuggerTabs": {
+   "Color": [
+    20,
+    20,
+    22
+   ],
+   "Material": "SmoothPlastic"
+  }
+ },
+ "total_tris": 35700
+}

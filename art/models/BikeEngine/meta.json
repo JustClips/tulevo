@@ -1,0 +1,111 @@
+{
+ "units": "studs (x3.6 baked in, use Scale 1)",
+ "axes": "Blender: +X = bike's LEFT, -Y = front, +Z = up; origin = ground between the axles (bike layout).",
+ "parts": {
+  "Crankcase": {
+   "tris": 13488
+  },
+  "CylinderHead": {
+   "tris": 13400
+  },
+  "CamCover": {
+   "tris": 2452
+  },
+  "EngineCovers": {
+   "tris": 1816
+  },
+  "SprocketCover": {
+   "tris": 1006
+  },
+  "Airbox": {
+   "tris": 5944
+  },
+  "RadiatorCore": {
+   "tris": 64
+  },
+  "RadiatorTanks": {
+   "tris": 224
+  },
+  "Hoses": {
+   "tris": 912
+  }
+ },
+ "looks": {
+  "Crankcase": {
+   "Color": [
+    32,
+    33,
+    36
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "CylinderHead": {
+   "Color": [
+    44,
+    45,
+    49
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "CamCover": {
+   "Color": [
+    24,
+    25,
+    28
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.06
+  },
+  "EngineCovers": {
+   "Color": [
+    150,
+    153,
+    160
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.2
+  },
+  "SprocketCover": {
+   "Color": [
+    20,
+    20,
+    22
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "Airbox": {
+   "Color": [
+    18,
+    18,
+    20
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "RadiatorCore": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.0
+  },
+  "RadiatorTanks": {
+   "Color": [
+    22,
+    22,
+    24
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "Hoses": {
+   "Color": [
+    16,
+    16,
+    17
+   ],
+   "Material": "Rubber"
+  }
+ },
+ "total_tris": 39306
+}

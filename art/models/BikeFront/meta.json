@@ -1,0 +1,185 @@
+{
+ "units": "studs (x3.6 baked in, use Scale 1)",
+ "axes": "Blender: +X = bike's LEFT, -Y = front, +Z = up; origin = ground between the axles (bike layout).",
+ "parts": {
+  "ForkOuter": {
+   "tris": 672
+  },
+  "ForkInner": {
+   "tris": 192
+  },
+  "ForkFeet": {
+   "tris": 3512
+  },
+  "TopClamp": {
+   "tris": 1900
+  },
+  "BottomClamp": {
+   "tris": 3722
+  },
+  "Bars": {
+   "tris": 440
+  },
+  "Grips": {
+   "tris": 192
+  },
+  "Controls": {
+   "tris": 432
+  },
+  "Levers": {
+   "tris": 1088
+  },
+  "MirrorHousings": {
+   "tris": 960
+  },
+  "MirrorGlass": {
+   "tris": 1074
+  },
+  "DashHousing": {
+   "tris": 160
+  },
+  "DashScreen": {
+   "tris": 887
+  },
+  "MudguardFins": {
+   "tris": 2692
+  },
+  "Mudguard": {
+   "tris": 3032
+  }
+ },
+ "looks": {
+  "ForkOuter": {
+   "Color": [
+    200,
+    160,
+    70
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.3
+  },
+  "ForkInner": {
+   "Color": [
+    52,
+    52,
+    58
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.25
+  },
+  "ForkFeet": {
+   "Color": [
+    30,
+    31,
+    34
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.1
+  },
+  "TopClamp": {
+   "Color": [
+    170,
+    173,
+    180
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.2
+  },
+  "BottomClamp": {
+   "Color": [
+    34,
+    35,
+    38
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.1
+  },
+  "Bars": {
+   "Color": [
+    28,
+    29,
+    32
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.1
+  },
+  "Grips": {
+   "Color": [
+    22,
+    22,
+    24
+   ],
+   "Material": "Rubber"
+  },
+  "Controls": {
+   "Color": [
+    26,
+    27,
+    30
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "Levers": {
+   "Color": [
+    180,
+    183,
+    190
+   ],
+   "Material": "Metal",
+   "Reflectance": 0.2
+  },
+  "MirrorHousings": {
+   "Color": [
+    24,
+    25,
+    28
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.05
+  },
+  "MirrorGlass": {
+   "Color": [
+    205,
+    215,
+    225
+   ],
+   "Material": "Glass",
+   "Reflectance": 0.7
+  },
+  "DashHousing": {
+   "Color": [
+    20,
+    20,
+    22
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "DashScreen": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.1
+  },
+  "MudguardFins": {
+   "Color": [
+    24,
+    25,
+    28
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "Mudguard": {
+   "Color": [
+    36,
+    38,
+    42
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.06
+  }
+ },
+ "total_tris": 20955
+}

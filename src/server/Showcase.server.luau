@@ -6,75 +6,8 @@ local RunService = game:GetService("RunService")
 
 local ModelIds = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("ModelIds"))
 local TextureIds = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("TextureIds"))
-
--- Superbike wheel paint (part name -> look); the tyres get their colour map from TextureIds.
-local BIKE_WHEEL_LOOKS = {
-	Tyre = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic },
-	Rim = { Color = Color3.fromRGB(24, 24, 26), Material = Enum.Material.SmoothPlastic, Reflectance = 0.06 },
-	Valve = { Color = Color3.fromRGB(168, 170, 176), Material = Enum.Material.SmoothPlastic, Reflectance = 0.2 },
-	Rotor = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.12 },
-	Carrier = { Color = Color3.fromRGB(62, 64, 68), Material = Enum.Material.SmoothPlastic, Reflectance = 0.08 },
-	Caliper = { Color = Color3.fromRGB(32, 74, 168), Material = Enum.Material.SmoothPlastic, Reflectance = 0.05 },
-	Pad = { Color = Color3.fromRGB(46, 43, 40), Material = Enum.Material.SmoothPlastic },
-	Bracket = { Color = Color3.fromRGB(56, 58, 62), Material = Enum.Material.SmoothPlastic, Reflectance = 0.05 },
-	Sprocket = { Color = Color3.fromRGB(38, 38, 40), Material = Enum.Material.SmoothPlastic, Reflectance = 0.06 },
-}
-
--- Superbike exhaust paint; the pipes, silencer and carbon shield get colour maps from TextureIds.
-local BIKE_EXHAUST_LOOKS = {
-	Headers = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.1 },
-	Collector = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.1 },
-	PreSilencer = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.08 },
-	LinkPipe = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.1 },
-	Silencer = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.12 },
-	HeatShield = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.05 },
-	EndCap = { Color = Color3.fromRGB(30, 30, 33), Material = Enum.Material.SmoothPlastic },
-	Hardware = { Color = Color3.fromRGB(165, 168, 174), Material = Enum.Material.SmoothPlastic, Reflectance = 0.15 },
-	Valve = { Color = Color3.fromRGB(38, 38, 42), Material = Enum.Material.SmoothPlastic },
-	Sensors = { Color = Color3.fromRGB(110, 110, 116), Material = Enum.Material.SmoothPlastic },
-}
-
--- Superbike chain paint; the plates get their brushed, oily colour maps from TextureIds.
-local BIKE_CHAIN_LOOKS = {
-	OuterPlates = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.1 },
-	InnerPlates = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.05 },
-	Rollers = { Color = Color3.fromRGB(92, 92, 96), Material = Enum.Material.SmoothPlastic, Reflectance = 0.06 },
-	Pins = { Color = Color3.fromRGB(178, 180, 186), Material = Enum.Material.SmoothPlastic, Reflectance = 0.15 },
-	Seals = { Color = Color3.fromRGB(24, 24, 26), Material = Enum.Material.SmoothPlastic },
-	FrontSprocket = { Color = Color3.fromRGB(118, 119, 124), Material = Enum.Material.SmoothPlastic, Reflectance = 0.08 },
-	SprocketNut = { Color = Color3.fromRGB(160, 162, 168), Material = Enum.Material.SmoothPlastic, Reflectance = 0.12 },
-}
-
--- Superbike seats: leather colour maps (grain, perforated pleats, stitching) come from TextureIds.
-local BIKE_SEAT_LOOKS = {
-	RiderTop = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.02 },
-	RiderSides = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.02 },
-	PillionTop = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.02 },
-	PillionSides = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.02 },
-	RiderPiping = { Color = Color3.fromRGB(30, 30, 32), Material = Enum.Material.SmoothPlastic, Reflectance = 0.03 },
-	PillionPiping = { Color = Color3.fromRGB(30, 30, 32), Material = Enum.Material.SmoothPlastic, Reflectance = 0.03 },
-	RiderBase = { Color = Color3.fromRGB(20, 20, 22), Material = Enum.Material.SmoothPlastic },
-	PillionBase = { Color = Color3.fromRGB(20, 20, 22), Material = Enum.Material.SmoothPlastic },
-	SeatLatch = { Color = Color3.fromRGB(160, 162, 168), Material = Enum.Material.SmoothPlastic, Reflectance = 0.12 },
-}
-
-local BIKE_FAIRING_LOOKS = {
-	FairingNose = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.04 },
-	SidePanel = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.04 },
-	InnerPanel = { Color = Color3.fromRGB(26, 27, 30), Material = Enum.Material.SmoothPlastic },
-	HeadlightHousing = { Color = Color3.fromRGB(34, 35, 39), Material = Enum.Material.SmoothPlastic, Reflectance = 0.2 },
-	HeadlightLens = { Color = Color3.fromRGB(225, 230, 238), Material = Enum.Material.Glass, Transparency = 0.7 },
-	HeadlightDRL = { Color = Color3.fromRGB(235, 242, 255), Material = Enum.Material.Neon },
-	Projector = { Color = Color3.fromRGB(176, 179, 186), Material = Enum.Material.SmoothPlastic, Reflectance = 0.35 },
-	ProjectorLens = { Color = Color3.fromRGB(20, 24, 34), Material = Enum.Material.Glass, Reflectance = 0.2 },
-	IntakeDuct = { Color = Color3.fromRGB(14, 14, 15), Material = Enum.Material.SmoothPlastic },
-	IntakeGrille = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic },
-	Screen = { Color = Color3.fromRGB(70, 74, 84), Material = Enum.Material.Glass, Transparency = 0.45 },
-	BellyPan = { Color = Color3.fromRGB(255, 255, 255), Material = Enum.Material.SmoothPlastic, Reflectance = 0.04 },
-	GillDucts = { Color = Color3.fromRGB(14, 14, 15), Material = Enum.Material.SmoothPlastic },
-	Fasteners = { Color = Color3.fromRGB(44, 45, 48), Material = Enum.Material.SmoothPlastic, Reflectance = 0.1 },
-	MirrorBlanks = { Color = Color3.fromRGB(22, 22, 24), Material = Enum.Material.SmoothPlastic },
-}
+-- Part paint (Color / Material / Reflectance / Transparency) generated from the models' meta.json.
+local ModelLooks = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("ModelLooks"))
 
 -- Blender meters -> studs. Roblox characters are about 5 studs tall, so real sizes x3.6.
 local SCALE = 3.6
@@ -90,15 +23,23 @@ local SHOWCASE = {
 	-- Realistic human test (static posed mesh, built in studs). Stands on the floor, faces the spawn.
 	{ Name = "Human", Offset = Vector3.new(9, 0, 6), Scale = 1, Stand = true, Yaw = 225 },
 	-- Superbike wheels (art/blender/superbike/wheels.py), built in studs.
-	{ Name = "BikeWheelFront", Offset = Vector3.new(-9, 2.6, 2), Scale = 1, Looks = BIKE_WHEEL_LOOKS },
-	{ Name = "BikeWheelRear", Offset = Vector3.new(-9, 2.6, 6), Scale = 1, Looks = BIKE_WHEEL_LOOKS },
+	{ Name = "BikeWheelFront", Offset = Vector3.new(-9, 2.6, 2), Scale = 1 },
+	{ Name = "BikeWheelRear", Offset = Vector3.new(-9, 2.6, 6), Scale = 1 },
 	-- Superbike exhaust (art/blender/superbike/exhaust.py), headers to silencer, built in studs.
-	{ Name = "BikeExhaust", Offset = Vector3.new(-9, 2.8, 10.5), Scale = 1, Looks = BIKE_EXHAUST_LOOKS },
+	{ Name = "BikeExhaust", Offset = Vector3.new(-9, 2.8, 10.5), Scale = 1 },
 	-- Superbike drive chain, 116 links + front sprocket (art/blender/superbike/chain.py), built in studs.
-	{ Name = "BikeChain", Offset = Vector3.new(-9, 2.6, 14.5), Scale = 1, Looks = BIKE_CHAIN_LOOKS },
+	{ Name = "BikeChain", Offset = Vector3.new(-9, 2.6, 14.5), Scale = 1 },
 	-- Superbike rider + passenger seats (art/blender/superbike/seats.py), built in studs.
-	{ Name = "BikeSeats", Offset = Vector3.new(-9, 2.6, 18.5), Scale = 1, Looks = BIKE_SEAT_LOOKS },
-	{ Name = "BikeFairings", Offset = Vector3.new(-9, 3.0, 23.5), Scale = 1, Looks = BIKE_FAIRING_LOOKS },
+	{ Name = "BikeSeats", Offset = Vector3.new(-9, 2.6, 18.5), Scale = 1 },
+	{ Name = "BikeFairings", Offset = Vector3.new(-9, 3.0, 23.5), Scale = 1 },
+	-- Fuel tank, tail, frame + swingarm, front end, engine (tank.py, tail.py, chassis.py, front.py, engine.py).
+	{ Name = "BikeTank", Offset = Vector3.new(-9, 3.0, 28.5), Scale = 1 },
+	{ Name = "BikeTail", Offset = Vector3.new(-9, 3.0, 32.5), Scale = 1 },
+	{ Name = "BikeChassis", Offset = Vector3.new(-9, 3.0, 38.5), Scale = 1 },
+	{ Name = "BikeFront", Offset = Vector3.new(-9, 3.0, 44.5), Scale = 1 },
+	{ Name = "BikeEngine", Offset = Vector3.new(-9, 3.0, 49), Scale = 1 },
+	-- The whole bike, every part above put together (assemble.py). Stands on its wheels, right side to the spawn.
+	{ Name = "Superbike", Offset = Vector3.new(-17, 0, 12), Scale = 1, Stand = true, Yaw = 90 },
 }
 
 local function findSpawn(): BasePart?
@@ -147,7 +88,8 @@ for _, item in SHOWCASE do
 	for _, d in model:GetDescendants() do
 		if d:IsA("MeshPart") then
 			-- front-wheel parts come in pairs (RotorL / RotorR ...): look them up without the side letter
-			local look = item.Looks and (item.Looks[d.Name] or item.Looks[(string.gsub(d.Name, "[LR]$", ""))])
+			local looks = item.Looks or ModelLooks[item.Name]
+			local look = looks and (looks[d.Name] or looks[(string.gsub(d.Name, "[LR]$", ""))])
 			if look then
 				d.Color = look.Color
 				d.Material = look.Material
