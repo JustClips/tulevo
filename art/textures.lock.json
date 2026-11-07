@@ -3039,6 +3039,66 @@
   "file": "art/models/Diner/tex/DinerTile_Color.png",
   "state": "Approved"
  },
+ "1180fa4b0ba9cc521037a49338a221017eb0df96969fa8bb28f913f0bebcd387": {
+  "id": 103768023974386,
+  "file": "art/models/ArkwellAtm/tex/AtmScreen_Color.png",
+  "state": "Approved"
+ },
+ "464948c6af235b763d28910f65fd7567c7c58f53d83face51e5752e201e3ea24": {
+  "id": 87096693928100,
+  "file": "art/models/ArkwellAtm/tex/AtmBlack_Color.png",
+  "state": "Approved"
+ },
+ "ba38733de9f58b7f78675fa18c1f2dc0e14094630febb5d6a863208b7c5543c3": {
+  "id": 87126973532619,
+  "file": "art/models/ArkwellAtm/tex/AtmCardLight_Color.png",
+  "state": "Approved"
+ },
+ "751acafc6f002179127cb18f703cee9e7bbf170763a66323d44d79354c57fb08": {
+  "id": 80502093206957,
+  "file": "art/models/ArkwellAtm/tex/AtmKeys_Color.png",
+  "state": "Approved"
+ },
+ "c25ff4a5ebb83e89a1e5065e6df949468020fcc242e39703787e6a7e039e6b54": {
+  "id": 104719892703056,
+  "file": "art/models/ArkwellAtm/tex/AtmLabels_Color.png",
+  "state": "Approved"
+ },
+ "a914eb1e6795383de667ccdfdaa9d1a20b92e3360332c5e0eb6a79d85865e090": {
+  "id": 105189457430031,
+  "file": "art/models/ArkwellAtm/tex/AtmMirror_Color.png",
+  "state": "Approved"
+ },
+ "b1f29d61e34f23f5687db986cf6310483fee1ca1fb9a548c8fa378e9cb5701cd": {
+  "id": 88278481404630,
+  "file": "art/models/ArkwellAtm/tex/AtmRubber_Color.png",
+  "state": "Approved"
+ },
+ "494ff3d55e8fb42b335439190b18ff7c0f217203d2d194b9d8223d49f1c05bc3": {
+  "id": 132455406545868,
+  "file": "art/models/ArkwellAtm/tex/AtmShell_Color.png",
+  "state": "Approved"
+ },
+ "0363c58b3466da9541be97ff3bc7ab480c1a50715d1fd90695c2564ab4b74d60": {
+  "id": 127319837519654,
+  "file": "art/models/ArkwellAtm/tex/AtmSign_Color.png",
+  "state": "Approved"
+ },
+ "6f693303dc8f42be01056ddab27c36417fd42ae2fe57f57632971fb3232eab82": {
+  "id": 106140666394653,
+  "file": "art/models/ArkwellAtm/tex/AtmSteel_Color.png",
+  "state": "Approved"
+ },
+ "71d4777895901717919afc5978c78d5829626483f6583c7cfed14d88b2f4639b": {
+  "id": 98018237432120,
+  "file": "art/models/ArkwellAtm/tex/AtmSteelDark_Color.png",
+  "state": "Approved"
+ },
+ "0e90d8189ee895ad88981d558ccd75e9347eda61661173a6dacd010bde5ed3df": {
+  "id": 84859372392396,
+  "file": "art/models/ArkwellAtm/tex/Light_Color.png",
+  "state": "Approved"
+ },
  "03dcec5ed558af3cacaa2bfe38edfaecff1522458ce8f55d83b9d4e10ff1d7a8": {
   "id": 136608013822914,
   "file": "art/models/Diner/tex/DinerSteel_Color.png",

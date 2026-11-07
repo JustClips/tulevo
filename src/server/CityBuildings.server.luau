@@ -54,6 +54,9 @@ local NEON = {
 	NeonPink = Color3.fromRGB(255, 70, 170),
 	NeonCyan = Color3.fromRGB(60, 235, 255),
 	NeonRed = Color3.fromRGB(255, 40, 30),
+	-- ATM card reader / cash slot guide lights (art/blender/atm)
+	AtmCardLight = Color3.fromRGB(70, 240, 120),
+	AtmCashLight = Color3.fromRGB(70, 240, 120),
 }
 -- Textures with see-through pixels (chain-link fence, graffiti decals).
 local ALPHA = {
@@ -417,6 +420,8 @@ local function style(model: Model)
 		end
 	end
 	model.ModelStreamingMode = Enum.ModelStreamingMode.Persistent
+	-- loaded + styled: Server/Atms (and anything else that decorates city models) waits for this
+	model:SetAttribute("CityReady", true)
 end
 
 local city = workspace:WaitForChild("City", 10)
