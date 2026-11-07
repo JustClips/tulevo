@@ -1,0 +1,649 @@
+{
+ "name": "Hotel_S",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Asphalt": {
+   "tris": 12,
+   "min": [
+    -82.8,
+    -86.4,
+    -1.8
+   ],
+   "max": [
+    82.8,
+    86.4,
+    0.0
+   ]
+  },
+  "Pave": {
+   "tris": 172,
+   "min": [
+    -82.8,
+    -86.4,
+    0.0
+   ],
+   "max": [
+    82.8,
+    86.4,
+    3.96
+   ]
+  },
+  "Soil": {
+   "tris": 24,
+   "min": [
+    -48.96,
+    56.88,
+    0.0
+   ],
+   "max": [
+    48.96,
+    84.96,
+    0.79
+   ]
+  },
+  "Shrub": {
+   "tris": 380,
+   "min": [
+    -46.31,
+    9.03,
+    0.19
+   ],
+   "max": [
+    46.67,
+    84.35,
+    6.27
+   ]
+  },
+  "Trunk": {
+   "tris": 840,
+   "min": [
+    -22.35,
+    60.82,
+    0.79
+   ],
+   "max": [
+    22.34,
+    63.75,
+    29.41
+   ]
+  },
+  "Palm": {
+   "tris": 1232,
+   "min": [
+    -35.75,
+    47.62,
+    24.52
+   ],
+   "max": [
+    35.54,
+    77.71,
+    29.51
+   ]
+  },
+  "Stone": {
+   "tris": 1152,
+   "min": [
+    -63.36,
+    -74.16,
+    -2.52
+   ],
+   "max": [
+    63.36,
+    66.78,
+    154.08
+   ]
+  },
+  "HotelSigns": {
+   "tris": 16,
+   "min": [
+    -26.64,
+    -0.65,
+    1.8
+   ],
+   "max": [
+    58.39,
+    66.67,
+    171.72
+   ]
+  },
+  "LotLine": {
+   "tris": 194,
+   "min": [
+    -79.92,
+    -61.42,
+    0.0
+   ],
+   "max": [
+    79.92,
+    84.6,
+    0.04
+   ]
+  },
+  "HotelLobby": {
+   "tris": 10,
+   "min": [
+    -54.0,
+    5.58,
+    1.08
+   ],
+   "max": [
+    54.0,
+    5.83,
+    15.12
+   ]
+  },
+  "Brass": {
+   "tris": 488,
+   "min": [
+    -54.18,
+    5.4,
+    0.0
+   ],
+   "max": [
+    54.18,
+    46.98,
+    18.58
+   ]
+  },
+  "Dark": {
+   "tris": 276,
+   "min": [
+    -39.78,
+    -81.54,
+    0.0
+   ],
+   "max": [
+    58.32,
+    22.5,
+    172.08
+   ]
+  },
+  "Pavers": {
+   "tris": 12,
+   "min": [
+    -61.2,
+    7.2,
+    0.0
+   ],
+   "max": [
+    61.2,
+    15.12,
+    0.65
+   ]
+  },
+  "Teal": {
+   "tris": 12,
+   "min": [
+    -30.6,
+    7.2,
+    15.84
+   ],
+   "max": [
+    30.6,
+    46.8,
+    18.36
+   ]
+  },
+  "Soffit": {
+   "tris": 12,
+   "min": [
+    -30.24,
+    7.38,
+    15.7
+   ],
+   "max": [
+    30.24,
+    46.44,
+    15.84
+   ]
+  },
+  "Lamp1": {
+   "tris": 12,
+   "min": [
+    19.44,
+    33.84,
+    15.52
+   ],
+   "max": [
+    23.76,
+    38.16,
+    15.66
+   ]
+  },
+  "Lamp2": {
+   "tris": 12,
+   "min": [
+    19.44,
+    17.64,
+    15.52
+   ],
+   "max": [
+    23.76,
+    21.96,
+    15.66
+   ]
+  },
+  "Lamp3": {
+   "tris": 12,
+   "min": [
+    5.04,
+    33.84,
+    15.52
+   ],
+   "max": [
+    9.36,
+    38.16,
+    15.66
+   ]
+  },
+  "Lamp4": {
+   "tris": 12,
+   "min": [
+    5.04,
+    17.64,
+    15.52
+   ],
+   "max": [
+    9.36,
+    21.96,
+    15.66
+   ]
+  },
+  "Lamp5": {
+   "tris": 12,
+   "min": [
+    -9.36,
+    33.84,
+    15.52
+   ],
+   "max": [
+    -5.04,
+    38.16,
+    15.66
+   ]
+  },
+  "Lamp6": {
+   "tris": 12,
+   "min": [
+    -9.36,
+    17.64,
+    15.52
+   ],
+   "max": [
+    -5.04,
+    21.96,
+    15.66
+   ]
+  },
+  "Lamp7": {
+   "tris": 12,
+   "min": [
+    -23.76,
+    33.84,
+    15.52
+   ],
+   "max": [
+    -19.44,
+    38.16,
+    15.66
+   ]
+  },
+  "Lamp8": {
+   "tris": 12,
+   "min": [
+    -23.76,
+    17.64,
+    15.52
+   ],
+   "max": [
+    -19.44,
+    21.96,
+    15.66
+   ]
+  },
+  "Stucco": {
+   "tris": 96,
+   "min": [
+    -61.2,
+    -72.0,
+    19.62
+   ],
+   "max": [
+    61.2,
+    7.2,
+    153.36
+   ]
+  },
+  "GlassC": {
+   "tris": 108,
+   "min": [
+    -61.23,
+    -72.03,
+    22.32
+   ],
+   "max": [
+    61.23,
+    7.23,
+    136.44
+   ]
+  },
+  "Frame": {
+   "tris": 10200,
+   "min": [
+    -61.63,
+    -72.43,
+    22.07
+   ],
+   "max": [
+    61.63,
+    7.63,
+    77.29
+   ]
+  },
+  "Sill": {
+   "tris": 3840,
+   "min": [
+    -61.99,
+    -72.79,
+    21.82
+   ],
+   "max": [
+    61.99,
+    7.99,
+    128.99
+   ]
+  },
+  "GlassB": {
+   "tris": 108,
+   "min": [
+    -61.23,
+    -72.03,
+    22.32
+   ],
+   "max": [
+    61.23,
+    7.23,
+    136.44
+   ]
+  },
+  "GlassE": {
+   "tris": 124,
+   "min": [
+    -61.23,
+    -72.03,
+    22.32
+   ],
+   "max": [
+    61.23,
+    7.23,
+    136.44
+   ]
+  },
+  "GlassD": {
+   "tris": 122,
+   "min": [
+    -61.23,
+    -72.03,
+    22.32
+   ],
+   "max": [
+    61.23,
+    7.23,
+    136.44
+   ]
+  },
+  "GlassA": {
+   "tris": 86,
+   "min": [
+    -61.23,
+    -72.03,
+    22.32
+   ],
+   "max": [
+    61.23,
+    7.23,
+    136.44
+   ]
+  },
+  "GlassF": {
+   "tris": 92,
+   "min": [
+    -61.23,
+    -72.03,
+    22.32
+   ],
+   "max": [
+    61.23,
+    7.23,
+    136.44
+   ]
+  },
+  "WinIron": {
+   "tris": 2304,
+   "min": [
+    -22.97,
+    7.2,
+    31.5
+   ],
+   "max": [
+    22.97,
+    11.05,
+    106.6
+   ]
+  },
+  "FrameB": {
+   "tris": 10200,
+   "min": [
+    -61.63,
+    -72.43,
+    81.47
+   ],
+   "max": [
+    61.63,
+    7.63,
+    136.69
+   ]
+  },
+  "Roof": {
+   "tris": 12,
+   "min": [
+    -60.12,
+    -70.92,
+    136.8
+   ],
+   "max": [
+    60.12,
+    6.12,
+    136.98
+   ]
+  },
+  "Steel": {
+   "tris": 456,
+   "min": [
+    -72.34,
+    -72.32,
+    0.36
+   ],
+   "max": [
+    72.34,
+    8.46,
+    172.08
+   ]
+  },
+  "NeonCyan": {
+   "tris": 48,
+   "min": [
+    -27.18,
+    -0.58,
+    153.9
+   ],
+   "max": [
+    27.18,
+    -0.29,
+    172.26
+   ]
+  },
+  "NeonRed": {
+   "tris": 120,
+   "min": [
+    -59.58,
+    -70.38,
+    28.62
+   ],
+   "max": [
+    59.58,
+    19.26,
+    147.69
+   ]
+  },
+  "AcBody": {
+   "tris": 36,
+   "min": [
+    23.76,
+    -46.8,
+    136.98
+   ],
+   "max": [
+    48.24,
+    -18.0,
+    142.2
+   ]
+  },
+  "Sconce": {
+   "tris": 24,
+   "min": [
+    -17.37,
+    -72.79,
+    9.36
+   ],
+   "max": [
+    31.05,
+    -72.07,
+    12.6
+   ]
+  },
+  "Dumpster": {
+   "tris": 12,
+   "min": [
+    -39.6,
+    -81.36,
+    0.54
+   ],
+   "max": [
+    -28.8,
+    -74.88,
+    5.04
+   ]
+  },
+  "Pipe": {
+   "tris": 1400,
+   "min": [
+    -60.0,
+    -73.5,
+    0.0
+   ],
+   "max": [
+    60.0,
+    -73.02,
+    136.8
+   ]
+  },
+  "Lamp9": {
+   "tris": 12,
+   "min": [
+    64.44,
+    -29.61,
+    26.68
+   ],
+   "max": [
+    68.04,
+    -27.99,
+    26.82
+   ]
+  },
+  "Lamp10": {
+   "tris": 12,
+   "min": [
+    -68.04,
+    -29.61,
+    26.68
+   ],
+   "max": [
+    -64.44,
+    -27.99,
+    26.82
+   ]
+  }
+ },
+ "lamps": [
+  "Lamp1",
+  "Lamp2",
+  "Lamp3",
+  "Lamp4",
+  "Lamp5",
+  "Lamp6",
+  "Lamp7",
+  "Lamp8",
+  "Lamp9",
+  "Lamp10"
+ ],
+ "textures": {
+  "Asphalt": "LotAsphalt_Color.png",
+  "Pave": "Plinth_Color.png",
+  "Soil": "Soil_Color.png",
+  "Shrub": "Shrub_Color.png",
+  "Trunk": "Trunk_Color.png",
+  "Palm": "Palm_Color.png",
+  "Stone": "StoneTrim_Color.png",
+  "HotelSigns": "HotelSigns_Color.png",
+  "LotLine": "LotLine_Color.png",
+  "HotelLobby": "HotelLobby_Color.png",
+  "Brass": "Brass_Color.png",
+  "Dark": "Dark_Color.png",
+  "Pavers": "Pavers_Color.png",
+  "Teal": "HotelTeal_Color.png",
+  "Soffit": "BenchWood_Color.png",
+  "Lamp1": "Light_Color.png",
+  "Lamp2": "Light_Color.png",
+  "Lamp3": "Light_Color.png",
+  "Lamp4": "Light_Color.png",
+  "Lamp5": "Light_Color.png",
+  "Lamp6": "Light_Color.png",
+  "Lamp7": "Light_Color.png",
+  "Lamp8": "Light_Color.png",
+  "Stucco": "HotelStucco_Color.png",
+  "GlassC": "GlassC_Color.png",
+  "Frame": "Frame_Color.png",
+  "Sill": "Sill_Color.png",
+  "GlassB": "GlassB_Color.png",
+  "GlassE": "GlassE_Color.png",
+  "GlassD": "GlassD_Color.png",
+  "GlassA": "GlassA_Color.png",
+  "GlassF": "GlassF_Color.png",
+  "WinIron": "WinIron_Color.png",
+  "FrameB": "FrameB_Color.png",
+  "Roof": "RoofTar_Color.png",
+  "Steel": "FireSteel_Color.png",
+  "NeonCyan": "NeonCyan_Color.png",
+  "NeonRed": "NeonRed_Color.png",
+  "AcBody": "HvacGrey_Color.png",
+  "Sconce": "Sconce_Color.png",
+  "Dumpster": "Dumpster_Color.png",
+  "Pipe": "Pipe_Color.png",
+  "Lamp9": "Light_Color.png",
+  "Lamp10": "Light_Color.png"
+ },
+ "driveways": [
+  [
+   75.60000000000001,
+   50.4,
+   "S"
+  ],
+  [
+   -50.4,
+   -75.60000000000001,
+   "S"
+  ]
+ ]
+}

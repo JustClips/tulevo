@@ -3038,5 +3038,50 @@
   "id": 85451412680391,
   "file": "art/models/Diner/tex/DinerTile_Color.png",
   "state": "Approved"
+ },
+ "03dcec5ed558af3cacaa2bfe38edfaecff1522458ce8f55d83b9d4e10ff1d7a8": {
+  "id": 136608013822914,
+  "file": "art/models/Diner/tex/DinerSteel_Color.png",
+  "state": "Approved"
+ },
+ "0378808eb3195d634d1478851b5d9c48ba278d064cdfc9dea2c442064e648875": {
+  "id": 113668458491452,
+  "file": "art/models/Hotel_S/tex/Brass_Color.png",
+  "state": "Approved"
+ },
+ "5700e9e2acf4b4633e88459e6b253234f0e74e0edcbb7bc690c9f6af79e75162": {
+  "id": 85535905027300,
+  "file": "art/models/Hotel_S/tex/Frame_Color.png",
+  "state": "Approved"
+ },
+ "f7cfe8fd6b3dd0732511bec8ea7e2e0be0a2d7f219fe7b67bdeb9907935336f0": {
+  "id": 72413191970508,
+  "file": "art/models/Hotel_S/tex/HotelLobby_Color.png",
+  "state": "Approved"
+ },
+ "c31324870d6ad3111a728f2ae77cfe4ebd34af62f8f54ff68c436b0d982efd4b": {
+  "id": 117936181550514,
+  "file": "art/models/Hotel_S/tex/HotelSigns_Color.png",
+  "state": "Approved"
+ },
+ "296b21a50ec61c3e1c5f854548fb3a65eef9c727ef679b813d46cd1c41fccf21": {
+  "id": 131873792200287,
+  "file": "art/models/Hotel_S/tex/Pavers_Color.png",
+  "state": "Approved"
+ },
+ "35af770a7332b787176763860687fb797378c16801f3c43b6fffe0669ad38bac": {
+  "id": 87359874081067,
+  "file": "art/models/Hotel_S/tex/Sill_Color.png",
+  "state": "Approved"
+ },
+ "b84ac4aa479a2cc30f4e2db3bbb4cad002b125ea1455f168956d736cb5aed420": {
+  "id": 84422627989469,
+  "file": "art/models/Hotel_S/tex/HotelStucco_Color.png",
+  "state": "Approved"
+ },
+ "8070980b6e5d8b8c43c712e9ea6f85a67029cb16be5b20834c0e75f7a9a1c5d4": {
+  "id": 98527413172063,
+  "file": "art/models/Hotel_S/tex/HotelTeal_Color.png",
+  "state": "Approved"
  }
 }

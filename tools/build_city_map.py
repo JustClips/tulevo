@@ -131,13 +131,15 @@ VAULT_N_LINE = AVE_Z - ROAD_W / 2 - SIDE_W        # -172
 VAULT_S_LINE = AVE_Z + ROAD_W / 2 + SIDE_W        # -92
 BUILDINGS += [
     ("HalvorsenBuilding", "BrickBlock_S", (-230, 0.6, VAULT_N_LINE - BRICK_HALF_D), {}),
-    ("CalderBuilding", "BrickBlock_S", (-560, 0.6, VAULT_N_LINE - BRICK_HALF_D),
+    ("CalderBuilding", "BrickBlock_S", (550, 0.6, VAULT_N_LINE - BRICK_HALF_D),
      {"Brick": "Brown", "Storefronts": "B", "ShopSigns": "B"}),
     ("PikeBuilding", "BrickBlock_S", (232, 0.6, VAULT_N_LINE - BRICK_HALF_D),
      {"Brick": "Tan", "Storefronts": "B", "ShopSigns": "B"}),
     ("FennBuilding", "BrickBlock", (560, 0.6, VAULT_S_LINE + BRICK_HALF_D), {"Brick": "Brown"}),
     # Blue Comet Diner: 46 x 50 m lot (origin = lot centre, z 0 = lot surface), entrance drive at its west end
     ("BlueCometDiner", "Diner", (413, 0.3, VAULT_S_LINE + 90)),
+    # Hotel Solana: 46 x 48 m lot north of Vault Avenue (turned to face it), drives at both ends
+    ("HotelSolana", "Hotel_S", (380, 0.3, VAULT_N_LINE - 86.4)),
 ]
 
 # ---------------------------------------------------------------- street furniture
