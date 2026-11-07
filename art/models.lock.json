@@ -250,5 +250,13 @@
  "AutoShop_S": {
   "id": 104273959297936,
   "sha": "12db409ee9787ee23e5a1f7172426537df9cf4adbb7ecb4e60d52c958a16ab5a"
+ },
+ "BikeWheelFront": {
+  "id": 137806042989216,
+  "sha": "fb3200ac96a08240d8941b4bd41303e2df92c00603340bcb3d59c69d979a3f45"
+ },
+ "BikeWheelRear": {
+  "id": 126696083404115,
+  "sha": "5c16bcbe2b065e01e39cb2db24f0c129abb7330c57accaf117edc959d650c48a"
  }
 }

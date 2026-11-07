@@ -1,0 +1,62 @@
+{
+ "units": "studs (x3.6 baked in, use Scale 1)",
+ "axes": "Blender: axle = X (+X = bike's LEFT), -Y = front, +Z = up. Roblox = (-x, z, y), so the axle is Roblox X.",
+ "origin": "hub centre",
+ "spin": [
+  "Tyre",
+  "Rim"
+ ],
+ "static": [],
+ "parts": {
+  "Tyre": {
+   "tris": 19488,
+   "bbox_min_m": [
+    -0.06,
+    -0.2999,
+    -0.2999
+   ],
+   "bbox_max_m": [
+    0.06,
+    0.2999,
+    0.2999
+   ]
+  },
+  "Rim": {
+   "tris": 16740,
+   "bbox_min_m": [
+    -0.0675,
+    -0.2337,
+    -0.2337
+   ],
+   "bbox_max_m": [
+    0.0675,
+    0.2337,
+    0.2337
+   ]
+  }
+ },
+ "looks": {
+  "Tyre": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "Rim": {
+   "Color": [
+    24,
+    24,
+    26
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.06
+  }
+ },
+ "tyre": "120/70 ZR17",
+ "rim": "3.50x17",
+ "discs": "2x 320 mm floating",
+ "radius_m": 0.2999,
+ "total_tris": 36228
+}

@@ -3514,6 +3514,16 @@
   "file": "art/models/AutoShop_S/tex/Tyre_Color.png",
   "state": "Approved"
  },
+ "204d703e0b29890f2f5286211f0c36d73ec909adfc69fdae5c1288a8aa85e4b2": {
+  "id": 73904040711860,
+  "file": "art/models/BikeWheelFront/tex/Tyre_Color.png",
+  "state": "Approved"
+ },
+ "70a0920d82014a42c6cf129177261feb3bf560146f416ddf8f718640da53e7a7": {
+  "id": 110579561593305,
+  "file": "art/models/BikeWheelRear/tex/Tyre_Color.png",
+  "state": "Approved"
+ },
  "a33cea4e10d87c4c0a1b97141b3ce1a99acd0385597fcd1322ae4840c012786a": {
   "id": 123609772945212,
   "file": "art/models/Park/tex/FountainStone_Color.png",

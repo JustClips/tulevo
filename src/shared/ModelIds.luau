@@ -6,6 +6,8 @@ return {
 	ArmyBase_E = 82559827773204,
 	AutoShop_S = 104273959297936,
 	BankTower = 122789663490592,
+	BikeWheelFront = 137806042989216,
+	BikeWheelRear = 126696083404115,
 	BrickBlock = 115052555208165,
 	BrickBlock_S = 73159478556043,
 	Carbine = 105521336217513,
