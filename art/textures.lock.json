@@ -3433,5 +3433,45 @@
   "id": 139494179392597,
   "file": "art/models/Park/tex/Water_Color.png",
   "state": "Approved"
+ },
+ "f6fa849df24d100443bbe9219d0cd4e985de2d79b23c35d1900bb6c0afb427af": {
+  "id": 85654026095445,
+  "file": "art/models/StripMall/tex/Frame_Color.png",
+  "state": "Approved"
+ },
+ "d4a270cca6e7030a8f6c584dfdccbd1501ef1672837df6402bb58cbe85afd23f": {
+  "id": 113812974460551,
+  "file": "art/models/StripMall/tex/MallPylon_Color.png",
+  "state": "Approved"
+ },
+ "59437bc7faa97bc9fdecc6a1ac5aa8776205110bd133c958561908bae858ea3e": {
+  "id": 127620250195397,
+  "file": "art/models/StripMall/tex/ShopSignsC_Color.png",
+  "state": "Approved"
+ },
+ "008b08c7d0b13a65318d372db972f78ec965dc8913e6fa82cf16680b103c7766": {
+  "id": 121840789582422,
+  "file": "art/models/StripMall/tex/ShopSignsD_Color.png",
+  "state": "Approved"
+ },
+ "09ed5e6b1b04040e02a79741a53e1882f952a5819df6c5759467eae585c525ca": {
+  "id": 77951130114121,
+  "file": "art/models/StripMall/tex/StorefrontsC_Color.png",
+  "state": "Approved"
+ },
+ "a20e6d8010c1efe3a35863ee6ff7dd34e9aca63df9fcfbaab3d79af55f81beb2": {
+  "id": 71816714940027,
+  "file": "art/models/StripMall/tex/StorefrontsD_Color.png",
+  "state": "Approved"
+ },
+ "7a6f68461375abd50eeb71d821d3fe78f012b85d315b14bf1e924997bb12e707": {
+  "id": 110628763504892,
+  "file": "art/models/StripMall/tex/MallStucco_Color.png",
+  "state": "Approved"
+ },
+ "02c875917e81c77b7f177e4c7e2a62e4a82b81284195c697be7103eab10672d0": {
+  "id": 94182178124933,
+  "file": "art/models/StripMall/tex/MallTrim_Color.png",
+  "state": "Approved"
  }
 }

@@ -353,7 +353,9 @@ def shop_interior(kind, seed, w=1024, h=480):
     """What you see through a shop window: back wall, floor, fittings, people-free, door at the right."""
     r = random.Random(seed)
     wall = {"barber": (214, 206, 190), "donut": (246, 222, 196), "pharmacy": (232, 236, 236), "noodle": (176, 48, 40),
-            "cafe": (120, 88, 64), "phone": (228, 230, 234), "tailor": (200, 186, 160), "books": (90, 70, 52)}[kind]
+            "cafe": (120, 88, 64), "phone": (228, 230, 234), "tailor": (200, 186, 160), "books": (90, 70, 52),
+            "pizza": (200, 150, 100), "pets": (210, 230, 220), "games": (34, 30, 52), "nails": (244, 214, 222),
+            "dental": (226, 238, 242), "tax": (214, 214, 206), "shoes": (180, 150, 120), "florist": (232, 240, 226)}[kind]
     im = Image.new("RGB", (w, h), wall)
     d = ImageDraw.Draw(im)
     d.rectangle((0, int(h * 0.78), w, h), fill=(150, 140, 128) if kind != "noodle" else (90, 70, 60))      # floor
@@ -434,6 +436,76 @@ def shop_interior(kind, seed, w=1024, h=480):
                 bw = r.randint(8, 18)
                 d.rectangle((x, y + 52 - r.randint(30, 50), x + bw, y + 52), fill=r.choice([(140, 40, 30), (40, 70, 120), (200, 180, 120), (60, 100, 60), (220, 220, 210)]))
                 x += bw + 1
+    elif kind == "pizza":
+        d.rectangle((60, 260, 720, 380), fill=(60, 40, 30))                                                   # counter
+        d.rounded_rectangle((420, 90, 700, 250), 60, fill=(150, 70, 40))                                     # brick oven
+        d.ellipse((500, 160, 620, 250), fill=(40, 20, 10)); d.ellipse((520, 190, 600, 240), fill=(250, 150, 40))
+        for i in range(3):
+            x = 90 + i * 100
+            d.ellipse((x, 210, x + 80, 250), fill=(230, 180, 90)); d.ellipse((x + 8, 214, x + 72, 246), fill=(200, 60, 40))
+        d.rectangle((60, 60, 380, 170), fill=(30, 60, 30))
+        for k in range(4):
+            d.line((80, 80 + k * 22, 300 + r.randint(0, 60), 80 + k * 22), fill=(240, 230, 200), width=4)
+    elif kind == "pets":
+        for row in range(3):
+            y = 100 + row * 90
+            d.rectangle((40, y + 70, 560, y + 76), fill=(150, 150, 150))
+            x = 50
+            while x < 550:
+                bw = r.randint(26, 50)
+                d.rectangle((x, y + 70 - r.randint(30, 60), x + bw, y + 70), fill=r.choice([(220, 120, 40), (60, 140, 200), (240, 220, 80), (120, 180, 90)]))
+                x += bw + 6
+        d.rectangle((600, 150, 780, 300), fill=(120, 190, 230), outline=(80, 80, 80), width=6)            # fish tank
+        for i in range(6):
+            fx_, fy_ = r.randint(620, 750), r.randint(170, 280)
+            d.ellipse((fx_, fy_, fx_ + 18, fy_ + 9), fill=r.choice([(250, 140, 30), (250, 220, 60), (230, 60, 60)]))
+    elif kind == "games":
+        for i in range(4):
+            x = 60 + i * 180
+            d.rectangle((x, 100, x + 140, 380), fill=(20, 20, 30), outline=(120, 60, 220), width=6)        # cabinets
+            d.rectangle((x + 20, 130, x + 120, 220), fill=r.choice([(60, 200, 240), (240, 80, 160), (120, 240, 120), (250, 200, 60)]))
+            d.rectangle((x + 30, 250, x + 110, 270), fill=(60, 60, 70))
+            d.ellipse((x + 40, 252, x + 56, 268), fill=(230, 40, 40)); d.ellipse((x + 80, 252, x + 96, 268), fill=(40, 120, 230))
+        d.rectangle((0, 20, w, 30), fill=(120, 60, 220))
+    elif kind == "nails":
+        for i in range(3):
+            x = 80 + i * 240
+            d.rectangle((x, 260, x + 180, 290), fill=(250, 250, 250)); d.rectangle((x + 80, 290, x + 100, 370), fill=(200, 200, 200))
+            d.rounded_rectangle((x + 40, 180, x + 140, 260), 20, fill=(150, 110, 170))
+        for k in range(30):                                                                                  # polish wall
+            x, y = 60 + (k % 15) * 46, 70 + (k // 15) * 40
+            d.rectangle((x, y, x + 14, y + 26), fill=r.choice([(220, 40, 80), (240, 120, 160), (180, 40, 140), (250, 200, 210), (200, 30, 30)]))
+    elif kind == "dental":
+        d.rectangle((60, 260, 420, 380), fill=(240, 244, 246))                                               # reception desk
+        d.rectangle((60, 250, 420, 262), fill=(90, 170, 200))
+        for i in range(4):
+            x = 470 + i * 80
+            d.rectangle((x, 300, x + 60, 340), fill=(90, 170, 200)); d.rectangle((x, 260, x + 60, 300), fill=(110, 190, 220))
+        d.ellipse((120, 70, 220, 170), fill=(250, 250, 250), outline=(90, 170, 200), width=6)                # tooth-free logo disc
+        d.rectangle((300, 80, 760, 180), fill=(240, 246, 248), outline=(180, 200, 210), width=4)
+    elif kind == "tax":
+        for i in range(3):
+            x = 60 + i * 260
+            d.rectangle((x, 260, x + 200, 300), fill=(110, 80, 60)); d.rectangle((x + 10, 300, x + 30, 380), fill=(90, 66, 50))
+            d.rectangle((x + 60, 210, x + 140, 260), fill=(30, 30, 34)); d.rectangle((x + 66, 216, x + 134, 254), fill=(120, 170, 220))
+        for i in range(5):
+            d.rectangle((60 + i * 150, 60, 170 + i * 150, 150), fill=(190, 190, 184), outline=(150, 150, 146), width=3)
+    elif kind == "shoes":
+        for row in range(4):
+            y = 90 + row * 70
+            d.rectangle((40, y + 50, 780, y + 56), fill=(90, 60, 40))
+            for i in range(10):
+                x = 60 + i * 72
+                d.polygon([(x, y + 50), (x + 50, y + 50), (x + 50, y + 34), (x + 20, y + 30), (x + 10, y + 20), (x, y + 20)],
+                          fill=r.choice([(30, 30, 30), (120, 70, 40), (200, 200, 200), (160, 40, 40), (40, 60, 120)]))
+    elif kind == "florist":
+        for i in range(9):
+            x = 50 + i * 85
+            d.rectangle((x, 300, x + 60, 380), fill=(90, 110, 130))
+            for k in range(7):
+                cx, cy = x + r.randint(5, 55), 240 + r.randint(0, 60)
+                d.line((x + 30, 300, cx, cy), fill=(60, 120, 50), width=3)
+                d.ellipse((cx - 12, cy - 12, cx + 12, cy + 12), fill=r.choice([(230, 60, 80), (250, 200, 60), (240, 240, 240), (200, 90, 180), (250, 130, 60)]))
     # door on the right: frame, push bar, OPEN sign
     dx0 = w - 230 if kind != "barber" else w - 330
     d.rectangle((dx0, 40, dx0 + 190, h), outline=(70, 72, 76), width=12)
@@ -449,16 +521,22 @@ SHOPS = {   # set: (sign text, sign colours, interior kind)
           ("CORNER PHARMACY", (245, 245, 240), (20, 120, 70), "pharmacy"), ("JADE NOODLE HOUSE", (150, 24, 24), (250, 220, 120), "noodle")],
     "B": [("BEAN THERE CAFE", (60, 40, 30), (240, 220, 190), "cafe"), ("CELL CITY REPAIR", (30, 110, 210), (250, 250, 250), "phone"),
           ("MORALES TAILORING", (30, 30, 30), (220, 190, 120), "tailor"), ("SECOND CHAPTER BOOKS", (30, 70, 50), (240, 230, 200), "books")],
+    "C": [("TONY'S PIZZA", (30, 90, 40), (250, 240, 220), "pizza"), ("HAPPY PAWS PET SUPPLY", (240, 140, 40), (255, 255, 255), "pets"),
+          ("PIXEL ARCADE", (30, 20, 60), (120, 230, 255), "games"), ("LUXE NAILS", (240, 200, 214), (140, 40, 90), "nails")],
+    "D": [("BRIGHT SMILE DENTAL", (240, 248, 250), (30, 120, 160), "dental"), ("ACE TAX & INSURANCE", (30, 50, 90), (250, 250, 250), "tax"),
+          ("SOLE MATES SHOES", (120, 30, 40), (250, 230, 200), "shoes"), ("PETAL & STEM FLOWERS", (230, 240, 226), (60, 120, 60), "florist")],
 }
 
 
-def shop_sets():
+def shop_sets(keys=None):
     for key, shops in SHOPS.items():
+        if keys and key not in keys:
+            continue
         fronts = Image.new("RGB", (1024, 1024))
         signs = Image.new("RGB", (1024, 512))
         sd = ImageDraw.Draw(signs)
         for i, (text, bg, fg, kind) in enumerate(shops):
-            fronts.paste(shop_interior(kind, 400 + i + (10 if key == "B" else 0)).resize((512, 512)), ((i % 2) * 512, (i // 2) * 512))
+            fronts.paste(shop_interior(kind, 400 + i + 10 * "ABCD".index(key)).resize((512, 512)), ((i % 2) * 512, (i // 2) * 512))
             y0 = i * 128
             sd.rectangle((0, y0, 1024, y0 + 128), fill=bg)
             sd.rectangle((10, y0 + 10, 1014, y0 + 118), outline=fg, width=4)
@@ -814,7 +892,26 @@ def park():
                 shutil.copyfile(sp, os.path.join(OUT, f"{n}_{k}.png"))
 
 
-STEPS = {"street": street, "brick": brick_building, "diner": diner, "hotel": hotel, "park": park}
+# ================================================================= Westgate Plaza strip mall
+def mall():
+    shop_sets("CD")
+    real("MallStucco", "PaintedPlaster017", 1024, tint=(222, 206, 184), gain=1.05)
+    paint("MallTrim", (120, 40, 36), grain="PaintedMetal012", strength=0.25)
+    W, H = 1024, 512                                                          # pylon sign: name + 8 tenant panels
+    im = Image.new("RGB", (W, H), (36, 40, 46))
+    d = ImageDraw.Draw(im)
+    d.rectangle((0, 0, W, 150), fill=(120, 40, 36))
+    d.rectangle((8, 8, W - 9, 142), outline=(240, 220, 180), width=6)
+    fit_text(d, (W // 2, 78), "WESTGATE PLAZA", FONT_B, 900, 100, (250, 240, 220))
+    tenants = [t for k in "CD" for t in SHOPS[k]]
+    for i, (text, bg, fg, _) in enumerate(tenants):
+        x0, y0 = (i % 2) * 512, 160 + (i // 2) * 88
+        d.rectangle((x0 + 8, y0, x0 + 504, y0 + 80), fill=bg, outline=(200, 200, 200), width=3)
+        fit_text(d, (x0 + 256, y0 + 41), text, FONT_B, 470, 44, fg)
+    save("MallPylon", im, Image.new("RGB", (W, H), (110, 110, 110)))
+
+
+STEPS = {"street": street, "brick": brick_building, "diner": diner, "hotel": hotel, "park": park, "mall": mall}
 
 if __name__ == "__main__":
     fetch()

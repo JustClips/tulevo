@@ -1,0 +1,601 @@
+{
+ "name": "StripMall",
+ "units": "studs",
+ "scale": 1,
+ "parts": {
+  "Asphalt": {
+   "tris": 12,
+   "min": [
+    -136.8,
+    -90.0,
+    -1.8
+   ],
+   "max": [
+    136.8,
+    90.0,
+    0.0
+   ]
+  },
+  "Pave": {
+   "tris": 1132,
+   "min": [
+    -136.8,
+    -90.0,
+    0.0
+   ],
+   "max": [
+    136.8,
+    90.0,
+    2.52
+   ]
+  },
+  "Soil": {
+   "tris": 12,
+   "min": [
+    -99.72,
+    -88.92,
+    0.0
+   ],
+   "max": [
+    99.72,
+    -80.28,
+    0.5
+   ]
+  },
+  "Shrub": {
+   "tris": 340,
+   "min": [
+    -97.13,
+    -86.56,
+    0.18
+   ],
+   "max": [
+    97.05,
+    -82.57,
+    3.41
+   ]
+  },
+  "LotLine": {
+   "tris": 840,
+   "min": [
+    -119.02,
+    -75.6,
+    0.0
+   ],
+   "max": [
+    114.7,
+    5.76,
+    0.04
+   ]
+  },
+  "Steel": {
+   "tris": 500,
+   "min": [
+    -91.8,
+    -57.24,
+    2.52
+   ],
+   "max": [
+    91.8,
+    -23.4,
+    30.6
+   ]
+  },
+  "Lamp1": {
+   "tris": 12,
+   "min": [
+    -91.44,
+    -25.29,
+    29.2
+   ],
+   "max": [
+    -87.84,
+    -23.67,
+    29.34
+   ]
+  },
+  "Lamp2": {
+   "tris": 12,
+   "min": [
+    -84.96,
+    -25.29,
+    29.2
+   ],
+   "max": [
+    -81.36,
+    -23.67,
+    29.34
+   ]
+  },
+  "Lamp3": {
+   "tris": 12,
+   "min": [
+    -5.04,
+    -25.29,
+    29.2
+   ],
+   "max": [
+    -1.44,
+    -23.67,
+    29.34
+   ]
+  },
+  "Lamp4": {
+   "tris": 12,
+   "min": [
+    1.44,
+    -25.29,
+    29.2
+   ],
+   "max": [
+    5.04,
+    -23.67,
+    29.34
+   ]
+  },
+  "Lamp5": {
+   "tris": 12,
+   "min": [
+    81.36,
+    -25.29,
+    29.2
+   ],
+   "max": [
+    84.96,
+    -23.67,
+    29.34
+   ]
+  },
+  "Lamp6": {
+   "tris": 12,
+   "min": [
+    87.84,
+    -25.29,
+    29.2
+   ],
+   "max": [
+    91.44,
+    -23.67,
+    29.34
+   ]
+  },
+  "Lamp7": {
+   "tris": 12,
+   "min": [
+    -48.24,
+    -56.97,
+    29.2
+   ],
+   "max": [
+    -44.64,
+    -55.35,
+    29.34
+   ]
+  },
+  "Lamp8": {
+   "tris": 12,
+   "min": [
+    -41.76,
+    -56.97,
+    29.2
+   ],
+   "max": [
+    -38.16,
+    -55.35,
+    29.34
+   ]
+  },
+  "Lamp9": {
+   "tris": 12,
+   "min": [
+    38.16,
+    -56.97,
+    29.2
+   ],
+   "max": [
+    41.76,
+    -55.35,
+    29.34
+   ]
+  },
+  "Lamp10": {
+   "tris": 12,
+   "min": [
+    44.64,
+    -56.97,
+    29.2
+   ],
+   "max": [
+    48.24,
+    -55.35,
+    29.34
+   ]
+  },
+  "Pavers": {
+   "tris": 12,
+   "min": [
+    -129.6,
+    7.2,
+    0.0
+   ],
+   "max": [
+    129.6,
+    28.8,
+    0.65
+   ]
+  },
+  "Stucco": {
+   "tris": 480,
+   "min": [
+    -127.08,
+    -86.4,
+    -1.08
+   ],
+   "max": [
+    127.08,
+    79.2,
+    34.2
+   ]
+  },
+  "StorefrontsC": {
+   "tris": 8,
+   "min": [
+    -124.74,
+    29.81,
+    1.08
+   ],
+   "max": [
+    -1.26,
+    29.81,
+    12.24
+   ]
+  },
+  "Frame": {
+   "tris": 480,
+   "min": [
+    -124.78,
+    29.52,
+    0.9
+   ],
+   "max": [
+    124.78,
+    29.84,
+    12.53
+   ]
+  },
+  "Trim": {
+   "tris": 360,
+   "min": [
+    -128.52,
+    -85.86,
+    0.0
+   ],
+   "max": [
+    128.52,
+    40.14,
+    35.28
+   ]
+  },
+  "StorefrontsD": {
+   "tris": 8,
+   "min": [
+    1.26,
+    29.81,
+    1.08
+   ],
+   "max": [
+    124.74,
+    29.81,
+    12.24
+   ]
+  },
+  "Soffit": {
+   "tris": 12,
+   "min": [
+    -128.16,
+    12.96,
+    14.04
+   ],
+   "max": [
+    128.16,
+    29.16,
+    14.76
+   ]
+  },
+  "ShopSignsC": {
+   "tris": 8,
+   "min": [
+    -123.84,
+    12.53,
+    14.22
+   ],
+   "max": [
+    -2.16,
+    12.53,
+    17.46
+   ]
+  },
+  "Lamp11": {
+   "tris": 12,
+   "min": [
+    -112.77,
+    19.98,
+    13.9
+   ],
+   "max": [
+    -107.73,
+    21.78,
+    14.04
+   ]
+  },
+  "Lamp12": {
+   "tris": 12,
+   "min": [
+    -81.27,
+    19.98,
+    13.9
+   ],
+   "max": [
+    -76.23,
+    21.78,
+    14.04
+   ]
+  },
+  "Lamp13": {
+   "tris": 12,
+   "min": [
+    -49.77,
+    19.98,
+    13.9
+   ],
+   "max": [
+    -44.73,
+    21.78,
+    14.04
+   ]
+  },
+  "Lamp14": {
+   "tris": 12,
+   "min": [
+    -18.27,
+    19.98,
+    13.9
+   ],
+   "max": [
+    -13.23,
+    21.78,
+    14.04
+   ]
+  },
+  "ShopSignsD": {
+   "tris": 8,
+   "min": [
+    2.16,
+    12.53,
+    14.22
+   ],
+   "max": [
+    123.84,
+    12.53,
+    17.46
+   ]
+  },
+  "Lamp15": {
+   "tris": 12,
+   "min": [
+    13.23,
+    19.98,
+    13.9
+   ],
+   "max": [
+    18.27,
+    21.78,
+    14.04
+   ]
+  },
+  "Lamp16": {
+   "tris": 12,
+   "min": [
+    44.73,
+    19.98,
+    13.9
+   ],
+   "max": [
+    49.77,
+    21.78,
+    14.04
+   ]
+  },
+  "Lamp17": {
+   "tris": 12,
+   "min": [
+    76.23,
+    19.98,
+    13.9
+   ],
+   "max": [
+    81.27,
+    21.78,
+    14.04
+   ]
+  },
+  "Lamp18": {
+   "tris": 12,
+   "min": [
+    107.73,
+    19.98,
+    13.9
+   ],
+   "max": [
+    112.77,
+    21.78,
+    14.04
+   ]
+  },
+  "Roof": {
+   "tris": 16,
+   "min": [
+    -124.92,
+    25.2,
+    18.0
+   ],
+   "max": [
+    124.92,
+    78.12,
+    41.76
+   ]
+  },
+  "MallPylon": {
+   "tris": 6,
+   "min": [
+    -66.78,
+    -85.39,
+    8.82
+   ],
+   "max": [
+    15.48,
+    26.57,
+    32.04
+   ]
+  },
+  "Sconce": {
+   "tris": 120,
+   "min": [
+    -110.7,
+    25.65,
+    9.36
+   ],
+   "max": [
+    110.7,
+    79.99,
+    33.39
+   ]
+  },
+  "Dark": {
+   "tris": 340,
+   "min": [
+    -117.24,
+    -85.32,
+    0.0
+   ],
+   "max": [
+    112.77,
+    88.74,
+    27.36
+   ]
+  },
+  "AcBody": {
+   "tris": 48,
+   "min": [
+    -119.09,
+    53.48,
+    18.18
+   ],
+   "max": [
+    82.6,
+    64.11,
+    22.32
+   ]
+  },
+  "Dumpster": {
+   "tris": 24,
+   "min": [
+    -72.0,
+    82.08,
+    0.54
+   ],
+   "max": [
+    32.4,
+    88.56,
+    5.04
+   ]
+  },
+  "Pipe": {
+   "tris": 420,
+   "min": [
+    -124.8,
+    79.32,
+    0.0
+   ],
+   "max": [
+    124.8,
+    79.8,
+    20.16
+   ]
+  }
+ },
+ "lamps": [
+  "Lamp1",
+  "Lamp2",
+  "Lamp3",
+  "Lamp4",
+  "Lamp5",
+  "Lamp6",
+  "Lamp7",
+  "Lamp8",
+  "Lamp9",
+  "Lamp10",
+  "Lamp11",
+  "Lamp12",
+  "Lamp13",
+  "Lamp14",
+  "Lamp15",
+  "Lamp16",
+  "Lamp17",
+  "Lamp18"
+ ],
+ "textures": {
+  "Asphalt": "LotAsphalt_Color.png",
+  "Pave": "Plinth_Color.png",
+  "Soil": "Soil_Color.png",
+  "Shrub": "Shrub_Color.png",
+  "LotLine": "LotLine_Color.png",
+  "Steel": "FireSteel_Color.png",
+  "Lamp1": "Light_Color.png",
+  "Lamp2": "Light_Color.png",
+  "Lamp3": "Light_Color.png",
+  "Lamp4": "Light_Color.png",
+  "Lamp5": "Light_Color.png",
+  "Lamp6": "Light_Color.png",
+  "Lamp7": "Light_Color.png",
+  "Lamp8": "Light_Color.png",
+  "Lamp9": "Light_Color.png",
+  "Lamp10": "Light_Color.png",
+  "Pavers": "Pavers_Color.png",
+  "Stucco": "MallStucco_Color.png",
+  "StorefrontsC": "StorefrontsC_Color.png",
+  "Frame": "Frame_Color.png",
+  "Trim": "MallTrim_Color.png",
+  "StorefrontsD": "StorefrontsD_Color.png",
+  "Soffit": "StoneTrim_Color.png",
+  "ShopSignsC": "ShopSignsC_Color.png",
+  "Lamp11": "Light_Color.png",
+  "Lamp12": "Light_Color.png",
+  "Lamp13": "Light_Color.png",
+  "Lamp14": "Light_Color.png",
+  "ShopSignsD": "ShopSignsD_Color.png",
+  "Lamp15": "Light_Color.png",
+  "Lamp16": "Light_Color.png",
+  "Lamp17": "Light_Color.png",
+  "Lamp18": "Light_Color.png",
+  "Roof": "RoofTar_Color.png",
+  "MallPylon": "MallPylon_Color.png",
+  "Sconce": "Sconce_Color.png",
+  "Dark": "Dark_Color.png",
+  "AcBody": "HvacGrey_Color.png",
+  "Dumpster": "Dumpster_Color.png",
+  "Pipe": "Pipe_Color.png"
+ },
+ "driveways": [
+  [
+   -126.0,
+   -100.8,
+   "N"
+  ],
+  [
+   100.8,
+   126.0,
+   "N"
+  ]
+ ]
+}

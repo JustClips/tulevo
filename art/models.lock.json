@@ -156,8 +156,8 @@
   "sha": "cde4f82f07d74f3bb61856d74f4609c20bc0efdbdd1eee4c5455d9b8492462b3"
  },
  "StreetBackStreet": {
-  "id": 71584925877049,
-  "sha": "99e395d36cb1173a4386f0cbe5f654683de720ea804bb445282da32e477dd27e"
+  "id": 108951161702678,
+  "sha": "632164050b683f5b94a2ef92dd9e2c7bb50d9b5fe27955a5e355d012dc9c89f2"
  },
  "StreetCorners": {
   "id": 88898703377960,
@@ -218,5 +218,9 @@
  "ParkProps": {
   "id": 125835147851790,
   "sha": "f3ddd1e15b0b77abf6b654754324f2446147da4bcb1a9e6d8e8e779a37dd02b9"
+ },
+ "StripMall": {
+  "id": 92123005210365,
+  "sha": "2d7dfcffc65884dfa73be89985dafa8623c65bd737e4f15de4d146024408241e"
  }
 }
