@@ -143,7 +143,16 @@ BUILDINGS += [
     ("BlueCometDiner", "Diner", (413, 0.3, VAULT_S_LINE + 90)),
     # Hotel Solana: 46 x 48 m lot north of Vault Avenue (turned to face it), drives at both ends
     ("HotelSolana", "Hotel_S", (380, 0.3, VAULT_N_LINE - 86.4)),
+    # Lindell Park + skate park (built in world coordinates, like the street models)
+    ("LindellPark", "Park", (0, 0, 0)),
+    ("LindellParkProps", "ParkProps", (0, 0, 0)),
 ]
+
+# Ironwood Arms gun shop + indoor range (thread "Build GTA-style gun shop"; art/blender/gunshop):
+# 28 x 26 m lot (origin = lot centre) on lot D west of the Palmview Motel, front on Vault Avenue's
+# south sidewalk. Server/GunShop finds it by name (clerk, buy prompt, shop camera).
+GUNSHOP_D = 26 * 3.6
+BUILDINGS.append(("IronwoodArms", "GunShop", (-480, 0.3, VAULT_S_LINE + GUNSHOP_D / 2)))
 
 # ---------------------------------------------------------------- street furniture
 # (thread "Fill city with buildings and street props"): street lights, trees, bins, benches,

@@ -37,8 +37,14 @@ local SLIDE_SPEED = 13 -- studs per second
 local HOLD = 1.2 -- seconds open after nobody is near
 local LIFT_ANGLE = math.rad(85)
 local SCAN_EVERY = 0.1
--- Swing doors: a body is a circle of BODY studs around the character; the leaf can't be inside it.
-local BODY = 1.2
+-- Swing doors: the leaf can't enter a character's footprint, a box round the blocky body: HALF_W
+-- to each side (arms), BACK behind, FRONT in front, or HAND in front when they face the leaf (their
+-- hand is on it, holding it open).
+local HALF_W = 1.9
+local BACK = 0.6
+local FRONT = 0.6
+local HAND = 1.45
+local HOLD_AT = 0.42 -- seconds into the push clip the arm is out: it stays there while you hold the door
 local SWING_MAX = math.rad(85) -- stops (it bounces off them a little)
 local SPRING = 7 -- closing spring (rad/s^2 per rad)...
 local DAMP = 3.6 -- ...and damping: swings past closed a touch and settles
@@ -279,6 +285,8 @@ local player = Players.LocalPlayer
 local tracks: { [string]: AnimationTrack } = {}
 local tracksFor: Model? = nil
 local lastPush = 0
+local pushTrack: AnimationTrack? = nil -- the push clip playing now
+local myContact = -math.huge -- last time your body / hand held a swing door
 
 local function push(): boolean
 	local char = player.Character
@@ -309,6 +317,7 @@ local function push(): boolean
 		tracks[name] = track
 	end
 	track:Play(0.12)
+	pushTrack = track
 	return true
 end
 
@@ -432,9 +441,34 @@ local function maybePush(door: Door, r: Root, rel: Vector3, now: number)
 		return
 	end
 	local speed = math.max(0, flat(r.vel):Dot(into))
-	if math.abs(side) < BODY + 0.3 + speed * PUSH_AHEAD and push() then
+	if math.abs(side) < HAND + 0.15 + speed * PUSH_AHEAD and push() then
 		lastPush = now
 	end
+end
+
+-- Top-view points round a character's footprint, relative to the hinge (flat), and whether the
+-- front reaches out to the hand (they face the leaf).
+local foot = table.create(16)
+local function footprint(door: Door, r: Root, rel: Vector3): ({ Vector3 }, boolean)
+	local f = flat(r.look)
+	f = if f.Magnitude > 0.1 then f.Unit else Vector3.zAxis
+	local right = f:Cross(Vector3.yAxis)
+	local uc = door.u * math.cos(door.angle) + door.normal * math.sin(door.angle)
+	local nc = Vector3.yAxis:Cross(uc)
+	local into = nc * (if rel:Dot(nc) > 0 then -1 else 1)
+	local facing = f:Dot(into) > 0.5
+	local front = if facing then HAND else FRONT
+	table.clear(foot)
+	for k = 0, 3 do
+		local t = k / 4
+		local a = -BACK + (front + BACK) * t -- along the left / right sides
+		local b = -HALF_W + 2 * HALF_W * t -- along the front / back
+		table.insert(foot, rel + f * a - right * HALF_W)
+		table.insert(foot, rel + f * (front - (front + BACK) * t) + right * HALF_W)
+		table.insert(foot, rel + f * front + right * b)
+		table.insert(foot, rel - f * BACK - right * b)
+	end
+	return foot, facing
 end
 
 local function swingStep(door: Door, dt: number, now: number, locked: boolean)
@@ -445,43 +479,70 @@ local function swingStep(door: Door, dt: number, now: number, locked: boolean)
 	door.angle += door.spin * dt
 	local pushed = false
 	local cap = 0 -- how fast the pushers can swing it (their speed around the hinge)
-	local reach = door.len + 0.4
+	local reach = door.len + HALF_W + HAND
 	for _, r in roots do
 		local rel = flat(r.pos - door.hinge)
 		local dist = rel.Magnitude
 		if r.isMe and not locked and dist < door.len + 5 and math.abs(r.pos.Y - door.center.Y) < 6 then
 			maybePush(door, r, rel, now)
 		end
-		-- (right at the hinge the jamb and wall are in the way: no pushing from there)
-		if locked or dist > reach or dist < BODY + 0.2 or math.abs(r.pos.Y - door.center.Y) > 6 then
+		if locked or dist > reach or math.abs(r.pos.Y - door.center.Y) > 6 then
 			door.sides[r.who] = nil
 			continue
 		end
-		local phi = math.atan2(rel:Dot(door.normal), rel:Dot(door.u)) -- where they are, as a leaf angle
-		if math.abs(phi) > math.rad(150) then
-			door.sides[r.who] = nil -- behind the hinge, on the wall side
+		-- how much of the leaf's swing the body covers: the angles of its footprint seen from the hinge
+		-- (only the part within the leaf's length, not right at the hinge where the angle means nothing)
+		local pts, facing = footprint(door, r, rel)
+		local lo, hi, any = math.huge, -math.huge, false
+		for _, q in pts do
+			local qd = q.Magnitude
+			if qd > 0.6 and qd <= door.len + 0.1 then
+				local phi = math.atan2(q:Dot(door.normal), q:Dot(door.u))
+				if math.abs(phi) < math.rad(150) then
+					lo, hi, any = math.min(lo, phi), math.max(hi, phi), true
+				end
+			end
+		end
+		if not any then
+			door.sides[r.who] = nil
 			continue
 		end
-		local half = math.asin(math.min(1, BODY / math.max(dist, BODY))) -- how wide the body looks from the hinge
 		local side = door.sides[r.who]
 		if not side then
-			-- which side of the leaf they came from (decided once, while they're near)
-			if math.abs(phi - before) < half * 0.9 then
-				continue -- right on the leaf line beside it (in the wall / jamb): ignore until clear
+			-- which side of the leaf they came from (decided once, while they're near). Someone whose
+			-- footprint already crosses the leaf (walking past along the wall, arms through the jamb)
+			-- is ignored until they're clear of it, so brushing past never flings it open.
+			local uc = door.u * math.cos(before) + door.normal * math.sin(before)
+			local nc = Vector3.yAxis:Cross(uc)
+			local mine = rel:Dot(nc)
+			for _, q in pts do
+				local along = q:Dot(uc)
+				if along > -0.3 and along < door.len + 0.3 and q:Dot(nc) * mine <= 0 then
+					side = 0
+					break
+				end
 			end
-			side = if phi > before then 1 else -1
+			if side == 0 then
+				continue
+			end
+			side = if mine > 0 then 1 else -1
 			door.sides[r.who] = side
 		end
-		if side > 0 and door.angle > phi - half then
-			door.angle = phi - half
+		local limit = if side > 0 then lo - 0.04 else hi + 0.04
+		local touching = if side > 0 then door.angle > limit - 0.06 else door.angle < limit + 0.06
+		if side > 0 and door.angle > limit then
+			door.angle = limit
 			pushed = true
-		elseif side < 0 and door.angle < phi + half then
-			door.angle = phi + half
+		elseif side < 0 and door.angle < limit then
+			door.angle = limit
 			pushed = true
-		else
-			continue
 		end
-		cap = math.max(cap, flat(r.vel).Magnitude / dist * 1.3 + 0.5)
+		if r.isMe and touching and facing then
+			myContact = now -- your hand is on it
+		end
+		if pushed then
+			cap = math.max(cap, flat(r.vel).Magnitude / math.max(dist, 1) * 1.3 + 0.5)
+		end
 	end
 	if pushed then
 		cap = math.min(cap, MAX_SPIN)
@@ -499,6 +560,22 @@ local function swingStep(door: Door, dt: number, now: number, locked: boolean)
 	end
 	if door.angle ~= before then
 		place(door)
+	end
+end
+
+-- While your hand is on a door the push clip holds at the arm-out pose; let go and it finishes
+-- (the arm drops). Leaning on a door you're facing with no clip on starts one.
+local function updateHold(now: number)
+	local holding = now - myContact < 0.2
+	local track = pushTrack
+	if track and track.IsPlaying then
+		if holding and track.Speed > 0 and track.TimePosition >= HOLD_AT then
+			track:AdjustSpeed(0)
+		elseif not holding and track.Speed == 0 then
+			track:AdjustSpeed(1)
+		end
+	elseif holding and now - lastPush > 0.6 and not WeaponState.InVehicle and push() then
+		lastPush = now
 	end
 end
 
@@ -583,4 +660,5 @@ RunService.Heartbeat:Connect(function(dt)
 			place(door)
 		end
 	end
+	updateHold(now)
 end)

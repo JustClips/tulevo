@@ -1,0 +1,14 @@
+{
+ "Bark": "art/models/ParkProps/tex/Bark_Color.png",
+ "Bench": "art/models/ParkProps/tex/BenchWood_Color.png",
+ "Bin": "art/models/ParkProps/tex/BinGreen_Color.png",
+ "BinLiner": "art/models/ParkProps/tex/IronBlack_Color.png",
+ "DecoPrint": "art/models/ParkProps/tex/DecoPrint_Color.png",
+ "Iron": "art/models/ParkProps/tex/IronBlack_Color.png",
+ "Leaf": "art/models/ParkProps/tex/Leaves_Color.png",
+ "LeafB": "art/models/ParkProps/tex/Leaves_Color.png",
+ "LeafC": "art/models/ParkProps/tex/Leaves_Color.png",
+ "LeafCard": "art/models/ParkProps/tex/LeafCard_Color.png",
+ "LeafCardB": "art/models/ParkProps/tex/LeafCard_Color.png",
+ "LeafCardC": "art/models/ParkProps/tex/LeafCard_Color.png"
+}

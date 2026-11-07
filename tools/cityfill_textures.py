@@ -781,7 +781,40 @@ def hotel():
     hotel_signs()
 
 
-STEPS = {"street": street, "brick": brick_building, "diner": diner, "hotel": hotel}
+# ================================================================= Lindell Park + skatepark
+def park_signs():
+    """ParkSigns atlas 1024x512: top half LINDELL PARK (carved wood look), bottom SKATE PARK board."""
+    W, H = 1024, 512
+    wood = scan("Planks023A", size=1024).crop((0, 0, W, 256)).convert("RGB")
+    wood = Image.fromarray(np.clip(np.asarray(wood, np.float32) * np.array([0.75, 0.55, 0.38]), 0, 255).astype(np.uint8))
+    im = Image.new("RGB", (W, H), (30, 30, 30))
+    im.paste(wood, (0, 0))
+    d = ImageDraw.Draw(im)
+    d.rectangle((8, 8, W - 9, 247), outline=(232, 214, 170), width=6)
+    fit_text(d, (W // 2, 110), "LINDELL PARK", "/usr/share/fonts/truetype/crosextra/Caladea-Bold.ttf", 900, 130, (246, 232, 196))
+    fit_text(d, (W // 2, 205), "OPEN DAWN TO DUSK", FONT_B, 600, 40, (232, 214, 170))
+    d.rectangle((0, 256, W, H), fill=(28, 30, 34))
+    d.rectangle((8, 264, W - 9, H - 9), outline=(250, 200, 40), width=8)
+    fit_text(d, (W // 2, 350), "LINDELL SKATE PARK", FONT_B, 900, 100, (250, 200, 40))
+    fit_text(d, (W // 2, 445), "HELMETS RECOMMENDED  ·  RIDE AT YOUR OWN RISK", FONT_B, 900, 40, (236, 236, 236))
+    save("ParkSigns", im, Image.new("RGB", (W, H), (150, 150, 150)))
+
+
+def park():
+    real("SkateConcrete", "Concrete031", 1024, tint=(196, 196, 192), gain=1.15)
+    for n, c in (("PlayRed", (200, 50, 40)), ("PlayBlue", (40, 100, 190)), ("PlayYellow", (236, 186, 40)),
+                 ("PlayGreen", (60, 150, 70))):
+        paint(n, c, grain="PaintedMetal012", strength=0.25)
+    park_signs()
+    src = {"Lawn": "hood", "MatBark": "hood", "ChainLink": "hood", "Water": "hood"}
+    for n, d_ in src.items():
+        for k in ("Color", "Roughness"):
+            sp = os.path.join(ROOT, "art", "blender", d_, "tex", f"{n}_{k}.png")
+            if os.path.exists(sp):
+                shutil.copyfile(sp, os.path.join(OUT, f"{n}_{k}.png"))
+
+
+STEPS = {"street": street, "brick": brick_building, "diner": diner, "hotel": hotel, "park": park}
 
 if __name__ == "__main__":
     fetch()

@@ -1,12 +1,27 @@
 {
+ "0024d171aec9b6472b3e0aefd912b890d03c3ac9a9c0371b444aeb868890c1e1": {
+  "id": 135904367735777,
+  "file": "art/models/ArmyBase_E/tex/Siding_Color.png",
+  "state": "Approved"
+ },
  "009ca1b64bf3f8bd8015253e693d60ff1b5711bf737388a54a3ba608de377e2f": {
   "file": "art/models/Apartments/tex/Trunk_Color.png",
   "id": 84064326386661,
   "state": "Approved"
  },
+ "00ba2aec19a273467b6cb9dc80645fa0fa78c0f2542d40041887bed2e90b1315": {
+  "id": 77501881252154,
+  "file": "art/models/ArmyBase_E/tex/RazorWire_Color.png",
+  "state": "Approved"
+ },
  "0249ac64964148f514b97dbefd64e0eaabbc4d94ff486b2fb43c4413e3ad775f": {
   "file": "art/models/BankTower/tex/PodiumSign_Color.png",
   "id": 103910849322231,
+  "state": "Approved"
+ },
+ "02ea2869eed081dfcf7c24ee479e323ef677ed13bcef11a8914935495835c74d": {
+  "id": 110305465945619,
+  "file": "art/models/ArmyBase_E/tex/Hvac_Color.png",
   "state": "Approved"
  },
  "02f33751f519ce4af15ac9e04c4e04e38073b405c4d418856e28980228d505dd": {
@@ -19,9 +34,34 @@
   "id": 119699640094865,
   "state": "Approved"
  },
+ "0334015f4a31324122c5d13ad8e11fbacd9cde300fd91ef72ad6271a6ef29946": {
+  "id": 80207259527181,
+  "file": "art/fx/fountain/Fall6.png",
+  "state": "Approved"
+ },
+ "0363c58b3466da9541be97ff3bc7ab480c1a50715d1fd90695c2564ab4b74d60": {
+  "id": 127319837519654,
+  "file": "art/models/ArkwellAtm/tex/AtmSign_Color.png",
+  "state": "Approved"
+ },
+ "0378808eb3195d634d1478851b5d9c48ba278d064cdfc9dea2c442064e648875": {
+  "id": 113668458491452,
+  "file": "art/models/Hotel_S/tex/Brass_Color.png",
+  "state": "Approved"
+ },
  "039d3928ac16bdbb7d1b7fa7aa25de3d479fdfed70d7e299699875e81c7b83df": {
   "file": "art/road/tex/Grime1.png",
   "id": 118256031307779,
+  "state": "Approved"
+ },
+ "03dcec5ed558af3cacaa2bfe38edfaecff1522458ce8f55d83b9d4e10ff1d7a8": {
+  "id": 136608013822914,
+  "file": "art/models/Diner/tex/DinerSteel_Color.png",
+  "state": "Approved"
+ },
+ "045ccfa5b1f34ec0a399a343613843b0ae6cfee571579e9e0130bf851c7b6328": {
+  "id": 78980829493421,
+  "file": "art/models/Human/tex/Hair.png",
   "state": "Approved"
  },
  "048914a7466f078a793d435b2409c7574f25a39058f9ded36b4265f9078ccf16": {
@@ -44,9 +84,24 @@
   "id": 79383019141524,
   "state": "Approved"
  },
+ "0776b82bcaa6327877e1b6e4efd145ddaabc70af6e065c174832b8131d418e6f": {
+  "id": 113132831219538,
+  "file": "art/models/HouseA/tex/MatShutter_Color.png",
+  "state": "Approved"
+ },
+ "081b2d2d89a6dde7b0b71017fe9210fe8dd4643a5fec571c85ae897a9740d8a2": {
+  "id": 137116721663208,
+  "file": "art/models/GunShop/tex/BladeSign_Color.png",
+  "state": "Approved"
+ },
  "082caf3750164ba2bd9eae62be9991cd1ddc3e83411587ed114fdce34932d61b": {
   "file": "art/models/HouseA/tex/LeafB_Color.png",
   "id": 104015583272730,
+  "state": "Approved"
+ },
+ "0849666358ca76e15ecaba6235cad1a09e17fdc87b2a33be16aa416925fb324d": {
+  "id": 94230877325972,
+  "file": "art/models/GunShop/tex/RangeFloor_Color.png",
   "state": "Approved"
  },
  "084ed622d8c6d97b3fa10874c5549abab5e185a4732f9dcb3cfc2ddc72df594e": {
@@ -54,9 +109,29 @@
   "id": 85124372213865,
   "state": "Approved"
  },
+ "0863c0efe878bced83389bbb31a9f87c38e70575e8e531c2b860c26da7ea2e0f": {
+  "id": 86563754251200,
+  "file": "art/models/Park/tex/PlayBlue_Color.png",
+  "state": "Approved"
+ },
  "086e211cee86352df7b5bf333c940117a01d2bf1cbd3ac9d5d27f7cf9546e61b": {
   "file": "art/models/Court/tex/Asphalt_Color.png",
   "id": 80058513883003,
+  "state": "Approved"
+ },
+ "08b44ed370ad409c46ec2afe7a2cb2654d26f76a73f558deea4d51d19cbee801": {
+  "id": 71299503801406,
+  "file": "art/models/StreetBackStreet/tex/HydrantRed_Color.png",
+  "state": "Approved"
+ },
+ "0971719e930725a4a93cccfa0fe924661ee03dd1b325b926c84cd42d34d6e310": {
+  "id": 119554087013072,
+  "file": "art/models/SpawnPlaza_S/tex/MatYellow_Color.png",
+  "state": "Approved"
+ },
+ "0983cd4596da2dc292bbd03cd18159798461e34fa08196cfa88b5285b7053168": {
+  "id": 131851784641508,
+  "file": "art/models/SpawnPlaza_S/tex/PlazaPave_Color.png",
   "state": "Approved"
  },
  "0a59638d99f87763c175fdaeb35fa39d267db562b3d0d24c97914c15eeaeb8e6": {
@@ -69,14 +144,34 @@
   "id": 97052512231374,
   "state": "Approved"
  },
+ "0a648591c883ba529d36150df0b583f99900b85c8fdbd147ef003492ec49bca7": {
+  "id": 130910427143516,
+  "file": "art/models/GunShop/tex/Slatwall_Color.png",
+  "state": "Approved"
+ },
  "0a78e0a98403da0135fe6df5c91f40d4a6d7199b33d7ae3c6b98eb95c7e5e173": {
   "file": "art/road/tex/Gator2.png",
   "id": 73571243562092,
   "state": "Approved"
  },
+ "0a794c70cc617bdfda399de45d7468fc6052feaa5d50b1577e08767a1d01e466": {
+  "id": 86987205974731,
+  "file": "art/models/Store/tex/Swing1Sign_Color.png",
+  "state": "Approved"
+ },
  "0bd8f14c5bbb6da6e016f0e66fd534f217ddf91ba777fb3b594b4c3a826fe6b7": {
   "file": "art/models/SpawnPlaza_S/tex/IceBlue_Color.png",
   "id": 88899582358807,
+  "state": "Approved"
+ },
+ "0c0994055bdfabc64a993a22b3be0c930067e1a57554b5f46b7fe41a9c5f7e25": {
+  "id": 110117964242015,
+  "file": "art/models/ArmyBase_E/tex/ChainLink_Color.png",
+  "state": "Approved"
+ },
+ "0cae143e5d966a3d6b20bc340cc7b65588f0a99b09092ed11496f58c95a9dd98": {
+  "id": 111982494219369,
+  "file": "art/fx/fountain/Fall7.png",
   "state": "Approved"
  },
  "0d4a3ea5b456fac48fdd237ed5ec2521b8c2c1870b596e61837d51527209b4f9": {
@@ -99,6 +194,26 @@
   "id": 101117844613267,
   "state": "Approved"
  },
+ "0e8546e3e2ae4c6ee32e2de2db0cd32853e00d9b4b40c3d29e9bccc84eb795ba": {
+  "id": 74682004227204,
+  "file": "art/models/GunShop/tex/Skin_Color.png",
+  "state": "Approved"
+ },
+ "0e90d8189ee895ad88981d558ccd75e9347eda61661173a6dacd010bde5ed3df": {
+  "id": 84859372392396,
+  "file": "art/models/ArkwellAtm/tex/Light_Color.png",
+  "state": "Approved"
+ },
+ "0ee337192f31dd3c2b4a5bdc26bdc0120dd8937bef40ed1ab7de9d1d1c13c450": {
+  "id": 82094773050017,
+  "file": "art/models/ArmyBase_E/tex/Roof_Color.png",
+  "state": "Approved"
+ },
+ "0ef56937a4988f17b056a1e37f4e2f672206c29289170497cd551e7875cb42ae": {
+  "id": 82281389099266,
+  "file": "art/models/Store/tex/MatDecoPaint_Color.png",
+  "state": "Approved"
+ },
  "0f11004bb5367231d49020a10a17478a8b8c369832737dc201e7a7a1c7b29537": {
   "file": "art/models/GasStation/tex/AirLabel_Color.png",
   "id": 87947570892853,
@@ -109,9 +224,24 @@
   "id": 139548968589819,
   "state": "Approved"
  },
+ "0f4aa4fb155d826764d5fecd280a12b1b4a67bb6c82775e5525ae787a30e3947": {
+  "id": 95847248762150,
+  "file": "art/models/ArmyBase_E/tex/PlateRangetower_Color.png",
+  "state": "Approved"
+ },
  "0f6883f07b5195dc319f07bcab74c5e1cc53358066ea1cfbbabd42eba19682db": {
   "file": "art/models/Apartments/tex/Dish_Color.png",
   "id": 109550891369871,
+  "state": "Approved"
+ },
+ "0faf1805fa9414b4eef4fc23c96bddf6b782b575c80148361dc2290ec83fcfdd": {
+  "id": 81004878503951,
+  "file": "art/models/GunShop/tex/Cctv_Color.png",
+  "state": "Approved"
+ },
+ "103b305bc409e9e9dccc0f81ce6b19c77259a6ad4b557fb8bf861ba0f16e7126": {
+  "id": 140625948220933,
+  "file": "art/models/BrickBlock/tex/FireSteel_Color.png",
   "state": "Approved"
  },
  "103c47cc54614c07a5d1cce8b60557cfc2ec2ce812e1e69c75232130a955dbea": {
@@ -124,9 +254,19 @@
   "id": 128399295249375,
   "state": "Approved"
  },
+ "1180fa4b0ba9cc521037a49338a221017eb0df96969fa8bb28f913f0bebcd387": {
+  "id": 103768023974386,
+  "file": "art/models/ArkwellAtm/tex/AtmScreen_Color.png",
+  "state": "Approved"
+ },
  "11ade0c3e45d2986e894243140f6e93e7d23f532e7c88b47d11499c263f42c7e": {
   "file": "art/road/tex/Stain1.png",
   "id": 126371038944520,
+  "state": "Approved"
+ },
+ "11be8c1f0e55fd2c9064f952f3502c602d635d89ca39df6a515d692c93905465": {
+  "id": 110795383786648,
+  "file": "art/fx/fountain/Pool2.png",
   "state": "Approved"
  },
  "11d00fa06c6baab99642591dc07a07c72b0746aadb9f5e2582fb19dae2bf6e23": {
@@ -137,6 +277,11 @@
  "11e48279e469b233072171d9239ec2b3ab56a3b239cad1ae413dfafff1bb7333": {
   "file": "art/models/GasStation/tex/Atm_Color.png",
   "id": 95844745166510,
+  "state": "Approved"
+ },
+ "12b10702134005b4def5eb7b15bc614ebbba72e1e7485dfeffaa3f9b84847f76": {
+  "id": 85422384635818,
+  "file": "art/models/OfficeStone/tex/OfficeStone_Base.png",
   "state": "Approved"
  },
  "12f3e5af0e3a5a2aa48748b571b6d902cd7fd661990ba3869c8f4cdd12a7d59e": {
@@ -154,6 +299,21 @@
   "id": 123121460170113,
   "state": "Approved"
  },
+ "1438a5287bd6da1f8b8459adee1fa74e23a3d5046225697750af81604189c876": {
+  "id": 104861011580642,
+  "file": "art/models/Casa/tex/Soil_Color.png",
+  "state": "Approved"
+ },
+ "14444dcea893a5a4d53dc9d32f8bad843e6f0508fa70ebae22b3bef4c6ebeb09": {
+  "id": 93609719252337,
+  "file": "art/models/Human/tex/Eyes.png",
+  "state": "Approved"
+ },
+ "144ed0f41a958b4a98698f68156ad0ce673fd15a9bc2477bbbf7ae119308c14b": {
+  "id": 119034044831814,
+  "file": "art/models/ArmyBase_E/tex/Needles_Color.png",
+  "state": "Approved"
+ },
  "14861780a3ab4fd837ba2aee028bcfcaee7c48a7d5934706cc761c6cdbb5a503": {
   "file": "art/models/GasStation/tex/Bin_Color.png",
   "id": 81572733368213,
@@ -169,6 +329,11 @@
   "id": 89077402258477,
   "state": "Approved"
  },
+ "14fada9845c510b264da59d6ea8334efefe0d2c4637c0019c5624f89ac9da457": {
+  "id": 121122804860224,
+  "file": "art/models/ArmyBase_E/tex/Flag_Color.png",
+  "state": "Approved"
+ },
  "150438deed2828f5614c21ad60677172ec4eee2db5f21d700cdfe45a3e542bdf": {
   "file": "art/models/HouseA/tex/FlowerY_Color.png",
   "id": 107152183448175,
@@ -179,9 +344,24 @@
   "id": 82469317694148,
   "state": "Approved"
  },
+ "16412311e2a65c43cac0fbbcedb477deff402e897f4fd7ada4b6a9365823f1d5": {
+  "id": 106264771450297,
+  "file": "art/models/Casa/tex/RoofClay_Color.png",
+  "state": "Approved"
+ },
+ "1712573382e2e43376b20c97d846202894e92aa63ec93b74723b0f048bd92de8": {
+  "id": 135284003276581,
+  "file": "art/models/Casa/tex/Stone_Color.png",
+  "state": "Approved"
+ },
  "176615147328980bdf06e916ed10dfefda7260baa9543ffcb63f6288aa23251c": {
   "file": "art/models/Store/tex/DecoPaint_Color.png",
   "id": 130769800878975,
+  "state": "Approved"
+ },
+ "17699e38f8dace1d36a54c677f3ca3bc703cbe4d7659dfe6114e05d6aa909dad": {
+  "id": 139079349668574,
+  "file": "art/models/BrickBlock/tex/ShopSignsB_Color.png",
   "state": "Approved"
  },
  "189cd8e0d43fdded53d9d4815fb1b95c0eba5a67799bd29271f1c4404f1edb65": {
@@ -189,14 +369,49 @@
   "id": 71382961348159,
   "state": "Approved"
  },
+ "1942a0ae4ff10418acfe5dfc9b87be46868ceca1ffcf9f9547b54670e028c301": {
+  "id": 139177732485514,
+  "file": "art/models/StreetBackStreet/tex/BenchWood_Color.png",
+  "state": "Approved"
+ },
+ "1a51f6cc664ac16886717ecc64987d3a263ff5ae8b80a136ff360feec162608f": {
+  "id": 100615785254268,
+  "file": "art/models/Casa/tex/GlassF_Color.png",
+  "state": "Approved"
+ },
+ "1a59108cf5639913096d6132e3216dd11707cf61e9326dd361bfe71a2eaa0263": {
+  "id": 123362529477565,
+  "file": "art/models/Diner/tex/Dumpster_Color.png",
+  "state": "Approved"
+ },
+ "1a62e49a1bd163cedcbdf559eb3ace905ab67e5c800a41ba54d6489de423b5ae": {
+  "id": 81937276237007,
+  "file": "art/models/Casa/tex/FrontDoor_Color.png",
+  "state": "Approved"
+ },
  "1a726ba4871fe11d23db6e8831b2bc55207b156e9587e44decbf2d3b996f0d26": {
   "file": "art/models/OfficeStone/tex/OfficeStone_Lobby.png",
   "id": 116713272898630,
   "state": "Approved"
  },
+ "1beff99175dcb733b3eb34a9d78c351c750efad620ceb901eb0c5512e1b66f23": {
+  "id": 133953973857949,
+  "file": "art/models/ArmyBase_E/tex/CamoNet_Color.png",
+  "state": "Approved"
+ },
+ "1c11994fb6e43cc77db1fa82b5e7cbe5b19cf7df9054876a3d11b636cd26d530": {
+  "id": 110988944180376,
+  "file": "art/models/ArmyBase_E/tex/BoomWhite_Color.png",
+  "state": "Approved"
+ },
  "1c8d5bcc4f4df5bcceeabfab9ae12390aee241457664d61bc56804031ccebf70": {
   "file": "art/models/Apartments/tex/AptWall_Color.png",
   "id": 116410833948251,
+  "state": "Approved"
+ },
+ "1cc45c732f47c6ac4d6c06284ee3e24f14b331ae958fb90650090a34e7ce7121": {
+  "id": 114140485306376,
+  "file": "art/models/StreetBackStreet/tex/PoleGalv_Color.png",
   "state": "Approved"
  },
  "1d04be4187d654097e7ec3928277fa7280b60e23f8de52981573f2c8dded192f": {
@@ -209,9 +424,19 @@
   "id": 135553352780880,
   "state": "Approved"
  },
+ "1d839f12a638d2d1068d309609c3141dbe4698d99173661e9f00b921deb54918": {
+  "id": 136054693053162,
+  "file": "art/models/GunShop/tex/Pegboard_Color.png",
+  "state": "Approved"
+ },
  "1d91661bad7db0ce51e06a8015184f0658fc5a303f954112fcc1aa619f6aec0c": {
   "file": "art/models/Motel/tex/Steel_Color.png",
   "id": 116653468436742,
+  "state": "Approved"
+ },
+ "1de2494bed59f37a5b2599ae5a8583d7da77518e601f3c931155a5c81a4844ad": {
+  "id": 92474501088322,
+  "file": "art/models/HouseA/tex/MatMailbox_Color.png",
   "state": "Approved"
  },
  "1de7b0add7424110166fcb264ef1aa2679db37bf39aa4df60372366673c6fae0": {
@@ -219,14 +444,34 @@
   "id": 107324463653438,
   "state": "Approved"
  },
+ "1e71677a25b67c93a773783cba214d4be42f0604f17466b892c9b767b7480660": {
+  "id": 87927198412408,
+  "file": "art/models/Casa/tex/WallStone_Color.png",
+  "state": "Approved"
+ },
  "1efe78e8a77d23d2d3a4e31dd881260d25a4c82850b5ba365945637f762a83db": {
   "file": "art/models/HouseA/tex/Shutter_Color.png",
   "id": 77551154639072,
   "state": "Approved"
  },
+ "1f0f3ad0891cf5527a5cbd3c253b76c14e3cbaf1ffd6212b4910435542e122df": {
+  "id": 135483201420317,
+  "file": "art/models/Diner/tex/GlassBlock_Color.png",
+  "state": "Approved"
+ },
+ "1f2c96ee9eadaa463a4941e403297c5d6fe569eb560ec1d805de5656f41d1841": {
+  "id": 77087858351110,
+  "file": "art/models/StreetBackStreet/tex/SafetyYellow_Color.png",
+  "state": "Approved"
+ },
  "1f4a824d28ab9f7ff73e8f1f9f67c1d7c986c7a05ace320e1e06579354b36e7f": {
   "file": "art/models/SpawnPlaza_S/tex/PlazaPave_Color.png",
   "id": 122067573576063,
+  "state": "Approved"
+ },
+ "1f928455cdc10dd867f819e8aba406db64e424ff157c534efdbf7b18b5ad7f7f": {
+  "id": 105518469076509,
+  "file": "art/models/Modern/tex/GarageGlass_Color.png",
   "state": "Approved"
  },
  "1ff856654d07d14914ff9a2ce08a20e15d5a8252acbfe904b2c45609513e5f4e": {
@@ -239,6 +484,11 @@
   "id": 71661040347183,
   "state": "Approved"
  },
+ "20cad9d5746387269759a7cbd653978b56a61e338155bdc5ec5e8e838802b490": {
+  "id": 82012101086862,
+  "file": "art/models/BrickBlock/tex/Awnings_Color.png",
+  "state": "Approved"
+ },
  "21f306cdedda71363cdf0bab817fb3bde086116b50d80bcc13b9cb66163a008f": {
   "file": "art/models/OfficeStone/tex/OfficeStone_Facade.png",
   "id": 84412399490283,
@@ -249,9 +499,19 @@
   "id": 126577375174943,
   "state": "Approved"
  },
+ "225f13e0c024730f826f69612eefdcc6a6da1108bf1e0a875e61d61e0d20704e": {
+  "id": 126585872990432,
+  "file": "art/models/Casa/tex/Teak_Color.png",
+  "state": "Approved"
+ },
  "22a96551c35e2397bb2dc9a346674bf2a7d67eac2e8dae2d64a583b7feb872bc": {
   "file": "art/models/Court/tex/Stone_Color.png",
   "id": 92701287421861,
+  "state": "Approved"
+ },
+ "22fd31dd32d194296bd566b1aba01c2e5427a152473833d53cf699cd492e6086": {
+  "id": 132890393692372,
+  "file": "art/models/Store/tex/MatIceBox_Color.png",
   "state": "Approved"
  },
  "23a602092abf54d6f93584d68523af63a9a2dff6714486dd08011d672e15f6e4": {
@@ -259,9 +519,44 @@
   "id": 91803935653463,
   "state": "Approved"
  },
+ "23b277317923435b7df74de6f5b72eb74f569fb24c27d7fb09cacebe0b77d678": {
+  "id": 104715238802230,
+  "file": "art/models/StreetBackStreet/tex/Grate_Color.png",
+  "state": "Approved"
+ },
+ "243b1b3170957ad62033897fa5f27951ea314930be8a8671fbc09cc615c481af": {
+  "id": 131229656670711,
+  "file": "art/models/Store/tex/AisleSign_Color.png",
+  "state": "Approved"
+ },
+ "244d7f54fd09509cf27fdedc708b7d5f9b7e724c0e957c5d62fe2f2fa8137031": {
+  "id": 84518519958002,
+  "file": "art/models/ArmyBase_E/tex/PlateHQ_Color.png",
+  "state": "Approved"
+ },
+ "24c5804e4bd97f19088e24edbcd8f6d40cd9a1be1071ed0fd9740d13961bcfc6": {
+  "id": 98377904266884,
+  "file": "art/models/ArmyBase_E/tex/Rubber_Color.png",
+  "state": "Approved"
+ },
+ "24e62f368fe301f02381b06e8b137f93ea37d49bc2bf071ce40bab625602b510": {
+  "id": 132180745133204,
+  "file": "art/models/Park/tex/ParkSigns_Color.png",
+  "state": "Approved"
+ },
+ "2677f21925204c07ff7161a7f260398a0437f7ff900a3c10aad46b07b96f81bc": {
+  "id": 96135761826737,
+  "file": "art/models/Casa/tex/Bark_Color.png",
+  "state": "Approved"
+ },
  "26b71a73fc8027628e520d1b614e6e6546fc859380b65da51b49404a2a55e31f": {
   "file": "art/models/GasStation/tex/DoorGlass_Color.png",
   "id": 72613804549534,
+  "state": "Approved"
+ },
+ "26e60b64a2b80038c32af598ff1115a8c731ddc13de440f3ec3d990c37176e54": {
+  "id": 74721063551022,
+  "file": "art/models/Diner/tex/DinerSteel_Color.png",
   "state": "Approved"
  },
  "271ba34725dc99c8376766feae215d219622c42d4ebf8250a1520c9ee926aeb9": {
@@ -269,14 +564,79 @@
   "id": 100339388213325,
   "state": "Approved"
  },
+ "27ab249a85cbc185d254940d9ef1cf84b6b6d42521b53511a5fafc6abb4f325b": {
+  "id": 129830506943580,
+  "file": "art/models/Police/tex/Rubber_Color.png",
+  "state": "Approved"
+ },
+ "27c83ae1a08515ae6df6e8ca768a96663ea69760d066ceaabfaa20d534f11a72": {
+  "id": 113287755774773,
+  "file": "art/models/GunShop/tex/Backstop_Color.png",
+  "state": "Approved"
+ },
+ "282ff29a67a59ed6077839ca158c22ba6e559a16b22368ec2614347c7cbde140": {
+  "id": 98282204065095,
+  "file": "art/models/Diner/tex/DinerSigns_Color.png",
+  "state": "Approved"
+ },
+ "283110c84d4dd048c0124b27d77464c98839e48d4b93212c1885792d06278023": {
+  "id": 85451412680391,
+  "file": "art/models/Diner/tex/DinerTile_Color.png",
+  "state": "Approved"
+ },
+ "2833544dd03fcacb35d21bffece9ddc0c938dfb29e05dc37900692ead1d0b8f4": {
+  "id": 87730350094023,
+  "file": "art/models/ArmyBase_E/tex/Planks_Color.png",
+  "state": "Approved"
+ },
+ "2883356966d629cde3ae1b32511d097c11f8cfe5c3eadacc838177e2ae60cc7e": {
+  "id": 136388901846728,
+  "file": "art/fx/fountain/Pool4.png",
+  "state": "Approved"
+ },
  "28b70fd18a07c5a34e81a4a2de24f591ef318732756ef1377e45a352593e9eab": {
   "file": "art/models/HouseA/tex/Shingles_Color.png",
   "id": 99327343506228,
   "state": "Approved"
  },
+ "28ff282ca94f2c0d20f38271e5a9fec08eecfd801cdca45a9f192ff807c0a9bb": {
+  "id": 120948969396219,
+  "file": "art/fx/fountain/Pool3.png",
+  "state": "Approved"
+ },
  "294c477b8601a47d905e907f42f0edb2231774380a8bd3970bf5abeb583c38ae": {
   "file": "art/models/OfficeRound/tex/OfficeRound_Frame.png",
   "id": 96794344758804,
+  "state": "Approved"
+ },
+ "29530cde3cdadfe98bbe112461bb9bd093754eb8ea4ad72acde6967704b25c5c": {
+  "id": 111995003288650,
+  "file": "art/models/ArmyBase_E/tex/TowerGlassA_Color.png",
+  "state": "Approved"
+ },
+ "296b21a50ec61c3e1c5f854548fb3a65eef9c727ef679b813d46cd1c41fccf21": {
+  "id": 131873792200287,
+  "file": "art/models/Hotel_S/tex/Pavers_Color.png",
+  "state": "Approved"
+ },
+ "2a86225042534ca7017cac7f12519ed8dc462f26f1c81345c30e63b94aab0beb": {
+  "id": 81364088249585,
+  "file": "art/models/ArmyBase_E/tex/GlassD_Color.png",
+  "state": "Approved"
+ },
+ "2bcd22d3729e69e196f9811760c4f7b082de1955da92b007523fb7f856196f67": {
+  "id": 78648251431833,
+  "file": "art/models/ArmyBase_E/tex/ConcreteDark_Color.png",
+  "state": "Approved"
+ },
+ "2bd3391914d272cbe1e26db414782b431b6d8bd22ca8e2a9ceb859e23106b0a3": {
+  "id": 76832152491432,
+  "file": "art/models/Diner/tex/Chrome_Color.png",
+  "state": "Approved"
+ },
+ "2c3dcabe5488b76e533efee1bce306178bfb4863a15a3760834696975502f58f": {
+  "id": 108872888474112,
+  "file": "art/models/StreetBackStreet/tex/PoleSteel_Color.png",
   "state": "Approved"
  },
  "2c65ca9630324f43c7ea2970f6bf311550c3b6c70e13a51e65f6f00a94a5d4f9": {
@@ -299,9 +659,29 @@
   "id": 99490632127084,
   "state": "Approved"
  },
+ "2db8855735e33442a75cf44efe36961d0874db5203dad0a8145f9d8d0cf0345f": {
+  "id": 93283031622239,
+  "file": "art/fx/fountain/Pool7.png",
+  "state": "Approved"
+ },
  "2deb623ff6f7acb549b6a8086fa190c6ce3d8ada8c2e3306536e0f0248e227ca": {
   "file": "art/weather/clouds/Cloud_Cg01.png",
   "id": 90154573975366,
+  "state": "Approved"
+ },
+ "2e725224c1b62e34ee122580c162905e12515c49490b5fb111c9f225d9963525": {
+  "id": 98163766974867,
+  "file": "art/models/StreetCorners/tex/LensRed_Color.png",
+  "state": "Approved"
+ },
+ "2ecda6286b69f0ab8dc1b7b999fae5906a2ef3cd77a5599e0b28c92aeadbd421": {
+  "id": 128149761102097,
+  "file": "art/fx/fountain/Ripple4.png",
+  "state": "Approved"
+ },
+ "2f667533e3b8ff14d9b557c39868ec8011192e144e66efec70bdabb9375f2dcb": {
+  "id": 140022006037901,
+  "file": "art/models/OfficeDark/tex/OfficeDark_Screen.png",
   "state": "Approved"
  },
  "2f8790ef29b5a05e83d934b2f82296ea6c3b68ed52d40f204ec516b392c6c2c1": {
@@ -329,14 +709,29 @@
   "id": 113068567332448,
   "state": "Approved"
  },
+ "321168b8340432cf98333c5aa1af49faed7ac420ad7bf21c1bb7d23b5b9a286a": {
+  "id": 129513683893502,
+  "file": "art/models/Park/tex/SkateConcrete_Color.png",
+  "state": "Approved"
+ },
  "321f16134f8bceb60b094e5b0a2a870ec9eaf3ea0979c2a4c8c44883f2ab6f12": {
   "file": "art/weather/tex/SplashFlip.png",
   "id": 109527567461357,
   "state": "Approved"
  },
+ "3230974357c7a9d982d7026a3f5f6b389588f0beb1534c5c12199fc4aab03fcb": {
+  "id": 134073405209372,
+  "file": "art/models/Casa/tex/GlassE_Color.png",
+  "state": "Approved"
+ },
  "3303945c9569720980e822d5b5f1d4d880c6d70f9350e5c92641aea2efe9c16e": {
   "file": "art/models/Court/tex/Palm_Color.png",
   "id": 129354176669105,
+  "state": "Approved"
+ },
+ "33071b5fee246ff02c1373b42adbbe62753b337e86a465473f922081cb7fbd7a": {
+  "id": 89236837663249,
+  "file": "art/fx/fountain/Pool8.png",
   "state": "Approved"
  },
  "335f6b702dbc644742cfb16c00790ea202d5b3f3db96e862a4f7171c77e62e52": {
@@ -359,14 +754,29 @@
   "id": 124358387369580,
   "state": "Approved"
  },
+ "357babd7b291aa443220e65c673c1ec936faab0fffac66261be14abbee3e2d4f": {
+  "id": 80195495175362,
+  "file": "art/models/ArmyBase_E/tex/SignNoPhoto_Color.png",
+  "state": "Approved"
+ },
  "358df8ad8c39ef1d1aa9e4040327cf0b60c9670e5441dae874c1df189d8fa62e": {
   "file": "art/models/GasStation/tex/IceBox_Color.png",
   "id": 76945622385905,
   "state": "Approved"
  },
+ "35af770a7332b787176763860687fb797378c16801f3c43b6fffe0669ad38bac": {
+  "id": 87359874081067,
+  "file": "art/models/Hotel_S/tex/Sill_Color.png",
+  "state": "Approved"
+ },
  "35f23fc05373711263eccacaca06d774ed508b90f6ee9d840287474489749847": {
   "file": "art/models/Motel/tex/SignBox_Color.png",
   "id": 71671242114833,
+  "state": "Approved"
+ },
+ "368a6d3230190068f82a35fa99d8200708941d72e8ef334edee97d3ad0aac407": {
+  "id": 125619184253731,
+  "file": "art/models/Modern/tex/ClearGlassRail_Color.png",
   "state": "Approved"
  },
  "36d43e698ff511ae1a83c3843b7b6618ab5d1e0defa07776c24899dbf2a4d3bd": {
@@ -384,9 +794,19 @@
   "id": 94761267115390,
   "state": "Approved"
  },
+ "376b869bb5fe3127f98a8d38923f5cc33e7e5bd764358de2c4b199f6a45e86de": {
+  "id": 83489227913149,
+  "file": "art/models/ArmyBase_E/tex/Dirt_Color.png",
+  "state": "Approved"
+ },
  "38329abe75f8d8962f84f4d24d0b7afd6b25a10e8dbd4b42c5eddcb702849050": {
   "file": "art/models/Motel/tex/GlassA_Color.png",
   "id": 100462039805309,
+  "state": "Approved"
+ },
+ "387a2291512196bd84b51e36e36f3417b36a77be17e080d26d261c9b26e5e53c": {
+  "id": 93428432497505,
+  "file": "art/models/StreetBackStreet/tex/Plinth_Color.png",
   "state": "Approved"
  },
  "38a435c6dd8a2a268338e26d68c8e6ae6685e0cbd711719702e80a8589323098": {
@@ -414,14 +834,29 @@
   "id": 75045426257832,
   "state": "Approved"
  },
+ "39bdba3a596ebfb38d40db5e203289cd6b541fb94876c5bb5951885279734188": {
+  "id": 98003322722234,
+  "file": "art/models/GunShop/tex/Tan_Color.png",
+  "state": "Approved"
+ },
  "3a604b39361384703073f8e7e90678cfcdada9cd64ff99bc416109cf0ade51f0": {
   "file": "art/models/BankTower/tex/Fins_Color.png",
   "id": 98250038109885,
   "state": "Approved"
  },
+ "3a6b36557de4968874bcf3640f6f600e15302acc0967889a968606148c076f13": {
+  "id": 72821618086403,
+  "file": "art/models/GunShop/tex/WoodTop_Color.png",
+  "state": "Approved"
+ },
  "3ab8b1f843cd5cdc438cd0100ae5a8b2a132aa0861367050a964f5504d68dfd1": {
   "file": "art/models/GasStation/tex/Extinguisher_Color.png",
   "id": 117628160198390,
+  "state": "Approved"
+ },
+ "3b06e39dc4962e5a8c5d07456da3a4abe6759e298ebee498a95fe4654973490d": {
+  "id": 113991354302698,
+  "file": "art/models/Casa/tex/Pavers_Color.png",
   "state": "Approved"
  },
  "3b1403a76bdc087646ec8184c1676a69979087aa0f1477a0b02fa5d3ed731ae5": {
@@ -439,6 +874,11 @@
   "id": 73365403100986,
   "state": "Approved"
  },
+ "3cc4e8e0224232831b09df048ebd70004616e35bd6202f7868e3071dedb3fbda": {
+  "id": 126627086603726,
+  "file": "art/models/BrickBlock/tex/BrickRed_Color.png",
+  "state": "Approved"
+ },
  "3d4bf1ecd224faaf71513d4b3d50d115e3e26970566bea70c09264f79983165b": {
   "file": "art/models/BankTower/tex/AtmWall_Color.png",
   "id": 74437236019427,
@@ -447,6 +887,11 @@
  "3d9f8707dab5966d620e56be6efc25f353b61862296ed5ec40d7c7c186e423f0": {
   "file": "art/models/Court/tex/ChainLink_Color.png",
   "id": 118715660146365,
+  "state": "Approved"
+ },
+ "3e6f2f81b4b5c053f47872f0dee6e3d638a57d5ff2885a706fd472ee9c85612e": {
+  "id": 76755781017336,
+  "file": "art/models/StreetBackStreet/tex/Bark_Color.png",
   "state": "Approved"
  },
  "3ea174c77793cec20ccf8271e65f66856213aa300b010d8b4498050dc705b7c9": {
@@ -462,6 +907,16 @@
  "3fe8d64446ffaabebc4be1e234978caae55c8403c31b8efe1b00489c01fe41ed": {
   "file": "art/models/Motel/tex/OfficeGlass_Color.png",
   "id": 124253678742549,
+  "state": "Approved"
+ },
+ "3febf34fa5be8924600b79e2175e40daaa308679ee9ecc14c9646e698a79867d": {
+  "id": 107967347996363,
+  "file": "art/fx/fountain/Pool5.png",
+  "state": "Approved"
+ },
+ "3ff19790666b4723412d49dca19f190d8fa0124e9ec60415a24fe024c144b161": {
+  "id": 105712694377100,
+  "file": "art/models/GunShop/tex/Ceiling_Color.png",
   "state": "Approved"
  },
  "40d41c9508be603aa3b5ae90d388108dc695195218301e2131eaafa58b4ca7b4": {
@@ -489,6 +944,16 @@
   "id": 82534306814730,
   "state": "Approved"
  },
+ "42788f198a633e3151040c0e8e2e59afea5d973db37325e4d4f0f3d2467b7963": {
+  "id": 98815425890853,
+  "file": "art/models/HouseC/tex/MatLedge_Color.png",
+  "state": "Approved"
+ },
+ "427c53e495461cb9752499f0b002269bdc3e5ae7cfb482096603aa43d0884ec7": {
+  "id": 97079110004859,
+  "file": "art/models/Human/tex/Shoes.png",
+  "state": "Approved"
+ },
  "42b5c38360de8880d524e267ee5ef42370eac03a8b51952142e8b93225d28f3f": {
   "file": "art/models/OfficeDark/tex/OfficeDark_Frame.png",
   "id": 115179035203804,
@@ -499,14 +964,39 @@
   "id": 116880134219230,
   "state": "Approved"
  },
+ "43b9cc9afb194b138028c5fd7cb51360e64324cd8b4225616b45127637cf5e43": {
+  "id": 138836399639611,
+  "file": "art/models/Court/tex/MatStone_Color.png",
+  "state": "Approved"
+ },
  "44259b7cbfffd27ac2c4759fc9f4e5883f851e45af6c9c9bee54344f272d9e26": {
   "file": "art/weather/tex/RippleFlip.png",
   "id": 125079827017163,
   "state": "Approved"
  },
+ "44a2ba01aa1c354ae104fe1505163797ba556eff176015bd57e01f785b1e9c35": {
+  "id": 92326837133607,
+  "file": "art/models/StreetBackStreet/tex/DecoPrint_Color.png",
+  "state": "Approved"
+ },
+ "44d0b13dc21c7e6e390ccc5b81c11482f8388f20451fc40511538f60f261bb15": {
+  "id": 77546376382229,
+  "file": "art/models/ArmyBase_E/tex/BoomRed_Color.png",
+  "state": "Approved"
+ },
+ "44d61288f3bdc8ba5355aa561eb8847dee7a2a32304c43280b2190570c83a6c2": {
+  "id": 139494179392597,
+  "file": "art/models/Park/tex/Water_Color.png",
+  "state": "Approved"
+ },
  "44ec821302c7f4af70710367e358a2de90fbb9968324dace20e5fe4d6d701424": {
   "file": "art/models/Motel/tex/GlassE_Color.png",
   "id": 92904795562007,
+  "state": "Approved"
+ },
+ "44eeddbb75aa9d66a55d7fc95b7f043f29af81fa44198da17f6de89fdc28a963": {
+  "id": 114893786096070,
+  "file": "art/models/Casa/tex/GlassD_Color.png",
   "state": "Approved"
  },
  "45a42c2c20e7046f658b190fcd1d4894c782902c22626e5f869a740aba950a6e": {
@@ -519,6 +1009,21 @@
   "id": 107940994245167,
   "state": "Approved"
  },
+ "45f9862390492b96aef5369af3f79b9bad3f89cd9ab4b706d6b79a2a39639f8f": {
+  "id": 130171966996601,
+  "file": "art/models/ArmyBase_E/tex/DarkSteel_Color.png",
+  "state": "Approved"
+ },
+ "45fe255331508fae8d828aaad632df7695c92a64ccfc38e7f8b1bdb8e502ddd4": {
+  "id": 134968951732292,
+  "file": "art/models/GunShop/tex/Cardboard_Color.png",
+  "state": "Approved"
+ },
+ "464948c6af235b763d28910f65fd7567c7c58f53d83face51e5752e201e3ea24": {
+  "id": 87096693928100,
+  "file": "art/models/ArkwellAtm/tex/AtmBlack_Color.png",
+  "state": "Approved"
+ },
  "46689a6d546c0570e5ae5ee0ca8884d1192779a8459066e533bd4533d8b6d7ef": {
   "file": "art/models/SpawnPlaza_S/tex/Water_Color.png",
   "id": 116617832235034,
@@ -529,14 +1034,49 @@
   "id": 99944571339838,
   "state": "Approved"
  },
+ "46f021bb320f3e15a3e2165c121c9871da57e37e97dd5197467d1be75574da7f": {
+  "id": 77683261606982,
+  "file": "art/models/Casa/tex/WallSand_Color.png",
+  "state": "Approved"
+ },
+ "474e7887b0a9ab5fe87de6e59e63e08a79907eaacd270e12996f74b1d77afbe7": {
+  "id": 127570477872958,
+  "file": "art/models/StreetBackStreet/tex/MailBlue_Color.png",
+  "state": "Approved"
+ },
+ "477d32b2bc89ec6a8864a27c7c53d3dad9371a0898c425c78e096227b6fd8f80": {
+  "id": 136757448799040,
+  "file": "art/models/Casa/tex/Steel_Color.png",
+  "state": "Approved"
+ },
+ "47ad3363b91cef6b8c978d355b8abd5b1df068fc064ad5eb3d18ffce2fcd98ec": {
+  "id": 132243877151776,
+  "file": "art/models/SpawnPlaza_S/tex/BusFascia_Color.png",
+  "state": "Approved"
+ },
  "47c68e991ca58b103932fbf622ace40e327fd020b8918d68a9f728a965850f18": {
   "file": "art/road/tex/Patch1.png",
   "id": 130287841223529,
   "state": "Approved"
  },
+ "483d604d9a5395256a7b3ea9e944f1fe22e0a19986abdeaa50ac35fa44026d3b": {
+  "id": 82976543607613,
+  "file": "art/models/HouseA/tex/Shrub_Color.png",
+  "state": "Approved"
+ },
  "484b9cbe7405702a94f2c0c42a810b99312d232d14cf87d9b0a22068afcb4e39": {
   "file": "art/models/Store/tex/IceBox_Color.png",
   "id": 87402411180130,
+  "state": "Approved"
+ },
+ "48ac17f73693a5f94d7133232a671483e73248e865ca3afb66acc4b8a61b934e": {
+  "id": 72624562520289,
+  "file": "art/models/ArmyBase_E/tex/Frame_Color.png",
+  "state": "Approved"
+ },
+ "48f16242576e2b103c08a44579915d6c0fdbf6714cb3f8acaad8e5c799561dd6": {
+  "id": 93501231580541,
+  "file": "art/models/OfficeDark/tex/OfficeDark_Glass.png",
   "state": "Approved"
  },
  "49082edbb7eefe97f3e53d25e8eb76312802fe2ad40b6eddda7a7abc19982256": {
@@ -549,6 +1089,16 @@
   "id": 124240468053365,
   "state": "Approved"
  },
+ "492084937ebf19cb63b0fadb728f50dc7c864744736c39f2ef5a1706f3d23f4a": {
+  "id": 125691831116580,
+  "file": "art/models/Court/tex/MatPole_Color.png",
+  "state": "Approved"
+ },
+ "4934cbb882ed8650baff2304028881eba9e9500dc5f1d181e24e6889e2c01197": {
+  "id": 133676813884739,
+  "file": "art/models/Park/tex/PlayRed_Color.png",
+  "state": "Approved"
+ },
  "49375d23467fb6c78e2052c4a687881b8a84bf105604c3d138d045cac0536d61": {
   "file": "art/models/GasStation/tex/PumpNumber_Color.png",
   "id": 100032936469702,
@@ -557,6 +1107,21 @@
  "4944b5f0503bfda1867c6af120286fcaccfae0dea681a5a00dd67b448b9a16f9": {
   "file": "art/models/Apartments/tex/GlassC_Color.png",
   "id": 117888992396163,
+  "state": "Approved"
+ },
+ "494ff3d55e8fb42b335439190b18ff7c0f217203d2d194b9d8223d49f1c05bc3": {
+  "id": 132455406545868,
+  "file": "art/models/ArkwellAtm/tex/AtmShell_Color.png",
+  "state": "Approved"
+ },
+ "4984dea59f9bd4544108832c330bffdc1e87feb64c9c51f0d81081eff7f98129": {
+  "id": 98922858356065,
+  "file": "art/fx/fountain/Ripple1.png",
+  "state": "Approved"
+ },
+ "4adbe32a3a04e8b2c10048f2e24d834cec477c97c79ec68c71b9bb8d3946f176": {
+  "id": 123633476600231,
+  "file": "art/models/SpawnPlaza_S/tex/FxJet_Color.png",
   "state": "Approved"
  },
  "4b6ec624a29ec8ec25766c65694f308d7b8e4c291c4b3b7ab1d274c5ca84dbeb": {
@@ -584,14 +1149,44 @@
   "id": 85161195995128,
   "state": "Approved"
  },
+ "4d237741bd8904add40187f3aacb485a539514f260d2ddadc8dc0d0284d09575": {
+  "id": 99468512439302,
+  "file": "art/models/HouseB/tex/MatFlat_Color.png",
+  "state": "Approved"
+ },
+ "4dcc0b766025b8fa08d71a2eb295b120dcc133f226215038a8b27088b6982586": {
+  "id": 130518375675616,
+  "file": "art/models/SpawnPlaza_S/tex/FxPool_Color.png",
+  "state": "Approved"
+ },
  "4dec497b90b902d6d9cf5255d530c7d49540b4748fe096e2d18be0470fcae146": {
   "file": "art/models/Store/tex/FreezerTop_Color.png",
   "id": 122549239139271,
   "state": "Approved"
  },
+ "4e333b6ac640b558fa4aad86b5e1ea1012e604fa2114b00bac6ca4ad910d13d0": {
+  "id": 110088173555052,
+  "file": "art/models/Casa/tex/Blossom_Color.png",
+  "state": "Approved"
+ },
+ "4e4eca1d73993bc3a9a61e15d60b42c05eb60dbb764fe037a1d860f3e9e4afa9": {
+  "id": 131469963122007,
+  "file": "art/models/ArmyBase_E/tex/Hesco_Color.png",
+  "state": "Approved"
+ },
+ "4f2b47317af289c5696bee56d25b7ce9649546ab379043a04f27161cf5f04aa2": {
+  "id": 125746208440281,
+  "file": "art/models/GunShop/tex/ExtBand_Color.png",
+  "state": "Approved"
+ },
  "4f55a7e7db01e52d4a6d61c337ecc658f6bf035c106c328c5e7ffa4347e037fe": {
   "file": "art/models/GasStation/tex/ColumnBase_Color.png",
   "id": 71664357418754,
+  "state": "Approved"
+ },
+ "4fa5d8fb17bcf815055b8b5ee12f3cd00d6b418b329bcccfb4b68665e4f98575": {
+  "id": 108660462518413,
+  "file": "art/models/ArmyBase_E/tex/Door_Color.png",
   "state": "Approved"
  },
  "4fffe1d5e57b033a43c679a001d401a93bd1a2c168f70a35cbaf92ee88f38318": {
@@ -614,9 +1209,54 @@
   "id": 127006585344172,
   "state": "Approved"
  },
+ "515f34302b4594115116a7a186ecff2322db104978ae93ae1221ed2ad22554d3": {
+  "id": 119051783591261,
+  "file": "art/models/Store/tex/ShelfMetal_Color.png",
+  "state": "Approved"
+ },
+ "5220a121b42c6ff86c622f925156b54f336a96951c773253e245bc31d539c65a": {
+  "id": 91387192139001,
+  "file": "art/models/Store/tex/MatDumpster_Color.png",
+  "state": "Approved"
+ },
+ "52236499a5be7c7d5188e0e0b87badfb6377e19f3364f8b9ea755895f32e98fb": {
+  "id": 88454350233306,
+  "file": "art/models/ArmyBase_E/tex/Tread_Color.png",
+  "state": "Approved"
+ },
+ "525695e36f7955a3f9580fb6f309b775e2c2c07e589db4442f88983157e36f93": {
+  "id": 77657588039510,
+  "file": "art/models/BrickBlock/tex/BrickBrown_Color.png",
+  "state": "Approved"
+ },
+ "528091bd3ce879eae36e8441d5940bec483d916acec81cab21427ce4d61b43ba": {
+  "id": 109842363424273,
+  "file": "art/models/Casa/tex/Bronze_Color.png",
+  "state": "Approved"
+ },
+ "53306cc0166fe4459d23ac7649f8755a1a304f69cacb586b02bd4ebd07fde6fa": {
+  "id": 122220823304199,
+  "file": "art/models/StreetBackStreet/tex/NewsAmber_Color.png",
+  "state": "Approved"
+ },
+ "534fd40dde0312eefa872bf432b035a29880f1c9be318d3c4432c3c58645185c": {
+  "id": 74478939482165,
+  "file": "art/models/Casa/tex/Trim_Color.png",
+  "state": "Approved"
+ },
+ "535f63aba182d9b35fc533ba27541f5a36d8b9584062c50d781b5dac73c7d350": {
+  "id": 103417718531002,
+  "file": "art/models/Court/tex/MatWood_Color.png",
+  "state": "Approved"
+ },
  "53864f202ada5d52f851fa3e269fd0dfb460b451709403afc5ef33e9ff23bf43": {
   "file": "art/models/Apartments/tex/Roof_Color.png",
   "id": 87735320191979,
+  "state": "Approved"
+ },
+ "540c9d3b51315f24a2abd96d53b70e4aae1dc604769a2c3f85942ad449ef9d13": {
+  "id": 121223790945858,
+  "file": "art/models/Store/tex/MatWheelStop_Color.png",
   "state": "Approved"
  },
  "553e9c02b825831ad828e1804b5cfe4cd10c2f067b02cc7a51981e1175c77294": {
@@ -649,9 +1289,24 @@
   "id": 125276525838060,
   "state": "Approved"
  },
+ "568e564fde320852ca9eb6454e8d92586a9071ea0bdde09b13d38004c286dce2": {
+  "id": 107221039699000,
+  "file": "art/models/ArmyBase_E/tex/GlassC_Color.png",
+  "state": "Approved"
+ },
+ "5700e9e2acf4b4633e88459e6b253234f0e74e0edcbb7bc690c9f6af79e75162": {
+  "id": 85535905027300,
+  "file": "art/models/Hotel_S/tex/Frame_Color.png",
+  "state": "Approved"
+ },
  "5759900d6bbe050021db7c4be4a0f3513effe00567fbd0e7792871fef615f21f": {
   "file": "art/models/Store/tex/CandyRack_Color.png",
   "id": 77584644100269,
+  "state": "Approved"
+ },
+ "58cd205c61dc277f3885e4332014f4e89a88e06a5706b0660b8532f0ef0bceff": {
+  "id": 76821054725192,
+  "file": "art/models/Casa/tex/WallBlush_Color.png",
   "state": "Approved"
  },
  "5950c32ce01b22fd80efe5face25c5f992478e4f573a74ba59891c9d6fa47be2": {
@@ -669,6 +1324,11 @@
   "id": 119094598277240,
   "state": "Approved"
  },
+ "5990ee0fdef4983a9d65310ed8a6e2a4389dde2fe8dc32ced4b1b1b1975d0f6b": {
+  "id": 92741489184064,
+  "file": "art/models/ArmyBase_E/tex/SignSpeed_Color.png",
+  "state": "Approved"
+ },
  "5a2e0ff1adbde803765529e071a30217583bcf8bb347497bbaeb9f2df0c6180d": {
   "file": "art/road/tex/Manhole.png",
   "id": 79270392150966,
@@ -679,9 +1339,29 @@
   "id": 98210429359167,
   "state": "Approved"
  },
+ "5a350eca4a41271fa7965b6de50c1609496d67562c2dec3a52e9a6a94ea2f4b6": {
+  "id": 119670158311983,
+  "file": "art/models/Court/tex/MatIron_Color.png",
+  "state": "Approved"
+ },
+ "5a793883939202166b1112ee069260397aa34bf283d274bc6e3a6e574d8e2d18": {
+  "id": 117362361323806,
+  "file": "art/fx/fountain/Fall1.png",
+  "state": "Approved"
+ },
+ "5af071c89399c9a3ae0b3de73d3db876f0187e23c9fbc61eca3d176b43780927": {
+  "id": 77791362238575,
+  "file": "art/models/SpawnPlaza_S/tex/Timetable_Color.png",
+  "state": "Approved"
+ },
  "5b8e37ae060bf0ae6b24be21043ae14a4567304d94e11da494f8ef254d978eef": {
   "file": "art/models/Motel/tex/IceSign_Color.png",
   "id": 104708884051687,
+  "state": "Approved"
+ },
+ "5c63039e4abf4ba3198c751a95de95c6f7975c2c4a563dad901f72fdfabd71e6": {
+  "id": 112946844375212,
+  "file": "art/models/OfficeDark/tex/OfficeDark_Lobby.png",
   "state": "Approved"
  },
  "5c7e98eb574035e2f0f5cd80a672c916e70ea675f5c2a1bbe66c06b3d4600998": {
@@ -689,9 +1369,24 @@
   "id": 73017214928835,
   "state": "Approved"
  },
+ "5ca9ce25949e24ab99d72455e6d5920ff72d8695d15e02375d51001b489fdd0c": {
+  "id": 74403610321866,
+  "file": "art/models/StreetBackStreet/tex/ShelterGlass_Color.png",
+  "state": "Approved"
+ },
+ "5ccfcad4e1690276bd364a929e0a25f2fe9ad37ea917c53d4cf9a5defe60939b": {
+  "id": 84554165654498,
+  "file": "art/models/ArmyBase_E/tex/GateSign_Color.png",
+  "state": "Approved"
+ },
  "5d19c31c24c87036d4aaf5afdda72469062821632eec463507cb96584255ea87": {
   "file": "art/models/OfficeDark/tex/OfficeDark_Roof.png",
   "id": 116572954031085,
+  "state": "Approved"
+ },
+ "5db52466795245b1fc397de92b1fe7ef0767fc5358da315488092862560d3298": {
+  "id": 101763855571247,
+  "file": "art/models/Casa/tex/Patio_Color.png",
   "state": "Approved"
  },
  "5dd082d4e923976deb4c88c352f4c7530c3eac390031eac1d3db75db21f70faa": {
@@ -699,9 +1394,24 @@
   "id": 70664914605512,
   "state": "Approved"
  },
+ "5ddd89dfc0a287af51c3819270394129e087462649af42da0b4bbb37f26ad9f3": {
+  "id": 126864039351224,
+  "file": "art/models/Casa/tex/LeafB_Color.png",
+  "state": "Approved"
+ },
  "5e188cfc680e97dac124f06dc94eaf021561c8acb64dbc474afdcb021f8e1c31": {
   "file": "art/models/OfficeStone/tex/OfficeStone_Light.png",
   "id": 137380545509287,
+  "state": "Approved"
+ },
+ "5e45afd949cd21deb1a8f1446fccb23c006b678bcd1644fa3d075e5e8e40dd74": {
+  "id": 115947468429408,
+  "file": "art/models/StreetBackStreet/tex/CabGrey_Color.png",
+  "state": "Approved"
+ },
+ "5e52b12148b0f35f4f9c202aec5b6d5847cbae4f68b624a400a5cce022df660d": {
+  "id": 99254126199940,
+  "file": "art/models/GunShop/tex/PosterStock_Color.png",
   "state": "Approved"
  },
  "5ec236af76393135176e55b910e77621a1fa0a3a8ee4e023706f60f415e192e9": {
@@ -719,9 +1429,19 @@
   "id": 87267921952474,
   "state": "Approved"
  },
+ "5eee8801a0f24ab7e76ea7bfa66ef70d0855eab81cadea37f36d74a76fa2e7a9": {
+  "id": 107469433069857,
+  "file": "art/models/Modern/tex/GlassBigC_Color.png",
+  "state": "Approved"
+ },
  "5f1ac0136595bb0c4abf81e297a8a824acb606f4b295347d63f2ac2b8eb313e7": {
   "file": "art/models/GasStation/tex/Steel_Color.png",
   "id": 78634731431454,
+  "state": "Approved"
+ },
+ "5fb27fdb5152d568668c003b8024a863e5c44fc9e93ce40f2278215339a2a46c": {
+  "id": 71423093113129,
+  "file": "art/models/GunShop/tex/ExtWall_Color.png",
   "state": "Approved"
  },
  "6144ddbef42ffe9c30ceb4961ca6c082b4163ad3f9bf571bdd1e55d27a2a936f": {
@@ -729,14 +1449,39 @@
   "id": 131436773078945,
   "state": "Approved"
  },
+ "61c3507e3552c01394f187ef03bd24e7d1c215a68958598accd86f71d19cdfc3": {
+  "id": 128271613216137,
+  "file": "art/models/Casa/tex/PoolTile_Color.png",
+  "state": "Approved"
+ },
  "6209304738daeb9d17b0abd678b94873df9e6026cc5e67f91b127b0372c13697": {
   "file": "art/road/tex/Tar3.png",
   "id": 96531596332965,
   "state": "Approved"
  },
+ "622e1903497a2af0a06b879ec5055ec8a3895f6d95c8204a8f2e8d529b64b40d": {
+  "id": 118519323884654,
+  "file": "art/models/GunShop/tex/Red_Color.png",
+  "state": "Approved"
+ },
+ "625421ebc5ed57da757c9a3da470b12b3a63525ae803a79c7da4826fba397382": {
+  "id": 89768116239709,
+  "file": "art/models/Court/tex/MatPlastic_Color.png",
+  "state": "Approved"
+ },
+ "627696d9b3fbb61501c995d49464dbffb4cfbb5b7091b4932a46adb6ac45d1ff": {
+  "id": 105558480312522,
+  "file": "art/fx/fountain/Ripple3.png",
+  "state": "Approved"
+ },
  "62aaba48ebaa19b13b1a661d1700f99fda0f91a3847fc55c02545c197df4da53": {
   "file": "art/models/HouseA/tex/GlassC_Color.png",
   "id": 120685082625767,
+  "state": "Approved"
+ },
+ "63c37e8d9ada3f4bb16b8aa50ac33e8f6ec8674d875e52b2fda1854f3f050ee1": {
+  "id": 92389957464520,
+  "file": "art/models/Casa/tex/Frame_Color.png",
   "state": "Approved"
  },
  "6475b79df801bc8ffdaf4c8f4e1d423e87a5d6d5ccabf8cdddcb0de3025cfe83": {
@@ -764,6 +1509,11 @@
   "id": 77291495119151,
   "state": "Approved"
  },
+ "66a9d72b9457fa4fef40b52493ef6bf3ff78976cbbc9eb17a58556f766d4ba79": {
+  "id": 72580020329111,
+  "file": "art/models/GunShop/tex/RangeSign_Color.png",
+  "state": "Approved"
+ },
  "6772c93574725b5fe09c149ef8910945d5c375d818c5d1197b7d96df73ee9782": {
   "file": "art/models/Court/tex/CourtPaintRedCrowns_Color.png",
   "id": 131357389706740,
@@ -774,9 +1524,19 @@
   "id": 135973451998378,
   "state": "Approved"
  },
+ "681c412b8129536812d65507c93063c869f1fd17b2b01b2bd6fdabbf3f856d44": {
+  "id": 114142892795754,
+  "file": "art/models/Casa/tex/Ivy_Color.png",
+  "state": "Approved"
+ },
  "68d5ad9ba021b075f4d32b8a85507cf9eaf138e895f20f3c39f519b96b24129c": {
   "file": "art/models/GasStation/tex/CanopyUnder_Color.png",
   "id": 89473850104373,
+  "state": "Approved"
+ },
+ "68ec17cf6892b9654848d3076b7f4036411ace069c18129ccd1291add0aa2909": {
+  "id": 101934883781415,
+  "file": "art/models/SpawnPlaza_S/tex/FxFall_Color.png",
   "state": "Approved"
  },
  "6968a88b4df642052b092e28e5adc6086b2ba148b0a2e28eee8213b770e700a9": {
@@ -794,6 +1554,11 @@
   "id": 138610721771687,
   "state": "Approved"
  },
+ "6a4cc8a33a298580243681ce80c42d11c40a01d42cfc16d4b5820eb616b426e1": {
+  "id": 131399954902639,
+  "file": "art/models/BrickBlock/tex/GlassE_Color.png",
+  "state": "Approved"
+ },
  "6a632a5dc510ca95dfef7588eb466c4f4de08d9f7159671ac8df911e44f25012": {
   "file": "art/models/Apartments/tex/Trim_Color.png",
   "id": 101988420999227,
@@ -809,14 +1574,84 @@
   "id": 106772473890993,
   "state": "Approved"
  },
+ "6b3f5774214f9f268ac0ef8440419ac480eb970076308d1dda27973cf651b7ca": {
+  "id": 102524198523945,
+  "file": "art/fx/fountain/Pool9.png",
+  "state": "Approved"
+ },
+ "6ba78b88ff6566277b17cc34cea05488cd9cd15bba08feddb9af4014450cfdd5": {
+  "id": 102720524110485,
+  "file": "art/fx/fountain/Pool14.png",
+  "state": "Approved"
+ },
+ "6bffa9acec675e1633560d1972878a5634cf8903947b7a0eb56f1bbcd6babe3c": {
+  "id": 91744762261280,
+  "file": "art/models/OfficeRound/tex/OfficeRound_Base.png",
+  "state": "Approved"
+ },
+ "6c069ad19e24a1551ba5bb6ddf03253200ee0d8cd80a149a22170543b715be4a": {
+  "id": 76835102990803,
+  "file": "art/models/Store/tex/Steel_Color.png",
+  "state": "Approved"
+ },
+ "6d5c1bf0c40db4d84efda047bb7cc2b47a6f67c27582573aa21395588f318bd4": {
+  "id": 98419726252977,
+  "file": "art/fx/fountain/Ripple7.png",
+  "state": "Approved"
+ },
+ "6d8c58dc39bcefc7e23b40ac8ce6e4d3d9996b08abcfa1fe96df1d434c790302": {
+  "id": 92995793110472,
+  "file": "art/models/Modern/tex/RoofFlat_Color.png",
+  "state": "Approved"
+ },
+ "6de221c2757007ccf2df62fec5f463cdfc94a96f2cfdb3e1f0ccf59a6ffeda69": {
+  "id": 123963470532612,
+  "file": "art/models/Diner/tex/KitchenBrick_Color.png",
+  "state": "Approved"
+ },
  "6df6cd48c88f22022b68e51cdb991aabebcd8b78c3b378d38fb1d14753839fa4": {
   "file": "art/models/Motel/tex/Stucco_Color.png",
   "id": 71941587520321,
   "state": "Approved"
  },
+ "6e99386a2a083bb9631a0fa78b500382ed0f1a356e1c40649f3da87e06c4ea10": {
+  "id": 80293474921337,
+  "file": "art/models/GunShop/tex/Glass_Color.png",
+  "state": "Approved"
+ },
+ "6ecd75ed45fd188a66e6ecfcd39bf44d044f16df58a2e504496b4cc73329ed78": {
+  "id": 113311214926708,
+  "file": "art/models/ArmyBase_E/tex/Plate102_Color.png",
+  "state": "Approved"
+ },
+ "6f04091dff366a770560598d29a53e6a4be54ae1f9a67c99821af3f97b177b91": {
+  "id": 123497669929013,
+  "file": "art/models/Casa/tex/WallWhite_Color.png",
+  "state": "Approved"
+ },
+ "6f1e7ade0ccc2194ba196cd081c3beaca32949b5b9033b79bcb128d69d9b6002": {
+  "id": 115560263077404,
+  "file": "art/models/Park/tex/Steel_Color.png",
+  "state": "Approved"
+ },
+ "6f37142ec097aa1f2476ecb536f28de8c22fb107d5e312fe07ddd036f84a15b0": {
+  "id": 138314890863346,
+  "file": "art/models/Police/tex/PoliceSign_Color.png",
+  "state": "Approved"
+ },
+ "6f693303dc8f42be01056ddab27c36417fd42ae2fe57f57632971fb3232eab82": {
+  "id": 106140666394653,
+  "file": "art/models/ArkwellAtm/tex/AtmSteel_Color.png",
+  "state": "Approved"
+ },
  "6f8ad3159c64301b5359b90a47514fc01ac7ed3cbc7e4b88ec46ab7acf0081bd": {
   "file": "art/road/tex/Crack3.png",
   "id": 80561259749057,
+  "state": "Approved"
+ },
+ "704b1d9115cf437c44c7c60c21a37b8fc7742b64a09cea61175d3c1b4bb45607": {
+  "id": 112049154444595,
+  "file": "art/models/GunShop/tex/ShopSign_Color.png",
   "state": "Approved"
  },
  "70694b93f5857acbd9dbf0838979e3369820c192b3d249350b79aa2fd8faccf8": {
@@ -829,9 +1664,19 @@
   "id": 98376803863906,
   "state": "Approved"
  },
+ "709bb39bf52013d0c15bfd9895418c539978aac71031d73255395bcfa4f5f7ec": {
+  "id": 117880897577311,
+  "file": "art/models/Casa/tex/GlassB_Color.png",
+  "state": "Approved"
+ },
  "711116e738acce48bbac89d9537a189b8eeedd463110b5e097f74bb8a30e916b": {
   "file": "art/models/Store/tex/PosterSoda_Color.png",
   "id": 87218197258090,
+  "state": "Approved"
+ },
+ "71d4777895901717919afc5978c78d5829626483f6583c7cfed14d88b2f4639b": {
+  "id": 98018237432120,
+  "file": "art/models/ArkwellAtm/tex/AtmSteelDark_Color.png",
   "state": "Approved"
  },
  "7296e62f5303541aeed1f2beed029cd779347bff681b1d8ade87c5b14efbef35": {
@@ -839,9 +1684,49 @@
   "id": 113825643468321,
   "state": "Approved"
  },
+ "751acafc6f002179127cb18f703cee9e7bbf170763a66323d44d79354c57fb08": {
+  "id": 80502093206957,
+  "file": "art/models/ArkwellAtm/tex/AtmKeys_Color.png",
+  "state": "Approved"
+ },
+ "755cf3784a5d6f20f2d48f2a532e156ae7cac734143220c945975af06a04bfa0": {
+  "id": 74796012730483,
+  "file": "art/models/BrickBlock/tex/GlassA_Color.png",
+  "state": "Approved"
+ },
+ "759208eca90454def993e0918504911de4b713563679926e4cfcff5225d87117": {
+  "id": 84040078693618,
+  "file": "art/models/ArmyBase_E/tex/Sandbag_Color.png",
+  "state": "Approved"
+ },
+ "75d5d40eef0900f6d02fa94db22bbea92366711a558f0f9fc8978ac1d814cedd": {
+  "id": 89731473669010,
+  "file": "art/models/Modern/tex/Cladding_Color.png",
+  "state": "Approved"
+ },
+ "75d9f94cf58e79ca339130116c0eb5a7a139a387b0b78ac3ddb14f5106dc3d2e": {
+  "id": 87719259959216,
+  "file": "art/models/Casa/tex/HedgeBox_Color.png",
+  "state": "Approved"
+ },
+ "75fa87f89f713f6dc728803a3af9ec3220c14f6d7d31c7ee14ac44e48aacef86": {
+  "id": 79330891822982,
+  "file": "art/models/BrickBlock/tex/GhostSign_Color.png",
+  "state": "Approved"
+ },
+ "768d8b05b5f3ddde89e5cda9cb75f2e680adf0ecf669d06548cd965a03fa5971": {
+  "id": 81786615341353,
+  "file": "art/models/Diner/tex/NeonCyan_Color.png",
+  "state": "Approved"
+ },
  "7693f6a46b37be1104ff75b4cc288ffe188460e409a244c3aeb59d82dc87a3f7": {
   "file": "art/models/GasStation/tex/Props_Color.png",
   "id": 71245203775771,
+  "state": "Approved"
+ },
+ "77d71d4797ecc243d25895c96baf383ca22975689ef707046548be4578234f69": {
+  "id": 128478696493565,
+  "file": "art/models/Park/tex/PlayYellow_Color.png",
   "state": "Approved"
  },
  "783bd8ff6f21f0fb3d3074bdc3eb6b33e2173527b1ba12ea9f5e73b334fc0664": {
@@ -854,9 +1739,39 @@
   "id": 114320122486166,
   "state": "Approved"
  },
+ "794fbb8b3c228af8abf62c9fe9e7ae1faadd2da7a1889f6ded586c41aa6761df": {
+  "id": 93030034997586,
+  "file": "art/fx/fountain/Pool13.png",
+  "state": "Approved"
+ },
+ "795c03045c50a56c08b5ef6d9b859132dcdb881b805978c99a2610e2b97a281f": {
+  "id": 74084674557679,
+  "file": "art/models/StreetCorners/tex/SignalYellow_Color.png",
+  "state": "Approved"
+ },
+ "798ca194648dcd6005487994ecd32fdecc54ea80f0d1d58e5304de576d21997d": {
+  "id": 137094720894965,
+  "file": "art/models/Casa/tex/Deck_Color.png",
+  "state": "Approved"
+ },
+ "79a21a51e1e45dbcd601837dd0ab27a35e1c3831c735748dfa4f52b98687a0cb": {
+  "id": 75203088271538,
+  "file": "art/models/Human/tex/Body.png",
+  "state": "Approved"
+ },
+ "7a26a3c9431a397f250e836647e016bc1026de0bd697caf9cb37f751f3763753": {
+  "id": 101235860456049,
+  "file": "art/models/GunShop/tex/CaseMetal_Color.png",
+  "state": "Approved"
+ },
  "7a3501008917666bf12d857d2af6625f8cfef25e3047e02e588d3ef45c51d7e8": {
   "file": "art/road/tex/Grime3.png",
   "id": 127484172956541,
+  "state": "Approved"
+ },
+ "7a3855ab9c4c871bc3e3d7c9c44ff2f41c9e4daa884e4fce35a4bafd20620f7c": {
+  "id": 118369495684002,
+  "file": "art/models/Diner/tex/DinerBlue_Color.png",
   "state": "Approved"
  },
  "7a389fdee2acfaf2c75d96804f73a09b9d0dfc1af3ac5e64c9f01b4b9223575e": {
@@ -864,9 +1779,19 @@
   "id": 129865890169071,
   "state": "Approved"
  },
+ "7aae1ca50f1bc3e3d5ad8438a15b2b4e534b30a5d5aa4a8242cf2b53a0e54f56": {
+  "id": 132247018202940,
+  "file": "art/models/GunShop/tex/Olive_Color.png",
+  "state": "Approved"
+ },
  "7aefde899b26845787d14f132e5d2ff8a022dbf6bad38f461988149a024f088a": {
   "file": "art/models/BankTower/tex/Steps_Color.png",
   "id": 130227078004404,
+  "state": "Approved"
+ },
+ "7b6e5159a08a60ac5fb667cfee1b50f4512262f3bb19a3a85219922322a8cce0": {
+  "id": 96066585480286,
+  "file": "art/models/BrickBlock/tex/GlassB_Color.png",
   "state": "Approved"
  },
  "7c4a78ab9daff9bb3817b13bb1ae25f679376416b8c564dac60556ac6a26fb1c": {
@@ -879,6 +1804,16 @@
   "id": 93179268980152,
   "state": "Approved"
  },
+ "7d19111a7b3875d3338c8cf7de09cb3ba5be898da45d370cd7a2e84f8d1009fc": {
+  "id": 96855572357252,
+  "file": "art/models/GunShop/tex/Shutter_Color.png",
+  "state": "Approved"
+ },
+ "7e79a15619a1cded5abb7d7051f66ba6010b607b7cd7e95d5741f3f1d66f2441": {
+  "id": 127754913454939,
+  "file": "art/models/Store/tex/PriceStrip_Color.png",
+  "state": "Approved"
+ },
  "7e84f0e27d89dcec3433e122019e2c9d64b65802b50798b35d28b3fe9747f138": {
   "file": "art/models/HouseA/tex/Concrete_Color.png",
   "id": 108492917326713,
@@ -889,9 +1824,19 @@
   "id": 90972546606775,
   "state": "Approved"
  },
+ "7f4bd99255e990571861adc36eddca5c2ac73a30d259f9bd29083f60cc033cb0": {
+  "id": 99415377043787,
+  "file": "art/models/StreetBackStreet/tex/NewsRed_Color.png",
+  "state": "Approved"
+ },
  "805ebf1ec90d0b9f115de99c144d68c0e82aeec3e928da1b82478d38f79b7502": {
   "file": "art/weather/tex/FootprintL.png",
   "id": 117102981833016,
+  "state": "Approved"
+ },
+ "8070980b6e5d8b8c43c712e9ea6f85a67029cb16be5b20834c0e75f7a9a1c5d4": {
+  "id": 98527413172063,
+  "file": "art/models/Hotel_S/tex/HotelTeal_Color.png",
   "state": "Approved"
  },
  "80886cc4408b691e849bb3ab16303be01c0c5a531faa6c4a93a7f13cb6185bed": {
@@ -899,14 +1844,54 @@
   "id": 140011180865026,
   "state": "Approved"
  },
+ "8096117496b59f55b7510ecc1fc1f19bc1831c180dbb3b810579bd81c57317cf": {
+  "id": 87898648462043,
+  "file": "art/models/GunShop/tex/Target_Color.png",
+  "state": "Approved"
+ },
+ "80ca468970b0ab913f0256b62d007e2527594a7ff08581cbd90e52dcacd6e4f7": {
+  "id": 108353393515835,
+  "file": "art/models/Police/tex/Flag_Color.png",
+  "state": "Approved"
+ },
+ "80d6df528bcf04c96a2616143221819ff5b7e69daaeb99cd5a57e5661ee3acfa": {
+  "id": 85130872005150,
+  "file": "art/models/ArmyBase_E/tex/Bark_Color.png",
+  "state": "Approved"
+ },
+ "810ef0b6d87f7934f43b669aba5ed4861d13573abcfa6f3b0015286fbd163e06": {
+  "id": 135524357343829,
+  "file": "art/models/BrickBlock/tex/BrickTan_Color.png",
+  "state": "Approved"
+ },
  "8216956bcc9e1feb2462cac990a7d9dc049fa268d10936dce29a1550915a0cb5": {
   "file": "art/models/Motel/tex/GlassB_Color.png",
   "id": 123580034281801,
   "state": "Approved"
  },
+ "8229edbd0810331982c0e7ee5b0d2e2757cc28ae9f41781ed436123287f3a6dd": {
+  "id": 84691307905209,
+  "file": "art/models/Casa/tex/RoofSlate_Color.png",
+  "state": "Approved"
+ },
+ "832596f9a440934b00c6343e6380e57a66b80f7f8f985b0a239381f1cb00b4bd": {
+  "id": 115233517563061,
+  "file": "art/models/StreetBackStreet/tex/BinGreen_Color.png",
+  "state": "Approved"
+ },
  "83829112c09676ec3a180a91fe1b66e041834baa31928d0f95ccf8c9f253caaf": {
   "file": "art/models/OfficeRound/tex/OfficeRound_RevDoor.png",
   "id": 87519907499581,
+  "state": "Approved"
+ },
+ "838a4ea54fb700a749c96d7a8759a01125d01d365453e591ed7fbe2e48f5b7c9": {
+  "id": 73277727505671,
+  "file": "art/models/Modern/tex/Render_Color.png",
+  "state": "Approved"
+ },
+ "8492ae2276d077abc17ed768001c193a237556a9691ab3f9ff873cfdd6f046f0": {
+  "id": 98791019724994,
+  "file": "art/models/ArmyBase_E/tex/Canvas_Color.png",
   "state": "Approved"
  },
  "84dafa5db64feb05cfdc7044e8c506d00aacb61b548299f51c00c2823a954c62": {
@@ -924,14 +1909,39 @@
   "id": 91084857185169,
   "state": "Approved"
  },
+ "85468b4c244ce32c25518d5cb4fc50ecab709ee58fcd204f5b39568f1cb25530": {
+  "id": 74209808446230,
+  "file": "art/models/ArmyBase_E/tex/Sill_Color.png",
+  "state": "Approved"
+ },
+ "8571c089bc5c17f7efaf90efa359a6ddcc425e6878849aea705c0da4d8b74cae": {
+  "id": 82773172879889,
+  "file": "art/models/GunShop/tex/PosterRange_Color.png",
+  "state": "Approved"
+ },
+ "8587ed96e4cc09a0c55567d440202b640a7dacaf51f6d2ef798a60a5700dfd6b": {
+  "id": 97268726917556,
+  "file": "art/fx/fountain/Pool6.png",
+  "state": "Approved"
+ },
  "85e94133a428ee9501efe03a57e2e124c60b94ce7c36f1eecb5bafe662cabdb5": {
   "file": "art/models/Store/tex/StoreFront_Color.png",
   "id": 105611966065472,
   "state": "Approved"
  },
+ "864a2e659b4849b6e0fe23fa0c2d9ea3e0323427e07e211f688284c51be5db3b": {
+  "id": 85539390776426,
+  "file": "art/models/HouseA/tex/MatSoil_Color.png",
+  "state": "Approved"
+ },
  "8711cb5ca8dd9e9ca0712bf5133ca91343f40c7af2c70192d94fb27410a188b5": {
   "file": "art/models/GasStation/tex/Nozzle_Color.png",
   "id": 85520805515143,
+  "state": "Approved"
+ },
+ "8722ea800ad00f5cadd6cab72114fb94a70784df500d7d853dbbae3e04e9b99a": {
+  "id": 103164066067096,
+  "file": "art/fx/fountain/Ripple5.png",
   "state": "Approved"
  },
  "8733ba1eef71fadbd1dc2014d88ee77b952aeed0489384c1b25e493665c2e482": {
@@ -959,6 +1969,11 @@
   "id": 88638549591253,
   "state": "Approved"
  },
+ "8846b7b5a5170203d36ef853658975af9dbac4e5915c9cdbe946adfe09af9059": {
+  "id": 128316034549785,
+  "file": "art/models/Casa/tex/Alu_Color.png",
+  "state": "Approved"
+ },
  "884b4408c3921f8665aa1c2d1bff6a87fbb27eb8af08ce285ac9056b55ec4109": {
   "file": "art/models/BankTower/tex/Canopy_Color.png",
   "id": 137972512085036,
@@ -977,6 +1992,11 @@
  "8b254587bdaf33c76cd59ad93874cf5e88c2e321419169bd6894d3bbdc2aafde": {
   "file": "art/models/Apartments/tex/Mailbox_Color.png",
   "id": 89440567920641,
+  "state": "Approved"
+ },
+ "8b6b06e36a42df981e923a1f243f58330f958029450677f9be8eef8e434eb868": {
+  "id": 110143570950962,
+  "file": "art/models/ArmyBase_E/tex/PaintWhite_Color.png",
   "state": "Approved"
  },
  "8b83d4742ea59ec702ca74d073737224a587de5c735c65923894303ce5c5d617": {
@@ -1004,6 +2024,11 @@
   "id": 98980420760926,
   "state": "Approved"
  },
+ "8cdd5ed32a2ba74f11f9bb409165ac0631c1875f2ae2d7198085c219ba31cd86": {
+  "id": 130000111490759,
+  "file": "art/models/BrickBlock/tex/GlassC_Color.png",
+  "state": "Approved"
+ },
  "8d727e1fd2382eb558a673ed64c195427b5afff65814ef2591c13ad3e1a0ec2f": {
   "file": "art/weapons/fx/MuzzleSmoke1.png",
   "id": 108967211925570,
@@ -1019,6 +2044,21 @@
   "id": 124238189038064,
   "state": "Approved"
  },
+ "8e06f958011d5c5ba63d983b0a93d6bfac44d2f7e09300d7947bf01c95edaf4e": {
+  "id": 94645271506848,
+  "file": "art/models/BrickBlock/tex/LobbyDoor_Color.png",
+  "state": "Approved"
+ },
+ "8e4803616c9acb9d20208fde3511e8e7d61dd56c538d2c08cadbae4b2863ec57": {
+  "id": 117577949098666,
+  "file": "art/models/Casa/tex/WallSlate_Color.png",
+  "state": "Approved"
+ },
+ "8e9f6e30db91ad727a459feda5b0ea7ba8e160184cdb29427b80ba7b754a4e1c": {
+  "id": 130726565101166,
+  "file": "art/models/Villa/tex/Brick_Color.png",
+  "state": "Approved"
+ },
  "8f072057765dd0f14f571b1a2ccff5b9862b56a933c352337cbe86438c0511b7": {
   "file": "art/models/Court/tex/Net_Color.png",
   "id": 129787052201423,
@@ -1029,9 +2069,19 @@
   "id": 71972068426030,
   "state": "Approved"
  },
+ "8f733b3241ee79c4d8d82f7dee5f9a0565f2a6731e05d94f944e11c872142d52": {
+  "id": 75933936959589,
+  "file": "art/models/Colonial/tex/Column_Color.png",
+  "state": "Approved"
+ },
  "9075a699df99e4255daffd0f58782db6652ac86cb7449233fad21fb14ec78acc": {
   "file": "art/models/Motel/tex/Meter_Color.png",
   "id": 88304285901585,
+  "state": "Approved"
+ },
+ "9092f848508f3da9dbc01a61c576314b31641dc2dae79ccdfe31e34d050606ba": {
+  "id": 77771369139128,
+  "file": "art/models/Human/tex/Clothes.png",
   "state": "Approved"
  },
  "90c6d3a859863e3e11ce926fcf14115179d985a53babb2d67bef491fb3d138f0": {
@@ -1039,14 +2089,54 @@
   "id": 136112437510740,
   "state": "Approved"
  },
+ "91107312524a0b047aecd6d7867c29acd0106f5cd5b89d940809aec0f1ea5ede": {
+  "id": 83173822715086,
+  "file": "art/models/BrickBlock/tex/StorefrontsA_Color.png",
+  "state": "Approved"
+ },
  "91b0102bf490fa0ae73a09647ca4688fca81a87ac7d20a8edd329fa53ec15d75": {
   "file": "art/models/Motel/tex/Rail_Color.png",
   "id": 84881770144623,
   "state": "Approved"
  },
+ "92d41c3297c12600a92c84eb49c5dfef0f2d1b69a62412c31de9be573d59148d": {
+  "id": 104925530821984,
+  "file": "art/models/SpawnPlaza_S/tex/BusSign_Color.png",
+  "state": "Approved"
+ },
  "92da773fb45d432d299ea23dfc992e08731ead636cf928c379ebac59183e2724": {
   "file": "art/models/Court/tex/CourtPaintVipers_Color.png",
   "id": 107899271981493,
+  "state": "Approved"
+ },
+ "9316d5870d62599344a1401a0367030317c22b1cb783dc612da50144a70c1737": {
+  "id": 136583318982046,
+  "file": "art/models/Police/tex/PoliceBadge_Color.png",
+  "state": "Approved"
+ },
+ "932a56c8ad01c2120328ce325fe3055d10a14b5acd4bcb39ab23b42c7cce1bd0": {
+  "id": 91037678569468,
+  "file": "art/models/StreetVaultAvenue/tex/Palm_Color.png",
+  "state": "Approved"
+ },
+ "934246a0a2fe0cf91a032ff45dca5b2d1329d39137dff1c95abe14504be9ca65": {
+  "id": 108078368330456,
+  "file": "art/models/ArmyBase_E/tex/PlateMotorpool_Color.png",
+  "state": "Approved"
+ },
+ "9506f4f9e484e690086b1bc42e66d09ad513b6475c209ed33d1b0db874f03377": {
+  "id": 99385213460112,
+  "file": "art/models/Modern/tex/Concrete_Color.png",
+  "state": "Approved"
+ },
+ "95075c3241e5f1dde08e29bb5c69b14b810cdec909dfec66001434fb06fe9ad3": {
+  "id": 80032885960994,
+  "file": "art/models/BrickBlock/tex/GlassD_Color.png",
+  "state": "Approved"
+ },
+ "9569f352be919a35653e9279c869d22db877a5e7a9c3e0dca761dcda7226a0bd": {
+  "id": 79283351052475,
+  "file": "art/models/Store/tex/CoffeeLiquid_Color.png",
   "state": "Approved"
  },
  "95e0b75dfebb188e609c0a4d1aeedc50baa5c39ac3fcac2849f96bb65a1d1ed5": {
@@ -1069,6 +2159,11 @@
   "id": 70729866445840,
   "state": "Approved"
  },
+ "97aee044ca99c97674c8cbb1347faa0d4b91f6dc7dca75ecd3f12092d36ab360": {
+  "id": 85263677338121,
+  "file": "art/models/GunShop/tex/InWall_Color.png",
+  "state": "Approved"
+ },
  "984ce2892cf6304bfaadfd6b2d2e9e184d99049fd7473cdccb20656a3334e16b": {
   "file": "art/weather/clouds/Cloud_Cu07.png",
   "id": 124282410304348,
@@ -1084,9 +2179,24 @@
   "id": 117755130761694,
   "state": "Approved"
  },
+ "99556d5fce8a79936d019ea17b53f1d8b85783c8fdfa363dbed3ee8aa38eae41": {
+  "id": 85607669216572,
+  "file": "art/models/ArmyBase_E/tex/Plate104_Color.png",
+  "state": "Approved"
+ },
+ "998de66607f1d0b17bdfa187014881dbbda22bc8dfc44f433274104170dd8a20": {
+  "id": 136648683029015,
+  "file": "art/models/BrickBlock/tex/Frame_Color.png",
+  "state": "Approved"
+ },
  "99e438a81651806b705bceaa4d602463053619ea8a7b871bc70816ae6e1cb075": {
   "file": "art/models/HouseA/tex/BinBlue_Color.png",
   "id": 91749483983347,
+  "state": "Approved"
+ },
+ "9a0db6b8a06eac3dfddd456e2e865e30f655198842c1374fc1bcc0e323f1bcd9": {
+  "id": 138243689374506,
+  "file": "art/models/GunShop/tex/Register_Color.png",
   "state": "Approved"
  },
  "9a2b917e4f23d234a6f5a0119de68de27c5d461315ac07b33e5c5efb8444ea99": {
@@ -1109,6 +2219,21 @@
   "id": 87333036661786,
   "state": "Approved"
  },
+ "9b0f58c5a645476993a12892b4ead29183b1e54b336f5c687a5d64ae8da6d3fe": {
+  "id": 124489669675318,
+  "file": "art/fx/fountain/Ripple2.png",
+  "state": "Approved"
+ },
+ "9bbcc8c047e4ee5a269ad0b68ed90eefbfa9c1db8d307a6051d40d67376be376": {
+  "id": 122981445995790,
+  "file": "art/models/Diner/tex/NeonRed_Color.png",
+  "state": "Approved"
+ },
+ "9cb0aa4939e28d8fe3d8e5cdf7aff9622c752afaac380331bba6d42084147199": {
+  "id": 78079646073760,
+  "file": "art/models/Court/tex/MatBinGreen_Color.png",
+  "state": "Approved"
+ },
  "9d0d916a50abc11df85ca274ec515613ec6c7ce928d3912df66ca9d9401b1f56": {
   "file": "art/models/Motel/tex/RoofTile_Color.png",
   "id": 78476642224403,
@@ -1124,6 +2249,21 @@
   "id": 108313236777295,
   "state": "Approved"
  },
+ "9d5c01c890046c6b7e424e06b007a376441c8befa30fac11dbed135e8d30138a": {
+  "id": 135094244257608,
+  "file": "art/models/Casa/tex/Travert_Color.png",
+  "state": "Approved"
+ },
+ "9dd33d75cf9693c16a51c72b3c1e2d5ece2031031be6a70e68847abdabc7eb1b": {
+  "id": 109436001280397,
+  "file": "art/models/Diner/tex/Shrub_Color.png",
+  "state": "Approved"
+ },
+ "a09ad1caed30267d1f3edf33dcfb10dcb575d3385473f7104afebb17b7fb4be8": {
+  "id": 79271436597348,
+  "file": "art/fx/fountain/Pool10.png",
+  "state": "Approved"
+ },
  "a0e62bcc5f31ed5066210bfcb9af2d4d65232eabc57ab2959f72b6f32f595ba8": {
   "file": "art/models/Motel/tex/OfficeSign_Color.png",
   "id": 125630014872188,
@@ -1134,9 +2274,19 @@
   "id": 124855193210607,
   "state": "Approved"
  },
+ "a13ff39a8b9ce7ce01bc2130357108f82054249ab2406b085ce09f074bc877e4": {
+  "id": 95630395059097,
+  "file": "art/models/Police/tex/Yellow_Color.png",
+  "state": "Approved"
+ },
  "a169d3b67adc2dc0c9e7380a0a1bfb32c096276d9d53b915929a271b3ed1ea06": {
   "file": "art/models/Motel/tex/BackWall_Color.png",
   "id": 96795050177031,
+  "state": "Approved"
+ },
+ "a1d65aeceb54b2f3936c6bf3de84e4aae5200b7160130f9e8cc7168adf6d6d32": {
+  "id": 127342523893313,
+  "file": "art/models/Store/tex/MatDecoSkirt_Color.png",
   "state": "Approved"
  },
  "a1dd5d8bebe26f28200b0ee8db5cd1ad767b1ce2925228bc9b316cc7363c12cd": {
@@ -1144,9 +2294,44 @@
   "id": 136611627332868,
   "state": "Approved"
  },
+ "a1ea04fa31ed73236b7b9f68aaebe16d68963aa8d60f0f7f213d5b3dadd5efa7": {
+  "id": 138772268247559,
+  "file": "art/models/StreetBackStreet/tex/LeafCard_Color.png",
+  "state": "Approved"
+ },
+ "a20fa8d044c8f05f88ea4c0d36c8af486764bcec6bae880419538244ae8bf814": {
+  "id": 105896500208131,
+  "file": "art/models/ArmyBase_E/tex/Steel_Color.png",
+  "state": "Approved"
+ },
+ "a256d004978d1bb607b5c0549e85258f457a4dba71c891e80785f5d42e701bce": {
+  "id": 116896371863540,
+  "file": "art/models/OfficeStone/tex/OfficeStone_Lobby.png",
+  "state": "Approved"
+ },
+ "a2f5fc9f671490a3f8d1d230c98a1a682d468e66d7192de027ce2bf849bdcf17": {
+  "id": 85935488205867,
+  "file": "art/models/ArmyBase_E/tex/PaintYellow_Color.png",
+  "state": "Approved"
+ },
  "a311ca82da7acec9a3643cce88b3033a0d5c8bd72442e40393b8df91665458b7": {
   "file": "art/models/Apartments/tex/GlassE_Color.png",
   "id": 130474514295203,
+  "state": "Approved"
+ },
+ "a31489cf86684e1dd8d535085bd505f8b308961323581e60adb1c3c2218fef00": {
+  "id": 104929316422707,
+  "file": "art/models/SpawnPlaza_S/tex/Grass_Color.png",
+  "state": "Approved"
+ },
+ "a35e7e8d6df1599be003c194d87bec36aa0c2e18294a530a711eaa134e72ad7f": {
+  "id": 95721062719741,
+  "file": "art/models/GunShop/tex/RulesBoard_Color.png",
+  "state": "Approved"
+ },
+ "a36cea534cf108813b14f3ae7da939f2dcd82180376c719361140e6f392db36e": {
+  "id": 76516751388356,
+  "file": "art/models/Police/tex/PoliceMonument_Color.png",
   "state": "Approved"
  },
  "a3e15bdd842f60a11d9d601929f2e09238f406883940dc435240d1c184045c7a": {
@@ -1154,9 +2339,29 @@
   "id": 108903885541149,
   "state": "Approved"
  },
+ "a4213e3feeba2fcc7b8f7a1e43c3ed2946d86d776afdecda69471444b4c66084": {
+  "id": 96737394896911,
+  "file": "art/models/HouseA/tex/MeterFace_Color.png",
+  "state": "Approved"
+ },
+ "a46b491d5f911c498f80c34823a3518215fc77a906bda1b84094368236cc8cd7": {
+  "id": 130895939973795,
+  "file": "art/models/Human/tex/Head.png",
+  "state": "Approved"
+ },
  "a4b8cf12f230c22afbe95124b7a7aa870764012c289d2da6f8b74ec5a27ad90e": {
   "file": "art/models/OfficeDark/tex/OfficeDark_Screen.png",
   "id": 118785328607199,
+  "state": "Approved"
+ },
+ "a500564976900241310cb63d0d7555e92a8ec1e4300b6d7708466b19f0e1d705": {
+  "id": 99367620523837,
+  "file": "art/models/Casa/tex/WallIvory_Color.png",
+  "state": "Approved"
+ },
+ "a5c35513689f7632206e74f532bf265a4c3c7c18a32f6a098846fe2f184c3ff8": {
+  "id": 101454024549512,
+  "file": "art/models/Store/tex/Goods_Color.png",
   "state": "Approved"
  },
  "a66b36537813927c8e095fad56fb8b2ccbd72f7fac0a92470c63c065e094540f": {
@@ -1169,9 +2374,24 @@
   "id": 101980337022139,
   "state": "Approved"
  },
+ "a77ec936badc0b97ec7ab17ec317495eb4e320d7bc7c9e13ce6f7d4d6d2ec54c": {
+  "id": 130000268931010,
+  "file": "art/models/Casa/tex/Lawn_Color.png",
+  "state": "Approved"
+ },
  "a781807a35735a2bdbf0e83c2401687ba6112150b3f28da700f00b21bf75588d": {
   "file": "art/models/HouseA/tex/WallSky_Color.png",
   "id": 110834582543150,
+  "state": "Approved"
+ },
+ "a7ab68bd0e63934c60849519c06e9663a42252c7a2d83527a036ce246b25ac9d": {
+  "id": 109001288020533,
+  "file": "art/fx/fountain/Pool1.png",
+  "state": "Approved"
+ },
+ "a7ea0b43e83f7acdc5e3c0ec8fddab0022e9aed53ac800c619f86e8b46d4ecae": {
+  "id": 103608543037422,
+  "file": "art/models/ArmyBase_E/tex/Asphalt_Color.png",
   "state": "Approved"
  },
  "a8908f52ba8ff408023164d7dadfc9a31f764c2148e3251c2c41c2dd85462600": {
@@ -1184,9 +2404,19 @@
   "id": 122941870454070,
   "state": "Approved"
  },
+ "a914eb1e6795383de667ccdfdaa9d1a20b92e3360332c5e0eb6a79d85865e090": {
+  "id": 105189457430031,
+  "file": "art/models/ArkwellAtm/tex/AtmMirror_Color.png",
+  "state": "Approved"
+ },
  "a9468fa22e3596fc64fc8928107eaab02eecc49f0239edbe4212c54a0ec68571": {
   "file": "art/models/Court/tex/Rim_Color.png",
   "id": 134810355285672,
+  "state": "Approved"
+ },
+ "a94a94191ca3ceb72551a82cba5bdc6f80c084f9a9e9cb978d6e459b7bd9e7db": {
+  "id": 101014349609207,
+  "file": "art/models/Court/tex/MatBlock_Color.png",
   "state": "Approved"
  },
  "a990c6f9e76d684ea65c719a0e35a6a958cfc6c36dbdcbc7ac6bbc5b0ef56691": {
@@ -1199,9 +2429,24 @@
   "id": 137941878306506,
   "state": "Approved"
  },
+ "a9ed117c160dd493894ef5d8fc5183144a6a5c95ae9ec015bda7575e72d79482": {
+  "id": 104335055532507,
+  "file": "art/models/Modern/tex/GlassBigB_Color.png",
+  "state": "Approved"
+ },
  "aa3db4b2e21f9f7752971b3ce741e3ab0af4071b9dd6a2250628f47237cf7b0f": {
   "file": "art/models/HouseB/tex/Flat_Color.png",
   "id": 119674371222813,
+  "state": "Approved"
+ },
+ "aa4d9a645561fc64dff012a6b5219ab943c4b81260038b523de6ef15a2975114": {
+  "id": 104723467834799,
+  "file": "art/models/SpawnPlaza_S/tex/MatPaint_Color.png",
+  "state": "Approved"
+ },
+ "aa67b1a5cf30be4799bbfd3d48e16a43cd33c646907cc1d223ef0b517e7780d0": {
+  "id": 85706527554904,
+  "file": "art/models/Casa/tex/Iron_Color.png",
   "state": "Approved"
  },
  "aa8c259a24688687ee870649c70a8236fa8d071b825edff30990428636126959": {
@@ -1209,9 +2454,44 @@
   "id": 96495675004037,
   "state": "Approved"
  },
+ "aa9b04418a57962c6c299010ac0c05be04e8b27410d83abb84938ddee36b37b0": {
+  "id": 128096551381033,
+  "file": "art/models/Park/tex/PlayGreen_Color.png",
+  "state": "Approved"
+ },
  "aaf4aee15a6486631b037dfeda4fc8ae5d5fa3b36fc6cc186728fd27274d8084": {
   "file": "art/models/SpawnPlaza_S/tex/RouteMap_Color.png",
   "id": 136764806643994,
+  "state": "Approved"
+ },
+ "abb620676e570afa3f0519c1b523cb8a8c45eba6ce1cc6cb530beab1133dc46d": {
+  "id": 127759665213884,
+  "file": "art/models/GunShop/tex/Swing1Sign_Color.png",
+  "state": "Approved"
+ },
+ "abc7cc61456297f4fc1457f09b552067aaeda85f61c6db40230c1e9cd0b1cd4f": {
+  "id": 135153447097222,
+  "file": "art/models/StreetCorners/tex/LensGreen_Color.png",
+  "state": "Approved"
+ },
+ "ac002d28b8a2954b93edbf7884c88d993aa6a7c45fea454b8437c377c5f9753e": {
+  "id": 109588553072422,
+  "file": "art/models/Casa/tex/Sconce_Color.png",
+  "state": "Approved"
+ },
+ "ac9899cb13d7f5cd06ba8c4a836126ef274c8ff09cd2c8966ec31e8c6dc43bb8": {
+  "id": 129092394374592,
+  "file": "art/models/GunShop/tex/Walk_Color.png",
+  "state": "Approved"
+ },
+ "ac9e7c38b34b8c0f661333af93b3c87eacf5d4d8810b170b7d46ae6520d1b4ac": {
+  "id": 121455795102863,
+  "file": "art/models/ArmyBase_E/tex/GlassA_Color.png",
+  "state": "Approved"
+ },
+ "ad00f42c07e88f6647a8a4b34da70df0c468a84419241adef5adf9b00b9dc9eb": {
+  "id": 129872014496803,
+  "file": "art/fx/fountain/Fall4.png",
   "state": "Approved"
  },
  "ae2c61dae645b7e074357c1c0ceddf61e018c3bb792f8b415e559a6f087bb5d8": {
@@ -1219,9 +2499,29 @@
   "id": 81108300124339,
   "state": "Approved"
  },
+ "ae6c4bca52460638f64f070f881c735e4468055411812ef501287fbb326c3ad9": {
+  "id": 118455292177072,
+  "file": "art/fx/fountain/Pool12.png",
+  "state": "Approved"
+ },
+ "ae882b5191f5964fbc56abc705cab5ed71c01fd878306696c08da05375064f38": {
+  "id": 70606555667336,
+  "file": "art/models/Modern/tex/GlassBigA_Color.png",
+  "state": "Approved"
+ },
  "afa5e0dc4fe8833a225d9f85722c4937d97713378a08f134e949800e0c6a42f6": {
   "file": "art/weather/tex/RainSheet.png",
   "id": 76746315614032,
+  "state": "Approved"
+ },
+ "b052d317f4caddcf8462ea2cff2c8cdefedb89f84c057d22d9db25c0082c6aa5": {
+  "id": 87821280766420,
+  "file": "art/models/Casa/tex/StoneWall_Color.png",
+  "state": "Approved"
+ },
+ "b0876e65704d379486368f7e2f899989a0a7c421ee2bd0e777dfe7805fde76a5": {
+  "id": 120697599887342,
+  "file": "art/models/BrickBlock/tex/GlassF_Color.png",
   "state": "Approved"
  },
  "b0c1bc9ae8e1eab81e37c0680e614cbd3952ba41e96e712dda13ed2f7caf66bd": {
@@ -1229,9 +2529,39 @@
   "id": 101403041873750,
   "state": "Approved"
  },
+ "b14ae47f22ff6b01c9267346f202bbfcc99eda24e40ed4bfa18062bed53f2323": {
+  "id": 98955935343642,
+  "file": "art/models/Diner/tex/DinerRed_Color.png",
+  "state": "Approved"
+ },
+ "b1bba76801e5182f93a2dd6524d6e80e9253bcb9c54a34252eb61bb7522e0750": {
+  "id": 126350745460944,
+  "file": "art/models/Casa/tex/GlassA_Color.png",
+  "state": "Approved"
+ },
+ "b1f29d61e34f23f5687db986cf6310483fee1ca1fb9a548c8fa378e9cb5701cd": {
+  "id": 88278481404630,
+  "file": "art/models/ArkwellAtm/tex/AtmRubber_Color.png",
+  "state": "Approved"
+ },
+ "b2acaa08228e898cbe824086c521b6f0411016e16a881ed29dc487e52ff9352c": {
+  "id": 123007368545190,
+  "file": "art/models/Modern/tex/WallCharcoal_Color.png",
+  "state": "Approved"
+ },
+ "b2e2a156eb1179a3980004c08ab33645498d8d2cbd4844100f13601d0a31083a": {
+  "id": 120948343130427,
+  "file": "art/models/BrickBlock/tex/HvacGrey_Color.png",
+  "state": "Approved"
+ },
  "b3529ad4b542bd5d5a0e19f686562d7455d47e107c17bc76add138136339cb27": {
   "file": "art/models/BankTower/tex/Bench_Color.png",
   "id": 74407114638198,
+  "state": "Approved"
+ },
+ "b423d6c2ca409cf00e203abd1cf9b21a72f5077eb89e18e156c15eee6a23fd06": {
+  "id": 91495736723009,
+  "file": "art/models/SpawnPlaza_S/tex/Agave_Color.png",
   "state": "Approved"
  },
  "b45f98d70624e3ed5898d6c2b9028cb36164c6d75a743570325273eac9ca9dc0": {
@@ -1244,9 +2574,59 @@
   "id": 104402876585895,
   "state": "Approved"
  },
+ "b499510e1f8c3b3fd98dbdcd12754d4fd80eb1d90f55c52dd31008e2b0f71731": {
+  "id": 83771837264092,
+  "file": "art/models/GunShop/tex/AmmoWall_Color.png",
+  "state": "Approved"
+ },
+ "b509d6c135f6e479a0413092a2827b382633327f61ca985f5174e7ea2ab05eaa": {
+  "id": 77630194110362,
+  "file": "art/models/Casa/tex/Pot_Color.png",
+  "state": "Approved"
+ },
  "b5b9e41179aebf67dc4d208e7475d701c9a77f42c0430a089f3007dd7e9ae634": {
   "file": "art/models/Apartments/tex/Pot_Color.png",
   "id": 77887954241069,
+  "state": "Approved"
+ },
+ "b60b56eb8cd6805969a5e41332a814a2fc2f29dc1a2a1f49d5b7c3bc53528bc3": {
+  "id": 125404463799650,
+  "file": "art/models/StreetVaultAvenue/tex/Trunk_Color.png",
+  "state": "Approved"
+ },
+ "b80075070fb783e1ef7287577b4664c77ef9c6d6b2a4c00fd10910fc4024f9de": {
+  "id": 77302461685330,
+  "file": "art/models/Store/tex/MatCounter_Color.png",
+  "state": "Approved"
+ },
+ "b8423995536dbdd501e16d461b8b17715bf870fd6f23466e2268eec7d77e34e4": {
+  "id": 96189574732932,
+  "file": "art/models/SpawnPlaza_S/tex/BusDisplay_Color.png",
+  "state": "Approved"
+ },
+ "b84ac4aa479a2cc30f4e2db3bbb4cad002b125ea1455f168956d736cb5aed420": {
+  "id": 84422627989469,
+  "file": "art/models/Hotel_S/tex/HotelStucco_Color.png",
+  "state": "Approved"
+ },
+ "b8880b4530e1b7ea7b26c48f6278e3914a75473baaf6537296ae2fa5ea14dd23": {
+  "id": 100364196987285,
+  "file": "art/models/Store/tex/CoffeeBadge_Color.png",
+  "state": "Approved"
+ },
+ "b9231d5b21d8c98ddebc806d067a56d5a75c3ecf7cc4e7db23e2f73a22b83a22": {
+  "id": 129025741689526,
+  "file": "art/models/GunShop/tex/AcBody_Color.png",
+  "state": "Approved"
+ },
+ "b9dcbe9eb5805f2c9a7fac4db5babe7b20ea27ee45553881f8c14f77fa7ffa6d": {
+  "id": 96478313172593,
+  "file": "art/models/HouseA/tex/MatBinBlue_Color.png",
+  "state": "Approved"
+ },
+ "ba38733de9f58b7f78675fa18c1f2dc0e14094630febb5d6a863208b7c5543c3": {
+  "id": 87126973532619,
+  "file": "art/models/ArkwellAtm/tex/AtmCardLight_Color.png",
   "state": "Approved"
  },
  "baee90e5926ed41a9dd60e210a6fd453c864ba8c0016dd0c1f2e154280d32aea": {
@@ -1274,9 +2654,24 @@
   "id": 78396516607709,
   "state": "Approved"
  },
+ "bd8d1716fc9597f1f3a98c9cbb6f769635cdec804aa6913321f55e7862bb9f1d": {
+  "id": 115734440636521,
+  "file": "art/models/Casa/tex/HouseNumbers_Color.png",
+  "state": "Approved"
+ },
+ "bd96e82db5b2b5d9be0ff0c46f1c381babeb272fafed58193a2b4600cef9122f": {
+  "id": 128712462698011,
+  "file": "art/models/BrickBlock/tex/TankWood_Color.png",
+  "state": "Approved"
+ },
  "bdcf9ed0de3127d9d9dca1a20075048a05a38ba8ec5d5dfd509a41c39eb82fa0": {
   "file": "art/weather/tex/RainStreak.png",
   "id": 97549107602971,
+  "state": "Approved"
+ },
+ "bf0acee29549dfad8e54714442014faf93d2c74826842ea90a2ed69c3a6f7486": {
+  "id": 82371370450253,
+  "file": "art/fx/fountain/Fall5.png",
   "state": "Approved"
  },
  "bfb56bb00f1b3f406024dc18fc707d0c3b76916b6f225a66b1032670830bcfb7": {
@@ -1294,6 +2689,11 @@
   "id": 136747061331316,
   "state": "Approved"
  },
+ "c06221b2e59dfafcf75743810794b41d8e9fe97680414e127f6b9d9e9d7aa5a3": {
+  "id": 115525044594635,
+  "file": "art/models/StreetBackStreet/tex/NewsBlue_Color.png",
+  "state": "Approved"
+ },
  "c091a0de34cb173d85f23bd947c366cb8ff092ac2c1e3fc0c1e1c4b098676b2a": {
   "file": "art/weather/clouds/Cloud_Cu06.png",
   "id": 131539568327357,
@@ -1309,6 +2709,26 @@
   "id": 122346463656039,
   "state": "Approved"
  },
+ "c22d2d6f9f212e8d1a77e93235a661ffc33f86d567dc6294d706ed58044385df": {
+  "id": 136577902287923,
+  "file": "art/models/Casa/tex/Leaf_Color.png",
+  "state": "Approved"
+ },
+ "c25e05a980eaafdac5ce91e658e7d83984704b65aa52220302d359bf64661cde": {
+  "id": 120226303228366,
+  "file": "art/models/ArmyBase_E/tex/GlassB_Color.png",
+  "state": "Approved"
+ },
+ "c25ff4a5ebb83e89a1e5065e6df949468020fcc242e39703787e6a7e039e6b54": {
+  "id": 104719892703056,
+  "file": "art/models/ArkwellAtm/tex/AtmLabels_Color.png",
+  "state": "Approved"
+ },
+ "c2a470c9a7acf095236a8cfc64fa7412b79eead3d9ef475f051c7f22cc3d438a": {
+  "id": 105452149128540,
+  "file": "art/models/Casa/tex/GlassC_Color.png",
+  "state": "Approved"
+ },
  "c2c665b2c9b46927708bc20afb394a33783bd87bab4d01a062f037b0b9617407": {
   "file": "art/models/OfficeRound/tex/OfficeRound_Lobby.png",
   "id": 100693593512053,
@@ -1317,6 +2737,16 @@
  "c30b06bd8a671b21b3ce9c9a873c40f9bdb49684d2177e35da90fff388d34514": {
   "file": "art/models/HouseA/tex/WallSand_Color.png",
   "id": 116503174566994,
+  "state": "Approved"
+ },
+ "c31324870d6ad3111a728f2ae77cfe4ebd34af62f8f54ff68c436b0d982efd4b": {
+  "id": 117936181550514,
+  "file": "art/models/Hotel_S/tex/HotelSigns_Color.png",
+  "state": "Approved"
+ },
+ "c32bb8d542d4cdea73a69b7aee0c9b36ebe5efcd8fbf76efc6c8be493c7e7441": {
+  "id": 72256084279422,
+  "file": "art/models/HouseC/tex/MatPicket_Color.png",
   "state": "Approved"
  },
  "c33278c47569ca3a16020a9ce874f5b3f29e4fd4b847bd53915cec79aa740da8": {
@@ -1329,9 +2759,34 @@
   "id": 85166698604057,
   "state": "Approved"
  },
+ "c36f8d45d3fe482f1261c8147e4a0318162be81422f49ae565cd70ef30d2c2b0": {
+  "id": 139022207264426,
+  "file": "art/models/Casa/tex/GarageWood_Color.png",
+  "state": "Approved"
+ },
+ "c3cf84eb651755a12b9a146fecf955a17c4928656dee90b02c11f8534055ad31": {
+  "id": 105514254584518,
+  "file": "art/models/BrickBlock/tex/RoofTar_Color.png",
+  "state": "Approved"
+ },
+ "c4099aa884b181cf6b16dc05a6d707e5a5436aef9da63f3a5140595d3ba212dc": {
+  "id": 119421161456822,
+  "file": "art/fx/fountain/Fall2.png",
+  "state": "Approved"
+ },
  "c42b4941485d20e3bea6c2c2c55ad22d40acbf2ceb5b8e1c73a914cc8fe4143a": {
   "file": "art/models/GasStation/tex/ShopWall_Color.png",
   "id": 140009300173517,
+  "state": "Approved"
+ },
+ "c485c7fdcb39750b35962793fbf2798ff44d030fb1fbcabaa265a9c912be92b5": {
+  "id": 117244409795214,
+  "file": "art/models/Casa/tex/Cushion_Color.png",
+  "state": "Approved"
+ },
+ "c49ef2b245d943ae4527ad85b353c02eda50baf2a26bd9ba7f50de59d73d7d9b": {
+  "id": 135483971742977,
+  "file": "art/models/GunShop/tex/Spot_Color.png",
   "state": "Approved"
  },
  "c4aeda50013b06c9cd9416f39f979ba9eb1e9614c8d98e5af7a5a8c602f2f5b7": {
@@ -1344,14 +2799,34 @@
   "id": 111766927145857,
   "state": "Approved"
  },
+ "c53b63631649b03db29c8c4bdadfa6bd346b10532bec9746a7dfe1cecab392f8": {
+  "id": 113739553053857,
+  "file": "art/models/ArmyBase_E/tex/SignRestricted_Color.png",
+  "state": "Approved"
+ },
+ "c64d16dbc0ef280e9b3e4ff647c7de355b2b1349a2317eda40e6ae334c14d39e": {
+  "id": 122513274899167,
+  "file": "art/models/BrickBlock/tex/StorefrontsB_Color.png",
+  "state": "Approved"
+ },
  "c65e54835a405793041e954cb7023a8344dee2434704fa15b879094b23d5dd59": {
   "file": "art/models/GasStation/tex/FasciaBrand_Color.png",
   "id": 97067365020810,
   "state": "Approved"
  },
+ "c66a4934802c69614e4ca738f2d9a948a82ea35ac1df90929a44c86c165f42ad": {
+  "id": 89979441055267,
+  "file": "art/fx/fountain/Pool11.png",
+  "state": "Approved"
+ },
  "c75e36a9d5b0fb515ec06c37f6f6aae4a4d07b940d1c0843b0a278c2b92d2bd9": {
   "file": "art/models/HouseA/tex/GlassE_Color.png",
   "id": 129214710323171,
+  "state": "Approved"
+ },
+ "c7c16136d42b898a447aaa9c3338ee041892ed7e3f32ba09da48b4b5a73dc066": {
+  "id": 87337043797666,
+  "file": "art/models/Human/tex/Arms.png",
   "state": "Approved"
  },
  "c80ee8acb6f476fd3ce39b59c8d721dac932f28fa95d9c7686397d6e3479427a": {
@@ -1364,6 +2839,16 @@
   "id": 93879642314466,
   "state": "Approved"
  },
+ "c935bbdad93d32d2d6c7c0cc39dc36a31efabbc0e6c358d9db48dad20ad126ee": {
+  "id": 94847201231102,
+  "file": "art/models/GunShop/tex/LaneNumbers_Color.png",
+  "state": "Approved"
+ },
+ "c9a56b2b84570d8000205c3ab20d89c8c4c99147001ce46364f1d2ae3417642d": {
+  "id": 93064200161961,
+  "file": "art/models/BrickBlock/tex/StoneTrim_Color.png",
+  "state": "Approved"
+ },
  "caca99177c136ecfcfaf2a6b0f20a18f9ef4563aaeb880e83a815c7c3ecd4596": {
   "file": "art/models/Court/tex/Backboard_Color.png",
   "id": 123835913829307,
@@ -1374,9 +2859,19 @@
   "id": 122305511453385,
   "state": "Approved"
  },
+ "cbce7fbb55e13a63fb77f02fe2a211b72691fb3210d43265026a4680d5e44b58": {
+  "id": 84016789316522,
+  "file": "art/models/Court/tex/BinLabel_Color.png",
+  "state": "Approved"
+ },
  "cc182c23847e74ff3c335b1dfa2d8172d634b00e690169e20af47f23d9807140": {
   "file": "art/models/BankTower/tex/Rim_Color.png",
   "id": 80549591337124,
+  "state": "Approved"
+ },
+ "cc2e7342521bed3d3175b47d3ebe446192b83d7f90689ea6f2292c79b495676c": {
+  "id": 132584481479881,
+  "file": "art/models/ArmyBase_E/tex/NeonRed_Color.png",
   "state": "Approved"
  },
  "cc48cd4bbb31707ac992d7db32f0796492497a60be27af5ed651eefd31718f5d": {
@@ -1389,9 +2884,34 @@
   "id": 86460200248529,
   "state": "Approved"
  },
+ "cc80e8e2ff92f92bb056039dde3a3465b15d9317ed83a93adb5a8d6afcc6f165": {
+  "id": 83575020634078,
+  "file": "art/models/Court/tex/MatDark_Color.png",
+  "state": "Approved"
+ },
+ "cc84a961e7163d200dd07da82a8d588f37c01ea2cf8f27166f12b9dea09bcb00": {
+  "id": 134158909348331,
+  "file": "art/models/ArmyBase_E/tex/Grass_Color.png",
+  "state": "Approved"
+ },
  "ccbded21664d59b656fed665d21fbcc1b7703942e6eed101573da4346832c450": {
   "file": "art/models/OfficeDark/tex/OfficeDark_Base.png",
   "id": 75875926962331,
+  "state": "Approved"
+ },
+ "cd8a72a533af7da80e8dadc7c16655601c753374d5e04ec467354f8d969a3a8b": {
+  "id": 122763836490606,
+  "file": "art/models/OfficeRound/tex/OfficeRound_Lobby.png",
+  "state": "Approved"
+ },
+ "ce119f80f52f9fbd92cb8452db6883875bd84a1e6c914f089b613e8fa7e3ae28": {
+  "id": 106732006864960,
+  "file": "art/models/GunShop/tex/Polymer_Color.png",
+  "state": "Approved"
+ },
+ "ce3c673104e925292b220d874c2a4868d34c1697bbc37f899f7889bda485413b": {
+  "id": 84058574002969,
+  "file": "art/models/HouseA/tex/MatBark_Color.png",
   "state": "Approved"
  },
  "cf1a6170ce03c0dc6679fa2c3b43edb0a6e90f6628a498c0064f69ee4bddb713": {
@@ -1399,14 +2919,34 @@
   "id": 114611441998733,
   "state": "Approved"
  },
+ "cf8adf6cfe8e0e6ecc5e65f159adba407eab76f538fc2af5cf439364d0eb4e15": {
+  "id": 127107623934473,
+  "file": "art/models/GunShop/tex/GunMetal_Color.png",
+  "state": "Approved"
+ },
  "d0a14c35d19f325083be16767640b5fcefda997079b03da3ab8cce27263ecc24": {
   "file": "art/models/GasStation/tex/IslandKerb_Color.png",
   "id": 95017864959402,
   "state": "Approved"
  },
+ "d11da8796e6e341589da29a12702d81ec1597c17f9cb111e3080398bf4b83b12": {
+  "id": 114674898966960,
+  "file": "art/models/StreetBackStreet/tex/Leaves_Color.png",
+  "state": "Approved"
+ },
  "d185b1e1e009983e1bcb9e6159b38906196555e20bcbb5e1099273dec50b29b7": {
   "file": "art/models/SpawnPlaza_S/tex/WelcomeSign_Color.png",
   "id": 121934937502838,
+  "state": "Approved"
+ },
+ "d24298fe6180194e6a5fe3dae22bcd8ead3554ce3c8b708e83d4478165f83d2c": {
+  "id": 112844976410334,
+  "file": "art/models/GunShop/tex/ShopFloor_Color.png",
+  "state": "Approved"
+ },
+ "d272a9d2080bbc71ce127b4b5e886ae666bcd55aceed070fd14ebbf1af04a4c7": {
+  "id": 119558600171300,
+  "file": "art/models/Human/tex/Head.png",
   "state": "Approved"
  },
  "d2933159957d30fa69dfa28d58b0faadc3991ba358c0c98904e54e1e37b1a547": {
@@ -1417,6 +2957,11 @@
  "d37c17b5515752fc3569d77027d2293af84eefc9005b000c5fdaa02da03f83ad": {
   "file": "art/weather/tex/Spray.png",
   "id": 71395553464739,
+  "state": "Approved"
+ },
+ "d3de5e38a03b0294ae20a7e121be8a20c4288b0b833b4ca307c8e4fb72ea66dd": {
+  "id": 135568326586407,
+  "file": "art/models/GunShop/tex/Steel_Color.png",
   "state": "Approved"
  },
  "d42a11ec5912319eeb17bafc917439eab88cab23df37d0393e783c75c45f02de": {
@@ -1439,6 +2984,11 @@
   "id": 105828056818759,
   "state": "Approved"
  },
+ "d696ac23fc56dd8b8f6f2670178676a973120555fd5dfe0c42f2e6e77fd77ca1": {
+  "id": 80995090227713,
+  "file": "art/models/OfficeRound/tex/OfficeRound_Glass.png",
+  "state": "Approved"
+ },
  "d6a952126f527921a1faa06251ee8aed4e00f89aabc05e7def7c83ae627fc053": {
   "file": "art/models/Apartments/tex/GlassA_Color.png",
   "id": 130528248561032,
@@ -1449,6 +2999,21 @@
   "id": 121266740267263,
   "state": "Approved"
  },
+ "d78337a69473ceebd5477eefda70f6aa0f99b4f82e8ef178138506044879544a": {
+  "id": 74926612475040,
+  "file": "art/models/SpawnPlaza_S/tex/MatKerb_Color.png",
+  "state": "Approved"
+ },
+ "d7f007dc2efda504fbc2faca3daff555bf17d0073fb0d852d688371ded137bc3": {
+  "id": 139963775138070,
+  "file": "art/models/GunShop/tex/Rubber_Color.png",
+  "state": "Approved"
+ },
+ "d84bb8a933d2e28721bda8fc0c00165cae3d4253d5587b42067be76edb1f4569": {
+  "id": 94611611453435,
+  "file": "art/models/Diner/tex/Soil_Color.png",
+  "state": "Approved"
+ },
  "d901ce302480666f1c159aee2ceba4d515bc3f5d24c118ec344baea47a0fbeb0": {
   "file": "art/weather/clouds/Cloud_St01.png",
   "id": 95491815513582,
@@ -1457,6 +3022,16 @@
  "d9080ee33d8b3f6170f434793854f5b3d7e7323f43cc15987b2ca6a095543c69": {
   "file": "art/models/BankTower/tex/TowerSign_Color.png",
   "id": 122902209943948,
+  "state": "Approved"
+ },
+ "d93ab48f99035fbe7376a4f43155c24f54ac9907bb39f5f83e17dd8d34185d55": {
+  "id": 88867248829551,
+  "file": "art/models/GunShop/tex/Acoustic_Color.png",
+  "state": "Approved"
+ },
+ "da13a6296fc6644c7d5f3addfc1ad5757e64fa83a2f8dc2e49b6fcf1843f7946": {
+  "id": 114749067376810,
+  "file": "art/models/ArmyBase_E/tex/HvacTop_Color.png",
   "state": "Approved"
  },
  "dac2827e86eb8fba4fd3636ecb919075a582a5a6537b9cc5e89d619376433303": {
@@ -1474,9 +3049,19 @@
   "id": 88095776660843,
   "state": "Approved"
  },
+ "dc7f4b0af88221a4ffee6d98e4831f4945912b7423ba4885fddb5dbe69fd1363": {
+  "id": 93272992342514,
+  "file": "art/models/StreetBackStreet/tex/IronBlack_Color.png",
+  "state": "Approved"
+ },
  "debd540938faa7d32c0172174e72971e2ae17abac06bc6b6cd282b6baa429565": {
   "file": "art/weather/tex/RainSpray.png",
   "id": 80848297953462,
+  "state": "Approved"
+ },
+ "df0a836a675ba6f519ede66e5cb85c107f1a9572412d47d588870043052e7436": {
+  "id": 97794172638732,
+  "file": "art/models/Colonial/tex/Shutter_Color.png",
   "state": "Approved"
  },
  "df571aa2542c41cfc20d3e79318a8a504e1c3cfdfd290272474c45182a8bb35c": {
@@ -1494,9 +3079,24 @@
   "id": 91487123777018,
   "state": "Approved"
  },
+ "dfde6095e361b251427c0505dafb2b124d28a5abc14f274c05fa12bed9d36061": {
+  "id": 116654177968776,
+  "file": "art/models/ArmyBase_E/tex/SignStop_Color.png",
+  "state": "Approved"
+ },
+ "e04165d1f3337f625798f29862b8954c926f9b85fe3f030247fbd6f2f7339137": {
+  "id": 126795811749291,
+  "file": "art/models/GunShop/tex/CaseFelt_Color.png",
+  "state": "Approved"
+ },
  "e06add9c0c1e119060ee45f709649055159a8e75d9fbae21a496bae359b533a1": {
   "file": "art/models/Apartments/tex/Shrub_Color.png",
   "id": 123061237532644,
+  "state": "Approved"
+ },
+ "e0717b8277a5b7d6326d2bfa84a6a5c8d5814bb36c3b5d2decf98c1a76e22330": {
+  "id": 80889341349730,
+  "file": "art/fx/fountain/Ripple6.png",
   "state": "Approved"
  },
  "e18c9d2db0881725fd0e267b3fab3d6dee8271fd69658cb9aabc4445ca98a448": {
@@ -1509,14 +3109,54 @@
   "id": 82295983500348,
   "state": "Approved"
  },
+ "e309f87e6115646703c1b692b87c7a106e39b868af2a5574249f1443072e40e4": {
+  "id": 140652384046435,
+  "file": "art/models/Casa/tex/WallSage_Color.png",
+  "state": "Approved"
+ },
  "e34e328c8c161bba149acb96c15e492ebc8332f37d55bc3dcff78654b2b7919b": {
   "file": "art/road/tex/StreetColor.png",
   "id": 92172085035672,
   "state": "Approved"
  },
+ "e354d6b67e8ed6890f5bea87896e78ece1d3098b4e50266c84b9189baeecd447": {
+  "id": 73732785131108,
+  "file": "art/fx/fountain/Pool15.png",
+  "state": "Approved"
+ },
+ "e3804dec1ef50244ca55cbadc530353c0b0efef3e6ed87c73e88af3ae116598c": {
+  "id": 97798515406579,
+  "file": "art/fx/fountain/Fall3.png",
+  "state": "Approved"
+ },
+ "e387ebdd87f6aa3d77cf9171a5dd0013099a83e75bf7bfe5a1625785c193d6ef": {
+  "id": 129309879121552,
+  "file": "art/models/ArmyBase_E/tex/Olive_Color.png",
+  "state": "Approved"
+ },
+ "e424177262134bd164e86e722b42b5ff0899981ec06c344ad5a957256ed6f598": {
+  "id": 139650086426018,
+  "file": "art/models/Villa/tex/RoofBrown_Color.png",
+  "state": "Approved"
+ },
+ "e42b25724c0c914ac67c45ecb4ae2d7724d9b0b34c5d107caf0dda0e19875dcd": {
+  "id": 111658786225947,
+  "file": "art/models/Court/tex/MatBinGrey_Color.png",
+  "state": "Approved"
+ },
  "e436f3f87c9a7cf7d6c245e25623712c1f88b6d40289728b6482aff836c7f55e": {
   "file": "art/models/OfficeDark/tex/OfficeDark_Light.png",
   "id": 123755130553817,
+  "state": "Approved"
+ },
+ "e4b6181abd582310fc04f95cf9d3cdd8db2e8c174710492ba88f16fc72884340": {
+  "id": 86359339842473,
+  "file": "art/models/OfficeStone/tex/OfficeStone_Facade.png",
+  "state": "Approved"
+ },
+ "e50195b74f8e6c73f098dfcdaf4139c7d1df4a382bc9ddefe5af29c68d97bd29": {
+  "id": 71539714439323,
+  "file": "art/models/Hacienda/tex/RoofBarrel_Color.png",
   "state": "Approved"
  },
  "e575a64da4534a9c8317c3d74cf29366fe542e9eed2225d59d7eadff7cffeefe": {
@@ -1529,14 +3169,54 @@
   "id": 91829527228290,
   "state": "Approved"
  },
+ "e7628d4b8d86f7948867cac3306a5478a748a1fece721a4d5723933893be4621": {
+  "id": 96931022557512,
+  "file": "art/models/HouseA/tex/MatFoundation_Color.png",
+  "state": "Approved"
+ },
  "e7a85688e08e673420ab7e37a1fa89fdd32c814bca2d1c36d4ded3587fbabd53": {
   "file": "art/models/Apartments/tex/WinIron_Color.png",
   "id": 106484846183097,
   "state": "Approved"
  },
+ "e7ad3d18ebb2bcfd59fe8aef6e3960001b7159f7b57b0e051171d3b6f8c7c848": {
+  "id": 87350809277919,
+  "file": "art/models/GunShop/tex/PosterArmor_Color.png",
+  "state": "Approved"
+ },
  "e84de6543b8532c88031462bfe4126f1ac4c222fc08c793a1539bd15c698d38d": {
   "file": "art/models/Motel/tex/Coping_Color.png",
   "id": 88308891247408,
+  "state": "Approved"
+ },
+ "e89d90ee16d18829196eb92ff92290f2918c2274f6d2afb9d483e4b5d0d04c75": {
+  "id": 75162115796702,
+  "file": "art/models/Police/tex/PoliceDoor_Color.png",
+  "state": "Approved"
+ },
+ "e92cf8d983170d8840bff9c49f580b0458baaa3edcfdfb3150c97a401912715e": {
+  "id": 101277237467871,
+  "file": "art/models/ArmyBase_E/tex/Tire_Color.png",
+  "state": "Approved"
+ },
+ "e9648293e89cb58a39dfc5bb0e7a774e24efc1603cdee6acae0b7e290bc8ef30": {
+  "id": 97430012540930,
+  "file": "art/models/Diner/tex/DinerDoor_Color.png",
+  "state": "Approved"
+ },
+ "e9e18e1e1e2f710c354adbcec4b31f765028c39d1acbdbf5aab70d5e534bd11b": {
+  "id": 130043507281865,
+  "file": "art/models/StreetCorners/tex/LensAmber_Color.png",
+  "state": "Approved"
+ },
+ "e9f67af998b03ecadd335ea00cd26941b69dd32934ac1b0bef97e16a541d38ae": {
+  "id": 99886429496712,
+  "file": "art/models/GunShop/tex/PosterSafety_Color.png",
+  "state": "Approved"
+ },
+ "ea8d5ee5aa051a1c9ddf309aff25aaa14750d540b377fe1cb6291798d23c9d89": {
+  "id": 71050774128426,
+  "file": "art/models/StreetBackStreet/tex/SignalBody_Color.png",
   "state": "Approved"
  },
  "ead8f02d6da188759c3386e900ea1b9e11d78da139f6a63b1bd6616c74a74066": {
@@ -1559,9 +3239,29 @@
   "id": 95767795570599,
   "state": "Approved"
  },
+ "ebe2417e7157774f19d2b84a3d4817f529a734f4b3abee016ba4290514c05567": {
+  "id": 73209453489793,
+  "file": "art/models/Hacienda/tex/Gravel_Color.png",
+  "state": "Approved"
+ },
+ "ec80467fd6f9c3a8506372a03de8830526b039ea4bd8c66880844303896af81b": {
+  "id": 99460390560148,
+  "file": "art/models/Police/tex/RollDoor_Color.png",
+  "state": "Approved"
+ },
+ "eca7e6fed659bf08849ff7503dcd8ebd5380a36218273066205a76909eb2c08f": {
+  "id": 96853541669353,
+  "file": "art/models/HouseA/tex/MatTrim_Color.png",
+  "state": "Approved"
+ },
  "ecfc1fe2cbc4de071c150973280316fcb7187e2ae230e3b89028c0a67d0d82a1": {
   "file": "art/models/HouseC/tex/Picket_Color.png",
   "id": 135755761868438,
+  "state": "Approved"
+ },
+ "edc31efcb429d44c74f250f5edb8637301e4997c68f74bea42f95cca5e3a8ec1": {
+  "id": 133550469348322,
+  "file": "art/models/BrickBlock/tex/ShopSignsA_Color.png",
   "state": "Approved"
  },
  "edcfa9811e2673e7e7f3bed77a3e6072d62d54f50f5d205158893da8bb3b896b": {
@@ -1579,6 +3279,11 @@
   "id": 105360920272401,
   "state": "Approved"
  },
+ "eeb7a0ebd4d0e23d993f49a9116901806a9f4cbfc953476c5cc38aabf373e3e3": {
+  "id": 74809070648576,
+  "file": "art/models/ArmyBase_E/tex/SidingOlive_Color.png",
+  "state": "Approved"
+ },
  "eef5161c768118b4573c8dd0703b02a5ba66010b1e7caac6957b21926cd488d0": {
   "file": "art/models/SpawnPlaza_S/tex/Glass_Color.png",
   "id": 93526949655495,
@@ -1594,9 +3299,29 @@
   "id": 82590249607533,
   "state": "Approved"
  },
+ "efee4720f0039714698d459e28afe220d5b6150400cdfe00b6106650219f0448": {
+  "id": 118180758893397,
+  "file": "art/models/GunShop/tex/Asphalt_Color.png",
+  "state": "Approved"
+ },
+ "f0430ba6f7e73893c152578a489465f171f16bb53f4ba73293b881631379bf54": {
+  "id": 133846598877587,
+  "file": "art/models/HouseA/tex/MatRed_Color.png",
+  "state": "Approved"
+ },
+ "f05a3f530068659672804e07670d5016c30a059b723c8b570ab7d88e792cb43e": {
+  "id": 140635019302813,
+  "file": "art/models/HouseA/tex/MatAcBody_Color.png",
+  "state": "Approved"
+ },
  "f113b5454e969f54d2723c4b5a4c097a4f86ab2ad2730114b5cec6a84dc84835": {
   "file": "art/models/HouseA/tex/GlassD_Color.png",
   "id": 139390814789628,
+  "state": "Approved"
+ },
+ "f12eadf3839ba038a1de8410e716023257b929372fee3975bc5fb4664deef65f": {
+  "id": 106345847840745,
+  "file": "art/models/SpawnPlaza_S/tex/FxRipple_Color.png",
   "state": "Approved"
  },
  "f1723687725e7d37061737bcc022f9e1af923465716cfb9019f161228e3c59ef": {
@@ -1634,6 +3359,16 @@
   "id": 77834394813889,
   "state": "Approved"
  },
+ "f6c6d5946a68f3ba675e63f767a892182cde263e067ae54002a1699fc65530d6": {
+  "id": 74442604942985,
+  "file": "art/models/Diner/tex/DinerInterior_Color.png",
+  "state": "Approved"
+ },
+ "f6e04d7c86ac5da69a33ec875604b1885695e2ef83c2a554ecef16164cf4a013": {
+  "id": 123119959434285,
+  "file": "art/models/Modern/tex/PivotDoor_Color.png",
+  "state": "Approved"
+ },
  "f7bd8bb6c8d1af40bfbc8f0bee88016bfb92eab0f6d9c2ef9949978ef2390779": {
   "file": "art/road/tex/WalkColor.png",
   "id": 81777358312256,
@@ -1642,6 +3377,11 @@
  "f7bea89098e84ef3ce39bac8501e64739743501e6c2e6989d6910283ac2f6468": {
   "file": "art/models/Apartments/tex/LobbyGlass_Color.png",
   "id": 73568097935866,
+  "state": "Approved"
+ },
+ "f7cfe8fd6b3dd0732511bec8ea7e2e0be0a2d7f219fe7b67bdeb9907935336f0": {
+  "id": 72413191970508,
+  "file": "art/models/Hotel_S/tex/HotelLobby_Color.png",
   "state": "Approved"
  },
  "f80b0b7b0bf48e57f60928c3606bac0c2fff44e1d4e9bcdc8e1ba11d8ba4453f": {
@@ -1654,624 +3394,14 @@
   "id": 109462770145914,
   "state": "Approved"
  },
+ "f9a427d5ee70b6e30229a4d8ec93961f33c4ff3abe4ef4960d801bb21247ce7a": {
+  "id": 90975157846102,
+  "file": "art/models/StreetBackStreet/tex/SignalBody_Color.png",
+  "state": "Approved"
+ },
  "f9ff3eb111c15da93102209ebe85d10b2ca56fb42a29bd4db8dca5cf6eb49b88": {
   "file": "art/models/GasStation/tex/PriceSign_Color.png",
   "id": 72151185570472,
-  "state": "Approved"
- },
- "fe02cad249f827299b1d0eaf222059c015c522a1916b24d8c58e15079f0671b1": {
-  "file": "art/weapons/fx/Tracer.png",
-  "id": 87614283668655,
-  "state": "Approved"
- },
- "fe812708a8122addce7aea0bfeca03a8fc52e34fb4e06f242a9a52307084a1b9": {
-  "file": "art/models/HouseA/tex/SecurityDoor_Color.png",
-  "id": 110355010788814,
-  "state": "Approved"
- },
- "fefb236c36a8a65ae271e9e08bdc017a65828fcb68ee1dbe19e797a9bee8f4ba": {
-  "file": "art/weather/clouds/Cloud_Cg02.png",
-  "id": 75869283708368,
-  "state": "Approved"
- },
- "ff614d8845f0b31c5c39acbb264f27d0eb2f2924711f7275cf0c66dd8978a3e8": {
-  "file": "art/models/Court/tex/CourtPaint_Color.png",
-  "id": 125024024613087,
-  "state": "Approved"
- },
- "c7c16136d42b898a447aaa9c3338ee041892ed7e3f32ba09da48b4b5a73dc066": {
-  "id": 87337043797666,
-  "file": "art/models/Human/tex/Arms.png",
-  "state": "Approved"
- },
- "9092f848508f3da9dbc01a61c576314b31641dc2dae79ccdfe31e34d050606ba": {
-  "id": 77771369139128,
-  "file": "art/models/Human/tex/Clothes.png",
-  "state": "Approved"
- },
- "14444dcea893a5a4d53dc9d32f8bad843e6f0508fa70ebae22b3bef4c6ebeb09": {
-  "id": 93609719252337,
-  "file": "art/models/Human/tex/Eyes.png",
-  "state": "Approved"
- },
- "045ccfa5b1f34ec0a399a343613843b0ae6cfee571579e9e0130bf851c7b6328": {
-  "id": 78980829493421,
-  "file": "art/models/Human/tex/Hair.png",
-  "state": "Approved"
- },
- "d272a9d2080bbc71ce127b4b5e886ae666bcd55aceed070fd14ebbf1af04a4c7": {
-  "id": 119558600171300,
-  "file": "art/models/Human/tex/Head.png",
-  "state": "Approved"
- },
- "427c53e495461cb9752499f0b002269bdc3e5ae7cfb482096603aa43d0884ec7": {
-  "id": 97079110004859,
-  "file": "art/models/Human/tex/Shoes.png",
-  "state": "Approved"
- },
- "79a21a51e1e45dbcd601837dd0ab27a35e1c3831c735748dfa4f52b98687a0cb": {
-  "id": 75203088271538,
-  "file": "art/models/Human/tex/Body.png",
-  "state": "Approved"
- },
- "a46b491d5f911c498f80c34823a3518215fc77a906bda1b84094368236cc8cd7": {
-  "id": 130895939973795,
-  "file": "art/models/Human/tex/Head.png",
-  "state": "Approved"
- },
- "ff5eb7ffef13aeff284418c50da205a749880185a3bcc3ae1b582213c36e37a0": {
-  "id": 134932410376168,
-  "file": "art/models/OfficeDark/tex/OfficeDark_Base.png",
-  "state": "Approved"
- },
- "48f16242576e2b103c08a44579915d6c0fdbf6714cb3f8acaad8e5c799561dd6": {
-  "id": 93501231580541,
-  "file": "art/models/OfficeDark/tex/OfficeDark_Glass.png",
-  "state": "Approved"
- },
- "5c63039e4abf4ba3198c751a95de95c6f7975c2c4a563dad901f72fdfabd71e6": {
-  "id": 112946844375212,
-  "file": "art/models/OfficeDark/tex/OfficeDark_Lobby.png",
-  "state": "Approved"
- },
- "2f667533e3b8ff14d9b557c39868ec8011192e144e66efec70bdabb9375f2dcb": {
-  "id": 140022006037901,
-  "file": "art/models/OfficeDark/tex/OfficeDark_Screen.png",
-  "state": "Approved"
- },
- "6bffa9acec675e1633560d1972878a5634cf8903947b7a0eb56f1bbcd6babe3c": {
-  "id": 91744762261280,
-  "file": "art/models/OfficeRound/tex/OfficeRound_Base.png",
-  "state": "Approved"
- },
- "d696ac23fc56dd8b8f6f2670178676a973120555fd5dfe0c42f2e6e77fd77ca1": {
-  "id": 80995090227713,
-  "file": "art/models/OfficeRound/tex/OfficeRound_Glass.png",
-  "state": "Approved"
- },
- "cd8a72a533af7da80e8dadc7c16655601c753374d5e04ec467354f8d969a3a8b": {
-  "id": 122763836490606,
-  "file": "art/models/OfficeRound/tex/OfficeRound_Lobby.png",
-  "state": "Approved"
- },
- "12b10702134005b4def5eb7b15bc614ebbba72e1e7485dfeffaa3f9b84847f76": {
-  "id": 85422384635818,
-  "file": "art/models/OfficeStone/tex/OfficeStone_Base.png",
-  "state": "Approved"
- },
- "e4b6181abd582310fc04f95cf9d3cdd8db2e8c174710492ba88f16fc72884340": {
-  "id": 86359339842473,
-  "file": "art/models/OfficeStone/tex/OfficeStone_Facade.png",
-  "state": "Approved"
- },
- "a256d004978d1bb607b5c0549e85258f457a4dba71c891e80785f5d42e701bce": {
-  "id": 116896371863540,
-  "file": "art/models/OfficeStone/tex/OfficeStone_Lobby.png",
-  "state": "Approved"
- },
- "9cb0aa4939e28d8fe3d8e5cdf7aff9622c752afaac380331bba6d42084147199": {
-  "id": 78079646073760,
-  "file": "art/models/Court/tex/MatBinGreen_Color.png",
-  "state": "Approved"
- },
- "e42b25724c0c914ac67c45ecb4ae2d7724d9b0b34c5d107caf0dda0e19875dcd": {
-  "id": 111658786225947,
-  "file": "art/models/Court/tex/MatBinGrey_Color.png",
-  "state": "Approved"
- },
- "cbce7fbb55e13a63fb77f02fe2a211b72691fb3210d43265026a4680d5e44b58": {
-  "id": 84016789316522,
-  "file": "art/models/Court/tex/BinLabel_Color.png",
-  "state": "Approved"
- },
- "a94a94191ca3ceb72551a82cba5bdc6f80c084f9a9e9cb978d6e459b7bd9e7db": {
-  "id": 101014349609207,
-  "file": "art/models/Court/tex/MatBlock_Color.png",
-  "state": "Approved"
- },
- "cc80e8e2ff92f92bb056039dde3a3465b15d9317ed83a93adb5a8d6afcc6f165": {
-  "id": 83575020634078,
-  "file": "art/models/Court/tex/MatDark_Color.png",
-  "state": "Approved"
- },
- "5a350eca4a41271fa7965b6de50c1609496d67562c2dec3a52e9a6a94ea2f4b6": {
-  "id": 119670158311983,
-  "file": "art/models/Court/tex/MatIron_Color.png",
-  "state": "Approved"
- },
- "625421ebc5ed57da757c9a3da470b12b3a63525ae803a79c7da4826fba397382": {
-  "id": 89768116239709,
-  "file": "art/models/Court/tex/MatPlastic_Color.png",
-  "state": "Approved"
- },
- "492084937ebf19cb63b0fadb728f50dc7c864744736c39f2ef5a1706f3d23f4a": {
-  "id": 125691831116580,
-  "file": "art/models/Court/tex/MatPole_Color.png",
-  "state": "Approved"
- },
- "43b9cc9afb194b138028c5fd7cb51360e64324cd8b4225616b45127637cf5e43": {
-  "id": 138836399639611,
-  "file": "art/models/Court/tex/MatStone_Color.png",
-  "state": "Approved"
- },
- "535f63aba182d9b35fc533ba27541f5a36d8b9584062c50d781b5dac73c7d350": {
-  "id": 103417718531002,
-  "file": "art/models/Court/tex/MatWood_Color.png",
-  "state": "Approved"
- },
- "f05a3f530068659672804e07670d5016c30a059b723c8b570ab7d88e792cb43e": {
-  "id": 140635019302813,
-  "file": "art/models/HouseA/tex/MatAcBody_Color.png",
-  "state": "Approved"
- },
- "ce3c673104e925292b220d874c2a4868d34c1697bbc37f899f7889bda485413b": {
-  "id": 84058574002969,
-  "file": "art/models/HouseA/tex/MatBark_Color.png",
-  "state": "Approved"
- },
- "b9dcbe9eb5805f2c9a7fac4db5babe7b20ea27ee45553881f8c14f77fa7ffa6d": {
-  "id": 96478313172593,
-  "file": "art/models/HouseA/tex/MatBinBlue_Color.png",
-  "state": "Approved"
- },
- "e7628d4b8d86f7948867cac3306a5478a748a1fece721a4d5723933893be4621": {
-  "id": 96931022557512,
-  "file": "art/models/HouseA/tex/MatFoundation_Color.png",
-  "state": "Approved"
- },
- "1de2494bed59f37a5b2599ae5a8583d7da77518e601f3c931155a5c81a4844ad": {
-  "id": 92474501088322,
-  "file": "art/models/HouseA/tex/MatMailbox_Color.png",
-  "state": "Approved"
- },
- "a4213e3feeba2fcc7b8f7a1e43c3ed2946d86d776afdecda69471444b4c66084": {
-  "id": 96737394896911,
-  "file": "art/models/HouseA/tex/MeterFace_Color.png",
-  "state": "Approved"
- },
- "f0430ba6f7e73893c152578a489465f171f16bb53f4ba73293b881631379bf54": {
-  "id": 133846598877587,
-  "file": "art/models/HouseA/tex/MatRed_Color.png",
-  "state": "Approved"
- },
- "483d604d9a5395256a7b3ea9e944f1fe22e0a19986abdeaa50ac35fa44026d3b": {
-  "id": 82976543607613,
-  "file": "art/models/HouseA/tex/Shrub_Color.png",
-  "state": "Approved"
- },
- "0776b82bcaa6327877e1b6e4efd145ddaabc70af6e065c174832b8131d418e6f": {
-  "id": 113132831219538,
-  "file": "art/models/HouseA/tex/MatShutter_Color.png",
-  "state": "Approved"
- },
- "864a2e659b4849b6e0fe23fa0c2d9ea3e0323427e07e211f688284c51be5db3b": {
-  "id": 85539390776426,
-  "file": "art/models/HouseA/tex/MatSoil_Color.png",
-  "state": "Approved"
- },
- "eca7e6fed659bf08849ff7503dcd8ebd5380a36218273066205a76909eb2c08f": {
-  "id": 96853541669353,
-  "file": "art/models/HouseA/tex/MatTrim_Color.png",
-  "state": "Approved"
- },
- "4d237741bd8904add40187f3aacb485a539514f260d2ddadc8dc0d0284d09575": {
-  "id": 99468512439302,
-  "file": "art/models/HouseB/tex/MatFlat_Color.png",
-  "state": "Approved"
- },
- "c32bb8d542d4cdea73a69b7aee0c9b36ebe5efcd8fbf76efc6c8be493c7e7441": {
-  "id": 72256084279422,
-  "file": "art/models/HouseC/tex/MatPicket_Color.png",
-  "state": "Approved"
- },
- "b423d6c2ca409cf00e203abd1cf9b21a72f5077eb89e18e156c15eee6a23fd06": {
-  "id": 91495736723009,
-  "file": "art/models/SpawnPlaza_S/tex/Agave_Color.png",
-  "state": "Approved"
- },
- "b8423995536dbdd501e16d461b8b17715bf870fd6f23466e2268eec7d77e34e4": {
-  "id": 96189574732932,
-  "file": "art/models/SpawnPlaza_S/tex/BusDisplay_Color.png",
-  "state": "Approved"
- },
- "47ad3363b91cef6b8c978d355b8abd5b1df068fc064ad5eb3d18ffce2fcd98ec": {
-  "id": 132243877151776,
-  "file": "art/models/SpawnPlaza_S/tex/BusFascia_Color.png",
-  "state": "Approved"
- },
- "92d41c3297c12600a92c84eb49c5dfef0f2d1b69a62412c31de9be573d59148d": {
-  "id": 104925530821984,
-  "file": "art/models/SpawnPlaza_S/tex/BusSign_Color.png",
-  "state": "Approved"
- },
- "68ec17cf6892b9654848d3076b7f4036411ace069c18129ccd1291add0aa2909": {
-  "id": 101934883781415,
-  "file": "art/models/SpawnPlaza_S/tex/FxFall_Color.png",
-  "state": "Approved"
- },
- "4adbe32a3a04e8b2c10048f2e24d834cec477c97c79ec68c71b9bb8d3946f176": {
-  "id": 123633476600231,
-  "file": "art/models/SpawnPlaza_S/tex/FxJet_Color.png",
-  "state": "Approved"
- },
- "4dcc0b766025b8fa08d71a2eb295b120dcc133f226215038a8b27088b6982586": {
-  "id": 130518375675616,
-  "file": "art/models/SpawnPlaza_S/tex/FxPool_Color.png",
-  "state": "Approved"
- },
- "f12eadf3839ba038a1de8410e716023257b929372fee3975bc5fb4664deef65f": {
-  "id": 106345847840745,
-  "file": "art/models/SpawnPlaza_S/tex/FxRipple_Color.png",
-  "state": "Approved"
- },
- "a31489cf86684e1dd8d535085bd505f8b308961323581e60adb1c3c2218fef00": {
-  "id": 104929316422707,
-  "file": "art/models/SpawnPlaza_S/tex/Grass_Color.png",
-  "state": "Approved"
- },
- "d78337a69473ceebd5477eefda70f6aa0f99b4f82e8ef178138506044879544a": {
-  "id": 74926612475040,
-  "file": "art/models/SpawnPlaza_S/tex/MatKerb_Color.png",
-  "state": "Approved"
- },
- "aa4d9a645561fc64dff012a6b5219ab943c4b81260038b523de6ef15a2975114": {
-  "id": 104723467834799,
-  "file": "art/models/SpawnPlaza_S/tex/MatPaint_Color.png",
-  "state": "Approved"
- },
- "5af071c89399c9a3ae0b3de73d3db876f0187e23c9fbc61eca3d176b43780927": {
-  "id": 77791362238575,
-  "file": "art/models/SpawnPlaza_S/tex/Timetable_Color.png",
-  "state": "Approved"
- },
- "0971719e930725a4a93cccfa0fe924661ee03dd1b325b926c84cd42d34d6e310": {
-  "id": 119554087013072,
-  "file": "art/models/SpawnPlaza_S/tex/MatYellow_Color.png",
-  "state": "Approved"
- },
- "b80075070fb783e1ef7287577b4664c77ef9c6d6b2a4c00fd10910fc4024f9de": {
-  "id": 77302461685330,
-  "file": "art/models/Store/tex/MatCounter_Color.png",
-  "state": "Approved"
- },
- "0ef56937a4988f17b056a1e37f4e2f672206c29289170497cd551e7875cb42ae": {
-  "id": 82281389099266,
-  "file": "art/models/Store/tex/MatDecoPaint_Color.png",
-  "state": "Approved"
- },
- "a1d65aeceb54b2f3936c6bf3de84e4aae5200b7160130f9e8cc7168adf6d6d32": {
-  "id": 127342523893313,
-  "file": "art/models/Store/tex/MatDecoSkirt_Color.png",
-  "state": "Approved"
- },
- "5220a121b42c6ff86c622f925156b54f336a96951c773253e245bc31d539c65a": {
-  "id": 91387192139001,
-  "file": "art/models/Store/tex/MatDumpster_Color.png",
-  "state": "Approved"
- },
- "22fd31dd32d194296bd566b1aba01c2e5427a152473833d53cf699cd492e6086": {
-  "id": 132890393692372,
-  "file": "art/models/Store/tex/MatIceBox_Color.png",
-  "state": "Approved"
- },
- "540c9d3b51315f24a2abd96d53b70e4aae1dc604769a2c3f85942ad449ef9d13": {
-  "id": 121223790945858,
-  "file": "art/models/Store/tex/MatWheelStop_Color.png",
-  "state": "Approved"
- },
- "5a793883939202166b1112ee069260397aa34bf283d274bc6e3a6e574d8e2d18": {
-  "id": 117362361323806,
-  "file": "art/fx/fountain/Fall1.png",
-  "state": "Approved"
- },
- "c4099aa884b181cf6b16dc05a6d707e5a5436aef9da63f3a5140595d3ba212dc": {
-  "id": 119421161456822,
-  "file": "art/fx/fountain/Fall2.png",
-  "state": "Approved"
- },
- "e3804dec1ef50244ca55cbadc530353c0b0efef3e6ed87c73e88af3ae116598c": {
-  "id": 97798515406579,
-  "file": "art/fx/fountain/Fall3.png",
-  "state": "Approved"
- },
- "ad00f42c07e88f6647a8a4b34da70df0c468a84419241adef5adf9b00b9dc9eb": {
-  "id": 129872014496803,
-  "file": "art/fx/fountain/Fall4.png",
-  "state": "Approved"
- },
- "bf0acee29549dfad8e54714442014faf93d2c74826842ea90a2ed69c3a6f7486": {
-  "id": 82371370450253,
-  "file": "art/fx/fountain/Fall5.png",
-  "state": "Approved"
- },
- "0334015f4a31324122c5d13ad8e11fbacd9cde300fd91ef72ad6271a6ef29946": {
-  "id": 80207259527181,
-  "file": "art/fx/fountain/Fall6.png",
-  "state": "Approved"
- },
- "0cae143e5d966a3d6b20bc340cc7b65588f0a99b09092ed11496f58c95a9dd98": {
-  "id": 111982494219369,
-  "file": "art/fx/fountain/Fall7.png",
-  "state": "Approved"
- },
- "a7ab68bd0e63934c60849519c06e9663a42252c7a2d83527a036ce246b25ac9d": {
-  "id": 109001288020533,
-  "file": "art/fx/fountain/Pool1.png",
-  "state": "Approved"
- },
- "a09ad1caed30267d1f3edf33dcfb10dcb575d3385473f7104afebb17b7fb4be8": {
-  "id": 79271436597348,
-  "file": "art/fx/fountain/Pool10.png",
-  "state": "Approved"
- },
- "c66a4934802c69614e4ca738f2d9a948a82ea35ac1df90929a44c86c165f42ad": {
-  "id": 89979441055267,
-  "file": "art/fx/fountain/Pool11.png",
-  "state": "Approved"
- },
- "ae6c4bca52460638f64f070f881c735e4468055411812ef501287fbb326c3ad9": {
-  "id": 118455292177072,
-  "file": "art/fx/fountain/Pool12.png",
-  "state": "Approved"
- },
- "794fbb8b3c228af8abf62c9fe9e7ae1faadd2da7a1889f6ded586c41aa6761df": {
-  "id": 93030034997586,
-  "file": "art/fx/fountain/Pool13.png",
-  "state": "Approved"
- },
- "6ba78b88ff6566277b17cc34cea05488cd9cd15bba08feddb9af4014450cfdd5": {
-  "id": 102720524110485,
-  "file": "art/fx/fountain/Pool14.png",
-  "state": "Approved"
- },
- "e354d6b67e8ed6890f5bea87896e78ece1d3098b4e50266c84b9189baeecd447": {
-  "id": 73732785131108,
-  "file": "art/fx/fountain/Pool15.png",
-  "state": "Approved"
- },
- "11be8c1f0e55fd2c9064f952f3502c602d635d89ca39df6a515d692c93905465": {
-  "id": 110795383786648,
-  "file": "art/fx/fountain/Pool2.png",
-  "state": "Approved"
- },
- "28ff282ca94f2c0d20f38271e5a9fec08eecfd801cdca45a9f192ff807c0a9bb": {
-  "id": 120948969396219,
-  "file": "art/fx/fountain/Pool3.png",
-  "state": "Approved"
- },
- "2883356966d629cde3ae1b32511d097c11f8cfe5c3eadacc838177e2ae60cc7e": {
-  "id": 136388901846728,
-  "file": "art/fx/fountain/Pool4.png",
-  "state": "Approved"
- },
- "3febf34fa5be8924600b79e2175e40daaa308679ee9ecc14c9646e698a79867d": {
-  "id": 107967347996363,
-  "file": "art/fx/fountain/Pool5.png",
-  "state": "Approved"
- },
- "8587ed96e4cc09a0c55567d440202b640a7dacaf51f6d2ef798a60a5700dfd6b": {
-  "id": 97268726917556,
-  "file": "art/fx/fountain/Pool6.png",
-  "state": "Approved"
- },
- "2db8855735e33442a75cf44efe36961d0874db5203dad0a8145f9d8d0cf0345f": {
-  "id": 93283031622239,
-  "file": "art/fx/fountain/Pool7.png",
-  "state": "Approved"
- },
- "33071b5fee246ff02c1373b42adbbe62753b337e86a465473f922081cb7fbd7a": {
-  "id": 89236837663249,
-  "file": "art/fx/fountain/Pool8.png",
-  "state": "Approved"
- },
- "6b3f5774214f9f268ac0ef8440419ac480eb970076308d1dda27973cf651b7ca": {
-  "id": 102524198523945,
-  "file": "art/fx/fountain/Pool9.png",
-  "state": "Approved"
- },
- "4984dea59f9bd4544108832c330bffdc1e87feb64c9c51f0d81081eff7f98129": {
-  "id": 98922858356065,
-  "file": "art/fx/fountain/Ripple1.png",
-  "state": "Approved"
- },
- "9b0f58c5a645476993a12892b4ead29183b1e54b336f5c687a5d64ae8da6d3fe": {
-  "id": 124489669675318,
-  "file": "art/fx/fountain/Ripple2.png",
-  "state": "Approved"
- },
- "627696d9b3fbb61501c995d49464dbffb4cfbb5b7091b4932a46adb6ac45d1ff": {
-  "id": 105558480312522,
-  "file": "art/fx/fountain/Ripple3.png",
-  "state": "Approved"
- },
- "2ecda6286b69f0ab8dc1b7b999fae5906a2ef3cd77a5599e0b28c92aeadbd421": {
-  "id": 128149761102097,
-  "file": "art/fx/fountain/Ripple4.png",
-  "state": "Approved"
- },
- "8722ea800ad00f5cadd6cab72114fb94a70784df500d7d853dbbae3e04e9b99a": {
-  "id": 103164066067096,
-  "file": "art/fx/fountain/Ripple5.png",
-  "state": "Approved"
- },
- "e0717b8277a5b7d6326d2bfa84a6a5c8d5814bb36c3b5d2decf98c1a76e22330": {
-  "id": 80889341349730,
-  "file": "art/fx/fountain/Ripple6.png",
-  "state": "Approved"
- },
- "6d5c1bf0c40db4d84efda047bb7cc2b47a6f67c27582573aa21395588f318bd4": {
-  "id": 98419726252977,
-  "file": "art/fx/fountain/Ripple7.png",
-  "state": "Approved"
- },
- "a7ea0b43e83f7acdc5e3c0ec8fddab0022e9aed53ac800c619f86e8b46d4ecae": {
-  "id": 103608543037422,
-  "file": "art/models/ArmyBase_E/tex/Asphalt_Color.png",
-  "state": "Approved"
- },
- "80d6df528bcf04c96a2616143221819ff5b7e69daaeb99cd5a57e5661ee3acfa": {
-  "id": 85130872005150,
-  "file": "art/models/ArmyBase_E/tex/Bark_Color.png",
-  "state": "Approved"
- },
- "44d0b13dc21c7e6e390ccc5b81c11482f8388f20451fc40511538f60f261bb15": {
-  "id": 77546376382229,
-  "file": "art/models/ArmyBase_E/tex/BoomRed_Color.png",
-  "state": "Approved"
- },
- "1c11994fb6e43cc77db1fa82b5e7cbe5b19cf7df9054876a3d11b636cd26d530": {
-  "id": 110988944180376,
-  "file": "art/models/ArmyBase_E/tex/BoomWhite_Color.png",
-  "state": "Approved"
- },
- "1beff99175dcb733b3eb34a9d78c351c750efad620ceb901eb0c5512e1b66f23": {
-  "id": 133953973857949,
-  "file": "art/models/ArmyBase_E/tex/CamoNet_Color.png",
-  "state": "Approved"
- },
- "8492ae2276d077abc17ed768001c193a237556a9691ab3f9ff873cfdd6f046f0": {
-  "id": 98791019724994,
-  "file": "art/models/ArmyBase_E/tex/Canvas_Color.png",
-  "state": "Approved"
- },
- "0c0994055bdfabc64a993a22b3be0c930067e1a57554b5f46b7fe41a9c5f7e25": {
-  "id": 110117964242015,
-  "file": "art/models/ArmyBase_E/tex/ChainLink_Color.png",
-  "state": "Approved"
- },
- "fe6cd1a578c33cf3c0f6dfc27f0073d38d75e80f21eb0f2d39a498cf618f483e": {
-  "id": 104119053041541,
-  "file": "art/models/ArmyBase_E/tex/Concrete_Color.png",
-  "state": "Approved"
- },
- "2bcd22d3729e69e196f9811760c4f7b082de1955da92b007523fb7f856196f67": {
-  "id": 78648251431833,
-  "file": "art/models/ArmyBase_E/tex/ConcreteDark_Color.png",
-  "state": "Approved"
- },
- "45f9862390492b96aef5369af3f79b9bad3f89cd9ab4b706d6b79a2a39639f8f": {
-  "id": 130171966996601,
-  "file": "art/models/ArmyBase_E/tex/DarkSteel_Color.png",
-  "state": "Approved"
- },
- "376b869bb5fe3127f98a8d38923f5cc33e7e5bd764358de2c4b199f6a45e86de": {
-  "id": 83489227913149,
-  "file": "art/models/ArmyBase_E/tex/Dirt_Color.png",
-  "state": "Approved"
- },
- "4fa5d8fb17bcf815055b8b5ee12f3cd00d6b418b329bcccfb4b68665e4f98575": {
-  "id": 108660462518413,
-  "file": "art/models/ArmyBase_E/tex/Door_Color.png",
-  "state": "Approved"
- },
- "a20fa8d044c8f05f88ea4c0d36c8af486764bcec6bae880419538244ae8bf814": {
-  "id": 105896500208131,
-  "file": "art/models/ArmyBase_E/tex/Steel_Color.png",
-  "state": "Approved"
- },
- "14fada9845c510b264da59d6ea8334efefe0d2c4637c0019c5624f89ac9da457": {
-  "id": 121122804860224,
-  "file": "art/models/ArmyBase_E/tex/Flag_Color.png",
-  "state": "Approved"
- },
- "48ac17f73693a5f94d7133232a671483e73248e865ca3afb66acc4b8a61b934e": {
-  "id": 72624562520289,
-  "file": "art/models/ArmyBase_E/tex/Frame_Color.png",
-  "state": "Approved"
- },
- "5ccfcad4e1690276bd364a929e0a25f2fe9ad37ea917c53d4cf9a5defe60939b": {
-  "id": 84554165654498,
-  "file": "art/models/ArmyBase_E/tex/GateSign_Color.png",
-  "state": "Approved"
- },
- "ac9e7c38b34b8c0f661333af93b3c87eacf5d4d8810b170b7d46ae6520d1b4ac": {
-  "id": 121455795102863,
-  "file": "art/models/ArmyBase_E/tex/GlassA_Color.png",
-  "state": "Approved"
- },
- "c25e05a980eaafdac5ce91e658e7d83984704b65aa52220302d359bf64661cde": {
-  "id": 120226303228366,
-  "file": "art/models/ArmyBase_E/tex/GlassB_Color.png",
-  "state": "Approved"
- },
- "568e564fde320852ca9eb6454e8d92586a9071ea0bdde09b13d38004c286dce2": {
-  "id": 107221039699000,
-  "file": "art/models/ArmyBase_E/tex/GlassC_Color.png",
-  "state": "Approved"
- },
- "2a86225042534ca7017cac7f12519ed8dc462f26f1c81345c30e63b94aab0beb": {
-  "id": 81364088249585,
-  "file": "art/models/ArmyBase_E/tex/GlassD_Color.png",
-  "state": "Approved"
- },
- "cc84a961e7163d200dd07da82a8d588f37c01ea2cf8f27166f12b9dea09bcb00": {
-  "id": 134158909348331,
-  "file": "art/models/ArmyBase_E/tex/Grass_Color.png",
-  "state": "Approved"
- },
- "4e4eca1d73993bc3a9a61e15d60b42c05eb60dbb764fe037a1d860f3e9e4afa9": {
-  "id": 131469963122007,
-  "file": "art/models/ArmyBase_E/tex/Hesco_Color.png",
-  "state": "Approved"
- },
- "02ea2869eed081dfcf7c24ee479e323ef677ed13bcef11a8914935495835c74d": {
-  "id": 110305465945619,
-  "file": "art/models/ArmyBase_E/tex/Hvac_Color.png",
-  "state": "Approved"
- },
- "da13a6296fc6644c7d5f3addfc1ad5757e64fa83a2f8dc2e49b6fcf1843f7946": {
-  "id": 114749067376810,
-  "file": "art/models/ArmyBase_E/tex/HvacTop_Color.png",
-  "state": "Approved"
- },
- "144ed0f41a958b4a98698f68156ad0ce673fd15a9bc2477bbbf7ae119308c14b": {
-  "id": 119034044831814,
-  "file": "art/models/ArmyBase_E/tex/Needles_Color.png",
-  "state": "Approved"
- },
- "cc2e7342521bed3d3175b47d3ebe446192b83d7f90689ea6f2292c79b495676c": {
-  "id": 132584481479881,
-  "file": "art/models/ArmyBase_E/tex/NeonRed_Color.png",
-  "state": "Approved"
- },
- "e387ebdd87f6aa3d77cf9171a5dd0013099a83e75bf7bfe5a1625785c193d6ef": {
-  "id": 129309879121552,
-  "file": "art/models/ArmyBase_E/tex/Olive_Color.png",
-  "state": "Approved"
- },
- "8b6b06e36a42df981e923a1f243f58330f958029450677f9be8eef8e434eb868": {
-  "id": 110143570950962,
-  "file": "art/models/ArmyBase_E/tex/PaintWhite_Color.png",
-  "state": "Approved"
- },
- "a2f5fc9f671490a3f8d1d230c98a1a682d468e66d7192de027ce2bf849bdcf17": {
-  "id": 85935488205867,
-  "file": "art/models/ArmyBase_E/tex/PaintYellow_Color.png",
-  "state": "Approved"
- },
- "2833544dd03fcacb35d21bffece9ddc0c938dfb29e05dc37900692ead1d0b8f4": {
-  "id": 87730350094023,
-  "file": "art/models/ArmyBase_E/tex/Planks_Color.png",
   "state": "Approved"
  },
  "fb84389e26035a411e14c012bee0464294322ee8d527a138ca272429bac0ae5a": {
@@ -2279,884 +3409,44 @@
   "file": "art/models/ArmyBase_E/tex/Plate101_Color.png",
   "state": "Approved"
  },
- "6ecd75ed45fd188a66e6ecfcd39bf44d044f16df58a2e504496b4cc73329ed78": {
-  "id": 113311214926708,
-  "file": "art/models/ArmyBase_E/tex/Plate102_Color.png",
-  "state": "Approved"
- },
  "fde0202d80ee1b8d83e3982f58ce5c711624494bb691057faa70dc642678d8c7": {
   "id": 133254614306928,
   "file": "art/models/ArmyBase_E/tex/Plate103_Color.png",
   "state": "Approved"
  },
- "99556d5fce8a79936d019ea17b53f1d8b85783c8fdfa363dbed3ee8aa38eae41": {
-  "id": 85607669216572,
-  "file": "art/models/ArmyBase_E/tex/Plate104_Color.png",
+ "fe02cad249f827299b1d0eaf222059c015c522a1916b24d8c58e15079f0671b1": {
+  "file": "art/weapons/fx/Tracer.png",
+  "id": 87614283668655,
   "state": "Approved"
  },
- "244d7f54fd09509cf27fdedc708b7d5f9b7e724c0e957c5d62fe2f2fa8137031": {
-  "id": 84518519958002,
-  "file": "art/models/ArmyBase_E/tex/PlateHQ_Color.png",
+ "fe6cd1a578c33cf3c0f6dfc27f0073d38d75e80f21eb0f2d39a498cf618f483e": {
+  "id": 104119053041541,
+  "file": "art/models/ArmyBase_E/tex/Concrete_Color.png",
   "state": "Approved"
  },
- "934246a0a2fe0cf91a032ff45dca5b2d1329d39137dff1c95abe14504be9ca65": {
-  "id": 108078368330456,
-  "file": "art/models/ArmyBase_E/tex/PlateMotorpool_Color.png",
+ "fe812708a8122addce7aea0bfeca03a8fc52e34fb4e06f242a9a52307084a1b9": {
+  "file": "art/models/HouseA/tex/SecurityDoor_Color.png",
+  "id": 110355010788814,
   "state": "Approved"
  },
- "0f4aa4fb155d826764d5fecd280a12b1b4a67bb6c82775e5525ae787a30e3947": {
-  "id": 95847248762150,
-  "file": "art/models/ArmyBase_E/tex/PlateRangetower_Color.png",
+ "fed80e8c044a229f8d2e8729e45c3c1070f00db61f3530266bb6a2dc680f1f0a": {
+  "id": 106153954951848,
+  "file": "art/models/GunShop/tex/Stock_Color.png",
   "state": "Approved"
  },
- "00ba2aec19a273467b6cb9dc80645fa0fa78c0f2542d40041887bed2e90b1315": {
-  "id": 77501881252154,
-  "file": "art/models/ArmyBase_E/tex/RazorWire_Color.png",
+ "fefb236c36a8a65ae271e9e08bdc017a65828fcb68ee1dbe19e797a9bee8f4ba": {
+  "file": "art/weather/clouds/Cloud_Cg02.png",
+  "id": 75869283708368,
   "state": "Approved"
  },
- "0ee337192f31dd3c2b4a5bdc26bdc0120dd8937bef40ed1ab7de9d1d1c13c450": {
-  "id": 82094773050017,
-  "file": "art/models/ArmyBase_E/tex/Roof_Color.png",
+ "ff5eb7ffef13aeff284418c50da205a749880185a3bcc3ae1b582213c36e37a0": {
+  "id": 134932410376168,
+  "file": "art/models/OfficeDark/tex/OfficeDark_Base.png",
   "state": "Approved"
  },
- "24c5804e4bd97f19088e24edbcd8f6d40cd9a1be1071ed0fd9740d13961bcfc6": {
-  "id": 98377904266884,
-  "file": "art/models/ArmyBase_E/tex/Rubber_Color.png",
-  "state": "Approved"
- },
- "759208eca90454def993e0918504911de4b713563679926e4cfcff5225d87117": {
-  "id": 84040078693618,
-  "file": "art/models/ArmyBase_E/tex/Sandbag_Color.png",
-  "state": "Approved"
- },
- "eeb7a0ebd4d0e23d993f49a9116901806a9f4cbfc953476c5cc38aabf373e3e3": {
-  "id": 74809070648576,
-  "file": "art/models/ArmyBase_E/tex/SidingOlive_Color.png",
-  "state": "Approved"
- },
- "0024d171aec9b6472b3e0aefd912b890d03c3ac9a9c0371b444aeb868890c1e1": {
-  "id": 135904367735777,
-  "file": "art/models/ArmyBase_E/tex/Siding_Color.png",
-  "state": "Approved"
- },
- "357babd7b291aa443220e65c673c1ec936faab0fffac66261be14abbee3e2d4f": {
-  "id": 80195495175362,
-  "file": "art/models/ArmyBase_E/tex/SignNoPhoto_Color.png",
-  "state": "Approved"
- },
- "c53b63631649b03db29c8c4bdadfa6bd346b10532bec9746a7dfe1cecab392f8": {
-  "id": 113739553053857,
-  "file": "art/models/ArmyBase_E/tex/SignRestricted_Color.png",
-  "state": "Approved"
- },
- "5990ee0fdef4983a9d65310ed8a6e2a4389dde2fe8dc32ced4b1b1b1975d0f6b": {
-  "id": 92741489184064,
-  "file": "art/models/ArmyBase_E/tex/SignSpeed_Color.png",
-  "state": "Approved"
- },
- "dfde6095e361b251427c0505dafb2b124d28a5abc14f274c05fa12bed9d36061": {
-  "id": 116654177968776,
-  "file": "art/models/ArmyBase_E/tex/SignStop_Color.png",
-  "state": "Approved"
- },
- "85468b4c244ce32c25518d5cb4fc50ecab709ee58fcd204f5b39568f1cb25530": {
-  "id": 74209808446230,
-  "file": "art/models/ArmyBase_E/tex/Sill_Color.png",
-  "state": "Approved"
- },
- "e92cf8d983170d8840bff9c49f580b0458baaa3edcfdfb3150c97a401912715e": {
-  "id": 101277237467871,
-  "file": "art/models/ArmyBase_E/tex/Tire_Color.png",
-  "state": "Approved"
- },
- "29530cde3cdadfe98bbe112461bb9bd093754eb8ea4ad72acde6967704b25c5c": {
-  "id": 111995003288650,
-  "file": "art/models/ArmyBase_E/tex/TowerGlassA_Color.png",
-  "state": "Approved"
- },
- "52236499a5be7c7d5188e0e0b87badfb6377e19f3364f8b9ea755895f32e98fb": {
-  "id": 88454350233306,
-  "file": "art/models/ArmyBase_E/tex/Tread_Color.png",
-  "state": "Approved"
- },
- "42788f198a633e3151040c0e8e2e59afea5d973db37325e4d4f0f3d2467b7963": {
-  "id": 98815425890853,
-  "file": "art/models/HouseC/tex/MatLedge_Color.png",
-  "state": "Approved"
- },
- "0983cd4596da2dc292bbd03cd18159798461e34fa08196cfa88b5285b7053168": {
-  "id": 131851784641508,
-  "file": "art/models/SpawnPlaza_S/tex/PlazaPave_Color.png",
-  "state": "Approved"
- },
- "0a794c70cc617bdfda399de45d7468fc6052feaa5d50b1577e08767a1d01e466": {
-  "id": 86987205974731,
-  "file": "art/models/Store/tex/Swing1Sign_Color.png",
-  "state": "Approved"
- },
- "8846b7b5a5170203d36ef853658975af9dbac4e5915c9cdbe946adfe09af9059": {
-  "id": 128316034549785,
-  "file": "art/models/Casa/tex/Alu_Color.png",
-  "state": "Approved"
- },
- "2677f21925204c07ff7161a7f260398a0437f7ff900a3c10aad46b07b96f81bc": {
-  "id": 96135761826737,
-  "file": "art/models/Casa/tex/Bark_Color.png",
-  "state": "Approved"
- },
- "4e333b6ac640b558fa4aad86b5e1ea1012e604fa2114b00bac6ca4ad910d13d0": {
-  "id": 110088173555052,
-  "file": "art/models/Casa/tex/Blossom_Color.png",
-  "state": "Approved"
- },
- "528091bd3ce879eae36e8441d5940bec483d916acec81cab21427ce4d61b43ba": {
-  "id": 109842363424273,
-  "file": "art/models/Casa/tex/Bronze_Color.png",
-  "state": "Approved"
- },
- "c485c7fdcb39750b35962793fbf2798ff44d030fb1fbcabaa265a9c912be92b5": {
-  "id": 117244409795214,
-  "file": "art/models/Casa/tex/Cushion_Color.png",
-  "state": "Approved"
- },
- "798ca194648dcd6005487994ecd32fdecc54ea80f0d1d58e5304de576d21997d": {
-  "id": 137094720894965,
-  "file": "art/models/Casa/tex/Deck_Color.png",
-  "state": "Approved"
- },
- "63c37e8d9ada3f4bb16b8aa50ac33e8f6ec8674d875e52b2fda1854f3f050ee1": {
-  "id": 92389957464520,
-  "file": "art/models/Casa/tex/Frame_Color.png",
-  "state": "Approved"
- },
- "1a62e49a1bd163cedcbdf559eb3ace905ab67e5c800a41ba54d6489de423b5ae": {
-  "id": 81937276237007,
-  "file": "art/models/Casa/tex/FrontDoor_Color.png",
-  "state": "Approved"
- },
- "c36f8d45d3fe482f1261c8147e4a0318162be81422f49ae565cd70ef30d2c2b0": {
-  "id": 139022207264426,
-  "file": "art/models/Casa/tex/GarageWood_Color.png",
-  "state": "Approved"
- },
- "b1bba76801e5182f93a2dd6524d6e80e9253bcb9c54a34252eb61bb7522e0750": {
-  "id": 126350745460944,
-  "file": "art/models/Casa/tex/GlassA_Color.png",
-  "state": "Approved"
- },
- "709bb39bf52013d0c15bfd9895418c539978aac71031d73255395bcfa4f5f7ec": {
-  "id": 117880897577311,
-  "file": "art/models/Casa/tex/GlassB_Color.png",
-  "state": "Approved"
- },
- "c2a470c9a7acf095236a8cfc64fa7412b79eead3d9ef475f051c7f22cc3d438a": {
-  "id": 105452149128540,
-  "file": "art/models/Casa/tex/GlassC_Color.png",
-  "state": "Approved"
- },
- "44eeddbb75aa9d66a55d7fc95b7f043f29af81fa44198da17f6de89fdc28a963": {
-  "id": 114893786096070,
-  "file": "art/models/Casa/tex/GlassD_Color.png",
-  "state": "Approved"
- },
- "3230974357c7a9d982d7026a3f5f6b389588f0beb1534c5c12199fc4aab03fcb": {
-  "id": 134073405209372,
-  "file": "art/models/Casa/tex/GlassE_Color.png",
-  "state": "Approved"
- },
- "1a51f6cc664ac16886717ecc64987d3a263ff5ae8b80a136ff360feec162608f": {
-  "id": 100615785254268,
-  "file": "art/models/Casa/tex/GlassF_Color.png",
-  "state": "Approved"
- },
- "75d9f94cf58e79ca339130116c0eb5a7a139a387b0b78ac3ddb14f5106dc3d2e": {
-  "id": 87719259959216,
-  "file": "art/models/Casa/tex/HedgeBox_Color.png",
-  "state": "Approved"
- },
- "bd8d1716fc9597f1f3a98c9cbb6f769635cdec804aa6913321f55e7862bb9f1d": {
-  "id": 115734440636521,
-  "file": "art/models/Casa/tex/HouseNumbers_Color.png",
-  "state": "Approved"
- },
- "aa67b1a5cf30be4799bbfd3d48e16a43cd33c646907cc1d223ef0b517e7780d0": {
-  "id": 85706527554904,
-  "file": "art/models/Casa/tex/Iron_Color.png",
-  "state": "Approved"
- },
- "681c412b8129536812d65507c93063c869f1fd17b2b01b2bd6fdabbf3f856d44": {
-  "id": 114142892795754,
-  "file": "art/models/Casa/tex/Ivy_Color.png",
-  "state": "Approved"
- },
- "a77ec936badc0b97ec7ab17ec317495eb4e320d7bc7c9e13ce6f7d4d6d2ec54c": {
-  "id": 130000268931010,
-  "file": "art/models/Casa/tex/Lawn_Color.png",
-  "state": "Approved"
- },
- "c22d2d6f9f212e8d1a77e93235a661ffc33f86d567dc6294d706ed58044385df": {
-  "id": 136577902287923,
-  "file": "art/models/Casa/tex/Leaf_Color.png",
-  "state": "Approved"
- },
- "5ddd89dfc0a287af51c3819270394129e087462649af42da0b4bbb37f26ad9f3": {
-  "id": 126864039351224,
-  "file": "art/models/Casa/tex/LeafB_Color.png",
-  "state": "Approved"
- },
- "5db52466795245b1fc397de92b1fe7ef0767fc5358da315488092862560d3298": {
-  "id": 101763855571247,
-  "file": "art/models/Casa/tex/Patio_Color.png",
-  "state": "Approved"
- },
- "3b06e39dc4962e5a8c5d07456da3a4abe6759e298ebee498a95fe4654973490d": {
-  "id": 113991354302698,
-  "file": "art/models/Casa/tex/Pavers_Color.png",
-  "state": "Approved"
- },
- "61c3507e3552c01394f187ef03bd24e7d1c215a68958598accd86f71d19cdfc3": {
-  "id": 128271613216137,
-  "file": "art/models/Casa/tex/PoolTile_Color.png",
-  "state": "Approved"
- },
- "b509d6c135f6e479a0413092a2827b382633327f61ca985f5174e7ea2ab05eaa": {
-  "id": 77630194110362,
-  "file": "art/models/Casa/tex/Pot_Color.png",
-  "state": "Approved"
- },
- "16412311e2a65c43cac0fbbcedb477deff402e897f4fd7ada4b6a9365823f1d5": {
-  "id": 106264771450297,
-  "file": "art/models/Casa/tex/RoofClay_Color.png",
-  "state": "Approved"
- },
- "ac002d28b8a2954b93edbf7884c88d993aa6a7c45fea454b8437c377c5f9753e": {
-  "id": 109588553072422,
-  "file": "art/models/Casa/tex/Sconce_Color.png",
-  "state": "Approved"
- },
- "1438a5287bd6da1f8b8459adee1fa74e23a3d5046225697750af81604189c876": {
-  "id": 104861011580642,
-  "file": "art/models/Casa/tex/Soil_Color.png",
-  "state": "Approved"
- },
- "477d32b2bc89ec6a8864a27c7c53d3dad9371a0898c425c78e096227b6fd8f80": {
-  "id": 136757448799040,
-  "file": "art/models/Casa/tex/Steel_Color.png",
-  "state": "Approved"
- },
- "1712573382e2e43376b20c97d846202894e92aa63ec93b74723b0f048bd92de8": {
-  "id": 135284003276581,
-  "file": "art/models/Casa/tex/Stone_Color.png",
-  "state": "Approved"
- },
- "b052d317f4caddcf8462ea2cff2c8cdefedb89f84c057d22d9db25c0082c6aa5": {
-  "id": 87821280766420,
-  "file": "art/models/Casa/tex/StoneWall_Color.png",
-  "state": "Approved"
- },
- "225f13e0c024730f826f69612eefdcc6a6da1108bf1e0a875e61d61e0d20704e": {
-  "id": 126585872990432,
-  "file": "art/models/Casa/tex/Teak_Color.png",
-  "state": "Approved"
- },
- "9d5c01c890046c6b7e424e06b007a376441c8befa30fac11dbed135e8d30138a": {
-  "id": 135094244257608,
-  "file": "art/models/Casa/tex/Travert_Color.png",
-  "state": "Approved"
- },
- "534fd40dde0312eefa872bf432b035a29880f1c9be318d3c4432c3c58645185c": {
-  "id": 74478939482165,
-  "file": "art/models/Casa/tex/Trim_Color.png",
-  "state": "Approved"
- },
- "a500564976900241310cb63d0d7555e92a8ec1e4300b6d7708466b19f0e1d705": {
-  "id": 99367620523837,
-  "file": "art/models/Casa/tex/WallIvory_Color.png",
-  "state": "Approved"
- },
- "58cd205c61dc277f3885e4332014f4e89a88e06a5706b0660b8532f0ef0bceff": {
-  "id": 76821054725192,
-  "file": "art/models/Casa/tex/WallBlush_Color.png",
-  "state": "Approved"
- },
- "e309f87e6115646703c1b692b87c7a106e39b868af2a5574249f1443072e40e4": {
-  "id": 140652384046435,
-  "file": "art/models/Casa/tex/WallSage_Color.png",
-  "state": "Approved"
- },
- "46f021bb320f3e15a3e2165c121c9871da57e37e97dd5197467d1be75574da7f": {
-  "id": 77683261606982,
-  "file": "art/models/Casa/tex/WallSand_Color.png",
-  "state": "Approved"
- },
- "8e4803616c9acb9d20208fde3511e8e7d61dd56c538d2c08cadbae4b2863ec57": {
-  "id": 117577949098666,
-  "file": "art/models/Casa/tex/WallSlate_Color.png",
-  "state": "Approved"
- },
- "1e71677a25b67c93a773783cba214d4be42f0604f17466b892c9b767b7480660": {
-  "id": 87927198412408,
-  "file": "art/models/Casa/tex/WallStone_Color.png",
-  "state": "Approved"
- },
- "6f04091dff366a770560598d29a53e6a4be54ae1f9a67c99821af3f97b177b91": {
-  "id": 123497669929013,
-  "file": "art/models/Casa/tex/WallWhite_Color.png",
-  "state": "Approved"
- },
- "ebe2417e7157774f19d2b84a3d4817f529a734f4b3abee016ba4290514c05567": {
-  "id": 73209453489793,
-  "file": "art/models/Hacienda/tex/Gravel_Color.png",
-  "state": "Approved"
- },
- "e50195b74f8e6c73f098dfcdaf4139c7d1df4a382bc9ddefe5af29c68d97bd29": {
-  "id": 71539714439323,
-  "file": "art/models/Hacienda/tex/RoofBarrel_Color.png",
-  "state": "Approved"
- },
- "75d5d40eef0900f6d02fa94db22bbea92366711a558f0f9fc8978ac1d814cedd": {
-  "id": 89731473669010,
-  "file": "art/models/Modern/tex/Cladding_Color.png",
-  "state": "Approved"
- },
- "368a6d3230190068f82a35fa99d8200708941d72e8ef334edee97d3ad0aac407": {
-  "id": 125619184253731,
-  "file": "art/models/Modern/tex/ClearGlassRail_Color.png",
-  "state": "Approved"
- },
- "9506f4f9e484e690086b1bc42e66d09ad513b6475c209ed33d1b0db874f03377": {
-  "id": 99385213460112,
-  "file": "art/models/Modern/tex/Concrete_Color.png",
-  "state": "Approved"
- },
- "1f928455cdc10dd867f819e8aba406db64e424ff157c534efdbf7b18b5ad7f7f": {
-  "id": 105518469076509,
-  "file": "art/models/Modern/tex/GarageGlass_Color.png",
-  "state": "Approved"
- },
- "ae882b5191f5964fbc56abc705cab5ed71c01fd878306696c08da05375064f38": {
-  "id": 70606555667336,
-  "file": "art/models/Modern/tex/GlassBigA_Color.png",
-  "state": "Approved"
- },
- "a9ed117c160dd493894ef5d8fc5183144a6a5c95ae9ec015bda7575e72d79482": {
-  "id": 104335055532507,
-  "file": "art/models/Modern/tex/GlassBigB_Color.png",
-  "state": "Approved"
- },
- "5eee8801a0f24ab7e76ea7bfa66ef70d0855eab81cadea37f36d74a76fa2e7a9": {
-  "id": 107469433069857,
-  "file": "art/models/Modern/tex/GlassBigC_Color.png",
-  "state": "Approved"
- },
- "f6e04d7c86ac5da69a33ec875604b1885695e2ef83c2a554ecef16164cf4a013": {
-  "id": 123119959434285,
-  "file": "art/models/Modern/tex/PivotDoor_Color.png",
-  "state": "Approved"
- },
- "838a4ea54fb700a749c96d7a8759a01125d01d365453e591ed7fbe2e48f5b7c9": {
-  "id": 73277727505671,
-  "file": "art/models/Modern/tex/Render_Color.png",
-  "state": "Approved"
- },
- "b2acaa08228e898cbe824086c521b6f0411016e16a881ed29dc487e52ff9352c": {
-  "id": 123007368545190,
-  "file": "art/models/Modern/tex/WallCharcoal_Color.png",
-  "state": "Approved"
- },
- "6d8c58dc39bcefc7e23b40ac8ce6e4d3d9996b08abcfa1fe96df1d434c790302": {
-  "id": 92995793110472,
-  "file": "art/models/Modern/tex/RoofFlat_Color.png",
-  "state": "Approved"
- },
- "8e9f6e30db91ad727a459feda5b0ea7ba8e160184cdb29427b80ba7b754a4e1c": {
-  "id": 130726565101166,
-  "file": "art/models/Villa/tex/Brick_Color.png",
-  "state": "Approved"
- },
- "e424177262134bd164e86e722b42b5ff0899981ec06c344ad5a957256ed6f598": {
-  "id": 139650086426018,
-  "file": "art/models/Villa/tex/RoofBrown_Color.png",
-  "state": "Approved"
- },
- "3e6f2f81b4b5c053f47872f0dee6e3d638a57d5ff2885a706fd472ee9c85612e": {
-  "id": 76755781017336,
-  "file": "art/models/StreetBackStreet/tex/Bark_Color.png",
-  "state": "Approved"
- },
- "1942a0ae4ff10418acfe5dfc9b87be46868ceca1ffcf9f9547b54670e028c301": {
-  "id": 139177732485514,
-  "file": "art/models/StreetBackStreet/tex/BenchWood_Color.png",
-  "state": "Approved"
- },
- "832596f9a440934b00c6343e6380e57a66b80f7f8f985b0a239381f1cb00b4bd": {
-  "id": 115233517563061,
-  "file": "art/models/StreetBackStreet/tex/BinGreen_Color.png",
-  "state": "Approved"
- },
- "dc7f4b0af88221a4ffee6d98e4831f4945912b7423ba4885fddb5dbe69fd1363": {
-  "id": 93272992342514,
-  "file": "art/models/StreetBackStreet/tex/IronBlack_Color.png",
-  "state": "Approved"
- },
- "5ca9ce25949e24ab99d72455e6d5920ff72d8695d15e02375d51001b489fdd0c": {
-  "id": 74403610321866,
-  "file": "art/models/StreetBackStreet/tex/ShelterGlass_Color.png",
-  "state": "Approved"
- },
- "44a2ba01aa1c354ae104fe1505163797ba556eff176015bd57e01f785b1e9c35": {
-  "id": 92326837133607,
-  "file": "art/models/StreetBackStreet/tex/DecoPrint_Color.png",
-  "state": "Approved"
- },
- "23b277317923435b7df74de6f5b72eb74f569fb24c27d7fb09cacebe0b77d678": {
-  "id": 104715238802230,
-  "file": "art/models/StreetBackStreet/tex/Grate_Color.png",
-  "state": "Approved"
- },
- "d11da8796e6e341589da29a12702d81ec1597c17f9cb111e3080398bf4b83b12": {
-  "id": 114674898966960,
-  "file": "art/models/StreetBackStreet/tex/Leaves_Color.png",
-  "state": "Approved"
- },
- "a1ea04fa31ed73236b7b9f68aaebe16d68963aa8d60f0f7f213d5b3dadd5efa7": {
-  "id": 138772268247559,
-  "file": "art/models/StreetBackStreet/tex/LeafCard_Color.png",
-  "state": "Approved"
- },
- "474e7887b0a9ab5fe87de6e59e63e08a79907eaacd270e12996f74b1d77afbe7": {
-  "id": 127570477872958,
-  "file": "art/models/StreetBackStreet/tex/MailBlue_Color.png",
-  "state": "Approved"
- },
- "f9a427d5ee70b6e30229a4d8ec93961f33c4ff3abe4ef4960d801bb21247ce7a": {
-  "id": 90975157846102,
-  "file": "art/models/StreetBackStreet/tex/SignalBody_Color.png",
-  "state": "Approved"
- },
- "5e45afd949cd21deb1a8f1446fccb23c006b678bcd1644fa3d075e5e8e40dd74": {
-  "id": 115947468429408,
-  "file": "art/models/StreetBackStreet/tex/CabGrey_Color.png",
-  "state": "Approved"
- },
- "53306cc0166fe4459d23ac7649f8755a1a304f69cacb586b02bd4ebd07fde6fa": {
-  "id": 122220823304199,
-  "file": "art/models/StreetBackStreet/tex/NewsAmber_Color.png",
-  "state": "Approved"
- },
- "c06221b2e59dfafcf75743810794b41d8e9fe97680414e127f6b9d9e9d7aa5a3": {
-  "id": 115525044594635,
-  "file": "art/models/StreetBackStreet/tex/NewsBlue_Color.png",
-  "state": "Approved"
- },
- "7f4bd99255e990571861adc36eddca5c2ac73a30d259f9bd29083f60cc033cb0": {
-  "id": 99415377043787,
-  "file": "art/models/StreetBackStreet/tex/NewsRed_Color.png",
-  "state": "Approved"
- },
- "08b44ed370ad409c46ec2afe7a2cb2654d26f76a73f558deea4d51d19cbee801": {
-  "id": 71299503801406,
-  "file": "art/models/StreetBackStreet/tex/HydrantRed_Color.png",
-  "state": "Approved"
- },
- "1f2c96ee9eadaa463a4941e403297c5d6fe569eb560ec1d805de5656f41d1841": {
-  "id": 77087858351110,
-  "file": "art/models/StreetBackStreet/tex/SafetyYellow_Color.png",
-  "state": "Approved"
- },
- "387a2291512196bd84b51e36e36f3417b36a77be17e080d26d261c9b26e5e53c": {
-  "id": 93428432497505,
-  "file": "art/models/StreetBackStreet/tex/Plinth_Color.png",
-  "state": "Approved"
- },
- "2c3dcabe5488b76e533efee1bce306178bfb4863a15a3760834696975502f58f": {
-  "id": 108872888474112,
-  "file": "art/models/StreetBackStreet/tex/PoleSteel_Color.png",
-  "state": "Approved"
- },
- "1cc45c732f47c6ac4d6c06284ee3e24f14b331ae958fb90650090a34e7ce7121": {
-  "id": 114140485306376,
-  "file": "art/models/StreetBackStreet/tex/PoleGalv_Color.png",
-  "state": "Approved"
- },
- "e9e18e1e1e2f710c354adbcec4b31f765028c39d1acbdbf5aab70d5e534bd11b": {
-  "id": 130043507281865,
-  "file": "art/models/StreetCorners/tex/LensAmber_Color.png",
-  "state": "Approved"
- },
- "abc7cc61456297f4fc1457f09b552067aaeda85f61c6db40230c1e9cd0b1cd4f": {
-  "id": 135153447097222,
-  "file": "art/models/StreetCorners/tex/LensGreen_Color.png",
-  "state": "Approved"
- },
- "2e725224c1b62e34ee122580c162905e12515c49490b5fb111c9f225d9963525": {
-  "id": 98163766974867,
-  "file": "art/models/StreetCorners/tex/LensRed_Color.png",
-  "state": "Approved"
- },
- "932a56c8ad01c2120328ce325fe3055d10a14b5acd4bcb39ab23b42c7cce1bd0": {
-  "id": 91037678569468,
-  "file": "art/models/StreetVaultAvenue/tex/Palm_Color.png",
-  "state": "Approved"
- },
- "b60b56eb8cd6805969a5e41332a814a2fc2f29dc1a2a1f49d5b7c3bc53528bc3": {
-  "id": 125404463799650,
-  "file": "art/models/StreetVaultAvenue/tex/Trunk_Color.png",
-  "state": "Approved"
- },
- "ea8d5ee5aa051a1c9ddf309aff25aaa14750d540b377fe1cb6291798d23c9d89": {
-  "id": 71050774128426,
-  "file": "art/models/StreetBackStreet/tex/SignalBody_Color.png",
-  "state": "Approved"
- },
- "795c03045c50a56c08b5ef6d9b859132dcdb881b805978c99a2610e2b97a281f": {
-  "id": 74084674557679,
-  "file": "art/models/StreetCorners/tex/SignalYellow_Color.png",
-  "state": "Approved"
- },
- "80ca468970b0ab913f0256b62d007e2527594a7ff08581cbd90e52dcacd6e4f7": {
-  "id": 108353393515835,
-  "file": "art/models/Police/tex/Flag_Color.png",
-  "state": "Approved"
- },
- "9316d5870d62599344a1401a0367030317c22b1cb783dc612da50144a70c1737": {
-  "id": 136583318982046,
-  "file": "art/models/Police/tex/PoliceBadge_Color.png",
-  "state": "Approved"
- },
- "e89d90ee16d18829196eb92ff92290f2918c2274f6d2afb9d483e4b5d0d04c75": {
-  "id": 75162115796702,
-  "file": "art/models/Police/tex/PoliceDoor_Color.png",
-  "state": "Approved"
- },
- "a36cea534cf108813b14f3ae7da939f2dcd82180376c719361140e6f392db36e": {
-  "id": 76516751388356,
-  "file": "art/models/Police/tex/PoliceMonument_Color.png",
-  "state": "Approved"
- },
- "6f37142ec097aa1f2476ecb536f28de8c22fb107d5e312fe07ddd036f84a15b0": {
-  "id": 138314890863346,
-  "file": "art/models/Police/tex/PoliceSign_Color.png",
-  "state": "Approved"
- },
- "ec80467fd6f9c3a8506372a03de8830526b039ea4bd8c66880844303896af81b": {
-  "id": 99460390560148,
-  "file": "art/models/Police/tex/RollDoor_Color.png",
-  "state": "Approved"
- },
- "27ab249a85cbc185d254940d9ef1cf84b6b6d42521b53511a5fafc6abb4f325b": {
-  "id": 129830506943580,
-  "file": "art/models/Police/tex/Rubber_Color.png",
-  "state": "Approved"
- },
- "a13ff39a8b9ce7ce01bc2130357108f82054249ab2406b085ce09f074bc877e4": {
-  "id": 95630395059097,
-  "file": "art/models/Police/tex/Yellow_Color.png",
-  "state": "Approved"
- },
- "b2e2a156eb1179a3980004c08ab33645498d8d2cbd4844100f13601d0a31083a": {
-  "id": 120948343130427,
-  "file": "art/models/BrickBlock/tex/HvacGrey_Color.png",
-  "state": "Approved"
- },
- "20cad9d5746387269759a7cbd653978b56a61e338155bdc5ec5e8e838802b490": {
-  "id": 82012101086862,
-  "file": "art/models/BrickBlock/tex/Awnings_Color.png",
-  "state": "Approved"
- },
- "3cc4e8e0224232831b09df048ebd70004616e35bd6202f7868e3071dedb3fbda": {
-  "id": 126627086603726,
-  "file": "art/models/BrickBlock/tex/BrickRed_Color.png",
-  "state": "Approved"
- },
- "525695e36f7955a3f9580fb6f309b775e2c2c07e589db4442f88983157e36f93": {
-  "id": 77657588039510,
-  "file": "art/models/BrickBlock/tex/BrickBrown_Color.png",
-  "state": "Approved"
- },
- "810ef0b6d87f7934f43b669aba5ed4861d13573abcfa6f3b0015286fbd163e06": {
-  "id": 135524357343829,
-  "file": "art/models/BrickBlock/tex/BrickTan_Color.png",
-  "state": "Approved"
- },
- "755cf3784a5d6f20f2d48f2a532e156ae7cac734143220c945975af06a04bfa0": {
-  "id": 74796012730483,
-  "file": "art/models/BrickBlock/tex/GlassA_Color.png",
-  "state": "Approved"
- },
- "998de66607f1d0b17bdfa187014881dbbda22bc8dfc44f433274104170dd8a20": {
-  "id": 136648683029015,
-  "file": "art/models/BrickBlock/tex/Frame_Color.png",
-  "state": "Approved"
- },
- "75fa87f89f713f6dc728803a3af9ec3220c14f6d7d31c7ee14ac44e48aacef86": {
-  "id": 79330891822982,
-  "file": "art/models/BrickBlock/tex/GhostSign_Color.png",
-  "state": "Approved"
- },
- "7b6e5159a08a60ac5fb667cfee1b50f4512262f3bb19a3a85219922322a8cce0": {
-  "id": 96066585480286,
-  "file": "art/models/BrickBlock/tex/GlassB_Color.png",
-  "state": "Approved"
- },
- "8cdd5ed32a2ba74f11f9bb409165ac0631c1875f2ae2d7198085c219ba31cd86": {
-  "id": 130000111490759,
-  "file": "art/models/BrickBlock/tex/GlassC_Color.png",
-  "state": "Approved"
- },
- "95075c3241e5f1dde08e29bb5c69b14b810cdec909dfec66001434fb06fe9ad3": {
-  "id": 80032885960994,
-  "file": "art/models/BrickBlock/tex/GlassD_Color.png",
-  "state": "Approved"
- },
- "6a4cc8a33a298580243681ce80c42d11c40a01d42cfc16d4b5820eb616b426e1": {
-  "id": 131399954902639,
-  "file": "art/models/BrickBlock/tex/GlassE_Color.png",
-  "state": "Approved"
- },
- "b0876e65704d379486368f7e2f899989a0a7c421ee2bd0e777dfe7805fde76a5": {
-  "id": 120697599887342,
-  "file": "art/models/BrickBlock/tex/GlassF_Color.png",
-  "state": "Approved"
- },
- "8e06f958011d5c5ba63d983b0a93d6bfac44d2f7e09300d7947bf01c95edaf4e": {
-  "id": 94645271506848,
-  "file": "art/models/BrickBlock/tex/LobbyDoor_Color.png",
-  "state": "Approved"
- },
- "c3cf84eb651755a12b9a146fecf955a17c4928656dee90b02c11f8534055ad31": {
-  "id": 105514254584518,
-  "file": "art/models/BrickBlock/tex/RoofTar_Color.png",
-  "state": "Approved"
- },
- "edc31efcb429d44c74f250f5edb8637301e4997c68f74bea42f95cca5e3a8ec1": {
-  "id": 133550469348322,
-  "file": "art/models/BrickBlock/tex/ShopSignsA_Color.png",
-  "state": "Approved"
- },
- "17699e38f8dace1d36a54c677f3ca3bc703cbe4d7659dfe6114e05d6aa909dad": {
-  "id": 139079349668574,
-  "file": "art/models/BrickBlock/tex/ShopSignsB_Color.png",
-  "state": "Approved"
- },
- "103b305bc409e9e9dccc0f81ce6b19c77259a6ad4b557fb8bf861ba0f16e7126": {
-  "id": 140625948220933,
-  "file": "art/models/BrickBlock/tex/FireSteel_Color.png",
-  "state": "Approved"
- },
- "c9a56b2b84570d8000205c3ab20d89c8c4c99147001ce46364f1d2ae3417642d": {
-  "id": 93064200161961,
-  "file": "art/models/BrickBlock/tex/StoneTrim_Color.png",
-  "state": "Approved"
- },
- "91107312524a0b047aecd6d7867c29acd0106f5cd5b89d940809aec0f1ea5ede": {
-  "id": 83173822715086,
-  "file": "art/models/BrickBlock/tex/StorefrontsA_Color.png",
-  "state": "Approved"
- },
- "c64d16dbc0ef280e9b3e4ff647c7de355b2b1349a2317eda40e6ae334c14d39e": {
-  "id": 122513274899167,
-  "file": "art/models/BrickBlock/tex/StorefrontsB_Color.png",
-  "state": "Approved"
- },
- "bd96e82db5b2b5d9be0ff0c46f1c381babeb272fafed58193a2b4600cef9122f": {
-  "id": 128712462698011,
-  "file": "art/models/BrickBlock/tex/TankWood_Color.png",
-  "state": "Approved"
- },
- "7a3855ab9c4c871bc3e3d7c9c44ff2f41c9e4daa884e4fce35a4bafd20620f7c": {
-  "id": 118369495684002,
-  "file": "art/models/Diner/tex/DinerBlue_Color.png",
-  "state": "Approved"
- },
- "2bd3391914d272cbe1e26db414782b431b6d8bd22ca8e2a9ceb859e23106b0a3": {
-  "id": 76832152491432,
-  "file": "art/models/Diner/tex/Chrome_Color.png",
-  "state": "Approved"
- },
- "e9648293e89cb58a39dfc5bb0e7a774e24efc1603cdee6acae0b7e290bc8ef30": {
-  "id": 97430012540930,
-  "file": "art/models/Diner/tex/DinerDoor_Color.png",
-  "state": "Approved"
- },
- "f6c6d5946a68f3ba675e63f767a892182cde263e067ae54002a1699fc65530d6": {
-  "id": 74442604942985,
-  "file": "art/models/Diner/tex/DinerInterior_Color.png",
-  "state": "Approved"
- },
- "282ff29a67a59ed6077839ca158c22ba6e559a16b22368ec2614347c7cbde140": {
-  "id": 98282204065095,
-  "file": "art/models/Diner/tex/DinerSigns_Color.png",
-  "state": "Approved"
- },
- "1a59108cf5639913096d6132e3216dd11707cf61e9326dd361bfe71a2eaa0263": {
-  "id": 123362529477565,
-  "file": "art/models/Diner/tex/Dumpster_Color.png",
-  "state": "Approved"
- },
- "1f0f3ad0891cf5527a5cbd3c253b76c14e3cbaf1ffd6212b4910435542e122df": {
-  "id": 135483201420317,
-  "file": "art/models/Diner/tex/GlassBlock_Color.png",
-  "state": "Approved"
- },
- "6de221c2757007ccf2df62fec5f463cdfc94a96f2cfdb3e1f0ccf59a6ffeda69": {
-  "id": 123963470532612,
-  "file": "art/models/Diner/tex/KitchenBrick_Color.png",
-  "state": "Approved"
- },
- "768d8b05b5f3ddde89e5cda9cb75f2e680adf0ecf669d06548cd965a03fa5971": {
-  "id": 81786615341353,
-  "file": "art/models/Diner/tex/NeonCyan_Color.png",
-  "state": "Approved"
- },
- "9bbcc8c047e4ee5a269ad0b68ed90eefbfa9c1db8d307a6051d40d67376be376": {
-  "id": 122981445995790,
-  "file": "art/models/Diner/tex/NeonRed_Color.png",
-  "state": "Approved"
- },
- "b14ae47f22ff6b01c9267346f202bbfcc99eda24e40ed4bfa18062bed53f2323": {
-  "id": 98955935343642,
-  "file": "art/models/Diner/tex/DinerRed_Color.png",
-  "state": "Approved"
- },
- "9dd33d75cf9693c16a51c72b3c1e2d5ece2031031be6a70e68847abdabc7eb1b": {
-  "id": 109436001280397,
-  "file": "art/models/Diner/tex/Shrub_Color.png",
-  "state": "Approved"
- },
- "d84bb8a933d2e28721bda8fc0c00165cae3d4253d5587b42067be76edb1f4569": {
-  "id": 94611611453435,
-  "file": "art/models/Diner/tex/Soil_Color.png",
-  "state": "Approved"
- },
- "26e60b64a2b80038c32af598ff1115a8c731ddc13de440f3ec3d990c37176e54": {
-  "id": 74721063551022,
-  "file": "art/models/Diner/tex/DinerSteel_Color.png",
-  "state": "Approved"
- },
- "283110c84d4dd048c0124b27d77464c98839e48d4b93212c1885792d06278023": {
-  "id": 85451412680391,
-  "file": "art/models/Diner/tex/DinerTile_Color.png",
-  "state": "Approved"
- },
- "1180fa4b0ba9cc521037a49338a221017eb0df96969fa8bb28f913f0bebcd387": {
-  "id": 103768023974386,
-  "file": "art/models/ArkwellAtm/tex/AtmScreen_Color.png",
-  "state": "Approved"
- },
- "464948c6af235b763d28910f65fd7567c7c58f53d83face51e5752e201e3ea24": {
-  "id": 87096693928100,
-  "file": "art/models/ArkwellAtm/tex/AtmBlack_Color.png",
-  "state": "Approved"
- },
- "ba38733de9f58b7f78675fa18c1f2dc0e14094630febb5d6a863208b7c5543c3": {
-  "id": 87126973532619,
-  "file": "art/models/ArkwellAtm/tex/AtmCardLight_Color.png",
-  "state": "Approved"
- },
- "751acafc6f002179127cb18f703cee9e7bbf170763a66323d44d79354c57fb08": {
-  "id": 80502093206957,
-  "file": "art/models/ArkwellAtm/tex/AtmKeys_Color.png",
-  "state": "Approved"
- },
- "c25ff4a5ebb83e89a1e5065e6df949468020fcc242e39703787e6a7e039e6b54": {
-  "id": 104719892703056,
-  "file": "art/models/ArkwellAtm/tex/AtmLabels_Color.png",
-  "state": "Approved"
- },
- "a914eb1e6795383de667ccdfdaa9d1a20b92e3360332c5e0eb6a79d85865e090": {
-  "id": 105189457430031,
-  "file": "art/models/ArkwellAtm/tex/AtmMirror_Color.png",
-  "state": "Approved"
- },
- "b1f29d61e34f23f5687db986cf6310483fee1ca1fb9a548c8fa378e9cb5701cd": {
-  "id": 88278481404630,
-  "file": "art/models/ArkwellAtm/tex/AtmRubber_Color.png",
-  "state": "Approved"
- },
- "494ff3d55e8fb42b335439190b18ff7c0f217203d2d194b9d8223d49f1c05bc3": {
-  "id": 132455406545868,
-  "file": "art/models/ArkwellAtm/tex/AtmShell_Color.png",
-  "state": "Approved"
- },
- "0363c58b3466da9541be97ff3bc7ab480c1a50715d1fd90695c2564ab4b74d60": {
-  "id": 127319837519654,
-  "file": "art/models/ArkwellAtm/tex/AtmSign_Color.png",
-  "state": "Approved"
- },
- "6f693303dc8f42be01056ddab27c36417fd42ae2fe57f57632971fb3232eab82": {
-  "id": 106140666394653,
-  "file": "art/models/ArkwellAtm/tex/AtmSteel_Color.png",
-  "state": "Approved"
- },
- "71d4777895901717919afc5978c78d5829626483f6583c7cfed14d88b2f4639b": {
-  "id": 98018237432120,
-  "file": "art/models/ArkwellAtm/tex/AtmSteelDark_Color.png",
-  "state": "Approved"
- },
- "0e90d8189ee895ad88981d558ccd75e9347eda61661173a6dacd010bde5ed3df": {
-  "id": 84859372392396,
-  "file": "art/models/ArkwellAtm/tex/Light_Color.png",
-  "state": "Approved"
- },
- "03dcec5ed558af3cacaa2bfe38edfaecff1522458ce8f55d83b9d4e10ff1d7a8": {
-  "id": 136608013822914,
-  "file": "art/models/Diner/tex/DinerSteel_Color.png",
-  "state": "Approved"
- },
- "0378808eb3195d634d1478851b5d9c48ba278d064cdfc9dea2c442064e648875": {
-  "id": 113668458491452,
-  "file": "art/models/Hotel_S/tex/Brass_Color.png",
-  "state": "Approved"
- },
- "5700e9e2acf4b4633e88459e6b253234f0e74e0edcbb7bc690c9f6af79e75162": {
-  "id": 85535905027300,
-  "file": "art/models/Hotel_S/tex/Frame_Color.png",
-  "state": "Approved"
- },
- "f7cfe8fd6b3dd0732511bec8ea7e2e0be0a2d7f219fe7b67bdeb9907935336f0": {
-  "id": 72413191970508,
-  "file": "art/models/Hotel_S/tex/HotelLobby_Color.png",
-  "state": "Approved"
- },
- "c31324870d6ad3111a728f2ae77cfe4ebd34af62f8f54ff68c436b0d982efd4b": {
-  "id": 117936181550514,
-  "file": "art/models/Hotel_S/tex/HotelSigns_Color.png",
-  "state": "Approved"
- },
- "296b21a50ec61c3e1c5f854548fb3a65eef9c727ef679b813d46cd1c41fccf21": {
-  "id": 131873792200287,
-  "file": "art/models/Hotel_S/tex/Pavers_Color.png",
-  "state": "Approved"
- },
- "35af770a7332b787176763860687fb797378c16801f3c43b6fffe0669ad38bac": {
-  "id": 87359874081067,
-  "file": "art/models/Hotel_S/tex/Sill_Color.png",
-  "state": "Approved"
- },
- "b84ac4aa479a2cc30f4e2db3bbb4cad002b125ea1455f168956d736cb5aed420": {
-  "id": 84422627989469,
-  "file": "art/models/Hotel_S/tex/HotelStucco_Color.png",
-  "state": "Approved"
- },
- "8070980b6e5d8b8c43c712e9ea6f85a67029cb16be5b20834c0e75f7a9a1c5d4": {
-  "id": 98527413172063,
-  "file": "art/models/Hotel_S/tex/HotelTeal_Color.png",
-  "state": "Approved"
- },
- "8229edbd0810331982c0e7ee5b0d2e2757cc28ae9f41781ed436123287f3a6dd": {
-  "id": 84691307905209,
-  "file": "art/models/Casa/tex/RoofSlate_Color.png",
-  "state": "Approved"
- },
- "8f733b3241ee79c4d8d82f7dee5f9a0565f2a6731e05d94f944e11c872142d52": {
-  "id": 75933936959589,
-  "file": "art/models/Colonial/tex/Column_Color.png",
-  "state": "Approved"
- },
- "df0a836a675ba6f519ede66e5cb85c107f1a9572412d47d588870043052e7436": {
-  "id": 97794172638732,
-  "file": "art/models/Colonial/tex/Shutter_Color.png",
+ "ff614d8845f0b31c5c39acbb264f27d0eb2f2924711f7275cf0c66dd8978a3e8": {
+  "file": "art/models/Court/tex/CourtPaint_Color.png",
+  "id": 125024024613087,
   "state": "Approved"
  }
 }

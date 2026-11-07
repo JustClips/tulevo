@@ -14,6 +14,7 @@
  "FlowerY": "art/models/HouseA_S/tex/FlowerY_Color.png",
  "Foundation": "art/models/HouseA_S/tex/MatFoundation_Color.png",
  "Frame": "art/models/HouseA_S/tex/Frame_Color.png",
+ "Glass": "art/models/HouseA_S/tex/Glass_Color.png",
  "GlassA": "art/models/HouseA_S/tex/GlassA_Color.png",
  "GlassC": "art/models/HouseA_S/tex/GlassC_Color.png",
  "GlassD": "art/models/HouseA_S/tex/GlassD_Color.png",
