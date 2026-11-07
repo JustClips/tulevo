@@ -128273,6 +128273,25 @@
      }
     },
     {
+     "name": "ArkwellAtm",
+     "className": "Model",
+     "tags": [
+      "Building"
+     ],
+     "attributes": {
+      "LiveSyncAsset": 84237954777106,
+      "LiveSyncBoxCenter": {
+       "Vector3": [
+        66.0,
+        7.1,
+        -69.72
+       ]
+      },
+      "CityModel": "ArkwellAtm",
+      "LiveSyncTextures": "{\"Atm1Screen\":103768023974386,\"Atm2Screen\":103768023974386,\"AtmBlack\":87096693928100,\"AtmCardLight\":87126973532619,\"AtmCashLight\":87126973532619,\"AtmKeys\":80502093206957,\"AtmLabels\":104719892703056,\"AtmMirror\":105189457430031,\"AtmRubber\":88278481404630,\"AtmShell\":132455406545868,\"AtmSign\":127319837519654,\"AtmSteel\":106140666394653,\"AtmSteelDark\":98018237432120,\"LightCeil\":84859372392396}"
+     }
+    },
+    {
      "name": "KestrelGas",
      "className": "Model",
      "tags": [

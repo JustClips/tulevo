@@ -52,6 +52,9 @@ RES_W, RES_SIDE = 30, 12   # residential streets: one lane each way, narrower si
 # name, model key (art/models/<Model>), where its Blender origin (ground centre) goes
 BUILDINGS = [
     ("ArkwellBank", "BankTower", (0, 0.6, 0)),
+    # double ATM (art/blender/atm/build_atm.py) on the plinth in front of the bank's left pylon,
+    # covering the tower's old printed AtmWall panel (its back sits 0.04 in front of it)
+    ("ArkwellAtm", "ArkwellAtm", (66, 1.6, -68.12)),
     # outer corner of West Street x Back Street, pumps facing Back Street, price sign on the corner
     ("KestrelGas", "GasStation", (-246.4, 0.5, 244)),
     # LA-style office towers (fronts face -Z / north onto the street in front)
