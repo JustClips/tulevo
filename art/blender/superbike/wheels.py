@@ -30,6 +30,11 @@ STUDS = 3.6
 BRAKES = "--no-brakes" not in sys.argv   # discs, calipers and pads (Dev asked for brakes 2026-11-07)
 R17 = 0.4318 / 2          # 17 in bead seat radius
 rad = math.radians
+Q = 1.0   # mesh detail; the bike build sets a lower value to keep the whole bike light
+
+
+def q(n, lo=12):
+    return max(lo, int(round(n * Q)))
 
 
 # ------------------------------------------------------------------ profiles
@@ -84,6 +89,7 @@ def rim_profile(rim_half):
 
 # ------------------------------------------------------------------ spokes (5 split Y-spokes)
 def spoke_arm(name, pts_r_ang, widths, thicks, x=0.0, n=14):
+    n = q(n, 8)
     """Loft rounded-rect sections along a quadratic curve in the wheel plane."""
     (r0, a0), (rc, ac), (r1, a1) = pts_r_ang
     P0, Pc, P1 = G.polar(r0, a0), G.polar(rc, ac), G.polar(r1, a1)
@@ -116,7 +122,7 @@ def y_spokes(rim_half, t_hub, t_rim, r_hub, r_end, spread=11.5):
 # ------------------------------------------------------------------ brakes
 def rotor_ring(name, xc, r_in, r_out, thick, holes, seg=192):
     t = thick / 2
-    ob = G.lathe(name, [(xc - t, r_in), (xc + t, r_in), (xc + t, r_out), (xc - t, r_out)], seg=seg, uv=False)
+    ob = G.lathe(name, [(xc - t, r_in), (xc + t, r_in), (xc + t, r_out), (xc - t, r_out)], seg=q(seg, 48), uv=False)
     cut = [G.cylinder_x("h", hr, xc - 0.01, xc + 0.01, 12, *G.polar(hrr, ha).yz) for hrr, ha, hr in holes]
     G.boolean(ob, cut)
     return ob
@@ -145,7 +151,7 @@ def front_disc(side):
     rotor = rotor_ring(f"Rotor{'L' if side > 0 else 'R'}", xc, 0.1155, 0.160, 0.005, holes)
     planar_uv(rotor, 0.165)
     # carrier: 10-arm spider out to the floating buttons
-    n = 240
+    n = q(240, 120)
     outer, inner = [], []
     for i in range(n):
         a = 2 * math.pi * i / n
@@ -228,8 +234,8 @@ def front_caliper(side):
 
 # ------------------------------------------------------------------ wheels
 def build_rim(name, rim_half, hub_prof, t_hub, t_rim):
-    barrel = G.lathe("barrel", rim_profile(rim_half), seg=160, uv=False)
-    hub = G.lathe("hub", hub_prof, seg=64, uv=False)
+    barrel = G.lathe("barrel", rim_profile(rim_half), seg=q(160, 64), uv=False)
+    hub = G.lathe("hub", hub_prof, seg=q(64, 32), uv=False)
     spokes = y_spokes(rim_half, t_hub, t_rim, 0.040, R17 - 0.0135)
     return G.join([barrel, hub] + spokes, name)
 
@@ -251,7 +257,7 @@ def valve(ang=rad(126), tilt=rad(-14)):
 
 def build_tyre(name, W, Ro, rim_half):
     prof, marks = tyre_profile(W, Ro, rim_half)
-    ob = G.lathe(name, prof, seg=168, closed=False)
+    ob = G.lathe(name, prof, seg=q(168, 72), closed=False)
     G.flip_if_inward(ob)
     marks["circ"] = 2 * math.pi * Ro
     return ob, marks
@@ -276,7 +282,7 @@ def sprocket(xc, teeth=45, pitch=0.015875, roller=0.01016):
     Rp = pitch / (2 * math.sin(math.pi / teeth))
     rr = roller / 2 + 0.0002
     tip = Rp + 0.0062
-    n = teeth * 10
+    n = teeth * q(10, 6)
     outer, inner = [], []
     for i in range(n):
         a = 2 * math.pi * i / n
@@ -301,7 +307,7 @@ def sprocket(xc, teeth=45, pitch=0.015875, roller=0.01016):
 def rear_disc(xc):
     holes = [(rr, rad(g * 20 + 4.5 * j), 0.0028) for g in range(18) for j, rr in enumerate((0.090, 0.1005))]
     ring = rotor_ring("ringR", xc, 0.0825, 0.110, 0.005, holes, seg=160)
-    n = 480
+    n = q(480, 180)
     outer, inner = [], []
     for i in range(n):
         a = 2 * math.pi * i / n

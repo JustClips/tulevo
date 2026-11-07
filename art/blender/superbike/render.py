@@ -10,7 +10,14 @@ import bpy
 from mathutils import Vector
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
-NAMES = {"front": "BikeWheelFront", "rear": "BikeWheelRear"}
+NAMES = {"front": "BikeWheelFront", "rear": "BikeWheelRear", "bike": "Superbike", "exhaust": "BikeExhaust", "chain": "BikeChain", "seats": "BikeSeats"}
+
+
+# camera shots per part: (tag, camera, target, lens). Parts sit in bike coordinates.
+VIEWS = {
+    "exhaust": [("q34", (-0.95, -0.95, 0.75), (-0.05, -0.05, 0.30), 45), ("side", (-1.45, 0.05, 0.38), (-0.05, 0.05, 0.33), 45),
+                ("front", (0.35, -1.25, 0.42), (0.0, -0.32, 0.36), 55), ("rear", (-0.75, 1.15, 0.62), (-0.18, 0.42, 0.32), 40)],
+}
 
 
 def light(name, loc, power, size, color=(1, 1, 1)):
@@ -47,7 +54,7 @@ def main(key):
     sc.view_settings.view_transform = 'AgX'
     sc.view_settings.look = 'AgX - Medium High Contrast'
     # stand the wheel on a floor (tyre touches the ground)
-    r = max(max(abs(v.co.z) for v in o.data.vertices) for o in sc.objects if o.type == 'MESH')
+    r = 0.0 if key in ("bike", "exhaust", "chain", "seats") else max(max(abs(v.co.z) for v in o.data.vertices) for o in sc.objects if o.type == 'MESH')
     bpy.ops.mesh.primitive_plane_add(size=20, location=(0, 0, -r))
     fl = bpy.context.active_object
     m = bpy.data.materials.new("Floor")
@@ -61,9 +68,10 @@ def main(key):
     w.node_tree.nodes["Background"].inputs[0].default_value = (0.55, 0.6, 0.68, 1)
     w.node_tree.nodes["Background"].inputs[1].default_value = 0.3
     sc.world = w
-    light("Key", (1.6, -1.4, 1.5), 130, 1.4)
-    light("Fill", (-1.8, -0.6, 0.6), 45, 2.0, (0.85, 0.9, 1.0))
-    light("Rim", (0.4, 1.9, 1.0), 140, 1.0)
+    k = 3.0 if key == "bike" else 1.6 if key in VIEWS else 1.0
+    light("Key", (1.6 * k, -1.4 * k, 1.5 * k), 130 * k * k, 1.4 * k)
+    light("Fill", (-1.8 * k, -0.6 * k, 0.6 * k + 0.5), 45 * k * k, 2.0 * k, (0.85, 0.9, 1.0))
+    light("Rim", (0.4 * k, 1.9 * k, 1.0 * k), 140 * k * k, 1.0 * k)
     camd = bpy.data.cameras.new("Cam")
     cam = bpy.data.objects.new("Cam", camd)
     sc.collection.objects.link(cam)
@@ -73,9 +81,14 @@ def main(key):
     shots = [("side", (1.9, -0.25, 0.05), (0, 0, 0), 50), ("q34", (1.25, -1.35, 0.35), (0, 0, -0.02), 50),
              ("tread", (0.35, -1.25, 0.55), (0, -0.12, 0.05), 55), ("close", (-0.55, -0.42, 0.40), (0.0, -0.10, 0.14), 55)]
     # brake close-ups: front caliper sits behind the axle (+Y), rear one forward-down on the right (-X)
-    brake = {"front": [("brake", (0.55, 0.55, 0.22), (0.05, 0.13, 0.04), 50), ("brakeR", (-0.55, 0.50, 0.25), (-0.05, 0.12, 0.04), 50)],
+    brake = [] if key not in ("front", "rear") else {"front": [("brake", (0.55, 0.55, 0.22), (0.05, 0.13, 0.04), 50), ("brakeR", (-0.55, 0.50, 0.25), (-0.05, 0.12, 0.04), 50)],
              "rear": [("brake", (-0.55, -0.50, -0.05), (-0.06, -0.08, -0.05), 50), ("sprocket", (0.62, -0.35, 0.20), (0.06, -0.03, 0.0), 50)]}[key]
     shots = [shots[1], shots[2]] + brake
+    if key in VIEWS:
+        shots = VIEWS[key]
+    elif key == "bike":
+        shots = [("side", (3.6, 0.0, 0.75), (0, 0, 0.52), 45), ("q34", (2.3, -2.6, 1.15), (0, -0.05, 0.55), 45),
+                 ("rear", (-2.2, 2.6, 1.2), (0, 0.05, 0.55), 45), ("cockpit", (0.0, 0.45, 1.55), (0, -0.65, 0.92), 32)]
     paths = []
     for tag, loc, tgt, lens in shots:
         p = os.path.join(tmp, f"{tag}.png")

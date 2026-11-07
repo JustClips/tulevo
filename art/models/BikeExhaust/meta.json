@@ -1,0 +1,126 @@
+{
+ "units": "studs (x3.6 baked in, use Scale 1)",
+ "axes": "Blender: +X = bike's LEFT, -Y = front, +Z = up; origin = ground between the axles (bike layout).",
+ "parts": {
+  "Headers": {
+   "tris": 18272
+  },
+  "Collector": {
+   "tris": 4144
+  },
+  "PreSilencer": {
+   "tris": 392
+  },
+  "LinkPipe": {
+   "tris": 2080
+  },
+  "Silencer": {
+   "tris": 3260
+  },
+  "HeatShield": {
+   "tris": 2180
+  },
+  "EndCap": {
+   "tris": 948
+  },
+  "Hardware": {
+   "tris": 10924
+  },
+  "Valve": {
+   "tris": 336
+  },
+  "Sensors": {
+   "tris": 232
+  }
+ },
+ "looks": {
+  "Headers": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.1
+  },
+  "Collector": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.1
+  },
+  "PreSilencer": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.08
+  },
+  "LinkPipe": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.1
+  },
+  "Silencer": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.12
+  },
+  "HeatShield": {
+   "Color": [
+    255,
+    255,
+    255
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.05
+  },
+  "EndCap": {
+   "Color": [
+    30,
+    30,
+    33
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "Hardware": {
+   "Color": [
+    165,
+    168,
+    174
+   ],
+   "Material": "SmoothPlastic",
+   "Reflectance": 0.15
+  },
+  "Valve": {
+   "Color": [
+    38,
+    38,
+    42
+   ],
+   "Material": "SmoothPlastic"
+  },
+  "Sensors": {
+   "Color": [
+    110,
+    110,
+    116
+   ],
+   "Material": "SmoothPlastic"
+  }
+ },
+ "total_tris": 42768
+}

@@ -216,6 +216,14 @@ return {
 		Stone = 113294833293056,
 		TowerSign = 122902209943948,
 	},
+	BikeExhaust = {
+		Collector = 137575000581354,
+		Headers = 126436819415341,
+		HeatShield = 131889519408424,
+		LinkPipe = 90998333556805,
+		PreSilencer = 90998333556805,
+		Silencer = 71705674422805,
+	},
 	BikeWheelFront = {
 		RotorL = 74660046985828,
 		RotorR = 74660046985828,

@@ -1,0 +1,8 @@
+{
+ "Headers": "art/models/BikeExhaust/tex/Headers_Color.png",
+ "Collector": "art/models/BikeExhaust/tex/Collector_Color.png",
+ "PreSilencer": "art/models/BikeExhaust/tex/Steel_Color.png",
+ "LinkPipe": "art/models/BikeExhaust/tex/Steel_Color.png",
+ "Silencer": "art/models/BikeExhaust/tex/Titanium_Color.png",
+ "HeatShield": "art/models/BikeExhaust/tex/Carbon_Color.png"
+}
