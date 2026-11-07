@@ -17,7 +17,7 @@
    ]
   },
   "Pave": {
-   "tris": 192,
+   "tris": 372,
    "min": [
     -54.54,
     -91.8,
@@ -26,67 +26,158 @@
    "max": [
     54.54,
     91.8,
-    1.8
+    17.46
    ]
   },
-  "Soil": {
-   "tris": 24,
+  "Fore": {
+   "tris": 12,
    "min": [
-    -53.46,
-    -87.12,
+    -9.0,
+    -39.6,
     0.0
    ],
    "max": [
-    -46.26,
+    50.4,
+    39.6,
+    0.14
+   ]
+  },
+  "Brushed": {
+   "tris": 776,
+   "min": [
+    -51.48,
+    -36.18,
+    0.13
+   ],
+   "max": [
+    45.76,
+    36.36,
+    21.56
+   ]
+  },
+  "Yellow": {
+   "tris": 568,
+   "min": [
+    -15.12,
+    -32.8,
+    0.11
+   ],
+   "max": [
+    46.04,
+    39.96,
+    5.76
+   ]
+  },
+  "PumpRed": {
+   "tris": 100,
+   "min": [
+    7.92,
+    -11.34,
+    0.11
+   ],
+   "max": [
+    46.04,
+    11.34,
+    7.02
+   ]
+  },
+  "Green": {
+   "tris": 268,
+   "min": [
+    -37.69,
+    -37.19,
+    0.0
+   ],
+   "max": [
+    46.04,
+    60.48,
+    8.5
+   ]
+  },
+  "Dark": {
+   "tris": 1656,
+   "min": [
+    -51.34,
+    -86.94,
+    0.0
+   ],
+   "max": [
+    51.66,
+    72.9,
+    29.52
+   ]
+  },
+  "Soil": {
+   "tris": 36,
+   "min": [
+    -53.46,
+    -90.36,
+    0.0
+   ],
+   "max": [
+    43.92,
     87.12,
-    0.58
+    1.26
    ]
   },
   "Shrub": {
-   "tris": 140,
+   "tris": 300,
    "min": [
-    -51.74,
-    -85.21,
-    0.25
+    -52.18,
+    -89.23,
+    0.7
    ],
    "max": [
-    -47.74,
-    71.86,
-    3.48
+    43.21,
+    82.25,
+    4.47
+   ]
+  },
+  "BlueStall": {
+   "tris": 24,
+   "min": [
+    -12.6,
+    -29.02,
+    0.0
+   ],
+   "max": [
+    5.4,
+    -17.78,
+    0.04
    ]
   },
   "LotLine": {
    "tris": 110,
    "min": [
     -12.6,
-    -79.92,
+    -85.68,
     0.0
    ],
    "max": [
-    32.22,
-    79.92,
+    45.72,
+    85.68,
     0.04
    ]
   },
-  "Canopy": {
+  "Brick": {
    "tris": 108,
    "min": [
-    -5.4,
-    -32.4,
-    0.14
+    -51.12,
+    -90.72,
+    0.0
    ],
    "max": [
-    45.0,
-    32.4,
-    21.24
+    44.28,
+    62.28,
+    6.84
    ]
   },
   "Orange": {
-   "tris": 84,
+   "tris": 144,
    "min": [
     -51.3,
-    -32.58,
-    3.6
+    -87.01,
+    9.18
    ],
    "max": [
     45.18,
@@ -94,12 +185,51 @@
     21.67
    ]
   },
+  "Pipe": {
+   "tris": 672,
+   "min": [
+    -49.92,
+    -29.4,
+    0.54
+   ],
+   "max": [
+    39.63,
+    36.6,
+    18.0
+   ]
+  },
+  "Canopy": {
+   "tris": 72,
+   "min": [
+    -5.4,
+    -32.4,
+    7.02
+   ],
+   "max": [
+    45.0,
+    32.4,
+    21.89
+   ]
+  },
+  "Soffit": {
+   "tris": 14,
+   "min": [
+    -19.8,
+    -32.22,
+    11.7
+   ],
+   "max": [
+    44.82,
+    36.65,
+    17.93
+   ]
+  },
   "FuelSigns": {
-   "tris": 30,
+   "tris": 46,
    "min": [
     -14.69,
-    -88.2,
-    3.24
+    -86.76,
+    3.31
    ],
    "max": [
     45.07,
@@ -110,195 +240,221 @@
   "Lamp1": {
    "tris": 12,
    "min": [
-    31.68,
-    -18.9,
-    17.68
+    31.86,
+    -20.56,
+    17.64
    ],
    "max": [
-    36.72,
-    -17.1,
-    17.96
+    36.54,
+    -19.04,
+    17.78
    ]
   },
   "Lamp2": {
    "tris": 12,
    "min": [
-    31.68,
-    -0.9,
-    17.68
+    31.86,
+    -7.24,
+    17.64
    ],
    "max": [
-    36.72,
-    0.9,
-    17.96
+    36.54,
+    -5.72,
+    17.78
    ]
   },
   "Lamp3": {
    "tris": 12,
    "min": [
-    31.68,
-    17.1,
-    17.68
+    31.86,
+    5.72,
+    17.64
    ],
    "max": [
-    36.72,
-    18.9,
-    17.96
+    36.54,
+    7.24,
+    17.78
    ]
   },
   "Lamp4": {
    "tris": 12,
    "min": [
-    17.28,
-    -18.9,
-    17.68
+    31.86,
+    19.04,
+    17.64
    ],
    "max": [
-    22.32,
-    -17.1,
-    17.96
+    36.54,
+    20.56,
+    17.78
    ]
   },
   "Lamp5": {
    "tris": 12,
    "min": [
-    17.28,
-    -0.9,
-    17.68
+    17.46,
+    -20.56,
+    17.64
    ],
    "max": [
-    22.32,
-    0.9,
-    17.96
+    22.14,
+    -19.04,
+    17.78
    ]
   },
   "Lamp6": {
    "tris": 12,
    "min": [
-    17.28,
-    17.1,
-    17.68
+    17.46,
+    -7.24,
+    17.64
    ],
    "max": [
-    22.32,
-    18.9,
-    17.96
+    22.14,
+    -5.72,
+    17.78
    ]
   },
   "Lamp7": {
    "tris": 12,
    "min": [
-    2.88,
-    -18.9,
-    17.68
+    17.46,
+    5.72,
+    17.64
    ],
    "max": [
-    7.92,
-    -17.1,
-    17.96
+    22.14,
+    7.24,
+    17.78
    ]
   },
   "Lamp8": {
    "tris": 12,
    "min": [
-    2.88,
-    -0.9,
-    17.68
+    17.46,
+    19.04,
+    17.64
    ],
    "max": [
-    7.92,
-    0.9,
-    17.96
+    22.14,
+    20.56,
+    17.78
    ]
   },
   "Lamp9": {
    "tris": 12,
    "min": [
-    2.88,
-    17.1,
-    17.68
+    3.06,
+    -20.56,
+    17.64
    ],
    "max": [
-    7.92,
-    18.9,
-    17.96
+    7.74,
+    -19.04,
+    17.78
    ]
   },
-  "Yellow": {
-   "tris": 112,
+  "Lamp10": {
+   "tris": 12,
    "min": [
-    8.57,
+    3.06,
+    -7.24,
+    17.64
+   ],
+   "max": [
+    7.74,
+    -5.72,
+    17.78
+   ]
+  },
+  "Lamp11": {
+   "tris": 12,
+   "min": [
+    3.06,
+    5.72,
+    17.64
+   ],
+   "max": [
+    7.74,
+    7.24,
+    17.78
+   ]
+  },
+  "Lamp12": {
+   "tris": 12,
+   "min": [
+    3.06,
+    19.04,
+    17.64
+   ],
+   "max": [
+    7.74,
+    20.56,
+    17.78
+   ]
+  },
+  "Hazard": {
+   "tris": 48,
+   "min": [
+    6.23,
     -20.23,
-    0.36
+    0.14
    ],
    "max": [
-    31.03,
+    33.37,
     20.23,
-    3.96
+    0.94
    ]
   },
-  "PumpRed": {
-   "tris": 60,
+  "Chrome": {
+   "tris": 448,
    "min": [
-    -15.84,
-    -11.34,
+    -19.8,
+    -25.38,
     0.54
    ],
    "max": [
-    31.68,
-    39.6,
-    7.2
-   ]
-  },
-  "Dark": {
-   "tris": 608,
-   "min": [
-    -51.26,
-    -88.38,
-    0.0
-   ],
-   "max": [
-    51.66,
-    72.9,
-    29.52
+    32.61,
+    32.58,
+    11.02
    ]
   },
   "Hose": {
-   "tris": 528,
+   "tris": 680,
    "min": [
-    -14.81,
-    -10.6,
-    0.66
+    -13.04,
+    -11.07,
+    0.68
    ],
    "max": [
-    32.88,
-    38.61,
-    6.14
+    32.51,
+    40.05,
+    11.18
    ]
   },
   "Bin": {
    "tris": 132,
    "min": [
     -16.49,
-    -31.97,
+    -29.09,
     0.54
    ],
    "max": [
     31.61,
     1.01,
-    4.14
+    4.1
    ]
   },
   "Stucco": {
    "tris": 24,
    "min": [
-    -51.12,
-    -28.8,
-    0.54
+    -50.98,
+    -28.66,
+    4.25
    ],
    "max": [
     -14.94,
-    36.0,
+    35.86,
     20.16
    ]
   },
@@ -316,24 +472,24 @@
    ]
   },
   "AcBody": {
-   "tris": 24,
+   "tris": 36,
    "min": [
-    -36.36,
+    -51.84,
     -14.4,
-    16.92
+    3.6
    ],
    "max": [
     -30.6,
     20.88,
-    20.88
+    21.24
    ]
   },
   "MartInterior": {
-   "tris": 2,
+   "tris": 4,
    "min": [
     -19.73,
     -25.2,
-    1.8
+    4.25
    ],
    "max": [
     -19.73,
@@ -341,20 +497,150 @@
     10.8
    ]
   },
-  "Chrome": {
-   "tris": 108,
+  "MartDoor": {
+   "tris": 4,
    "min": [
-    -19.8,
-    -25.38,
-    1.62
+    -19.62,
+    0.0,
+    0.54
    ],
    "max": [
-    -19.51,
-    32.58,
-    11.02
+    -19.62,
+    7.2,
+    8.64
    ]
   },
-  "Lamp10": {
+  "Glass": {
+   "tris": 12,
+   "min": [
+    -19.8,
+    0.0,
+    8.82
+   ],
+   "max": [
+    -19.73,
+    7.2,
+    10.8
+   ]
+  },
+  "MartPosters": {
+   "tris": 12,
+   "min": [
+    -19.62,
+    -35.28,
+    3.24
+   ],
+   "max": [
+    -12.85,
+    39.78,
+    10.44
+   ]
+  },
+  "Lamp13": {
+   "tris": 12,
+   "min": [
+    -18.0,
+    -24.12,
+    11.52
+   ],
+   "max": [
+    -16.56,
+    -22.68,
+    11.66
+   ]
+  },
+  "Lamp14": {
+   "tris": 12,
+   "min": [
+    -18.0,
+    2.88,
+    11.52
+   ],
+   "max": [
+    -16.56,
+    4.32,
+    11.66
+   ]
+  },
+  "Lamp15": {
+   "tris": 12,
+   "min": [
+    -18.0,
+    29.88,
+    11.52
+   ],
+   "max": [
+    -16.56,
+    31.32,
+    11.66
+   ]
+  },
+  "Lamp16": {
+   "tris": 12,
+   "min": [
+    -27.54,
+    -29.52,
+    11.63
+   ],
+   "max": [
+    -26.46,
+    -29.16,
+    11.77
+   ]
+  },
+  "Lamp17": {
+   "tris": 12,
+   "min": [
+    -44.46,
+    -29.52,
+    11.63
+   ],
+   "max": [
+    -43.38,
+    -29.16,
+    11.77
+   ]
+  },
+  "Lamp18": {
+   "tris": 12,
+   "min": [
+    -27.54,
+    36.36,
+    11.63
+   ],
+   "max": [
+    -26.46,
+    36.72,
+    11.77
+   ]
+  },
+  "Lamp19": {
+   "tris": 12,
+   "min": [
+    -44.46,
+    36.36,
+    11.63
+   ],
+   "max": [
+    -43.38,
+    36.72,
+    11.77
+   ]
+  },
+  "Lamp20": {
+   "tris": 12,
+   "min": [
+    -52.38,
+    3.42,
+    9.29
+   ],
+   "max": [
+    -51.3,
+    4.5,
+    9.43
+   ]
+  },
+  "Lamp21": {
    "tris": 12,
    "min": [
     48.96,
@@ -367,7 +653,7 @@
     28.76
    ]
   },
-  "Lamp11": {
+  "Lamp22": {
    "tris": 12,
    "min": [
     48.96,
@@ -380,7 +666,7 @@
     28.76
    ]
   },
-  "Lamp12": {
+  "Lamp23": {
    "tris": 12,
    "min": [
     -43.2,
@@ -393,7 +679,7 @@
     28.76
    ]
   },
-  "Lamp13": {
+  "Lamp24": {
    "tris": 12,
    "min": [
     -43.2,
@@ -420,16 +706,37 @@
   "Lamp10",
   "Lamp11",
   "Lamp12",
-  "Lamp13"
+  "Lamp13",
+  "Lamp14",
+  "Lamp15",
+  "Lamp16",
+  "Lamp17",
+  "Lamp18",
+  "Lamp19",
+  "Lamp20",
+  "Lamp21",
+  "Lamp22",
+  "Lamp23",
+  "Lamp24"
  ],
  "textures": {
   "Asphalt": "LotAsphalt_Color.png",
   "Pave": "Plinth_Color.png",
+  "Fore": "ForeCrete_Color.png",
+  "Brushed": "Brushed_Color.png",
+  "Yellow": "Yellow_Color.png",
+  "PumpRed": "PumpRed_Color.png",
+  "Green": "Green_Color.png",
+  "Dark": "Dark_Color.png",
   "Soil": "Soil_Color.png",
   "Shrub": "Shrub_Color.png",
+  "BlueStall": "BlueStall_Color.png",
   "LotLine": "LotLine_Color.png",
-  "Canopy": "FuelWhite_Color.png",
+  "Brick": "MartBrick_Color.png",
   "Orange": "FuelOrange_Color.png",
+  "Pipe": "Pipe_Color.png",
+  "Canopy": "FuelWhite_Color.png",
+  "Soffit": "Soffit_Color.png",
   "FuelSigns": "FuelSigns_Color.png",
   "Lamp1": "Light_Color.png",
   "Lamp2": "Light_Color.png",
@@ -440,20 +747,32 @@
   "Lamp7": "Light_Color.png",
   "Lamp8": "Light_Color.png",
   "Lamp9": "Light_Color.png",
-  "Yellow": "Yellow_Color.png",
-  "PumpRed": "PumpRed_Color.png",
-  "Dark": "Dark_Color.png",
-  "Hose": "Hose_Color.png",
-  "Bin": "BinGreen_Color.png",
-  "Stucco": "FuelStucco_Color.png",
-  "Roof": "RoofTar_Color.png",
-  "AcBody": "HvacGrey_Color.png",
-  "MartInterior": "MartInterior_Color.png",
-  "Chrome": "Chrome_Color.png",
   "Lamp10": "Light_Color.png",
   "Lamp11": "Light_Color.png",
   "Lamp12": "Light_Color.png",
-  "Lamp13": "Light_Color.png"
+  "Hazard": "Hazard_Color.png",
+  "Chrome": "Chrome_Color.png",
+  "Hose": "Hose_Color.png",
+  "Bin": "BinGreen_Color.png",
+  "Stucco": "MartStucco_Color.png",
+  "Roof": "RoofTar_Color.png",
+  "AcBody": "HvacGrey_Color.png",
+  "MartInterior": "MartInterior_Color.png",
+  "MartDoor": "MartDoor_Color.png",
+  "Glass": "Glass_Color.png",
+  "MartPosters": "MartPosters_Color.png",
+  "Lamp13": "Light_Color.png",
+  "Lamp14": "Light_Color.png",
+  "Lamp15": "Light_Color.png",
+  "Lamp16": "Light_Color.png",
+  "Lamp17": "Light_Color.png",
+  "Lamp18": "Light_Color.png",
+  "Lamp19": "Light_Color.png",
+  "Lamp20": "Light_Color.png",
+  "Lamp21": "Light_Color.png",
+  "Lamp22": "Light_Color.png",
+  "Lamp23": "Light_Color.png",
+  "Lamp24": "Light_Color.png"
  },
  "driveways": [
   [

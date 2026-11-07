@@ -995,6 +995,78 @@ def auto():
     save("AutoSigns", im, Image.new("RGB", (W, H), (110, 110, 110)))
 
 
+# ================================================================= Sundial Fuel detail pass (Dev 2026-11-07: "detail everything")
+def fuel_detail():
+    rs = np.random.default_rng(23)
+    S_ = 1024
+    yy, xx = np.mgrid[0:S_, 0:S_].astype(np.float32)
+
+    def wrapd(a, c):
+        d_ = np.abs(a - c)
+        return np.minimum(d_, S_ - d_)
+
+    # forecourt concrete: 4 m slabs (one tile), saw-cut joints, oil drips and tyre smudges
+    gl = scan("Concrete034", size=S_).convert("L")
+    g = np.asarray(gl, np.float32)
+    v = 150 + (g - g.mean()) * 0.6
+    for _ in range(14):
+        cx, cy, r_, amp = rs.uniform(0, S_), rs.uniform(0, S_), rs.uniform(18, 90), rs.uniform(14, 40)
+        v -= amp * np.exp(-(wrapd(xx, cx) ** 2 + wrapd(yy, cy) ** 2) / (2 * r_ * r_))
+    for _ in range(60):                                                       # small drips
+        cx, cy, r_ = rs.uniform(0, S_), rs.uniform(0, S_), rs.uniform(3, 9)
+        v -= 30 * np.exp(-(wrapd(xx, cx) ** 2 + wrapd(yy, cy) ** 2) / (2 * r_ * r_))
+    joint = (np.minimum(xx, S_ - 1 - xx) < 3) | (np.minimum(yy, S_ - 1 - yy) < 3)
+    v = np.where(joint, v - 45, v)
+    col = np.stack([v, v * 0.99, v * 0.96], -1)
+    save("ForeCrete", Image.fromarray(np.clip(col, 0, 255).astype(np.uint8)),
+         Image.fromarray(np.clip(np.where(joint, 230, 190 - (150 - v) * 0.5), 0, 255).astype(np.uint8)))
+    # mart walls: warm stucco upper, red brick wainscot
+    real("MartStucco", "PaintedPlaster017", 1024, tint=(196, 178, 150), gain=0.88)
+    real("MartBrick", "Bricks101", 1024)
+    # canopy soffit: white enamel panels, 1 m seams (tile 2 m -> 2 panels)
+    S2 = 512
+    g2 = np.asarray(scan("PaintedMetal012", size=S2).convert("L"), np.float32)
+    v = 214 + (g2 - g2.mean()) * 0.12
+    y2 = np.mgrid[0:S2, 0:S2][0]
+    v = np.where((y2 % (S2 // 2)) < 4, v - 55, v)
+    save("Soffit", Image.fromarray(np.clip(np.stack([v, v, v * 1.01], -1), 0, 255).astype(np.uint8)), 120)
+    # brushed stainless (columns, pump trim): fine streaks along v, soft
+    n = rs.standard_normal((48, 4)).astype(np.float32)                       # broad streaks (fine ones shimmer)
+    st = np.asarray(Image.fromarray(n).resize((S2, S2), Image.BICUBIC), np.float32)
+    v = 168 + st * 10 + (np.asarray(scan("PaintedMetal012", size=S2).convert("L"), np.float32) - 128) * 0.05
+    save("Brushed", Image.fromarray(np.clip(np.stack([v, v * 1.01, v * 1.03], -1), 0, 255).astype(np.uint8)), 90)
+    # hazard paint for island noses: 0.5 m diagonal yellow/black (tile 1 m)
+    hz = ((xx[:S2, :S2] + yy[:S2, :S2]) // (S2 // 2)) % 2
+    c = np.where(hz[..., None] == 0, np.array((236, 186, 30), np.float32), np.array((26, 26, 28), np.float32))
+    c = c * (0.9 + 0.1 * (g2[..., None] / 255))
+    save("Hazard", Image.fromarray(np.clip(c, 0, 255).astype(np.uint8)), 170)
+    # window posters + small signs atlas (4 x 2 cells of 256 x 512)
+    W2, H2 = 1024, 1024
+    im = Image.new("RGB", (W2, H2), (240, 240, 236))
+    d = ImageDraw.Draw(im)
+    cells = [((210, 40, 40), "COLD", "DRINKS", (255, 255, 255)), ((90, 50, 30), "HOT", "COFFEE $1.29", (255, 230, 190)),
+             ((232, 116, 26), "SNACK", "DEALS 2 FOR $3", (255, 255, 255)), ((30, 90, 170), "OPEN", "24 HOURS", (255, 255, 255)),
+             ((30, 120, 60), "ATM", "INSIDE", (255, 255, 255)), ((240, 200, 40), "AIR", "$1.50", (30, 30, 30)),
+             ((40, 40, 46), "PAY", "INSIDE", (255, 210, 60)), ((200, 200, 204), "PROPANE", "EXCHANGE", (30, 60, 140))]
+    for i, (bg, t1, t2, fg) in enumerate(cells):
+        x0, y0 = (i % 4) * 256, (i // 4) * 512
+        d.rectangle((x0 + 4, y0 + 4, x0 + 251, y0 + 507), fill=bg)
+        d.rectangle((x0 + 14, y0 + 14, x0 + 241, y0 + 497), outline=fg, width=5)
+        fit_text(d, (x0 + 128, y0 + 190), t1, FONT_B, 210, 90, fg)
+        fit_text(d, (x0 + 128, y0 + 330), t2, FONT_B, 210, 44, fg)
+    save("MartPosters", im, 120)
+    # glass door: dark frame, interior view, push bar, hours decal
+    D = Image.new("RGB", (512, 1024), (40, 42, 46))
+    dd = ImageDraw.Draw(D)
+    inner = shop_interior("mart", 78).resize((440, 900))
+    D.paste(inner, (36, 60))
+    dd.rectangle((36, 60, 475, 959), outline=(170, 172, 176), width=10)
+    dd.rectangle((60, 520, 452, 548), fill=(190, 192, 196))
+    dd.rectangle((120, 600, 392, 650), fill=(30, 30, 34))
+    fit_text(dd, (256, 625), "OPEN 24 HRS", FONT_B, 250, 30, (232, 116, 26))
+    save("MartDoor", D, 40)
+
+
 # ================================================================= Sundial Fuel gas station
 def fuel():
     real("FuelStucco", "PaintedPlaster017", 1024, tint=(214, 200, 176), gain=0.95)
@@ -1047,6 +1119,7 @@ def fuel():
         d.rectangle((x, 840, x + 100, 940), fill=c, outline=WHT, width=4)
         fit_text(d, (x + 50, 890), g, FONT_B, 80, 50, WHT)
     save("FuelSigns", im, 120)
+    fuel_detail()
     # public parking signs (Westgate lot by Ironwood Arms): blue P panel + rates panel
     im = Image.new("RGB", (512, 512), (24, 70, 160))
     d = ImageDraw.Draw(im)

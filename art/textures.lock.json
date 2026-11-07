@@ -3633,5 +3633,60 @@
   "id": 134401985287008,
   "file": "art/models/Park/tex/PoolWater_Color.png",
   "state": "Approved"
+ },
+ "fd864a23abd09c681b3cb1f296a687dc7a7e3683fa1da24f35b649edcacb324f": {
+  "id": 84448165458725,
+  "file": "art/models/FuelStation/tex/BlueStall_Color.png",
+  "state": "Approved"
+ },
+ "f30ab93e70e02b6c7f1ecae2647982bcab6af59cfb001cfaa5c643a3c751d4c0": {
+  "id": 85766531590295,
+  "file": "art/models/FuelStation/tex/MartBrick_Color.png",
+  "state": "Approved"
+ },
+ "7772dc5c155ef1421f9206e8aeda6eff9c7919473cc623eceec6e264990969e9": {
+  "id": 126806000434870,
+  "file": "art/models/FuelStation/tex/Brushed_Color.png",
+  "state": "Approved"
+ },
+ "319530b1ce4296d1d07f2a3c9c73358f88d1c793a2fb7edb56d65e101aff0314": {
+  "id": 95372539858165,
+  "file": "art/models/FuelStation/tex/ForeCrete_Color.png",
+  "state": "Approved"
+ },
+ "904a2172b67d799f183a65170205695490f8fecc43728f5fef3fc335cc31c697": {
+  "id": 90735789502919,
+  "file": "art/models/FuelStation/tex/Glass_Color.png",
+  "state": "Approved"
+ },
+ "763015b1931feb575b8951d26f03c065113f8ac0a71c8e5186005765e7a586a6": {
+  "id": 122915035216226,
+  "file": "art/models/FuelStation/tex/Green_Color.png",
+  "state": "Approved"
+ },
+ "ca06a08f6346acea42a000954bcd42553cf94f2aaa045cb4a036bd4ab32679e4": {
+  "id": 135483312605241,
+  "file": "art/models/FuelStation/tex/Hazard_Color.png",
+  "state": "Approved"
+ },
+ "2c17b84173f75b66e645a8b6dbfb8c79c8db3abd69405ca82f61a60fb5ce9ae7": {
+  "id": 136917775401940,
+  "file": "art/models/FuelStation/tex/MartDoor_Color.png",
+  "state": "Approved"
+ },
+ "e5965f75c2ce239a0408104e2220222af122f9c9822637545c4d8b152574d3da": {
+  "id": 101084081517549,
+  "file": "art/models/FuelStation/tex/MartPosters_Color.png",
+  "state": "Approved"
+ },
+ "3c8eb9ccc5e068b71ec7c56433150d827faf84b5b1f2d6500e084b0f1242b395": {
+  "id": 105548344334662,
+  "file": "art/models/FuelStation/tex/Soffit_Color.png",
+  "state": "Approved"
+ },
+ "31a1609f0f239c1e27cfc6084558c087f783686d9180aa07a98473e179c6df82": {
+  "id": 135847781004191,
+  "file": "art/models/FuelStation/tex/MartStucco_Color.png",
+  "state": "Approved"
  }
 }

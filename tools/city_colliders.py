@@ -43,7 +43,7 @@ SKIP_EXACT = {"Frame", "Sill", "WinIron", "Pipe", "Meter", "CandyRack", "FridgeD
               "Coffee", "FreezerTop", "IceFront", "NewsFace",
               "Blossom", "Ivy", "HouseNumbers",   # Bellmont Hills plants + number plates
               "GhostSign", "ShopSigns", "LotLine", "DinerSigns", "DinerInterior", "FrameB", "HotelSigns", "HotelLobby",   # city-fill flat printed panels, paint
-              "ParkSigns", "FuelSigns", "MartInterior", "LotSigns", "PoolWater",
+              "ParkSigns", "FuelSigns", "MartInterior", "LotSigns", "PoolWater", "MartPosters", "MartDoor", "Soffit",
               "Goods", "PriceStrip", "AisleSign", "CoffeeBadge", "CoffeeLiquid"}   # store shelf stock, rails, signs (shelves collide)
 SKIP_PREFIX = ("Light", "Lamp", "Neon", "Fx", "Poster", "ShelfGoods", "Deco", "Swing", "Slide", "Lift", "Flower",
                "Tag",
