@@ -1,16 +1,16 @@
 {
- "Atm1Screen": "art/models/ArkwellAtm/tex/AtmScreen_Color.png",
- "Atm2Screen": "art/models/ArkwellAtm/tex/AtmScreen_Color.png",
+ "Atm1Screen": "art/models/ArkwellAtm/tex/Atlas1.png",
+ "Atm2Screen": "art/models/ArkwellAtm/tex/Atlas1.png",
  "AtmBlack": "art/models/ArkwellAtm/tex/AtmBlack_Color.png",
- "AtmCardLight": "art/models/ArkwellAtm/tex/AtmCardLight_Color.png",
- "AtmCashLight": "art/models/ArkwellAtm/tex/AtmCashLight_Color.png",
- "AtmKeys": "art/models/ArkwellAtm/tex/AtmKeys_Color.png",
- "AtmLabels": "art/models/ArkwellAtm/tex/AtmLabels_Color.png",
+ "AtmCardLight": "art/models/ArkwellAtm/tex/Atlas1.png",
+ "AtmCashLight": "art/models/ArkwellAtm/tex/Atlas1.png",
+ "AtmKeys": "art/models/ArkwellAtm/tex/Atlas2.png",
+ "AtmLabels": "art/models/ArkwellAtm/tex/Atlas1.png",
  "AtmMirror": "art/models/ArkwellAtm/tex/AtmMirror_Color.png",
  "AtmRubber": "art/models/ArkwellAtm/tex/AtmRubber_Color.png",
  "AtmShell": "art/models/ArkwellAtm/tex/AtmShell_Color.png",
- "AtmSign": "art/models/ArkwellAtm/tex/AtmSign_Color.png",
+ "AtmSign": "art/models/ArkwellAtm/tex/Atlas2.png",
  "AtmSteel": "art/models/ArkwellAtm/tex/AtmSteel_Color.png",
  "AtmSteelDark": "art/models/ArkwellAtm/tex/AtmSteelDark_Color.png",
- "LightCeil": "art/models/ArkwellAtm/tex/Light_Color.png"
+ "LightCeil": "art/models/ArkwellAtm/tex/Atlas1.png"
 }
