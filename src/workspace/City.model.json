@@ -139486,6 +139486,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 122789663490592,
       "LiveSyncBoxCenter": {
@@ -139505,6 +139509,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 84237954777106,
       "LiveSyncBoxCenter": {
@@ -139524,6 +139532,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 122974524566374,
       "LiveSyncBoxCenter": {
@@ -139543,6 +139555,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 122303453610488,
       "LiveSyncBoxCenter": {
@@ -139562,6 +139578,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 98841215359255,
       "LiveSyncBoxCenter": {
@@ -139581,6 +139601,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 87971874334001,
       "LiveSyncBoxCenter": {
@@ -139600,6 +139624,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 126849767132635,
       "LiveSyncBoxCenter": {
@@ -139619,6 +139647,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 87879520347710,
       "LiveSyncBoxCenter": {
@@ -139638,6 +139670,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 82305418453135,
       "LiveSyncBoxCenter": {
@@ -139657,6 +139693,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 72610369752229,
       "LiveSyncBoxCenter": {
@@ -139676,6 +139716,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 71639668608063,
       "LiveSyncBoxCenter": {
@@ -139695,6 +139739,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 82354393599774,
       "LiveSyncBoxCenter": {
@@ -139714,6 +139762,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 81129835452314,
       "LiveSyncBoxCenter": {
@@ -139733,6 +139785,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 102903542667978,
       "LiveSyncBoxCenter": {
@@ -139752,6 +139808,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 82354393599774,
       "LiveSyncBoxCenter": {
@@ -139771,6 +139831,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 130998672104411,
       "LiveSyncBoxCenter": {
@@ -139790,6 +139854,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 81129835452314,
       "LiveSyncBoxCenter": {
@@ -139809,6 +139877,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 77640230130569,
       "LiveSyncBoxCenter": {
@@ -139828,6 +139900,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 103100610225312,
       "LiveSyncBoxCenter": {
@@ -139847,6 +139923,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 125327553427333,
       "LiveSyncBoxCenter": {
@@ -139866,6 +139946,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 101557553274841,
       "LiveSyncBoxCenter": {
@@ -139885,6 +139969,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 88942408680521,
       "LiveSyncBoxCenter": {
@@ -139904,6 +139992,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 119171987307179,
       "LiveSyncBoxCenter": {
@@ -139923,6 +140015,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 101557553274841,
       "LiveSyncBoxCenter": {
@@ -139942,6 +140038,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 125327553427333,
       "LiveSyncBoxCenter": {
@@ -139961,6 +140061,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 72610369752229,
       "LiveSyncBoxCenter": {
@@ -139980,6 +140084,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 81129835452314,
       "LiveSyncBoxCenter": {
@@ -139999,6 +140107,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 102903542667978,
       "LiveSyncBoxCenter": {
@@ -140018,6 +140130,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 82354393599774,
       "LiveSyncBoxCenter": {
@@ -140037,6 +140153,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 130998672104411,
       "LiveSyncBoxCenter": {
@@ -140056,6 +140176,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 71639668608063,
       "LiveSyncBoxCenter": {
@@ -140075,6 +140199,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 82354393599774,
       "LiveSyncBoxCenter": {
@@ -140094,6 +140222,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 81129835452314,
       "LiveSyncBoxCenter": {
@@ -140113,6 +140245,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 77640230130569,
       "LiveSyncBoxCenter": {
@@ -140132,6 +140268,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 119171987307179,
       "LiveSyncBoxCenter": {
@@ -140151,6 +140291,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 101557553274841,
       "LiveSyncBoxCenter": {
@@ -140170,6 +140314,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 88942408680521,
       "LiveSyncBoxCenter": {
@@ -140189,6 +140337,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 125327553427333,
       "LiveSyncBoxCenter": {
@@ -140208,6 +140360,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 101557553274841,
       "LiveSyncBoxCenter": {
@@ -140227,6 +140383,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 103100610225312,
       "LiveSyncBoxCenter": {
@@ -140246,6 +140406,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 125327553427333,
       "LiveSyncBoxCenter": {
@@ -140265,6 +140429,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 72610369752229,
       "LiveSyncBoxCenter": {
@@ -140284,6 +140452,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 102903542667978,
       "LiveSyncBoxCenter": {
@@ -140303,6 +140475,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 82354393599774,
       "LiveSyncBoxCenter": {
@@ -140322,6 +140498,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 71639668608063,
       "LiveSyncBoxCenter": {
@@ -140341,6 +140521,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 81129835452314,
       "LiveSyncBoxCenter": {
@@ -140360,6 +140544,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 130998672104411,
       "LiveSyncBoxCenter": {
@@ -140379,6 +140567,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 82354393599774,
       "LiveSyncBoxCenter": {
@@ -140398,6 +140590,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 102903542667978,
       "LiveSyncBoxCenter": {
@@ -140417,6 +140613,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 77640230130569,
       "LiveSyncBoxCenter": {
@@ -140436,6 +140636,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 125327553427333,
       "LiveSyncBoxCenter": {
@@ -140455,6 +140659,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 88942408680521,
       "LiveSyncBoxCenter": {
@@ -140474,6 +140682,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 101557553274841,
       "LiveSyncBoxCenter": {
@@ -140493,6 +140705,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 103100610225312,
       "LiveSyncBoxCenter": {
@@ -140512,6 +140728,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 119171987307179,
       "LiveSyncBoxCenter": {
@@ -140531,6 +140751,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 101557553274841,
       "LiveSyncBoxCenter": {
@@ -140550,6 +140774,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 125327553427333,
       "LiveSyncBoxCenter": {
@@ -140569,6 +140797,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 82559827773204,
       "LiveSyncBoxCenter": {
@@ -140589,6 +140821,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 73159478556043,
       "LiveSyncBoxCenter": {
@@ -140608,6 +140844,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 73159478556043,
       "LiveSyncBoxCenter": {
@@ -140627,6 +140867,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 73159478556043,
       "LiveSyncBoxCenter": {
@@ -140646,6 +140890,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 115052555208165,
       "LiveSyncBoxCenter": {
@@ -140665,6 +140913,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 73159478556043,
       "LiveSyncBoxCenter": {
@@ -140684,6 +140936,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 112428378270982,
       "LiveSyncBoxCenter": {
@@ -140703,6 +140959,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 94774574140378,
       "LiveSyncBoxCenter": {
@@ -140722,6 +140982,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 92123005210365,
       "LiveSyncBoxCenter": {
@@ -140741,6 +141005,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 104273959297936,
       "LiveSyncBoxCenter": {
@@ -140760,6 +141028,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 115107090175747,
       "LiveSyncBoxCenter": {
@@ -140779,6 +141051,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 116117921384636,
       "LiveSyncBoxCenter": {
@@ -140798,6 +141074,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 131737428462624,
       "LiveSyncBoxCenter": {
@@ -140817,6 +141097,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 75806650743981,
       "LiveSyncBoxCenter": {
@@ -140836,6 +141120,9 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Default"
+     },
      "attributes": {
       "LiveSyncAsset": 122781399135554,
       "LiveSyncBoxCenter": {
@@ -140855,6 +141142,9 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Default"
+     },
      "attributes": {
       "LiveSyncAsset": 76614789822987,
       "LiveSyncBoxCenter": {
@@ -140874,6 +141164,9 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Default"
+     },
      "attributes": {
       "LiveSyncAsset": 92185220404121,
       "LiveSyncBoxCenter": {
@@ -140893,6 +141186,9 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Default"
+     },
      "attributes": {
       "LiveSyncAsset": 79942600256124,
       "LiveSyncBoxCenter": {
@@ -140912,6 +141208,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 71092881139492,
       "LiveSyncBoxCenter": {
@@ -140931,6 +141231,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 96116982736658,
       "LiveSyncBoxCenter": {
@@ -140950,6 +141254,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 107483949789482,
       "LiveSyncBoxCenter": {
@@ -140969,6 +141277,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 137738261061375,
       "LiveSyncBoxCenter": {
@@ -140988,6 +141300,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 84347859346632,
       "LiveSyncBoxCenter": {
@@ -141007,6 +141323,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 105308037500972,
       "LiveSyncBoxCenter": {
@@ -141026,6 +141346,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 86799814051401,
       "LiveSyncBoxCenter": {
@@ -141045,6 +141369,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 123267493353177,
       "LiveSyncBoxCenter": {
@@ -141064,6 +141392,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 88942408680521,
       "LiveSyncBoxCenter": {
@@ -141083,6 +141415,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 101557553274841,
       "LiveSyncBoxCenter": {
@@ -141102,6 +141438,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 125327553427333,
       "LiveSyncBoxCenter": {
@@ -141121,6 +141461,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 103100610225312,
       "LiveSyncBoxCenter": {
@@ -141140,6 +141484,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 101557553274841,
       "LiveSyncBoxCenter": {
@@ -141159,6 +141507,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 119171987307179,
       "LiveSyncBoxCenter": {
@@ -141178,6 +141530,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 125327553427333,
       "LiveSyncBoxCenter": {
@@ -141197,6 +141553,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 101557553274841,
       "LiveSyncBoxCenter": {
@@ -141216,6 +141576,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 103100610225312,
       "LiveSyncBoxCenter": {
@@ -141235,6 +141599,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 101557553274841,
       "LiveSyncBoxCenter": {
@@ -141254,6 +141622,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 125327553427333,
       "LiveSyncBoxCenter": {
@@ -141273,6 +141645,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 101557553274841,
       "LiveSyncBoxCenter": {
@@ -141292,6 +141668,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 88942408680521,
       "LiveSyncBoxCenter": {
@@ -141311,6 +141691,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 71639668608063,
       "LiveSyncBoxCenter": {
@@ -141330,6 +141714,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 82354393599774,
       "LiveSyncBoxCenter": {
@@ -141349,6 +141737,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 130998672104411,
       "LiveSyncBoxCenter": {
@@ -141368,6 +141760,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 81129835452314,
       "LiveSyncBoxCenter": {
@@ -141387,6 +141783,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 71639668608063,
       "LiveSyncBoxCenter": {
@@ -141406,6 +141806,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 103100610225312,
       "LiveSyncBoxCenter": {
@@ -141425,6 +141829,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 101557553274841,
       "LiveSyncBoxCenter": {
@@ -141444,6 +141852,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 88942408680521,
       "LiveSyncBoxCenter": {
@@ -141463,6 +141875,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 71639668608063,
       "LiveSyncBoxCenter": {
@@ -141482,6 +141898,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 81129835452314,
       "LiveSyncBoxCenter": {
@@ -141501,6 +141921,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 82354393599774,
       "LiveSyncBoxCenter": {
@@ -141520,6 +141944,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 101557553274841,
       "LiveSyncBoxCenter": {
@@ -141539,6 +141967,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 101557553274841,
       "LiveSyncBoxCenter": {
@@ -141558,6 +141990,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 101557553274841,
       "LiveSyncBoxCenter": {
@@ -141577,6 +142013,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 125590717240105,
       "LiveSyncBoxCenter": {
@@ -141596,6 +142036,9 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Default"
+     },
      "attributes": {
       "LiveSyncAsset": 135718641772169,
       "LiveSyncBoxCenter": {
@@ -141616,6 +142059,9 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Default"
+     },
      "attributes": {
       "LiveSyncAsset": 133790876707123,
       "LiveSyncBoxCenter": {
@@ -141636,6 +142082,9 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Default"
+     },
      "attributes": {
       "LiveSyncAsset": 98227649304418,
       "LiveSyncBoxCenter": {
@@ -141656,6 +142105,9 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Default"
+     },
      "attributes": {
       "LiveSyncAsset": 87425318825533,
       "LiveSyncBoxCenter": {
@@ -141676,6 +142128,9 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Default"
+     },
      "attributes": {
       "LiveSyncAsset": 96882086023841,
       "LiveSyncBoxCenter": {
@@ -141696,6 +142151,9 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Default"
+     },
      "attributes": {
       "LiveSyncAsset": 88225876732553,
       "LiveSyncBoxCenter": {
@@ -141716,6 +142174,9 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Default"
+     },
      "attributes": {
       "LiveSyncAsset": 95062576938884,
       "LiveSyncBoxCenter": {
@@ -141736,6 +142197,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 130415805320924,
       "LiveSyncBoxCenter": {
@@ -141755,6 +142220,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 77659574193441,
       "LiveSyncBoxCenter": {
@@ -141774,6 +142243,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 132947289779505,
       "LiveSyncBoxCenter": {
@@ -141793,6 +142266,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 135800400214231,
       "LiveSyncBoxCenter": {
@@ -141812,6 +142289,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 85332198684437,
       "LiveSyncBoxCenter": {
@@ -141831,6 +142312,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 78852975763829,
       "LiveSyncBoxCenter": {
@@ -141850,6 +142335,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 90173494196525,
       "LiveSyncBoxCenter": {
@@ -141869,6 +142358,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 70673747357732,
       "LiveSyncBoxCenter": {
@@ -141888,6 +142381,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 112241532032247,
       "LiveSyncBoxCenter": {
@@ -141907,6 +142404,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 135012753304514,
       "LiveSyncBoxCenter": {
@@ -141926,6 +142427,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 96316268862867,
       "LiveSyncBoxCenter": {
@@ -141945,6 +142450,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 84078501574119,
       "LiveSyncBoxCenter": {
@@ -141964,6 +142473,10 @@
      "tags": [
       "Building"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic",
+      "LevelOfDetail": "StreamingMesh"
+     },
      "attributes": {
       "LiveSyncAsset": 103696185411947,
       "LiveSyncBoxCenter": {
@@ -141989,6 +142502,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 97754943913314,
       "LiveSyncScale": 2.4,
@@ -142017,6 +142533,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 97754943913314,
       "LiveSyncScale": 2.4,
@@ -142045,6 +142564,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 97754943913314,
       "LiveSyncScale": 2.4,
@@ -142073,6 +142595,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 97754943913314,
       "LiveSyncScale": 2.4,
@@ -142101,6 +142626,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 97754943913314,
       "LiveSyncScale": 2.4,
@@ -142129,6 +142657,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 97754943913314,
       "LiveSyncScale": 2.4,
@@ -142157,6 +142688,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 97754943913314,
       "LiveSyncScale": 2.4,
@@ -142185,6 +142719,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 97754943913314,
       "LiveSyncScale": 2.4,
@@ -142213,6 +142750,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 97754943913314,
       "LiveSyncScale": 2.4,
@@ -142241,6 +142781,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 97754943913314,
       "LiveSyncScale": 2.4,
@@ -142269,6 +142812,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 97754943913314,
       "LiveSyncScale": 2.4,
@@ -142297,6 +142843,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 97754943913314,
       "LiveSyncScale": 2.4,
@@ -142325,6 +142874,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 97754943913314,
       "LiveSyncScale": 2.4,
@@ -142353,6 +142905,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 97754943913314,
       "LiveSyncScale": 2.4,
@@ -142381,6 +142936,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 97754943913314,
       "LiveSyncScale": 2.4,
@@ -142409,6 +142967,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 97754943913314,
       "LiveSyncScale": 2.4,
@@ -142437,6 +142998,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 97754943913314,
       "LiveSyncScale": 2.4,
@@ -142465,6 +143029,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 97754943913314,
       "LiveSyncScale": 2.4,
@@ -142493,6 +143060,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 97754943913314,
       "LiveSyncScale": 2.4,
@@ -142521,6 +143091,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 98570207290490,
       "LiveSyncScale": 2.4,
@@ -142549,6 +143122,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 98570207290490,
       "LiveSyncScale": 2.4,
@@ -142577,6 +143153,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 98570207290490,
       "LiveSyncScale": 2.4,
@@ -142605,6 +143184,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 98570207290490,
       "LiveSyncScale": 2.4,
@@ -142633,6 +143215,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 98570207290490,
       "LiveSyncScale": 2.4,
@@ -142661,6 +143246,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 98570207290490,
       "LiveSyncScale": 2.4,
@@ -142689,6 +143277,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 98570207290490,
       "LiveSyncScale": 2.4,
@@ -142717,6 +143308,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 98570207290490,
       "LiveSyncScale": 2.4,
@@ -142745,6 +143339,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 98570207290490,
       "LiveSyncScale": 2.4,
@@ -142773,6 +143370,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 98570207290490,
       "LiveSyncScale": 2.4,
@@ -142801,6 +143401,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 98570207290490,
       "LiveSyncScale": 2.4,
@@ -142829,6 +143432,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 98570207290490,
       "LiveSyncScale": 2.4,
@@ -142857,6 +143463,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 98570207290490,
       "LiveSyncScale": 2.4,
@@ -142885,6 +143494,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 98570207290490,
       "LiveSyncScale": 2.4,
@@ -142913,6 +143525,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 98570207290490,
       "LiveSyncScale": 2.4,
@@ -142941,6 +143556,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 98570207290490,
       "LiveSyncScale": 2.4,
@@ -142969,6 +143587,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 98570207290490,
       "LiveSyncScale": 2.4,
@@ -142997,6 +143618,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 98570207290490,
       "LiveSyncScale": 2.4,
@@ -143025,6 +143649,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 98570207290490,
       "LiveSyncScale": 2.4,
@@ -143053,6 +143680,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 98570207290490,
       "LiveSyncScale": 2.4,
@@ -143081,6 +143711,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 136069185718884,
       "LiveSyncScale": 2.4,
@@ -143109,6 +143742,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 136069185718884,
       "LiveSyncScale": 2.4,
@@ -143137,6 +143773,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 136069185718884,
       "LiveSyncScale": 2.4,
@@ -143165,6 +143804,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 136069185718884,
       "LiveSyncScale": 2.4,
@@ -143193,6 +143835,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 136069185718884,
       "LiveSyncScale": 2.4,
@@ -143221,6 +143866,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 136069185718884,
       "LiveSyncScale": 2.4,
@@ -143249,6 +143897,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 136069185718884,
       "LiveSyncScale": 2.4,
@@ -143277,6 +143928,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 136069185718884,
       "LiveSyncScale": 2.4,
@@ -143305,6 +143959,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 136069185718884,
       "LiveSyncScale": 2.4,
@@ -143333,6 +143990,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 136069185718884,
       "LiveSyncScale": 2.4,
@@ -143361,6 +144021,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 136069185718884,
       "LiveSyncScale": 2.4,
@@ -143389,6 +144052,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 136069185718884,
       "LiveSyncScale": 2.4,
@@ -143417,6 +144083,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 136069185718884,
       "LiveSyncScale": 2.4,
@@ -143445,6 +144114,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 136069185718884,
       "LiveSyncScale": 2.4,
@@ -143473,6 +144145,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 136069185718884,
       "LiveSyncScale": 2.4,
@@ -143501,6 +144176,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 136069185718884,
       "LiveSyncScale": 2.4,
@@ -143529,6 +144207,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 136069185718884,
       "LiveSyncScale": 2.4,
@@ -143557,6 +144238,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 136069185718884,
       "LiveSyncScale": 2.4,
@@ -143585,6 +144269,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 136069185718884,
       "LiveSyncScale": 2.4,
@@ -143613,6 +144300,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 136069185718884,
       "LiveSyncScale": 2.4,
@@ -143641,6 +144331,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 136069185718884,
       "LiveSyncScale": 2.4,
@@ -143669,6 +144362,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 118726279309343,
       "LiveSyncScale": 2.4,
@@ -143697,6 +144393,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 118726279309343,
       "LiveSyncScale": 2.4,
@@ -143725,6 +144424,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 118726279309343,
       "LiveSyncScale": 2.4,
@@ -143753,6 +144455,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 118726279309343,
       "LiveSyncScale": 2.4,
@@ -143781,6 +144486,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 118726279309343,
       "LiveSyncScale": 2.4,
@@ -143809,6 +144517,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 118726279309343,
       "LiveSyncScale": 2.4,
@@ -143837,6 +144548,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 118726279309343,
       "LiveSyncScale": 2.4,
@@ -143865,6 +144579,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 118726279309343,
       "LiveSyncScale": 2.4,
@@ -143893,6 +144610,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 118726279309343,
       "LiveSyncScale": 2.4,
@@ -143921,6 +144641,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 118726279309343,
       "LiveSyncScale": 2.4,
@@ -143949,6 +144672,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 118726279309343,
       "LiveSyncScale": 2.4,
@@ -143977,6 +144703,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 118726279309343,
       "LiveSyncScale": 2.4,
@@ -144005,6 +144734,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 118726279309343,
       "LiveSyncScale": 2.4,
@@ -144033,6 +144765,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 118726279309343,
       "LiveSyncScale": 2.4,
@@ -144061,6 +144796,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 118726279309343,
       "LiveSyncScale": 2.4,
@@ -144089,6 +144827,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 118726279309343,
       "LiveSyncScale": 2.4,
@@ -144117,6 +144858,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 118726279309343,
       "LiveSyncScale": 2.4,
@@ -144145,6 +144889,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 118726279309343,
       "LiveSyncScale": 2.4,
@@ -144173,6 +144920,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 118726279309343,
       "LiveSyncScale": 2.4,
@@ -144201,6 +144951,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 118726279309343,
       "LiveSyncScale": 2.4,
@@ -144229,6 +144982,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 118726279309343,
       "LiveSyncScale": 2.4,
@@ -144257,6 +145013,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 78865298128852,
       "LiveSyncScale": 2.4,
@@ -144285,6 +145044,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 78865298128852,
       "LiveSyncScale": 2.4,
@@ -144313,6 +145075,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 78865298128852,
       "LiveSyncScale": 2.4,
@@ -144341,6 +145106,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 78865298128852,
       "LiveSyncScale": 2.4,
@@ -144369,6 +145137,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 78865298128852,
       "LiveSyncScale": 2.4,
@@ -144397,6 +145168,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 78865298128852,
       "LiveSyncScale": 2.4,
@@ -144425,6 +145199,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 78865298128852,
       "LiveSyncScale": 2.4,
@@ -144453,6 +145230,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 78865298128852,
       "LiveSyncScale": 2.4,
@@ -144481,6 +145261,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 78865298128852,
       "LiveSyncScale": 2.4,
@@ -144509,6 +145292,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 78865298128852,
       "LiveSyncScale": 2.4,
@@ -144537,6 +145323,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 78865298128852,
       "LiveSyncScale": 2.4,
@@ -144565,6 +145354,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 78865298128852,
       "LiveSyncScale": 2.4,
@@ -144593,6 +145385,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 78865298128852,
       "LiveSyncScale": 2.4,
@@ -144621,6 +145416,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 78865298128852,
       "LiveSyncScale": 2.4,
@@ -144649,6 +145447,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 78865298128852,
       "LiveSyncScale": 2.4,
@@ -144677,6 +145478,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 78865298128852,
       "LiveSyncScale": 2.4,
@@ -144705,6 +145509,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 78865298128852,
       "LiveSyncScale": 2.4,
@@ -144733,6 +145540,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 78865298128852,
       "LiveSyncScale": 2.4,
@@ -144761,6 +145571,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 78865298128852,
       "LiveSyncScale": 2.4,
@@ -144789,6 +145602,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 78865298128852,
       "LiveSyncScale": 2.4,
@@ -144817,6 +145633,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 78865298128852,
       "LiveSyncScale": 2.4,
@@ -144845,6 +145664,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 78865298128852,
       "LiveSyncScale": 2.4,
@@ -144873,6 +145695,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 78865298128852,
       "LiveSyncScale": 2.4,
@@ -144901,6 +145726,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -144929,6 +145757,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -144957,6 +145788,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -144985,6 +145819,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -145013,6 +145850,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -145041,6 +145881,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -145069,6 +145912,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -145097,6 +145943,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -145125,6 +145974,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -145153,6 +146005,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -145181,6 +146036,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -145209,6 +146067,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -145237,6 +146098,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -145265,6 +146129,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -145293,6 +146160,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -145321,6 +146191,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -145349,6 +146222,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -145377,6 +146253,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -145405,6 +146284,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -145433,6 +146315,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -145461,6 +146346,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -145489,6 +146377,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -145517,6 +146408,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -145545,6 +146439,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -145573,6 +146470,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 113182288171470,
       "LiveSyncScale": 2.4,
@@ -145607,6 +146507,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 81675694493474,
       "LiveSyncScale": 2.4,
@@ -145636,6 +146539,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 81675694493474,
       "LiveSyncScale": 2.4,
@@ -145665,6 +146571,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 128462696461043,
       "LiveSyncScale": 2.4,
@@ -145694,6 +146603,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 128462696461043,
       "LiveSyncScale": 2.4,
@@ -145723,6 +146635,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 81675694493474,
       "LiveSyncScale": 2.4,
@@ -145752,6 +146667,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 81675694493474,
       "LiveSyncScale": 2.4,
@@ -145781,6 +146699,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 128462696461043,
       "LiveSyncScale": 2.4,
@@ -145810,6 +146731,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 128462696461043,
       "LiveSyncScale": 2.4,
@@ -145839,6 +146763,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 81675694493474,
       "LiveSyncScale": 2.4,
@@ -145868,6 +146795,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 81675694493474,
       "LiveSyncScale": 2.4,
@@ -145897,6 +146827,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 128462696461043,
       "LiveSyncScale": 2.4,
@@ -145926,6 +146859,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 128462696461043,
       "LiveSyncScale": 2.4,
@@ -145955,6 +146891,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 81675694493474,
       "LiveSyncScale": 2.4,
@@ -145984,6 +146923,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 81675694493474,
       "LiveSyncScale": 2.4,
@@ -146013,6 +146955,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 128462696461043,
       "LiveSyncScale": 2.4,
@@ -146042,6 +146987,9 @@
      "tags": [
       "CityProp"
      ],
+     "properties": {
+      "ModelStreamingMode": "Atomic"
+     },
      "attributes": {
       "LiveSyncAsset": 128462696461043,
       "LiveSyncScale": 2.4,

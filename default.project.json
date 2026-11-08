@@ -14,7 +14,15 @@
       }
     },
     "StarterGui": { "$path": "src/gui" },
-    "Workspace": { "$path": "src/workspace" },
+    "Workspace": {
+      "$path": "src/workspace",
+      "$properties": {
+        "StreamingEnabled": true,
+        "StreamingTargetRadius": 512,
+        "StreamingMinRadius": 96,
+        "StreamOutBehavior": "Opportunistic"
+      }
+    },
     "MaterialService": { "$path": "src/materials" }
   }
 }

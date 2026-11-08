@@ -379,22 +379,20 @@ local function buildCollision(model: Model): boolean
 	return true
 end
 
--- How a city model streams to players (Workspace.StreamingEnabled is on). Everything used to be
--- Persistent, so every player had to download the whole city (~1.9M triangles, ~600 textures)
--- before it stopped popping in. Now only the skyline is:
---   tall towers (>= SKYLINE_HEIGHT studs)  Persistent: seen from anywhere
---   world-wide models (streets, park, tree rows; wider than SPREAD studs)  Default: their
---     parts stream in piece by piece round the player
---   everything else (houses, shops, the fort)  Atomic: the whole building, collision boxes and
---     doors included, streams in together when the player gets near
-local SKYLINE_HEIGHT = 150
-local SPREAD = 400
+-- How a city model streams to players (Workspace.StreamingEnabled is on, target radius in
+-- default.project.json). Nothing is Persistent any more: that made every player download the
+-- whole city (~1.9M triangles, ~600 textures) up front.
+--   world-wide models (streets, tree rows; wider than WIDE studs)  Default: parts stream in
+--     piece by piece round the player
+--   everything else (houses, shops, towers, the fort)  Atomic: the whole building, collision
+--     boxes and doors included, streams in together near the player. From far away players see
+--     Roblox's own low-detail copy instead (LevelOfDetail StreamingMesh, set in the map by
+--     tools/build_city_map.py; scripts can't set it), so the skyline still shows.
+local WIDE = 600 -- studs; same as WIDE in tools/build_city_map.py
 
 local function streamingMode(model: Model): Enum.ModelStreamingMode
 	local _, size = model:GetBoundingBox()
-	if size.Y >= SKYLINE_HEIGHT then
-		return Enum.ModelStreamingMode.Persistent
-	elseif math.max(size.X, size.Z) >= SPREAD then
+	if math.max(size.X, size.Z) > WIDE then
 		return Enum.ModelStreamingMode.Default
 	end
 	return Enum.ModelStreamingMode.Atomic

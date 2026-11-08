@@ -76,7 +76,8 @@ def world_folders():
     scale, top = cfg["scale"], cfg["plinth_top"]
 
     def prop(name, key, cf, extra=None):
-        return {"name": name, "className": "Model", "tags": ["CityProp"], "attributes": {
+        return {"name": name, "className": "Model", "tags": ["CityProp"],
+                "properties": {"ModelStreamingMode": "Atomic"}, "attributes": {
             "LiveSyncAsset": ids[key], "LiveSyncScale": scale, "LiveSyncCFrame": {"CFrame": cf},
             "CityProp": key, **(extra or {})}}
 

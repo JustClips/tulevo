@@ -455,6 +455,7 @@ def textures_attr(model, variants=None):
 
 
 lock = json.load(open(os.path.join(ROOT, "art", "models.lock.json")))
+WIDE = 600  # studs; must match WIDE in src/server/CityBuildings.server.luau
 buildings = []
 for name, model, at, *rest in BUILDINGS:
     variants = rest[:1] if rest and rest[0] else []
@@ -465,7 +466,12 @@ for name, model, at, *rest in BUILDINGS:
     c = [(a + b) / 2 for a, b in zip(lo, hi)]
     # Blender (x, y, z) -> Roblox (-x, z, y)
     center = [round(at[0] - c[0], 3), round(at[1] + c[2], 3), round(at[2] + c[1], 3)]
-    buildings.append({"name": name, "className": "Model", "tags": ["Building"], "attributes": {
+    # Streaming (Workspace.StreamingEnabled): compact buildings stream in whole near the player
+    # and show as a cheap auto-made low-detail mesh (LevelOfDetail StreamingMesh) from far away;
+    # world-wide models (streets, tree rows, wider than WIDE studs) stream part by part.
+    wide = max(hi[0] - lo[0], hi[1] - lo[1]) > WIDE
+    props = {"ModelStreamingMode": "Default"} if wide else {"ModelStreamingMode": "Atomic", "LevelOfDetail": "StreamingMesh"}
+    buildings.append({"name": name, "className": "Model", "tags": ["Building"], "properties": props, "attributes": {
         "LiveSyncAsset": lock[model]["id"], "LiveSyncBoxCenter": {"Vector3": center}, "CityModel": model,
         **textures_attr(model, variants[0] if variants else None), **extra}})
 children.append({"name": "Buildings", "className": "Folder", "children": buildings})
