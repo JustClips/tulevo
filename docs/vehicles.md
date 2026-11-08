@@ -81,6 +81,13 @@ The rider: `VehicleService` sets the SeatWeld so the HumanoidRootPart is 1 stud 
 holds still) and then fires Exit; the server stands you at `Def.ExitOffset`, where the clip ends.
 Above walking pace F gets you off at once.
 
+Handling is GTA-like rather than twitchy: at speed the turn is capped at `Steering.MaxSideAccel`
+(about half a g, so fast bikes turn wide) and the bike takes up to `Steering.LeanTime` to lean in.
+Wheelie: hold Ctrl (gamepad: left stick back, phones: the Wheelie button) with the throttle open.
+The front lifts up to `Wheelie.Max` degrees about the rear tyre (visual; steering mostly goes away);
+the rider's client tells the server (remote `VehicleRemotes.Wheelie`), which sets the model attribute
+`Wheelie` so everyone sees it.
+
 Rider clips: `python3 art/anim/bike.py` (writes `art/out/anims/Tulevo_Bike*.rbxmx`), then
 `python3 tools/upload_anims.py`. `S` and `STEER_LOCK` there must match the Def's `Rig.Scale` and
 `Steering.MaxAngle`. The blocky rig's arms only reach about 1.5 studs, so the rider sits forward with

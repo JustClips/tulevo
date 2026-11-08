@@ -103,13 +103,25 @@ local function meshes(def): ({ [string]: { Part: MeshPart, Rest: CFrame } }?, Mo
 	local parts: { [string]: MeshPart } = {}
 	for _, d in src:GetDescendants() do
 		if d:IsA("MeshPart") then
+			-- a mesh named "Bars.002" (Blender data copy) is still the part "Bars"
+			d.Name = (string.gsub(d.Name, "%.%d+$", ""))
 			parts[d.Name] = d
 		end
 	end
 	local front, rear, rotL, rotR = parts.FrontTyre, parts.RearTyre, parts.FrontRotorL, parts.FrontRotorR
 	if not (front and rear and rotL and rotR) then
+		local names = {}
+		for n in parts do
+			table.insert(names, n)
+			if #names >= 10 then
+				break
+			end
+		end
 		warn(
-			`[Vehicles] {def.Model} is missing FrontTyre / RearTyre / FrontRotorL / FrontRotorR; using the placeholder`
+			`[Vehicles] {def.Model} is missing FrontTyre / RearTyre / FrontRotorL / FrontRotorR (has {table.concat(
+				names,
+				", "
+			)}); using the placeholder`
 		)
 		src:Destroy()
 		return nil
@@ -190,6 +202,7 @@ function BikeBuilder.build(def): Model
 	model.Name = def.Name
 	model:SetAttribute("VehicleId", def.Id)
 	model:SetAttribute("Bike", true)
+	model.ModelStreamingMode = Enum.ModelStreamingMode.Atomic -- the hinge welds need every part at once
 	local s = def.Size
 	local pts = BikeRig.points(def)
 

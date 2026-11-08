@@ -39,6 +39,9 @@ remotes.Name = "VehicleRemotes"
 local ExitRemote = Instance.new("RemoteEvent")
 ExitRemote.Name = "Exit"
 ExitRemote.Parent = remotes
+local WheelieRemote = Instance.new("RemoteEvent") -- bikes: rider's client says the front is lifting / dropping
+WheelieRemote.Name = "Wheelie"
+WheelieRemote.Parent = remotes
 remotes.Parent = ReplicatedStorage
 
 local folder = Instance.new("Folder")
@@ -157,6 +160,7 @@ local function onOccupant(car: Car)
 	end
 	car.driver = player
 	car.model:SetAttribute("DriverId", player and player.UserId or nil)
+	car.model:SetAttribute("Wheelie", nil)
 	car.prompt.Enabled = player == nil
 	if player then
 		setOwner(car, player)
@@ -346,8 +350,21 @@ local function checkCars()
 	end
 end
 
+local function wheelie(player: Player, up: any)
+	if type(up) ~= "boolean" or not Guard.rate(player, "BikeWheelie", 10, 6) then
+		return
+	end
+	for _, car in cars do
+		if car.driver == player and car.def.Wheelie then
+			car.model:SetAttribute("Wheelie", if up then true else nil)
+			return
+		end
+	end
+end
+
 function VehicleService.start()
 	ExitRemote.OnServerEvent:Connect(exit)
+	WheelieRemote.OnServerEvent:Connect(wheelie)
 	task.spawn(function()
 		while true do
 			task.wait(CAR_CHECK)

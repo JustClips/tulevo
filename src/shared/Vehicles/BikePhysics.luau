@@ -8,13 +8,20 @@
 	only rolls the chassis back to the ground's up; yaw and pitch stay free. The lean you see is
 	visual (Client/Vehicles/Bike), worked out from speed and turn rate.
 
-	Steering: at walking pace the bars turn up to Steering.MaxAngle. Faster, the turn is capped so
-	it never needs more lean than Lean.Max, i.e. sideways acceleration <= Gravity * tan(Lean.Max).
+	Steering: at walking pace the bars turn up to Steering.MaxAngle. Faster, the turn is capped at
+	Steering.MaxSideAccel of sideways acceleration (the lean you see maps that to Lean.Max), and the
+	bike takes up to Steering.LeanTime to lean in, so at speed it turns wide and a little late (GTA).
+
+	Wheelie: input.Wheelie with the throttle open lifts the front (rig.Wheelie, degrees) up to
+	Def.Wheelie.Max; it's visual (Client/Vehicles/Bike pitches the bike about the rear tyre), the
+	physics only takes away most of the steering while the front is up.
 
 		local rig = BikePhysics.new(model, def)
-		rig:step(dt, { Throttle = -1..1, Steer = -1..1, Handbrake = bool })
+		rig:step(dt, { Throttle = -1..1, Steer = -1..1, Handbrake = bool, Wheelie = bool })
 		rig.Steer, rig.Speed, rig.Grounded, rig.Wheels[1 = F, 2 = R].Distance  (same as Physics)
+		rig.Wheelie (degrees), rig.WheelieUp (lifting now)
 		BikePhysics.leanFor(def, speed, yawRate) -> degrees (+ = leaning left)
+		BikePhysics.wheelieStep(def, pitch, up, dt) -> the next wheelie angle
 ]]
 
 local Physics = require(script.Parent:WaitForChild("Physics"))
@@ -36,6 +43,8 @@ function BikePhysics.new(model: Model, def)
 		Steer = 0,
 		Speed = 0,
 		Grounded = 0,
+		Wheelie = 0,
+		WheelieUp = false,
 		flipTimer = 0,
 	}, BikePhysics)
 	for _, name in BikePhysics.WHEELS do
@@ -59,13 +68,26 @@ end
 
 -- Sideways acceleration a turn may need at most (studs/s^2).
 local function maxSideAccel(def): number
-	return workspace.Gravity * math.tan(math.rad(def.Lean.Max))
+	return def.Steering.MaxSideAccel or workspace.Gravity * math.tan(math.rad(def.Lean.Max))
 end
 
--- Lean (degrees, + = left) that balances turning at yawRate (rad/s, + = turning left) at speed.
+-- Lean (degrees, + = left) for turning at yawRate (rad/s, + = turning left) at speed: like a real
+-- bike (tan(lean) = sideways accel / g), with g scaled so the hardest turn leans Lean.Max.
 function BikePhysics.leanFor(def, speed: number, yawRate: number): number
-	local a = speed * yawRate
-	return math.clamp(math.deg(math.atan(a / workspace.Gravity)), -def.Lean.Max, def.Lean.Max)
+	local g = maxSideAccel(def) / math.tan(math.rad(def.Lean.Max))
+	return math.clamp(math.deg(math.atan(speed * yawRate / g)), -def.Lean.Max, def.Lean.Max)
+end
+
+-- Wheelie angle after dt: rises toward Wheelie.Max while `up`, drops back otherwise.
+function BikePhysics.wheelieStep(def, pitch: number, up: boolean, dt: number): number
+	local w = def.Wheelie
+	if not w then
+		return 0
+	end
+	if up then
+		return math.min(w.Max, pitch + w.Rise * dt)
+	end
+	return math.max(0, pitch - w.Fall * dt)
 end
 
 -- Largest wheel angle (radians) at this speed.
@@ -107,10 +129,25 @@ function BikePhysics:step(dt: number, input)
 	local forwardSpeed = vel:Dot(cf.LookVector)
 	self.Speed = forwardSpeed
 
-	-- steering (+ = left), capped by the lean limit at speed
-	local target = -steerIn * BikePhysics.maxSteer(def, forwardSpeed)
+	-- wheelie: Ctrl + throttle, rear wheel down, between walking pace and nearly flat out
+	local wh = def.Wheelie
+	local rearDown = self.Wheels[2].Hit ~= nil
+	self.WheelieUp = wh ~= nil
+		and input.Wheelie == true
+		and throttle > 0.3
+		and rearDown
+		and forwardSpeed > wh.MinSpeed
+		and forwardSpeed < eng.MaxSpeed * 0.92
+	self.Wheelie = BikePhysics.wheelieStep(def, self.Wheelie, self.WheelieUp, dt)
+	local frontUp = if wh then math.clamp(self.Wheelie / 8, 0, 1) else 0
+
+	-- steering (+ = left): capped at speed, and the bike leans in before it turns
+	local speedFrac = math.clamp(math.abs(forwardSpeed) / eng.MaxSpeed, 0, 1)
+	local target = -steerIn * BikePhysics.maxSteer(def, forwardSpeed) * (1 - frontUp * (1 - (wh and wh.Steer or 1)))
+	local lag = (def.Steering.LeanTime or 0) * speedFrac + 0.06
+	local want = self.Steer + (target - self.Steer) * math.min(1, dt / lag)
 	local rate = if math.abs(target) < math.abs(self.Steer) then def.Steering.ReturnSpeed else def.Steering.Speed
-	self.Steer += math.clamp(target - self.Steer, -rate * dt, rate * dt)
+	self.Steer += math.clamp(want - self.Steer, -rate * dt, rate * dt)
 
 	-- 1) suspension rays
 	local params = Physics.rayParams(self.Model)

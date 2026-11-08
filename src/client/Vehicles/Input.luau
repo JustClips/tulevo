@@ -1,11 +1,12 @@
 --[[
 	Driving inputs, read every physics step while you're in the driver's seat.
-		Input.read() -> { Throttle = -1..1, Steer = -1..1, Handbrake = bool }
+		Input.read() -> { Throttle = -1..1, Steer = -1..1, Handbrake = bool, Wheelie = bool }
 
 	Keyboard: W/S (or arrows) gas and brake/reverse, A/D steer, Space handbrake.
 	Gamepad: RT gas, LT brake/reverse, left stick steer, RB (or A) handbrake.
 	Phones: the move stick (up = gas, down = brake/reverse, sideways = steer) + Brake button.
 	F / gamepad Y / phone Exit button gets out (Vehicles/init binds that).
+	Bikes: wheelie = Ctrl (gamepad: left stick pulled back, phones: Wheelie button).
 ]]
 
 local ContextActionService = game:GetService("ContextActionService")
@@ -17,6 +18,7 @@ local Input = {}
 local PRIORITY = Enum.ContextActionPriority.High.Value + 10 -- above the jump key, so Space doesn't jump out
 
 local handbrake = false
+local wheelieButton = false -- phone button / bound Ctrl (bikes)
 local controls = nil -- Roblox's ControlModule, only used for the phone stick
 
 local function key(...): boolean
@@ -95,16 +97,30 @@ function Input.read()
 		end
 		throttle = rt - lt -- GTA style: triggers drive, the stick only steers
 	end
+	local wheelie = wheelieButton
+		or key(Enum.KeyCode.LeftControl, Enum.KeyCode.RightControl)
+		or (gamepad() and move.Z > 0.6) -- stick pulled back
 	return {
 		Throttle = math.clamp(throttle, -1, 1),
 		Steer = math.clamp(move.X, -1, 1),
 		Handbrake = handbrake,
+		Wheelie = wheelie,
 	}
 end
 
--- Driving controls on/off (Vehicles/init calls this when you get in and out).
-function Input.bind(onExit: () -> ())
+-- Driving controls on/off (Vehicles/init calls this when you get in and out). opts.Wheelie: bikes.
+function Input.bind(onExit: () -> (), opts: { Wheelie: boolean? }?)
 	handbrake = false
+	wheelieButton = false
+	if opts and opts.Wheelie then
+		-- Ctrl is bound too, so it doesn't crouch while riding
+		ContextActionService:BindActionAtPriority("Vehicle_Wheelie", function(_, state)
+			wheelieButton = state == Enum.UserInputState.Begin
+			return Enum.ContextActionResult.Sink
+		end, true, PRIORITY, Enum.KeyCode.LeftControl, Enum.KeyCode.RightControl)
+		ContextActionService:SetTitle("Vehicle_Wheelie", "Wheelie")
+		ContextActionService:SetPosition("Vehicle_Wheelie", UDim2.new(1, -95, 1, -285))
+	end
 	ContextActionService:BindActionAtPriority("Vehicle_Handbrake", function(_, state)
 		handbrake = state == Enum.UserInputState.Begin
 		return Enum.ContextActionResult.Sink
@@ -124,6 +140,8 @@ end
 
 function Input.unbind()
 	handbrake = false
+	wheelieButton = false
+	ContextActionService:UnbindAction("Vehicle_Wheelie")
 	ContextActionService:UnbindAction("Vehicle_Handbrake")
 	ContextActionService:UnbindAction("Vehicle_Exit")
 end

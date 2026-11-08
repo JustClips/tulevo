@@ -142,8 +142,9 @@ def export_model(model, parts, looks, texfiles, credit=CREDIT, max_tris=20000, e
     assert not gl.get("images"), "GLB must not embed images"
     for nd in gl["nodes"]:
         nd["name"] = nd["name"].removesuffix("_x")
-    for m in gl.get("meshes", []):
-        m["name"] = m["name"].removesuffix("_x")
+    for nd in gl["nodes"]:   # mesh data copies get ".001" suffixes: name every mesh after its part
+        if "mesh" in nd:
+            gl["meshes"][nd["mesh"]]["name"] = nd["name"]
     js = json.dumps(gl, separators=(",", ":")).encode()
     js += b" " * ((4 - len(js) % 4) % 4)
     body = struct.pack("<II", len(js), 0x4E4F534A) + js + data[20 + ln:]

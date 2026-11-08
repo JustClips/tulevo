@@ -6,6 +6,8 @@
 	  - the bars and forks turn about the steering axis, the forks slide with the front suspension,
 	    the swingarm swings with the rear one, both wheels spin
 	  - a parked bike drops its side stand and rests on it
+	  - wheelies: the bike pitches up about the rear tyre (your rig's angle; for other riders the
+	    server's model attribute "Wheelie", which Vehicles/init sends when you lift or drop the front)
 	The bike you ride uses its physics rig (exact steer + suspension); other bikes get a ray per
 	wheel and a steer worked out from how fast they turn.
 
@@ -38,6 +40,7 @@ type State = {
 	spinF: number,
 	spinR: number,
 	stand: number, -- 0 = up, 1 = down
+	pitch: number, -- wheelie, degrees
 	yaw: number?,
 	yawRate: number,
 }
@@ -110,13 +113,14 @@ local function update(model: Model, dt: number, camPos: Vector3)
 			spinF = 0,
 			spinR = 0,
 			stand = 0,
+			pitch = 0,
 			yaw = nil,
 			yawRate = 0,
 		}
 		states[model] = st
 	end
 	local welds = st.welds
-	if not welds.Lean then
+	if not welds.Lean or not welds.Steer then
 		st.welds = findWelds(model)
 		welds = st.welds
 		if not welds.Lean then
@@ -158,6 +162,11 @@ local function update(model: Model, dt: number, camPos: Vector3)
 	local lean = if parked then def.Lean.Parked else BikePhysics.leanFor(def, speed, st.yawRate)
 	st.lean = approach(st.lean, lean, dt * def.Lean.Rate)
 	st.stand = approach(st.stand, if parked then 1 else 0, dt * 3)
+	if rig then
+		st.pitch = rig.Wheelie or 0
+	else
+		st.pitch = BikePhysics.wheelieStep(def, st.pitch, model:GetAttribute("Wheelie") == true and ridden, dt)
+	end
 
 	-- suspension
 	local length = def.Suspension.Length
@@ -187,7 +196,13 @@ local function update(model: Model, dt: number, camPos: Vector3)
 
 	-- welds (positions are chassis space, see Shared/Vehicles/BikeRig)
 	local pivot = CFrame.new(0, def.Rig.Ground, 0) -- lean about the tyres' contact line
-	welds.Lean.C0 = pivot * CFrame.Angles(0, 0, math.rad(st.lean)) * pivot:Inverse()
+	local rearTyre = CFrame.new(0, def.Rig.Ground, pts.RearAxle.Z) -- wheelie about the rear tyre
+	welds.Lean.C0 = pivot
+		* CFrame.Angles(0, 0, math.rad(st.lean))
+		* pivot:Inverse()
+		* rearTyre
+		* CFrame.Angles(math.rad(st.pitch), 0, 0)
+		* rearTyre:Inverse()
 	if welds.Steer then
 		welds.Steer.C0 = CFrame.new(pts.Hinge) * CFrame.fromAxisAngle(pts.Axis, st.steer)
 	end
@@ -195,7 +210,9 @@ local function update(model: Model, dt: number, camPos: Vector3)
 	local restR = def.Wheels.R.Y - pts.RearAxle.Y
 	if welds.Fork then
 		-- the hub moves up by (rest - distance); the forks slide that much along the tilted axis
-		local slide = math.clamp((restF - st.front) / pts.CosRake, -0.5 * length, length)
+		-- (front wheel in the air on a wheelie: forks hang out)
+		local front = if st.pitch > 3 then length else st.front
+		local slide = math.clamp((restF - front) / pts.CosRake, -0.5 * length, length)
 		welds.Fork.C0 = CFrame.new(pts.Axis * slide)
 	end
 	if welds.SpinF then
@@ -329,7 +346,9 @@ function Bike.startRider(model: Model, character: Model, read: () -> any)
 		local lean, steer = Bike.state(model)
 		local input = read()
 		local speed = chassis.AssemblyLinearVelocity:Dot(chassis.CFrame.LookVector)
-		for name, w in weights(def, speed, input.Throttle or 0, steer, lean) do
+		local st = states[model]
+		local wheelie = st and st.pitch > 5
+		for name, w in weights(def, speed, if wheelie then 0 else input.Throttle or 0, steer, lean) do
 			local t = tracks[name]
 			if t then
 				t:AdjustWeight(math.max(w, 0.001), 0.12)

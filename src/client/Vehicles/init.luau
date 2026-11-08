@@ -97,6 +97,7 @@ local function startDriving(model: Model)
 		Wheels.setRig(model, rig)
 		Cockpit.setDriver(model, read)
 	end
+	local sentWheelie = false
 	Input.bind(function()
 		if isBike then
 			-- step off first (the bike holds still), then get out
@@ -106,7 +107,7 @@ local function startDriving(model: Model)
 		else
 			Remotes.Exit:FireServer()
 		end
-	end)
+	end, { Wheelie = isBike })
 	driving = {
 		model = model,
 		rig = rig,
@@ -115,6 +116,11 @@ local function startDriving(model: Model)
 				-- no riding off while hopping on or off a bike
 				last = if isBike and Bike.busy() then PARKED else Input.read()
 				rig:step(dt, last)
+				-- other players see your wheelie from the server's model attribute
+				if isBike and rig.WheelieUp ~= sentWheelie then
+					sentWheelie = rig.WheelieUp
+					Remotes.Wheelie:FireServer(sentWheelie)
+				end
 				-- other players see the steering wheel and pedals move from these
 				if seat then
 					seat.ThrottleFloat = last.Throttle

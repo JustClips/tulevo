@@ -155,6 +155,44 @@ def lt_frame_of(pos, rot):
     return r15.T(0, -1.0, 0) @ r15.T(*pos) @ r15.R(rot) @ r15.T(0, 0.2, 0)
 
 
+def solve_arm(base_poses, side, target, x0, pole, rot_w=1.0, reg=0.15):
+    """gun.solve_arm plus a small pull toward x0 (the previous frame / pose). The arm has more
+    freedom than the grip needs (upper arm twist, wrist), and without the pull each frame could
+    settle on a different twist: the clips then spin the arms when played or blended."""
+    up, low, hand = G.ARM_PARTS[side]
+    ut = r15.solve(base_poses)["UpperTorso"]
+    ref = np.array(x0, dtype=float)
+
+    def residual(x):
+        f = G.fast_arm(ut, side, x)
+        h = f[hand] @ r15.T(*G.GRIP_OFFSET)
+        elbow = (f[low] @ np.array([0, 0.275, 0, 1]))[:3]
+        return np.concatenate([(h[:3, 3] - target[:3, 3]) * 12.0, G.log_rot(target[:3, :3].T @ h[:3, :3]) * rot_w,
+                               (elbow - pole) * 0.35, x[4:7] * 0.08,
+                               np.array([min(0, x[3]), max(0, x[3] - D(150))]) * 10, (x - ref) * reg])
+
+    x = ref.copy()
+    lam = 1e-2
+    cur = residual(x)
+    for _ in range(150):
+        J = np.zeros((len(cur), len(x)))
+        for i in range(len(x)):
+            dx = np.zeros(len(x))
+            dx[i] = 1e-5
+            J[:, i] = (residual(x + dx) - cur) / 1e-5
+        A = J.T @ J
+        step = np.linalg.solve(A + lam * np.diag(np.diag(A) + 1e-6), -J.T @ cur)
+        nxt = residual(x + step)
+        if nxt @ nxt < cur @ cur:
+            x, cur, lam = x + step, nxt, lam * 0.3
+            if np.linalg.norm(step) < 1e-7:
+                break
+        else:
+            lam *= 4
+    f = G.fast_arm(ut, side, x)
+    return x, float(np.linalg.norm((f[hand] @ r15.T(*G.GRIP_OFFSET))[:3, 3] - target[:3, 3]))
+
+
 # ------------------------------------------------------------------ poses
 SIDES = {1: "Right", -1: "Left"}
 
@@ -189,12 +227,7 @@ def make_pose(k, warm):
         misses["foot" + pre] = miss
     for side, pre in SIDES.items():
         target = r15.T(*k[f"hand{side}"]) @ r15.R(hand_rot(side, *k[f"hand{side}_rot"]))
-        x, err = G.solve_arm(poses, side, target, warm[side], rot_w=0.35, pole=k[f"elbow{side}"])
-        if err > 0.03:   # the solver can stall in a bad bend: retry from a few relaxed starts
-            for seed in SEEDS:
-                x2, e2 = G.solve_arm(poses, side, target, seed, rot_w=0.35, pole=k[f"elbow{side}"])
-                if e2 < err:
-                    x, err = x2, e2
+        x, err = solve_arm(poses, side, target, warm[side], k[f"elbow{side}"])
         warm[side] = x
         up, low, hand = G.ARM_PARTS[side]
         poses[up] = ((0, 0, 0), G.rotvec(x[0:3]))
@@ -317,39 +350,69 @@ def interp(keys, t):
     return out
 
 
-def clip_frames(keys, loop=False):
-    warm = {1: np.array([-1.2, 0.0, 0.0, 0.6, 0, 0, 0]), -1: np.array([-1.2, 0.0, 0.0, 0.6, 0, 0, 0])}
+def blend(a, b, u):
+    return {n: a[n] + (b[n] - a[n]) * u for n in a}
+
+
+def ride_warm():
+    """Arm solution for Ride: the best of a few starts (every other pose grows out of this one)."""
+    best = None
+    for seed in SEEDS:
+        warm = {1: seed.copy(), -1: seed.copy()}
+        for _ in range(3):
+            _, miss = make_pose(RIDE, warm)
+        err = miss["handRight"] + miss["handLeft"]
+        if best is None or err < best[0] - 1e-3:
+            best = (err, {s_: w.copy() for s_, w in warm.items()})
+    return best[1]
+
+
+def reach(k, warm, start=None, steps=12):
+    """Pose k solved by walking there from `start` (default Ride) in small steps, so the arms move
+    smoothly from that pose's solution instead of jumping to another twist."""
+    start = RIDE if start is None else start
+    warm = {s_: w.copy() for s_, w in warm.items()}
+    for i in range(1, steps + 1):
+        poses, miss = make_pose(blend(start, k, i / steps), warm)
+    for _ in range(2):
+        poses, miss = make_pose(k, warm)
+    return poses, miss, warm
+
+
+def held(k, warm, length=1.0):
+    """A held pose as a looping clip: the same solved pose at both ends (nothing moves)."""
+    poses, miss, w = reach(k, warm)
+    return [(0.0, poses), (length, poses)], miss, w
+
+
+def clip_frames(keys, warm):
+    """Frames of a keyed clip, solved from the last frame back to the first, starting from `warm`
+    (the solution of the clip's last pose), so the clip ends exactly on that pose."""
     end = keys[-1][0]
     n = max(1, int(round(end * FPS)))
+    warm = {s_: w.copy() for s_, w in warm.items()}
     frames, worst = [], {}
-    for i in range(n + 1):
+    for i in range(n, -1, -1):
         t = end * i / n
         poses, miss = make_pose(interp(keys, t), warm)
         frames.append((t, poses))
         for k, v in miss.items():
             worst[k] = max(worst.get(k, 0.0), v)
-    return frames, worst
-
-
-def pose_frames(k, length=1.0):
-    """A held pose as a short looping clip (two identical keys)."""
-    return clip_frames([(0.0, k), (length, k)])
+    return frames[::-1], worst
 
 
 ALL = list(r15.ORDER)
 
 
 def clips():
-    out = {
-        "Ride": pose_frames(key()),
-        "SteerLeft": pose_frames(steer_key(STEER_LOCK)),
-        "SteerRight": pose_frames(steer_key(-STEER_LOCK)),
-        "LeanLeft": pose_frames(lean_key(1)),
-        "LeanRight": pose_frames(lean_key(-1)),
-        "Tuck": pose_frames(TUCK),
-        "Stop": pose_frames(STOP),
-    }
-    mount, worst = clip_frames(mount_keys())
+    w_ride = ride_warm()
+    out = {}
+    warms = {}
+    for name, k in (("Ride", key()), ("SteerLeft", steer_key(STEER_LOCK)), ("SteerRight", steer_key(-STEER_LOCK)),
+                    ("LeanLeft", lean_key(1)), ("LeanRight", lean_key(-1)), ("Tuck", TUCK), ("Stop", STOP)):
+        frames, miss, warms[name] = held(k, w_ride)
+        out[name] = (frames, miss)
+    mount, worst = clip_frames(mount_keys(), warms["Stop"])
     out["Mount"] = (mount, worst)
     end = mount[-1][0]
     out["Dismount"] = ([(end - t, p) for t, p in reversed(mount)], worst)

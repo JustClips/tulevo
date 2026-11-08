@@ -48,20 +48,33 @@ return {
 	},
 
 	Steering = {
-		MaxAngle = 24, -- bar lock at walking speed; at speed the lean limit (below) caps the turn
-		Speed = 3.2, -- radians/s
-		ReturnSpeed = 5,
+		MaxAngle = 24, -- bar lock at walking speed
+		-- at speed the turn is capped by sideways acceleration (studs/s^2): about half a g, so a fast bike
+		-- needs room to turn, like GTA (at 120 studs/s the tightest turn has a ~145 stud radius)
+		MaxSideAccel = 100,
+		LeanTime = 0.35, -- seconds the bike takes to lean into a turn at top speed (quicker when slow)
+		Speed = 1.8, -- radians/s the bars can turn
+		ReturnSpeed = 3,
 	},
 
 	Lean = {
-		Max = 48, -- degrees; the hardest turn is the one that needs this lean (Gravity x tan(Max))
-		Rate = 140, -- degrees/s the body can roll
+		Max = 45, -- degrees of lean in the hardest turn (Steering.MaxSideAccel)
+		Rate = 90, -- degrees/s the body can roll
 		Parked = 5, -- degrees it rests on the side stand
 	},
 
+	-- hold Ctrl (gamepad: left stick back, phones: Wheelie button) with the throttle open
+	Wheelie = {
+		Max = 32, -- degrees the front comes up
+		Rise = 50, -- degrees/s up
+		Fall = 85, -- degrees/s back down when you let go
+		MinSpeed = 4, -- studs/s
+		Steer = 0.25, -- share of the steering left with the front wheel in the air
+	},
+
 	Grip = {
-		Rate = 14,
-		Friction = 1.6,
+		Rate = 7, -- lower than the cars: the bike carries its momentum and drifts a little
+		Friction = 1.3,
 		Front = 1,
 		Rear = 1,
 		Handbrake = 0.45, -- Space = rear brake: the back steps out a little
