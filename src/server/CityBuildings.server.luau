@@ -124,7 +124,40 @@ local function partsCenter(model: Model): Vector3
 	return if lo.X < math.huge then (lo + hi) / 2 else model:GetPivot().Position
 end
 
-local propAssets: { [number]: Instance } = {} -- City Prop asset id -> loaded copy to clone
+-- Asset id -> a clean loaded copy to clone. Many models share an asset (4 BrickBlock_S, 3 Store_S,
+-- ~130 lamp / signal props on a handful of assets), so each id is fetched from Roblox only once,
+-- even when several loader threads ask for it at the same time. Cleared once the city is done.
+local assetCache: { [number]: Instance } = {}
+local assetWaiting: { [number]: { thread } } = {}
+
+local function fetch(id: number): (boolean, any)
+	local cached = assetCache[id]
+	if cached then
+		return true, cached:Clone()
+	end
+	local waiting = assetWaiting[id]
+	if waiting then
+		-- another thread is loading this id: wait for it
+		table.insert(waiting, coroutine.running())
+		coroutine.yield()
+		cached = assetCache[id]
+		if cached then
+			return true, cached:Clone()
+		end
+		return false, "load failed in another thread"
+	end
+	assetWaiting[id] = {}
+	local ok, container = pcall(InsertService.LoadAsset, InsertService, id)
+	if ok then
+		assetCache[id] = container:Clone()
+	end
+	local list = assetWaiting[id]
+	assetWaiting[id] = nil
+	for _, t in list do
+		task.spawn(t)
+	end
+	return ok, container
+end
 
 local function load(model: Model)
 	local id = tonumber(model:GetAttribute("LiveSyncAsset"))
@@ -132,20 +165,11 @@ local function load(model: Model)
 		return
 	end
 	-- placed props (City Prop lamps / signals, tools/city_props.py), the same as the LiveSync
-	-- plugin v10: scale the asset about its origin, then move it by LiveSyncCFrame. Each prop
-	-- asset is loaded once and cloned.
+	-- plugin v10: scale the asset about its origin, then move it by LiveSyncCFrame.
 	local scale = model:GetAttribute("LiveSyncScale")
 	local placed = model:GetAttribute("LiveSyncCFrame")
 	local isProp = typeof(placed) == "CFrame"
-	local ok, container
-	if isProp and propAssets[id] then
-		ok, container = true, propAssets[id]:Clone()
-	else
-		ok, container = pcall(InsertService.LoadAsset, InsertService, id)
-		if ok and isProp then
-			propAssets[id] = container:Clone()
-		end
-	end
+	local ok, container = fetch(id)
 	if not ok then
 		warn(`[City] could not load {model.Name} ({id}): {container}`)
 		return
@@ -355,6 +379,27 @@ local function buildCollision(model: Model): boolean
 	return true
 end
 
+-- How a city model streams to players (Workspace.StreamingEnabled is on). Everything used to be
+-- Persistent, so every player had to download the whole city (~1.9M triangles, ~600 textures)
+-- before it stopped popping in. Now only the skyline is:
+--   tall towers (>= SKYLINE_HEIGHT studs)  Persistent: seen from anywhere
+--   world-wide models (streets, park, tree rows; wider than SPREAD studs)  Default: their
+--     parts stream in piece by piece round the player
+--   everything else (houses, shops, the fort)  Atomic: the whole building, collision boxes and
+--     doors included, streams in together when the player gets near
+local SKYLINE_HEIGHT = 150
+local SPREAD = 400
+
+local function streamingMode(model: Model): Enum.ModelStreamingMode
+	local _, size = model:GetBoundingBox()
+	if size.Y >= SKYLINE_HEIGHT then
+		return Enum.ModelStreamingMode.Persistent
+	elseif math.max(size.X, size.Z) >= SPREAD then
+		return Enum.ModelStreamingMode.Default
+	end
+	return Enum.ModelStreamingMode.Atomic
+end
+
 local function style(model: Model)
 	applyTextures(model)
 	local exact = buildCollision(model)
@@ -468,7 +513,7 @@ local function style(model: Model)
 			end
 		end
 	end
-	model.ModelStreamingMode = Enum.ModelStreamingMode.Persistent
+	model.ModelStreamingMode = streamingMode(model)
 	-- loaded + styled: Server/Atms (and anything else that decorates city models) waits for this
 	model:SetAttribute("CityReady", true)
 end
@@ -614,7 +659,8 @@ local function finishProp(m: Model)
 			disc.Parent = m
 		end
 	end
-	m.ModelStreamingMode = Enum.ModelStreamingMode.Persistent
+	-- a small model each: streams in whole near the player
+	m.ModelStreamingMode = Enum.ModelStreamingMode.Atomic
 end
 
 task.spawn(function()
@@ -631,16 +677,48 @@ task.spawn(function()
 	end
 end)
 
--- Buildings after the props have started: the props are a handful of small models (each loaded
--- once, then cloned), so the street lamps and signals show within seconds instead of after the
--- ~130 building meshes.
+-- Buildings, nearest to the spawn first, a few at a time: one LoadAsset after another took
+-- minutes on a fresh server (~130 models). Props above load alongside.
+local LOADERS = 6
+local started = os.clock()
+local spawnPart = workspace:FindFirstChild("Spawn", true)
+local spawnAt = if spawnPart and spawnPart:IsA("BasePart") then spawnPart.Position else Vector3.zero
+
+local queue: { Model } = {}
+local dist: { [Model]: number } = {}
 for _, model in buildings:GetChildren() do
 	if model:IsA("Model") and model:GetAttribute("LiveSyncAsset") then
-		if not hasParts(model) then
-			load(model)
-		end
-		style(model)
-		print(`[City] {model.Name} ready`)
+		local c = model:GetAttribute("LiveSyncBoxCenter")
+		local at = if typeof(c) == "Vector3" then c else model:GetPivot().Position
+		dist[model] = (at - spawnAt).Magnitude
+		table.insert(queue, model)
 	end
 end
+table.sort(queue, function(a, b)
+	return dist[a] < dist[b]
+end)
 
+local nextIndex, running = 0, LOADERS
+for _ = 1, LOADERS do
+	task.spawn(function()
+		while true do
+			nextIndex += 1
+			local model = queue[nextIndex]
+			if not model then
+				break
+			end
+			if not hasParts(model) then
+				load(model)
+			end
+			local ok, err = pcall(style, model)
+			if not ok then
+				warn(`[City] {model.Name}: {err}`)
+			end
+		end
+		running -= 1
+		if running == 0 then
+			table.clear(assetCache)
+			print(`[City] {#queue} buildings ready in {string.format("%.1f", os.clock() - started)} s`)
+		end
+	end)
+end

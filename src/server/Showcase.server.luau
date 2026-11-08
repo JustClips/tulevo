@@ -13,6 +13,10 @@ local ModelLooks = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild
 local SCALE = 3.6
 
 -- What to show and where, relative to the spawn (spawn center, Y = floor).
+-- Off = true: not loaded. The superbike part checks and the full-detail Superbike (~490k triangles
+-- each set) sat right at the spawn, so every player downloaded ~1M triangles before anything
+-- else; the rideable bike (BikeRide, ~159k) is parked with the test cars instead. Remove Off to
+-- check one again.
 local SHOWCASE = {
 	{ Name = "Carbine", Offset = Vector3.new(5, 3.2, -3) },
 	{ Name = "CarbineRifle", Offset = Vector3.new(-5, 3.2, -3), Scale = 1 }, -- exported in studs
@@ -23,23 +27,23 @@ local SHOWCASE = {
 	-- Realistic human test (static posed mesh, built in studs). Stands on the floor, faces the spawn.
 	{ Name = "Human", Offset = Vector3.new(9, 0, 6), Scale = 1, Stand = true, Yaw = 225 },
 	-- Superbike wheels (art/blender/superbike/wheels.py), built in studs.
-	{ Name = "BikeWheelFront", Offset = Vector3.new(-9, 2.6, 2), Scale = 1 },
-	{ Name = "BikeWheelRear", Offset = Vector3.new(-9, 2.6, 6), Scale = 1 },
+	{ Off = true, Name = "BikeWheelFront", Offset = Vector3.new(-9, 2.6, 2), Scale = 1 },
+	{ Off = true, Name = "BikeWheelRear", Offset = Vector3.new(-9, 2.6, 6), Scale = 1 },
 	-- Superbike exhaust (art/blender/superbike/exhaust.py), headers to silencer, built in studs.
-	{ Name = "BikeExhaust", Offset = Vector3.new(-9, 2.8, 10.5), Scale = 1 },
+	{ Off = true, Name = "BikeExhaust", Offset = Vector3.new(-9, 2.8, 10.5), Scale = 1 },
 	-- Superbike drive chain, 116 links + front sprocket (art/blender/superbike/chain.py), built in studs.
-	{ Name = "BikeChain", Offset = Vector3.new(-9, 2.6, 14.5), Scale = 1 },
+	{ Off = true, Name = "BikeChain", Offset = Vector3.new(-9, 2.6, 14.5), Scale = 1 },
 	-- Superbike rider + passenger seats (art/blender/superbike/seats.py), built in studs.
-	{ Name = "BikeSeats", Offset = Vector3.new(-9, 2.6, 18.5), Scale = 1 },
-	{ Name = "BikeFairings", Offset = Vector3.new(-9, 3.0, 23.5), Scale = 1 },
+	{ Off = true, Name = "BikeSeats", Offset = Vector3.new(-9, 2.6, 18.5), Scale = 1 },
+	{ Off = true, Name = "BikeFairings", Offset = Vector3.new(-9, 3.0, 23.5), Scale = 1 },
 	-- Fuel tank, tail, frame + swingarm, front end, engine (tank.py, tail.py, chassis.py, front.py, engine.py).
-	{ Name = "BikeTank", Offset = Vector3.new(-9, 3.0, 28.5), Scale = 1 },
-	{ Name = "BikeTail", Offset = Vector3.new(-9, 3.0, 32.5), Scale = 1 },
-	{ Name = "BikeChassis", Offset = Vector3.new(-9, 3.0, 38.5), Scale = 1 },
-	{ Name = "BikeFront", Offset = Vector3.new(-9, 3.0, 44.5), Scale = 1 },
-	{ Name = "BikeEngine", Offset = Vector3.new(-9, 3.0, 49), Scale = 1 },
+	{ Off = true, Name = "BikeTank", Offset = Vector3.new(-9, 3.0, 28.5), Scale = 1 },
+	{ Off = true, Name = "BikeTail", Offset = Vector3.new(-9, 3.0, 32.5), Scale = 1 },
+	{ Off = true, Name = "BikeChassis", Offset = Vector3.new(-9, 3.0, 38.5), Scale = 1 },
+	{ Off = true, Name = "BikeFront", Offset = Vector3.new(-9, 3.0, 44.5), Scale = 1 },
+	{ Off = true, Name = "BikeEngine", Offset = Vector3.new(-9, 3.0, 49), Scale = 1 },
 	-- The whole bike, every part above put together (assemble.py). Stands on its wheels, right side to the spawn.
-	{ Name = "Superbike", Offset = Vector3.new(-17, 0, 12), Scale = 1, Stand = true, Yaw = 90 },
+	{ Off = true, Name = "Superbike", Offset = Vector3.new(-17, 0, 12), Scale = 1, Stand = true, Yaw = 90 },
 }
 
 local function findSpawn(): BasePart?
@@ -60,6 +64,9 @@ local spawnPart = findSpawn()
 local base = spawnPart and (spawnPart.Position - Vector3.new(0, spawnPart.Size.Y / 2, 0)) or Vector3.zero
 
 for _, item in SHOWCASE do
+	if item.Off then
+		continue
+	end
 	local id = ModelIds[item.Name]
 	if not id then
 		continue -- not uploaded yet
