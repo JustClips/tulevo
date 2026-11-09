@@ -6,6 +6,7 @@
 --   Rain    rain streaks that stop at roofs, splashes, ripples, mist and the rain sound
 --   Footprints  wet shoe prints behind everyone once the ground is soaked
 --   Lightning   thunderstorm bolts, flashes, thunder, close-strike shake (server picks strikes)
+--   Graphics    GTA-style post look: haze, far blur, bloom, colour grade, quality levels
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 
@@ -18,6 +19,7 @@ local Clouds = require(script:WaitForChild("Clouds"))
 local Rain = require(script:WaitForChild("Rain"))
 local Footprints = require(script:WaitForChild("Footprints"))
 local Lightning = require(script:WaitForChild("Lightning"))
+local Graphics = require(script:WaitForChild("Graphics"))
 
 local Weather = {}
 
@@ -46,6 +48,7 @@ function Weather.start()
 		return
 	end
 	Sky.start()
+	Graphics.start()
 	Clouds.start()
 	Rain.start()
 	Footprints.start()
@@ -53,6 +56,7 @@ function Weather.start()
 	RunService.RenderStepped:Connect(function(dt)
 		local mix = Weather.current()
 		Sky.update(mix, dt)
+		Graphics.update(mix, Sky.night())
 		Clouds.update(mix, dt, Sky.cloudTint())
 		Rain.update(mix, dt)
 		Footprints.update(mix, dt)

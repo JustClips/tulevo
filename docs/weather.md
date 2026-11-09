@@ -15,6 +15,7 @@ Blender meshes, synthesised sound).
 | `src/client/Weather/Clouds.luau` | 64 cumulus + 26 stratocumulus meshes drifting on the server clock (same for everyone), slowly turning and breathing; scrolling cirrus and overcast layers |
 | `src/client/Weather/Footprints.luau` | ground gets wet while it rains (dries ~2.5 min after), then everyone's steps leave fading shoe prints (not under roofs) with a small splash; `TOE_FLIP` turns prints round if they point backwards |
 | `src/client/Weather/Lightning.luau` | storm bolts (server picks: `Weather.strike`, remote `WeatherRemotes.Strike`), flicker flash through Sky.addFlash, hit light, sparks, smoke, thunder delayed by distance (ThunderCrack close, ThunderRumble far), screen flash + camera shake within `Config.Weather.Lightning.ShakeRadius` |
+| `src/client/Weather/Graphics.luau` | GTA-style post look on top of Sky: haze boost + morning mist, far blur, bloom, colour grade, quality levels (see `docs/graphics.md`) |
 | `src/client/Weather/Rain.luau` | 7x7 streak emitters over the camera that stop at roofs, mesh splash crowns + ripples + spray, mist sheets, rain sound muffled under roofs |
 
 ## Weathers

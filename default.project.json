@@ -23,6 +23,9 @@
         "StreamOutBehavior": "Opportunistic"
       }
     },
-    "MaterialService": { "$path": "src/materials" }
+    "MaterialService": { "$path": "src/materials" },
+    "Lighting": {
+      "$properties": { "Technology": "Future", "GlobalShadows": true }
+    }
   }
 }

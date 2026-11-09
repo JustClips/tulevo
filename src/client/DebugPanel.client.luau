@@ -7,7 +7,7 @@
 
 	Tabs: Items (give any item, fill ammo), Money (add / set Cash and Bank), World (clock,
 	weather), Cars (spawn in front of you, remove yours), Player (knock down, revive, heal,
-	god mode, teleports).
+	god mode, teleports), Camera (mouse sensitivity), Graphics (GTA look quality + live values).
 ]]
 
 local Players = game:GetService("Players")
@@ -552,6 +552,90 @@ for _, t in TOGGLES do
 end
 local camHint = label(cameraPage, "Hold Left Alt in game to get the cursor back.", 14, REGULAR, COLORS.Dim)
 camHint.LayoutOrder = #SENS_ROWS + 2
+
+---------------------------------------------------------------- Graphics
+-- live tuning for the GTA-style look (Client/Weather/Graphics; this session only, starting
+-- values in Config.Graphics)
+
+local Graphics = require(script.Parent:WaitForChild("Weather"):WaitForChild("Graphics"))
+local gfxPage = page("Graphics")
+label(gfxPage, "GTA look (this session; defaults in Config.Graphics)", 14, REGULAR, COLORS.Dim)
+
+local qualityRow = flow(gfxPage)
+qualityRow.LayoutOrder = 1
+label(qualityRow, "Quality", 15, BOLD).Size = UDim2.fromOffset(80, 30)
+local qualityButtons: { [string]: TextButton } = {}
+local inUse: TextLabel
+local function showQuality()
+	for q, b in qualityButtons do
+		b.BackgroundColor3 = if Graphics.get("Quality") == q then COLORS.ButtonOn else COLORS.Button
+	end
+	inUse.Text = `using {Graphics.quality()}`
+end
+for _, q in Graphics.QUALITIES do
+	qualityButtons[q] = button(qualityRow, q, 70, function()
+		Graphics.set("Quality", q)
+		showQuality()
+	end)
+end
+inUse = label(qualityRow, "", 14, REGULAR, COLORS.Dim)
+inUse.Size = UDim2.fromOffset(110, 30)
+showQuality()
+
+-- key, name, small step, big step, min, max
+local GFX_ROWS = {
+	{ "Haze", "Haze", 0.05, 0.25, 0, 3 },
+	{ "MorningFog", "Morning fog", 0.1, 0.5, 0, 4 },
+	{ "Blur", "Far blur", 0.02, 0.1, 0, 1 },
+	{ "BlurStart", "Blur from", 10, 50, 50, 250 },
+	{ "Bloom", "Bloom", 0.05, 0.25, 0, 3 },
+	{ "Contrast", "Contrast", 0.01, 0.05, -0.5, 0.5 },
+	{ "Saturation", "Colour", 0.01, 0.05, -0.5, 0.5 },
+	{ "Warmth", "Warm/cool", 0.05, 0.25, 0, 1 },
+	{ "ShadowSoftness", "Shadow soft", 0.02, 0.1, 0, 1 },
+}
+for i, r in GFX_ROWS do
+	local key, name, small, big, lo, hi = r[1], r[2], r[3], r[4], r[5], r[6]
+	local f = flow(gfxPage)
+	f.LayoutOrder = i + 1
+	label(f, name, 15, BOLD).Size = UDim2.fromOffset(95, 30)
+	local value: TextLabel
+	local function show()
+		value.Text = string.format(if big >= 1 then "%d" else "%.2f", Graphics.get(key))
+	end
+	local function nudge(by: number)
+		Graphics.set(key, math.clamp(math.round((Graphics.get(key) + by) * 100) / 100, lo, hi))
+		show()
+	end
+	button(f, `-{big}`, 50, function()
+		nudge(-big)
+	end)
+	button(f, "-", 34, function()
+		nudge(-small)
+	end)
+	value = label(f, "", 16, BOLD)
+	value.Size = UDim2.fromOffset(50, 30)
+	value.TextXAlignment = Enum.TextXAlignment.Center
+	button(f, "+", 34, function()
+		nudge(small)
+	end)
+	button(f, `+{big}`, 50, function()
+		nudge(big)
+	end)
+	button(f, "Reset", 60, function()
+		Graphics.reset(key)
+		show()
+	end)
+	show()
+end
+local gfxHint = label(
+	gfxPage,
+	"Rain, storms and night change these on top. Copy good values to Config.Graphics.",
+	14,
+	REGULAR,
+	COLORS.Dim
+)
+gfxHint.LayoutOrder = #GFX_ROWS + 2
 
 local filled = false
 local function toggle()

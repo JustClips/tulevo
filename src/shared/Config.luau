@@ -318,6 +318,21 @@ local Config = {
 		DriveLighting = true, -- false: HUD clock still runs, but the sky stays as set in Studio
 	},
 
+	-- GTA-style graphics (Client/Weather/Graphics, docs/graphics.md). Starting values; the F8
+	-- Graphics tab changes them live for one session, copy good ones back here.
+	Graphics = {
+		Quality = "Auto", -- Auto | High | Medium | Low. Auto: Medium on phones, Low on low Roblox graphics
+		Haze = 1.15, -- multiplies the sky's distance haze (1 = as Sky.luau sets it)
+		MorningFog = 1, -- low mist around sunrise (0 = off)
+		Blur = 0.14, -- far-distance blur strength 0-1 (High quality only), rain adds more
+		BlurStart = 200, -- studs where far blur starts (50-250)
+		Bloom = 1, -- glow strength (day soft, night street lights / neon)
+		Contrast = 0.08, -- extra contrast on top of the sky grade
+		Saturation = 0.06, -- extra colour
+		Warmth = 1, -- 0-1: warm sun by day, cool blue at night
+		ShadowSoftness = 0.12, -- sun shadow edge (overcast softens it more)
+	},
+
 	-- Weather (Server/Weather + Client/Weather, docs/weather.md; also the F8 debug panel). The server picks the weather
 	-- and everyone blends to it over FadeSeconds; clouds drift on the server clock, so every
 	-- player sees the same sky. Admins (and anyone in a Studio play test) can type
