@@ -90,6 +90,20 @@ local Config = {
 			TracerPixels = 4, -- on-screen width of the streak's sprite (the bright core is ~1/3)
 			TracerMinWidth = 0.05,
 			TracerBrightness = 3,
+			-- bullets hitting the world (Client/Weapons/Effects.impact): a bullet hole decal
+			-- (tools/bullet_hole_sprites.py), a puff of dust in the wall's colour, flying chips,
+			-- and sparks on metal. Holes stay HoleLife seconds, then fade over HoleFade; past
+			-- MaxHoles the oldest goes first. Size is the decal's width in studs.
+			Impacts = true,
+			MaxHoles = 160,
+			HoleLife = 45,
+			HoleFade = 4,
+			HoleSize = { Concrete = 0.42, Metal = 0.3, Wood = 0.4, Glass = 0.9 },
+			HoleRange = 450, -- studs from the camera: further hits get dust only
+			DustSize = 1.3, -- studs, when the puff has spread
+			DustOpacity = 0.55,
+			Chips = 6, -- flying bits per hit (glass shards: twice that)
+			Sparks = 7, -- per hit on metal
 		},
 		-- damage multiplier per body part hit, for weapons without their own BodyDamage table
 		-- (each weapon file in Shared/Weapons/Defs can override any part)

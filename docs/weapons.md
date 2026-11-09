@@ -17,7 +17,7 @@ which animations they need, and the server decides every hit.
 | `src/client/Weapons/GunPose.luau` | Bends every gun holder's waist to aim up/down and twist while strafing (replicated) |
 | `src/server/Weapons/GunModel.luau` | Gun model welded in the right hand (equipped) or on the back (holstered) |
 | `art/anim/gun.py` | Builds the rifle clips: places the gun, solves both arms with IK onto grip + handguard |
-| `src/client/Weapons/Effects.luau` | Tracers and muzzle flash |
+| `src/client/Weapons/Effects.luau` | Tracers, muzzle flash, bullet impacts on the world (holes, dust, chips, sparks; `Config.Weapons.Fx`, textures from `tools/bullet_hole_sprites.py`) |
 | `src/client/Weapons/GunAudio.luau` | Gun sounds: shots by distance, bullet cracks, impacts (see Sounds below) |
 | `src/client/Movement/Moves/Aim.luau` | Aiming slows you to the class's aim walk and beats Sprint; sprint key while aiming = side run up to `Config.Movement.AimSprintSpeed` (12), sideways only (part of the Movement system) |
 | `Config.Weapons` | Studio test loadout, slot key order |

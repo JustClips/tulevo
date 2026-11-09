@@ -4333,5 +4333,50 @@
   "id": 72555599342757,
   "file": "art/models/StripMall/tex/Atlas1.png",
   "state": "Approved"
+ },
+ "053003729d01e04bc3f57bdb2009d83133f2eb774703534b66a9b0831c1d0fff": {
+  "id": 98748543982671,
+  "file": "art/weapons/fx/BulletHoleConcrete1.png",
+  "state": "Approved"
+ },
+ "bf7843dc4979155b889c439c612fc08d42a9ff000064c53278f82a2e09b3e990": {
+  "id": 138407698378668,
+  "file": "art/weapons/fx/BulletHoleConcrete2.png",
+  "state": "Approved"
+ },
+ "54b6903f52938951629bd8b4bb94484f4ade3b0a63398076625a14cf6bc99832": {
+  "id": 136631738197855,
+  "file": "art/weapons/fx/BulletHoleConcrete3.png",
+  "state": "Approved"
+ },
+ "046430173d74482f0b8cc8e0ef0a646e9b38493f73434a4cb1ee969d8e6c9591": {
+  "id": 109483897736448,
+  "file": "art/weapons/fx/BulletHoleGlass1.png",
+  "state": "Approved"
+ },
+ "46aeadd0b8bb893edcee4322049116c4d8635dfb85a4aeb878feb2c090cbf258": {
+  "id": 114203941829591,
+  "file": "art/weapons/fx/BulletHoleGlass2.png",
+  "state": "Approved"
+ },
+ "d7fa4d27d8d79e7f3ff56bca43e04b7955a95e4f6de6b3563875b68540f56892": {
+  "id": 116404636122355,
+  "file": "art/weapons/fx/BulletHoleMetal1.png",
+  "state": "Approved"
+ },
+ "3bab76e7798ff5db7da4579223dfd459a047befc9da4a686c9ae34efccdb9765": {
+  "id": 125020494882576,
+  "file": "art/weapons/fx/BulletHoleMetal2.png",
+  "state": "Approved"
+ },
+ "1dbe334b69d9046385470925a2ab1851f1690fdbeb2932a2b5d6efdc96e25e6e": {
+  "id": 88955049035160,
+  "file": "art/weapons/fx/BulletHoleWood1.png",
+  "state": "Approved"
+ },
+ "d2ee901491c29ee1241a46d8dcb0df23f17fcc862ceecc9fd774f9c609428ea6": {
+  "id": 82956265914591,
+  "file": "art/weapons/fx/ImpactDebris.png",
+  "state": "Reviewing"
  }
 }

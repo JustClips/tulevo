@@ -11,7 +11,13 @@
 -- Tracer: a thin bright streak (Tracer.png, white-hot head fading to the tail) that flies from
 -- the muzzle to the hit at bullet-ish speed and is gone, like GTA's. Its width follows the
 -- camera distance so it stays a fine line a few pixels wide near and far.
+--
+-- Impact: where a bullet hits the world (the server's hit point + material, from the Shot
+-- remote) there's a bullet hole decal for the material (tools/bullet_hole_sprites.py), a puff
+-- of dust in the wall's colour, a few flying chips and, on metal, sparks with a quick flash.
+local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Shared = ReplicatedStorage:WaitForChild("Shared")
@@ -294,6 +300,353 @@ function Effects.tracer(from: Vector3, to: Vector3)
 	if not stepConn then
 		stepConn = RunService.RenderStepped:Connect(step)
 	end
+end
+
+-- ------------------------------------------------------------------ impacts
+
+-- Enum.Material name -> impact look (same groups as GunAudio's sounds). Anything else = concrete.
+local SURFACE = {
+	Metal = "Metal",
+	DiamondPlate = "Metal",
+	CorrodedMetal = "Metal",
+	Foil = "Metal",
+	Wood = "Wood",
+	WoodPlanks = "Wood",
+	Cardboard = "Wood",
+	Glass = "Glass",
+	Ice = "Glass",
+	Grass = "Dirt",
+	LeafyGrass = "Dirt",
+	Ground = "Dirt",
+	Mud = "Dirt",
+	Sand = "Dirt",
+	Snow = "Dirt",
+	Salt = "Dirt",
+	Pebble = "Dirt",
+	Fabric = "Soft",
+	Carpet = "Soft",
+	Rubber = "Soft",
+	Water = "Water",
+}
+
+local HOLES = {
+	Concrete = list("BulletHoleConcrete", 3),
+	Metal = list("BulletHoleMetal", 2),
+	Wood = list("BulletHoleWood", 1),
+	Glass = list("BulletHoleGlass", 2),
+}
+local DEBRIS = asset("ImpactDebris")
+
+-- dust / chip colour when the surface's own colour isn't known
+local DUST = {
+	Concrete = Color3.fromRGB(170, 165, 155),
+	Metal = Color3.fromRGB(120, 118, 115),
+	Wood = Color3.fromRGB(170, 140, 100),
+	Glass = Color3.fromRGB(220, 230, 235),
+	Dirt = Color3.fromRGB(120, 100, 75),
+	Soft = Color3.fromRGB(140, 135, 130),
+	Water = Color3.fromRGB(200, 215, 225),
+}
+
+local holeFolder: Folder? = nil
+local function holes(): Folder
+	if not holeFolder or not holeFolder.Parent then
+		local f = Instance.new("Folder")
+		f.Name = "BulletHoles" -- client only, never on the server
+		f.Parent = workspace
+		holeFolder = f
+	end
+	return holeFolder :: Folder
+end
+
+type Hole = { part: Part, decal: Decal, token: number }
+local holePool: { Hole } = {}
+local nextHole = 1
+
+local function newHole(): Hole
+	local p = Instance.new("Part")
+	p.Name = "BulletHole"
+	p.Transparency = 1
+	p.CanCollide = false
+	p.CanQuery = false
+	p.CanTouch = false
+	p.CastShadow = false
+	p.Massless = true
+	p.Anchored = true
+	local d = Instance.new("Decal")
+	d.Face = Enum.NormalId.Front
+	d.Parent = p
+	return { part = p, decal = d, token = 0 }
+end
+
+-- the oldest hole slot (or a new one while under MaxHoles)
+local function takeHole(): Hole
+	local h = holePool[nextHole]
+	if not h or h.part.Parent == nil then -- (a hole on a car that got deleted goes with it)
+		h = newHole()
+		holePool[nextHole] = h
+	end
+	nextHole = nextHole % FX.MaxHoles + 1
+	h.token += 1
+	local weld = h.part:FindFirstChildOfClass("WeldConstraint")
+	if weld then
+		weld:Destroy()
+	end
+	h.part.Anchored = true
+	return h
+end
+
+-- doors and gates move on their own (Client/CityDoors), a hole would hang in the air
+local function isDoor(inst: Instance): boolean
+	for _, n in { inst.Name, inst.Parent and inst.Parent.Name or "" } do
+		if string.match(n, "^Swing%d") or string.match(n, "^Slide%d") or string.match(n, "^Lift%d") then
+			return true
+		end
+	end
+	return false
+end
+
+local function placeHole(set: string, pos: Vector3, normal: Vector3, inst: BasePart, tint: Color3)
+	local textures = HOLES[set]
+	if not textures or #textures == 0 or isDoor(inst) then
+		return
+	end
+	local h = takeHole()
+	local size = (FX.HoleSize[set] or 0.4) * (0.85 + math.random() * 0.3)
+	h.part.Size = Vector3.new(size, size, 0.02)
+	local up = if math.abs(normal.Y) > 0.98 then Vector3.xAxis else Vector3.yAxis
+	-- a hair off the wall, a little different each time so overlapping holes don't flicker
+	local at = pos + normal * (0.012 + math.random() * 0.01)
+	h.part.CFrame = CFrame.lookAt(at, at + normal, up) * CFrame.Angles(0, 0, math.random() * 2 * math.pi)
+	h.decal.Texture = textures[math.random(#textures)]
+	h.decal.Color3 = tint
+	h.decal.Transparency = 0
+	if not inst.Anchored then
+		-- cars and loose props: the hole rides along
+		h.part.Anchored = false
+		local w = Instance.new("WeldConstraint")
+		w.Part0 = h.part
+		w.Part1 = inst
+		w.Parent = h.part
+	end
+	h.part.Parent = holes()
+
+	local token = h.token
+	task.delay(FX.HoleLife, function()
+		if h.token == token then
+			TweenService:Create(h.decal, TweenInfo.new(FX.HoleFade), { Transparency = 1 }):Play()
+		end
+	end)
+end
+
+-- Particle rigs: changing an emitter's colour recolours its live particles too, so each hit
+-- takes the next of a few rigs (round robin) instead of sharing one.
+type ImpactRig = {
+	at: Attachment,
+	dust: ParticleEmitter?,
+	chips: ParticleEmitter?,
+	sparks: ParticleEmitter?,
+	light: PointLight,
+	token: number,
+}
+local impactRigs: { ImpactRig } = {}
+local nextRig = 1
+local RIGS = 16
+
+local function newImpactRig(): ImpactRig
+	local at = Instance.new("Attachment")
+	at.Name = "BulletImpact"
+	at.Parent = workspace.Terrain
+
+	local dust: ParticleEmitter? = nil
+	if #SMOKE > 0 then
+		local e = Instance.new("ParticleEmitter")
+		e.Name = "Dust"
+		e.Rate = 0
+		e.EmissionDirection = Enum.NormalId.Top -- the attachment's up = the wall's normal
+		e.SpreadAngle = Vector2.new(30, 30)
+		e.Speed = NumberRange.new(4, 9)
+		e.Drag = 5
+		e.Acceleration = Vector3.new(0, -1.5, 0)
+		e.Lifetime = NumberRange.new(0.8, 1.5)
+		e.Size = NumberSequence.new({
+			NumberSequenceKeypoint.new(0, FX.DustSize * 0.2),
+			NumberSequenceKeypoint.new(1, FX.DustSize),
+		})
+		e.Transparency = NumberSequence.new({
+			NumberSequenceKeypoint.new(0, 1),
+			NumberSequenceKeypoint.new(0.05, 1 - FX.DustOpacity),
+			NumberSequenceKeypoint.new(1, 1),
+		})
+		e.Rotation = NumberRange.new(0, 360)
+		e.RotSpeed = NumberRange.new(-60, 60)
+		e.LightInfluence = 1
+		e.Parent = at
+		dust = e
+	end
+
+	local chips: ParticleEmitter? = nil
+	local sparks: ParticleEmitter? = nil
+	if DEBRIS then
+		local e = Instance.new("ParticleEmitter")
+		e.Name = "Chips"
+		e.Texture = DEBRIS
+		e.Rate = 0
+		e.EmissionDirection = Enum.NormalId.Top
+		e.SpreadAngle = Vector2.new(45, 45)
+		e.Speed = NumberRange.new(9, 20)
+		e.Drag = 1.5
+		e.Acceleration = Vector3.new(0, -70, 0)
+		e.Lifetime = NumberRange.new(0.35, 0.8)
+		e.Size = NumberSequence.new(0.07, 0.05)
+		e.Rotation = NumberRange.new(0, 360)
+		e.RotSpeed = NumberRange.new(-720, 720)
+		e.LightInfluence = 1
+		e.Parent = at
+		chips = e
+
+		local s = Instance.new("ParticleEmitter")
+		s.Name = "Sparks"
+		s.Texture = DEBRIS
+		s.Rate = 0
+		s.EmissionDirection = Enum.NormalId.Top
+		s.SpreadAngle = Vector2.new(60, 60)
+		s.Speed = NumberRange.new(18, 40)
+		s.Drag = 3
+		s.Acceleration = Vector3.new(0, -60, 0)
+		s.Lifetime = NumberRange.new(0.1, 0.3)
+		s.Size = NumberSequence.new(0.06, 0.02)
+		s.Color = ColorSequence.new(Color3.fromRGB(255, 230, 170), Color3.fromRGB(255, 140, 50))
+		s.LightEmission = 1
+		s.LightInfluence = 0
+		s.Brightness = 4
+		s.Parent = at
+		sparks = s
+	end
+
+	local light = Instance.new("PointLight")
+	light.Color = Color3.fromRGB(255, 190, 110)
+	light.Range = 5
+	light.Brightness = 3
+	light.Shadows = false
+	light.Enabled = false
+	light.Parent = at
+
+	return { at = at, dust = dust, chips = chips, sparks = sparks, light = light, token = 0 }
+end
+
+local function takeRig(): ImpactRig
+	local r = impactRigs[nextRig]
+	if not r or not r.at.Parent then
+		r = newImpactRig()
+		impactRigs[nextRig] = r
+	end
+	nextRig = nextRig % RIGS + 1
+	return r
+end
+
+local function burst(set: string, pos: Vector3, normal: Vector3, color: Color3)
+	local rig = takeRig()
+	-- attachment up (+Y) along the normal, so Top emission flies off the wall
+	local up = if math.abs(normal.Y) > 0.98 then Vector3.xAxis else Vector3.yAxis
+	rig.at.WorldCFrame = CFrame.lookAt(pos + normal * 0.05, pos + normal, up) * CFrame.Angles(-math.pi / 2, 0, 0)
+
+	if rig.dust and set ~= "Glass" then
+		rig.dust.Texture = SMOKE[math.random(#SMOKE)]
+		rig.dust.Color = ColorSequence.new(color)
+		rig.dust:Emit(if set == "Metal" then 1 else math.random(2, 3))
+	end
+	if rig.chips and set ~= "Soft" and set ~= "Water" then
+		rig.chips.Color = ColorSequence.new(color)
+		if set == "Glass" then
+			rig.chips.Transparency = NumberSequence.new(0.35)
+			rig.chips.LightEmission = 0.4
+			rig.chips:Emit(FX.Chips * 2)
+		else
+			rig.chips.Transparency = NumberSequence.new(0)
+			rig.chips.LightEmission = 0
+			rig.chips:Emit(FX.Chips)
+		end
+	end
+	if set == "Metal" then
+		if rig.sparks then
+			rig.sparks:Emit(FX.Sparks)
+		end
+		rig.light.Enabled = true
+		rig.token += 1
+		local token = rig.token
+		task.delay(0.04, function()
+			if rig.token == token then
+				rig.light.Enabled = false
+			end
+		end)
+	end
+end
+
+local function surfaceCast(origin: Vector3, hit: Vector3): RaycastResult?
+	local params = RaycastParams.new()
+	params.FilterType = Enum.RaycastFilterType.Exclude
+	local skip: { Instance } = { holes() }
+	for _, p in Players:GetPlayers() do
+		if p.Character then
+			table.insert(skip, p.Character)
+		end
+	end
+	params.FilterDescendantsInstances = skip
+	local dir = hit - origin
+	local dist = dir.Magnitude
+	if dist < 0.01 then
+		return nil
+	end
+	dir /= dist
+	-- start just before the server's hit point (it may be behind a fence we can see through)
+	local from = origin + dir * math.max(0, dist - 3)
+	for _ = 1, 4 do
+		local r = workspace:Raycast(from, hit + dir * 1.5 - from, params)
+		if not r then
+			return nil
+		end
+		-- invisible collision boxes (Server/CityBuildings) sit round the visible walls: look past them
+		if r.Instance.Transparency < 0.95 then
+			return r
+		end
+		params:AddToFilter(r.Instance)
+	end
+	return nil
+end
+
+-- One bullet hitting the world: kind is the material name the server sent (Hitscan.fire).
+function Effects.impact(origin: Vector3, hit: Vector3, kind: string)
+	if not FX.Impacts or kind == "" or kind == "Body" then
+		return
+	end
+	local set = SURFACE[kind] or "Concrete"
+	local cam = workspace.CurrentCamera
+	if cam and (cam.CFrame.Position - hit).Magnitude > FX.HoleRange * 1.5 then
+		return
+	end
+	-- show it when the tracer gets there
+	local delayTime = math.max(0, ((hit - origin).Magnitude - FX.TracerStart) / FX.TracerSpeed)
+	task.delay(delayTime, function()
+		local r = surfaceCast(origin, hit)
+		local pos, normal = hit, (origin - hit).Unit
+		local color = DUST[set]
+		local tint = Color3.new(1, 1, 1)
+		if r and (r.Position - hit).Magnitude < 3 then
+			pos, normal = r.Position, r.Normal
+			local inst = r.Instance
+			-- dust in the wall's own colour, a bit greyed (powder is paler than paint)
+			color = inst.Color:Lerp(DUST[set], 0.5)
+			if set == "Concrete" or set == "Wood" then
+				tint = Color3.new(1, 1, 1):Lerp(inst.Color, 0.25)
+			end
+			local camNow = workspace.CurrentCamera
+			if not camNow or (camNow.CFrame.Position - pos).Magnitude < FX.HoleRange then
+				placeHole(set, pos, normal, inst, tint)
+			end
+		end
+		burst(set, pos, normal, color)
+	end)
 end
 
 return Effects

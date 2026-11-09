@@ -460,6 +460,12 @@ function Controller.start()
 				Effects.tracer(origin, pos)
 			end
 		end
+		-- bullet holes, dust, chips, sparks where the bullets hit the world (yours too)
+		if kinds then
+			for i, pos in hits do
+				Effects.impact(origin, pos, kinds[i] or "")
+			end
+		end
 		-- the bang (not for your own, that played when you fired), bullets passing you, impacts
 		GunAudio.shot(def, shooter, origin, hits, kinds)
 	end)

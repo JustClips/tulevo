@@ -7,5 +7,14 @@
  "MuzzleFront2": "art/weapons/fx/MuzzleFront2.png",
  "Tracer": "art/weapons/fx/Tracer.png",
  "MuzzleSmoke1": "art/weapons/fx/MuzzleSmoke1.png",
- "MuzzleSmoke2": "art/weapons/fx/MuzzleSmoke2.png"
+ "MuzzleSmoke2": "art/weapons/fx/MuzzleSmoke2.png",
+ "BulletHoleConcrete1": "art/weapons/fx/BulletHoleConcrete1.png",
+ "BulletHoleConcrete2": "art/weapons/fx/BulletHoleConcrete2.png",
+ "BulletHoleConcrete3": "art/weapons/fx/BulletHoleConcrete3.png",
+ "BulletHoleMetal1": "art/weapons/fx/BulletHoleMetal1.png",
+ "BulletHoleMetal2": "art/weapons/fx/BulletHoleMetal2.png",
+ "BulletHoleWood1": "art/weapons/fx/BulletHoleWood1.png",
+ "BulletHoleGlass1": "art/weapons/fx/BulletHoleGlass1.png",
+ "BulletHoleGlass2": "art/weapons/fx/BulletHoleGlass2.png",
+ "ImpactDebris": "art/weapons/fx/ImpactDebris.png"
 }
