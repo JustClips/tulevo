@@ -4,7 +4,9 @@ return {
 	BankCard = "rbxassetid://115968709995852",
 	Hands = "rbxassetid://127869195378269",
 	Heart = "rbxassetid://115270650207567",
+	Players = "rbxassetid://127929273195591",
 	Shield = "rbxassetid://124863449971666",
+	Store = "rbxassetid://85036649567327",
 	Vest = "rbxassetid://126895132185530",
 	Wallet = "rbxassetid://139555103166699",
 }

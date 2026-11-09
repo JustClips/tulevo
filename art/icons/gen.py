@@ -15,6 +15,8 @@ ICONS = {
     "Backpack": "a backpack seen from the front, with two shoulder straps and a front pocket",
     "Hands": "two open hands side by side, palms facing the viewer",
     "Wallet": "a closed leather wallet seen from the front, with a flap and a small clasp, a bank note peeking out the top",
+    "Store": "a shopping cart seen from the side, with a handle, a basket made of a grid of bars and two wheels",
+    "Players": "two people standing side by side, head and shoulders silhouettes, the one in front slightly larger",
     "BankCard": "a bank credit card seen from the front, a chip on the left and a magnetic stripe, card outline drawn with the inner area cut out so the details read",
 }
 TAG = sys.argv[1]

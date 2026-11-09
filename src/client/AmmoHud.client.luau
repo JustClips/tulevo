@@ -14,6 +14,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local player = Players.LocalPlayer
 local Weapons = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Weapons"))
 local State = require(script.Parent:WaitForChild("Weapons"):WaitForChild("State"))
+local HudLayout = require(script.Parent:WaitForChild("HudLayout"))
 
 local FONT = Font.new("rbxasset://fonts/families/RobotoCondensed.json", Enum.FontWeight.Bold)
 local FLOAT_FONT = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Bold)
@@ -60,17 +61,23 @@ end
 local gui = Instance.new("ScreenGui")
 gui.Name = "AmmoHud"
 gui.ResetOnSpawn = false
-gui.IgnoreGuiInset = true
+gui.ScreenInsets = Enum.ScreenInsets.CoreUISafeInsets
 gui.Parent = player:WaitForChild("PlayerGui")
 
 -- top right ------------------------------------------------------------------------------
 local root = Instance.new("Frame")
 root.AnchorPoint = Vector2.new(1, 0)
-root.Position = UDim2.new(1, -24, 0, 64)
 root.Size = UDim2.fromOffset(220, 48)
 root.BackgroundTransparency = 1
 root.Visible = false
 root.Parent = gui
+
+-- under the top-right strip (game name, players online, store button: TopRightHud)
+local function placeRoot()
+	root.Position = UDim2.new(1, -24, 0, HudLayout.topRightBottom() + 8)
+end
+HudLayout.Changed:Connect(placeRoot)
+placeRoot()
 
 local list = Instance.new("UIListLayout")
 list.FillDirection = Enum.FillDirection.Horizontal

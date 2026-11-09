@@ -26,5 +26,13 @@
  "Wallet": {
   "id": 139555103166699,
   "sha": "d924556c70a5f48f942a82c46a351e0c559bc83bab0347f495267ffeae279649"
+ },
+ "Players": {
+  "id": 127929273195591,
+  "sha": "0c140222b3471ed55b0b9c10064b503307511bf63da35ffca50e55c2a33c8af4"
+ },
+ "Store": {
+  "id": 85036649567327,
+  "sha": "656e1c6af3bd7fced4431a06e1b7aa41aa171492bd30a58261bee67ae8f5df53"
  }
 }

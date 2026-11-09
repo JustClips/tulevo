@@ -12,6 +12,11 @@ local HudLayout = {}
 local REF_HEIGHT = 900 -- screen height (px) where scale = 1
 local MIN_SCALE, MAX_SCALE = 0.65, 1
 
+-- Top-right strip (TopRightHud: store button + game name + players online), in
+-- CoreUISafeInsets pixels before scaling. Other top-right things (ammo counter,
+-- DEBUG button) go under it: HudLayout.topRightBottom().
+HudLayout.TopRight = { Top = 6, Right = 10, Height = 44 }
+
 local changed = Instance.new("BindableEvent")
 HudLayout.Changed = changed.Event
 
@@ -22,6 +27,12 @@ function HudLayout.get()
 		scale = math.clamp(h / REF_HEIGHT, MIN_SCALE, MAX_SCALE),
 		touch = UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled,
 	}
+end
+
+-- Bottom of the top-right strip in CoreUISafeInsets pixels, for the current scale.
+function HudLayout.topRightBottom(): number
+	local t = HudLayout.TopRight
+	return t.Top + t.Height * HudLayout.get().scale
 end
 
 local function watch(cam: Camera?)

@@ -473,6 +473,22 @@ local openButton = Instance.new("TextButton")
 openButton.Name = "Open"
 openButton.AnchorPoint = Vector2.new(1, 0)
 openButton.Position = UDim2.new(1, -8, 0, 8)
+-- left of the top-right strip (TopRightHud: store button, game name, players online)
+task.spawn(function()
+	local strip = player:WaitForChild("PlayerGui"):WaitForChild("TopRightHud", 30)
+	local stripRoot = strip and strip:WaitForChild("Root", 10) :: Frame?
+	if not stripRoot then
+		return
+	end
+	local HudLayout = require(script.Parent:WaitForChild("HudLayout"))
+	local TR = HudLayout.TopRight
+	local function place()
+		local y = TR.Top + (stripRoot.AbsoluteSize.Y - 26) / 2
+		openButton.Position = UDim2.new(1, -(TR.Right + stripRoot.AbsoluteSize.X + 10), 0, y)
+	end
+	stripRoot:GetPropertyChangedSignal("AbsoluteSize"):Connect(place)
+	place()
+end)
 openButton.Size = UDim2.fromOffset(64, 26)
 openButton.BackgroundColor3 = COLORS.Window
 openButton.BackgroundTransparency = 0.25
