@@ -98,7 +98,7 @@ local Config = {
 			MaxHoles = 160,
 			HoleLife = 45,
 			HoleFade = 4,
-			HoleSize = { Concrete = 0.42, Metal = 0.3, Wood = 0.4, Glass = 0.9 },
+			HoleSize = { Concrete = 0.42, Metal = 0.3, Wood = 0.4, Glass = 0.9, Dirt = 0.32, Soft = 0.3 },
 			HoleRange = 450, -- studs from the camera: further hits get dust only
 			DustSize = 1.3, -- studs, when the puff has spread
 			DustOpacity = 0.55,

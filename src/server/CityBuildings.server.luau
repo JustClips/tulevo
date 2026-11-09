@@ -32,6 +32,15 @@ pcall(function()
 end)
 PhysicsService:CollisionGroupSetCollidable(VISUAL_GROUP, "Default", false)
 PhysicsService:CollisionGroupSetCollidable(VISUAL_GROUP, VISUAL_GROUP, false)
+-- Raycasts with this group see only the visible city meshes (not the boxes, not anything else):
+-- Client/Weapons/Effects uses it to put bullet holes on the wall you see. No part is in it.
+local VISUAL_QUERY = "CityVisualQuery"
+pcall(function()
+	PhysicsService:RegisterCollisionGroup(VISUAL_QUERY)
+end)
+PhysicsService:CollisionGroupSetCollidable(VISUAL_QUERY, "Default", false)
+PhysicsService:CollisionGroupSetCollidable(VISUAL_QUERY, VISUAL_QUERY, false)
+PhysicsService:CollisionGroupSetCollidable(VISUAL_QUERY, VISUAL_GROUP, true)
 local BOX_MATERIALS = {
 	Enum.Material.Concrete,
 	Enum.Material.Grass,

@@ -335,6 +335,9 @@ local HOLES = {
 	Wood = list("BulletHoleWood", 1),
 	Glass = list("BulletHoleGlass", 2),
 }
+-- grass, ground, fabric...: the stone hole, tinted dark by the surface (placeHole's tint)
+HOLES.Dirt = HOLES.Concrete
+HOLES.Soft = HOLES.Concrete
 local DEBRIS = asset("ImpactDebris")
 
 -- dust / chip colour when the surface's own colour isn't known
@@ -416,7 +419,7 @@ local function placeHole(set: string, pos: Vector3, normal: Vector3, inst: BaseP
 	h.part.Size = Vector3.new(size, size, 0.02)
 	local up = if math.abs(normal.Y) > 0.98 then Vector3.xAxis else Vector3.yAxis
 	-- a hair off the wall, a little different each time so overlapping holes don't flicker
-	local at = pos + normal * (0.012 + math.random() * 0.01)
+	local at = pos + normal * (0.02 + math.random() * 0.015)
 	h.part.CFrame = CFrame.lookAt(at, at + normal, up) * CFrame.Angles(0, 0, math.random() * 2 * math.pi)
 	h.decal.Texture = textures[math.random(#textures)]
 	h.decal.Color3 = tint
@@ -583,36 +586,74 @@ local function burst(set: string, pos: Vector3, normal: Vector3, color: Color3)
 	end
 end
 
-local function surfaceCast(origin: Vector3, hit: Vector3): RaycastResult?
-	local params = RaycastParams.new()
-	params.FilterType = Enum.RaycastFilterType.Exclude
+-- The surface a bullet hit, as this client sees it. The server's bullets hit the invisible
+-- collision boxes (Server/CityBuildings), which sit near but not exactly on the visible walls,
+-- and the visible city meshes are in collision group CityVisual, which a normal raycast skips.
+-- So cast twice: once for the visible city meshes only (group CityVisualQuery) and once for
+-- everything else (terrain, plain parts, cars), and take the nearer real surface. If neither
+-- finds one (a prop whose mesh can't be raycast), use the collision box the bullet hit.
+local function surfaceCast(origin: Vector3, hit: Vector3): (RaycastResult?, boolean)
+	local dir = hit - origin
+	local dist = dir.Magnitude
+	if dist < 0.01 then
+		return nil, false
+	end
+	dir /= dist
 	local skip: { Instance } = { holes() }
 	for _, p in Players:GetPlayers() do
 		if p.Character then
 			table.insert(skip, p.Character)
 		end
 	end
-	params.FilterDescendantsInstances = skip
-	local dir = hit - origin
-	local dist = dir.Magnitude
-	if dist < 0.01 then
-		return nil
+	-- start a little before the server's hit point (it may be behind a fence we can see through)
+	local from = origin + dir * math.max(0, dist - 4)
+	local reach = hit + dir * 2 - from
+
+	local best: RaycastResult? = nil
+	local box: RaycastResult? = nil
+
+	local visual = RaycastParams.new()
+	visual.FilterType = Enum.RaycastFilterType.Exclude
+	visual.FilterDescendantsInstances = skip
+	if pcall(function()
+		visual.CollisionGroup = "CityVisualQuery"
+	end) then
+		for _ = 1, 4 do
+			local r = workspace:Raycast(from, reach, visual)
+			if not r or r.Instance.Transparency < 0.95 then
+				best = r
+				break
+			end
+			visual:AddToFilter(r.Instance)
+		end
 	end
-	dir /= dist
-	-- start just before the server's hit point (it may be behind a fence we can see through)
-	local from = origin + dir * math.max(0, dist - 3)
-	for _ = 1, 4 do
-		local r = workspace:Raycast(from, hit + dir * 1.5 - from, params)
+
+	local params = RaycastParams.new()
+	params.FilterType = Enum.RaycastFilterType.Exclude
+	params.FilterDescendantsInstances = skip
+	for _ = 1, 6 do
+		local r = workspace:Raycast(from, reach, params)
 		if not r then
-			return nil
+			break
 		end
-		-- invisible collision boxes (Server/CityBuildings) sit round the visible walls: look past them
 		if r.Instance.Transparency < 0.95 then
-			return r
+			if not best or (r.Position - from).Magnitude < (best.Position - from).Magnitude then
+				best = r
+			end
+			break
 		end
+		-- an invisible collision box: remember the first, keep looking for the visible surface
+		box = box or r
 		params:AddToFilter(r.Instance)
 	end
-	return nil
+
+	if best and (best.Position - hit).Magnitude < 4 then
+		return best, false
+	end
+	if box and (box.Position - hit).Magnitude < 1 then
+		return box, true
+	end
+	return nil, false
 end
 
 -- One bullet hitting the world: kind is the material name the server sent (Hitscan.fire).
@@ -628,17 +669,23 @@ function Effects.impact(origin: Vector3, hit: Vector3, kind: string)
 	-- show it when the tracer gets there
 	local delayTime = math.max(0, ((hit - origin).Magnitude - FX.TracerStart) / FX.TracerSpeed)
 	task.delay(delayTime, function()
-		local r = surfaceCast(origin, hit)
+		local r, onBox = surfaceCast(origin, hit)
 		local pos, normal = hit, (origin - hit).Unit
 		local color = DUST[set]
-		local tint = Color3.new(1, 1, 1)
-		if r and (r.Position - hit).Magnitude < 3 then
+		if r then
 			pos, normal = r.Position, r.Normal
 			local inst = r.Instance
-			-- dust in the wall's own colour, a bit greyed (powder is paler than paint)
-			color = inst.Color:Lerp(DUST[set], 0.5)
-			if set == "Concrete" or set == "Wood" then
-				tint = Color3.new(1, 1, 1):Lerp(inst.Color, 0.25)
+			local tint = Color3.new(1, 1, 1)
+			if not onBox then
+				-- dust in the wall's own colour, a bit greyed (powder is paler than paint)
+				color = inst.Color:Lerp(DUST[set], 0.5)
+				if set == "Concrete" or set == "Wood" then
+					tint = Color3.new(1, 1, 1):Lerp(inst.Color, 0.25)
+				elseif set == "Dirt" or set == "Soft" then
+					tint = inst.Color:Lerp(Color3.new(0.35, 0.3, 0.25), 0.5)
+				end
+			elseif set == "Dirt" or set == "Soft" then
+				tint = Color3.fromRGB(110, 95, 75)
 			end
 			local camNow = workspace.CurrentCamera
 			if not camNow or (camNow.CFrame.Position - pos).Magnitude < FX.HoleRange then
