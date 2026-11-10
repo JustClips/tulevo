@@ -16,6 +16,9 @@ local MIN_SCALE, MAX_SCALE = 0.65, 1
 -- CoreUISafeInsets pixels before scaling. Other top-right things (ammo counter,
 -- DEBUG button) go under it: HudLayout.topRightBottom().
 HudLayout.TopRight = { Top = 6, Right = 10, Height = 44 }
+-- Right-side button rail (RightRail): tile size, gap, distance from the right edge.
+-- Desktop: one column centred on the right edge. Phones: 2 x 2 under the top-right strip.
+HudLayout.Rail = { Tile = 84, Gap = 8, Right = 10 }
 
 local changed = Instance.new("BindableEvent")
 HudLayout.Changed = changed.Event

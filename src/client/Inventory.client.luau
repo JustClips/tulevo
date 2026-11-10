@@ -1655,9 +1655,10 @@ ContextActionService:BindActionAtPriority("Inventory_Toggle", function(_, inputS
 		toggle()
 	end
 	return Enum.ContextActionResult.Sink
-end, true, Enum.ContextActionPriority.High.Value, Enum.KeyCode.N)
-ContextActionService:SetTitle("Inventory_Toggle", "Bag")
-ContextActionService:SetPosition("Inventory_Toggle", UDim2.new(1, -245, 1, -210))
+end, false, Enum.ContextActionPriority.High.Value, Enum.KeyCode.N)
+-- the Bag tile on the right rail (RightRail) toggles it through this attribute; phones use
+-- that tile instead of a separate touch button
+gui:GetAttributeChangedSignal("ToggleRequest"):Connect(toggle)
 
 UserInputService.InputBegan:Connect(function(input)
 	if input.KeyCode == Enum.KeyCode.N and UserInputService:GetFocusedTextBox() == nil then

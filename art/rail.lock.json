@@ -1,0 +1,22 @@
+{
+ "Inventory": {
+  "id": 115854431834094,
+  "sha": "c7bec69b4c07790f5317475cab24b8e4a2af9aa4245bebe71d3a6f9495a8528d"
+ },
+ "Map": {
+  "id": 79041618539133,
+  "sha": "d5b21f6d3bd0e250a9e45c79e9686e05135e9959317a0c5ece52926e39fe1653"
+ },
+ "Phone": {
+  "id": 73125757665569,
+  "sha": "082c97ad2c1a6c2fea0ba9d5bbeaf609bb32a77ba26a7ab7c578256064d7bb91"
+ },
+ "Store": {
+  "id": 122448046420844,
+  "sha": "6511c385a7e28543fc623870e99cabbbfa08e0efed4ddc991f4a4b2e23fd047f"
+ },
+ "Stud": {
+  "id": 98865938477966,
+  "sha": "b0c71b817f676cdf4b417d5fb709e93c80bc9eac77e4d156a3302480bd495be9"
+ }
+}

@@ -9,6 +9,8 @@
   phone:           art/phone/out/*.png -> src/client/Phone/PhoneArt.luau
                    (phone body + wallpaper from art/phone/gen.py + proc.py; adds out/meta.json)
   phone_apps:      art/phone/apps/*.png -> src/client/Phone/AppIcons.luau (art/phone/gen_apps.py)
+  rail:            art/rail_icons/out/*.png -> src/shared/RailIconIds.luau
+                   (right-side button rail icons, art/rail_icons/gen.py (ForgeGUI) + proc.py; Stud tile)
 
 Needs env ROBLOXAPIKEY (never printed). Unchanged files are skipped (hash cache in
 art/<set>.lock.json).
@@ -29,6 +31,7 @@ SETS = {  # set: (Luau file under src, label, folder with the PNGs under art)
     "items": ("shared/ItemIconIds", "item icon", "items/out"),
     "phone": ("client/Phone/PhoneArt", "phone art", "phone/out"),
     "phone_apps": ("client/Phone/AppIcons", "phone app icon", "phone/apps"),
+    "rail": ("shared/RailIconIds", "rail icon", "rail_icons/out"),
 }
 SET = sys.argv[sys.argv.index("--set") + 1] if "--set" in sys.argv else "icons"
 MODULE, LABEL, FOLDER = SETS[SET]

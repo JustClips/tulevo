@@ -374,7 +374,7 @@ local function makeTouchButton()
 		Size = UDim2.fromOffset(40, 40),
 		BackgroundColor3 = Color3.fromRGB(20, 20, 24),
 		BackgroundTransparency = 0.25,
-		Visible = touch(),
+		Visible = false, -- the Phone tile on the right rail (RightRail) replaces it
 	}, { Frame.corner(10) })
 	-- a tiny phone outline as the button picture
 	Frame.new("Frame", {
@@ -444,7 +444,7 @@ function Phone.start()
 	end)
 	UserInputService.LastInputTypeChanged:Connect(function()
 		if touchButton then
-			touchButton.Visible = touch()
+			touchButton.Visible = false -- RightRail has the Phone tile
 		end
 		layout()
 	end)

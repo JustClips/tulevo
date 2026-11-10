@@ -73,8 +73,15 @@ root.Visible = false
 root.Parent = gui
 
 -- under the top-right strip (game name, players online, store button: TopRightHud)
+-- On phones the right rail is a 2 x 2 block right under the strip, so the counter goes left of it.
 local function placeRoot()
-	root.Position = UDim2.new(1, -24, 0, HudLayout.topRightBottom() + 8)
+	local l = HudLayout.get()
+	local x = -24
+	if l.touch then
+		local R = HudLayout.Rail
+		x = -(R.Right + (2 * R.Tile + R.Gap) * l.scale + 14)
+	end
+	root.Position = UDim2.new(1, x, 0, HudLayout.topRightBottom() + 8)
 end
 HudLayout.Changed:Connect(placeRoot)
 placeRoot()
